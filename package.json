@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:frontend": "cd frontend && vite",
+    "dev:frontend": "cd frontend && npx vite",
     "dev:backend": "cd backend && node index.js"
   },
   "devDependencies": {
