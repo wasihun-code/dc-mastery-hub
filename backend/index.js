@@ -4,6 +4,9 @@ import express from 'express'
 import db from './db/database.js'
 import { seedDatabase } from './db/seed.js'
 import { initSchema } from './db/schema.js'
+import coursesRouter from './routes/courses.js'
+import progressRouter from './routes/progress.js'
+import tracksRouter from './routes/tracks.js'
 
 dotenv.config()
 
@@ -28,6 +31,15 @@ app.get('/api/db-check', (req, res) => {
     courses,
     user_stats: userStats,
   })
+})
+
+app.use('/api', tracksRouter)
+app.use('/api', coursesRouter)
+app.use('/api', progressRouter)
+
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ error: err.message })
 })
 
 initSchema()
