@@ -9,12 +9,15 @@ import progressRouter from './routes/progress.js'
 import tracksRouter from './routes/tracks.js'
 import contentRouter from './routes/content.js'
 import { scanContent } from './services/contentScanner.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-dotenv.config()
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 const app = express()
 const PORT = process.env.PORT || 3001
-const HOST = process.env.HOST || '127.0.0.1'
+const HOST = process.env.HOST || '0.0.0.0'
 
 app.use(cors())
 app.use(express.json())
@@ -35,10 +38,10 @@ app.get('/api/db-check', (req, res) => {
   })
 })
 
+app.use('/api/content', contentRouter)
 app.use('/api', tracksRouter)
 app.use('/api', coursesRouter)
 app.use('/api', progressRouter)
-app.use('/api/content', contentRouter)
 
 app.use((err, req, res, next) => {
   console.error(err.stack)

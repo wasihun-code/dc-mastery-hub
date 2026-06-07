@@ -4,8 +4,14 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
+import { parseCourse } from '../services/pdfParser.js'
 
 const router = express.Router()
+
+router.use((req, res, next) => {
+  console.log(`[Content Router] ${req.method} ${req.path}`);
+  next();
+});
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
@@ -13,6 +19,26 @@ router.post('/scan', (req, res, next) => {
   try {
     const summary = scanContent()
     res.status(200).json(summary)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/parse/:courseSlug', (req, res, next) => {
+  try {
+    const { courseSlug } = req.params
+    
+    const course = db.prepare('SELECT * FROM courses WHERE slug = ?').get(courseSlug)
+    
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+    if (!course.has_pdf) {
+      return res.status(400).json({ error: 'No PDF available. Add slides first.' })
+    }
+    
+    const result = parseCourse(courseSlug)
+    res.json(result)
   } catch (err) {
     next(err)
   }

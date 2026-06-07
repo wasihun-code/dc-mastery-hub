@@ -18,7 +18,8 @@ import {
   Save,
   ExternalLink,
   RefreshCw,
-  Book
+  Book,
+  Zap
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
 
@@ -127,6 +128,11 @@ export default function CourseDetail() {
   // Scan states
   const [isScanning, setIsScanning] = useState(false)
   const [scanSummary, setScanSummary] = useState(null)
+
+  // Extraction states
+  const [isParsing, setIsParsing] = useState(false)
+  const [parseResult, setParseResult] = useState(null)
+  const [parseError, setParseError] = useState(null)
   
   // Quick Actions states
   const [notes, setNotes] = useState('')
@@ -191,6 +197,26 @@ export default function CourseDetail() {
       console.error('Scan failed:', err)
     } finally {
       setIsScanning(false)
+    }
+  }
+
+  const handleExtract = async () => {
+    setIsParsing(true)
+    setParseResult(null)
+    setParseError(null)
+    try {
+      const res = await fetch(
+        `/api/content/parse/${courseSlug}`,
+        { method: 'POST' }
+      )
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Extraction failed')
+      setParseResult(data)
+      await fetchCourseOnly() // refetch to update counts
+    } catch (err) {
+      setParseError(err.message)
+    } finally {
+      setIsParsing(false)
     }
   }
 
@@ -551,6 +577,40 @@ export default function CourseDetail() {
                   <div className="rounded bg-[rgba(3,239,98,0.1)] p-2 text-center text-[10px] font-bold text-[var(--accent-green)] animate-in fade-in slide-in-from-top-1">
                     ✓ Found {scanSummary.pdfs_found} slides, {scanSummary.glossaries_found} glossaries
                   </div>
+                )}
+              </div>
+
+              {/* Content Extraction */}
+              <div className="space-y-3 pt-4 border-t border-[var(--border)]">
+                <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Content Extraction</label>
+                {course.has_pdf === 1 ? (
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleExtract}
+                      disabled={isParsing}
+                      className={`flex w-full items-center justify-center gap-2 rounded bg-[var(--accent-blue)] py-2.5 text-sm font-bold text-[var(--bg-primary)] hover:brightness-110 transition-all ${isParsing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                      {isParsing ? (
+                        <><RefreshCw size={14} className="animate-spin" /> Extracting... (may take 60s)</>
+                      ) : (
+                        <><Zap size={14} /> Extract Concepts from Slides</>
+                      )}
+                    </button>
+                    
+                    {parseResult && (
+                      <div className="rounded bg-[rgba(3,239,98,0.1)] p-3 text-[11px] font-medium text-[var(--accent-green)] border border-[var(--accent-green)]/20 animate-in fade-in slide-in-from-top-1">
+                        ✓ {parseResult.concepts_extracted} concepts, {parseResult.flashcards_created} flashcards, {parseResult.quiz_questions_created} questions
+                      </div>
+                    )}
+                    
+                    {parseError && (
+                      <div className="rounded bg-[rgba(255,77,77,0.1)] p-3 text-[11px] font-medium text-[var(--accent-red)] border border-[var(--accent-red)]/20 animate-in fade-in slide-in-from-top-1">
+                        ✕ {parseError}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-[10px] text-[var(--text-muted)] italic">Add slides.pdf first to extract concepts</p>
                 )}
               </div>
 
