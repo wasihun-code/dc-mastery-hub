@@ -16,8 +16,11 @@ import {
   BookOpen,
   Check,
   Save,
-  ExternalLink
+  ExternalLink,
+  RefreshCw,
+  Book
 } from 'lucide-react'
+import PdfViewer from '../components/PdfViewer'
 
 function masteryColor(value) {
   if (value >= 70) return 'var(--accent-green)'
@@ -117,6 +120,14 @@ export default function CourseDetail() {
   const [error, setError] = useState('')
   const [showAllConcepts, setShowAllConcepts] = useState(false)
   
+  // PDF Viewer states
+  const [showPdf, setShowPdf] = useState(false)
+  const [pdfType, setPdfType] = useState('slides')
+
+  // Scan states
+  const [isScanning, setIsScanning] = useState(false)
+  const [scanSummary, setScanSummary] = useState(null)
+  
   // Quick Actions states
   const [notes, setNotes] = useState('')
   const [saveStatus, setSaveStatus] = useState('') // 'saving', 'saved', ''
@@ -154,6 +165,34 @@ export default function CourseDetail() {
     fetchData()
     return () => { isMounted = false }
   }, [courseSlug])
+
+  const fetchCourseOnly = async () => {
+    try {
+      const res = await fetch(`/api/courses/${courseSlug}`)
+      if (res.ok) {
+        const data = await res.json()
+        setCourse(data)
+        setNotes(data.notes || '')
+      }
+    } catch (err) {
+      console.error('Failed to refetch course:', err)
+    }
+  }
+
+  const handleScan = async () => {
+    setIsScanning(true)
+    try {
+      const res = await fetch('/api/content/scan', { method: 'POST' })
+      const data = await res.json()
+      setScanSummary(data)
+      await fetchCourseOnly()
+      setTimeout(() => setScanSummary(null), 3000)
+    } catch (err) {
+      console.error('Scan failed:', err)
+    } finally {
+      setIsScanning(false)
+    }
+  }
 
   const handleUpdateCourse = async (updates) => {
     // Optimistic update
@@ -211,6 +250,15 @@ export default function CourseDetail() {
 
   return (
     <div className="space-y-8 pb-12">
+      {showPdf && (
+        <PdfViewer 
+          courseSlug={courseSlug} 
+          type={pdfType} 
+          courseName={course.name} 
+          onClose={() => setShowPdf(false)} 
+        />
+      )}
+
       {/* SECTION 1 - COURSE HEADER */}
       <header className="overflow-hidden rounded border border-[var(--border)] bg-[var(--bg-card)]" style={{ borderLeft: `6px solid ${course.track.color}` }}>
         <div className="flex flex-col gap-8 p-6 lg:flex-row lg:items-center lg:justify-between">
@@ -229,9 +277,29 @@ export default function CourseDetail() {
               <span className={`rounded-full px-3 py-1 text-xs font-bold ${course.track.language === 'SQL' ? 'bg-[rgba(52,211,153,0.16)] text-[#34d399]' : 'bg-[rgba(167,139,250,0.16)] text-[#a78bfa]'}`}>
                 {course.track.language}
               </span>
-              <span className={`flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-bold ${course.has_pdf ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)]' : 'bg-[rgba(148,163,184,0.1)] text-[var(--text-muted)]'}`}>
-                <FileText size={12} /> {course.has_pdf ? 'Slides Available' : 'No Slides Yet'}
-              </span>
+              
+              {/* Slides Badge */}
+              <button 
+                onClick={() => { if (course.has_pdf) { setPdfType('slides'); setShowPdf(true); } }}
+                disabled={!course.has_pdf}
+                className={`flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-bold transition-all ${
+                  course.has_pdf 
+                    ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] hover:scale-105 active:scale-95' 
+                    : 'bg-[rgba(148,163,184,0.1)] text-[var(--text-muted)] cursor-default'
+                }`}
+              >
+                <FileText size={12} /> {course.has_pdf ? 'Slides' : 'No Slides'}
+              </button>
+
+              {/* Glossary Badge */}
+              {course.has_glossary === 1 && (
+                <button 
+                  onClick={() => { setPdfType('glossary'); setShowPdf(true); }}
+                  className="flex items-center gap-1 rounded-full bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-3 py-0.5 text-xs font-bold transition-all hover:scale-105 active:scale-95"
+                >
+                  <Book size={12} /> Glossary
+                </button>
+              )}
             </div>
           </div>
 
@@ -276,9 +344,29 @@ export default function CourseDetail() {
 
       {/* SECTION 3 - EXERCISE HUB */}
       <section>
-        <header>
-          <h2 className="text-xl font-bold text-[var(--text-primary)]">Exercise Hub</h2>
-          <p className="text-sm text-[var(--text-muted)]">Choose an exercise type to practice this course</p>
+        <header className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">Exercise Hub</h2>
+            <p className="text-sm text-[var(--text-muted)]">Choose an exercise type to practice this course</p>
+          </div>
+          <div className="flex gap-2">
+            {course.has_pdf === 1 && (
+              <button 
+                onClick={() => { setPdfType('slides'); setShowPdf(true); }}
+                className="flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all"
+              >
+                <FileText size={14} /> View Slides
+              </button>
+            )}
+            {course.has_glossary === 1 && (
+              <button 
+                onClick={() => { setPdfType('glossary'); setShowPdf(true); }}
+                className="flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all"
+              >
+                <Book size={14} /> View Glossary
+              </button>
+            )}
+          </div>
         </header>
 
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -448,6 +536,24 @@ export default function CourseDetail() {
             <h3 className="text-lg font-bold text-[var(--text-primary)] border-b border-[var(--border)] pb-3">Quick Actions</h3>
             
             <div className="mt-6 space-y-6">
+              {/* Content Scan */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Content Scanner</label>
+                <button
+                  onClick={handleScan}
+                  disabled={isScanning}
+                  className="flex w-full items-center justify-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-primary)] py-2 text-sm font-bold text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all disabled:opacity-50"
+                >
+                  <RefreshCw size={14} className={isScanning ? 'animate-spin' : ''} />
+                  {isScanning ? 'Scanning...' : 'Rescan for Slides'}
+                </button>
+                {scanSummary && (
+                  <div className="rounded bg-[rgba(3,239,98,0.1)] p-2 text-center text-[10px] font-bold text-[var(--accent-green)] animate-in fade-in slide-in-from-top-1">
+                    ✓ Found {scanSummary.pdfs_found} slides, {scanSummary.glossaries_found} glossaries
+                  </div>
+                )}
+              </div>
+
               {/* Status Updater */}
               <div className="space-y-3">
                 <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Update Status</label>

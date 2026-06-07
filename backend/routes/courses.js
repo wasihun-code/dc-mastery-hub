@@ -2,7 +2,7 @@ import express from 'express'
 import db from '../db/database.js'
 
 const router = express.Router()
-const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf']
+const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glossary']
 
 function getCourseBySlug(slug) {
   return db

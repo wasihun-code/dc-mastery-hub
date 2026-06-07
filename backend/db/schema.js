@@ -104,4 +104,11 @@ export function initSchema() {
       priority INTEGER DEFAULT 1
     );
   `)
+
+  // Migration: Add has_glossary to courses if it doesn't exist
+  try {
+    db.exec(`ALTER TABLE courses ADD COLUMN has_glossary INTEGER DEFAULT 0`)
+  } catch (e) {
+    // column already exists, ignore
+  }
 }

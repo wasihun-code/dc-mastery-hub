@@ -7,6 +7,8 @@ import { initSchema } from './db/schema.js'
 import coursesRouter from './routes/courses.js'
 import progressRouter from './routes/progress.js'
 import tracksRouter from './routes/tracks.js'
+import contentRouter from './routes/content.js'
+import { scanContent } from './services/contentScanner.js'
 
 dotenv.config()
 
@@ -36,6 +38,7 @@ app.get('/api/db-check', (req, res) => {
 app.use('/api', tracksRouter)
 app.use('/api', coursesRouter)
 app.use('/api', progressRouter)
+app.use('/api/content', contentRouter)
 
 app.use((err, req, res, next) => {
   console.error(err.stack)
@@ -45,6 +48,9 @@ app.use((err, req, res, next) => {
 initSchema()
 seedDatabase()
 console.log('DB initialized and seeded')
+
+const scanResult = scanContent()
+console.log('Content scan result:', scanResult)
 
 app.listen(PORT, HOST, () => {
   console.log(`DC Mastery Hub backend running on http://${HOST}:${PORT}`)
