@@ -65,3 +65,9 @@ content/**/*.json
 tmp/
 temp/
 *.tmp
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
