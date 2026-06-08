@@ -6,53 +6,15 @@ import db from '../db/database.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-function shuffle(array) {
-  let currentIndex = array.length, randomIndex;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-  return array;
-}
-
-function getWrongOptions(currentConcept, allConcepts, count = 3) {
-  const filtered = allConcepts.filter(c => c.id !== currentConcept.id);
-  const shuffled = shuffle([...filtered]);
-  const wrong = shuffled.slice(0, count).map(c => c.definition.slice(0, 150));
-  
-  while (wrong.length < count) {
-    wrong.push(`Alternative concept definition ${wrong.length + 1}`);
-  }
-  return wrong;
-}
-
-function assignOptions(correctAnswer, wrongAnswers) {
-  const options = [correctAnswer, ...wrongAnswers];
-  const shuffledOptions = shuffle([...options]);
-  
-  const correctIndex = shuffledOptions.indexOf(correctAnswer);
-  const correctLetter = ['a', 'b', 'c', 'd'][correctIndex];
-  
-  return {
-    option_a: shuffledOptions[0],
-    option_b: shuffledOptions[1],
-    option_c: shuffledOptions[2],
-    option_d: shuffledOptions[3],
-    correct_option: correctLetter
-  };
-}
-
-export function parseCourse(courseSlug) {
-  // Step 1 - Look up course and track in DB
+/**
+ * Runs the Python script to extract raw text from PDF files.
+ */
+export function extractRawText(courseSlug) {
   const course = db.prepare('SELECT * FROM courses WHERE slug = ?').get(courseSlug)
   if (!course) throw new Error('Course not found')
   
   const track = db.prepare('SELECT * FROM tracks WHERE id = ?').get(course.track_id)
 
-  // Step 2 - Build file paths
-  // Use path relative to this file to find the content directory reliably
   const contentFolder = process.env.CONTENT_FOLDER 
     ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
         ? process.env.CONTENT_FOLDER 
@@ -63,51 +25,66 @@ export function parseCourse(courseSlug) {
   const slidesPdf = path.join(courseFolder, courseSlug + '.pdf')
   const glossaryPdf = path.join(courseFolder, courseSlug + '-glossary.pdf')
   
-  // Use absolute path for python executable to avoid sys.prefix warnings
   let pythonExe = process.env.PYTHON_EXECUTABLE || 'python3'
   if (pythonExe.startsWith('.')) {
     pythonExe = path.resolve(process.cwd(), pythonExe)
   }
   
   const scriptPath = path.resolve(__dirname, '../../scripts/extract_pdf.py')
-  const apiKey = process.env.GEMINI_API_KEY
 
-  // Step 3 - Validate
   if (!fs.existsSync(slidesPdf)) {
     throw new Error('slides PDF not found: ' + slidesPdf)
   }
-  if (!apiKey) {
-    throw new Error('GEMINI_API_KEY not set in environment')
-  }
 
-  // Step 4 - Build and run command
-  let cmd = `"${pythonExe}" "${scriptPath}" --slides "${slidesPdf}" --course-slug "${courseSlug}" --api-key "${apiKey}"`
+  let cmd = `"${pythonExe}" "${scriptPath}" --slides "${slidesPdf}" --course-slug "${courseSlug}"`
   
   if (fs.existsSync(glossaryPdf)) {
     cmd += ` --glossary "${glossaryPdf}"`
   }
   
-  console.log('[Parser] Running extraction for:', courseSlug)
+  console.log('[Parser] Extracting raw text for:', courseSlug)
   
   const output = execSync(cmd, {
-    timeout: 180000,
+    timeout: 60000,
     maxBuffer: 50 * 1024 * 1024,
     env: { ...process.env }
   })
   
-  const result = JSON.parse(output.toString())
+  return JSON.parse(output.toString())
+}
 
-  // Step 5 - Store concepts in DB
+/**
+ * Stores concepts and quiz questions into the database.
+ * Generates flashcards from concepts.
+ */
+export function storeExtractedContent(courseSlug, extractedData) {
+  const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+  if (!course) throw new Error('Course not found')
+
+  const { concepts, quiz_questions } = extractedData
+
+  // 1. Clear existing data in correct order (child tables first)
+  db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
+  db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
   db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
-  
+
+  // 2. Insert concepts and build map
   const insertConcept = db.prepare(`
     INSERT INTO concepts 
       (course_id, name, definition, code_snippet, source_page, category, difficulty)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `)
   
-  const conceptIds = []
-  for (const concept of result.concepts) {
+  const insertFlashcard = db.prepare(`
+    INSERT INTO flashcards
+      (concept_id, course_id, front, back, next_review_date, interval_days, ease_factor, repetitions)
+    VALUES (?, ?, ?, ?, date('now'), 1, 2.5, 0)
+  `)
+
+  const conceptMap = new Map() // name.toLowerCase() -> id
+  let flashcardCount = 0
+
+  for (const concept of concepts) {
     const r = insertConcept.run(
       course.id,
       concept.name.slice(0, 200),
@@ -117,22 +94,13 @@ export function parseCourse(courseSlug) {
       concept.category || 'general',
       concept.difficulty || 1
     )
-    conceptIds.push({ id: r.lastInsertRowid, ...concept })
-  }
+    
+    const conceptId = r.lastInsertRowid
+    conceptMap.set(concept.name.toLowerCase(), conceptId)
 
-  // Step 6 - Generate flashcards
-  db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
-  
-  const insertFlashcard = db.prepare(`
-    INSERT INTO flashcards
-      (concept_id, course_id, front, back, next_review_date, interval_days, ease_factor, repetitions)
-    VALUES (?, ?, ?, ?, date('now'), 1, 2.5, 0)
-  `)
-  
-  let flashcardCount = 0
-  for (const concept of conceptIds) {
+    // 3. Generate flashcards
     insertFlashcard.run(
-      concept.id,
+      conceptId,
       course.id,
       concept.name.slice(0, 300),
       concept.definition.slice(0, 500)
@@ -141,7 +109,7 @@ export function parseCourse(courseSlug) {
     
     if (concept.code_snippet) {
       insertFlashcard.run(
-        concept.id,
+        conceptId,
         course.id,
         ('What does this code do?\n' + concept.code_snippet).slice(0, 400),
         (concept.name + ': ' + concept.definition).slice(0, 500)
@@ -150,71 +118,51 @@ export function parseCourse(courseSlug) {
     }
   }
 
-  // Step 7 - Generate quiz questions
-  db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
-  
+  // 4. Insert quiz questions
   const insertQuestion = db.prepare(`
     INSERT INTO quiz_questions
       (course_id, concept_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, question_type, difficulty)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `)
-  
+
   let questionCount = 0
-  for (const concept of conceptIds) {
-    const wrongDefs = getWrongOptions(concept, conceptIds)
-    
-    // Type A: Definition question
-    const optsA = assignOptions(
-      concept.definition.slice(0, 150),
-      wrongDefs
-    )
+  for (const q of quiz_questions) {
+    let conceptId = null
+    if (q.concept_name) {
+      const nameKey = q.concept_name.toLowerCase()
+      // Try exact match or find first matching in the map
+      if (conceptMap.has(nameKey)) {
+        conceptId = conceptMap.get(nameKey)
+      } else {
+        // Partial match fallback
+        for (const [name, id] of conceptMap.entries()) {
+          if (name.includes(nameKey) || nameKey.includes(name)) {
+            conceptId = id
+            break
+          }
+        }
+      }
+    }
+
     insertQuestion.run(
-      course.id, concept.id,
-      'What is ' + concept.name + '?',
-      optsA.option_a, optsA.option_b, 
-      optsA.option_c, optsA.option_d,
-      optsA.correct_option,
-      concept.definition,
-      'conceptual',
-      concept.difficulty
+      course.id,
+      conceptId,
+      q.question_text,
+      q.option_a,
+      q.option_b,
+      q.option_c,
+      q.option_d,
+      q.correct_option?.toLowerCase(),
+      q.explanation,
+      q.question_type || 'application',
+      q.difficulty || 1
     )
     questionCount++
-    
-    // Type B: Code question (only if code_snippet exists)
-    if (concept.code_snippet) {
-      const wrongNames = getWrongOptions(concept, conceptIds)
-        .map((_, i) => {
-          const other = conceptIds.filter(c => c.id !== concept.id)[i]
-          return other 
-            ? (other.name + ': ' + other.definition).slice(0, 150)
-            : 'None of the above'
-        })
-      
-      const optsB = assignOptions(
-        (concept.name + ': ' + concept.definition).slice(0, 150),
-        wrongNames
-      )
-      insertQuestion.run(
-        course.id, concept.id,
-        ('What does this code do?\n' + concept.code_snippet).slice(0, 300),
-        optsB.option_a, optsB.option_b,
-        optsB.option_c, optsB.option_d,
-        optsB.correct_option,
-        concept.definition,
-        'output_prediction',
-        Math.min(concept.difficulty + 1, 3)
-      )
-      questionCount++
-    }
   }
 
-  // Step 8 - Return summary
   return {
-    course_id: course.id,
-    course_slug: courseSlug,
-    concepts_extracted: conceptIds.length,
+    concepts_stored: concepts.length,
     flashcards_created: flashcardCount,
-    quiz_questions_created: questionCount,
-    extraction_stats: result.stats
+    quiz_questions_stored: questionCount
   }
 }

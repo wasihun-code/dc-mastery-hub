@@ -1,0 +1,1132 @@
+{
+  "concepts": [
+    {
+      "name": "Python Language",
+      "definition": "A high-level, general-purpose programming language widely used for data science. It is open source, free, and supported by a massive ecosystem of packages.",
+      "code_snippet": null,
+      "source_page": 3,
+      "category": "concept",
+      "difficulty": 1
+    },
+    {
+      "name": "IPython Shell",
+      "definition": "An interactive environment where you can execute Python commands one at a time and see results immediately. Ideal for quick experimentation.",
+      "code_snippet": null,
+      "source_page": 4,
+      "category": "concept",
+      "difficulty": 1
+    },
+    {
+      "name": "Python Script",
+      "definition": "A text file with a .py extension containing a list of Python commands executed sequentially. Used for reproducibility and larger projects.",
+      "code_snippet": null,
+      "source_page": 7,
+      "category": "concept",
+      "difficulty": 1
+    },
+    {
+      "name": "print() function",
+      "definition": "A built-in function used to generate output from a script, displaying values or variables to the console.",
+      "code_snippet": "print(5 + 8)\n# Output: 13",
+      "source_page": 9,
+      "category": "function",
+      "difficulty": 1
+    },
+    {
+      "name": "Variable Assignment",
+      "definition": "Using the '=' operator to associate a name with a value. Variables allow you to store and reuse data.",
+      "code_snippet": "height = 1.79\nweight = 68.7",
+      "source_page": 13,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "Variable Case-Sensitivity",
+      "definition": "In Python, variable names are case-sensitive, meaning 'Height' and 'height' are treated as two distinct variables.",
+      "code_snippet": "height = 1.79\nHeight = 1.85\nprint(height) # 1.79",
+      "source_page": 13,
+      "category": "concept",
+      "difficulty": 1
+    },
+    {
+      "name": "int type",
+      "definition": "The integer data type represents whole numbers without decimal points.",
+      "code_snippet": "day_of_week = 5\ntype(day_of_week)\n# <class 'int'>",
+      "source_page": 17,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "float type",
+      "definition": "The float data type represents real numbers, which are numbers that contain a decimal point.",
+      "code_snippet": "height = 1.79\ntype(height)\n# <class 'float'>",
+      "source_page": 17,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "str type",
+      "definition": "The string data type represents sequences of characters, used for text. Can be defined with single or double quotes.",
+      "code_snippet": "name = 'liz'\ntype(name)\n# <class 'str'>",
+      "source_page": 18,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "bool type",
+      "definition": "The boolean data type represents logical values: True or False. Note the capitalization.",
+      "code_snippet": "is_tall = True\ntype(is_tall)\n# <class 'bool'>",
+      "source_page": 18,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "type() function",
+      "definition": "A built-in function used to check the data type of a value or variable.",
+      "code_snippet": "type(3.14)\n# <class 'float'>",
+      "source_page": 17,
+      "category": "function",
+      "difficulty": 1
+    },
+    {
+      "name": "Dynamic Typing Behavior",
+      "definition": "Python variables change behavior based on their type. For example, '+' adds numbers but concatenates strings.",
+      "code_snippet": "print(2 + 3) # 5\nprint('ab' + 'cd') # 'abcd'",
+      "source_page": 19,
+      "category": "concept",
+      "difficulty": 2
+    },
+    {
+      "name": "Python List",
+      "definition": "An ordered collection of values that can contain any type, including mixed types and other lists. Defined with square brackets [].",
+      "code_snippet": "fam = ['liz', 1.73, 'emma', 1.68]",
+      "source_page": 24,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "List of Lists",
+      "definition": "A nested list structure where elements of a list are themselves lists, used to represent complex data.",
+      "code_snippet": "fam2 = [['liz', 1.73], ['emma', 1.68]]",
+      "source_page": 25,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "List Subsetting (Indexing)",
+      "definition": "Accessing a single element in a list using its index, starting from 0 for the first element.",
+      "code_snippet": "fam = ['liz', 1.73, 'emma', 1.68]\nfam[1] # 1.73",
+      "source_page": 29,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "Negative Indexing",
+      "definition": "Accessing elements from the end of a list using negative numbers. -1 is the last element.",
+      "code_snippet": "fam = ['liz', 1.73, 'emma', 1.68]\nfam[-1] # 1.68",
+      "source_page": 30,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "List Slicing [start:end]",
+      "definition": "Selecting a range of elements from a list. The 'start' index is inclusive, while the 'end' index is exclusive.",
+      "code_snippet": "fam = ['liz', 1.73, 'emma', 1.68]\nfam[1:3] # [1.73, 'emma']",
+      "source_page": 32,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "List Slicing (Implicit Start/End)",
+      "definition": "Omitting the start index defaults to 0; omitting the end index defaults to the end of the list.",
+      "code_snippet": "fam[:2] # First two elements\nfam[2:] # From index 2 to the end",
+      "source_page": 33,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "List Element Update",
+      "definition": "Changing values in a list by assigning a new value to a specific index or slice.",
+      "code_snippet": "fam[7] = 1.86\nfam[0:2] = ['lisa', 1.74]",
+      "source_page": 37,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "List Concatenation",
+      "definition": "Adding elements to a list using the '+' operator, which creates a new list combining the originals.",
+      "code_snippet": "fam_ext = fam + ['me', 1.79]",
+      "source_page": 38,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "del Statement",
+      "definition": "Removing an element from a list using its index. This operation modifies the list in place.",
+      "code_snippet": "fam = ['liz', 1.73, 'emma', 1.68]\ndel(fam[2])\n# fam is ['liz', 1.73, 1.68]",
+      "source_page": 38,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "List Reference (Shallow)",
+      "definition": "Assigning a list to a new variable (y = x) creates a reference, not a copy. Changing y will change x.",
+      "code_snippet": "x = ['a', 'b']\ny = x\ny[0] = 'z'\nprint(x) # ['z', 'b']",
+      "source_page": 40,
+      "category": "concept",
+      "difficulty": 3
+    },
+    {
+      "name": "List Copying",
+      "definition": "To create a separate copy of a list, use the list() function or explicit slicing [:].",
+      "code_snippet": "y = list(x)\n# OR\ny = x[:]",
+      "source_page": 44,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "max() function",
+      "definition": "A built-in function that returns the largest item in an iterable or the largest of two or more arguments.",
+      "code_snippet": "max([1, 5, 2]) # 5",
+      "source_page": 49,
+      "category": "function",
+      "difficulty": 1
+    },
+    {
+      "name": "round() function",
+      "definition": "Rounds a number to a specified number of decimal places. If ndigits is omitted, it rounds to the nearest integer.",
+      "code_snippet": "round(1.68, 1) # 1.7\nround(1.68) # 2",
+      "source_page": 53,
+      "category": "function",
+      "difficulty": 1
+    },
+    {
+      "name": "len() function",
+      "definition": "Returns the number of items (length) of an object, such as a list or a string.",
+      "code_snippet": "len(['a', 'b', 'c']) # 3",
+      "source_page": 70,
+      "category": "function",
+      "difficulty": 1
+    },
+    {
+      "name": "Methods",
+      "definition": "Functions that 'belong to' specific Python objects depending on their type. Called using dot notation.",
+      "code_snippet": "sister = 'liz'\nsister.capitalize() # 'Liz'",
+      "source_page": 72,
+      "category": "concept",
+      "difficulty": 2
+    },
+    {
+      "name": "list.index() method",
+      "definition": "Returns the index of the first element of a list whose value is equal to the provided argument.",
+      "code_snippet": "fam.index('mom') # 4",
+      "source_page": 74,
+      "category": "function",
+      "difficulty": 2
+    },
+    {
+      "name": "list.count() method",
+      "definition": "Returns the number of times a specified value appears in a list.",
+      "code_snippet": "fam.count(1.73) # 1",
+      "source_page": 74,
+      "category": "function",
+      "difficulty": 2
+    },
+    {
+      "name": "list.append() method",
+      "definition": "Adds a single element to the end of a list in place. Does not return a new list.",
+      "code_snippet": "fam.append('me')\n# fam now contains 'me' at the end",
+      "source_page": 78,
+      "category": "function",
+      "difficulty": 2
+    },
+    {
+      "name": "str.replace() method",
+      "definition": "Returns a copy of the string with all occurrences of a substring replaced by another substring.",
+      "code_snippet": "'liz'.replace('z', 'sa') # 'lisa'",
+      "source_page": 75,
+      "category": "function",
+      "difficulty": 2
+    },
+    {
+      "name": "Python Packages",
+      "definition": "Directories of Python scripts (modules) that specify functions, methods, and types for specific tasks.",
+      "code_snippet": null,
+      "source_page": 83,
+      "category": "concept",
+      "difficulty": 1
+    },
+    {
+      "name": "pip package manager",
+      "definition": "The standard tool for installing Python packages from the Command Line or Terminal.",
+      "code_snippet": "pip3 install numpy",
+      "source_page": 84,
+      "category": "data_engineering",
+      "difficulty": 1
+    },
+    {
+      "name": "import Statement",
+      "definition": "Used to load a package or module into your Python session.",
+      "code_snippet": "import numpy\nnumpy.array([1, 2])",
+      "source_page": 85,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "import ... as ... alias",
+      "definition": "Importing a package with a shorter alias to make code cleaner and identify package-specific functions.",
+      "code_snippet": "import numpy as np\nnp.array([1, 2])",
+      "source_page": 85,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "from ... import ...",
+      "definition": "Importing a specific function or sub-module directly from a package so you can use it without the package prefix.",
+      "code_snippet": "from numpy import array\narray([1, 2])",
+      "source_page": 85,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "NumPy Array (ndarray)",
+      "definition": "A powerful alternative to the Python list, designed for mathematical operations over entire collections of data.",
+      "code_snippet": "import numpy as np\nnp_height = np.array([1.73, 1.68])",
+      "source_page": 93,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "NumPy Element-wise Operations",
+      "definition": "Performing arithmetic operations across entire arrays at once, which is not possible with standard Python lists.",
+      "code_snippet": "bmi = weight / height ** 2",
+      "source_page": 93,
+      "category": "concept",
+      "difficulty": 2
+    },
+    {
+      "name": "NumPy Single-Type Constraint",
+      "definition": "Unlike lists, NumPy arrays can only contain one data type. If mixed, it will 'coerce' elements into a single type (usually strings).",
+      "code_snippet": "np.array([1.0, 'is', True])\n# array(['1.0', 'is', 'True'], dtype='<U32')",
+      "source_page": 95,
+      "category": "concept",
+      "difficulty": 2
+    },
+    {
+      "name": "NumPy Subsetting",
+      "definition": "Accessing elements in a 1D NumPy array using indices, similar to Python lists.",
+      "code_snippet": "bmi[1]",
+      "source_page": 97,
+      "category": "syntax",
+      "difficulty": 1
+    },
+    {
+      "name": "NumPy Boolean Indexing",
+      "definition": "Subsetting an array using a boolean array. Only elements where the boolean is True are returned.",
+      "code_snippet": "bmi[bmi > 23]",
+      "source_page": 97,
+      "category": "syntax",
+      "difficulty": 3
+    },
+    {
+      "name": "2D NumPy Array",
+      "definition": "A rectangular data structure (matrix) consisting of rows and columns, created from a list of lists.",
+      "code_snippet": "np_2d = np.array([[1, 2], [3, 4]])",
+      "source_page": 101,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "ndarray.shape",
+      "definition": "An attribute of NumPy arrays that returns a tuple representing the dimensions (rows, columns).",
+      "code_snippet": "np_2d.shape # (2, 5)",
+      "source_page": 101,
+      "category": "syntax",
+      "difficulty": 2
+    },
+    {
+      "name": "2D NumPy Subsetting",
+      "definition": "Accessing data in 2D arrays using [row_index, col_index] notation. Slicing with ':' selects entire dimensions.",
+      "code_snippet": "np_2d[0, 2] # Row 0, Col 2\nnp_2d[:, 1:3] # All rows, Cols 1 and 2",
+      "source_page": 103,
+      "category": "syntax",
+      "difficulty": 3
+    },
+    {
+      "name": "np.mean()",
+      "definition": "Calculates the arithmetic average of array elements.",
+      "code_snippet": "np.mean(np_city[:, 0])",
+      "source_page": 109,
+      "category": "statistical",
+      "difficulty": 2
+    },
+    {
+      "name": "np.median()",
+      "definition": "Returns the middle value of a sorted array, less sensitive to outliers than the mean.",
+      "code_snippet": "np.median(np_city[:, 0])",
+      "source_page": 109,
+      "category": "statistical",
+      "difficulty": 2
+    },
+    {
+      "name": "np.std()",
+      "definition": "Calculates the standard deviation, a measure of the spread of values in an array.",
+      "code_snippet": "np.std(np_city[:, 0])",
+      "source_page": 110,
+      "category": "statistical",
+      "difficulty": 2
+    },
+    {
+      "name": "np.corrcoef()",
+      "definition": "Calculates the Pearson product-moment correlation coefficients between two arrays.",
+      "code_snippet": "np.corrcoef(np_city[:, 0], np_city[:, 1])",
+      "source_page": 110,
+      "category": "statistical",
+      "difficulty": 3
+    },
+    {
+      "name": "np.random.normal()",
+      "definition": "Generates random samples from a normal (Gaussian) distribution. Arguments: mean, std, size.",
+      "code_snippet": "np.random.normal(1.75, 0.20, 5000)",
+      "source_page": 111,
+      "category": "statistical",
+      "difficulty": 3
+    },
+    {
+      "name": "np.column_stack()",
+      "definition": "Stacks 1D arrays as columns into a 2D array.",
+      "code_snippet": "np.column_stack((height, weight))",
+      "source_page": 111,
+      "category": "data_engineering",
+      "difficulty": 2
+    }
+  ],
+  "quiz_questions": [
+    {
+      "concept_name": "print() function",
+      "question_text": "What is the correct way to output the result of 5 + 10 in a Python script?",
+      "option_a": "print(5 + 10)",
+      "option_b": "output(5 + 10)",
+      "option_c": "echo 5 + 10",
+      "option_d": "5 + 10",
+      "correct_option": "a",
+      "explanation": "In a script, you must use print() to see the output. output() and echo are not standard Python functions for this. Writing just '5 + 10' performs the calculation but doesn't display it.",
+      "question_type": "syntax_error",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "Variable Assignment",
+      "question_text": "You want to store a person's height of 1.75 meters in a variable named 'h'. Which code is correct?",
+      "option_a": "h = 1.75",
+      "option_b": "h == 1.75",
+      "option_c": "1.75 = h",
+      "option_d": "set h to 1.75",
+      "correct_option": "a",
+      "explanation": "'=' is the assignment operator. '==' is for comparison. The variable name must be on the left side. 'set to' is not Python syntax.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "Variable Case-Sensitivity",
+      "question_text": "What does this code output?\n\n```python\nscore = 10\nScore = 20\nprint(score)\n```",
+      "option_a": "10",
+      "option_b": "20",
+      "option_c": "30",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "Python is case-sensitive. 'score' and 'Score' are two different variables. Printing 'score' gives the value 10.",
+      "question_type": "output",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "bool type",
+      "question_text": "Which of the following is a valid Python boolean value?",
+      "option_a": "True",
+      "option_b": "true",
+      "option_c": "'True'",
+      "option_d": "1",
+      "correct_option": "a",
+      "explanation": "Boolean values in Python must be capitalized: True or False. 'true' would be an undefined variable, and 'True' is a string.",
+      "question_type": "syntax_error",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "type() function",
+      "question_text": "What will `type(3.0)` return?",
+      "option_a": "<class 'float'>",
+      "option_b": "<class 'int'>",
+      "option_c": "<class 'number'>",
+      "option_d": "<class 'str'>",
+      "correct_option": "a",
+      "explanation": "Numbers with decimal points are floats in Python, even if the decimal part is zero.",
+      "question_type": "output",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "Dynamic Typing Behavior",
+      "question_text": "What is the result of the following operation?\n\n```python\nprint('3' + '4')\n```",
+      "option_a": "'34'",
+      "option_b": "7",
+      "option_c": "'7'",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "When the '+' operator is used with strings, it performs concatenation, joining them together into a single string.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "Python List",
+      "question_text": "You want to create a list named 'point' containing the coordinates x=10 and y=20. Which is correct?",
+      "option_a": "point = [10, 20]",
+      "option_b": "point = (10, 20)",
+      "option_c": "point = {10, 20}",
+      "option_d": "point = 10, 20",
+      "correct_option": "a",
+      "explanation": "Lists are defined using square brackets []. Parentheses define tuples, and curly braces define sets or dictionaries.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "List of Lists",
+      "question_text": "How would you represent a collection of two points, [1, 2] and [3, 4], as a nested list?",
+      "option_a": "[[1, 2], [3, 4]]",
+      "option_b": "[1, 2, [3, 4]]",
+      "option_c": "[[1, 2] [3, 4]]",
+      "option_d": "[1, 2, 3, 4]",
+      "correct_option": "a",
+      "explanation": "A nested list requires enclosing each inner list in brackets and separating them with a comma within the outer brackets.",
+      "question_type": "syntax_error",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Subsetting (Indexing)",
+      "question_text": "Given `x = ['a', 'b', 'c', 'd']`, what is `x[1]`?",
+      "option_a": "'b'",
+      "option_b": "'a'",
+      "option_c": "'c'",
+      "option_d": "IndexError",
+      "correct_option": "a",
+      "explanation": "Python uses 0-based indexing. x[0] is 'a', so x[1] is 'b'.",
+      "question_type": "output",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "Negative Indexing",
+      "question_text": "Given `x = [10, 20, 30, 40]`, which code returns the last element?",
+      "option_a": "x[-1]",
+      "option_b": "x[len(x)]",
+      "option_c": "x[-0]",
+      "option_d": "x[last]",
+      "correct_option": "a",
+      "explanation": "Negative index -1 always refers to the last element. x[len(x)] causes an IndexError because indexing starts at 0.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Slicing [start:end]",
+      "question_text": "What does `[1, 2, 3, 4, 5][1:3]` return?",
+      "option_a": "[2, 3]",
+      "option_b": "[1, 2, 3]",
+      "option_c": "[2, 3, 4]",
+      "option_d": "[3, 4]",
+      "correct_option": "a",
+      "explanation": "Slicing starts at index 1 (the 2nd element) and goes up to, but does not include, index 3.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Slicing (Implicit Start/End)",
+      "question_text": "How do you select the first 3 elements of a list `vals`?",
+      "option_a": "vals[:3]",
+      "option_b": "vals[0:2]",
+      "option_c": "vals[1:3]",
+      "option_d": "vals[:2]",
+      "correct_option": "a",
+      "explanation": "vals[:3] selects elements from the start (index 0) up to index 3 (exclusive), which are indices 0, 1, and 2.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Element Update",
+      "question_text": "What is the value of `x` after this code?\n\n```python\nx = [1, 2, 3]\nx[1] = 0\n```",
+      "option_a": "[1, 0, 3]",
+      "option_b": "[0, 2, 3]",
+      "option_c": "[1, 2, 0]",
+      "option_d": "[1, 2, 3, 0]",
+      "correct_option": "a",
+      "explanation": "x[1] refers to the second element (2). Setting it to 0 updates the list to [1, 0, 3].",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Concatenation",
+      "question_text": "Which code correctly adds 'd' and 'e' to the list `chars = ['a', 'b', 'c']`?",
+      "option_a": "chars + ['d', 'e']",
+      "option_b": "chars + 'd' + 'e'",
+      "option_c": "chars.add(['d', 'e'])",
+      "option_d": "chars + 'de'",
+      "correct_option": "a",
+      "explanation": "To concatenate two lists, both sides of the '+' must be lists. Adding a string directly would cause a TypeError.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "del Statement",
+      "question_text": "What is `x` after `del(x[0])` if `x = [1, 2, 3]`?",
+      "option_a": "[2, 3]",
+      "option_b": "[1, 2]",
+      "option_c": "[1, 3]",
+      "option_d": "None",
+      "correct_option": "a",
+      "explanation": "del(x[0]) removes the first element (1), leaving [2, 3]. It modifies the list in place.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Reference (Shallow)",
+      "question_text": "What does this code print?\n\n```python\na = [1, 2, 3]\nb = a\nb[0] = 9\nprint(a)\n```",
+      "option_a": "[9, 2, 3]",
+      "option_b": "[1, 2, 3]",
+      "option_c": "[9, 9, 9]",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "Assigning a to b creates a reference. Both variables point to the same list in memory, so modifying b also modifies a.",
+      "question_type": "output",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "List Copying",
+      "question_text": "You want to create a copy of list `a` called `b` such that changing `b` does NOT affect `a`. Which is correct?",
+      "option_a": "b = list(a)",
+      "option_b": "b = a",
+      "option_c": "b = a.copy()",
+      "option_d": "b = [a]",
+      "correct_option": "a",
+      "explanation": "list(a) or a[:] creates a new list object (a shallow copy). b = a merely creates another reference to the same list.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "round() function",
+      "question_text": "What does `round(1.68, 1)` return?",
+      "option_a": "1.7",
+      "option_b": "1.6",
+      "option_c": "2.0",
+      "option_d": "1.68",
+      "correct_option": "a",
+      "explanation": "The second argument specifies decimal places. 1.68 rounded to 1 decimal place is 1.7.",
+      "question_type": "output",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "round() function",
+      "question_text": "What is the result of `round(1.68)`?",
+      "option_a": "2",
+      "option_b": "1",
+      "option_c": "1.7",
+      "option_d": "2.0",
+      "correct_option": "a",
+      "explanation": "If the number of digits is omitted, round() returns the nearest integer.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "Methods",
+      "question_text": "What happens if you call `.replace()` on a list object?",
+      "option_a": "AttributeError",
+      "option_b": "The list elements are replaced",
+      "option_c": "TypeError",
+      "option_d": "None",
+      "correct_option": "a",
+      "explanation": "Methods are type-specific. .replace() is a string method and does not exist for lists, causing an AttributeError.",
+      "question_type": "syntax_error",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "list.index() method",
+      "question_text": "Given `fam = ['liz', 1.73, 'emma', 1.68]`, what is `fam.index('emma')`?",
+      "option_a": "2",
+      "option_b": "3",
+      "option_c": "1",
+      "option_d": "Emma",
+      "correct_option": "a",
+      "explanation": "The .index() method returns the position of the value. 'emma' is at index 2.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "list.append() method",
+      "question_text": "What is the result of this code?\n\n```python\nfam = ['liz', 1.73]\nprint(fam.append('me'))\n```",
+      "option_a": "None",
+      "option_b": "['liz', 1.73, 'me']",
+      "option_c": "'me'",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "append() modifies the list in place and returns None. To see the updated list, you should print fam directly.",
+      "question_type": "output",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "str.replace() method",
+      "question_text": "What does `'banana'.replace('a', 'o')` return?",
+      "option_a": "'bonono'",
+      "option_b": "'bonana'",
+      "option_c": "'banono'",
+      "option_d": "'banana'",
+      "correct_option": "a",
+      "explanation": ".replace() replaces ALL occurrences of the substring by default.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "import ... as ... alias",
+      "question_text": "You want to use NumPy with the standard alias 'np'. Which line should you use?",
+      "option_a": "import numpy as np",
+      "option_b": "import np as numpy",
+      "option_c": "from numpy import np",
+      "option_d": "using numpy as np",
+      "correct_option": "a",
+      "explanation": "'import [package] as [alias]' is the correct syntax.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "from ... import ...",
+      "question_text": "If you use `from numpy import array`, how do you create an array from list `l`?",
+      "option_a": "array(l)",
+      "option_b": "np.array(l)",
+      "option_c": "numpy.array(l)",
+      "option_d": "l.array()",
+      "correct_option": "a",
+      "explanation": "When importing a specific function using 'from', you use it directly without any prefix.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "NumPy Array (ndarray)",
+      "question_text": "Why use NumPy arrays instead of Python lists for Data Science?",
+      "option_a": "They allow mathematical operations over entire collections",
+      "option_b": "They can hold more data types than lists",
+      "option_c": "They are easier to define",
+      "option_d": "Lists are being deprecated",
+      "correct_option": "a",
+      "explanation": "The primary advantage of NumPy is the ability to perform element-wise calculations efficiently, which lists cannot do.",
+      "question_type": "scenario",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "NumPy Element-wise Operations",
+      "question_text": "What is the result of `np.array([1, 2]) * 2`?",
+      "option_a": "array([2, 4])",
+      "option_b": "array([1, 2, 1, 2])",
+      "option_c": "Error",
+      "option_d": "array([1, 4])",
+      "correct_option": "a",
+      "explanation": "In NumPy, multiplication is applied to each element. In contrast, multiplying a list by 2 repeats the list.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "NumPy Single-Type Constraint",
+      "question_text": "What happens when you run `np.array([1, '2', True])`?",
+      "option_a": "All elements become strings",
+      "option_b": "The code raises a TypeError",
+      "option_c": "Each element keeps its original type",
+      "option_d": "All elements become integers",
+      "correct_option": "a",
+      "explanation": "NumPy arrays must have a single type. To accommodate the string '2', NumPy will coerce the float and boolean into strings.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "NumPy Boolean Indexing",
+      "question_text": "Given `bmi = np.array([21, 24, 25])`, what does `bmi[bmi > 23]` return?",
+      "option_a": "array([24, 25])",
+      "option_b": "array([False, True, True])",
+      "option_c": "array([True, True])",
+      "option_d": "24, 25",
+      "correct_option": "a",
+      "explanation": "bmi > 23 creates a boolean array. Using this boolean array as an index (subsetting) returns only the elements where the value is True.",
+      "question_type": "output",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "ndarray.shape",
+      "question_text": "If `np_2d.shape` returns `(3, 2)`, what does this mean?",
+      "option_a": "3 rows and 2 columns",
+      "option_b": "3 columns and 2 rows",
+      "option_c": "A list of 3 lists with 2 elements each",
+      "option_d": "6 total elements in a 1D array",
+      "correct_option": "a",
+      "explanation": "The shape attribute returns (rows, columns).",
+      "question_type": "definition",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "2D NumPy Subsetting",
+      "question_text": "How do you select the third column of all rows in a 2D array `data`?",
+      "option_a": "data[:, 2]",
+      "option_b": "data[2, :]",
+      "option_c": "data[:, 3]",
+      "option_d": "data[3, :]",
+      "correct_option": "a",
+      "explanation": "':' selects all rows, and index 2 refers to the third column (0-based indexing).",
+      "question_type": "application",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "2D NumPy Subsetting",
+      "question_text": "What does `np_2d[0, 1]` select?",
+      "option_a": "The element in the first row and second column",
+      "option_b": "The first two rows",
+      "option_c": "The first two columns",
+      "option_d": "The element in the first column and second row",
+      "correct_option": "a",
+      "explanation": "Row index comes first, then column index. 0 is the first row, 1 is the second column.",
+      "question_type": "definition",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "np.mean()",
+      "question_text": "You want to find the average height in a dataset where height is the first column (index 0) of a 2D array `np_city`. Which code is correct?",
+      "option_a": "np.mean(np_city[:, 0])",
+      "option_b": "mean(np_city[0, :])",
+      "option_c": "np.avg(np_city[:, 0])",
+      "option_d": "np_city.mean(0)",
+      "correct_option": "a",
+      "explanation": "np.mean() is the correct function. np_city[:, 0] selects the entire first column.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "np.median()",
+      "question_text": "Why might you prefer `np.median()` over `np.mean()` for analyzing salaries in a city?",
+      "option_a": "It is less influenced by extreme outliers (rich individuals)",
+      "option_b": "It is faster to calculate",
+      "option_c": "It only works with integers",
+      "option_d": "It returns multiple values",
+      "correct_option": "a",
+      "explanation": "The median is the middle value and is more robust against outliers than the mean.",
+      "question_type": "scenario",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "np.corrcoef()",
+      "question_text": "Which function helps you determine if there is a linear relationship between height and weight in your data?",
+      "option_a": "np.corrcoef()",
+      "option_b": "np.std()",
+      "option_c": "np.mean()",
+      "option_d": "np.column_stack()",
+      "correct_option": "a",
+      "explanation": "np.corrcoef() calculates the correlation coefficient matrix between two variables.",
+      "question_type": "scenario",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "np.random.normal()",
+      "question_text": "You need to generate 1000 random heights with an average of 1.75m and a standard deviation of 0.1m. Which is correct?",
+      "option_a": "np.random.normal(1.75, 0.1, 1000)",
+      "option_b": "np.random.normal(1000, 1.75, 0.1)",
+      "option_c": "np.random.rand(1.75, 0.1, 1000)",
+      "option_d": "np.random.normal(0.1, 1.75, 1000)",
+      "correct_option": "a",
+      "explanation": "The order of arguments for np.random.normal is: distribution mean, distribution standard deviation, number of samples.",
+      "question_type": "application",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "Python Language",
+      "question_text": "Which of these is NOT a primary reason Python is popular for Data Science?",
+      "option_a": "It is the only language that can do math",
+      "option_b": "It is open source and free",
+      "option_c": "It has many packages specifically for data science",
+      "option_d": "It is a general-purpose language",
+      "correct_option": "a",
+      "explanation": "Many languages can perform mathematics (like R, Julia, or Java). Python's popularity stems from its ecosystem and ease of use.",
+      "question_type": "definition",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "int type",
+      "question_text": "What is the data type of the result of `10 / 2` in Python 3?",
+      "option_a": "float",
+      "option_b": "int",
+      "option_c": "number",
+      "option_d": "decimal",
+      "correct_option": "a",
+      "explanation": "In Python 3, the division operator '/' always returns a float, even if the result is a whole number.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "str type",
+      "question_text": "How do you define a string that contains a single quote, like 'I'm fine'?",
+      "option_a": "\"I'm fine\"",
+      "option_b": "'I'm fine'",
+      "option_c": "string(I'm fine)",
+      "option_d": "[I'm fine]",
+      "correct_option": "a",
+      "explanation": "Using double quotes to enclose the string allows you to use single quotes inside it without errors.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "type() function",
+      "question_text": "What does `type([1, 2, 3])` return?",
+      "option_a": "<class 'list'>",
+      "option_b": "<class 'array'>",
+      "option_c": "<class 'int'>",
+      "option_d": "<class 'tuple'>",
+      "correct_option": "a",
+      "explanation": "Square brackets define a Python list object.",
+      "question_type": "output",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "List item types",
+      "question_text": "Can a Python list contain elements of different data types (e.g., a string and a float)?",
+      "option_a": "Yes",
+      "option_b": "No, all elements must be the same type",
+      "option_c": "Only if the list is nested",
+      "option_d": "Only if the types are numeric",
+      "correct_option": "a",
+      "explanation": "Python lists are highly flexible and can store elements of any mix of types.",
+      "question_type": "definition",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "Negative Indexing",
+      "question_text": "What is `[1, 2, 3, 4][-2]`?",
+      "option_a": "3",
+      "option_b": "2",
+      "option_c": "4",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "-1 is the last element (4), and -2 is the second to last element (3).",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Slicing [start:end]",
+      "question_text": "Which slice returns the entire list `x`?",
+      "option_a": "x[:]",
+      "option_b": "x[0:len(x)-1]",
+      "option_c": "x[1:]",
+      "option_d": "x[:-1]",
+      "correct_option": "a",
+      "explanation": "x[:] selects from the beginning to the end. x[0:len(x)-1] would miss the last element because the end index is exclusive.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "List Element Update",
+      "question_text": "What is the value of `x` after this code?\n\n```python\nx = ['a', 'b', 'c']\nx[0:2] = ['x', 'y']\n```",
+      "option_a": "['x', 'y', 'c']",
+      "option_b": "['x', 'y', 'b', 'c']",
+      "option_c": "['a', 'b', 'x', 'y']",
+      "option_d": "['x', 'y']",
+      "correct_option": "a",
+      "explanation": "The slice x[0:2] (indices 0 and 1) is replaced by the new list, resulting in ['x', 'y', 'c'].",
+      "question_type": "output",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "del Statement",
+      "question_text": "You have `x = [1, 2, 3, 4]`. You want to remove the value 3. Which code is correct?",
+      "option_a": "del(x[2])",
+      "option_b": "del(3)",
+      "option_c": "x.delete(3)",
+      "option_d": "del(x[3])",
+      "correct_option": "a",
+      "explanation": "The value 3 is at index 2. del() removes by index, not by value.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "Built-in functions",
+      "question_text": "Which function would you use to find the number of elements in a list?",
+      "option_a": "len()",
+      "option_b": "count()",
+      "option_c": "size()",
+      "option_d": "length()",
+      "correct_option": "a",
+      "explanation": "len() is the standard built-in function to find the length of any collection in Python.",
+      "question_type": "definition",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "list.count() method",
+      "question_text": "Given `scores = [1, 2, 1, 3, 1]`, what does `scores.count(1)` return?",
+      "option_a": "3",
+      "option_b": "1",
+      "option_c": "5",
+      "option_d": "0",
+      "correct_option": "a",
+      "explanation": "The .count() method counts the number of times the argument appears in the list.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "list.append() method",
+      "question_text": "You want to add the number 10 to the end of list `a`. Which code is correct?",
+      "option_a": "a.append(10)",
+      "option_b": "a.add(10)",
+      "option_c": "a.insert(10)",
+      "option_d": "a.extend(10)",
+      "correct_option": "a",
+      "explanation": "append() is the correct method for adding a single element to the end. add() doesn't exist for lists, and extend() expects an iterable.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "pip package manager",
+      "question_text": "How do you install the 'pandas' package from your terminal?",
+      "option_a": "pip install pandas",
+      "option_b": "install pandas",
+      "option_c": "get pandas",
+      "option_d": "import pandas",
+      "correct_option": "a",
+      "explanation": "pip (or pip3) is the command-line utility for installing Python packages.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "NumPy Array (ndarray)",
+      "question_text": "What happens if you try to add two Python lists `[1, 2] + [3, 4]`?",
+      "option_a": "You get [1, 2, 3, 4]",
+      "option_b": "You get [4, 6]",
+      "option_c": "You get an Error",
+      "option_d": "You get [[1, 2], [3, 4]]",
+      "correct_option": "a",
+      "explanation": "Adding lists performs concatenation. To get element-wise addition ([4, 6]), you must use NumPy arrays.",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "NumPy Array (ndarray)",
+      "question_text": "Which code correctly creates a NumPy array from a list `my_list`?",
+      "option_a": "np.array(my_list)",
+      "option_b": "np.ndarray(my_list)",
+      "option_c": "np.create_array(my_list)",
+      "option_d": "my_list.to_array()",
+      "correct_option": "a",
+      "explanation": "np.array() is the standard function to convert a list or other iterable into a NumPy array.",
+      "question_type": "application",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "NumPy Boolean Indexing",
+      "question_text": "What is wrong with this code?\n\n```python\nimport numpy as np\nvals = np.array([1, 2, 3])\nprint(vals[vals = 2])\n```",
+      "option_a": "It uses '=' instead of '==' for comparison",
+      "option_b": "You cannot index an array with another array",
+      "option_c": "The print function is missing",
+      "option_d": "NumPy is not imported correctly",
+      "correct_option": "a",
+      "explanation": "Boolean indexing requires a comparison operator like '==', '>', etc. Single '=' is for assignment and will cause a SyntaxError in this context.",
+      "question_type": "syntax_error",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "2D NumPy Array",
+      "question_text": "How do you create a 2D NumPy array with 2 rows and 2 columns?",
+      "option_a": "np.array([[1, 2], [3, 4]])",
+      "option_b": "np.array([1, 2], [3, 4])",
+      "option_c": "np.array([1, 2, 3, 4])",
+      "option_d": "np.2d_array([1, 2, 3, 4])",
+      "correct_option": "a",
+      "explanation": "A 2D array is created by passing a list of lists to np.array(). Each inner list represents a row.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "ndarray.shape",
+      "question_text": "What is the shape of `np.array([[1, 2, 3], [4, 5, 6]])`?",
+      "option_a": "(2, 3)",
+      "option_b": "(3, 2)",
+      "option_c": "6",
+      "option_d": "(1, 6)",
+      "correct_option": "a",
+      "explanation": "The array has 2 rows and 3 columns, so its shape is (2, 3).",
+      "question_type": "output",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "2D NumPy Subsetting",
+      "question_text": "In a 2D array `arr`, what does `arr[1, 0]` select?",
+      "option_a": "The first element of the second row",
+      "option_b": "The first element of the first row",
+      "option_c": "The second element of the first row",
+      "option_d": "The second element of the second row",
+      "correct_option": "a",
+      "explanation": "Index 1 refers to the second row; index 0 refers to the first column.",
+      "question_type": "definition",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "np.std()",
+      "question_text": "What does `np.std()` measure?",
+      "option_a": "How spread out the numbers are from the mean",
+      "option_b": "The middle value of the data",
+      "option_c": "The most frequent value in the data",
+      "option_d": "The sum of all values",
+      "correct_option": "a",
+      "explanation": "Standard deviation measures the variability or dispersion in a dataset.",
+      "question_type": "definition",
+      "difficulty": 1
+    },
+    {
+      "concept_name": "np.column_stack()",
+      "question_text": "You have two 1D arrays: `names` and `ages`. You want to combine them into a single 2D array where each row is a (name, age) pair. Which function do you use?",
+      "option_a": "np.column_stack((names, ages))",
+      "option_b": "np.concatenate((names, ages))",
+      "option_c": "np.append(names, ages)",
+      "option_d": "np.stack((names, ages))",
+      "correct_option": "a",
+      "explanation": "column_stack() takes 1D arrays and stacks them horizontally as columns, creating a 2D array.",
+      "question_type": "application",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "round() function",
+      "question_text": "What is `round(2.5)` in Python 3?",
+      "option_a": "2",
+      "option_b": "3",
+      "option_c": "2.5",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "Python 3 rounds to the nearest EVEN number for .5 cases. This is known as bankers' rounding.",
+      "question_type": "output",
+      "difficulty": 3
+    },
+    {
+      "concept_name": "List Concatenation",
+      "question_text": "What happens if you run `[1, 2] + 3`?",
+      "option_a": "TypeError",
+      "option_b": "[1, 2, 3]",
+      "option_c": "[4, 5]",
+      "option_d": "[1, 2, [3]]",
+      "correct_option": "a",
+      "explanation": "You can only concatenate a list to another list. Adding an integer to a list using '+' causes a TypeError.",
+      "question_type": "syntax_error",
+      "difficulty": 2
+    },
+    {
+      "concept_name": "NumPy Element-wise Operations",
+      "question_text": "What does `np.array([10, 20]) / np.array([2, 5])` return?",
+      "option_a": "array([5.0, 4.0])",
+      "option_b": "array([5, 4])",
+      "option_c": "array([2, 5, 10, 20])",
+      "option_d": "Error",
+      "correct_option": "a",
+      "explanation": "NumPy performs element-wise division. Division always results in floats in Python 3.",
+      "question_type": "output",
+      "difficulty": 2
+    }
+  ],
+  "stats": {
+    "total_concepts": 50,
+    "total_questions": 61,
+    "code_concepts": 43,
+    "glossary_terms": 22
+  }
+}

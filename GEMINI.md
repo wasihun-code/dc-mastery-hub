@@ -88,6 +88,27 @@ overall = (flashcard*0.20) + (quiz*0.30) +
 Tiers: 0-39 Beginner, 40-69 Learning, 
        70-89 Proficient, 90-100 Mastered
 
+## Content Extraction Workflow
+To extract concepts and generate exercises for a course:
+1. Make sure the backend is running (npm run dev)
+2. Say: "extract [course-slug]" or 
+   "@course-extractor extract [course-slug]"
+3. The course-extractor subagent will:
+   - Fetch raw text via GET /api/content/extract-text/[slug]
+   - Extract concepts from the text
+   - Generate application-style quiz questions
+   - Store everything via POST /api/content/store/[slug]
+4. Refresh the course page to see new content
+
+Available for extraction (has_pdf=1):
+  - introduction-to-python
+  - intermediate-python
+  - data-manipulation-with-pandas
+  - joining-data-with-pandas
+  - introduction-to-sql
+  - intermediate-sql
+  - joining-data-in-sql
+
 ## Step Progress
 Step 1: Folder structure + layout shell ✅
 Step 2: Database schema + seeding ✅

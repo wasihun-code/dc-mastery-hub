@@ -129,10 +129,8 @@ export default function CourseDetail() {
   const [isScanning, setIsScanning] = useState(false)
   const [scanSummary, setScanSummary] = useState(null)
 
-  // Extraction states
-  const [isParsing, setIsParsing] = useState(false)
-  const [parseResult, setParseResult] = useState(null)
-  const [parseError, setParseError] = useState(null)
+  // Refresh feedback
+  const [refreshSuccess, setRefreshSuccess] = useState(false)
   
   // Quick Actions states
   const [notes, setNotes] = useState('')
@@ -185,6 +183,12 @@ export default function CourseDetail() {
     }
   }
 
+  const handleRefresh = async () => {
+    await fetchCourseOnly()
+    setRefreshSuccess(true)
+    setTimeout(() => setRefreshSuccess(false), 2000)
+  }
+
   const handleScan = async () => {
     setIsScanning(true)
     try {
@@ -197,26 +201,6 @@ export default function CourseDetail() {
       console.error('Scan failed:', err)
     } finally {
       setIsScanning(false)
-    }
-  }
-
-  const handleExtract = async () => {
-    setIsParsing(true)
-    setParseResult(null)
-    setParseError(null)
-    try {
-      const res = await fetch(
-        `/api/content/parse/${courseSlug}`,
-        { method: 'POST' }
-      )
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Extraction failed')
-      setParseResult(data)
-      await fetchCourseOnly() // refetch to update counts
-    } catch (err) {
-      setParseError(err.message)
-    } finally {
-      setIsParsing(false)
     }
   }
 
@@ -584,30 +568,29 @@ export default function CourseDetail() {
               <div className="space-y-3 pt-4 border-t border-[var(--border)]">
                 <label className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Content Extraction</label>
                 {course.has_pdf === 1 ? (
-                  <div className="space-y-3">
+                  <div className="space-y-4">
+                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
+                      Run this command in your terminal to extract concepts and generate exercises:
+                    </p>
+                    <div className="rounded bg-[var(--bg-primary)] p-3 border border-[var(--border)]">
+                      <code className="text-[11px] text-[var(--accent-blue)] font-mono break-all">
+                        gemini extract {courseSlug}
+                      </code>
+                    </div>
+                    <div className="h-px bg-[var(--border)] w-full" />
+                    <p className="text-[10px] text-[var(--text-muted)]">
+                      After running the command, click below to refresh:
+                    </p>
                     <button
-                      onClick={handleExtract}
-                      disabled={isParsing}
-                      className={`flex w-full items-center justify-center gap-2 rounded bg-[var(--accent-blue)] py-2.5 text-sm font-bold text-[var(--bg-primary)] hover:brightness-110 transition-all ${isParsing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      onClick={handleRefresh}
+                      className="flex w-full items-center justify-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-primary)] py-2 text-sm font-bold text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all"
                     >
-                      {isParsing ? (
-                        <><RefreshCw size={14} className="animate-spin" /> Extracting... (may take 60s)</>
+                      {refreshSuccess ? (
+                        <><Check size={14} className="text-[var(--accent-green)]" /> Refreshed!</>
                       ) : (
-                        <><Zap size={14} /> Extract Concepts from Slides</>
+                        <><RefreshCw size={14} /> Refresh Course Data</>
                       )}
                     </button>
-                    
-                    {parseResult && (
-                      <div className="rounded bg-[rgba(3,239,98,0.1)] p-3 text-[11px] font-medium text-[var(--accent-green)] border border-[var(--accent-green)]/20 animate-in fade-in slide-in-from-top-1">
-                        ✓ {parseResult.concepts_extracted} concepts, {parseResult.flashcards_created} flashcards, {parseResult.quiz_questions_created} questions
-                      </div>
-                    )}
-                    
-                    {parseError && (
-                      <div className="rounded bg-[rgba(255,77,77,0.1)] p-3 text-[11px] font-medium text-[var(--accent-red)] border border-[var(--accent-red)]/20 animate-in fade-in slide-in-from-top-1">
-                        ✕ {parseError}
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <p className="text-[10px] text-[var(--text-muted)] italic">Add slides.pdf first to extract concepts</p>
