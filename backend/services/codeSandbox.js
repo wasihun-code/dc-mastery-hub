@@ -40,10 +40,15 @@ export function runCode(code, datasetPaths) {
 
   try {
     // 3. Copy dataset files into temp directory
+    console.log('datasetPaths:', datasetPaths)
     for (const datasetPath of datasetPaths) {
+      console.log('Checking datasetPath:', datasetPath, fs.existsSync(datasetPath))
       if (fs.existsSync(datasetPath)) {
         const fileName = path.basename(datasetPath)
         fs.copyFileSync(datasetPath, path.join(tmpDir, fileName))
+        console.log('Copied to:', path.join(tmpDir, fileName))
+      } else {
+        console.log('Dataset path does not exist:', datasetPath)
       }
     }
 
@@ -80,10 +85,14 @@ ${code}
       error: null
     }
   } catch (err) {
+    let errorText = err.stderr ? err.stderr.toString().trim() : err.message
+    // Sanitize the traceback to hide the internal server temp path and wrapper script name
+    errorText = errorText.replace(new RegExp(tmpDir + '/solution.py', 'g'), 'script.py')
+    
     return {
       success: false, 
       output: '',
-      error: err.stderr ? err.stderr.toString().trim() : err.message
+      error: errorText
     }
   } finally {
     // Clean up temp directory

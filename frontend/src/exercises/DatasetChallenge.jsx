@@ -391,7 +391,16 @@ export default function DatasetChallenge() {
              </div>
              
              <div className="p-6 text-[var(--text-primary)] overflow-y-auto grow">
-                <p className="mb-6 text-lg">{result.feedback}</p>
+                {result.error ? (
+                  <>
+                    <p className="mb-4 text-lg">Your code threw an error during execution:</p>
+                    <pre className="bg-[#0d1117] p-4 rounded border border-red-500/30 text-red-400 font-mono text-sm overflow-x-auto whitespace-pre-wrap">
+                      {result.feedback}
+                    </pre>
+                  </>
+                ) : (
+                  <p className="mb-6 text-lg">{result.feedback}</p>
+                )}
                 
                 {!result.passed && !result.error && (
                   <div className="grid grid-cols-2 gap-6">

@@ -191,6 +191,7 @@ router.post('/run-code', (req, res, next) => {
 router.post('/submit-challenge', (req, res, next) => {
   try {
     const { code, courseSlug, challengeId, datasetFile, expectedOutputCode } = req.body
+    console.log(`[submit-challenge] Request received for ${courseSlug} - ${datasetFile}`)
     
     const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
@@ -205,13 +206,20 @@ router.post('/submit-challenge', (req, res, next) => {
       : DEFAULT_CONTENT_FOLDER
 
     const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    console.log(`[submit-challenge] datasetPath: ${datasetPath}`)
     
     if (!fs.existsSync(datasetPath)) {
+      console.log(`[submit-challenge] datasetPath does NOT exist!`)
       return res.status(404).json({ error: 'Dataset file not found' })
     }
 
+    console.log(`[submit-challenge] Running user code...`)
     const userResult = runCode(code, [datasetPath])
+    console.log(`[submit-challenge] User result:`, userResult)
+    
+    console.log(`[submit-challenge] Running expected code...`)
     const expectedResult = runCode(expectedOutputCode, [datasetPath])
+    console.log(`[submit-challenge] Expected result:`, expectedResult)
     
     if (!expectedResult.success) {
       return res.status(500).json({ error: 'Expected solution failed to run: ' + expectedResult.error })
@@ -221,7 +229,17 @@ router.post('/submit-challenge', (req, res, next) => {
       return res.status(400).json({ error: userResult.error })
     }
 
-    const passed = userResult.output.trim() === expectedResult.output.trim()
+    function normalizeOutput(output) {
+      return output
+        .trim()
+        .split('\n')
+        .map(line => line.trimEnd())
+        .filter(line => line !== 'None')
+        .filter(line => line !== '')
+        .join('\n')
+    }
+
+    const passed = normalizeOutput(userResult.output) === normalizeOutput(expectedResult.output)
     const score = passed ? 100 : 0
     
     // Record attempt
@@ -233,8 +251,8 @@ router.post('/submit-challenge', (req, res, next) => {
     res.json({
       passed,
       score,
-      user_output: userResult.output,
-      expected_output: expectedResult.output,
+      user_output: normalizeOutput(userResult.output),
+      expected_output: normalizeOutput(expectedResult.output),
       feedback: passed 
         ? 'Correct! Your output matches perfectly.'
         : 'Not quite. Compare your output with the expected output below.'
