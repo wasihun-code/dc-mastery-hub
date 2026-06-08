@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
+import { runCode } from '../services/codeSandbox.js'
+import { getChallenges } from '../services/challengeGenerator.js'
 
 const router = express.Router()
 
@@ -132,6 +134,111 @@ router.get('/datasets/:courseSlug', (req, res, next) => {
       })
 
     res.status(200).json(datasets)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/challenges/:courseSlug', (req, res, next) => {
+  try {
+    const { courseSlug } = req.params
+    const challenges = getChallenges(courseSlug)
+    
+    if (!challenges || challenges.length === 0) {
+      return res.status(404).json({ error: 'No datasets available for this course' })
+    }
+    
+    res.json(challenges)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/run-code', (req, res, next) => {
+  try {
+    const { code, courseSlug, datasetFile } = req.body
+    
+    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug)
+    if (!course) return res.status(404).json({ error: 'Course not found' })
+
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+          ? process.env.CONTENT_FOLDER 
+          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER
+
+    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    
+    if (!fs.existsSync(datasetPath)) {
+      return res.status(404).json({ error: 'Dataset file not found' })
+    }
+
+    const result = runCode(code, [datasetPath])
+    
+    if (result.error && result.error.includes('ETIMEDOUT')) {
+      result.error = "Code timed out after 10 seconds. Check for infinite loops."
+    }
+
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/submit-challenge', (req, res, next) => {
+  try {
+    const { code, courseSlug, challengeId, datasetFile, expectedOutputCode } = req.body
+    
+    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug)
+    if (!course) return res.status(404).json({ error: 'Course not found' })
+
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+          ? process.env.CONTENT_FOLDER 
+          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER
+
+    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    
+    if (!fs.existsSync(datasetPath)) {
+      return res.status(404).json({ error: 'Dataset file not found' })
+    }
+
+    const userResult = runCode(code, [datasetPath])
+    const expectedResult = runCode(expectedOutputCode, [datasetPath])
+    
+    if (!expectedResult.success) {
+      return res.status(500).json({ error: 'Expected solution failed to run: ' + expectedResult.error })
+    }
+
+    if (!userResult.success) {
+      return res.status(400).json({ error: userResult.error })
+    }
+
+    const passed = userResult.output.trim() === expectedResult.output.trim()
+    const score = passed ? 100 : 0
+    
+    // Record attempt
+    db.prepare(`
+      INSERT INTO exercise_attempts (exercise_type, course_id, question_id, score, time_taken_secs, was_correct)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `).run('dataset', course.id, null, score / 100, 0, passed ? 1 : 0)
+
+    res.json({
+      passed,
+      score,
+      user_output: userResult.output,
+      expected_output: expectedResult.output,
+      feedback: passed 
+        ? 'Correct! Your output matches perfectly.'
+        : 'Not quite. Compare your output with the expected output below.'
+    })
   } catch (err) {
     next(err)
   }
