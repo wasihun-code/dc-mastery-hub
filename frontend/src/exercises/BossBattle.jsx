@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronLeft, Heart, Zap, Timer, Award, CheckCircle2, XCircle, Skull, Flame } from 'lucide-react'
+import { renderWithCode } from '../utils/renderWithCode'
 
 export default function BossBattle() {
   const { courseSlug } = useParams()
@@ -193,7 +194,7 @@ export default function BossBattle() {
 
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
+      <div className="flex h-[60vh] items-center justify-center" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)', overflowY: 'auto' }}>
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-[var(--accent-red)] border-t-transparent"></div>
       </div>
     )
@@ -201,7 +202,7 @@ export default function BossBattle() {
 
   if (items.length === 0) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center text-center">
+      <div className="flex h-[60vh] flex-col items-center justify-center text-center" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)', overflowY: 'auto' }}>
         <Skull size={48} className="text-[var(--text-muted)] mb-4" />
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">No Challenges Found</h2>
         <p className="mt-2 text-[var(--text-muted)]">This course needs quiz questions or concepts for a Boss Battle.</p>
@@ -218,54 +219,56 @@ export default function BossBattle() {
 
   if (isGameOver) {
     return (
-      <div className="mx-auto max-w-2xl text-center">
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-12 overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-full h-2 bg-[var(--accent-red)]"></div>
-          
-          {lives <= 0 ? (
-            <Skull size={64} className="mx-auto text-[var(--accent-red)] mb-6" />
-          ) : (
-            <Award size={64} className="mx-auto text-[var(--accent-yellow)] mb-6" />
-          )}
-          
-          <h2 className="text-3xl font-bold text-[var(--text-primary)]">
-            {lives <= 0 ? 'Defeated!' : 'Boss Vanquished!'}
-          </h2>
-          
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            <div className="rounded-lg bg-[var(--bg-primary)] p-6">
-              <div className="text-4xl font-black text-[var(--accent-yellow)]">{score}</div>
-              <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Final Score</div>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)', overflowY: 'auto', padding: '2rem 1rem' }}>
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-12 overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-2 bg-[var(--accent-red)]"></div>
+            
+            {lives <= 0 ? (
+              <Skull size={64} className="mx-auto text-[var(--accent-red)] mb-6" />
+            ) : (
+              <Award size={64} className="mx-auto text-[var(--accent-yellow)] mb-6" />
+            )}
+            
+            <h2 className="text-3xl font-bold text-[var(--text-primary)]">
+              {lives <= 0 ? 'Defeated!' : 'Boss Vanquished!'}
+            </h2>
+            
+            <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="rounded-lg bg-[var(--bg-primary)] p-6">
+                <div className="text-4xl font-black text-[var(--accent-yellow)]">{score}</div>
+                <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Final Score</div>
+              </div>
+              <div className="rounded-lg bg-[var(--bg-primary)] p-6">
+                <div className="text-4xl font-black text-[var(--accent-blue)]">{maxStreak}</div>
+                <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Best Streak</div>
+              </div>
             </div>
-            <div className="rounded-lg bg-[var(--bg-primary)] p-6">
-              <div className="text-4xl font-black text-[var(--accent-blue)]">{maxStreak}</div>
-              <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Best Streak</div>
+            
+            <div className="mt-12 flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setLives(5)
+                  setScore(0)
+                  setStreak(0)
+                  setMaxStreak(0)
+                  setCurrentIndex(0)
+                  setIsGameOver(false)
+                  setIsAnswered(false)
+                  fetchBattleData()
+                }}
+                className="flex items-center justify-center gap-2 rounded-lg bg-[var(--accent-red)] px-6 py-4 font-bold text-white hover:opacity-90 transition-opacity shadow-lg"
+              >
+                <Zap size={20} />
+                Try Again
+              </button>
+              <Link
+                to={`/courses/${courseSlug}`}
+                className="flex items-center justify-center gap-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-6 py-3 font-bold text-[var(--text-primary)]"
+              >
+                Back to Course
+              </Link>
             </div>
-          </div>
-          
-          <div className="mt-12 flex flex-col gap-3">
-            <button
-              onClick={() => {
-                setLives(5)
-                setScore(0)
-                setStreak(0)
-                setMaxStreak(0)
-                setCurrentIndex(0)
-                setIsGameOver(false)
-                setIsAnswered(false)
-                fetchBattleData()
-              }}
-              className="flex items-center justify-center gap-2 rounded-lg bg-[var(--accent-red)] px-6 py-4 font-bold text-white hover:opacity-90 transition-opacity shadow-lg"
-            >
-              <Zap size={20} />
-              Try Again
-            </button>
-            <Link
-              to={`/courses/${courseSlug}`}
-              className="flex items-center justify-center gap-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-6 py-3 font-bold text-[var(--text-primary)]"
-            >
-              Back to Course
-            </Link>
           </div>
         </div>
       </div>
@@ -275,135 +278,137 @@ export default function BossBattle() {
   const item = items[currentIndex]
 
   return (
-    <div className="mx-auto max-w-3xl">
-      {/* Header / Stats */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex gap-1">
-          {[...Array(5)].map((_, i) => (
-            <Heart 
-              key={i} 
-              size={24} 
-              className={i < lives ? "text-[var(--accent-red)] fill-[var(--accent-red)]" : "text-[var(--border)]"} 
-            />
-          ))}
-        </div>
-        
-        <div className="flex items-center gap-6">
-          {streak >= 3 && (
-            <div className="flex items-center gap-1 text-[var(--accent-yellow)] font-bold animate-bounce">
-              <Flame size={20} />
-              {streak} Streak
-            </div>
-          )}
-          <div className="text-2xl font-black text-[var(--text-primary)]">
-            {score.toLocaleString()}
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)', overflowY: 'auto', padding: '2rem 1rem' }}>
+      <div className="mx-auto max-w-3xl">
+        {/* Header / Stats */}
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Heart 
+                key={i} 
+                size={24} 
+                className={i < lives ? "text-[var(--accent-red)] fill-[var(--accent-red)]" : "text-[var(--border)]"} 
+              />
+            ))}
           </div>
-        </div>
-      </div>
-
-      {/* Timer Bar */}
-      <div className="mb-8 h-3 w-full overflow-hidden rounded-full bg-[var(--bg-card)] border border-[var(--border)]">
-        <div
-          className={`h-full transition-all duration-1000 ease-linear ${
-            timeLeft < 5 ? 'bg-[var(--accent-red)]' : 'bg-[var(--accent-blue)]'
-          }`}
-          style={{ width: `${(timeLeft / 15) * 100}%` }}
-        ></div>
-      </div>
-
-      {/* Challenge Card */}
-      <div className={`rounded-2xl border-2 bg-[var(--bg-card)] p-8 shadow-xl transition-all duration-300 ${
-        isAnswered ? 'scale-[0.98]' : 'scale-100'
-      } ${
-        isAnswered && (selectedOption === item.correct_option || fillValue.toLowerCase().trim() === item.answer?.toLowerCase().trim()) 
-        ? 'border-[var(--accent-green)]' 
-        : isAnswered ? 'border-[var(--accent-red)]' : 'border-[var(--border)]'
-      }`}>
-        <div className="mb-4 flex items-center justify-between">
-          <span className="rounded-lg bg-[var(--bg-primary)] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">
-            {item.type === 'quiz' ? 'Multiple Choice' : 'Fill in the Blank'}
-          </span>
-          <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-muted)]">
-            <Timer size={16} />
-            {timeLeft}s
-          </div>
-        </div>
-
-        <h3 className="text-2xl font-bold leading-tight text-[var(--text-primary)] mb-8">
-          {item.question}
-        </h3>
-
-        {item.type === 'quiz' ? (
-          <div className="grid grid-cols-1 gap-3">
-            {['a', 'b', 'c', 'd'].map((key) => {
-              const text = item[`option_${key}`]
-              if (!text) return null
-              
-              const isCorrect = key === item.correct_option
-              const isSelected = selectedOption === key
-              
-              let btnClass = "border-[var(--border)] hover:bg-[var(--bg-primary)]"
-              if (isAnswered) {
-                if (isCorrect) btnClass = "border-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]"
-                else if (isSelected) btnClass = "border-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]"
-                else btnClass = "border-[var(--border)] opacity-30"
-              }
-
-              return (
-                <button
-                  key={key}
-                  disabled={isAnswered}
-                  onClick={() => handleQuizAnswer(key)}
-                  className={`flex items-center gap-4 rounded-xl border-2 p-5 text-left transition-all ${btnClass}`}
-                >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] text-sm font-bold uppercase">
-                    {key}
-                  </span>
-                  <span className="text-lg font-medium">{text}</span>
-                  {isAnswered && isCorrect && <CheckCircle2 className="ml-auto text-[var(--accent-green)]" />}
-                  {isAnswered && isSelected && !isCorrect && <XCircle className="ml-auto text-[var(--accent-red)]" />}
-                </button>
-              )
-            })}
-          </div>
-        ) : (
-          <form onSubmit={handleFillSubmit} className="space-y-4">
-            <input
-              autoFocus
-              disabled={isAnswered}
-              value={fillValue}
-              onChange={(e) => setFillValue(e.target.value)}
-              placeholder="Type your answer..."
-              className={`w-full rounded-xl bg-[var(--bg-primary)] border-2 p-5 text-xl font-bold outline-none transition-all ${
-                isAnswered 
-                ? (fillValue.toLowerCase().trim() === item.answer.toLowerCase().trim() ? 'border-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]' : 'border-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]')
-                : 'border-[var(--border)] focus:border-[var(--accent-blue)]'
-              }`}
-            />
-            {isAnswered && fillValue.toLowerCase().trim() !== item.answer.toLowerCase().trim() && (
-              <div className="text-center font-bold text-[var(--accent-green)] animate-in fade-in">
-                Correct answer: {item.answer}
+          
+          <div className="flex items-center gap-6">
+            {streak >= 3 && (
+              <div className="flex items-center gap-1 text-[var(--accent-yellow)] font-bold animate-bounce">
+                <Flame size={20} />
+                {streak} Streak
               </div>
             )}
-            {!isAnswered && (
-              <button
-                type="submit"
-                className="w-full rounded-xl bg-[var(--accent-blue)] py-4 text-lg font-black text-white hover:opacity-90"
-              >
-                SUBMIT
-              </button>
-            )}
-          </form>
-        )}
-      </div>
+            <div className="text-2xl font-black text-[var(--text-primary)]">
+              {score.toLocaleString()}
+            </div>
+          </div>
+        </div>
 
-      <div className="mt-8 text-center">
-        <Link
-          to={`/courses/${courseSlug}`}
-          className="text-sm font-bold text-[var(--text-muted)] hover:text-[var(--accent-red)] transition-colors"
-        >
-          SURRENDER
-        </Link>
+        {/* Timer Bar */}
+        <div className="mb-8 h-3 w-full overflow-hidden rounded-full bg-[var(--bg-card)] border border-[var(--border)]">
+          <div
+            className={`h-full transition-all duration-1000 ease-linear ${
+              timeLeft < 5 ? 'bg-[var(--accent-red)]' : 'bg-[var(--accent-blue)]'
+            }`}
+            style={{ width: `${(timeLeft / 15) * 100}%` }}
+          ></div>
+        </div>
+
+        {/* Challenge Card */}
+        <div className={`rounded-2xl border-2 bg-[var(--bg-card)] p-8 shadow-xl transition-all duration-300 ${
+          isAnswered ? 'scale-[0.98]' : 'scale-100'
+        } ${
+          isAnswered && (selectedOption === item.correct_option || fillValue.toLowerCase().trim() === item.answer?.toLowerCase().trim()) 
+          ? 'border-[var(--accent-green)]' 
+          : isAnswered ? 'border-[var(--accent-red)]' : 'border-[var(--border)]'
+        }`}>
+          <div className="mb-4 flex items-center justify-between">
+            <span className="rounded-lg bg-[var(--bg-primary)] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">
+              {item.type === 'quiz' ? 'Multiple Choice' : 'Fill in the Blank'}
+            </span>
+            <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-muted)]">
+              <Timer size={16} />
+              {timeLeft}s
+            </div>
+          </div>
+
+          <h3 className="text-2xl font-bold leading-tight text-[var(--text-primary)] mb-8">
+            {renderWithCode(item.question)}
+          </h3>
+
+          {item.type === 'quiz' ? (
+            <div className="grid grid-cols-1 gap-3">
+              {['a', 'b', 'c', 'd'].map((key) => {
+                const text = item[`option_${key}`]
+                if (!text) return null
+                
+                const isCorrect = key === item.correct_option
+                const isSelected = selectedOption === key
+                
+                let btnClass = "border-[var(--border)] hover:bg-[var(--bg-primary)]"
+                if (isAnswered) {
+                  if (isCorrect) btnClass = "border-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]"
+                  else if (isSelected) btnClass = "border-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]"
+                  else btnClass = "border-[var(--border)] opacity-30"
+                }
+
+                return (
+                  <button
+                    key={key}
+                    disabled={isAnswered}
+                    onClick={() => handleQuizAnswer(key)}
+                    className={`flex items-center gap-4 rounded-xl border-2 p-5 text-left transition-all ${btnClass}`}
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] text-sm font-bold uppercase">
+                      {key}
+                    </span>
+                    <span className="text-lg font-medium">{renderWithCode(text)}</span>
+                    {isAnswered && isCorrect && <CheckCircle2 className="ml-auto text-[var(--accent-green)]" />}
+                    {isAnswered && isSelected && !isCorrect && <XCircle className="ml-auto text-[var(--accent-red)]" />}
+                  </button>
+                )
+              })}
+            </div>
+          ) : (
+            <form onSubmit={handleFillSubmit} className="space-y-4">
+              <input
+                autoFocus
+                disabled={isAnswered}
+                value={fillValue}
+                onChange={(e) => setFillValue(e.target.value)}
+                placeholder="Type your answer..."
+                className={`w-full rounded-xl bg-[var(--bg-primary)] border-2 p-5 text-xl font-bold outline-none transition-all ${
+                  isAnswered 
+                  ? (fillValue.toLowerCase().trim() === item.answer.toLowerCase().trim() ? 'border-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]' : 'border-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]')
+                  : 'border-[var(--border)] focus:border-[var(--accent-blue)]'
+                }`}
+              />
+              {isAnswered && fillValue.toLowerCase().trim() !== item.answer.toLowerCase().trim() && (
+                <div className="text-center font-bold text-[var(--accent-green)] animate-in fade-in">
+                  Correct answer: {item.answer}
+                </div>
+              )}
+              {!isAnswered && (
+                <button
+                  type="submit"
+                  className="w-full rounded-xl bg-[var(--accent-blue)] py-4 text-lg font-black text-white hover:opacity-90"
+                >
+                  SUBMIT
+                </button>
+              )}
+            </form>
+          )}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            to={`/courses/${courseSlug}`}
+            className="text-sm font-bold text-[var(--text-muted)] hover:text-[var(--accent-red)] transition-colors"
+          >
+            SURRENDER
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -98,12 +98,12 @@ export function storeExtractedContent(courseSlug, extractedData) {
     const conceptId = r.lastInsertRowid
     conceptMap.set(concept.name.toLowerCase(), conceptId)
 
-    // 3. Generate flashcards
+    // 3. Generate flashcards - RECALL FOCUS
     insertFlashcard.run(
       conceptId,
       course.id,
-      concept.name.slice(0, 300),
-      concept.definition.slice(0, 500)
+      concept.definition.slice(0, 500),
+      concept.name.slice(0, 300)
     )
     flashcardCount++
     
@@ -111,14 +111,14 @@ export function storeExtractedContent(courseSlug, extractedData) {
       insertFlashcard.run(
         conceptId,
         course.id,
-        ('What does this code do?\n' + concept.code_snippet).slice(0, 400),
-        (concept.name + ': ' + concept.definition).slice(0, 500)
+        ('What concept does this code demonstrate?\n\n```python\n' + concept.code_snippet + '\n```').slice(0, 400),
+        (concept.name + '\n' + concept.definition).slice(0, 500)
       )
       flashcardCount++
     }
   }
 
-  // 4. Insert quiz questions
+  // 4. Insert quiz questions with shuffled options
   const insertQuestion = db.prepare(`
     INSERT INTO quiz_questions
       (course_id, concept_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, question_type, difficulty)
@@ -126,7 +126,7 @@ export function storeExtractedContent(courseSlug, extractedData) {
   `)
 
   let questionCount = 0
-  for (const q of quiz_questions) {
+  for (let q of quiz_questions) {
     let conceptId = null
     if (q.concept_name) {
       const nameKey = q.concept_name.toLowerCase()
@@ -143,6 +143,25 @@ export function storeExtractedContent(courseSlug, extractedData) {
         }
       }
     }
+
+    // Fix 1A: Shuffle Options
+    const positions = ['a', 'b', 'c', 'd']
+    const correctText = q['option_' + q.correct_option]
+    const allOptions = [q.option_a, q.option_b, q.option_c, q.option_d]
+
+    for (let i = allOptions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]]
+    }
+
+    const newCorrectIndex = allOptions.indexOf(correctText)
+    const newCorrectOption = positions[newCorrectIndex]
+
+    q.option_a = allOptions[0]
+    q.option_b = allOptions[1]
+    q.option_c = allOptions[2]
+    q.option_d = allOptions[3]
+    q.correct_option = newCorrectOption
 
     insertQuestion.run(
       course.id,

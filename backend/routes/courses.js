@@ -164,25 +164,32 @@ router.get('/courses/:slug/quiz-questions', (req, res, next) => {
     const parsedDifficulty = Number.parseInt(req.query.difficulty, 10)
     const hasDifficulty = Number.isFinite(parsedDifficulty)
 
-    const questions = hasDifficulty
-      ? db
-          .prepare(`
-            SELECT *
-            FROM quiz_questions
-            WHERE course_id = ? AND difficulty = ?
-            ORDER BY RANDOM()
-            LIMIT ?
-          `)
-          .all(course.id, parsedDifficulty, count)
-      : db
-          .prepare(`
-            SELECT *
-            FROM quiz_questions
-            WHERE course_id = ?
-            ORDER BY RANDOM()
-            LIMIT ?
-          `)
-          .all(course.id, count)
+    let excludeIds = []
+    if (req.query.exclude_ids) {
+      excludeIds = req.query.exclude_ids.split(',').map(id => Number.parseInt(id, 10)).filter(id => Number.isFinite(id))
+    }
+
+    let queryStr = `
+      SELECT *
+      FROM quiz_questions
+      WHERE course_id = ?
+    `
+    const queryParams = [course.id]
+
+    if (hasDifficulty) {
+      queryStr += ` AND difficulty = ?`
+      queryParams.push(parsedDifficulty)
+    }
+
+    if (excludeIds.length > 0) {
+      queryStr += ` AND id NOT IN (${excludeIds.map(() => '?').join(',')})`
+      queryParams.push(...excludeIds)
+    }
+
+    queryStr += ` ORDER BY RANDOM() LIMIT ?`
+    queryParams.push(count)
+
+    const questions = db.prepare(queryStr).all(...queryParams)
 
     res.status(200).json(questions)
   } catch (err) {
