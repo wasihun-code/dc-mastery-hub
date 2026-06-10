@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 
 export default function DatasetChallenge() {
   const { courseSlug } = useParams()
+  const navigate = useNavigate()
   const [challenges, setChallenges] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [code, setCode] = useState('')
@@ -319,32 +320,36 @@ export default function DatasetChallenge() {
   if (currentIndex >= challenges.length) {
     const percentage = sessionScore.total > 0 ? Math.round((sessionScore.correct / sessionScore.total) * 100) : 0
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)', overflowY: 'auto', padding: '2rem 1rem' }}>
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-12">
-            <Award size={64} className="mx-auto text-[var(--accent-green)] mb-6" />
-            <h2 className="text-3xl font-bold text-[var(--text-primary)]">Session Complete!</h2>
-            
-            <div className="mt-8 grid grid-cols-2 gap-8">
-              <div className="rounded-lg bg-[var(--bg-primary)] p-4 border border-[var(--border)]">
-                <div className="text-3xl font-bold text-[var(--accent-green)]">{sessionScore.correct} / {sessionScore.total}</div>
-                <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Challenges Passed</div>
-              </div>
-              <div className="rounded-lg bg-[var(--bg-primary)] p-4 border border-[var(--border)]">
-                <div className="text-3xl font-bold text-[var(--accent-blue)]">{percentage}%</div>
-                <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider mt-1">Accuracy</div>
-              </div>
-            </div>
-            
-            <div className="mt-12 flex flex-col gap-3">
-              <Link
-                to={`/courses/${courseSlug}`}
-                className="flex items-center justify-center gap-2 rounded-lg bg-[var(--accent-green)] px-6 py-3 font-bold text-black hover:opacity-90"
-              >
-                Return to Course
-              </Link>
-            </div>
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">
+        <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-[var(--accent-green)] text-black">
+          <Award size={64} strokeWidth={2} />
+        </div>
+        
+        <h1 className="text-4xl font-extrabold text-[var(--text-primary)]">Session Complete!</h1>
+        <p className="mt-4 text-lg text-[var(--text-muted)] max-w-md mx-auto">Outstanding! You've conquered all challenges! 🏆</p>
+        
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-[600px]">
+          <div className="rounded-2xl bg-[var(--bg-card)] p-6 border border-[var(--border)]">
+            <div className="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1 font-bold">Passed</div>
+            <div className="text-3xl font-extrabold">{sessionScore.correct} / {sessionScore.total}</div>
           </div>
+          <div className="rounded-2xl bg-[var(--bg-card)] p-6 border border-[var(--border)]">
+            <div className="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1 font-bold">Accuracy</div>
+            <div className="text-3xl font-extrabold">{percentage}%</div>
+          </div>
+          <div className="rounded-2xl bg-[var(--accent-green)] p-6 text-black flex flex-col justify-center items-center">
+            <div className="text-xs uppercase tracking-wider opacity-75 mb-1 font-bold">XP Earned</div>
+            <div className="text-3xl font-extrabold">+50 XP</div>
+          </div>
+        </div>
+        
+        <div className="mt-12 flex flex-wrap justify-center gap-4">
+          <button 
+            onClick={() => navigate(`/courses/${courseSlug}`)}
+            className="rounded-xl bg-[var(--accent-green)] px-10 py-4 font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
+          >
+            Return to Course
+          </button>
         </div>
       </div>
     )
@@ -353,38 +358,56 @@ export default function DatasetChallenge() {
   const challenge = challenges[currentIndex]
 
   return (
-    <div className="flex h-screen" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, background: 'var(--bg-primary)' }}>
-      {/* LEFT PANEL */}
-      <div className="w-[38%] h-full border-r border-[var(--border)] flex flex-col bg-[var(--bg-primary)]">
-        <div className="p-4 border-b border-[var(--border)] flex items-center justify-between shrink-0 bg-[var(--bg-card)]">
-          <Link
-            to={`/courses/${courseSlug}`}
-            className="flex items-center gap-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] font-medium transition-colors"
-          >
-            <ChevronLeft size={20} />
-            Quit
-          </Link>
-          <span className="text-sm font-bold text-[var(--text-muted)] uppercase tracking-wider">
-            Challenge {currentIndex + 1} of {challenges.length}
-          </span>
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden">
+      {/* Progress Bar & Stats */}
+      <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+        <span>Dataset Challenge Progress</span>
+        <span>Challenge {currentIndex + 1} / {challenges.length} ({Math.round(((currentIndex + 1) / challenges.length) * 100)}%)</span>
+      </div>
+      <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
+        <div 
+          className="h-full bg-[var(--accent-green)] transition-all duration-300"
+          style={{ width: `${((currentIndex + 1) / challenges.length) * 100}%` }}
+        />
+      </div>
+
+      {/* Header */}
+      <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)] shrink-0">
+        <button 
+          onClick={() => navigate(`/courses/${courseSlug}`)} 
+          className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold bg-transparent border-none cursor-pointer"
+        >
+          <ChevronLeft size={16} /> Quit
+        </button>
+        
+        <div className="text-center">
+          <span className="text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">Dataset Challenge • {courseSlug}</span>
+          <div className="font-bold text-sm">Challenge {currentIndex + 1} of {challenges.length}</div>
         </div>
         
-        <div className="p-6 overflow-y-auto grow">
-          <div className="flex items-center gap-3 mb-4">
-            <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-md ${
-              String(challenge.difficulty).toLowerCase() === 'easy' || challenge.difficulty === 1 ? 'bg-green-500/10 text-green-500 border border-green-500/20' :
-              String(challenge.difficulty).toLowerCase() === 'medium' || challenge.difficulty === 2 ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
-              'bg-red-500/10 text-red-500 border border-red-500/20'
-            }`}>
-              {typeof challenge.difficulty === 'number'
-                ? (challenge.difficulty === 1 ? 'EASY' : challenge.difficulty === 2 ? 'MEDIUM' : 'HARD')
-                : String(challenge.difficulty).toUpperCase()
-              }
-            </span>
-            <span className="bg-[var(--bg-card)] px-3 py-1 rounded-md border border-[var(--border)] text-xs text-[var(--text-primary)] font-mono flex items-center gap-2">
-               📊 {challenge.dataset_file}
-            </span>
-          </div>
+        <div className="w-20"></div> {/* Spacer */}
+      </header>
+
+      {/* Main Panel Content Area */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* LEFT PANEL */}
+        <div className="w-[38%] h-full border-r border-[var(--border)] flex flex-col bg-[var(--bg-primary)] overflow-y-auto">
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <span className={`px-2.5 py-1 text-xs font-extrabold uppercase rounded shadow-sm ${
+                String(challenge.difficulty).toLowerCase() === 'easy' || challenge.difficulty === 1 ? 'bg-emerald-600 text-white' :
+                String(challenge.difficulty).toLowerCase() === 'medium' || challenge.difficulty === 2 ? 'bg-amber-500 text-black' :
+                'bg-rose-600 text-white'
+              }`}>
+                {typeof challenge.difficulty === 'number'
+                  ? (challenge.difficulty === 1 ? 'EASY' : challenge.difficulty === 2 ? 'MEDIUM' : 'HARD')
+                  : String(challenge.difficulty).toUpperCase()
+                }
+              </span>
+              <span className="bg-[var(--bg-card)] px-3 py-1 rounded-md border border-[var(--border)] text-xs text-[var(--text-primary)] font-mono flex items-center gap-2">
+                 📊 {challenge.dataset_file}
+              </span>
+            </div>
 
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">{challenge.title}</h2>
           
@@ -524,6 +547,7 @@ export default function DatasetChallenge() {
           </div>
         </div>
       </div>
+      </div>
 
       {/* Result Overlay (appears on Submit) */}
       {result && (
@@ -577,6 +601,25 @@ export default function DatasetChallenge() {
                 )}
              </div>
            </div>
+        </div>
+      )}
+      {/* QA Debug Panel */}
+      {localStorage.getItem('devMode') === 'true' && (
+        <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+          <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+            <span>🛠️ QA DEBUG PANEL</span>
+            <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+          </div>
+          <div className="space-y-1">
+            <div>Questions Attempted: {sessionScore.total}</div>
+            <div>Questions Correct: {sessionScore.correct}</div>
+            <div>Questions Incorrect: {sessionScore.total - sessionScore.correct}</div>
+            <div>Questions Remaining: {challenges.length - currentIndex}</div>
+            <div>Current Exercise Count: {challenges.length}</div>
+            <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+              Challenge ID: {challenge?.id} | Run Counter: {runCounter}
+            </div>
+          </div>
         </div>
       )}
     </div>

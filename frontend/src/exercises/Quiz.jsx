@@ -268,8 +268,12 @@ export default function Quiz() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-[var(--bg-card)]">
+        {/* Progress Bar & Stats */}
+        <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+          <span>MCQ Progress</span>
+          <span>{currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)</span>
+        </div>
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-green)] transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
@@ -310,7 +314,7 @@ export default function Quiz() {
         </header>
 
         {/* Main Content (Fullscreen Two Column Layout) */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-center justify-center">
+        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-start justify-center pt-16">
           <div className="w-full max-w-[1280px]">
             <div className="exercise-layout">
               
@@ -371,7 +375,7 @@ export default function Quiz() {
                         key={option.key}
                         disabled={isLocked || isWrongSelected}
                         onClick={() => handleOptionClick(option.key)}
-                        className={`flex items-center justify-between rounded-xl border-2 p-5 text-left transition-all duration-150 font-medium ${buttonStyle}`}
+                        className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium ${buttonStyle}`}
                       >
                         <span className="text-lg">{option.text}</span>
                         {isLocked && isCorrect && <Check size={20} className="shrink-0 ml-2" />}
@@ -419,6 +423,26 @@ export default function Quiz() {
             </div>
           </div>
         </main>
+
+        {/* QA Debug Panel */}
+        {localStorage.getItem('devMode') === 'true' && (
+          <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+            <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+              <span>🛠️ QA DEBUG PANEL</span>
+              <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+            </div>
+            <div className="space-y-1">
+              <div>Questions Attempted: {currentIndex + (isLocked ? 1 : 0)}</div>
+              <div>Questions Correct: {firstAttemptCorrectCount}</div>
+              <div>Questions Incorrect: {wrongAttempts}</div>
+              <div>Questions Remaining: {questions.length - currentIndex - (isLocked ? 1 : 0)}</div>
+              <div>Current Exercise Count: {questions.length}</div>
+              <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+                IDs: {questions.map(q => q.id).join(', ')} | Replay: {isReplaying ? "YES" : "NO"}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

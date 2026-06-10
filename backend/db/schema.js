@@ -83,6 +83,8 @@ export function initSchema() {
       quiz_score REAL DEFAULT 0,
       code_score REAL DEFAULT 0,
       dataset_score REAL DEFAULT 0,
+      matching_score REAL DEFAULT 0,
+      boss_score REAL DEFAULT 0,
       overall_mastery REAL DEFAULT 0,
       updated_at TEXT DEFAULT (datetime('now'))
     );
@@ -108,6 +110,18 @@ export function initSchema() {
   // Migration: Add has_glossary to courses if it doesn't exist
   try {
     db.exec(`ALTER TABLE courses ADD COLUMN has_glossary INTEGER DEFAULT 0`)
+  } catch (e) {
+    // column already exists, ignore
+  }
+
+  // Migration: Add matching_score and boss_score to mastery_scores if they don't exist
+  try {
+    db.exec(`ALTER TABLE mastery_scores ADD COLUMN matching_score REAL DEFAULT 0`)
+  } catch (e) {
+    // column already exists, ignore
+  }
+  try {
+    db.exec(`ALTER TABLE mastery_scores ADD COLUMN boss_score REAL DEFAULT 0`)
   } catch (e) {
     // column already exists, ignore
   }

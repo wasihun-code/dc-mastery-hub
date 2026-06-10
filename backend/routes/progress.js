@@ -1,7 +1,13 @@
 import express from 'express'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import db from '../db/database.js'
+import { getChallenges } from '../services/challengeGenerator.js'
 
 const router = express.Router()
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 const allowedStatsUpdates = [
   'total_xp',
   'level',
@@ -49,14 +55,265 @@ function scoreForExerciseType(courseId, whereClause) {
   return result.score ?? 0
 }
 
-function recalculateMastery(courseId) {
-  const flashcardScore = scoreForExerciseType(courseId, "exercise_type = 'flashcard'")
-  const quizScore = scoreForExerciseType(courseId, "exercise_type = 'quiz'")
-  const codeScore = scoreForExerciseType(courseId, "exercise_type IN ('fillblank', 'dataset')")
-  const datasetScore = scoreForExerciseType(courseId, "exercise_type = 'dataset'")
-  const overallMastery =
-    flashcardScore * 0.2 + quizScore * 0.3 + codeScore * 0.3 + datasetScore * 0.2
+export function recalculateMastery(courseId) {
+  // 1. Get counts of available content in the course
+  const course = db.prepare('SELECT id, slug, track_id FROM courses WHERE id = ?').get(courseId)
+  if (!course) return null
 
+  const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+  const trackSlug = track ? track.slug : ''
+
+  let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(courseId).count
+  let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(courseId).count
+  let quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(courseId).count
+
+  // Fallback to JSON counts if database is empty
+  const contentFolder = process.env.CONTENT_FOLDER 
+    ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+    : DEFAULT_CONTENT_FOLDER;
+
+  if (quizQuestionCount === 0) {
+    const mcqPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'mcq.json');
+    if (fs.existsSync(mcqPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'));
+        quizQuestionCount = (Array.isArray(data) ? data : (data.questions || [])).length;
+      } catch (e) {}
+    }
+  }
+  if (flashcardCount === 0) {
+    const fcPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'flashcards.json');
+    if (fs.existsSync(fcPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'));
+        flashcardCount = (Array.isArray(data) ? data : (data.cards || [])).length;
+      } catch (e) {}
+    }
+  }
+  if (conceptCount === 0) {
+    const ftbPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'ftb.json');
+    if (fs.existsSync(ftbPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'));
+        conceptCount = (Array.isArray(data) ? data : (data.exercises || [])).length;
+      } catch (e) {}
+    }
+  }
+
+  // Get dataset challenges count
+  let datasetChallengeCount = 0;
+  try {
+    const datasetChallenges = getChallenges(course.slug);
+    datasetChallengeCount = datasetChallenges.length;
+  } catch (e) {
+    console.error("Error getting dataset challenges:", e);
+  }
+
+  // 2. Fetch all attempts for this course
+  const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ?').all(courseId)
+
+  // Group attempts by type
+  const attemptsByType = {}
+  for (const att of attempts) {
+    const type = att.exercise_type
+    if (!attemptsByType[type]) {
+      attemptsByType[type] = []
+    }
+    attemptsByType[type].push(att)
+  }
+
+  // Calculate Flashcards Score
+  let flashcardScore = 0
+  if (flashcardCount > 0) {
+    const fcAtts = attemptsByType['flashcard'] || []
+    const flashcardsList = db.prepare('SELECT id FROM flashcards WHERE course_id = ?').all(courseId)
+    const flashcardIds = flashcardsList.map(fc => fc.id)
+
+    let sumItemMastery = 0
+    const attsByCard = {}
+    for (const att of fcAtts) {
+      if (att.question_id) {
+        if (!attsByCard[att.question_id]) attsByCard[att.question_id] = []
+        attsByCard[att.question_id].push(att)
+      }
+    }
+    for (const fcId of flashcardIds) {
+      const cardAtts = attsByCard[fcId] || []
+      if (cardAtts.length > 0) {
+        const correct = cardAtts.filter(a => a.was_correct === 1).length
+        const wrong = cardAtts.length - correct
+        if (correct > 0) {
+          sumItemMastery += correct / (correct + 0.5 * wrong)
+        }
+      }
+    }
+    flashcardScore = (sumItemMastery / flashcardCount) * 100
+  }
+
+  // Calculate Quiz Score
+  let quizScore = 0
+  if (quizQuestionCount > 0) {
+    const quizAtts = attemptsByType['quiz'] || []
+    const quizList = db.prepare('SELECT id FROM quiz_questions WHERE course_id = ?').all(courseId)
+    const quizIds = quizList.map(q => q.id)
+
+    let sumQuizMastery = 0
+    const attsByQuiz = {}
+    for (const att of quizAtts) {
+      if (att.question_id) {
+        if (!attsByQuiz[att.question_id]) attsByQuiz[att.question_id] = []
+        attsByQuiz[att.question_id].push(att)
+      }
+    }
+    for (const qId of quizIds) {
+      const qAtts = attsByQuiz[qId] || []
+      if (qAtts.length > 0) {
+        const correct = qAtts.filter(a => a.was_correct === 1).length
+        const wrong = qAtts.length - correct
+        if (correct > 0) {
+          sumQuizMastery += correct / (correct + 0.5 * wrong)
+        }
+      }
+    }
+    quizScore = (sumQuizMastery / quizQuestionCount) * 100
+  }
+
+  // Calculate Fill-in-the-Blank Score (code_score)
+  let codeScore = 0
+  if (conceptCount > 0) {
+    const ftbAtts = attemptsByType['fillblank'] || []
+    const conceptList = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId)
+    const conceptIds = conceptList.map(c => c.id)
+
+    let sumFtbMastery = 0
+    const attsByFtb = {}
+    for (const att of ftbAtts) {
+      if (att.question_id) {
+        if (!attsByFtb[att.question_id]) attsByFtb[att.question_id] = []
+        attsByFtb[att.question_id].push(att)
+      }
+    }
+    for (const cId of conceptIds) {
+      const cAtts = attsByFtb[cId] || []
+      if (cAtts.length > 0) {
+        const correct = cAtts.filter(a => a.was_correct === 1).length
+        const wrong = cAtts.length - correct
+        if (correct > 0) {
+          sumFtbMastery += correct / (correct + 0.5 * wrong)
+        }
+      }
+    }
+    codeScore = (sumFtbMastery / conceptCount) * 100
+  }
+
+  // Calculate Dataset Score
+  let datasetScore = 0
+  if (datasetChallengeCount > 0) {
+    const dsAtts = attemptsByType['dataset'] || []
+    let sumDsMastery = 0
+    const attsByDs = {}
+    for (const att of dsAtts) {
+      const qId = att.question_id || 1 // fallback to 1
+      if (!attsByDs[qId]) attsByDs[qId] = []
+      attsByDs[qId].push(att)
+    }
+    for (let i = 1; i <= datasetChallengeCount; i++) {
+      const qAtts = attsByDs[i] || []
+      if (qAtts.length > 0) {
+        const correct = qAtts.filter(a => a.was_correct === 1).length
+        const wrong = qAtts.length - correct
+        if (correct > 0) {
+          sumDsMastery += correct / (correct + 0.5 * wrong)
+        }
+      }
+    }
+    datasetScore = (sumDsMastery / datasetChallengeCount) * 100
+  }
+
+  // Calculate Matching Score (accuracy + speed)
+  let matchingScore = 0
+  const matchAtts = attemptsByType['matching'] || []
+  if (conceptCount > 0 && matchAtts.length > 0) {
+    let sumMatchingScore = 0
+    for (const att of matchAtts) {
+      const accuracy = att.score !== null ? att.score : 1.0
+      const time = att.time_taken_secs
+      const speedFactor = time !== null ? Math.max(0, Math.min(1, (180 - time) / 120)) : 0.5
+      sumMatchingScore += accuracy * (0.6 + 0.4 * speedFactor)
+    }
+    matchingScore = (sumMatchingScore / matchAtts.length) * 100
+  }
+
+  // Calculate Boss Battle Score (accuracy + speed)
+  let bossScore = 0
+  if (quizQuestionCount > 0) {
+    const bossAtts = attemptsByType['bossbattle'] || []
+    const quizList = db.prepare('SELECT id FROM quiz_questions WHERE course_id = ?').all(courseId)
+    const quizIds = quizList.map(q => q.id)
+
+    let sumBossMastery = 0
+    const attsByBoss = {}
+    for (const att of bossAtts) {
+      if (att.question_id) {
+        if (!attsByBoss[att.question_id]) attsByBoss[att.question_id] = []
+        attsByBoss[att.question_id].push(att)
+      }
+    }
+    for (const qId of quizIds) {
+      const qAtts = attsByBoss[qId] || []
+      if (qAtts.length > 0) {
+        const correctAtts = qAtts.filter(a => a.was_correct === 1)
+        const wrong = qAtts.length - correctAtts.length
+
+        if (correctAtts.length > 0) {
+          let speedFactorSum = 0
+          let speedCount = 0
+          for (const a of correctAtts) {
+            if (a.time_taken_secs !== null) {
+              const sf = Math.max(0, Math.min(1, (15 - a.time_taken_secs) / 11))
+              speedFactorSum += sf
+              speedCount++
+            }
+          }
+          const avgSpeedFactor = speedCount > 0 ? (speedFactorSum / speedCount) : 0.5
+          const weightedCorrect = correctAtts.length * (0.7 + 0.3 * avgSpeedFactor)
+          sumBossMastery += weightedCorrect / (weightedCorrect + 0.5 * wrong)
+        }
+      }
+    }
+    bossScore = (sumBossMastery / quizQuestionCount) * 100
+  }
+
+  // 3. Compute weighted overall mastery based on availability
+  // Weights: flashcard (0.15), quiz (0.20), code/fillblank (0.20), dataset (0.15), matching (0.15), boss (0.15)
+  const weights = {
+    flashcard: flashcardCount > 0 ? 0.15 : 0,
+    quiz: quizQuestionCount > 0 ? 0.20 : 0,
+    code: conceptCount > 0 ? 0.20 : 0,
+    dataset: datasetChallengeCount > 0 ? 0.15 : 0,
+    matching: conceptCount > 0 ? 0.15 : 0,
+    boss: quizQuestionCount > 0 ? 0.15 : 0
+  }
+
+  const scores = {
+    flashcard: flashcardScore,
+    quiz: quizScore,
+    code: codeScore,
+    dataset: datasetScore,
+    matching: matchingScore,
+    boss: bossScore
+  }
+
+  let weightedSum = 0
+  let totalWeight = 0
+  for (const type in weights) {
+    weightedSum += scores[type] * weights[type]
+    totalWeight += weights[type]
+  }
+
+  const overallMastery = totalWeight > 0 ? (weightedSum / totalWeight) : 0
+
+  // 4. Update the database
   db.prepare(`
     INSERT INTO mastery_scores (
       course_id,
@@ -64,18 +321,22 @@ function recalculateMastery(courseId) {
       quiz_score,
       code_score,
       dataset_score,
+      matching_score,
+      boss_score,
       overall_mastery,
       updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
     ON CONFLICT(course_id) DO UPDATE SET
       flashcard_score = excluded.flashcard_score,
       quiz_score = excluded.quiz_score,
       code_score = excluded.code_score,
       dataset_score = excluded.dataset_score,
+      matching_score = excluded.matching_score,
+      boss_score = excluded.boss_score,
       overall_mastery = excluded.overall_mastery,
       updated_at = excluded.updated_at
-  `).run(courseId, flashcardScore, quizScore, codeScore, datasetScore, overallMastery)
+  `).run(courseId, flashcardScore, quizScore, codeScore, datasetScore, matchingScore, bossScore, overallMastery)
 
   return db.prepare('SELECT * FROM mastery_scores WHERE course_id = ?').get(courseId)
 }
@@ -85,19 +346,19 @@ router.get('/progress/dashboard', (req, res, next) => {
     const weakSpots = db
       .prepare(`
         SELECT
-          qq.concept_id,
+          COALESCE(qq.concept_id, fc.concept_id) AS concept_id,
           con.name AS concept_name,
           crs.name AS course_name,
           COUNT(*) AS attempt_count,
           ROUND(CAST(SUM(ea.was_correct) AS REAL) / COUNT(*), 3) AS correct_rate
         FROM exercise_attempts ea
-        JOIN quiz_questions qq ON qq.id = ea.question_id
-        JOIN concepts con ON con.id = qq.concept_id
+        LEFT JOIN quiz_questions qq ON ea.exercise_type IN ('quiz', 'bossbattle') AND qq.id = ea.question_id
+        LEFT JOIN flashcards fc ON ea.exercise_type = 'flashcard' AND fc.id = ea.question_id
+        JOIN concepts con ON con.id = COALESCE(qq.concept_id, fc.concept_id)
         JOIN courses crs ON crs.id = ea.course_id
-        WHERE qq.concept_id IS NOT NULL
-        GROUP BY qq.concept_id
-        HAVING COUNT(*) >= 3
-        ORDER BY correct_rate ASC
+        GROUP BY COALESCE(qq.concept_id, fc.concept_id)
+        HAVING COUNT(*) >= 1
+        ORDER BY correct_rate ASC, attempt_count DESC
         LIMIT 10
       `)
       .all()
@@ -123,12 +384,53 @@ router.get('/progress/dashboard', (req, res, next) => {
       `)
       .get().count
 
+    const exerciseBreakdown = db
+      .prepare(`
+        SELECT
+          exercise_type,
+          COUNT(*) AS total_attempts,
+          SUM(was_correct) AS correct_attempts,
+          SUM(COALESCE(time_taken_secs, 0)) AS total_time_secs,
+          ROUND(AVG(COALESCE(score, was_correct) * 100), 1) AS avg_score
+        FROM exercise_attempts
+        GROUP BY exercise_type
+      `)
+      .all()
+
+    const dailyActivity = db
+      .prepare(`
+        SELECT
+          date(attempted_at) AS date,
+          COUNT(*) AS total_attempts,
+          SUM(was_correct) AS correct_attempts,
+          SUM(COALESCE(time_taken_secs, 0)) AS total_time_secs
+        FROM exercise_attempts
+        WHERE attempted_at >= date('now', '-30 days')
+        GROUP BY date(attempted_at)
+        ORDER BY date ASC
+      `)
+      .all()
+
+    const overallStats = db
+      .prepare(`
+        SELECT
+          COUNT(*) AS total_attempts,
+          COALESCE(SUM(was_correct), 0) AS correct_attempts,
+          COALESCE(SUM(time_taken_secs), 0) AS total_time_secs,
+          ROUND(COALESCE(AVG(was_correct), 0) * 100, 1) AS avg_accuracy
+        FROM exercise_attempts
+      `)
+      .get()
+
     res.status(200).json({
       user_stats: getUserStats(),
       tracks_summary: getTracksSummary(),
       weak_spots: weakSpots,
       recent_activity: recentActivity,
       due_flashcards_count: dueFlashcardsCount,
+      exercise_breakdown: exerciseBreakdown,
+      daily_activity: dailyActivity,
+      overall_stats: overallStats
     })
   } catch (err) {
     next(err)
@@ -186,6 +488,49 @@ router.get('/progress/attempted-questions/:courseSlug/:exerciseType', (req, res,
   }
 });
 
+function updateStreak() {
+  const stats = db.prepare('SELECT * FROM user_stats WHERE id = 1').get()
+  if (!stats) return
+
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const today = `${year}-${month}-${day}`
+
+  let currentStreak = stats.current_streak || 0
+  let longestStreak = stats.longest_streak || 0
+  const lastActive = stats.last_active_date
+
+  if (!lastActive) {
+    currentStreak = 1
+  } else if (lastActive === today) {
+    // Already active today, streak remains same
+  } else {
+    // Check if yesterday
+    const lastActiveDate = new Date(lastActive)
+    const todayDate = new Date(today)
+    const diffTime = Math.abs(todayDate - lastActiveDate)
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffDays === 1) {
+      currentStreak += 1
+    } else {
+      currentStreak = 1
+    }
+  }
+
+  if (currentStreak > longestStreak) {
+    longestStreak = currentStreak
+  }
+
+  db.prepare(`
+    UPDATE user_stats 
+    SET current_streak = ?, longest_streak = ?, last_active_date = ? 
+    WHERE id = 1
+  `).run(currentStreak, longestStreak, today)
+}
+
 router.post('/progress/attempt', (req, res, next) => {
   try {
     const { exercise_type, course_id, question_id, score, time_taken_secs, was_correct } = req.body
@@ -213,6 +558,7 @@ router.post('/progress/attempt', (req, res, next) => {
 
     const attempt = db.prepare('SELECT * FROM exercise_attempts WHERE id = ?').get(result.lastInsertRowid)
     const mastery = recalculateMastery(course_id)
+    updateStreak()
 
     res.status(200).json({
       attempt,

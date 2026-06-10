@@ -7,6 +7,7 @@ import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
 import { runCode, runShellCommand } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
+import { recalculateMastery } from './progress.js'
 
 const router = express.Router()
 
@@ -23,11 +24,147 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       return res.status(400).json({ error: "Invalid exercise type" });
     }
 
-    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug);
+    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' });
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' });
+
+    // Try serving from database first if data is present
+    if (exerciseType === 'mcq') {
+      const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+      if (dbQuestions.length > 0) {
+        let items = dbQuestions.map(q => ({
+          id: q.id,
+          question_text: q.question_text,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          question_type: q.question_type || 'application',
+          difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
+        }));
+        if (req.query.count) {
+          const count = parseInt(req.query.count, 10);
+          if (!isNaN(count)) {
+            items.sort(() => Math.random() - 0.5);
+            items = items.slice(0, count);
+          }
+        }
+        return res.json(items);
+      }
+    }
+
+    if (exerciseType === 'flashcards') {
+      const dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
+      if (dbFlashcards.length > 0) {
+        let items = dbFlashcards.map(c => ({
+          id: c.id,
+          concept_id: c.concept_id,
+          course_id: c.course_id,
+          front: c.front,
+          back: c.back,
+          next_review_date: c.next_review_date,
+          interval_days: c.interval_days,
+          ease_factor: c.ease_factor,
+          repetitions: c.repetitions
+        }));
+        if (req.query.shuffle === 'true') {
+          items.sort(() => Math.random() - 0.5);
+        }
+        return res.json(items);
+      }
+    }
+
+    if (exerciseType === 'matching') {
+      const dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
+      if (dbConcepts.length >= 6) {
+        const rounds = [];
+        const numRounds = Math.min(Math.ceil(dbConcepts.length / 6), 5);
+        const shuffledConcepts = [...dbConcepts].sort(() => Math.random() - 0.5);
+        for (let r = 0; r < numRounds; r++) {
+          const pairs = [];
+          for (let p = 0; p < 6; p++) {
+            const concept = shuffledConcepts[(r * 6 + p) % shuffledConcepts.length];
+            pairs.push({
+              id: concept.id,
+              term: concept.name,
+              match: concept.definition
+            });
+          }
+          rounds.push({
+            id: r + 1,
+            theme: `Round ${r + 1}: Core Concepts`,
+            pairs: pairs
+          });
+        }
+        return res.json(rounds);
+      }
+    }
+
+    if (exerciseType === 'bossbattle') {
+      const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+      if (dbQuestions.length > 0) {
+        let items = dbQuestions.map(q => ({
+          id: q.id,
+          question_text: q.question_text,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          question_type: q.question_type || 'application',
+          difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
+        }));
+        items.sort(() => Math.random() - 0.5);
+        return res.json(items);
+      }
+    }
+
+    if (exerciseType === 'ftb') {
+      const dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
+      if (dbConcepts.length > 0) {
+        const items = dbConcepts.map((concept) => {
+          const code = concept.code_snippet;
+          let codeTemplate = code;
+          let answer = "";
+          const keywords = ['print', 'import', 'as', 'def', 'return', 'np', 'pd', 'plt', 'mean', 'sum', 'len', 'round', 'append'];
+          for (const kw of keywords) {
+            if (code.includes(kw)) {
+              codeTemplate = code.replace(kw, '[[0]]');
+              answer = kw;
+              break;
+            }
+          }
+          if (!answer) {
+            const match = code.match(/\b([a-zA-Z_]{2,})\b/);
+            if (match) {
+              answer = match[1];
+              codeTemplate = code.replace(answer, '[[0]]');
+            } else {
+              answer = "print";
+              codeTemplate = "[[0]](" + code + ")";
+            }
+          }
+
+          return {
+            id: `fitb_db_${concept.id}`,
+            concept_id: concept.id,
+            concept_name: concept.name,
+            difficulty: 'medium',
+            description: `Complete the code snippet for: ${concept.name}.`,
+            code: codeTemplate,
+            answers: [answer],
+            word_bank: [answer, 'type', 'len', 'help', 'import', 'def', 'return', 'pd', 'np'].slice(0, 5),
+            explanation: `This code snippet implements: ${concept.name}. ${concept.definition}`
+          };
+        });
+        return res.json(items);
+      }
+    }
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
@@ -241,34 +378,60 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
     const { courseSlug } = req.params
     
     const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug);
-    if (course) {
-      const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
-      if (track) {
-        const contentFolder = process.env.CONTENT_FOLDER 
-          ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-              ? process.env.CONTENT_FOLDER 
-              : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-          : DEFAULT_CONTENT_FOLDER;
+    if (!course) return res.status(404).json({ error: 'Course not found' })
 
-        const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', 'challenge.json');
+    let challenges = [];
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    if (track) {
+      const contentFolder = process.env.CONTENT_FOLDER 
+        ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+            ? process.env.CONTENT_FOLDER 
+            : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+        : DEFAULT_CONTENT_FOLDER;
 
-        if (fs.existsSync(exercisePath)) {
-          const fileData = fs.readFileSync(exercisePath, 'utf-8');
-          const data = JSON.parse(fileData);
-          const items = Array.isArray(data) ? data : (data.challenges || []);
-          if (items.length > 0) {
-            return res.json(items);
-          }
-        }
+      const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', 'challenge.json');
+
+      if (fs.existsSync(exercisePath)) {
+        const fileData = fs.readFileSync(exercisePath, 'utf-8');
+        const data = JSON.parse(fileData);
+        challenges = Array.isArray(data) ? data : (data.challenges || []);
       }
     }
 
-    const challenges = getChallenges(courseSlug)
+    if (challenges.length === 0) {
+      challenges = getChallenges(courseSlug);
+    }
+
     if (!challenges || challenges.length === 0) {
       return res.status(404).json({ error: 'No datasets available for this course' })
     }
-    
-    res.json(challenges)
+
+    // Fetch solved challenge IDs for this course
+    const solvedAttempts = db.prepare(`
+      SELECT DISTINCT question_id
+      FROM exercise_attempts
+      WHERE course_id = ? AND exercise_type = 'dataset' AND was_correct = 1 AND question_id IS NOT NULL
+    `).all(course.id);
+    const solvedIds = new Set(solvedAttempts.map(a => a.question_id));
+
+    // Filter challenges to find those not yet solved
+    const unsolvedChallenges = challenges.filter(c => {
+      let qId = null;
+      if (c.id && typeof c.id === 'string') {
+        const match = c.id.match(/\d+/);
+        if (match) {
+          qId = parseInt(match[0], 10);
+        }
+      }
+      return qId === null || !solvedIds.has(qId);
+    });
+
+    // Return unsolved challenges, or fall back to ALL challenges if all have been solved
+    if (unsolvedChallenges.length > 0) {
+      res.json(unsolvedChallenges);
+    } else {
+      res.json(challenges);
+    }
   } catch (err) {
     next(err)
   }
@@ -394,11 +557,22 @@ router.post('/submit-challenge', (req, res, next) => {
     const passed = normalizeOutput(userResult.output) === normalizeOutput(expectedResult.output)
     const score = passed ? 100 : 0
     
+    let qId = null
+    if (challengeId && typeof challengeId === 'string') {
+      const match = challengeId.match(/\d+/)
+      if (match) {
+        qId = parseInt(match[0], 10)
+      }
+    }
+
     // Record attempt
     db.prepare(`
       INSERT INTO exercise_attempts (exercise_type, course_id, question_id, score, time_taken_secs, was_correct)
       VALUES (?, ?, ?, ?, ?, ?)
-    `).run('dataset', course.id, null, score / 100, 0, passed ? 1 : 0)
+    `).run('dataset', course.id, qId, score / 100, 0, passed ? 1 : 0)
+
+    // Recalculate mastery
+    recalculateMastery(course.id)
 
     res.json({
       passed,

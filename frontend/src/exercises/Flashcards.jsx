@@ -230,8 +230,12 @@ export default function Flashcards() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-[var(--bg-card)]">
+        {/* Progress Bar & Stats */}
+        <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+          <span>Flashcard Progress</span>
+          <span>{currentIndex + 1} / {cards.length} ({Math.round(((currentIndex + 1) / cards.length) * 100)}%)</span>
+        </div>
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-green)] transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
@@ -256,17 +260,21 @@ export default function Flashcards() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-center">
+        <main className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-start pt-16">
           <div className="w-full max-w-[600px] flex flex-col items-center justify-center">
             
             {/* 3D Flashcard Wrapper */}
             <div className="w-full perspective-1000 mb-8">
               <div 
                 onClick={handleFlip}
-                className={`relative min-h-[340px] w-full cursor-pointer transition-transform duration-500 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}
+                className={`relative min-h-[380px] w-full cursor-pointer transition-transform duration-500 preserve-3d grid grid-cols-1 grid-rows-1 ${isFlipped ? 'rotate-y-180' : ''}`}
               >
                 {/* FRONT SIDE */}
-                <div className="absolute inset-0 flex flex-col items-center justify-between rounded-3xl border-2 border-[var(--border)] bg-[var(--bg-card)] p-8 text-center backface-hidden shadow-xl hover:border-[var(--accent-blue)] transition-colors">
+                <div 
+                  className="col-start-1 row-start-1 w-full flex flex-col items-center justify-between rounded-3xl border-2 border-[var(--border)] bg-[var(--bg-card)] p-8 text-center backface-hidden shadow-xl hover:border-[var(--accent-blue)] transition-colors"
+                  style={{ transform: 'rotateY(0deg)' }}
+                  aria-hidden={isFlipped}
+                >
                   <div className="w-full flex justify-start">
                     <span className="rounded-full bg-[rgba(96,165,250,0.1)] px-3 py-1 text-xs font-extrabold text-[var(--accent-blue)] tracking-wider">
                       {formatCardType(currentCard?.card_type)}
@@ -298,20 +306,22 @@ export default function Flashcards() {
                 </div>
 
                 {/* BACK SIDE */}
-                <div className="absolute inset-0 flex flex-col items-center justify-between rounded-3xl border-2 border-[var(--accent-green)] bg-[var(--bg-card)] p-8 text-center backface-hidden rotate-y-180 shadow-2xl">
+                <div 
+                  className="col-start-1 row-start-1 w-full flex flex-col items-center justify-between rounded-3xl border-2 border-[var(--accent-green)] bg-[var(--bg-card)] p-8 text-center backface-hidden rotate-y-180 shadow-2xl"
+                  style={{ transform: 'rotateY(180deg)' }}
+                  aria-hidden={!isFlipped}
+                >
                   <div className="w-full flex justify-start">
                     <span className="rounded-full bg-[rgba(3,239,98,0.1)] px-3 py-1 text-xs font-extrabold text-[var(--accent-green)] tracking-wider">
                       ANSWER
                     </span>
                   </div>
                   
-                  {/* Back side contents are ONLY rendered when flipped to prevent leaks */}
+                  {/* Back side contents are always rendered to allow proper layout dimension calculation */}
                   <div className="w-full my-4 flex flex-col justify-center items-center overflow-y-auto max-h-[220px]">
-                    {isFlipped && (
-                      <div className="text-lg font-semibold leading-relaxed text-[var(--text-primary)] max-w-[500px]">
-                        {renderContentWithCode(currentCard?.back)}
-                      </div>
-                    )}
+                    <div className="text-lg font-semibold leading-relaxed text-[var(--text-primary)] max-w-[500px]">
+                      {renderContentWithCode(currentCard?.back)}
+                    </div>
                   </div>
 
                   <div className="w-full flex flex-col items-center">
@@ -364,6 +374,23 @@ export default function Flashcards() {
 
           </div>
         </main>
+        {/* QA Debug Panel */}
+        {localStorage.getItem('devMode') === 'true' && (
+          <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+            <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+              <span>🛠️ QA DEBUG PANEL</span>
+              <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+            </div>
+            <div className="space-y-1">
+              <div>Cards Attempted: {reviewedCount}</div>
+              <div>Cards Remaining: {cards.length - currentIndex}</div>
+              <div>Current Exercise Count: {cards.length}</div>
+              <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+                IDs: {cards.map(c => c.id).join(', ')} | Replay: {isReplaying ? "YES" : "NO"}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

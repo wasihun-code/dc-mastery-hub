@@ -225,18 +225,21 @@ export default function CourseDetail() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:shrink-0">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7 lg:shrink-0">
             {[
               { label: 'Flashcards', score: course.flashcard_score },
               { label: 'Quizzes', score: course.quiz_score },
               { label: 'Coding', score: course.code_score },
+              { label: 'Datasets', score: course.dataset_score },
+              { label: 'Matching', score: course.matching_score },
+              { label: 'Boss Battle', score: course.boss_score },
               { label: 'Overall', score: course.overall_mastery, isOverall: true }
             ].map((box) => (
               <div key={box.label} className="flex flex-col items-center justify-center rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4 text-center">
-                <span className={`text-2xl font-bold ${box.isOverall ? 'text-3xl' : ''}`} style={{ color: masteryColor(box.score) }}>
+                <span className={`text-xl font-bold ${box.isOverall ? 'text-2xl' : ''}`} style={{ color: masteryColor(box.score) }}>
                   {Number(box.score ?? 0).toFixed(0)}%
                 </span>
-                <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">{box.label}</span>
+                <span className="text-[9px] uppercase tracking-wider text-[var(--text-muted)]">{box.label}</span>
               </div>
             ))}
           </div>

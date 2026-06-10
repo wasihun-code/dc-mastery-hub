@@ -39,6 +39,8 @@ function getMasteryScores(courseId) {
       quiz_score: 0,
       code_score: 0,
       dataset_score: 0,
+      matching_score: 0,
+      boss_score: 0,
       overall_mastery: 0,
     }
   }
@@ -58,7 +60,9 @@ router.get('/courses', (req, res, next) => {
         ms.flashcard_score,
         ms.quiz_score,
         ms.code_score,
-        ms.dataset_score
+        ms.dataset_score,
+        ms.matching_score,
+        ms.boss_score
       FROM courses c
       JOIN tracks t ON t.id = c.track_id
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id
@@ -81,12 +85,46 @@ router.get('/courses/:slug', (req, res, next) => {
 
     const scores = getMasteryScores(course.id)
 
-    const conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
-    const flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
-    const quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
+    let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+    let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
+    let quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
     const dueToday = db
       .prepare("SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ? AND next_review_date <= date('now')")
       .get(course.id).count
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+
+    if (quizQuestionCount === 0) {
+      const mcqPath = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises', 'mcq.json');
+      if (fs.existsSync(mcqPath)) {
+        try {
+          const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'));
+          quizQuestionCount = (Array.isArray(data) ? data : (data.questions || [])).length;
+        } catch (e) {}
+      }
+    }
+
+    if (flashcardCount === 0) {
+      const fcPath = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises', 'flashcards.json');
+      if (fs.existsSync(fcPath)) {
+        try {
+          const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'));
+          flashcardCount = (Array.isArray(data) ? data : (data.cards || [])).length;
+        } catch (e) {}
+      }
+    }
+
+    if (conceptCount === 0) {
+      const ftbPath = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises', 'ftb.json');
+      if (fs.existsSync(ftbPath)) {
+        try {
+          const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'));
+          conceptCount = (Array.isArray(data) ? data : (data.exercises || [])).length;
+        } catch (e) {}
+      }
+    }
 
     res.status(200).json({
       ...course,

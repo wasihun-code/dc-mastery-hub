@@ -116,13 +116,32 @@ export default function BossBattle() {
     }, 1000);
   };
 
-  const handleTimeOut = () => {
+  const handleTimeOut = async () => {
     setIsAnswered(true);
     setFlash('wrong');
     setSelectedOption(null);
     
     setSurvivedCount(prev => prev + 1);
     updateWaveSurvival(currentIndex);
+
+    const currentQuestion = questions[currentIndex];
+    // Post attempt for individual question on timeout
+    try {
+      await fetch('/api/progress/attempt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          exercise_type: 'bossbattle',
+          course_id: course.id,
+          question_id: currentQuestion?.id,
+          score: 0.0,
+          time_taken_secs: 15,
+          was_correct: 0
+        })
+      });
+    } catch (err) {
+      console.error("Error saving battle question attempt:", err);
+    }
 
     setLives(prev => {
       const nextLives = prev - 1;
@@ -162,6 +181,7 @@ export default function BossBattle() {
     
     const currentQuestion = questions[currentIndex];
     const isCorrect = optionKey === currentQuestion?.correct_option;
+    const timeTaken = 15 - timeLeft;
     
     setSurvivedCount(prev => prev + 1);
     updateWaveSurvival(currentIndex);
@@ -176,6 +196,7 @@ export default function BossBattle() {
           course_id: course.id,
           question_id: currentQuestion.id,
           score: isCorrect ? 1.0 : 0.0,
+          time_taken_secs: timeTaken,
           was_correct: isCorrect ? 1 : 0
         })
       });
@@ -301,14 +322,14 @@ export default function BossBattle() {
 
   let flashOverlay = "";
   if (flash === 'correct') {
-    flashOverlay = "after:absolute after:inset-0 after:bg-[rgba(3,239,98,0.15)] after:pointer-events-none after:transition-all";
+    flashOverlay = "after:absolute after:inset-0 after:shadow-[inset_0_0_40px_rgba(3,239,98,0.2)] after:pointer-events-none after:transition-all after:z-50";
   } else if (flash === 'wrong') {
-    flashOverlay = "after:absolute after:inset-0 after:bg-[rgba(255,77,77,0.2)] after:pointer-events-none after:transition-all";
+    flashOverlay = "after:absolute after:inset-0 after:shadow-[inset_0_0_40px_rgba(255,77,77,0.35)] after:pointer-events-none after:transition-all after:z-50";
   }
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-black">
+      <div className="flex h-screen items-center justify-center bg-[var(--bg-exercise)]">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-[var(--accent-red)] border-t-transparent"></div>
       </div>
     );
@@ -369,17 +390,29 @@ export default function BossBattle() {
     const currentQuestion = questions[currentIndex];
 
     return (
-      <div className={`fixed inset-0 z-[100] flex flex-col transition-colors duration-300 ${waveBgStyle} ${flashOverlay} text-[var(--text-primary)] overflow-hidden`}>
-        {/* Boss Health Bar */}
-        <div className="w-full h-1.5 bg-zinc-950">
+      <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
+        {/* Progress Bar & Stats */}
+        <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+          <span>Boss Battle Progress</span>
+          <span>Wave {currentWave} • Question {currentIndex + 1} / {questions.length} ({Math.round(((currentIndex + 1) / questions.length) * 100)}%)</span>
+        </div>
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
-            className="h-full bg-gradient-to-r from-red-600 to-orange-500 transition-all duration-500"
+            className="h-full bg-[var(--accent-green)] transition-all duration-300"
+            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+          />
+        </div>
+
+        {/* Boss Health Bar */}
+        <div className="w-full h-1.5 bg-[var(--bg-card)] shrink-0 border-b border-[var(--border)]/10">
+          <div 
+            className="h-full bg-gradient-to-r from-[var(--accent-red)] to-orange-500 transition-all duration-500 shadow-[0_0_8px_rgba(255,77,77,0.3)]"
             style={{ width: `${((questions.length - score) / (questions.length || 1)) * 100}%` }}
           />
         </div>
 
         {/* Timer Bar */}
-        <div className="w-full h-1 bg-zinc-900 shrink-0">
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-red)] transition-all duration-1000 ease-linear"
             style={{ width: `${(timeLeft / 15) * 100}%` }}
@@ -387,42 +420,63 @@ export default function BossBattle() {
         </div>
         
         {/* Header */}
-        <header className="flex items-center justify-between px-6 py-4 border-b border-red-950/30 bg-black/40 shrink-0">
-          <div className="flex gap-1.5">
-            {[...Array(5)].map((_, i) => (
-              <Heart 
-                key={i} 
-                size={22} 
-                className={`transition-all duration-300 ${i < lives ? 'text-red-600 fill-red-600' : 'text-zinc-800 fill-zinc-800 scale-90'}`}
-              />
-            ))}
+        <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)] shrink-0">
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={() => navigate(`/courses/${courseSlug}`)} 
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold border-r border-[var(--border)] pr-4"
+            >
+              <ChevronLeft size={16} /> Quit
+            </button>
+            <div className="flex gap-1.5">
+              {[...Array(5)].map((_, i) => (
+                <Heart 
+                  key={i} 
+                  size={20} 
+                  className={`transition-all duration-300 ${i < lives ? 'text-[var(--accent-red)] fill-[var(--accent-red)]' : 'text-[var(--text-muted)] opacity-30 scale-90'}`}
+                />
+              ))}
+            </div>
           </div>
           
           <div className="text-center">
-            <div className="text-xxs font-black uppercase tracking-widest text-red-500">Wave {currentWave}</div>
-            <div className="text-lg font-black text-white italic tracking-wide">BOSS BATTLE</div>
+            <span className="text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">Boss Battle • {course?.name}</span>
+            <div className="font-bold text-sm">Wave {currentWave} • Question {currentIndex + 1} of {questions.length}</div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-orange-500 font-extrabold text-lg italic">
-            <Zap size={18} className="fill-orange-500" />
-            {score}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={handleHintClick}
+              disabled={isAnswered || currentWave === 3 || hintsShown >= (currentQuestion?.hints?.length || 0)}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold border transition-all ${
+                isAnswered || currentWave === 3 || hintsShown >= (currentQuestion?.hints?.length || 0)
+                  ? 'opacity-40 cursor-not-allowed border-[var(--border)] text-[var(--text-muted)]' 
+                  : 'border-[var(--accent-yellow)] text-[var(--accent-yellow)] hover:bg-[rgba(251,191,36,0.1)]'
+              }`}
+            >
+              <Lightbulb size={12} /> Hint
+            </button>
+            <div className="flex items-center gap-1 text-orange-500 font-extrabold text-sm italic">
+              <Zap size={16} className="fill-orange-500 animate-pulse" />
+              <span>{score} pts</span>
+            </div>
           </div>
         </header>
 
         {/* Main Content (Fullscreen Two Column Layout) */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-center justify-center">
+        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-start justify-center pt-16">
           <div className="w-full max-w-[1280px]">
             <div className="exercise-layout">
               
               {/* LEFT COLUMN: Question with larger code blocks */}
               <div className="flex flex-col gap-4 text-left">
-                <h2 className="text-2xl font-black leading-snug text-white">
+                <h2 className="text-2xl font-black leading-snug text-[var(--text-primary)]">
                   {renderContentWithCode(currentQuestion?.question_text)}
                 </h2>
                 
                 {/* Secondary fallback code rendering if present in DB schema */}
                 {currentQuestion?.code && (
-                  <div className="rounded-xl border border-red-950/40 overflow-hidden shadow-2xl">
+                  <div className="rounded-xl border border-[var(--border)] overflow-hidden shadow-2xl">
                     <CodeBlock code={currentQuestion.code} language="python" />
                   </div>
                 )}
@@ -449,19 +503,19 @@ export default function BossBattle() {
                   const isCorrect = key === currentQuestion?.correct_option;
                   const isSelected = selectedOption === key;
                   
-                  let buttonStyle = "border-zinc-800/80 bg-zinc-900/60 text-zinc-300 hover:border-red-600 hover:bg-zinc-800/80";
+                  let buttonStyle = "border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-primary)] hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)]";
                   
                   if (isAnswered) {
                     if (isCorrect) {
                       buttonStyle = "bg-[var(--accent-green)] border-[var(--accent-green)] text-black font-extrabold shadow-[0_0_15px_rgba(3,239,98,0.25)]";
                     } else if (isSelected) {
-                      buttonStyle = "bg-[var(--accent-red)] border-[var(--accent-red)] text-white font-extrabold";
+                      buttonStyle = "bg-[var(--accent-red)] border-[var(--accent-red)] text-white font-extrabold shadow-[0_0_15px_rgba(255,77,77,0.25)]";
                     } else {
                       buttonStyle = "border-transparent opacity-20";
                     }
                     
                     if (!isSelected && isCorrect && selectedOption !== null) {
-                      buttonStyle = "border-2 border-[var(--accent-green)] bg-zinc-900/90 text-[var(--accent-green)]";
+                      buttonStyle = "border-2 border-[var(--accent-green)] bg-[var(--bg-card)] text-[var(--accent-green)]";
                     }
                   }
 
@@ -470,7 +524,7 @@ export default function BossBattle() {
                       key={key}
                       disabled={isAnswered}
                       onClick={() => handleOptionClick(key)}
-                      className={`flex items-center justify-between rounded-xl border-2 p-5 text-left font-bold text-base transition-all duration-150 ${buttonStyle}`}
+                      className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left font-bold text-base transition-all duration-155 ${buttonStyle}`}
                     >
                       <span>{text}</span>
                     </button>
@@ -481,6 +535,26 @@ export default function BossBattle() {
             </div>
           </div>
         </main>
+
+        {/* QA Debug Panel */}
+        {localStorage.getItem('devMode') === 'true' && (
+          <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+            <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+              <span>🛠️ QA DEBUG PANEL</span>
+              <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+            </div>
+            <div className="space-y-1">
+              <div>Questions Attempted: {survivedCount}</div>
+              <div>Questions Correct: {score}</div>
+              <div>Questions Incorrect: {survivedCount - score}</div>
+              <div>Questions Remaining: {questions.length - currentIndex}</div>
+              <div>Current Exercise Count: {questions.length}</div>
+              <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+                IDs: {questions.map(q => q.id).join(', ')} | Lives: {lives}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -490,64 +564,64 @@ export default function BossBattle() {
     const finalXp = survivedCount * 5;
 
     return (
-      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black p-6 text-center overflow-y-auto">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">
+        <div className="absolute inset-0 opacity-15 pointer-events-none">
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] ${
-            isVictory ? 'bg-yellow-900' : 'bg-red-950'
+            isVictory ? 'bg-yellow-950/20' : 'bg-red-950/20'
           } rounded-full blur-[140px]`}></div>
         </div>
 
         <div className="relative z-10 max-w-xl w-full flex flex-col items-center justify-center">
           <div className={`mb-6 flex h-28 w-28 items-center justify-center rounded-full ${
-            isVictory ? 'bg-[var(--accent-yellow)] text-black shadow-[0_0_40px_rgba(251,191,36,0.3)]' : 'bg-[var(--accent-red)] text-white shadow-[0_0_40px_rgba(255,77,77,0.3)]'
+            isVictory ? 'bg-[var(--accent-yellow)] text-black shadow-[0_0_40px_rgba(251,191,36,0.25)]' : 'bg-[var(--accent-red)] text-white shadow-[0_0_40px_rgba(255,77,77,0.25)]'
           }`}>
             {isVictory ? <Trophy size={64} strokeWidth={2.5} /> : <Skull size={64} strokeWidth={2.5} />}
           </div>
           
-          <h1 className="text-4xl font-black text-white italic tracking-tight">
+          <h1 className="text-4xl font-black text-[var(--text-primary)] italic tracking-tight">
             {isVictory ? 'UNDEFEATED! 🏆' : 'GAME OVER!'}
           </h1>
-          <p className="mt-2 text-lg text-red-500 font-bold uppercase tracking-widest">
+          <p className="mt-2 text-lg text-[var(--accent-red)] font-bold uppercase tracking-widest">
             {isVictory ? 'You completely conquered the Boss!' : 'The Boss overpowered you...'}
           </p>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-[440px]">
-            <div className="rounded-xl bg-zinc-900 p-5 border border-zinc-800 text-center">
-              <div className="text-xxs uppercase tracking-wider text-zinc-500 font-bold mb-1">Survived</div>
-              <div className="text-2xl font-black text-white">{survivedCount} / {questions.length}</div>
+            <div className="rounded-xl bg-[var(--bg-card)] p-5 border border-[var(--border)] text-center">
+              <div className="text-xxs uppercase tracking-wider text-[var(--text-muted)] font-bold mb-1">Survived</div>
+              <div className="text-2xl font-black text-[var(--text-primary)]">{survivedCount} / {questions.length}</div>
             </div>
-            <div className="rounded-xl bg-gradient-to-br from-red-950 to-orange-950 p-5 border border-red-900/40 text-center">
-              <div className="text-xxs uppercase tracking-wider text-orange-400 font-bold mb-1">XP Earned</div>
+            <div className="rounded-xl bg-[var(--bg-card)] p-5 border border-[var(--border)] text-center">
+              <div className="text-xxs uppercase tracking-wider text-[var(--accent-red)] font-bold mb-1">XP Earned</div>
               <div className="text-2xl font-black text-[var(--accent-green-bright)]">+{finalXp} XP</div>
             </div>
           </div>
           
           {/* Wave breakdown card */}
-          <div className="mt-5 w-full max-w-[440px] rounded-xl bg-zinc-900/60 p-5 border border-zinc-800 text-left">
-            <h4 className="text-xxs uppercase tracking-wider text-zinc-500 font-bold mb-3">Wave Breakdown</h4>
+          <div className="mt-5 w-full max-w-[440px] rounded-xl bg-[var(--bg-card)] p-5 border border-[var(--border)] text-left">
+            <h4 className="text-xxs uppercase tracking-wider text-[var(--text-muted)] font-bold mb-3">Wave Breakdown</h4>
             <div className="space-y-2.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-zinc-400">Wave 1 (Python Basics)</span>
-                <span className="font-mono font-bold text-white">{waveSurvival[1]} / 20</span>
+                <span className="font-semibold text-[var(--text-muted)]">Wave 1 (Python Basics)</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[1]} / 20</span>
               </div>
-              <div className="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-red-600" style={{ width: `${(waveSurvival[1] / 20) * 100}%` }}></div>
-              </div>
-
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-zinc-400">Wave 2 (Data Control)</span>
-                <span className="font-mono font-bold text-white">{waveSurvival[2]} / 20</span>
-              </div>
-              <div className="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-orange-600" style={{ width: `${(waveSurvival[2] / 20) * 100}%` }}></div>
+              <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
+                <div className="h-full bg-[var(--accent-red)]" style={{ width: `${(waveSurvival[1] / 20) * 100}%` }}></div>
               </div>
 
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-zinc-400">Wave 3 (Advanced/Volcanic)</span>
-                <span className="font-mono font-bold text-white">{waveSurvival[3]} / 20</span>
+                <span className="font-semibold text-[var(--text-muted)]">Wave 2 (Data Control)</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[2]} / 20</span>
               </div>
-              <div className="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-yellow-500" style={{ width: `${(waveSurvival[3] / 20) * 100}%` }}></div>
+              <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
+                <div className="h-full bg-orange-500" style={{ width: `${(waveSurvival[2] / 20) * 100}%` }}></div>
+              </div>
+
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-semibold text-[var(--text-muted)]">Wave 3 (Advanced/Volcanic)</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[3]} / 20</span>
+              </div>
+              <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
+                <div className="h-full bg-[var(--accent-yellow)]" style={{ width: `${(waveSurvival[3] / 20) * 100}%` }}></div>
               </div>
             </div>
           </div>
@@ -555,13 +629,13 @@ export default function BossBattle() {
           <div className="mt-10 flex flex-wrap justify-center gap-4 w-full max-w-[440px]">
             <button 
               onClick={startBattle}
-              className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 py-4 font-bold text-sm text-[var(--text-primary)] hover:bg-zinc-900 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] py-4 font-bold text-sm text-[var(--text-primary)] hover:bg-[var(--bg-card)] transition-colors"
             >
               <RotateCcw size={18} /> Try Again
             </button>
             <button 
               onClick={() => navigate(`/courses/${courseSlug}`)}
-              className="flex-1 rounded-xl bg-white py-4 font-bold text-sm text-black hover:bg-zinc-200 transition-colors shadow-md"
+              className="flex-1 rounded-xl bg-[var(--accent-green)] py-4 font-bold text-sm text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md"
             >
               Back to Course
             </button>

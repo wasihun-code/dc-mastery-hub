@@ -210,33 +210,25 @@ export default function FillBlank() {
 
   // Helper to apply basic syntax coloring to regular code parts
   const highlightPythonSyntax = (text) => {
-    const lines = text.split('\n');
-    return lines.map((line, lineIdx) => {
-      const tokens = line.split(/(\bdef\b|\breturn\b|\bif\b|\belse\b|\bfor\b|\bin\b|\bimport\b|\bas\b|\bprint\b|\bnp\b|\bpd\b|"[^"]*"|'[^']*'|\b\d+\b|#.*)/g);
-      const highlightedTokens = tokens.map((token, tokenIdx) => {
-        if (['def', 'return', 'if', 'else', 'for', 'in', 'import', 'as'].includes(token)) {
-          return <span key={tokenIdx} className="text-[#ff79c6] font-bold">{token}</span>; // pink/purple
-        }
-        if (['print', 'np', 'pd'].includes(token)) {
-          return <span key={tokenIdx} className="text-[#50fa7b]">{token}</span>; // green
-        }
-        if (token.startsWith('"') || token.startsWith("'")) {
-          return <span key={tokenIdx} className="text-[#f1fa8c]">{token}</span>; // yellow
-        }
-        if (token.startsWith('#')) {
-          return <span key={tokenIdx} className="text-[#6272a4] italic">{token}</span>; // grey comments
-        }
-        if (/^\d+$/.test(token)) {
-          return <span key={tokenIdx} className="text-[#bd93f9]">{token}</span>; // purple
-        }
-        return token;
-      });
-
-      return (
-        <div key={lineIdx} className="min-h-[1.5rem]">
-          {highlightedTokens}
-        </div>
-      );
+    if (!text) return null;
+    const tokens = text.split(/(\bdef\b|\breturn\b|\bif\b|\belse\b|\bfor\b|\bin\b|\bimport\b|\bas\b|\bprint\b|\bnp\b|\bpd\b|"[^"]*"|'[^']*'|\b\d+\b|#.*)/g);
+    return tokens.map((token, tokenIdx) => {
+      if (['def', 'return', 'if', 'else', 'for', 'in', 'import', 'as'].includes(token)) {
+        return <span key={tokenIdx} className="text-[#ff79c6] font-bold">{token}</span>;
+      }
+      if (['print', 'np', 'pd'].includes(token)) {
+        return <span key={tokenIdx} className="text-[#50fa7b]">{token}</span>;
+      }
+      if (token.startsWith('"') || token.startsWith("'")) {
+        return <span key={tokenIdx} className="text-[#f1fa8c]">{token}</span>;
+      }
+      if (token.startsWith('#')) {
+        return <span key={tokenIdx} className="text-[#6272a4] italic">{token}</span>;
+      }
+      if (/^\d+$/.test(token)) {
+        return <span key={tokenIdx} className="text-[#bd93f9]">{token}</span>;
+      }
+      return <span key={tokenIdx}>{token}</span>;
     });
   };
 
@@ -287,6 +279,7 @@ export default function FillBlank() {
   if (step === 2) {
     const currentEx = exercises[currentIndex];
     const allFilled = currentEx?.answers?.every((_, i) => userAnswers[i]) ?? false;
+    const isMultiLine = currentEx?.code && currentEx.code.trim().includes('\n');
 
     // Render code blocks with blanks replaced by buttons
     const renderCodeWithSlots = () => {
@@ -322,8 +315,12 @@ export default function FillBlank() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-[var(--bg-card)]">
+        {/* Progress Bar & Stats */}
+        <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+          <span>Fill-in-the-Blank Progress</span>
+          <span>{currentIndex + 1} / {exercises.length} ({Math.round(((currentIndex + 1) / exercises.length) * 100)}%)</span>
+        </div>
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-green)] transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / exercises.length) * 100}%` }}
@@ -348,17 +345,20 @@ export default function FillBlank() {
         </header>
 
         {/* Main Content (Fullscreen Two Column Layout) */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-center justify-center">
+        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-start justify-center pt-16">
           <div className="w-full max-w-[1280px]">
             <div className="exercise-layout">
               
-              {/* LEFT COLUMN: Task Description & Syntax-highlighted Code Block with slot sizes at text-lg */}
-              <div className="flex flex-col gap-4 text-left">
+              {/* LEFT COLUMN: Task Description & Code Block */}
+              <div className="flex flex-col gap-3 text-left">
                 <h2 className="text-xl font-bold max-w-[640px] leading-relaxed text-[var(--text-primary)]">
                   {currentEx?.description}
                 </h2>
                 
-                <div className="rounded-2xl border border-[var(--border)] bg-[#0d1117] p-8 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre">
+                <div className={isMultiLine 
+                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-base leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
+                  : "inline-flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-base mb-4 overflow-x-auto max-w-full whitespace-pre"
+                }>
                   {renderCodeWithSlots()}
                 </div>
               </div>
@@ -448,6 +448,26 @@ export default function FillBlank() {
             </div>
           </div>
         </main>
+
+        {/* QA Debug Panel */}
+        {localStorage.getItem('devMode') === 'true' && (
+          <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+            <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+              <span>🛠️ QA DEBUG PANEL</span>
+              <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+            </div>
+            <div className="space-y-1">
+              <div>Questions Attempted: {currentIndex + (isChecked ? 1 : 0)}</div>
+              <div>Questions Correct: {correctExerciseCount}</div>
+              <div>Questions Incorrect: {currentIndex - correctExerciseCount + (isChecked && !Object.keys(userAnswers).every(k => userAnswers[k] === currentEx?.answers?.[k]) ? 1 : 0)}</div>
+              <div>Questions Remaining: {exercises.length - currentIndex - (isChecked ? 1 : 0)}</div>
+              <div>Current Exercise Count: {exercises.length}</div>
+              <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+                IDs: {exercises.map(ex => ex.id).join(', ')} | Replay: {isReplaying ? "YES" : "NO"}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

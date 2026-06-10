@@ -35,6 +35,8 @@ export default function MatchingGame() {
   const [xpEarned, setXpEarned] = useState(0);
   const [roundTime, setRoundTime] = useState(0);
 
+  const [savedProgress, setSavedProgress] = useState(null);
+
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -43,6 +45,36 @@ export default function MatchingGame() {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [courseSlug]);
+
+  useEffect(() => {
+    if (allRounds.length > 0) {
+      const saved = localStorage.getItem(`matching_progress_${courseSlug}`);
+      if (saved) {
+        try {
+          const progress = JSON.parse(saved);
+          if (progress && typeof progress.currentRoundIndex === 'number' && progress.currentRoundIndex < allRounds.length) {
+            setSavedProgress(progress);
+          }
+        } catch (e) {
+          console.error("Failed to parse matching progress", e);
+        }
+      }
+    }
+  }, [allRounds, courseSlug]);
+
+  // Auto-save progress during exercise
+  useEffect(() => {
+    if (step === 2 && allRounds.length > 0) {
+      const progress = {
+        currentRoundIndex,
+        totalTime,
+        attempts,
+        xpEarned,
+        step: 2
+      };
+      localStorage.setItem(`matching_progress_${courseSlug}`, JSON.stringify(progress));
+    }
+  }, [step, currentRoundIndex, totalTime, attempts, xpEarned, courseSlug, allRounds]);
 
   const fetchCourseAndMatching = async () => {
     try {
@@ -69,12 +101,24 @@ export default function MatchingGame() {
   };
 
   const startExercise = () => {
+    localStorage.removeItem(`matching_progress_${courseSlug}`);
+    setSavedProgress(null);
     setStep(2);
     setTotalTime(0);
     setAttempts(0);
     setXpEarned(0);
     setCurrentRoundIndex(0);
     startRound(0);
+  };
+
+  const resumeExercise = () => {
+    if (!savedProgress) return;
+    setStep(2);
+    setTotalTime(savedProgress.totalTime || 0);
+    setAttempts(savedProgress.attempts || 0);
+    setXpEarned(savedProgress.xpEarned || 0);
+    setCurrentRoundIndex(savedProgress.currentRoundIndex);
+    startRound(savedProgress.currentRoundIndex);
   };
 
   const startRound = (index) => {
@@ -174,8 +218,14 @@ export default function MatchingGame() {
 
   const finishExercise = async (finalXp) => {
     setStep(3);
+    localStorage.removeItem(`matching_progress_${courseSlug}`);
+    setSavedProgress(null);
     
     try {
+      const totalPairs = allRounds.reduce((acc, r) => acc + (r.pairs ? r.pairs.length : 0), 0);
+      const isPerfect = attempts === totalPairs;
+      const accuracyScore = totalPairs / Math.max(attempts, totalPairs);
+
       // Record attempt
       await fetch('/api/progress/attempt', {
         method: 'POST',
@@ -183,8 +233,9 @@ export default function MatchingGame() {
         body: JSON.stringify({
           exercise_type: 'matching',
           course_id: course.id,
-          score: 1.0,
-          was_correct: 1
+          score: accuracyScore,
+          was_correct: isPerfect ? 1 : 0,
+          time_taken_secs: totalTime
         })
       });
 
@@ -240,12 +291,33 @@ export default function MatchingGame() {
           </div>
         </div>
         
-        <button 
-          onClick={startExercise}
-          className="mt-12 min-w-[220px] rounded-xl bg-[var(--accent-green)] py-4 text-xl font-bold text-black shadow-lg shadow-[rgba(3,239,98,0.2)] transition-all duration-200 hover:bg-[var(--accent-green-bright)] hover:scale-105 active:scale-95"
-        >
-          START
-        </button>
+        {savedProgress ? (
+          <div className="mt-12 flex flex-col items-center gap-4">
+            <button 
+              onClick={resumeExercise}
+              className="min-w-[240px] rounded-xl bg-[var(--accent-green)] py-4 px-6 text-xl font-bold text-black shadow-lg shadow-[rgba(3,239,98,0.2)] transition-all duration-200 hover:bg-[var(--accent-green-bright)] hover:scale-105 active:scale-95 uppercase tracking-wide"
+            >
+              Resume Round {savedProgress.currentRoundIndex + 1}
+            </button>
+            <button 
+              onClick={() => {
+                localStorage.removeItem(`matching_progress_${courseSlug}`);
+                setSavedProgress(null);
+                startExercise();
+              }}
+              className="text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent-red)] transition-colors animate-pulse"
+            >
+              Reset and Start from Round 1
+            </button>
+          </div>
+        ) : (
+          <button 
+            onClick={startExercise}
+            className="mt-12 min-w-[220px] rounded-xl bg-[var(--accent-green)] py-4 text-xl font-bold text-black shadow-lg shadow-[rgba(3,239,98,0.2)] transition-all duration-200 hover:bg-[var(--accent-green-bright)] hover:scale-105 active:scale-95"
+          >
+            START
+          </button>
+        )}
         
         <Link to={`/courses/${courseSlug}`} className="mt-6 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 text-sm font-medium">
           <ChevronLeft size={18} />
@@ -260,8 +332,12 @@ export default function MatchingGame() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-[var(--bg-card)]">
+        {/* Progress Bar & Stats */}
+        <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
+          <span>Matching Progress</span>
+          <span>Round {currentRoundIndex + 1} / {allRounds.length} ({Math.round(((currentRoundIndex) / allRounds.length) * 100)}%)</span>
+        </div>
+        <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-green)] transition-all duration-300"
             style={{ width: `${((currentRoundIndex + (matches.length / 6)) / allRounds.length) * 100}%` }}
@@ -295,7 +371,7 @@ export default function MatchingGame() {
         </header>
 
         {/* Main Exercise Area */}
-        <main className="flex-1 overflow-y-auto px-6 py-8 flex flex-col items-center justify-center">
+        <main className="flex-1 overflow-y-auto px-6 py-8 flex flex-col items-center justify-start pt-16">
           <div className="w-full max-w-[900px]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               
@@ -363,21 +439,28 @@ export default function MatchingGame() {
 
             {/* Post-Round Transition panel */}
             {roundCompleted && (
-              <div className="mt-10 flex flex-col items-center justify-center p-6 border-t border-[var(--border)] animate-in zoom-in-95 duration-350">
-                <div className="mb-4 flex flex-wrap gap-4 justify-center">
-                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold">
+              <div className="mt-8 flex flex-col items-center justify-center p-6 border-t border-[var(--border)] animate-in zoom-in-95 duration-300">
+                <div className="flex items-center gap-2 text-[var(--accent-green)] font-bold text-xl mb-3">
+                  <Check size={24} />
+                  <span>All pairs matched!</span>
+                </div>
+                <div className="mb-6 flex flex-wrap gap-4 justify-center">
+                  <div className="px-4 py-2 rounded-xl bg-[rgba(3,239,98,0.08)] border border-[rgba(3,239,98,0.3)] text-sm font-bold text-[var(--accent-green)]">
+                    +15 XP Earned
+                  </div>
+                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
                     Round Time: <span className="text-[var(--accent-green)] font-mono">{formatTime(roundTime)}</span>
                   </div>
-                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold">
+                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
                     Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round((6 / (attempts || 1)) * 100)}%</span>
                   </div>
                 </div>
                 
                 <button
                   onClick={handleNextRound}
-                  className="flex items-center gap-2 rounded-xl bg-[var(--accent-green)] px-8 py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
+                  className="flex items-center gap-2 rounded-xl bg-[var(--accent-green)] px-10 py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)] uppercase tracking-wider"
                 >
-                  {currentRoundIndex < allRounds.length - 1 ? 'Next Round' : 'Finish Match Game'}
+                  {currentRoundIndex < allRounds.length - 1 ? 'Continue to Next Round' : 'Finish Match Game'}
                   <ArrowRight size={18} />
                 </button>
               </div>
@@ -385,6 +468,26 @@ export default function MatchingGame() {
 
           </div>
         </main>
+
+        {/* QA Debug Panel */}
+        {localStorage.getItem('devMode') === 'true' && (
+          <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">
+            <div className="font-bold border-b border-[var(--accent-yellow)]/30 pb-1.5 mb-2 flex items-center justify-between">
+              <span>🛠️ QA DEBUG PANEL</span>
+              <span className="text-[10px] bg-[var(--accent-yellow)]/20 px-1.5 py-0.5 rounded">Active</span>
+            </div>
+            <div className="space-y-1">
+              <div>Questions Attempted: {attempts} matches</div>
+              <div>Questions Correct: {matches.length} pairs</div>
+              <div>Questions Incorrect: {attempts - matches.length} pairs</div>
+              <div>Questions Remaining: {allRounds.length - currentRoundIndex - (roundCompleted ? 1 : 0)}</div>
+              <div>Current Exercise Count: {allRounds.length}</div>
+              <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
+                Round ID: {roundData?.id} | XP: {xpEarned}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
