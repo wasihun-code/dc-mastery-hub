@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
-import { runCode } from '../services/codeSandbox.js'
+import { runCode, runShellCommand } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
 
 const router = express.Router()
@@ -13,6 +13,103 @@ const router = express.Router()
 router.use((req, res, next) => {
   console.log(`[Content Router] ${req.method} ${req.path}`);
   next();
+});
+
+router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
+  try {
+    const { courseSlug, exerciseType } = req.params;
+    const validTypes = ['mcq', 'flashcards', 'ftb', 'matching', 'bossbattle', 'challenge'];
+    if (!validTypes.includes(exerciseType)) {
+      return res.status(400).json({ error: "Invalid exercise type" });
+    }
+
+    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug);
+    if (!course) return res.status(404).json({ error: 'Course not found' });
+
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    if (!track) return res.status(404).json({ error: 'Track not found' });
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+          ? process.env.CONTENT_FOLDER 
+          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+
+    const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', `${exerciseType}.json`);
+
+    if (!fs.existsSync(exercisePath)) {
+      return res.status(404).json({ error: "No exercises found for this type" });
+    }
+
+    const fileData = fs.readFileSync(exercisePath, 'utf-8');
+    const data = JSON.parse(fileData);
+    let items = [];
+
+    // Handle both raw arrays and wrapper objects
+    if (Array.isArray(data)) {
+      items = data;
+    } else {
+      if (exerciseType === 'mcq') items = data.questions || [];
+      else if (exerciseType === 'flashcards') items = data.cards || [];
+      else if (exerciseType === 'ftb') items = data.exercises || [];
+      else if (exerciseType === 'matching') items = data.rounds || [];
+      else if (exerciseType === 'bossbattle') items = data.questions || [];
+      else if (exerciseType === 'challenge') items = data.challenges || [];
+    }
+
+    // Schema mapping for compatibility with frontend components
+    if (exerciseType === 'mcq' || exerciseType === 'bossbattle') {
+      items = items.map(q => ({
+        ...q,
+        option_a: q.options?.a,
+        option_b: q.options?.b,
+        option_c: q.options?.c,
+        option_d: q.options?.d
+      }));
+    }
+
+    if (exerciseType === 'ftb') {
+      items = items.map(ex => {
+        let code = ex.code_template || "";
+        const answers = (ex.blanks || []).map(b => b.answer);
+        // Replace _____ with [[0]], [[1]], etc.
+        let count = 0;
+        while (code.includes('_____')) {
+          code = code.replace('_____', `[[${count}]]`);
+          count++;
+        }
+        return {
+          ...ex,
+          description: ex.task_description || ex.description,
+          code,
+          answers
+        };
+      });
+    }
+
+    // Shuffle and count
+    if (exerciseType === 'mcq' && req.query.count) {
+      const count = parseInt(req.query.count, 10);
+      if (!isNaN(count)) {
+        for (let i = items.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [items[i], items[j]] = [items[j], items[i]];
+        }
+        items = items.slice(0, count);
+      }
+    }
+
+    if (exerciseType === 'flashcards' && req.query.shuffle === 'true') {
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+    }
+
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -142,8 +239,31 @@ router.get('/datasets/:courseSlug', (req, res, next) => {
 router.get('/challenges/:courseSlug', (req, res, next) => {
   try {
     const { courseSlug } = req.params
-    const challenges = getChallenges(courseSlug)
     
+    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug);
+    if (course) {
+      const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+      if (track) {
+        const contentFolder = process.env.CONTENT_FOLDER 
+          ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+              ? process.env.CONTENT_FOLDER 
+              : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+          : DEFAULT_CONTENT_FOLDER;
+
+        const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', 'challenge.json');
+
+        if (fs.existsSync(exercisePath)) {
+          const fileData = fs.readFileSync(exercisePath, 'utf-8');
+          const data = JSON.parse(fileData);
+          const items = Array.isArray(data) ? data : (data.challenges || []);
+          if (items.length > 0) {
+            return res.json(items);
+          }
+        }
+      }
+    }
+
+    const challenges = getChallenges(courseSlug)
     if (!challenges || challenges.length === 0) {
       return res.status(404).json({ error: 'No datasets available for this course' })
     }
@@ -188,9 +308,41 @@ router.post('/run-code', (req, res, next) => {
   }
 })
 
+router.post('/run-shell', (req, res, next) => {
+  try {
+    const { courseSlug, datasetFile, history, command } = req.body
+    
+    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug)
+    if (!course) return res.status(404).json({ error: 'Course not found' })
+
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+          ? process.env.CONTENT_FOLDER 
+          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER
+
+    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    
+    if (!fs.existsSync(datasetPath)) {
+      return res.status(404).json({ error: 'Dataset file not found' })
+    }
+
+    const historyCode = (history || []).join('\n')
+    const result = runShellCommand(historyCode, command, [datasetPath])
+    
+    res.json(result)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/submit-challenge', (req, res, next) => {
   try {
-    const { code, courseSlug, challengeId, datasetFile, expectedOutputCode } = req.body
+    const { code, courseSlug, challengeId, datasetFile, expectedOutputCode, solutionCode, solution_code } = req.body
+    const expectedCode = expectedOutputCode || solutionCode || solution_code
     console.log(`[submit-challenge] Request received for ${courseSlug} - ${datasetFile}`)
     
     const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug)
@@ -218,7 +370,7 @@ router.post('/submit-challenge', (req, res, next) => {
     console.log(`[submit-challenge] User result:`, userResult)
     
     console.log(`[submit-challenge] Running expected code...`)
-    const expectedResult = runCode(expectedOutputCode, [datasetPath])
+    const expectedResult = runCode(expectedCode, [datasetPath])
     console.log(`[submit-challenge] Expected result:`, expectedResult)
     
     if (!expectedResult.success) {

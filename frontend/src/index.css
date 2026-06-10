@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #0f1117;
-  --bg-card: #1e2130;
-  --bg-sidebar: #161822;
+  --bg-primary: #13151f;
+  --bg-card: #1e2235;
+  --bg-sidebar: #1a1c2e;
   --accent-green: #03ef62;
   --accent-red: #ff4d4d;
   --accent-yellow: #fbbf24;
   --accent-blue: #60a5fa;
-  --text-primary: #f1f5f9;
-  --text-muted: #94a3b8;
-  --border: #2e3347;
+  --text-primary: #f8fafc;
+  --text-muted: #a8b8cc;
+  --border: #353a52;
+  --bg-exercise: #12141e;
+  --accent-green-bright: #05f570;
+  --card-hover: #252840;
 
   color: var(--text-primary);
   background: var(--bg-primary);
@@ -94,4 +97,27 @@ a {
   font-family: 'Courier New', Courier, monospace;
   font-size: 12px;
   color: #e6edf3;
+}
+
+/* Two-column exercise layout and large font size for code blocks */
+.exercise-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.exercise-layout .code-block {
+  font-size: 16px !important;
+  padding: 18px 24px !important;
+}
+
+@media (max-width: 768px) {
+  .exercise-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }

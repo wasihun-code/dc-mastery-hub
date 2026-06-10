@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight } from 'lucide-react'
 import Editor from '@monaco-editor/react'
@@ -17,6 +17,65 @@ export default function DatasetChallenge() {
   const [sessionScore, setSessionScore] = useState({ correct: 0, total: 0 })
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
+  
+  // Interactive Shell States
+  const [shellCounter, setShellCounter] = useState(1)
+  const [shellCommands, setShellCommands] = useState([])
+  const [shellInputValue, setShellInputValue] = useState('')
+  const [shellHistory, setShellHistory] = useState([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
+  const [isShellRunning, setIsShellRunning] = useState(false)
+
+  const terminalEndRef = useRef(null)
+  const codeRef = useRef(code)
+  const handleRunRef = useRef(handleRun)
+  const handleSubmitRef = useRef(handleSubmit)
+
+  useEffect(() => {
+    codeRef.current = code
+  }, [code])
+
+  useEffect(() => {
+    handleRunRef.current = handleRun
+  }, [handleRun])
+
+  useEffect(() => {
+    handleSubmitRef.current = handleSubmit
+  }, [handleSubmit])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey) {
+        if (e.shiftKey && e.key === 'Enter') {
+          e.preventDefault()
+          handleSubmitRef.current()
+        } else if (e.key === 'Enter') {
+          e.preventDefault()
+          handleRunRef.current()
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
+  // Auto-scroll IPython shell to bottom
+  useEffect(() => {
+    if (terminalEndRef.current) {
+      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [terminalLines, isShellRunning])
+
+  const handleEditorDidMount = (editor, monaco) => {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+      handleRunRef.current()
+    })
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
+      handleSubmitRef.current()
+    })
+  }
 
   useEffect(() => {
     fetchChallenges()
@@ -49,7 +108,7 @@ export default function DatasetChallenge() {
     }
   }
 
-  const handleRun = async () => {
+  async function handleRun() {
     if (isRunning || isSubmitting) return
     setIsRunning(true)
     const challenge = challenges[currentIndex]
@@ -86,7 +145,7 @@ export default function DatasetChallenge() {
     }
   }
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     if (isRunning || isSubmitting) return
     setIsSubmitting(true)
     const challenge = challenges[currentIndex]
@@ -100,7 +159,7 @@ export default function DatasetChallenge() {
           courseSlug,
           challengeId: challenge.id,
           datasetFile: challenge.dataset_file,
-          expectedOutputCode: challenge.expected_output_code
+          expectedOutputCode: challenge.solution_code || challenge.expected_output_code
         })
       })
       const data = await res.json()
@@ -129,6 +188,13 @@ export default function DatasetChallenge() {
       setTerminalLines([])
       setRunCounter(1)
       setHintsShown([false, false])
+      
+      // Reset interactive shell
+      setShellCounter(1)
+      setShellCommands([])
+      setShellInputValue('')
+      setShellHistory([])
+      setHistoryIndex(-1)
     } else {
       setCurrentIndex(challenges.length) // End state
     }
@@ -139,6 +205,89 @@ export default function DatasetChallenge() {
     setTerminalLines([])
     setRunCounter(1)
     setResult(null)
+    
+    // Reset interactive shell
+    setShellCounter(1)
+    setShellCommands([])
+    setShellInputValue('')
+    setShellHistory([])
+    setHistoryIndex(-1)
+  }
+
+  const handleShellSubmit = async () => {
+    const cmd = shellInputValue.trim()
+    if (!cmd || isShellRunning) return
+
+    setShellInputValue('')
+    setHistoryIndex(-1)
+
+    setTerminalLines(prev => [
+      ...prev,
+      { type: 'input', text: cmd, counter: shellCounter }
+    ])
+
+    setShellHistory(prev => [cmd, ...prev])
+    setIsShellRunning(true)
+
+    try {
+      const challenge = challenges[currentIndex]
+      const res = await fetch('/api/content/run-shell', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          datasetFile: challenge.dataset_file,
+          history: shellCommands,
+          command: cmd
+        })
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        setTerminalLines(prev => [
+          ...prev,
+          { type: 'output', text: data.output }
+        ])
+        setShellCommands(prev => [...prev, cmd])
+      } else {
+        setTerminalLines(prev => [
+          ...prev,
+          { type: 'error', text: data.error }
+        ])
+      }
+    } catch (err) {
+      setTerminalLines(prev => [
+        ...prev,
+        { type: 'error', text: 'Connection failed or server error.' }
+      ])
+    } finally {
+      setShellCounter(prev => prev + 1)
+      setIsShellRunning(false)
+    }
+  }
+
+  const handleShellKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleShellSubmit()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      if (shellHistory.length > 0 && historyIndex < shellHistory.length - 1) {
+        const nextIndex = historyIndex + 1
+        setHistoryIndex(nextIndex)
+        setShellInputValue(shellHistory[nextIndex])
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      if (historyIndex > 0) {
+        const nextIndex = historyIndex - 1
+        setHistoryIndex(nextIndex)
+        setShellInputValue(shellHistory[nextIndex])
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1)
+        setShellInputValue('')
+      }
+    }
   }
 
   if (loading) {
@@ -223,11 +372,14 @@ export default function DatasetChallenge() {
         <div className="p-6 overflow-y-auto grow">
           <div className="flex items-center gap-3 mb-4">
             <span className={`px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-md ${
-              challenge.difficulty === 1 ? 'bg-green-500/10 text-green-500 border border-green-500/20' :
-              challenge.difficulty === 2 ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
+              String(challenge.difficulty).toLowerCase() === 'easy' || challenge.difficulty === 1 ? 'bg-green-500/10 text-green-500 border border-green-500/20' :
+              String(challenge.difficulty).toLowerCase() === 'medium' || challenge.difficulty === 2 ? 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20' :
               'bg-red-500/10 text-red-500 border border-red-500/20'
             }`}>
-              {challenge.difficulty === 1 ? 'EASY' : challenge.difficulty === 2 ? 'MEDIUM' : 'HARD'}
+              {typeof challenge.difficulty === 'number'
+                ? (challenge.difficulty === 1 ? 'EASY' : challenge.difficulty === 2 ? 'MEDIUM' : 'HARD')
+                : String(challenge.difficulty).toUpperCase()
+              }
             </span>
             <span className="bg-[var(--bg-card)] px-3 py-1 rounded-md border border-[var(--border)] text-xs text-[var(--text-primary)] font-mono flex items-center gap-2">
                📊 {challenge.dataset_file}
@@ -269,17 +421,6 @@ export default function DatasetChallenge() {
               </div>
             ))}
           </div>
-
-          <div>
-             <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mb-3">Concepts Tested</h4>
-             <div className="flex flex-wrap gap-2">
-               {challenge.concepts_tested.map((c, i) => (
-                 <span key={i} className="px-2 py-1 bg-[var(--bg-card)] border border-[var(--border)] rounded text-xs text-[var(--text-muted)]">
-                   {c}
-                 </span>
-               ))}
-             </div>
-          </div>
         </div>
       </div>
 
@@ -297,6 +438,7 @@ export default function DatasetChallenge() {
               theme="vs-dark"
               value={code}
               onChange={(value) => setCode(value)}
+              onMount={handleEditorDidMount}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,
@@ -347,7 +489,7 @@ export default function DatasetChallenge() {
                  {line.type === 'input' && (
                    <div className="text-blue-400">
                      <span className="text-green-500 mr-2">In [{line.counter}]:</span>
-                     <span className="text-gray-300">{line.text.split('\n')[0]}{line.text.split('\n').length > 1 ? ' ...' : ''}</span>
+                     <span className="text-gray-300">{line.text}</span>
                    </div>
                  )}
                  {line.type === 'output' && (
@@ -358,12 +500,27 @@ export default function DatasetChallenge() {
                  )}
                </div>
              ))}
-             {!isRunning && !isSubmitting && (
-                <div className="text-blue-400 mt-2">
-                  <span className="text-green-500 mr-2">In [{runCounter}]:</span>
-                  <span className="animate-pulse">_</span>
+             
+             {isShellRunning ? (
+                <div className="text-blue-400 mt-2 flex items-center gap-2 animate-in fade-in">
+                  <span className="text-green-500">In [{shellCounter}]:</span>
+                  <span className="text-gray-500 animate-pulse">Running command...</span>
+                </div>
+             ) : (
+                <div className="text-blue-400 mt-2 flex items-center">
+                  <span className="text-green-500 shrink-0">In [{shellCounter}]:</span>
+                  <input
+                    type="text"
+                    value={shellInputValue}
+                    onChange={(e) => setShellInputValue(e.target.value)}
+                    onKeyDown={handleShellKeyDown}
+                    disabled={isRunning || isSubmitting}
+                    className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0"
+                    placeholder="type python code here..."
+                  />
                 </div>
              )}
+             <div ref={terminalEndRef} />
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 function StatCard({ label, value }) {
@@ -24,23 +25,30 @@ function LoadingBlock() {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [dashboard, setDashboard] = useState(null)
+  const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
 
-    fetch('/api/progress/dashboard')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load dashboard (${response.status})`)
-        }
-        return response.json()
-      })
-      .then((data) => {
+    Promise.all([
+      fetch('/api/progress/dashboard').then((res) => {
+        if (!res.ok) throw new Error(`Dashboard fetch failed (${res.status})`)
+        return res.json()
+      }),
+      fetch('/api/courses').then((res) => {
+        if (!res.ok) throw new Error(`Courses fetch failed (${res.status})`)
+        return res.json()
+      }),
+    ])
+      .then(([dashboardData, coursesData]) => {
         if (isMounted) {
-          setDashboard(data)
+          setDashboard(dashboardData)
+          setCourses(coursesData)
           setError('')
         }
       })
@@ -61,11 +69,17 @@ export default function Dashboard() {
   }, [])
 
   const chartData = useMemo(() => {
-    return (dashboard?.tracks_summary ?? []).map((track) => ({
-      name: track.name.replace(' in ', '\nin '),
-      mastery: Number(track.overall_mastery ?? 0),
+    // Take courses with some mastery score and sort by score descending
+    const activeCourses = [...courses]
+      .filter((c) => (c.overall_mastery || 0) > 0)
+      .sort((a, b) => (b.overall_mastery || 0) - (a.overall_mastery || 0))
+      .slice(0, 6)
+
+    return activeCourses.map((c) => ({
+      name: c.name.length > 20 ? `${c.name.slice(0, 20)}...` : c.name,
+      mastery: Number(c.overall_mastery ?? 0),
     }))
-  }, [dashboard])
+  }, [courses])
 
   if (loading) {
     return (
@@ -101,9 +115,10 @@ export default function Dashboard() {
   }
 
   const userStats = dashboard.user_stats ?? {}
-  const tracks = dashboard.tracks_summary ?? []
   const recentActivity = dashboard.recent_activity ?? []
   const weakSpots = dashboard.weak_spots ?? []
+  const completedCoursesCount = courses.filter((c) => c.status === 'Completed').length
+  const inProgressCourses = courses.filter((c) => c.status === 'In Progress')
 
   return (
     <div>
@@ -118,50 +133,81 @@ export default function Dashboard() {
 
       <section className="mt-8 rounded border border-[var(--border)] bg-[var(--bg-card)] p-6">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-xl font-bold text-[var(--text-primary)]">My Tracks</h2>
-          <span className="text-sm text-[var(--text-muted)]">Mastery overview</span>
+          <h2 className="text-xl font-bold text-[var(--text-primary)]">My Courses Progress</h2>
+          <span className="text-sm text-[var(--text-muted)]">
+            {completedCoursesCount}/{courses.length} courses completed
+          </span>
         </div>
 
-        {tracks.length > 0 ? (
+        {courses.length > 0 ? (
           <>
-            <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
-              {tracks.map((track) => (
-                <div key={track.id} className="rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="font-semibold text-[var(--text-primary)]">{track.name}</div>
-                      <div className="mt-1 text-sm text-[var(--text-muted)]">
-                        {track.completed_count}/{track.course_count} courses completed
+            {/* Active Courses (Jump Back In) */}
+            <div className="mt-5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">Jump Back In</h3>
+              {inProgressCourses.length > 0 ? (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {inProgressCourses.slice(0, 4).map((course) => (
+                    <div
+                      key={course.id}
+                      className="flex items-center justify-between rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4 transition-all hover:border-[var(--text-muted)]"
+                      style={{ borderLeft: `4px solid ${course.track_color || 'var(--accent-blue)'}` }}
+                    >
+                      <div className="flex-1 pr-4 min-w-0">
+                        <div className="font-semibold text-sm text-[var(--text-primary)] truncate" title={course.name}>
+                          {course.name}
+                        </div>
+                        <div className="mt-2 flex items-center gap-2">
+                          <span className="text-xs text-[var(--text-muted)]">Mastery:</span>
+                          <span className="text-xs font-bold text-[var(--accent-green)]">
+                            {Number(course.overall_mastery ?? 0).toFixed(0)}%
+                          </span>
+                        </div>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/courses/${course.slug}`)}
+                        className="shrink-0 rounded bg-[var(--accent-green)] px-3 py-1.5 text-xs font-bold text-[var(--bg-primary)] hover:brightness-110 transition-all"
+                      >
+                        Continue
+                      </button>
                     </div>
-                    <div className="text-lg font-bold text-[var(--accent-green)]">
-                      {Number(track.overall_mastery ?? 0).toFixed(1)}%
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <div className="rounded border border-dashed border-[var(--border)] bg-[var(--bg-primary)] p-6 text-center text-xs text-[var(--text-muted)]">
+                  No courses currently in progress. Start one from the Courses catalog!
+                </div>
+              )}
             </div>
 
-            <div className="mt-6 h-56">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 16, left: -24 }}>
-                  <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 11 }} interval={0} height={48} />
-                  <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 11 }} domain={[0, 100]} />
-                  <Tooltip
-                    cursor={{ fill: 'rgba(255,255,255,0.04)' }}
-                    contentStyle={{
-                      background: 'var(--bg-primary)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
-                  />
-                  <Bar dataKey="mastery" fill="var(--accent-green)" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            {/* Top Courses Chart */}
+            {chartData.length > 0 && (
+              <div className="mt-8 border-t border-[var(--border)] pt-6">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-4">
+                  Top Course Masteries
+                </h3>
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 16, left: -24 }}>
+                      <XAxis dataKey="name" tick={{ fill: 'var(--text-muted)', fontSize: 10 }} interval={0} height={40} />
+                      <YAxis tick={{ fill: 'var(--text-muted)', fontSize: 10 }} domain={[0, 100]} />
+                      <Tooltip
+                        cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                        contentStyle={{
+                          background: 'var(--bg-primary)',
+                          border: '1px solid var(--border)',
+                          color: 'var(--text-primary)',
+                        }}
+                      />
+                      <Bar dataKey="mastery" fill="var(--accent-green)" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
           </>
         ) : (
-          <p className="mt-5 text-[var(--text-muted)]">No tracks found. Check your database connection.</p>
+          <p className="mt-5 text-[var(--text-muted)]">No courses found. Check your database connection.</p>
         )}
       </section>
 

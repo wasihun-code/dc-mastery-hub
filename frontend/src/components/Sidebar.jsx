@@ -3,7 +3,7 @@ import { BookOpen, Brain, LayoutDashboard, Map, Settings } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/tracks', label: 'My Tracks', icon: BookOpen },
+  { to: '/courses', label: 'My Courses', icon: BookOpen },
   { to: '/study-session', label: 'Study Session', icon: Brain },
   { to: '/mastery-map', label: 'Mastery Map', icon: Map },
   { to: '/settings', label: 'Settings', icon: Settings },

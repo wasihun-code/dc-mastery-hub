@@ -168,6 +168,24 @@ router.patch('/progress/stats', (req, res, next) => {
   }
 })
 
+router.get('/progress/attempted-questions/:courseSlug/:exerciseType', (req, res, next) => {
+  try {
+    const { courseSlug, exerciseType } = req.params;
+    const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug);
+    if (!course) return res.status(404).json({ error: 'Course not found' });
+    
+    const attempts = db.prepare(`
+      SELECT DISTINCT question_id 
+      FROM exercise_attempts 
+      WHERE course_id = ? AND exercise_type = ? AND question_id IS NOT NULL
+    `).all(course.id, exerciseType);
+    
+    res.json(attempts.map(a => a.question_id));
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/progress/attempt', (req, res, next) => {
   try {
     const { exercise_type, course_id, question_id, score, time_taken_secs, was_correct } = req.body

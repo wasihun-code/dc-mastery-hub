@@ -3,11 +3,9 @@ import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import Dashboard from './pages/Dashboard'
 import Tracks from './pages/Tracks'
-import TrackDetail from './pages/TrackDetail'
 import CourseDetail from './pages/CourseDetail'
 import StudySession from './pages/StudySession'
 import MasteryMap from './pages/MasteryMap'
-import TrackTest from './pages/TrackTest'
 import Settings from './pages/Settings'
 import Flashcards from './exercises/Flashcards'
 import Quiz from './exercises/Quiz'
@@ -18,12 +16,10 @@ import BossBattle from './exercises/BossBattle'
 
 const routeTitles = [
   { pattern: /^\/$/, title: 'Dashboard' },
-  { pattern: /^\/tracks$/, title: 'My Tracks' },
-  { pattern: /^\/tracks\/[^/]+$/, title: 'Track Detail' },
+  { pattern: /^\/courses$/, title: 'My Courses' },
   { pattern: /^\/courses\/[^/]+$/, title: 'Course Detail' },
   { pattern: /^\/study-session$/, title: 'Study Session' },
   { pattern: /^\/mastery-map$/, title: 'Mastery Map' },
-  { pattern: /^\/track-test\/[^/]+$/, title: 'Track Test' },
   { pattern: /^\/settings$/, title: 'Settings' },
   { pattern: /^\/exercise\/flashcards\/[^/]+$/, title: 'Flashcards' },
   { pattern: /^\/exercise\/quiz\/[^/]+$/, title: 'Quiz' },
@@ -48,12 +44,10 @@ export default function App() {
       <main className="ml-[240px] h-screen overflow-y-auto px-8 pb-8 pt-[88px]">
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/tracks" element={<Tracks />} />
-          <Route path="/tracks/:trackSlug" element={<TrackDetail />} />
+          <Route path="/courses" element={<Tracks />} />
           <Route path="/courses/:courseSlug" element={<CourseDetail />} />
           <Route path="/study-session" element={<StudySession />} />
           <Route path="/mastery-map" element={<MasteryMap />} />
-          <Route path="/track-test/:trackSlug" element={<TrackTest />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/exercise/flashcards/:courseSlug" element={<Flashcards />} />
           <Route path="/exercise/quiz/:courseSlug" element={<Quiz />} />
