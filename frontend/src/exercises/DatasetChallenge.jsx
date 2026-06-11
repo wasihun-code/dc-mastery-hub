@@ -85,7 +85,8 @@ export default function DatasetChallenge() {
   const fetchChallenges = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`/api/content/challenges/${courseSlug}`)
+      const reattemptFlag = localStorage.getItem(`dataset_reattempt_${courseSlug}`) === 'true';
+      const res = await fetch(`/api/content/challenges/${courseSlug}${reattemptFlag ? '?reattempt=true' : ''}`)
       if (!res.ok) {
         if (res.status === 404) {
           setErrorMsg("No datasets available for this course yet. Add CSV files to: content/tracks/[track]/[course]/datasets/")
@@ -316,9 +317,23 @@ export default function DatasetChallenge() {
     )
   }
 
+  const handleReattemptAll = () => {
+    localStorage.setItem(`dataset_reattempt_${courseSlug}`, 'true');
+    setCurrentIndex(0);
+    setResult(null);
+    setTerminalLines([]);
+    setRunCounter(1);
+    setHintsShown([false, false]);
+    setSessionScore({ correct: 0, total: 0 });
+    fetchChallenges();
+  };
+
   // Summary screen
   if (currentIndex >= challenges.length) {
     const percentage = sessionScore.total > 0 ? Math.round((sessionScore.correct / sessionScore.total) * 100) : 0
+    // Clear reattempt flag since the current run is finished
+    localStorage.removeItem(`dataset_reattempt_${courseSlug}`);
+
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">
         <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-[var(--accent-green)] text-black">
@@ -344,6 +359,12 @@ export default function DatasetChallenge() {
         </div>
         
         <div className="mt-12 flex flex-wrap justify-center gap-4">
+          <button 
+            onClick={handleReattemptAll}
+            className="rounded-xl bg-[var(--bg-card)] px-10 py-4 font-bold text-[var(--text-primary)] border border-[var(--border)] hover:bg-[var(--bg-primary)] transition-colors shadow-sm"
+          >
+            Re-attempt All
+          </button>
           <button 
             onClick={() => navigate(`/courses/${courseSlug}`)}
             className="rounded-xl bg-[var(--accent-green)] px-10 py-4 font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"

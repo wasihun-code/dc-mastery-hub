@@ -30,6 +30,14 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' });
 
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
+          ? process.env.CONTENT_FOLDER 
+          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+
+    const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', `${exerciseType}.json`);
+
     // Try serving from database first if data is present
     if (exerciseType === 'mcq') {
       const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
@@ -79,28 +87,31 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     }
 
     if (exerciseType === 'matching') {
-      const dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
-      if (dbConcepts.length >= 6) {
-        const rounds = [];
-        const numRounds = Math.min(Math.ceil(dbConcepts.length / 6), 5);
-        const shuffledConcepts = [...dbConcepts].sort(() => Math.random() - 0.5);
-        for (let r = 0; r < numRounds; r++) {
-          const pairs = [];
-          for (let p = 0; p < 6; p++) {
-            const concept = shuffledConcepts[(r * 6 + p) % shuffledConcepts.length];
-            pairs.push({
-              id: concept.id,
-              term: concept.name,
-              match: concept.definition
+      // Prioritize matching.json file on disk. Fall back to database concepts only if file is missing.
+      if (!fs.existsSync(exercisePath)) {
+        const dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
+        if (dbConcepts.length >= 6) {
+          const rounds = [];
+          const numRounds = Math.min(Math.ceil(dbConcepts.length / 6), 5);
+          const shuffledConcepts = [...dbConcepts].sort(() => Math.random() - 0.5);
+          for (let r = 0; r < numRounds; r++) {
+            const pairs = [];
+            for (let p = 0; p < 6; p++) {
+              const concept = shuffledConcepts[(r * 6 + p) % shuffledConcepts.length];
+              pairs.push({
+                id: concept.id,
+                term: concept.name,
+                match: concept.definition
+              });
+            }
+            rounds.push({
+              id: r + 1,
+              theme: `Round ${r + 1}: Core Concepts`,
+              pairs: pairs
             });
           }
-          rounds.push({
-            id: r + 1,
-            theme: `Round ${r + 1}: Core Concepts`,
-            pairs: pairs
-          });
+          return res.json(rounds);
         }
-        return res.json(rounds);
       }
     }
 
@@ -125,54 +136,49 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     }
 
     if (exerciseType === 'ftb') {
-      const dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
-      if (dbConcepts.length > 0) {
-        const items = dbConcepts.map((concept) => {
-          const code = concept.code_snippet;
-          let codeTemplate = code;
-          let answer = "";
-          const keywords = ['print', 'import', 'as', 'def', 'return', 'np', 'pd', 'plt', 'mean', 'sum', 'len', 'round', 'append'];
-          for (const kw of keywords) {
-            if (code.includes(kw)) {
-              codeTemplate = code.replace(kw, '[[0]]');
-              answer = kw;
-              break;
+      // Prioritize ftb.json file on disk. Fall back to database concepts only if file is missing.
+      if (!fs.existsSync(exercisePath)) {
+        const dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
+        if (dbConcepts.length > 0) {
+          const items = dbConcepts.map((concept) => {
+            const code = concept.code_snippet;
+            let codeTemplate = code;
+            let answer = "";
+            const keywords = ['print', 'import', 'as', 'def', 'return', 'np', 'pd', 'plt', 'mean', 'sum', 'len', 'round', 'append'];
+            for (const kw of keywords) {
+              if (code.includes(kw)) {
+                codeTemplate = code.replace(kw, '[[0]]');
+                answer = kw;
+                break;
+              }
             }
-          }
-          if (!answer) {
-            const match = code.match(/\b([a-zA-Z_]{2,})\b/);
-            if (match) {
-              answer = match[1];
-              codeTemplate = code.replace(answer, '[[0]]');
-            } else {
-              answer = "print";
-              codeTemplate = "[[0]](" + code + ")";
+            if (!answer) {
+              const match = code.match(/\b([a-zA-Z_]{2,})\b/);
+              if (match) {
+                answer = match[1];
+                codeTemplate = code.replace(answer, '[[0]]');
+              } else {
+                answer = "print";
+                codeTemplate = "[[0]](" + code + ")";
+              }
             }
-          }
 
-          return {
-            id: `fitb_db_${concept.id}`,
-            concept_id: concept.id,
-            concept_name: concept.name,
-            difficulty: 'medium',
-            description: `Complete the code snippet for: ${concept.name}.`,
-            code: codeTemplate,
-            answers: [answer],
-            word_bank: [answer, 'type', 'len', 'help', 'import', 'def', 'return', 'pd', 'np'].slice(0, 5),
-            explanation: `This code snippet implements: ${concept.name}. ${concept.definition}`
-          };
-        });
-        return res.json(items);
+            return {
+              id: `fitb_db_${concept.id}`,
+              concept_id: concept.id,
+              concept_name: concept.name,
+              difficulty: 'medium',
+              description: `Complete the code snippet for: ${concept.name}.`,
+              code: codeTemplate,
+              answers: [answer],
+              word_bank: [answer, 'type', 'len', 'help', 'import', 'def', 'return', 'pd', 'np'].slice(0, 5),
+              explanation: `This code snippet implements: ${concept.name}. ${concept.definition}`
+            };
+          });
+          return res.json(items);
+        }
       }
     }
-
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
-
-    const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', `${exerciseType}.json`);
 
     if (!fs.existsSync(exercisePath)) {
       return res.status(404).json({ error: "No exercises found for this type" });
@@ -209,12 +215,26 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       items = items.map(ex => {
         let code = ex.code_template || "";
         const answers = (ex.blanks || []).map(b => b.answer);
-        // Replace _____ with [[0]], [[1]], etc.
+        
+        // 1. First replace any numbered placeholders like ___1___, ___2___, etc.
+        code = code.replace(/___(\d+)___/g, (match, numStr) => {
+          const num = parseInt(numStr, 10);
+          return `[[${num - 1}]]`;
+        });
+
+        // 2. Then replace any remaining simple blanks (like _____ or ____) sequentially
         let count = 0;
-        while (code.includes('_____')) {
-          code = code.replace('_____', `[[${count}]]`);
+        const existingMatches = code.match(/\[\[(\d+)\]\]/g);
+        if (existingMatches) {
+          const indices = existingMatches.map(m => parseInt(m.match(/\d+/)[0], 10));
+          count = Math.max(...indices) + 1;
+        }
+
+        while (code.match(/_{3,}/)) {
+          code = code.replace(/_{3,}/, `[[${count}]]`);
           count++;
         }
+
         return {
           ...ex,
           description: ex.task_description || ex.description,
@@ -426,8 +446,10 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
       return qId === null || !solvedIds.has(qId);
     });
 
-    // Return unsolved challenges, or fall back to ALL challenges if all have been solved
-    if (unsolvedChallenges.length > 0) {
+    const isReattempt = req.query.reattempt === 'true';
+
+    // Return unsolved challenges, or fall back to ALL challenges if all have been solved or user requested reattempt
+    if (unsolvedChallenges.length > 0 && !isReattempt) {
       res.json(unsolvedChallenges);
     } else {
       res.json(challenges);

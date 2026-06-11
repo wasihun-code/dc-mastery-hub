@@ -9,6 +9,7 @@ import progressRouter, { recalculateMastery } from './routes/progress.js'
 import tracksRouter from './routes/tracks.js'
 import contentRouter from './routes/content.js'
 import { scanContent } from './services/contentScanner.js'
+import { importJsonExercises } from './db/jsonImporter.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -54,6 +55,9 @@ console.log('DB initialized and seeded')
 
 const scanResult = scanContent()
 console.log('Content scan result:', scanResult)
+
+const importResult = importJsonExercises()
+console.log('JSON exercises import result:', importResult)
 
 // Recalculate mastery for all courses on startup to ensure consistency
 try {

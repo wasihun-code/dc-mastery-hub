@@ -1,0 +1,650 @@
+1. Basic plots with Matplotlib
+00:00 - 00:23
+Hi! My name is Hugo, and I'm a data scientist and educator at DataCamp. I'm also the host of the weekly podcast DataFramed, which you need to check out to stay up to date with everything that's happening in data science. In this intermediate Python course, you're going to take your Python skills to the next level, specifically for data science.
+
+2. Basic plots with Matplotlib
+00:23 - 00:46
+You will learn how to visualize data and to store data in new data structures. Along the way, you will master control structures, which you will need to customize the flow of your scripts and algorithms. These are the types of things data scientists use every day. We'll finish this chapter with a case study, where you'll blend together everything you've learned to solve an exciting challenge.
+
+3. Data visualization
+00:46 - 01:10
+This first chapter is about data visualization, which is a very important part of data analysis. First of all, you will use it to explore your dataset. The better you understand your data, the better you'll be able to extract insights. And once you've found those insights, again, you'll need visualization to be able to share your valuable insights with other people.
+
+4. Beautiful plot
+01:10 - 01:43
+As an example, have a look at this beautiful plot. It's made by the late, the great Swedish professor Hans Rosling. His talks about global development have been viewed millions of times. And what makes them so intriguing, is that by making beautiful plots, he allows the data to tell their own story. Here we see a bubble chart, where each bubble represents a country. The bigger the bubble, the bigger the country's population, so the two biggest bubbles here are China and India. There are 2 axes.
+
+1 Source: GapMinder, Wealth and Health of Nations
+5. Beautiful plot
+01:43 - 01:49
+The horizontal axis shows the GDP per capita, in US dollars.
+
+1 Source: GapMinder, Wealth and Health of Nations
+6. Beautiful plot
+01:49 - 02:12
+The vertical axis shows life expectancy. We clearly see that people live longer in countries with a higher GDP per capita. Still, there is a huge difference in life expectancy between countries on the same income level. Now why am I telling you this? Well, because by the end of this chapter, you'll be able to build this beautiful plot yourself!
+
+1 Source: GapMinder, Wealth and Health of Nations
+7. Matplotlib
+02:12 - 03:29
+There are many visualization packages in python, but the mother of them all, is matplotlib. You will need its subpackage pyplot. By convention, this subpackage is imported as plt, like this. For our first example, let's try to gain some insights in the evolution of the world population. I have a list with years here, year, and a list with corresponding populations, expressed in billions, pop. In the year 1970, for example, 3.7 billion people lived on planet Earth. To plot this data as a line chart, we call plt-dot-plot and use our two lists as arguments. The first argument corresponds to the horizontal axis, and the second one to the vertical axis. You might think that a plot will pop up right now, but Python's pretty lazy. It will wait for the show function to actually display the plot. This is because you might want to add some extra ingredients to your plot before actually displaying it, such as titles and label customizations. I'll talk about that some more later on. Just remember this: the plot function tells Python what to plot and how to plot it. show actually displays the plot.
+
+8. Matplotlib
+03:29 - 03:38
+When we look at our plot, we see that the years are indeed shown on the horizontal axis, and the populations on the vertical axis.
+
+9. Matplotlib
+03:38 - 04:03
+There are four data points, and Python draws a line between them. In 1950, the world population was around 2 point 5 billion. In 2010, it was around 7 billion. So the world population has almost tripled in sixty years. What if the population keeps on growing like that? Will the world become over populated? You'll find out in the exercises.
+
+10. Scatter plot
+04:03 - 04:15
+Let me first introduce you to another type of plot: the scatter plot. To create it, we can start from the code from before. This time, though, you change the plot function to scatter.
+
+11. Scatter plot
+04:15 - 04:42
+The resulting scatter plot simply plots all the individual data points; Python doesn't connect the dots with a line. For many applications, the scatter plot is often a better choice than the line plot, so remember this scatter function well. You could also say that this is a more -honest- way of plotting your data, because you can clearly see that the plot is based on just four data points.
+
+1. Histogram
+00:00 - 00:06
+Oh you are killing it! Now in this video, I'll introduce the histogram.
+
+2. Histogram
+00:06 - 00:21
+The histogram is a type of visualization that's very useful to explore your data. It can help you to get an idea about the distribution of your variables. To see how it works, imagine 12 values between 0 and 6.
+
+3. Histogram
+00:21 - 00:31
+I've put them along a number line here. To build a histogram for these values, you can divide the line into equal chunks, called bins.
+
+4. Histogram
+00:31 - 00:39
+Suppose you go for 3 bins, that each have a width of 2. Next, you count how many data points sit inside each bin.
+
+5. Histogram
+00:39 - 00:42
+There's 4 data points in the first bin,
+
+6. Histogram
+00:42 - 00:44
+6 in the second bin
+
+7. Histogram
+00:44 - 00:45
+and 2 in the third bin.
+
+8. Histogram
+00:45 - 01:12
+Finally, you draw a bar for each bin. The height of the bar corresponds to the number of data points that fall in this bin. The result is a histogram, which gives us a nice overview on how the 12 values are distributed. Most values are in the middle, but there are more values below 2 than there are above 4. Of course, we can use matplotlib to build histograms as well.
+
+9. Matplotlib
+01:12 - 01:56
+As before, you should start by importing the pyplot package that's inside matplotlib. Next, you can use the hist function. Let's open up its documentation. There's a bunch of arguments you can specify, but the first two here are the most important ones. x should be a list of values you want to build a histogram for. You can use the second argument, bins, to tell Python into how many bins the data should be divided. Based on this number, hist will automatically find appropriate boundaries for all bins, and calculate how may values are in each one. If you don't specify the bins argument, it will by 10 by default.
+
+10. Matplotlib example
+01:56 - 02:25
+So to generate the histogram that you've seen before, let's start by building a list with the 12 values. Next, you simply call hist and pass this list as an input, so it's matched to the argument x. I also specified the bins argument to be 3, so that the values are divided in three bins. If you finally call the show function, you get a histogram. Histograms are really useful to give a bigger picture.
+
+11. Population pyramid
+02:25 - 02:59
+As an example, have a look at this so-called population pyramid. The age distribution is shown, for both males and females, in the European Union. Notice that the histograms are flipped 90 degrees; the bins are horizontal now. The bins are largest for the ages 40 to 44, where there are 20 million males and 20 million females. They are the so called baby boomers. These are figures of the year 2010. What do you think will have changed in 2050?
+
+12. Population pyramid
+02:59 - 03:14
+Let's have a look. The distribution is flatter, and the baby boom generation has gotten older. With the blink of an eye, you can easily see how demographics will be changing over time. That's the true power of histograms at work here!
+
+Transcript
+1. Customization
+00:00 - 00:16
+Wow, now you've got histograms under your datavis belt, let's figure out how to customize our plots. Creating a plot is one thing. Making the correct plot, that makes the message very clear -- that's the real challenge.
+
+2. Data visualization
+00:16 - 00:45
+For each visualization, you have many options. First of all, there are the different plot types. And for each plot, you can do an infinite number of customizations. You can change colors, shapes, labels, axes, and so on. The choice depends on: one, the data, and two, the story you want to tell with this data. Since there are so many possible customizations, the best way to learn this is by example.
+
+3. Basic plot
+00:45 - 01:32
+Let's start with the code in this script to build a simple line plot. It's similar to the line plot we've created in the first video, but this time the year and pop lists contain more data, including projections until the year 2100, forecasted by the United Nations. If we run this script, we already get a pretty nice plot: it shows that the population explosion that's going on will have slowed down by the end of the century. But some things can be improved. First, it should be clearer which data we are displaying, especially to people who are seeing the graph for the first time. And second, the plot really needs to draw the attention to the population explosion.
+
+4. Axis labels
+01:32 - 01:58
+The first thing you always need to do is label your axes. Let's do this by adding the xlabel and ylabel functions. As inputs, we pass strings that should be placed alongside the axes. Make sure to call these functions before calling the show function, otherwise your customizations will not be displayed. If we run the script again,
+
+5. Axis labels
+01:58 - 02:03
+this time the axes are annotated. Fantastic!
+
+6. Title
+02:03 - 02:13
+We're also going to add a title to our plot, with the title function. We pass the actual title, 'World Population Projections', as an argument.
+
+7. Title
+02:13 - 02:33
+And there's the title! So, using xlabel, ylabel and title, we can give the reader more information about the data on the plot: now they can at least tell what the plot is about. To put the population growth in perspective, I want to have the y-axis start from zero.
+
+8. Ticks
+02:33 - 02:43
+You can do this with the yticks function. The first input is a list, in this example with the numbers zero up to ten, with intervals of 2.
+
+9. Ticks
+02:43 - 02:55
+If we run this, the plot will change: the curve shifts up. Now it's clear that already in 1950, there were already about 2.5 billion people on this planet.
+
+10. Ticks (2)
+02:55 - 03:24
+Next, to make it clear we're talking about billions, we can add a second argument to the yticks function, which is a list with the display names of the ticks. This list should have the same length as the first list. The tick 0 gets the name 0, the tick 2 gets the name 2B, the tick 4 gets the name 4B and so on. By the way, B stands for Billions here. If we run this version of the script,
+
+11. Ticks (2)
+03:24 - 03:28
+the labels will change accordingly. Awesome!
+
+12. Add historical data
+03:28 - 03:52
+Finally, let's add some more historical data to accentuate the population explosion in the last 60 years. On wikipedia, I found the world population data for the years 1800, 1850 and 1900. I can write them in list form and append them to the pop and year lists with the plus sign. If I now run the script once more,
+
+13. Add historical data
+03:52 - 03:57
+three data points are added to the graph, giving a more complete picture.
+
+14. Before vs. after
+03:57 - 04:05
+Now that's how you turn an average line plot into a visual that has a clear story to tell! Over to you now.
+
+Transcript
+1. Dictionaries, Part 1
+00:00 - 00:23
+Weeeeeelcome back. Now do I have a treat for you. In this video, I'll be talking about a new Python type: the dictionary. Dictionaries are sooooo useful in the data world and to see this, imagine the following: you work for the World Bank and want to keep track of the population in each country.
+
+2. List
+00:23 - 01:40
+You can put the populations in a list. You start with Afghanistan, 30.55 million, Albania, 2.77 million, Algeria, around 40 million, and so on. To keep track about which population belongs to which country, you can create a second list, with the names of the countries in the same order as the populations. Now suppose that want to get the population of Albania. First, you have to figure out where in the list Albania is, so that you can use this position to get the correct population. Remember about the method index(), a list method you learned about in the Intro to Python course? Let's use it to get the index of Albania in countries, like this. Now, we can use this index to subset the pop list, to get the population corresponding to Albania. As expected, we get 2.77, the population of Albania in millions. So we built two lists, and used the index to connect corresponding elements in both lists. It worked, but it's a pretty terrible approach: it's not convenient and not intuitive. Wouldn't it be easier if we had a way to connect each country directly to its population, without using an index? This is where the dictionary comes into play.
+
+3. Dictionary
+01:40 - 02:06
+Let's convert this population data to a dictionary. I included the lists to start from on the top here, so you can see what's going on. To create the dictionary, you need curly brackets. Next, inside the curly brackets, you have a bunch of what are called key:value pairs. In our case, the keys are the country names, and the values are the corresponding populations.
+
+4. Dictionary
+02:06 - 02:23
+The first key is Afghanistan, and its corresponding value is 30.55. Notice the colon that separates the key and value here. Let's do the same thing for the two other key-value pairs, and store the dictionary under the name world.
+
+5. Dictionary
+02:23 - 02:52
+If you know want to find the population for Albania, you simply type world, and then the string Albania inside square brackets. In other words, you pass the key in square brackets, and you get the corresponding value. The key opens the door to the value: pretty poetic, isn't it? This approach is not only intuitive, it's also very efficient, because Python can make the lookup of these keys very fast, even for huge dictionaries.
+
+Transcript
+1. Dictionaries, Part 2
+00:00 - 00:03
+In the previous video,
+
+2. Recap
+00:03 - 00:37
+we created the dictionary "world", which basically is a set of key value pairs. You could easily access the population of Albania, by passing the key in square brackets, like this. For this lookup to work properly, the keys in a dictionary should be unique. If you try to add another key:value pair to world with the same key, Albania, for example, you'll see that the resulting world dictionary still contains three pairs. The last pair that you specified in the curly brackets was kept in the resulting dictionary.
+
+3. Recap
+00:37 - 01:25
+Also, these unique keys in a dictionary should be so-called immutable objects. Basically, the content of immutable objects cannot be changed after they're created. Strings, booleans, integers and floats are immutable objects, but the list for example is mutable, because you can change its contents after it's created. That's why this dictionary, that has all immutable objects as keys, is perfectly valid. This one, however, that uses a list as a key, is not valid, so we get an error. So now that you have an idea of how to build a valid dictionary and how to access it using square brackets, let's see how we can add more data to a dictionary that already exists.
+
+4. Principality of Sealand
+01:25 - 01:44
+Say for example that you, an employee of the World Bank, decide to acknowledge the Principality of Sealand. Sealand is an unrecognized micronation, on an offshore platform located in the North Sea. At the moment, it has 27 inhabitants.
+
+1 Source: Wikipedia
+5. Dictionary
+01:44 - 02:08
+To add this information, simply write the key sealand in square brackets and assign 27 expressed in millions to it with the equals sign. If you check out "world" again, indeed, sealand is in there. To check this with code, you can also write "sealand in world", which gives you True if the key sealand is in there.
+
+6. Dictionary
+02:08 - 02:49
+With the same syntax, you can also change values, for example, to update the population of sealand to 28. Because each key in a dictionary is unique, Python knows that you're not trying to create a new pair, but want to update the pair that's already in there. You can see this from the printout here. Suppose now that your boss didn't see the humour of adding Sealand to the list, and asks you to remove it again. You can do this with del, again pointing to sealand inside square brackets. If you print world again, Sealand is no longer in there. Good riddance!
+
+7. List vs. Dictionary
+02:49 - 02:55
+If you remember the discussion of lists from the intro course, you'll notice that using lists
+
+8. List vs. Dictionary
+02:55 - 02:58
+and dictionaries is pretty similar. You can
+
+9. List vs. Dictionary
+02:58 - 03:02
+select, update and remove elements with square brackets.
+
+10. List vs. Dictionary
+03:02 - 03:07
+There are some big differences though. The list is a sequence of values
+
+11. List vs. Dictionary
+03:07 - 03:13
+that are indexed by a range of numbers. The dictionary, on the other hand,
+
+12. List vs. Dictionary
+03:13 - 03:23
+is indexed by unique keys, that can be any immutable type. When to use which one, I hear you ask? Well, if you have a collection of values
+
+13. List vs. Dictionary
+03:23 - 03:33
+where the order matters, and you want to easily select entire subsets of data, you'll want to go with a list. If, on the other hand, you need some sort of
+
+14. List vs. Dictionary
+03:33 - 03:40
+look up table, where looking for data should be fast and where you can specify unique keys, a dictionary is the preferred option.
+
+Transcript
+1. Pandas, Part 1
+00:00 - 00:17
+As a data scientist, you'll often be working with tons of data. The form of this data can vary greatly, but pretty often, you can boil it down to a tabular structure, that is, in the form of a table like in a spreadsheet. Let's have a look at some examples.
+
+2. Tabular dataset examples
+00:17 - 00:26
+Suppose you're working in a chemical plant and have a ton of temperature measurements to analyze. This data can come in the following form:
+
+3. Tabular dataset examples
+00:26 - 00:52
+every row is a measurement, or an observation, and for each observation, there are different variables. For each measurement, there's of course the temperature, but also the date and time of the measurement, and the location. Another example: you have collected information on the so-called BRICS countries, Brazil, Russia, India, China and South Africa. You can again build a table with this data,
+
+4. Tabular dataset examples
+00:52 - 01:06
+like this. Each row is an observation and represents a country. Each observation has the same variables: the country name, the capital, the area in millions of square kilometers and the population in millions.
+
+5. Datasets in Python
+01:06 - 01:30
+To start working on this data in Python, you'll need some kind of rectangular data structure. That's easy, we already know one! The 2D NumPy array, right? Well, it's an option, but not necessarily the best one. In the two examples we covered, there are different data types and NumPy arrays are not great at handling these. In the BRICS example,
+
+6. Datasets in Python
+01:30 - 01:33
+the area and population are floats, while
+
+7. Datasets in Python
+01:33 - 02:15
+the country and capital are strings, for example. Your datasets will typically comprise different data types, so we need a tool that's better suited for the job. To easily and efficiently handle this data, there's the Pandas package. Pandas is a high level data manipulation tool developed by Wes McKinney, built on the NumPy package. Compared to NumPy, it's more high level, making it very interesting for data scientists all over the world. In pandas, we store the tabular data like the brics table here in an object called a DataFrame. Have a look at the Pandas DataFrame version of the BRICS data I showed you before:
+
+8. DataFrame
+02:15 - 02:49
+You see a similar structure: the rows represent the observations, and the columns represent the variables. Also notice that each row has a unique row label: BR for Brazil, RU for Russia, and so on. The columns, or variables, also have labels: country, population, and so on. Notice that the values in the different columns have different types. This is all great news, but how can we create this DataFrame in the first place? Well, there are different ways.
+
+9. DataFrame from Dictionary
+02:49 - 03:13
+First of all, you can build it manually, starting from a dictionary. Using the distinctive curly brackets, we create key value pairs. The keys are the column labels, and the values are the corresponding columns, in list form. After importing the pandas package as pd, you can create a DataFrame from the dictionary using pd (dot) DataFrame.
+
+10. DataFrame from Dictionary (2)
+03:13 - 03:50
+If you check out brics now, we're almost there. Pandas assigned some automatic row labels, 0 up to 4. To specify them manually, you can set the index attribute of brics to a list with the correct labels. The resulting brics DataFrame is the same one as you saw before. Using a dictionary approach is fine, but what if you're working with tons of data, which is typically the case as a data scientist? Well, you won't build the DataFrame manually. Instead, you import data from an external file that contains all this data.
+
+11. DataFrame from CSV file
+03:50 - 04:03
+Suppose the brics data that I showed you before comes in the form of a CSV file called brics.csv. By the way, CSV is short for comma separated values.
+
+12. DataFrame from CSV file
+04:03 - 04:29
+Let's try to import this data into Python using Pandas read_csv function. You pass the path to the csv file as an argument. If you now print brics, there's still something wrong. The row labels are seen as a column in their own right. To solve this, we'll have to tell the read_csv function that the first column contains the row indexes. You do this by setting the index_col argument, like this.
+
+13. DataFrame from CSV file
+04:29 - 04:48
+This time brics contains the DataFrame we started with in this video. It nicely contains the row and column labels. The read_csv function features many more arguments that allow you to customize your data import, make sure to check out its documentation
+
+Transcript
+1. Pandas, Part 2
+00:00 - 00:05
+In the previous video, we created the DataFrame brics
+
+2. brics
+00:05 - 00:25
+In the previous video, we created the DataFrame brics, containing basic data on the BRICS countries. Here it is again. The code here makes sure that the rows and columns are given appropriate labels. This is important to make accessing columns, rows and single elements in your DataFrame easy. Now that's exactly what I'll show you in this video, what a coincidence!
+
+3. Index and select data
+00:25 - 00:45
+There are numerous ways in which you can index and select data from DataFrames, so we'll take this step by step. First, I'm going to talk about how to use square brackets; next, I'm going to tell you about advanced data access methods, loc and iloc, that make Pandas extra powerful.
+
+4. Column Access [ ]
+00:45 - 01:17
+Suppose that you only want to select the country column from brics. How to do this with square brackets? Well, you type brics, and then the column label inside square brackets. Python prints out the entire column, together with the row labels. But there's something strange here. The last line says Name: country, dtype: object. We're clearly not dealing with a regular DataFrame here. Let's find out about the type of the object that gets returned, with the type function,
+
+5. Column Access [ ]
+01:17 - 01:37
+with the type function, as follows. Okay, so we're dealing with a Pandas Series here. In a simplified sense, you can think of the Series as a 1-dimensional array that can be labeled, just like the DataFrame. Otherwise put, if you paste together a bunch of Series, you can create a DataFrame.
+
+6. Column Access [ ]
+01:37 - 01:47
+If you want to select the country column but keep the data in a DataFrame, you'll need double square brackets, like this. If you check out the type of this fellow,
+
+7. Column Access [ ]
+01:47 - 01:52
+it's a good old DataFrame, this time with only one column though.
+
+8. Column Access [ ]
+01:52 - 02:16
+You can perfectly extend this call to select two columns, country and capital, for example. If you look at it from a different angle, you're actually putting a list with column labels inside another set of square brackets, and end up with a 'sub DataFrame', containing only the country and capital columns. You can also use the same square brackets to select rows from a DataFrame.
+
+9. Row Access [ ]
+02:16 - 02:31
+The way to do it is by specifying a slice. To get the second, third and fourth rows of brics, we use the slice 1 colon 4. Remember that the end of the slice is exclusive and that the index starts at zero.
+
+10. Row Access [ ]
+02:31 - 02:37
+Here are the row indexes so that you see what's happening.
+
+11. Discussion [ ]
+02:37 - 03:14
+These square brackets work, but it only offers limited functionality. Ideally, we'd want something similar to 2D NumPy arrays. There, you also used square brackets, the index or slice before the comma referred to the rows, the index or slice after the comma referred to the columns. If we want to do a similar thing with Pandas, we have to extend our toolbox with the loc and iloc functions. loc is a technique to select parts of your data based on labels, iloc is position based. Let's start with loc first.
+
+12. Row Access loc
+03:14 - 03:36
+Let's have another look at the brics DataFrame, and try to get the row for Russia. This is how it's done. You put the label of the row of interest in square brackets after loc. Again, we get a Pandas Series, containing all the row's information, rather inconveniently shown on different lines.
+
+13. Row Access loc
+03:36 - 03:44
+To get a DataFrame, we have to put the "RU" string inside another pair of brackets.
+
+14. Row Access loc
+03:44 - 04:11
+We can also select multiple rows at the same time. Suppose you want to also include India and China. This will do the trick; simply add some more row labels to the list. This was only selecting entire rows, that's something you could also do with the basic square brackets. The difference here is that you can extend your selection with a comma and a specification of the columns of interest.
+
+15. Row & Column loc
+04:11 - 04:31
+Let's extend the previous call to only include the country and capital columns. We add a comma, and a list of column labels we want to keep. The intersection gets returned. Of course, you can also use loc to select all rows but only a specific number of columns.
+
+16. Row & Column loc
+04:31 - 04:48
+Simply replace the first list that specifies the row labels with a colon, a slice going from beginning to end. This time, the intersection spans all rows, but only two columns.
+
+17. Recap
+04:48 - 05:27
+So, let's take a step back: simple square brackets work fine if you want to get columns; to get rows, you can use slicing. The loc function is more versatile: you can select rows, columns, but also rows and columns at the same time. When you use loc, subsetting becomes remarkable similar to how you subsetted 2D NumPy arrays. The only difference is that you use row labels with loc, not the positions of the elements. If you want to subset Pandas DataFrames based on their position, or index, you'll need the iloc function.
+
+18. Row Access iloc
+05:27 - 05:45
+Let's cover the same examples as with loc, and start with getting the row for Russia. In loc, you use the "RU" string in double square brackets, to get a DataFrame, like here. In iloc, you use the index 1 instead of RU. The results are exactly the same.
+
+19. Row Access iloc
+05:45 - 05:51
+To get the rows for Russia, India and China, which was coded like this when using loc, you can now use
+
+20. Row Access iloc
+05:51 - 05:56
+a list with the index 1 to 3. Again, the same result.
+
+21. Row & Column iloc
+05:56 - 06:02
+To in addition only keep the country and capital column, which we did as follows with loc,
+
+22. Row & Column iloc
+06:02 - 06:09
+we put the indexes 0 and 1 in a list after the comma, referring to the country and capital column.
+
+23. Row & Column iloc
+06:09 - 06:20
+Finally, you can keep all rows and keep only the country and capital column in a similar fashion. With loc, this is how it's done.
+
+24. Row & Column iloc
+06:20 - 06:38
+For iloc, it's like this. loc and iloc are pretty similar, the only difference is how you refer to columns and rows. I know all of this could be a lot to take in, so lets get you coding yourself to master indexing and selecting data. Keep learning by doing!
+
+Transcript
+1. Comparison Operators
+00:00 - 00:09
+Welcome back, budding Pythonistas! You have already learned a bit about different Python types.
+
+2. NumPy recap
+00:09 - 00:45
+Among those was bool, short for boolean. Do you remember the bmi array from the intro course? Here it is again. Using the greater than sign, we could find out which values in bmi were above 23. Next, I used the resulting Boolean array to actually select that value. In this video, we'll dive a little deeper into the world of comparison operators, like this greater than sign. Comparison operators are operators that can tell how two Python values relate, and result in a boolean.
+
+3. Numeric comparisons
+00:45 - 01:40
+In the simplest sense, you can use these operators on numbers. Say, for example, that you want to check if 2 is smaller than 3. You type 2 less than sign 3, and hit Enter. Because this is the case, you get True. You can also check if two values are equal, with a double equals sign. From this call, we see that 2 equals equals 3 gives us False. Makes sense, because 2 is not equal to 3. You can also make a combination of equality and smaller than. Have a look at this command that checks if 2 is smaller than or equal to 3. It's TRUE, but also 3 smaller than or equal to 3 is True. Of course, you can also use comparison operators directly on variables that represent these integers, like I did in this example.
+
+4. Other comparisons
+01:40 - 02:24
+All these operators also work for strings. Let's check if "carl" is smaller than "chris". According to the alphabet, carl comes before chris, so the result is True. Do you think that comparing a string and an integer can work? Let's try to see if the integer 3 is smaller than the string chris. We get an error. Typically, Python can't tell how two objects with different types relate. Different numeric types, such as floats and integers, are exceptions as this example shows: no error this time. In general, always make sure that you make comparisons between objects of the same type.
+
+5. Other comparisons
+02:24 - 03:00
+Another exception arises when we move back to the example we started with, where we compared the NumPy array, bmi, with an integer, 23. This works perfectly. NumPy figures out that you want to compare every element in bmi with 23, and returns corresponding booleans. Behind the scenes, NumPy builds a numpy array of the same size filled with the number 23, and then performs an element-wise comparison. This is concise yet very efficient code, something data scientists love!
+
+6. Comparators
+03:00 - 03:20
+Have a look at this table that summarizes all comparison operators. You already know about some of these. They're all pretty straightforward, except for the last one maybe. The exclamation mark followed by an equals sign stands for inequality. It's basically the opposite of equality.
+
+Transcript
+1. Boolean Operators
+00:00 - 00:10
+You're doing great! And now that you can produce booleans by performing comparison operations, the next step is combining these booleans.
+
+2. Boolean Operators
+00:10 - 00:18
+You can use boolean operators for this. The three most common ones are and, or, and not.
+
+3. and
+00:18 - 01:14
+The and operator works just as you would expect. It takes two booleans and returns True only if both the booleans themselves are True. This means that True and True evaluates True, but False and True, True and False and False and False all evaluate to False. Instead of using booleans, we can of course use the results of comparisons. Suppose we have a variable x, equal to 12. To check if this variable is greater than 5 but less than 15, we can use x greater than 5 and x less than 15. As you already learned, the first part will evaluate to True. The second part, will also evaluate to True. So the result of this expression, True and True, is True. This makes sense, because 12 lies between 5 and 15.
+
+4. or
+01:14 - 02:00
+The or operator works similarly, but the difference is that only at least one of the booleans it uses should be True. This means that, True or True equals True, but that also False or True and True or False evaluate to True. Only False or False results in False. Also here you can make combinations with variables, like this example that checks if a variable y, which is equal to 5, is less than 7 or above 13. 5 less than 7 is True, 5 greater than 13 is False. The or operation thus returns True.
+
+5. not
+02:00 - 02:18
+Finally, there's the not operator. It simply negates the boolean value you use it on. not True is False, not False is True. The not operation is typically useful if you're combining different boolean operations and then want to negate that result; you'll see some examples in the exercises.
+
+6. NumPy
+02:18 - 02:54
+Now, for NumPy arrays, things are different. Retaking the bmi example from the intro course, we can try to find out which bmis are higher than 21, but lower than 22. The output of bmi greater than 21 is easily found, so is the one for the bmi lower than 22. Let's now try to combine those with the and operator I just introduced. Oops, an error. The truth value of an array with more than one element is ambiguous. and clearly doesn't like an array of booleans to work on.
+
+7. NumPy
+02:54 - 03:56
+After some digging in the numpy documentation, you can find the functions logical_and, logical_or and logical_not, the "array equivalents" of and or and not. To find out which bmis are between 21 and 22, we thus need this call. Again, as we expect from NumPy, the and operation is performed element-wise: True and True give True, like these ones, but False and True or True and False give False, like for these elements. To actually select only these bmis from the bmi array, we can use the resulting array of booleans in square brackets. Again, NumPy wins when it comes to writing short yet very expressive Python code. I can hear you asking, "Cool, but how does this work for Pandas DataFrames, the de facto standard for dataset manipulation?" That's something you'll find out later in this chapter.
+
+Transcript
+1. if, elif, else
+00:00 - 00:04
+So you know about comparison operators now,
+
+2. Overview
+00:04 - 00:31
+such as less than and greater than, and you also know how to combine the boolean results, using boolean operators such as and and or. Things get really interesting when you can actually use these concepts to change how your program behaves. Depending on the outcome of your comparisons, you might want your Python code to behave differently. You can do this with conditional statements in Python: if, else and elif.
+
+3. if
+00:31 - 01:21
+Let's start working in a script, control.py. Suppose you have a variable z, equal to 4. If the value is even, you want to print out: "z is even". This code does the trick. modulo operator 2 will return 0 if z is even. If you run this, Python checks if the condition holds. It's true, so the corresponding code is executed: "z is even" gets printed out. Let's compare this to the general recipe for an if statement. It reads as follows: if condition, execute expression. Notice the colon at the end, and the fact that you simply have to indent the Python code with four spaces (or a tab) to tell Python what to do in the case the condition succeeds.
+
+4. if
+01:21 - 01:32
+To exit the if statement, simply continue with some Python code without indentation, and Python will know that it's not part of the if statement.
+
+5. if
+01:32 - 01:46
+It's perfectly possible to have more lines inside the if statement, like this for example. The script now prints out two lines if you run it. If the condition does not pass, the expression is not executed.
+
+6. if
+01:46 - 02:00
+You can see this if we change z to be 5 and rerun the code: there's no output. Suppose now that you want to print out "z is odd" in this case. How to do this?
+
+7. else
+02:00 - 02:24
+Well, you can simply use an else statement, like this. If we run it with z equal to 5, the condition is not true, so the expression for the else statement gets printed out. The general recipe looks like this: for the else statement, you don't need to specify a condition. The corresponding expression gets run if the condition of the if statement it belongs to does not hold.
+
+8. elif
+02:24 - 02:54
+You can think of cases where even more customized behavior is necessary. Say you want different printouts for numbers that are divisible by 2 and by 3. You can throw some elifs in there to get the job done. Take this example. Can you tell what this script will print out if you run it? If z equals 3, the first condition is False, so it goes over to the next condition. This condition, does hold, so the corresponding print statement is executed.
+
+9. elif
+02:54 - 03:20
+Suppose now that z equals 6. Both the if and elif conditions hold in this case. Will two printouts occur? Nope. As soon as Python bumps into a condition that is true, it executes the corresponding code and then leaves the control structure after that. This means the second condition, corresponding to the elif, is never reached so there's no corresponding printout.
+
+Transcript
+1. Filtering pandas DataFrames
+00:00 - 00:16
+In previous videos, I gave some examples of how the NumPy array can be useful to do comparison operations and boolean operations on an element-wise basis. Let's now use this knowledge on the Pandas DataFrame.
+
+2. brics
+00:16 - 00:23
+For starters, let's import the BRICS dataset again from the CSV file; here it is.
+
+3. Goal
+00:23 - 00:50
+Suppose you now want to keep the countries, so the observations in this case, for which the area is greater than 8 million square kilometers. There are three steps to this. First of all, we want to get the area column from brics. Next, we perform the comparison on this column and store its result. Finally, we should use this result to do the appropriate selection on the DataFrame.
+
+4. Step 1: Get column
+00:50 - 01:09
+So the first step, getting the area column from brics. There are many different ways to do this. What's important here, is that we ideally get a Pandas Series, not a Pandas DataFrame. Let's do this with square brackets, like this. This loc alternative, and this iloc version, would also work perfectly fine.
+
+5. Step 2: Compare
+01:09 - 01:39
+Next, we actually perform the comparison. To see which rows have an area greater than 8, we simply append greater than 8 to the code from before, like this. Now we get a Series containing booleans. If you compare it to the actual area values, you can see that the areas with a value over 8 correspond to True, and the ones with a value under 8 correspond to False now. Let me store this Boolean Series as is_huge.
+
+6. Step 3: Subset DF
+01:39 - 02:01
+The final step is using this boolean Series to subset the Pandas DataFrame. This is something I haven't shown you yet. To do this, you put is_huge inside square brackets. The result is exactly what we want: only the countries with an area greater than 8, namely Brazil, Russia and China.
+
+7. Summary
+02:01 - 02:26
+So let's summarize this: I selected the area column, performed a comparison on this column and the stored it as is_huge so that I can use it to index the brics DataFrame. These different commands do the trick. However, we can also write this in a one-liner: simply put the code that defines is_huge directly in the square brackets. Great!
+
+8. Boolean operators
+02:26 - 03:23
+Now we haven't used boolean operators yet. Remember that we used this logical_and function from the NumPy package to do an element wise boolean operation on NumPy arrays? Because Pandas is built on NumPy, you can also use that function here. Suppose you only want to keep the observations that have an area between 8 and 10 million square kilometers. After importing numpy as np, we can use the logical_and() function to create a Boolean Series. The only thing left to do is placing this code inside square brackets to subset brics appropriately. This time, only Brazil and China are included. Russia has an area of 17 million square kilometers, which doesn't meet the conditions. I hope these examples have shown you how easy it is to filter DataFrames to get interesting results.
+
+Transcript
+1. while loop
+00:00 - 00:13
+In the previous chapter, you've discovered the if-elif-else construct, a way to alter the flow of your scripts. As soon as Python encounters an if statement, it checks the condition.
+
+2. if-elif-else
+00:13 - 00:52
+When this condition is True, the corresponding code is executed. If the conditions evaluates to False, and if there are elif and else statements, Python continues the search. Anyways, Python goes through this piece of code only once. After that, Python heads over to the next command in the script. The while loop is somewhat similar to an if statement: it executes the code inside if the condition is True. However, as opposed to the if statement, the while loop will continue to execute this code over and over again as long as the condition is true.
+
+3. While
+00:52 - 01:39
+The syntax of a while loop is very similar to the if statement, as you can see here. The while loop is not that common, but in some cases it can be very useful. As example, suppose you're numerically calculating a model based on your data. This typically involves taking the same steps over and over again, until the error between your model and your data is below some boundary. When you can reformulate the problem as 'repeating an action until a particular condition is met', a while loop is often the way to go. Say that we start with an error of fifty and that our fancy algorithm divides the error by four on each run. We want to keep going until the error is no longer above 1.
+
+4. While
+01:39 - 02:19
+Now heading over to the script, we start by adding the error we start with, 50. Next, we write a while loop. In the condition part, we write error > 1, so that the while loop executes again as long as the error is above 1. Inside the code, we divide the error by four and update the error variable. This kind of simulates our fancy algorithm that divides the error by four on every run. Next, we also print this error. Let's go through what happens if you actually run this script, step by step.
+
+5. While
+02:19 - 02:30
+On the first run, the error is 50, so the while condition is True and the corresponding code is executed. The error is divided by four and printed out: 12.5.
+
+6. While
+02:30 - 02:49
+Now, Python heads back to the condition of the while loop, with error equal to 12.5. Again, the condition is True, and the code is executed. The Error is divided by 4 and printed out. Now the error is 3.125 and Python heads back to the while condition.
+
+7. While
+02:49 - 03:03
+3.125 is still greater than 1 so the corresponding code is executed again. Now, the error is only zero point seven eight so on, as you can see from the printout.
+
+8. While
+03:03 - 03:24
+Once more, Python heads over to the while condition, but this time, the condition is False. The code in the while loop is not executed anymore, and Python moves on. Notice that inside this while loop, this update of error is crucial: the error had to go down to become lower than 1 at some point.
+
+9. While
+03:24 - 03:48
+Suppose that we comment out these updates of the error value, and run the script again. The error isn't updated, so the condition is always True and the while loop will go on forever. On DataCamp, this will cause your session to be disconnected. If you're making this mistake on your own system, you will have to interrupt the python program by pressing the control and C keys.
+
+Transcript
+1. for loop
+00:00 - 00:08
+Next to the while loop, Python features another type of loop as well: You've seen the while loop and now it's time for another loop: the for loop! Have a look at the for loop's recipe here:
+
+2. for loop
+00:08 - 00:18
+This can be read as: for each var, a variable, in seq, a sequence, execute the expressions. Makes sense?
+
+3. fam
+00:18 - 00:38
+Let's see how this actually works with an example. Remember about the fam list, containing the heights of your family? Here it is again, in the family (dot) py script. Suppose that instead of a single printout of the entire list, like this, we want to print out each element in the list separately.
+
+4. fam
+00:38 - 00:48
+You could do this by doing 4 print calls with the correct subsetting operations. Instead of this repetitive and tedious approach, you can use a for loop.
+
+5. for loop
+00:48 - 01:25
+Let's wipe the print calls, and start a for loop: for height in fam, followed by a colon. This means that I want to execute some code for each height in the fam list. Height is an arbitrary name here, I could just as well call it h or something else. Inside the for loop, on every iteration, I print out the value of height. When you run this script, Python encounters the for loop and evaluates the seq element, fam in this case. It sees that it's a list containing 4 elements. Then the actual iteration starts.
+
+6. for loop
+01:25 - 01:38
+In the first run, Python stores the first element, so the float 1 point 73, in the variable height. Next, the expression, print(height), is executed, printing out 1 point 73.
+
+7. for loop
+01:38 - 01:47
+In the second iteration, Python stores the second value of fam in height, being 1 point 68 now, and prints out height again.
+
+8. for loop
+01:47 - 02:02
+This process continues until all heights in fam have been iterated over, and we end up with 4 separate printouts, great! In this solution, you don't have access to the index of the elements you're iterating over.
+
+9. for loop
+02:02 - 02:13
+Say that, together with printing out the height, you also want to display the index in the list, so that the printouts are converted to this. How should the for loop be built in this case?
+
+10. enumerate
+02:13 - 03:01
+To achieve this, you can use enumerate(). Let's update the for loop definition like this. Now, enumerate(fam) produces two values on each iteration: the index of the value, and the value itself. Instead of a single variable height, you now write index, height. Now, on each iteration, index will contain the index, and height will contain the float. This means that we can now also update the statement inside the for loop with a more complicated print() call. Notice that I had to convert the floats to strings with str() so that you can add everything together. The printouts are exactly what we wanted, nice.
+
+11. Loop over string
+03:01 - 03:25
+The for loop doesn't only work with lists. You can also create a for loop that iterates over every character a string, "family" for example, and stores it in c, one after the other. Inside the loop, the string c is capitalized and printed out. This time, 7 different printouts occur. That's enough on the for loop for now.
+
+Transcript
+1. Loop Data Structures Part 1
+00:00 - 00:22
+So you already saw how looping over lists and strings works, but what about those other data structures, such as dictionaries and NumPy arrays? Well, in both cases, you can use a similar for loop construct, but the way you define the "sequence" over which you're iterating will differ depending on the data structure.
+
+2. Dictionary
+00:22 - 01:02
+Let's go back to our "world" dictionary, containing country names as keys and corresponding populations as values, shown here. How should we approach this if we want to print out the key and corresponding value for each key:value pair on a new line? Maybe like this, simply hoping that the key and value are correctly set? Unfortunately, we get an error. Python sees that you expect two values in every iteration, like enumerate did before when you wanted the index and value from a list element, but in this case, Python has no idea how to go about this.
+
+3. Dictionary
+01:02 - 01:28
+We can fix this by calling the method items() on world. This will generate a key and value in each iteration. If you have a look at the printout, there's something strange: afghanistan comes first in world, but not in the printout. That's because dictionaries are inherently unordered: the order in which they're iterated over is not fixed, at least in Python 3.5.
+
+4. Dictionary
+01:28 - 01:41
+The names key and value are totally arbitrary by the way, I can also call these k and v, like here. The order does matter though. The first variable gets the key, the second one the value.
+
+5. NumPy Arrays
+01:41 - 01:58
+Now for the NumPy array, that "data science equivalent" of the Python list I've been talking about quite a bit. Let's start from the bmi array that you already know -- here it is. It's pretty straightforward: the most basic for loop you can imagine already does the trick.
+
+6. 2D NumPy Arrays
+01:58 - 02:25
+Let's see if this also works with a 2D NumPy array. Here, I created meas, by combining the np_height and np_weight arrays. If we want to print out each element in this 2D array separately, the same basic for loop won't do the trick though. The 2D array is actually built up from an array of 1D arrays. The for loop simply prints out an entire array on each iteration.
+
+7. 2D NumPy Arrays
+02:25 - 02:41
+To get every element of an array, you can use a NumPy function called nditer(). The input is the array you want to iterate over, meas in our case. This time, we get 10 printouts, first all the heights, then all the weights. Nice!
+
+8. Recap
+02:41 - 03:04
+To recap: if you want to iterate over key-value pairs in a dictionary, use the items() method on the dictionary to define the sequence in the for loop. If you want to iterate over all elements in a NumPy array, you should use the nditer() function to specify the sequence. Pay attention here: dictionaries require a method, NumPy arrays use a function.
+
+Transcript
+1. Loop Data Structures Part 2
+00:00 - 00:09
+There's one killer data structure out there that we haven't covered up to now when it comes to looping: the Pandas DataFrame.
+
+2. brics
+00:09 - 00:22
+Let's go over the data on the brics countries one last time. These lines of code import it from the CSV file brics.csv. You can see its contents on the top right here, so you can follow along.
+
+3. for, first try
+00:22 - 00:49
+If a Pandas DataFrame were to function the same way as a 2D NumPy array, then maybe a basic for loop like this, to print out each row, could work. Let's see what the output is. Well, this was rather unexpected. We simply got the column names. Also interesting, but not exactly what we want. In Pandas, you have to mention explicitly that you want to iterate over the rows.
+
+4. iterrows
+00:49 - 01:40
+You do this by calling the iterrows method on the brics country, thus specifying another "sequence": The iterrows method looks at the DataFrame, and on each iteration generates two pieces of data: the label of the row and then the actual data in the row as a Pandas Series. Let's change the rest of the for loop to reflect this change: we store the row label as lab, and the row data as row. To understand what's happening, let's print lab and row seperately. In the first iteration, lab is BR, and row is this entire Pandas Series. Because this row variable on each iteration is a Series, you can easily select additional information from it using the subsetting techniques you learned about earlier.
+
+5. Selective print
+01:40 - 01:54
+Suppose you only want to print out the capital on each iteration: let's change the print statement as follows, printing the label and the capital together. You can take things further than simple printouts, though.
+
+6. Add column
+01:54 - 03:13
+Let's add a new column to the brics DataFrame, named name_length, containing the number of characters in the country's name. To do this, we'll need to blend together a lot of the things we've learned. It's pretty advanced stuff, so try to stay with me here. The specification of the for loop can be the same, because we'll need both the row label and the row data. Next, we can calculate the length of each country name by selecting the country column from row, and then passing it to the len() function, that determines the number of characters in a string. Finally, we'll have to add this new information to a new column, name_length, at the appropriate location. I used loc here, which is label-based. To see whether we coded things correctly, I'm adding a printout of brics after the for loop, so without indentation. Running this scripts shows that it worked: there's a new column in there with the length of the country names. Nice, but not especially efficient, because you're creating a Series object on every iteration. For this small DataFrame that doesn't matter, but if you're doing funky stuff on a ginormous dataset, this loss in efficiency can become problematic.
+
+7. apply
+03:13 - 04:03
+A way better approach if you want to calculate an entire DataFrame column by applying a function on a particular column in an element-wise fashion, is apply(). In this case, you don't even need a for loop. This is how it's done. Basically, you're selecting the country column from the brics DataFrame, and then, on this column, you apply the len function. Apply calls the len function with each country name as input and produces a new array, that you can easily store as a new column, "name_length". This is way more efficient, and also easier to read, if you ask me. So, I've told you how to iterate DataFrames with a for loop, and how to do vectorized operations with the apply function. These skills will become very useful once you start transforming your own datasets!
+
+
