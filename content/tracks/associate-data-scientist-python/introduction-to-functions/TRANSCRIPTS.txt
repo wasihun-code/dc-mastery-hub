@@ -1,0 +1,263 @@
+TRANSCRIPTS
+
+CHAPTER 1 TRANSCRIPTS
+
+
+Transcript
+1. User-defined functions
+00:00 - 00:11
+Welcome to the course! My name is Hugo Bowne-Anderson and I am a Data Scientist at DataCamp. In this course, you'll learn to write your very own functions.
+
+2. What you will learn:
+00:11 - 00:33
+Specifically, in this video and in the interactive exercises that follow it, you will learn to do the following: define functions without parameters, define functions with single parameters, and define functions that return a single value. In the next section, you'll learn how to pass multiple arguments to functions, as well as return multiple values from them. Let's begin!
+
+3. Built-in functions
+00:33 - 00:56
+Let's check out Python's built-in function str, which accepts an object such as a number and returns a string object. You can assign a call to str to a variable to store its return value. While built-in Python functions are cool, as a Data Scientist, you'll need functions that have functionality specific to your needs. Fortunately, you can define your own functions in Python!
+
+4. Defining a function
+00:56 - 01:51
+We'll now see how to define functions via an example, a function that squares a number. The function name square will be perfect for this. To define the function, We begin with the keyword def, followed by the function name square; this is then followed by a set of parentheses and a colon. This piece of code is called a function header. To complete the function definition, let's write the function body by squaring a value, say 4, and printing the output. Right now, our square function does not have any parameters within the parentheses. We will add them later. Now, whenever this function is called, the code in the function body is run. In this case, new_value is assigned the value of 4 ** 2 and then printed out. You can call the function as you do with pre-built functions: square. This should yield the value, 16.
+
+5. Function parameters
+01:51 - 02:29
+What if you wanted to square any other number besides 4, though? To add that functionality, you add a parameter to the function definition in between the parentheses. Here you see that we've added a parameter value and in the new function body, the new variable new_value takes the square of value, which is then printed out. We can now square any number that we pass to the function square as an argument. A quick word on parameters and arguments: when you define a function, you write parameters in the function header. When you call a function, you pass arguments into the function.
+
+6. Return values from functions
+02:29 - 02:55
+The function square now accepts a single parameter and prints out its squared value. But what if we don't want to print that value directly and instead we want to return the squared value and assign it to some variable? You can have your function return the new value by adding the return keyword, followed by the value to return. Now we can assign to a variable num the result of the function call as you see here.
+
+7. Docstrings
+02:55 - 03:31
+There's another essential aspect of writing functions in Python: docstrings. Docstrings are used to describe what your function does, such as the computations it performs or its return values. These descriptions serve as documentation for your function so that anyone who reads your function's docstring understands what your function does, without having to trace through all the code in the function definition. Function docstrings are placed in the immediate line after the function header and are placed in between triple quotation marks. An appropriate Docstring for our function square is 'Returns the square of a value'.
+
+
+1. Multiple Parameters and Return Values
+00:00 - 00:20
+Welcome back! You're doing great at defining your own functions. Good job! At this point, you already know how to define your own functions and even return values from them. What you'll learn next is how to pass multiple arguments to functions, as well as return not just one, but multiple values from them.
+
+2. Multiple function parameters
+00:20 - 01:40
+Let's tweak the square function we've been working on a little bit more. Suppose that, instead of simply squaring a value, we'd like to raise a value to the power of another value that's also passed to the function. We can do this by having our function accept two parameters instead of just one. You should also change your function name AND docstrings to reflect this new behavior. raise_to_power is an appropriate function name. Notice that there are now two parameters in the function header instead of one, value1 and value2. In the lines after that, the behavior of the overall function was also changed by raising value1 to the power of value2. You can call the function by passing in two arguments because the function has two parameters, as declared in the function header. The order in which the arguments are passed correspond to the order of the parameters in the function header. This means that when we call raise_to_power(2, 3), when the function is executed, 2 would be assigned to value1 and 3 to value2. Looking at the function body, this means that the computation value1 to the power of value2 translates to 2 to the power of 3. This function call then returns the value 8.
+
+3. A quick jump into tuples
+01:40 - 02:14
+You can also make your function return multiple values. You can do that by constructing objects known as tuples in your functions. A tuple is like a list, in that it can contain multiple values. There are some differences, however. Firstly, unlike a list, a tuple is immutable, that is, you cannot modify the values in a tuple once it has been constructed. Secondly, while lists are defined using square brackets, tuples are constructed using a set of parentheses.
+
+4. Unpacking tuples
+02:14 - 02:32
+Here we construct a tuple containing 3 elements. You can also unpack a tuple into several variables in one line. Doing so means that you assign to the variables a, b, and c the tuple values, in the order that they appear in the tuple.
+
+5. Accessing tuple elements
+02:32 - 02:53
+Additionally, you can also access individual tuple elements like you do with lists. Doing this here accesses the second element of the tuple. Why is that? Recall that with lists, you can use zero-indexing to access list elements. You can do the same thing with tuples! Pretty cool, right?
+
+6. Returning multiple values
+02:53 - 03:38
+Let's now modify the behavior of your raise function. Instead of returning just the value of value1 raised to the power of value2, let's also return the value of value2 raised to the power of value1. You thus need to make raise return two values instead of one. We can use what we now know of tuples to do this! We first change the name of our function and the docstring to reflect the new behavior of our function. We then, in the function body, construct a tuple consisting of the values we want the function to return and, also in the function body, we return the tuple! Calling the function constructed demonstrates that it does exactly what we want!
+
+
+Transcript
+1. Bringing it all together
+00:00 - 00:05
+Congrats! So now you're able to write functions
+
+2. What you have learned:
+00:05 - 00:39
+that accept multiple parameters and return multiple values, it is time to see how these learnt skills can be valuable in a Data Science context. In the following exercises, you'll write a function that analyzes a DataFrame of twitter data. The function that you'll write will return a dictionary containing data of how many times each language was used across all the tweets in the DataFrame. We'll see later in this course that we can generalize such a function to count occurrences of any items in a DataFrame column. Let's recap the basic ingredients of a function.
+
+3. Basic ingredients of a function
+00:39 - 01:13
+We have a function header which begins with the keyword def. This is followed by the function name, parameters in parentheses and a colon. We then have the function body, which contains docstrings enclosed in triple quotation marks; docstrings describe what the function does; the rest of the function body performs the computation that the function does; the function body closes with the keyword return, followed by the value or values returned by the function. That's it from me.
+
+
+CHAPTER 2 TRANSCRIPTS
+
+
+Transcript
+1. Scope and user-defined functions
+00:00 - 00:14
+Wow! At this point, you know how to define your own functions - but not only that, you know how to write functions with multiple parameters and can return multiple values using tuples. Good job!
+
+2. Crash course on scope in functions
+00:14 - 01:39
+We'll now talk about the idea of scope in the context of user-defined functions. You've been defining variables in your programs and so far, you've been using these variables without any problems. However, one thing you should know is that not all objects that you define are always accessible everywhere in a program. Enter the idea of scope, which tells you which part of a program an object or a name may be accessed. Names refer to the variables or, more generally, objects such as functions that are defined in your program, for example, a variable x has a name, as does the function sum. There are three types of scope that you should know. The first one is the idea of the global scope. A name that is in the global scope means that it is defined in the main body of a script or a Python program. The second one, is the local scope. A name that is in a local scope means that it is defined within a function. Once the execution of a function is done, any name inside the local scope ceases to exist, which means you cannot access those names anymore outside of the function definition. The third is something called the built-in scope: this consists of names in the pre-defined built-ins module Python provides, such as print and sum. You'll play around with the built-ins module in the interactive exercises.
+
+3. Global vs. local scope (1)
+01:39 - 02:08
+Let's look at a couple of examples to clarify these definitions. Let's check out our example function square from earlier. We define the function and then call it. If we then try to access the variable name new_val after function execution, the name is not accessible. This is because it was defined only within the local scope of the function. The name new_val was not defined globally.
+
+4. Global vs. local scope (2)
+02:08 - 02:38
+Now what if we define the name globally before defining and calling the function? In short, any time we call the name in the global scope, it will access the name in the global, such as you see here. Any time we call the name in the local scope of the function, it will look first in the local scope. That's why calling square(3) results in 9 and not 10. If Python cannot find the name in the local scope, it will then and only then look in the global scope.
+
+5. Global vs. local scope (3)
+02:38 - 03:09
+Here, for example, we access new_val defined globally within the function square. Note that the global value accessed is the value at the time the function is called, not the value when the function is defined. Thus, if we re-assign new_val and call the function square, we see that the new value of new_val is accessed. To recap, when we reference a name, first the local scope is searched, then the global. If the name is in neither, then the built-in scope is searched.
+
+6. Global vs. local scope (4)
+03:09 - 03:46
+Now what if we want to alter the value of a global name within a function call? This is where the keyword global comes in handy. To look at how it works, let's look at another example. Within the function definition, we use the keyword global followed by the name of the global variable that we wish to access and alter. For example, here we change new_val to its square. The function call works as one would expect. Now calling new_val, we see that the global value has indeed been squared by running the function square.
+
+
+Transcript
+1. Nested functions
+00:00 - 00:07
+Now that you've come to grips with scope, both local and global, it's time to dive a bit deeper!
+
+2. Nested functions (1)
+00:07 - 00:43
+What if we have a function inner defined within another function outer and we reference a name x in the inner function? The answer is intuitive: Python searches the local scope of the function inner, then if it doesn't find x, it searches the scope of the function outer, which is called an enclosing function because it encloses the function inner. If Python can't find x in the scope of the enclosing function, it only then searches the global scope and then the built-in scope. But whoa, hold on there for a second, why are we even nesting functions?
+
+3. Nested functions (2)
+00:43 - 01:00
+There are a number of good reasons to do so. Let's say that we want to use a process a number of times within a function. For example, we want a function that takes 3 numbers as parameters and performs the same function on each of them. One way would be to write out the computation 3 times
+
+4. Nested functions (3)
+01:00 - 01:21
+but this definitely does not scale if you need to perform the computation many times. What we can do instead is define an inner function within our function definition, such as we do here, and call it where necessary. This is called a nested function. The syntax for the inner function is exactly the same as that for any other function.
+
+5. Returning functions
+01:21 - 02:28
+Let's now look at another important use case of nested functions. In this example, we define a function raise_vals, which contains an inner function called inner. Now look at what raise_vals returns: it returns the inner function inner! raise_vals takes an argument n and creates a function inner that returns the nth power of any number. That's a bit complicated and will be clearer when we use the function raise_vals. Passing the number 2 to raise_vals creates a function that squares any number. Similarly, passing the number 3 to raise_vals creates a function that cubes any number. One interesting detail: when we call the function square, it remembers the value n=2, although the enclosing scope defined by raise_val and to which n=2 is local, has finished execution. This is a subtlety referred to as a closure in Computer Science circles and shouldn't concern you too much. It is worth mentioning, however, as you may encounter it out there in the wild.
+
+6. Using nonlocal
+02:28 - 03:06
+Recall from our discussion of scope that you can use the keyword global in function definitions to create and change global names; similarly, in a nested function, you can use the keyword nonlocal to create and change names in an enclosing scope. In this example, we alter the value of n in the inner function; because we used the keyword nonlocal, it also alter the value of n in the enclosing scope. This is why calling the function outer prints the value of n as determined within the function inner. You'll have practice using the keyword nonlocal in the interactive exercises.
+
+7. Scopes searched
+03:06 - 03:39
+To summarize: name references search at most four scopes, the local scope, then those of enclosing functions, if there are any; then global, then built-in. This is known as the LEGB rule, where L is for local, E for enclosing, G for global and B for built-ins! Also, remember that assigning names will only create or change local names, unless they are declared in global or nonlocal statements using the keyword global or the keyword nonlocal, respectively.
+
+
+Transcript
+1. Default and flexible arguments
+00:00 - 00:22
+Let's say that you're writing a function that takes multiple parameters and that there is often a common value for some of these parameters. In this case, you would like to be able to call the function without explicitly specifying every parameter. In other words, you would like some parameters to have default arguments that are used when it is not specified otherwise!
+
+2. You'll learn:
+00:22 - 00:33
+In this video, you'll discover how to write function with default arguments, along with using flexible arguments, which allows you to pass any number of arguments to a function, as we'll soon see.
+
+3. Add a default argument
+00:33 - 01:16
+First up, to define a function with a default argument value, in the function header we follow the parameter of interest with an equals sign and the default argument value. Notice that this function raises the first argument to the power of the second argument and the default 2nd argument value is 1. So we can call the function with two arguments as you would expect, however, if you only use one argument, the function call will use the default argument of 1 for the second parameter! Neat, huh? In the interactive exercises that follows, you'll gain expertise in writing functions with both single and multiple default arguments.
+
+4. Flexible arguments: *args (1)
+01:16 - 02:05
+Lets now look at flexible arguments: let's say that you want to write a function but aren't sure how many arguments a user will want to pass it; for example, a function that takes floats or ints and adds them all up, irrespective of how many there are. Enter flexible arguments! In this example, we write the function that sums up all the arguments passed to it. In the function definition, we use the parameter star followed by args: this then turns all the arguments passed to a function call into a tuple called args in the function body; then, in the function body, to write our desired function, we initialize our sum sum_all to 0, loop over the tuple args and add each element of it successively to sum_all and then return it.
+
+5. Flexible arguments: *args (2)
+02:05 - 02:11
+We can now call our function add_all with any number of arguments to add them all up!
+
+6. Flexible arguments: **kwargs
+02:11 - 02:28
+You can also use a double star to pass an arbitrary number of keyword arguments, also called kwargs, that is, arguments preceded by identifiers. We'll write such a function called print_all that prints out the identifiers and the parameters passed to them as you see here.
+
+7. Flexible arguments: **kwargs
+02:28 - 03:01
+Now to write such a function, we use the parameter kwargs preceded by a double star. This turns the identifier-keyword pairs into a dictionary within the function body. Then, in the function body all we need to do is to print all the key-value pairs stored in the dictionary kwargs. Note that it is NOT the names args and kwargs that are important when using flexible arguments, but rather that they're preceded by a single and double star, respectively.
+
+
+Transcript
+1. Bringing it all together
+00:00 - 00:21
+It's now time to get you hands dirty using your newly acquired skills. Recall that, in the previous chapter, you wrote a function that would perform the following: it would take a DataFrame of twitter data and return a dictionary containing languages as keys and the number of times a tweet was written in a given language as values.
+
+2. Next exercises:
+00:21 - 00:52
+In the following exercises, you will write a function that processes a DataFrame and returns a dictionary with counts of occurrences in any column at all! By default, however, it will process a column called lang. This generalizes the previous function that you wrote. You will then generalize this further so that you can pass the function a DataFrame and any number of column names to perform the computation on an arbitrary number of columns.
+
+3. Add a default argument
+00:52 - 01:04
+Let's remind ourselves of the techniques necessary: recall that to define a function with a default argument, all that you need to do is provide that argument in the function header as you can see here.
+
+4. Flexible arguments: *args (1)
+01:04 - 01:24
+Next up, to write a function that you can pass an arbitrary number of arguments to, that is, flexible arguments, we use the arguments args as here, and then we can loop over all elements of args in the function body. Now that we've had that quick refresher, let's write some more functions!
+
+
+CHPTER 3 TRANSCRIPTS
+
+/
+/
+Daily XP
+200
+Lambda functions
+50 XP
+
+This course is also available on the mobile app. Continue learning on mobile.
+
+
+Got it!
+Transcript
+1. Lambda functions
+00:00 - 00:10
+You've written your very own Python functions using the def keyword, function headers, docstrings and function bodies.
+
+2. Lambda functions
+00:10 - 00:45
+There's a quicker way to write functions on the fly and these are called lambda functions because you use the keyword lambda. Here we re-write our function raise_to_power as a lambda function. To do so, after the keyword lambda, we specify the names of the arguments; then we use a colon followed by the expression that specifies what we wish the function to return. Lambda functions allow you to write functions in a quick and potentially dirty way so I wouldn't advise you to use them all the time but there are situations when they can come in very handy.
+
+3. Anonymous functions
+00:45 - 01:30
+For example, check out the map function, which takes two arguments, a function and a sequence such as a list and applies the function over all elements of the sequence. We can pass lambda functions to map without even naming them and in this case we refer to them as anonymous functions. In this example, we use map on a lambda function that squares all elements of a list and we'll store the result in square_all. Printing square_all reveals that it is actually a map object so to see what it contains we use the function list to turn it into a list and print the results to the shell. As expected, it's a list containing the squares of the elements in the original list!
+
+
+Transcript
+1. Introduction to error handling
+00:00 - 00:07
+When you use a function incorrectly, it should throw you an error. For example,
+
+2. The float() function
+00:07 - 00:15
+check out the function float that returns a floating point from a number or string, under the condition that the string corresponds to a number.
+
+3. Passing an incorrect argument
+00:15 - 00:37
+When I pass the function float an integer, the corresponding float is returned; similarly if I pass it the string '2.3'. However, if I pass it the string 'hello', Python will throw me an error telling me that it couldn't convert the string to a float. In this case, it threw me a ValueError and there are many types of errors.
+
+4. Passing valid arguments
+00:37 - 00:54
+When we write our own functions, as we have been doing, we may wish to catch specific problems and write specific error messages. Let's check out this user-defined function that computes the square root of a number. It behaves as expected with integers.
+
+5. Passing invalid arguments
+00:54 - 01:15
+What happens if we pass it a string such as 'hello'? Then it throws me an error corresponding to a line of code within the function definition. This error says it was some sort of TypeError but the message may not be particularly useful to a user of our function, so we should endeavor to provide useful error messages for the functions we write.
+
+6. Errors and exceptions
+01:15 - 01:37
+This is an example of an error caught during execution, commonly called exceptions. The main way to catch such exceptions is the try-except clause, in which Python tries to run the code following try and if it can, all is well. If it cannot due to an exception, it runs the code following except.
+
+7. Errors and exceptions
+01:37 - 02:02
+Let's now rewrite our square root function but this time catch any exceptions raised. So here, we try to execute x to the power of zero point five; using except, in the case of an exception, we print 'x must be an int or float'. Now we see that the resulting function behaves well for ints and floats and also prints out what we wanted it to for a string.
+
+8. Errors and exceptions
+02:02 - 02:20
+We may also wish to only catch TypeErrors and let other errors pass through, in which case we would use except TypeError as you can see here. There are many other types of exceptions that can be caught and you can have a look at them in the Python documentation available online.
+
+9. Errors and exceptions
+02:20 - 02:51
+More often than not, instead of merely printing an error message, we'll want to actually raise an error by using the keyword raise. For example, our square root function does something we may not desire when applied to negative numbers. It actually returns a complex number which we may not want. In fact, let's say that we don't wish our function to work for negative numbers. Then using an if clause, we can raise a ValueError for cases in which the user passes the function a negative number.
+
+10. Errors and exceptions
+02:51 - 03:01
+Let's now see it in action! If we pass our new function a negative number, see it returns the prescribed ValueError! That's enough out of me.
+
+
+Transcript
+1. Bringing it all together
+00:00 - 00:10
+You're now going to use your hard-earnt skills to write error messages into your DataFrame analyzer that you have been building up in previous chapters:
+
+2. Errors and exceptions
+00:10 - 00:30
+let's say that a user of your function passes your function the name of a column that isn't a column in the DataFrame that they pass it; you'll want to let them know! In the following interactive exercises, you'll write error messages using two methods that you have learned: one, using the try-except syntax that you see here;
+
+3. Errors and exceptions
+00:30 - 00:35
+two: explicitly raising errors using the keyword raise as in this example.
+

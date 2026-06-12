@@ -1,0 +1,263 @@
+TRANSCRIPTS
+
+CHAPTER 1 TRANSCRIPTS
+
+Transcript
+1. Introduction to iterators
+00:00 - 00:23
+Welcome to the course! My name is Hugo Bowne-Anderson and I am a Data Scientist at DataCamp. In this course, you'll learn all about iterables, iterators, list comprehensions and generators - all essential components in the Pythonista's toolbox. We will conclude with an entire chapter devoted to a case study. Let's talk about iterators.
+
+2. Iterating with a for loop
+00:23 - 00:36
+There's no reason to be scared of iterators because you have actually been working with them for some time now! When you use a for loop to print out each element of a list, you're iterating over the list.
+
+3. Iterating with a for loop
+00:36 - 00:43
+You can also use a for loop to iterate over characters in a string such as you see here. You can also use a for loop to iterate a over
+
+4. Iterating with a for loop
+00:43 - 00:52
+a sequence of numbers produced by a special range object. The reason that we can loop over such objects is that they are special objects
+
+5. Iterators vs. iterables
+00:52 - 01:33
+called iterables: lists, strings and range objects are all iterables, as are many other Python objects, such as dictionaries and file connections! The actual definition of an iterable is an object that has an associated iter method. Once this iter method is applied to an iterable, an iterator object is created. Under the hood, this is actually what a for loop is doing: it takes an iterable, creates the associated iterator object, and iterates over it! An iterator is defined as an object that has an associated next method that produces the consecutive values. To create an iterator from an iterable,
+
+6. Iterating over iterables: next()
+01:33 - 01:54
+all we need to do is use the function iter and pass it the iterable. Once we have the iterator defined, we pass it to the function next and this returns the first value. Calling next again on the iterator returns the next value until there are no values left to return and then it throws us a StopIteration error.
+
+7. Iterating at once with *
+01:54 - 02:20
+You can also print all values of an iterator in one fell swoop using the star operator, referred to as the splat operator in some circles. This star operator unpacks all elements of an iterator or an iterable. Be warned, however, once you do so, you cannot do it again as there are no more values to iterate through! We would have to redefine our iterator to do so.
+
+8. Iterating over dictionaries
+02:20 - 02:35
+We mentioned before that dictionaries and file connections are iterables as well. To iterate over the key-value pairs of a Python dictionary, we need to unpack them by applying the items method to the dictionary as you can see here.
+
+9. Iterating over file connections
+02:35 - 02:49
+With respect to file connections, here you can see how to use the iter and next methods to return the lines from a file, file dot txt. This has been your crash course in the fundamentals of iterables and iterators.
+
+
+
+Transcript
+1. Playing with iterators
+00:00 - 00:21
+We're now going to dive a bit deeper into the world of iterables and iterators by checking out some very cool, very useful functions. The first function, enumerate, will allow us to add a counter to any iterable while the second function, zip, will allow us to stitch together an arbitrary number of iterables. Let's begin:
+
+2. Using enumerate()
+00:21 - 00:45
+enumerate is a function that takes any iterable as argument, such as a list, and returns a special enumerate object, which consists of pairs containing the elements of the original iterable, along with their index within the iterable. We can use the function list to turn this enumerate object into a list of tuples and print it to see what it contains. The enumerate object itself
+
+3. enumerate() and unpack
+00:45 - 01:05
+is also an iterable and we can loop over it while unpacking its elements using the clause for index, value in enumerate(avengers). It is the default behavior of enumerate to begin indexing at 0. However, you can alter this with a second argument, start, which you can see here.
+
+4. Using zip()
+01:05 - 01:38
+Now let's move on to zip, which accepts an arbitrary number of iterables and returns an iterator of tuples. Here we have two lists, one of the avengers, the other of their names. Zipping them together creates a zip object which is an iterator of tuples. We can turn this zip object into a list and print the list. The first element is a tuple containing the first elements of each list that was zipped. The second element is a tuple containing the second elements of each list that was zipped and so on.
+
+5. zip() and unpack
+01:38 - 01:44
+Alternatively, we could use a for loop to iterate over the zip object and print the tuples. We could also
+
+6. Print zip with *
+01:44 - 01:51
+have used the splat operator to print all the elements! Now it's your turn to play with these useful functions.
+
+
+Transcript
+1. Using iterators to load large files into memory
+00:00 - 00:08
+Now that you're more comfortable with iterables, iterators and how they work, we're going to check out a particular use case:
+
+2. Loading data in chunks
+00:08 - 00:58
+dealing with large amounts of data. Let's say that you are pulling data from a file, database or API and there's so much of it, just so much data, that you can't hold it in memory. One solution is to load the data in chunks, perform the desired operation or operations on each chuck, store the result, discard the chunk and then load the next chunk; this sounds like a place where an iterator could be useful!To surmount this challenge, we are going to use the pandas function read_csv, which provides a wonderful option whereby you can load data in chunks and iterate over them. All we need to do is to specify the chunk using the argument yep, you guessed it: chunksize. As with much of what we do in Data Science, this is best illustrated by an example.
+
+3. Iterating over data
+00:58 - 01:58
+Let's say that we have a csv with a column called 'x' of numbers and I want to compute the sum of all the numbers in that column. However, the file is too large to store in memory. We first import pandas and then initialize an empty list result to hold the result of each iteration. We then use the read_csv function, utilizing the argument chunksize, setting it to the size of the chunks I want to read in. In this example, we use a chunk size of 1,000. You can play around with it. The object created by the read_csv call is an iterable so I can can iterate over it, using a for loop, in which each chunk will be a DataFrame. Within the for loop, that is, on each iteration, we compute the sum of the column of interest and we append it to the list result. Once this is executed, we can take the sum of the list result and this gives us our total sum of the column of interest. Iterators to the rescue!
+
+4. Iterating over data
+01:58 - 02:11
+Also note that we need not have used a list to store each result - we could have initialized total to zero before iterating over the file and added each sum during the iteration procedure, as you see here.
+
+
+
+
+
+
+CHAPTER 2 TRANSCRIPTS
+
+Transcript
+1. List comprehensions
+00:00 - 00:10
+Let's say that you have a list of numbers and you want to create a new list of numbers that's the same as the old list, except that each number has 1 added to it.
+
+2. Populate a list with a for loop
+00:10 - 00:30
+You could initialize a new empty list, loop through the old list, add 1 to each entry and append all new values to the new list, but for loops are inefficient, both computationally and in terms of coding time and space, particularly when you could do this in one line of code. "One line of code?" I hear you asking.
+
+3. A list comprehension
+00:30 - 01:01
+Welcome to the wonderful world of list comprehensions! The syntax is as follows: within square brackets, you write the values you wish to create, otherwise known as the output expression, followed by the for clause referencing the original list. So in our case, you open the square bracket, followed by num + 1 for num in nums and then you close the square bracket. This is a list comprehension and creates precisely the desired list!
+
+4. For loop and list comprehension syntax
+01:01 - 01:16
+See here the relationship between the for loop syntax and the list comprehension syntax. The power of list comprehensions is not merely relegated to the world of lists, however, you can write a list comprehension over any iterable.
+
+5. List comprehension with range()
+01:16 - 01:22
+Here's an example of a list comprehension using a range object. To summarize,
+
+6. List comprehensions
+01:22 - 01:43
+list comprehensions collapse for loops for building lists into a single line and the required components are 1) an iterable, 2) an iterator variable that represents the members of the iterable and 3) an output expression. That's it. You can also use list comprehensions in place of nested for loops.
+
+7. Nested loops (1)
+01:43 - 02:04
+For example, lets say that we wanted to create a list of all pairs of integers where the first integer is between 0 and 1 and the second between 6 and 7. This nested for loop would produce the required result. The question is, can we do the same with a list comprehension? And the answer is, yes, as follows.
+
+8. Nested loops (2)
+02:04 - 02:35
+Once again, within the square brackets, place the desired output expression followed by the two required for loop clauses. You may observe that while it keeps to a single line of code, we sacrifice some readability of the code as a tradeoff, so you'll have to consider if you'd like to use list comprehensions in cases such as this. The more often you use this, the more you get used to reading list comprehensions, so readability may not be a problem for you later on. But do remember that others may have to read your code as well!
+
+
+Transcript
+1. Advanced comprehensions
+00:00 - 00:05
+Now that you know the basics of list comprehensions, lets check out some more
+
+2. Conditionals in comprehensions
+00:05 - 00:49
+advanced comprehension capabilities, such as conditionals! Here we see that we can filter the output of a list comprehension using a conditional on the iterable: in this example, the resulting list is the square of the values in range(10) under the condition that the value itself is even. If you have not seen it before, the percent operation that you see being used in the comprehension is called the modulo operator. We can look at the Python documentation to see how the modulo operator is used and it shows that it produces the remainder from the division of the first argument by the second. Thus an integer modulo two is equal to zero if and only if the integer is even.
+
+3. Conditionals in comprehensions
+00:49 - 01:05
+We can also condition the list comprehension on the output expression. Here, for an even integer we output its square. In any other case, signified by the else clause, that is for odd integers, we output 0.
+
+4. Dict comprehensions
+01:05 - 01:34
+Now we can also write dictionary comprehensions to create new dictionaries from iterables. The syntax is almost the same as in list comprehensions and there are 2 differences. One, we use curly braces instead of square brackets. Two, the key and value are separated by a colon in the output expression as we can see here. In this example, we are creating a dictionary with keys positive integers and corresponding values the respective negative integers.
+
+
+Transcript
+1. Introduction to generator expressions
+00:00 - 00:11
+Now that you're getting a bit more comfortable with comprehensions, we're going to check out generators, which are related to comprehensions in way that will soon become evident.
+
+2. Generator expressions
+00:11 - 00:24
+Recall that this list comprehension will create a list of the first 10 even numbers. Now lets replace the square brackets with round parentheses and voila! Something called a generator object has been created.
+
+3. List comprehensions vs. generators
+00:24 - 00:42
+Now the question on everybody's lips is, "What is this generator object?" Well, a generator is like a list comprehension except it does not store the list in memory: it does not construct the list, but is an object we can iterate over to produce elements of the list as required.
+
+4. Printing values from generators (1)
+00:42 - 00:55
+Here we can see that looping over a generator expression produces the elements of the analogous list. We can also pass a generator to the function list to create the list. Moreover,
+
+5. Printing values from generators (2)
+00:55 - 01:25
+like any other iterator, we can pass a generator to the function next in order to iterate through its elements. For the geeks like me, this is an example of something called lazy evaluation, whereby the evaluation of the expression is delayed until its value is needed. This can help a great deal when working with extremely large sequences as you don't want to store the entire list in memory, which is what comprehensions would do; you want to generate elements of the sequence on the fly.
+
+6. Generators vs. list comprehensions
+01:25 - 01:44
+Let's say that we wanted to iterate over a very large sequence of numbers, such as from 0 up to 10 to the power of a million, or at least wanted to do so until another condition was satisfied. Look what happens when I try to build such an iterable list using a comprehension on DataCamp's servers.
+
+7. Generators vs. list comprehensions
+01:44 - 01:55
+My colleagues disconnect me because the list I'm trying to create can't even be stored in memory! Be warned though, don't try this at home, on our servers or yours!
+
+8. Generators vs. list comprehensions
+01:55 - 02:03
+Check this out, however: I can easily create the analogous generator object because it does not yet create the entire list.
+
+9. Conditionals in generator expressions
+02:03 - 02:18
+What's really cool is that anything we can do in a list comprehension such as filtering and applying conditionals, we can also do in a generator expression, such as you see here. You'll get a whole bunch of practice with this in the upcoming exercises.
+
+10. Generator functions
+02:18 - 02:43
+The last thing to discuss before you get coding is the ability to write generator functions. Generator functions are functions that, when called, produce generator objects. Generator functions are written with the syntax of any other user-defined function, however instead of returning values using the keyword return, they yield sequences of values using the keyword yield.
+
+11. Build a generator function
+02:43 - 03:16
+Here I have defined a generator function that, when called with a number n, produces a generator object that generates integers 0 though n. We can see within the function definition that i is initialized to 0 and that the first time the generator object is called, it yields i equal to 0. It then adds one to i and will then yield one on the next iteration and so on. The while loop is true until i equals equals n and then the generator ceases to yield values.
+
+12. Use a generator function
+03:16 - 03:38
+This generator function can be called as you do any other function. Here I call the generator function with the argument, 5. We see that it produces a generator object and that we can iterate over this generator object with a for loop to print the values it yields. Generator functions are a powerful and customizable way to create generators.
+
+
+Transcript
+1. Wrapping up comprehensions and generators.
+00:00 - 00:18
+It's now time to apply your new and hard-won skills. In the following exercises, you'll use list comprehensions to wrangle important information from the time-stamped data of real tweets. I want to remind you of the structure and syntax of a list comprehension:
+
+2. Re-cap: list comprehensions
+00:18 - 00:33
+in its most basic form, it is enclosed in square brackets and is structured as output expression for iterator variable in iterable. More advanced comprehensions can include conditionals on the output expression and/or conditionals on the iterable.
+
+CHAPTER 3 TRANSCRIPTS
+
+
+Transcript
+1. Welcome to the case study!
+00:00 - 00:17
+It's now time to flex those muscles and see what metal you're made of! In this chapter, you'll use your recently-gained skills of writing user-defined functions, iterators, list comprehensions and generators to wrangle and extract meaningful information from a real-world dataset,
+
+2. World bank data
+00:17 - 00:52
+the World Bank World Development Indicators dataset. This dataset contains data on 217 world economies for over half a century, from 1960 up until 2015. The data contains hundreds of indicators from population, electricity consumption and CO2 emissions to literacy rates, unemployment and mortality rates. In the following few exercises, you'll use dictionaries, zipping, user-defined functions, and list comprehensions to wrangle some of this wonderfully rich dataset. Let's quickly recap these tools:
+
+3. Using zip()
+00:52 - 01:12
+The zip function accepts an arbitrary number of iterables and returns an iterator of tuples. We bring back our two lists from before, one of the avengers, the other of their names. Passing these to the zip function creates a zip object which is an iterator of tuples. We can turn them into a list and then print this list.
+
+4. Defining a function
+01:12 - 01:38
+For writing functions, function headers begin with the keyword def, followed by the function name, arguments inside parentheses and a colon. We then have the function body, with the docstrings enclosed in triple quotation marks; the rest of the function body performs the computation that the function does and closes with the keyword return, followed by the value or values to return.
+
+5. Re-cap: list comprehensions
+01:38 - 01:57
+Comprehensions, in their most basic forms, are enclosed in square brackets and are structured as output expression for iterator variable in iterable. More advanced comprehensions can include conditionals on the output expression and/or conditionals on the iterable.
+
+
+Transcript
+1. Using Python generators for streaming data
+00:00 - 00:16
+Congratulations on your first foray into the World Bank's World Indicators dataset! Having played around with some of the data, we're now going to step back a bit and look at importing the dataset, which is pretty large. We already saw that, for a large dataset,
+
+2. Generators for the large data limit
+00:16 - 00:38
+we can use an iterator to load it in chunks. We can also write a generator to load it in line by line and one of the really cool things about this method is that if the data is streaming, that is, if new lines are being written to the file you're reading, this method will keep on reading and processing the file until there are no lines left for it to read. In the following exercises,
+
+3. Build a generator function
+00:38 - 01:24
+you'll be writing a generator function that can process large amounts of data, so let me remind you of our typical example of a generator function:Here is a generator function that, when called with a number n, produces a generator object that generates integers 0 though n. In the function definition, i is initialized to 0. The first time the generator object is called, it yields i equal to 0. It then adds one to i and will then yield one on the next iteration and so on. The while loop is true until i equals equals n and then the generator ceases to yield values. In the exercises, you'll be writing a generator function that, on each iteration, reads a new line of the file!
+
+
+Transcript
+1. Using pandas' read_csv iterator for streaming data
+00:00 - 00:08
+You're on the home stretch now! That was some great work with generators to read in large and/or streaming files.
+
+2. Reading files in chunks
+00:08 - 00:40
+In the remaining exercises, you'll revisit the pandas function read_csv, along with its chunksize argument in order to read in the World Indicator data in chunks, process each chunk and aggregate. Herein, you'll do so in order to look at specific indicators in specific countries and to plot the results over all the years for which the relevant data exists. You'll then try your hand at writing a function to perform the same task which will save so much work when you want to look at the data for a different country.
+
+
+Transcript
+1. Final thoughts
+00:00 - 00:07
+Wow, you sure have come a long way! Congratulations on making it through the case study.
+
+2. You have applied your skills in:
+00:07 - 00:25
+You have just used your new skills of writing user-defined functions, iterators, list comprehensions and generators to explore and extract results from the World Bank World Development Indicators dataset. These are all tools that you'll utilize time and time again and you have worked hard to earn your Pythonista stripes.
+
+

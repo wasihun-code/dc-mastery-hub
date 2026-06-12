@@ -1,0 +1,318 @@
+{
+  "course_slug": "intermediate-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-11",
+  "version": 1,
+  "total_pairs": 32,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Matplotlib Fundamentals",
+      "difficulty": "mixed",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "import matplotlib.pyplot as plt",
+          "match": "Standard alias for pyplot, provides MATLAB-like interface",
+          "wrong_matches": ["Creates a line plot from x and y", "Displays the current figure"],
+          "feedback_correct": "Correct! This is the conventional import statement for matplotlib's pyplot.",
+          "feedback_wrong": "Incorrect. That describes a plotting function or display command, not the import convention."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "plt.plot(year, pop)",
+          "match": "Line plot connecting consecutive data points",
+          "wrong_matches": ["Scatter plot with markers only", "Histogram with bins"],
+          "feedback_correct": "Correct! plt.plot() draws lines between points to show trends.",
+          "feedback_wrong": "Incorrect. This is not the function for scatter plots or histograms."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "plt.scatter(year, pop)",
+          "match": "Scatter plot with markers, no connecting lines",
+          "wrong_matches": ["Line plot connecting points", "Set y-axis tick labels"],
+          "feedback_correct": "Correct! plt.scatter() shows individual markers, useful for distributions.",
+          "feedback_wrong": "Incorrect. That describes a line plot or tick customization."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "plt.show()",
+          "match": "Displays the current figure; must be called after plotting",
+          "wrong_matches": ["Adds a title to the plot", "Sets the x-axis label"],
+          "feedback_correct": "Correct! Without plt.show(), the plot is created but not visible.",
+          "feedback_wrong": "Incorrect. That describes labeling or titling functions."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "Histogram",
+          "match": "Divides data into bins and counts frequencies per bin",
+          "wrong_matches": ["Plots individual points without lines", "Connects points to show trends over time"],
+          "feedback_correct": "Correct! Histograms show the distribution of a dataset.",
+          "feedback_wrong": "Incorrect. That describes scatter plots or line plots."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "plt.hist(values, bins=3)",
+          "match": "Creates a histogram with 3 equal-width bins",
+          "wrong_matches": ["Creates a line plot with 3 data points", "Creates a scatter plot with 3 markers"],
+          "feedback_correct": "Correct! The bins parameter controls granularity.",
+          "feedback_wrong": "Incorrect. plt.hist is for histograms, not line or scatter plots."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "plt.xlabel('Year')",
+          "match": "Adds a label to the x-axis",
+          "wrong_matches": ["Adds a label to the y-axis", "Adds a title above the plot"],
+          "feedback_correct": "Correct! xlabel labels the horizontal axis.",
+          "feedback_wrong": "Incorrect. That would be ylabel or title."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "plt.ylabel('Population')",
+          "match": "Adds a label to the y-axis",
+          "wrong_matches": ["Adds a label to the x-axis", "Sets custom tick positions on y-axis"],
+          "feedback_correct": "Correct! ylabel labels the vertical axis.",
+          "feedback_wrong": "Incorrect. That describes xlabel or yticks."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_009",
+          "term": "plt.title('Population Growth')",
+          "match": "Adds a title above the plot",
+          "wrong_matches": ["Adds a label to the x-axis", "Displays the figure window"],
+          "feedback_correct": "Correct! title provides a descriptive heading.",
+          "feedback_wrong": "Incorrect. That describes xlabel or show."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_010",
+          "term": "plt.yticks([0,2,4,6,8,10], ['0','2B','4B','6B','8B','10B'])",
+          "match": "Customizes y-axis tick positions and labels",
+          "wrong_matches": ["Creates a line plot with population data", "Displays the current figure"],
+          "feedback_correct": "Correct! yticks sets tick locations and optional custom labels.",
+          "feedback_wrong": "Incorrect. That describes a plotting function or display command."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Core Data Structures",
+      "difficulty": "mixed",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_011",
+          "term": "Dictionary",
+          "match": "Unordered collection of key-value pairs with unique immutable keys",
+          "wrong_matches": ["2D labeled data structure with columns of different types", "1D labeled array, like a single column"],
+          "feedback_correct": "Correct! Dictionaries map keys to values.",
+          "feedback_wrong": "Incorrect. That describes a DataFrame or Series."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_012",
+          "term": "'albania': 2.77",
+          "match": "Key-value pair in a dictionary",
+          "wrong_matches": ["Accessing a value using square brackets", "Adding a new key with assignment"],
+          "feedback_correct": "Correct! A key-value pair is key: value inside curly braces.",
+          "feedback_wrong": "Incorrect. That describes dictionary access or addition."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_013",
+          "term": "world['albania']",
+          "match": "Returns the value associated with key 'albania'",
+          "wrong_matches": ["Adds a new key 'albania' with value", "Deletes the key 'albania'"],
+          "feedback_correct": "Correct! Square brackets retrieve the value for a given key.",
+          "feedback_wrong": "Incorrect. That would be assignment or del."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_014",
+          "term": "Why can't a list be a dict key?",
+          "match": "Lists are mutable (unhashable); keys must be immutable",
+          "wrong_matches": ["Lists can be keys if they contain only numbers", "Lists are not allowed because they are too large"],
+          "feedback_correct": "Correct! Immutability ensures the hash value never changes.",
+          "feedback_wrong": "Incorrect. Mutable objects cannot be hashed, hence cannot be keys."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_019",
+          "term": "pandas DataFrame",
+          "match": "2D labeled structure with columns of potentially different types",
+          "wrong_matches": ["1D labeled array similar to a single column", "Unordered key-value pairs"],
+          "feedback_correct": "Correct! DataFrame is the core pandas data structure like a spreadsheet.",
+          "feedback_wrong": "Incorrect. That describes a Series or dictionary."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_020",
+          "term": "pd.read_csv('data.csv', index_col=0)",
+          "match": "Reads CSV into DataFrame, using first column as row index",
+          "wrong_matches": ["Exports DataFrame to CSV file", "Filters rows based on condition"],
+          "feedback_correct": "Correct! read_csv loads tabular data; index_col sets row labels.",
+          "feedback_wrong": "Incorrect. That would be to_csv or DataFrame filtering."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_021",
+          "term": "brics['country']",
+          "match": "Returns a pandas Series (1D labeled array)",
+          "wrong_matches": ["Returns a pandas DataFrame with one column", "Returns a Python list of country names"],
+          "feedback_correct": "Correct! Single bracket on a DataFrame returns a Series.",
+          "feedback_wrong": "Incorrect. That describes double brackets (DataFrame) or a list conversion."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Control Flow, Logic, and Randomness",
+      "difficulty": "mixed",
+      "pairs": [
+        {
+          "id": "match_018",
+          "concept_id": "concept_026",
+          "term": "Comparison operators",
+          "match": "<, <=, >, >=, ==, != return booleans",
+          "wrong_matches": ["and, or, not combine booleans", "= assigns a value"],
+          "feedback_correct": "Correct! These compare values and yield True/False.",
+          "feedback_wrong": "Incorrect. Those are logical operators or assignment."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_027",
+          "term": "and / or / not",
+          "match": "Logical operators that combine boolean values",
+          "wrong_matches": ["Element-wise logical operations on arrays", "Comparison operators like == and !="],
+          "feedback_correct": "Correct! and, or, not work on single booleans.",
+          "feedback_wrong": "Incorrect. That describes np.logical_ functions or comparisons."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_028",
+          "term": "np.logical_and(bmi>21, bmi<22)",
+          "match": "Element-wise AND on arrays; returns boolean array",
+          "wrong_matches": ["Element-wise OR on arrays", "Python 'and' operator (raises ValueError on arrays)"],
+          "feedback_correct": "Correct! This is the array-safe version of and.",
+          "feedback_wrong": "Incorrect. That would be logical_or or the unsafe Python and."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_029",
+          "term": "np.logical_or(a, b)",
+          "match": "Element-wise OR on arrays; returns True if any input True per element",
+          "wrong_matches": ["Element-wise NOT (negation) on arrays", "Python 'or' operator (fails on arrays)"],
+          "feedback_correct": "Correct! logical_or works element-wise on array-like inputs.",
+          "feedback_wrong": "Incorrect. That describes logical_not or unsafe Python or."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_030",
+          "term": "np.logical_not(arr)",
+          "match": "Element-wise NOT: flips True to False, False to True",
+          "wrong_matches": ["Python 'not' operator (fails on arrays)", "Element-wise AND on arrays"],
+          "feedback_correct": "Correct! logical_not negates each element.",
+          "feedback_wrong": "Incorrect. That describes logical_and or unsafe not."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_031",
+          "term": "if z % 2 == 0:\n    print('even')",
+          "match": "Conditional execution: runs block if condition True",
+          "wrong_matches": ["Repeated execution while condition True", "Iterates over each item in a sequence"],
+          "feedback_correct": "Correct! if runs the indented block only when condition is True.",
+          "feedback_wrong": "Incorrect. That describes while or for loops."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_032",
+          "term": "else clause",
+          "match": "Executes if preceding if condition is False",
+          "wrong_matches": ["Checks another condition if previous was False", "Defines a block that always runs regardless"],
+          "feedback_correct": "Correct! else provides an alternative path.",
+          "feedback_wrong": "Incorrect. That describes elif or a try-finally block."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_033",
+          "term": "elif clause",
+          "match": "Short for 'else if'; checks condition only if previous if/elif were False",
+          "wrong_matches": ["Executes regardless of conditions", "Runs multiple blocks if conditions are True"],
+          "feedback_correct": "Correct! elif chains test conditions sequentially.",
+          "feedback_wrong": "Incorrect. That would be unconditional code or multiple ifs."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_036",
+          "term": "while error > 1:\n    error = error / 4",
+          "match": "Repeats block as long as condition is True; must update condition",
+          "wrong_matches": ["Iterates fixed number of times over a sequence", "Conditional execution once"],
+          "feedback_correct": "Correct! while loops need an update to avoid infinite loops.",
+          "feedback_wrong": "Incorrect. That describes for loops or if statements."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_037",
+          "term": "for height in fam:\n    print(height)",
+          "match": "Iterates over each item in a sequence (list, string, etc.)",
+          "wrong_matches": ["Repeats while condition True", "Executes block once if condition True"],
+          "feedback_correct": "Correct! for loops iterate over iterables.",
+          "feedback_wrong": "Incorrect. That describes while or if."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_038",
+          "term": "for i, val in enumerate(fam):",
+          "match": "Returns index-value pairs when iterating",
+          "wrong_matches": ["Iterates over dictionary items", "Loops over array elements in row-major order"],
+          "feedback_correct": "Correct! enumerate adds a counter to an iterable.",
+          "feedback_wrong": "Incorrect. That describes .items() or np.nditer()."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_040",
+          "term": "for k, v in world.items():",
+          "match": "Iterates over dictionary key-value pairs",
+          "wrong_matches": ["Iterates over list with index and value", "Iterates over array elements in memory order"],
+          "feedback_correct": "Correct! .items() yields (key, value) tuples.",
+          "feedback_wrong": "Incorrect. That describes enumerate or np.nditer."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_044",
+          "term": "np.random.rand(3,2)",
+          "match": "Returns 3x2 array of uniform random numbers between 0 and 1",
+          "wrong_matches": ["Returns random integers from low to high", "Sets seed for reproducible randomness"],
+          "feedback_correct": "Correct! rand generates floats in [0,1).",
+          "feedback_wrong": "Incorrect. That would be randint or seed."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_045",
+          "term": "np.random.seed(123)",
+          "match": "Initializes generator for reproducible random sequences",
+          "wrong_matches": ["Generates random uniform floats", "Generates random integers in a range"],
+          "feedback_correct": "Correct! Setting the same seed produces the same random numbers.",
+          "feedback_wrong": "Incorrect. That describes rand or randint."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_046",
+          "term": "np.random.randint(0, 2)",
+          "match": "Returns 0 or 1 randomly (coin toss) because high is exclusive",
+          "wrong_matches": ["Returns float between 0 and 1", "Returns integer between 1 and 2 inclusive"],
+          "feedback_correct": "Correct! randint(low, high) gives [low, high).",
+          "feedback_wrong": "Incorrect. That describes rand or mis-specified randint."
+        }
+      ]
+    }
+  ]
+}

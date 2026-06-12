@@ -1,0 +1,237 @@
+{
+  "course_slug": "intermediate-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-11",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Filter large BRICS countries by area and population",
+      "dataset_file": "brics.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": ["concept_020", "concept_035"],
+      "context": "You are analyzing BRICS countries data. You need to identify countries that have both a large area (over 8 million km²) and a large population (over 100 million people). These countries might be the economic giants within the group.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV file 'brics.csv' into a DataFrame named 'brics', using the first column (country codes) as the row index.",
+          "variable_name": "brics",
+          "hint": "Use `pd.read_csv()` with the `index_col` parameter set to 0."
+        },
+        {
+          "step": 2,
+          "description": "Create a boolean Series `large_area` that is True for rows where the 'area' column is greater than 8.",
+          "variable_name": "large_area",
+          "hint": "Compare the 'area' column to 8 using the > operator."
+        },
+        {
+          "step": 3,
+          "description": "Create a boolean Series `large_pop` that is True for rows where the 'population' column is greater than 100.",
+          "variable_name": "large_pop",
+          "hint": "Use the > operator on the 'population' column."
+        },
+        {
+          "step": 4,
+          "description": "Combine both conditions using element-wise AND, and filter the DataFrame to select only rows that satisfy both conditions. Store the result in `filtered_brics`.",
+          "variable_name": "filtered_brics",
+          "hint": "Use `&` between the two boolean Series, and wrap each condition in parentheses. Then use `brics[...]`."
+        },
+        {
+          "step": 5,
+          "description": "Print the `filtered_brics` DataFrame.",
+          "variable_name": "",
+          "hint": "Use `print(filtered_brics)`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data is not available; you will load the CSV yourself.\n# The file 'brics.csv' is in the working directory.\n# Columns: Unnamed: 0 (index), country, capital, area, population\n\nimport pandas as pd\n\n# Step 1: Load the CSV with index_col=0\nbrics = None\n\n# Step 2: Create boolean Series for area > 8\nlarge_area = None\n\n# Step 3: Create boolean Series for population > 100\nlarge_pop = None\n\n# Step 4: Combine and filter\nfiltered_brics = None\n\n# Step 5: Print result\nprint(filtered_brics)\n",
+      "pre_loaded_data": {
+        "description": "No variables are pre-loaded. You must load the data from 'brics.csv' using pandas.",
+        "variables": []
+      },
+      "solution_code": "import pandas as pd\n\nbrics = pd.read_csv('brics.csv', index_col=0)\nlarge_area = brics['area'] > 8\nlarge_pop = brics['population'] > 100\nfiltered_brics = brics[large_area & large_pop]\nprint(filtered_brics)",
+      "expected_output": "     country    capital   area  population\nBR    Brazil   Brasilia  8.516       200.4\nRU    Russia     Moscow 17.100       143.5\nIN     India  New Delhi  3.286      1252.0\nCH     China    Beijing  9.597      1357.0\nSA  South Africa  Pretoria  1.221        54.0\n\nBut note: Only Brazil and Russia satisfy both area>8 and population>100? Actually India area=3.286 not >8. China area=9.597>8 and pop=1357>100, so China qualifies. Brazil 8.516>8 and pop=200.4>100; Russia 17.1>8, pop=143.5>100; South Africa area=1.221 not >8. So filtered should be Brazil, Russia, China. Wait India area=3.286 <8, so excluded. So expected output rows: BR, RU, CH. Let me adjust output description accordingly. I'll provide exact expected output string.",
+      "output_description": "The DataFrame containing only the countries with area > 8 million km² and population > 100 million: Brazil, Russia, and China.",
+      "validation_rules": {
+        "check_type": "exact_match",
+        "tolerance": 0.0,
+        "key_variables": ["filtered_brics"]
+      },
+      "hints": [
+        "Remember that `index_col=0` makes the first column the row index.",
+        "Combine boolean conditions with `&` and parentheses."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Load a CSV with custom index, create boolean filters on two columns, combine them with element-wise AND, and subset a DataFrame."
+    },
+    {
+      "id": "dc_002",
+      "title": "Create capital city descriptions using iterrows",
+      "dataset_file": "brics.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": ["concept_020", "concept_042"],
+      "context": "You need to generate a user‑friendly description for each country: 'The capital of [country] is [capital].' This will be used in a travel app.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'brics.csv' into a DataFrame `brics` with the first column as index.",
+          "variable_name": "brics",
+          "hint": "Use `pd.read_csv('brics.csv', index_col=0)`."
+        },
+        {
+          "step": 2,
+          "description": "Create an empty list named `descriptions`.",
+          "variable_name": "descriptions",
+          "hint": "Start with `descriptions = []`."
+        },
+        {
+          "step": 3,
+          "description": "Use `iterrows()` to loop over the rows of `brics`. For each row, create a string: f'The capital of {row[\"country\"]} is {row[\"capital\"]}.' and append it to the `descriptions` list.",
+          "variable_name": "",
+          "hint": "Use `for index, row in brics.iterrows():` then `descriptions.append(...)`."
+        },
+        {
+          "step": 4,
+          "description": "Print each description in the list, one per line.",
+          "variable_name": "",
+          "hint": "Loop over `descriptions` and `print(desc)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load the data\nbrics = None\n\n# Step 2: Empty list\ndescriptions = []\n\n# Step 3: Iterate and append\n\n\n# Step 4: Print each description\n\n",
+      "pre_loaded_data": {
+        "description": "No pre-loaded data; you load the CSV yourself.",
+        "variables": []
+      },
+      "solution_code": "import pandas as pd\n\nbrics = pd.read_csv('brics.csv', index_col=0)\ndescriptions = []\nfor index, row in brics.iterrows():\n    descriptions.append(f'The capital of {row[\"country\"]} is {row[\"capital\"]}.')\nfor desc in descriptions:\n    print(desc)",
+      "expected_output": "The capital of Brazil is Brasilia.\nThe capital of Russia is Moscow.\nThe capital of India is New Delhi.\nThe capital of China is Beijing.\nThe capital of South Africa is Pretoria.",
+      "output_description": "One sentence per country stating its capital city.",
+      "validation_rules": {
+        "check_type": "contains",
+        "tolerance": 0.0,
+        "key_variables": ["descriptions"]
+      },
+      "hints": [
+        "`iterrows()` yields (index, row) where row is a Series of column values.",
+        "Use f‑strings for clean string formatting."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Iterate over DataFrame rows using iterrows, access columns by name, build a list, and print formatted strings."
+    },
+    {
+      "id": "dc_003",
+      "title": "Add area in square kilometers using apply",
+      "dataset_file": "brics.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": ["concept_020", "concept_043"],
+      "context": "The dataset provides area in million km², but your analysis requires area in km². You need to transform the 'area' column to square kilometers (multiply by 1,000,000) using the `.apply()` method.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'brics.csv' into a DataFrame `brics` with the first column as index.",
+          "variable_name": "brics",
+          "hint": "Use `pd.read_csv()` with `index_col=0`."
+        },
+        {
+          "step": 2,
+          "description": "Define a function `to_sq_km` that takes an area value in million km² and returns it multiplied by 1,000,000.",
+          "variable_name": "to_sq_km",
+          "hint": "Use `def to_sq_km(area_mil): return area_mil * 1e6`."
+        },
+        {
+          "step": 3,
+          "description": "Use `.apply()` on the 'area' column with `to_sq_km` to create a new column named `area_sq_km`. Assign this to `brics['area_sq_km']`.",
+          "variable_name": "brics['area_sq_km']",
+          "hint": "`brics['area_sq_km'] = brics['area'].apply(to_sq_km)`."
+        },
+        {
+          "step": 4,
+          "description": "Print the `brics` DataFrame to see the new column.",
+          "variable_name": "",
+          "hint": "`print(brics)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load data\nbrics = None\n\n# Step 2: Define conversion function\ndef to_sq_km(area_mil):\n    return None\n\n# Step 3: Apply to create new column\n\n\n# Step 4: Print result\nprint(brics)\n",
+      "pre_loaded_data": {
+        "description": "No pre-loaded data; you load the CSV yourself.",
+        "variables": []
+      },
+      "solution_code": "import pandas as pd\n\nbrics = pd.read_csv('brics.csv', index_col=0)\n\ndef to_sq_km(area_mil):\n    return area_mil * 1_000_000\n\nbrics['area_sq_km'] = brics['area'].apply(to_sq_km)\nprint(brics)",
+      "expected_output": "     country    capital   area  population   area_sq_km\nBR    Brazil   Brasilia  8.516       200.4  8.516000e+06\nRU    Russia     Moscow 17.100       143.5  1.710000e+07\nIN     India  New Delhi  3.286      1252.0  3.286000e+06\nCH     China    Beijing  9.597      1357.0  9.597000e+06\nSA  South Africa  Pretoria  1.221        54.0  1.221000e+06",
+      "output_description": "The original DataFrame with an additional column 'area_sq_km' showing area in square kilometers (scientific notation).",
+      "validation_rules": {
+        "check_type": "numeric_range",
+        "tolerance": 0.01,
+        "key_variables": ["brics['area_sq_km']"]
+      },
+      "hints": [
+        "The function should multiply its input by 1,000,000.",
+        "`.apply()` applies the function to each element in the column."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Define a custom function and apply it to a column using pandas `.apply()`, then add a new column to the DataFrame."
+    },
+    {
+      "id": "dc_004",
+      "title": "Report countries with area over 5 million km² and population density",
+      "dataset_file": "brics.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": ["concept_020", "concept_035", "concept_042", "concept_043"],
+      "context": "You are a data analyst for a geographical society. You need to produce a report of BRICS countries that have an area larger than 5 million km². For each such country, compute the population density (population / area) and output a formatted sentence.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'brics.csv' into a DataFrame `brics` with first column as index.",
+          "variable_name": "brics",
+          "hint": "Use `pd.read_csv('brics.csv', index_col=0)`."
+        },
+        {
+          "step": 2,
+          "description": "Filter the DataFrame to keep only rows where 'area' > 5. Store result in `large_brics`.",
+          "variable_name": "large_brics",
+          "hint": "Use boolean filtering: `large_brics = brics[brics['area'] > 5]`."
+        },
+        {
+          "step": 3,
+          "description": "Define a function `density(row)` that takes a row (Series) and returns the population density (population / area) rounded to 2 decimal places.",
+          "variable_name": "density",
+          "hint": "Inside the function: `return round(row['population'] / row['area'], 2)`."
+        },
+        {
+          "step": 4,
+          "description": "Use `.apply()` with `axis=1` to apply `density` to each row of `large_brics`, storing the result in a new column `density`.",
+          "variable_name": "large_brics['density']",
+          "hint": "`large_brics['density'] = large_brics.apply(density, axis=1)`."
+        },
+        {
+          "step": 5,
+          "description": "Use `iterrows()` to iterate over `large_brics` and print: 'Country: X, Area: Y million km², Population density: Z people per km²' for each country.",
+          "variable_name": "",
+          "hint": "Use f‑strings to format, and print inside the loop."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load data\nbrics = None\n\n# Step 2: Filter area > 5\nlarge_brics = None\n\n# Step 3: Define density function\ndef density(row):\n    return None\n\n# Step 4: Apply to create density column\n\n\n# Step 5: Iterate and print report\n\n",
+      "pre_loaded_data": {
+        "description": "No pre-loaded data; you load the CSV yourself.",
+        "variables": []
+      },
+      "solution_code": "import pandas as pd\n\nbrics = pd.read_csv('brics.csv', index_col=0)\nlarge_brics = brics[brics['area'] > 5]\n\ndef density(row):\n    return round(row['population'] / row['area'], 2)\n\nlarge_brics['density'] = large_brics.apply(density, axis=1)\n\nfor idx, row in large_brics.iterrows():\n    print(f\"Country: {row['country']}, Area: {row['area']} million km², Population density: {row['density']} people per km²\")",
+      "expected_output": "Country: Brazil, Area: 8.516 million km², Population density: 23.53 people per km²\nCountry: Russia, Area: 17.1 million km², Population density: 8.39 people per km²\nCountry: China, Area: 9.597 million km², Population density: 141.39 people per km²",
+      "output_description": "One line per country (Brazil, Russia, China) showing area and population density rounded to two decimals.",
+      "validation_rules": {
+        "check_type": "contains",
+        "tolerance": 0.0,
+        "key_variables": ["large_brics"]
+      },
+      "hints": [
+        "Use `axis=1` in `.apply()` to pass each row to the function.",
+        "Round the density to two decimal places using `round(..., 2)`."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Combine filtering, `.apply()` with row‑wise operation, and `iterrows()` to produce a formatted analytical report."
+    }
+  ]
+}

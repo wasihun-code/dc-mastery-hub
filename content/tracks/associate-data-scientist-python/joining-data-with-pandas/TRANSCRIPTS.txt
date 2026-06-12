@@ -1,0 +1,593 @@
+CHAPTER 1 TRANSCRIPTS
+
+Transcript
+1. Inner join
+00:00 - 00:21
+Welcome! I am Aaren Stubberfield and I will be your instructor for this course. The pandas package is a powerful tool for manipulating and transforming data in Python. However, when working on an analysis, the data needed could be in multiple tables. This course will focus on the vital skill of merging tables together.
+
+2. For clarity
+00:21 - 00:50
+As we start, two quick clarifications. First, through other courses on DataCamp, you may have learned how to import tabular data as DataFrames. In this course, you may hear the words table and DataFrame, but they are equivalent here. Second, we will refer to combining different tables together as merging tables, but note that some refer to this same process as joining.
+
+1 Photo by David Travis on Unsplash
+3. Chicago data portal dataset
+00:50 - 00:56
+To help us learn about merging tables, we will use data from the city of Chicago data portal.
+
+1 Photo by Pedro Lastra on Unsplash
+4. Datasets for example
+00:56 - 01:13
+The city of Chicago is divided into fifty local neighborhoods called wards. We have a table with data about the local government offices in each ward. In this example, we want to merge the local government data with census data about the population of each ward.
+
+1 Ward image By Alissapump, Own work, CC BY-SA 3.0
+5. The ward data
+01:13 - 01:27
+If we look at the wards table, we have information about the local government of each ward, such as the government office address. This table has 50 rows and 4 columns, or one row for each ward.
+
+6. Census data
+01:27 - 01:42
+The census table contains the population of each ward in 2000 and 2010, and that change as a percentage. Additionally, it includes the address for the center of each ward. This table has 50 rows and 6 columns.
+
+7. Merging tables
+01:42 - 02:10
+The two tables are related by their ward column. We can merge them together, matching the ward number from each row of the wards table to the ward numbers from the census table. For example, the second ward in the wards table with Alderman Brian Hopkins would be matched with row 2 of the census table where the population in 2000 was 54,361.
+
+8. Inner join
+02:10 - 02:51
+The pandas package has an excellent DataFrame method for performing this type of merge called merge. The merge method takes the first DataFrame, wards, and merges it with the second DataFrame, census. We use the on argument to tell the method that we want to merge the two DataFrames on the ward column. Since we listed the wards table first, its columns will appear first in the output, followed by the columns from the census table. In this example, the merge returns a DataFrame with 50 rows and 9 columns, where the returned rows have matching values for the ward column in both tables. This is called an inner join.
+
+9. Inner join
+02:51 - 02:57
+An inner join will only return rows that have matching values in both tables.
+
+10. Suffixes
+02:57 - 03:16
+You may have noticed that the merged table has columns with suffixes of underscore x or y. This is because both the wards and census tables contained address and zip columns. To avoid multiple columns with the same name, they are automatically given a suffix by the merge method.
+
+11. Suffixes
+03:16 - 03:38
+We can use the suffix argument of the merge method to control this behavior. We provide a tuple where all of the overlapping columns in the left table are given the suffix '_ward', and those of the right table will be given the suffix '_cen'. This makes it easier for us to tell the difference between the columns.
+
+
+Transcript
+1. One to many relationships
+00:00 - 00:19
+Welcome back! In the last lesson, we learned how to merge two DataFrames together with the merge method. In this lesson, we'll discuss different types of relationships between tables. In particular, we will discuss the one-to-many relationship. But first, let's quickly consider what a one-to-one relationship is.
+
+2. One-to-one
+00:19 - 00:28
+In a one-to-one relationship, every row in the left table is related to one and only one row in the right table.
+
+3. One-to-one example
+00:28 - 00:59
+We looked at a one-to-one relationship earlier. Recall the relationship between the wards table and the census table. Every row in the wards table is related to only one row in the census table, so there is only one row for ward 3 in each table. Practically speaking, it only makes sense that there is one row of population information for each ward. It wouldn't make sense if the census table contained multiple population values in 2000 for the third ward.
+
+4. One-to-many
+00:59 - 01:10
+So, what is a one-to-many relationship? Well, in a one-to-many relationship, every row in the left table is related to one or more rows in the right table.
+
+5. One-to-many example
+01:10 - 01:26
+To provide an example of a one-to-many relationship, let's think back to our wards table. Within each ward, there are many businesses. We will merge the wards table with a table of licensed businesses in each ward.
+
+6. One-to-many example
+01:26 - 01:37
+The business license data is stored in another table called licenses. It holds info such as the business address and ward the business is located within.
+
+7. One-to-many example
+01:37 - 01:43
+The two DataFrames are related to each other by their ward column.
+
+8. One-to-many example
+01:43 - 02:14
+When we merge the two tables together with the merge method, setting the 'on' attribute to the column ward, the resulting table has both local ward data and business license data. Notice that ward 1 and its alderman Joe is repeated in the resulting table because the licenses table has many businesses in the 1st ward. pandas takes care of the one-to-many relationships for us and doesn't require anything special on our end. We can use the same syntax as we did with one-to-one relationships.
+
+9. One-to-many example
+02:14 - 02:35
+By printing the shape, we can see that our original wards table has 50 rows. After merging the wards table with the licenses table, the resulting table has 10,000 rows. When you merge tables that have a one-to-many relationship, the number of rows returned will likely be different than the number in the left table.
+
+
+
+Transcript
+1. Merging multiple DataFrames
+00:00 - 00:15
+Welcome back. In our last lesson, we learned how to merge two tables with a one-to-many relationship using the merge method. Merging data like this is a necessary skill to bring together data from different sources to answer some more complex data questions.
+
+2. Merging multiple tables
+00:15 - 00:21
+Sometimes we need to merge together more than just two tables to complete our analysis.
+
+3. Remembering the licenses table
+00:21 - 00:29
+In the previous lesson, we used two tables from the city of Chicago. One table contained business licenses issued by the city.
+
+4. Remembering the wards table
+00:29 - 00:37
+The other table listed info about the local neighborhoods called wards, including the local government official's office.
+
+5. Review new data
+00:37 - 01:03
+Now, we also have a table of businesses that have received small business grant money from Chicago. The grants are funded by taxpayer money. Therefore, it would be helpful to analyze how much grant money each business received and in what ward that business is located. We then could determine if one ward's businesses received a disproportionately large amount of grant money.
+
+6. Tables to merge
+01:03 - 01:17
+To pull all of this information together, let's first connect our grants table to our licenses table. The two tables are related by their company name and location. Let's pause here for a moment.
+
+7. Theoretical merge
+01:17 - 02:01
+If we merge the two tables only using the zip column, then the 60616 zip of Reggie's bar from the licenses table will be matched to multiple businesses in the grants table with the same zip. Our code sample prints the first few rows and some columns of the merged table. The output of the merge duplicates Reggie's bar for each matching zip in the grants table, which is not what we want. If instead, we merged on address only, there's a small risk that the address would repeat in different parts of the city. Therefore, the best option is to merge the tables using the combination of both address and zip code.
+
+8. Single merge
+02:01 - 02:40
+We merge the two DataFrames as shown before, except in this case, we pass a list of the column names we want to merge on to the 'on' argument. This allows us to use multiple columns in the merge. As before, the matching rows between the two DataFrames are returned with the columns from the grant table listed first. However, when we merge on two columns, in this case address and zip code, we are requiring that both the address and zip code of a row in the left table match the address and zip code of a row in the right table in order for them to be linked to each other in the merge.
+
+9. Merging multiple tables
+02:40 - 03:19
+We can now extend this example to a third table. First, we merge the grants table with the wards table on the ward column again, adding suffixes to the repeated column names. Note that we're using Python's backslash line continuation method to add the second merge on the next line. Python will read this as just one line of code. Without this, Python will throw a syntax error since it will parse it as two separate lines of code, so don't forget your backslash. Now our output table has information about grants, business, and wards. We can now complete our analysis.
+
+10. Results
+03:19 - 03:27
+We can now sum the grants by ward and plot the results. Some wards have received more grants than others.
+
+11. Merging even more...
+03:27 - 03:41
+We could continue to merge additional tables as needed. We stopped at three, but if needed, we could continue to add more. The code here shows the pattern you would follow as you merge more tables.
+
+
+CHAPTER 2 TRANSCRIPTS
+
+
+Transcript
+1. Left join
+00:00 - 00:13
+Greetings, and welcome back! In this lesson, we will discuss how a left join works, which is another way to merge two tables. Before we start talking about left joins, let's quickly review what we have learned so far.
+
+2. Quick review
+00:13 - 00:34
+In chapter 1, we introduced the pandas merge method that allows us to combine two tables by specifying one or more key columns to link the tables by. By default, the merge method performs an inner join, returning only the rows of data with matching values in the key columns of both tables.
+
+3. Left join
+00:34 - 00:46
+In this lesson, we'll talk about the idea of a left join. A left join returns all rows of data from the left table and only those rows from the right table where key columns match.
+
+4. Left join
+00:46 - 01:17
+Here we have two tables named left and right. We want to use a left join to merge them on key column C. A left join returns all of the rows from the left table and only those rows from the right table where column C matches in both. Notice the second row of the merged table. The columns from the left table are filled in, while the column from the right table is not since there wasn't a match found for that row in the right table. Let's review another example.
+
+5. New dataset
+01:17 - 01:37
+To help us learn more about left joins and other concepts in this chapter, we will use data from The Movie Database, a community-built movie database with info on thousands of movies, their casts, and popularity. In our next example, we have two tables from The Movie Database that we want to merge.
+
+6. Movies table
+01:37 - 01:54
+Our first table, named movies, holds information about individual movies such as the title name and its popularity. Additionally, each movie is given an ID number. Our table starts with 4,803 rows of data.
+
+7. Tagline table
+01:54 - 02:09
+Our second table is named taglines, which contains a movie ID number and the tag line for the movie. Notice that this table has almost 4,000 rows of data, so it contains fewer movies than the movies table.
+
+8. Merge with left join
+02:09 - 03:09
+To merge these two tables with a left join, we use our merge method similar to what we learned in chapter 1. Here we list the movie table first and merge it to the taglines table on the ID column in both tables. However, notice an additional argument named 'how'. This argument defines how to merge the two tables. In this case, we use 'left' for a left join. The default value for how is 'inner', so we didn't need to specify this in Chapter 1 since we were only working with inner joins. The result of the merge shows a table with all of the rows from the movies table and a value for tag line where the ID column matches in both tables. Wherever there isn't a matching ID in the taglines table, a null value is entered for the tag line. Remember that pandas uses NaN to denote missing data.
+
+9. Number of rows returned
+03:09 - 03:35
+After the merge, our resulting table has 4,805 rows. This is because we are returning all of the rows of data from the movies table, and the relationship between the movies table and taglines is one-to-one. Therefore, in a one-to-one merge like this one, a left join will always return the same number rows as the left table.
+
+
+Transcript
+1. Other joins
+00:00 - 00:11
+All right, let's continue on. You now know how to use the merge method to perform an inner and left join. The merge method supports two other join types.
+
+2. Right join
+00:11 - 00:24
+Let's start with the right join. It will return all of the rows from the right table and includes only those rows from the left table that have matching values. It is the mirror opposite of the left join.
+
+3. Right join
+00:24 - 00:41
+These example tables show the result of a right join. Only rows from the left table where the column C matches are returned. Where there isn't a match, the columns from the left table will be missing in the result table, like rows one and four.
+
+4. Looking at data
+00:41 - 00:51
+For this lesson, let's look at another table called movie_to_genres. Movies can have multiple genres, and this table lists different genres for each movie.
+
+5. Filtering the data
+00:51 - 01:00
+For our right join example, let's take a sample of this data subsetting to develop a table of movies from the TV Movie genre.
+
+6. Data to merge
+01:00 - 01:33
+Our goal is to merge it with the movies table. We will set movies as our left table and merge it with the tv_genre table. We want to use a right join to check that our movies table is not missing data. In addition to showing a right join, this example also allows us to look at another feature. Notice that the column with the movie ID number in the movies table is named id, and in the tv_genre table it is named movie_id. The merge method has a feature to take this into account.
+
+7. Merge with right join
+01:33 - 02:19
+The code for this merge has some new elements. First of all, we set the how argument to right so that the merge performs a right join. Additionally, we introduce two new arguments, named left_on and right_on. They allow us to tell the merge which key columns from each table to merge the tables. We list movies as the left table, so we set left_on to id and right_on to movie_id. Our returned table has movies that match our table of tv_genres. There does not appear to be any null values in the columns from the movies table. We could explore further. However, let's move on to our last type of join.
+
+8. Outer join
+02:19 - 02:30
+Our last type of join is called an outer join. An outer join will return all of the rows from both tables regardless if there is a match between the tables.
+
+9. Outer join
+02:30 - 02:48
+Here is a simple example of an outer join. Where the key column used to join the tables has no match, null values are returned. That is why in the result, the columns from the left table are missing in rows one and five, and in column D row three is missing.
+
+10. Datasets for outer join
+02:48 - 03:01
+For an example of this, we filter the movie_to_genres table as before into two very small tables. One table has data on Family movies, and the other has Comedy movies.
+
+11. Merge with outer join
+03:01 - 03:43
+In this merge, we list the family table as the left table and merge it on the movie_id column. The how argument is set to outer for an outer join. Both of our tables have the same column names. Therefore, we add suffixes to show what table the columns originated. In our result table, every row is returned for both tables and we see some null values. In our original comedy tables ID number 12 does not exist. Therefore a null is shown. Similarly, in our last row, movie ID 13 wasn't in the family dataset so it has a null.
+
+
+Transcript
+1. Merging a table to itself
+00:00 - 00:10
+Hello again! In this lesson, we will talk about merging a table to itself. This type of merge is also referred to as a self join. So, let's get started.
+
+2. Sequel movie data
+00:10 - 00:55
+So when would you ever need to merge a table to itself? The table shown here is called sequels and has three columns. It contains a column for movie id, title, and sequel. The sequel number refers to the movie id that is a sequel to the original movie. For example, in the second row the movie is titled Toy Story, and has an id equal to 862. The sequel number of this row is 863. This is the movie id for Toy Story 2, the sequel to Toy Story. If we continue, 10193 is the movie id Toy Story 3 which is the sequel for Toy Story 2.
+
+3. Merging a table to itself
+00:55 - 01:36
+If we would like to see a table with the movies and the corresponding sequel movie in one row of the table, we will need to merge the table to itself. In the left table, the sequel ID for Toy Story of 863 is matched with 863 in the ID column of the right table. Similarly, Toy Story 2 of the left table is matched with Toy Story 3 in the right table. We will talk more about this later, but the merge is an inner join. Therefore, we do not see Avatar and Titanic because they do not have sequels.
+
+4. Merging a table to itself
+01:36 - 02:35
+To complete this merge, we set the sequels table as input to the merge method for both the left and right tables. We can think of it as merging two copies of the same table. All of the aspects we have reviewed regarding merging two tables still apply here. Therefore, we can merge the tables on different columns. We'll use the 'left_on' and 'right_on' attributes to match rows where the sequel's id matches the original movie's id. Finally, setting the suffixes argument in the merge method allows us to identify which columns describe the original movie and which describe the sequel. When we look at the results of the merge, the 'title_org' and 'title_seq' list the original and sequel movies, respectively. Here we listed the original movie and its sequel in one row.
+
+5. Continue format results
+02:35 - 02:50
+Now that we have our result table from the merge, we could select only the `title_org`, and `title_seq` columns, and we can see that we've successfully linked each movie to its sequel.
+
+6. Merging a table to itself with left join
+02:50 - 03:27
+Pausing here is a good time to highlight again that when merging a table to itself, we can use the different types of joins we have already reviewed. Let's take the same merge from earlier but make it a left join. The 'how' argument is set in the merge method to left from the default 'inner'. Now the resulting table will show all of our original movie info. If the sequel movie exists in the table, it will fill out the rest of the row. If you compare this to our earlier merger, you now see movies like Avatar and Titanic in the result set.
+
+7. When to merge at table to itself
+03:27 - 03:48
+You might need to merge a table to itself when working with tables that have a hierarchical relationship, like employee and manager. You might use this on sequential relationships such as logistic movements. Graph data, such as networks of friends, might also require this technique.
+
+
+Transcript
+1. Merging on indexes
+00:00 - 00:18
+So far, we've only looked at merging two tables together using their columns. In this lesson, we'll discuss how to merge tables using their indexes. Often, the DataFrame indexes are given a unique id that we can use when merging two tables together.
+
+2. Table with an index
+00:18 - 00:36
+Here, we show the movies table that was introduced earlier in this chapter. The index is the default 0, 1, 2, 3, etc., auto-increment. In this second version, the id column is the index for the table.
+
+3. Setting an index
+00:36 - 00:55
+There are different methods to set the index of a table, but if our data starts off in a CSV file, we can use the index_col argument of the read_csv method. This lesson will not focus on how to set a table index, but how to use that index to merge two tables together.
+
+4. Merge index datasets
+00:55 - 01:08
+Recall our example to merge the movies and taglines tables using the id column with a left join. Let's recreate that merge using the index which is now the id for tables.
+
+5. Merging on index
+01:08 - 01:32
+Our merge statement looks identical to before. However, in this case we are inputting to the 'on' argument the index level name which is called 'id'. The merge method automatically adjusts to accept index names or column names. The returned table looks as before, except the 'id' is the index.
+
+6. MultiIndex datasets
+01:32 - 02:01
+Let's try a multiIndex merge. Here, we have two tables with a multiIndex that holds the movie ID and cast ID. The first table, named 'samuel', has the movie and cast ID for a group of movies that Samuel L. Jackson acted in. The second table, named cast, has the movie ID and cast ID for a number of movie characters. Let's merge these two tables on their multiIndex.
+
+7. MultiIndex merge
+02:01 - 02:27
+In this merge, we pass in a list of index level names to the 'on' argument, just like we did when merging on multiple columns. Since this is an inner join, both the movie_id and cast_id must match in each table to be returned in the result. It's interesting to see that Samuel Jackson has acted in over 65 movies! That's a lot.
+
+8. Index merge with left_on and right_on
+02:27 - 02:53
+There is one more thing regarding merging on indexes. If the index level names are different between the two tables that we want to merge, then we can use the left_on and right_on arguments of the merge method. Let's go back to our movies table, shown in the top panel, and merge it with our movies_to_genres table, shown in the lower panel.
+
+9. Index merge with left_on and right_on
+02:53 - 03:31
+In this merge, since we list the movies table as the left table, we set left_on equal to id and right_on equal to movie_id. Additionally, since we are merging on indexes, we need to set left_index and right_index to True. These arguments take only True or False. Whenever we are using the left_on or right_on arguments with an index, we need to set the respective left_index and right_index arguments to True. The left_index and right_index tell the merge method to use the separate indexes.
+
+
+CHAPTER 3 TRANSCRIPTS
+
+
+Transcript
+1. Filtering joins
+00:00 - 00:13
+Welcome to the third chapter! In this lesson, we will discuss a type of join called a filtering join. pandas doesn't provide direct support for filtering joins, but we will learn how to replicate them.
+
+2. Mutating versus filtering joins
+00:13 - 00:28
+So far, we have only worked with mutating joins, which combines data from two tables. However, filtering joins filter observations from one table based on whether or not they match an observation in another table.
+
+3. What is a semi join?
+00:28 - 00:58
+Let's start with a semi join. A semi join filters the left table down to those observations that have a match in the right table. It is similar to an inner join where only the intersection between the tables is returned, but unlike an inner join, only the columns from the left table are shown. Finally, no duplicate rows from the left table are returned, even if there is a one-to-many relationship. Let's look at an example.
+
+4. Musical dataset
+00:58 - 01:05
+For this chapter, the dataset we will use is from an online music streaming service.
+
+1 Photo by Vlad Bagacian from Pexels
+5. Example datasets
+01:05 - 01:28
+In this new dataset, we have a table of song genres shown here. There's also a table of top-rated song tracks. The 'gid' column connects the two tables. Let's say we want to find what genres appear in our table of top songs. A semi join would return only the columns from the genre table and not the tracks.
+
+6. Step 1 - semi join
+01:28 - 01:45
+First, let's merge the two tables with an inner join. We also print the first few rows of the genres_tracks variable. Since this is an inner join, the returned 'gid' column holds only values where both tables matched.
+
+7. Step 2 - semi join
+01:45 - 02:07
+For the next step in the technique, let's focus on this line of code. It uses a method called isin(), which compares every 'gid' in the genres table to the 'gid' in the genres_tracks table. This will tell us if our genre appears in our merged genres_tracks table.
+
+8. Step 2 - semi join
+02:07 - 02:13
+This line of code returns a Boolean Series of true or false values.
+
+9. Step 3 - semi join
+02:13 - 02:39
+To combine everything, we use that line of code to subset the genres table. The results are saved to top_genres and we print a few rows. We've completed a semi join. These are rows in the genre table that are also found in the top_tracks table. This is called a filtering join because we've filtered the genres table by what's in the top_tracks table.
+
+10. What is an anti join?
+02:39 - 03:07
+Now let's talk about anti joins. An anti join returns the observations in the left table that do not have a matching observation in the right table. It also only returns the columns from the left table. Now, let's go back to our example. Instead of finding which genres are in the table of top tracks, let's now find which genres are not with an anti join.
+
+11. Step 1 - anti join
+03:07 - 03:37
+The first step is to use a left join returning all of the rows from the left table. Here we'll use the indicator argument and set it to True. With indicator set to True, the merge method adds a column called "_merge" to the output. This column tells the source of each row. For example, the first four rows found a match in both tables, whereas the last can only be found in the left table.
+
+12. Step 2 - anti join
+03:37 - 03:55
+Next, we use the "loc" accessor and "_merge" column to select the rows that only appeared in the left table and return only the "gid" column from the genres_tracks table. We now have a list of gids not in the tracks table.
+
+13. Step 3 - anti join
+03:55 - 04:08
+In our final step we use the isin() method to filter for the rows with gids in our gid_list. Our output shows those genres not in the tracks table.
+
+
+Transcript
+1. Concatenate DataFrames together vertically
+00:00 - 00:06
+Hello there! In this lesson, we'll talk about how to connect two tables vertically.
+
+2. Concatenate two tables vertically
+00:06 - 00:26
+So far in this course, we have only discussed how to merge two tables, which mainly grows them horizontally. But what if we wanted to grow them vertically? We can use the concat method to concatenate, or stick tables together, vertically or horizontally, but in this lesson, we'll focus on vertical concatenation.
+
+3. Basic concatenation
+00:26 - 00:50
+Often, data for different periods of time will come in multiple tables, but if we want to analyze it together, we'll need to combine them into one. Here are three separate tables of invoice data from our streaming service. Notice the column headers are the same. The separate tables are named "inv" underscore Jan through March.
+
+4. Basic concatenation
+00:50 - 01:15
+We can pass a list of table names into pandas dot concat to combine the tables in the order they're passed in. To concatenate vertically, the axis argument should be set to 0, but 0 is the default, so we don't need to explicitly write this. The result is a vertically combined table. Notice each table's index value was retained.
+
+5. Ignoring the index
+01:15 - 01:30
+If the index contains no valuable information, then we can ignore it in the concat method by setting ignore_index to True. The result is that the index will go from 0 to n-1.
+
+6. Setting labels to original tables
+01:30 - 01:58
+Now, suppose we wanted to associate specific keys with each of the pieces of our three original tables. We can provide a list of labels to the keys argument. Make sure that ignore_index argument is False, since you can't add a key and ignore the index at the same time. This results in a table with a multi-index, with the label on the first level.
+
+7. Concatenate tables with different column names
+01:58 - 02:07
+What if we need to combine tables that have different column names? The "inv_feb" table now has a column added for billing country.
+
+8. Concatenate tables with different column names
+02:07 - 02:32
+The concat method by default will include all of the columns in the different tables it's combining. The sort argument, if true, will alphabetically sort the different column names in the result. We can see in the results that the billing country for January invoices is NaN. However, there are values for the February invoices.
+
+9. Concatenate tables with different column names
+02:32 - 03:05
+If we only want the matching columns between tables, we can set the join argument to "inner". Its default value is equal to "outer", which is why concat by default will include all of the columns. Additionally, the sort argument has no effect when join equals "inner". The order of the columns will be the same as the input tables. Now the bill country column is gone and we're only left with the columns the tables have in common.
+
+
+
+Transcript
+1. Verifying integrity
+00:00 - 00:06
+Welcome back. In this lesson, let's talk about verifying the integrity of our data.
+
+2. Let's check our data
+00:06 - 00:49
+Both the merge and concat methods have special features that allow us to verify the structure of our data. When merging two tables, we might expect the tables to have a one-to-one relationship. However, one of the columns we are merging on may have a duplicated value, which will turn the relationship into a one-to-many. When concatenating tables vertically, we might unintentionally create duplicate records if a record exists in both tables. The validate and verify_integrity arguments of the merge and concat methods respectively will allow us to verify the data.
+
+3. Validating merges
+00:49 - 01:12
+Let's start with the merge method. If we provide the validate argument one of these key strings, it will validate the relationship between the two tables. For example, if we specify we want a one-to-one relationship, but it turns out the relationship is not one-to-one, then an error is raised. Let's try it out.
+
+4. Merge dataset for example
+01:12 - 01:51
+In this example, we want to merge these two tables on the column "tid". Again, our data is from our music service. The first table is named "tracks", and the second is called "specs" for the technical specifications of each track. Each track should have one set of specifications, so this should be a one-to-one merge. However, notice that the specs table has two rows with a "tid" value equal to two. Therefore, merging these tables now becomes, unintentionally, a one-to-many relationship.
+
+5. Merge validate: one_to_one
+01:51 - 02:20
+Let's merge the two tables with the tracks table on the left and specs on the right. Additionally, let's set the validate argument equal to one_to_one. In the result, a MergeError is raised. Python then tells us that the right table has duplicates, so it is not a one-to-one merge. We know that we should handle those duplicates properly before merging.
+
+6. Merge validate: one_to_many
+02:20 - 02:37
+Now we'll merge album information with the tracks table. For every album there are multiple tracks, so this should be a one-to-many relationship. When we set the validate argument to "one_to_many" no error is raised.
+
+7. Verifying concatenations
+02:37 - 02:58
+Let's now talk about the concat method. It has the argument verify_integrity, which by default is False. However, if set to True, it will check if there are duplicate values in the index and raise an error if there are. It will only check the index values and not the columns.
+
+8. Dataset for .concat() example
+02:58 - 03:21
+To try out this feature, we will attempt to concatenate these two tables. They are the February and March invoice data shown in a previous video. However, both tables were modified so the index contains invoice IDs. Notice that invoice ID number 9 is in both tables.
+
+9. Verifying concatenation: example
+03:21 - 03:54
+Let's try to concatenate the two tables together with the verify_integrity argument set to True. The concat method raises a ValueError stating that the indexes have overlapping values. Now let's try to concatenate the two tables again with the verify_integrity set back to the default value of False. The concat method now returns a combined table with the invoice ID of number 9 repeated twice.
+
+10. Why verify integrity and what to do
+03:54 - 04:23
+Often our data is not clean, and it may not always be evident if data has the expected structure. Therefore, verifying this structure is useful, saving us from having a mean skewed by duplicate values, or from creating inaccurate plots. If you receive a MergeError or a ValueError, you can fix the incorrect data or drop duplicate rows. In general, you should look to correct the issue.
+
+
+CHAPTER 4 TRANSCRIPTS
+
+Daily XP
+200
+Using merge_ordered()
+50 XP
+
+This course is also available on the mobile app. Continue learning on mobile.
+
+
+Got it!
+Transcript
+1. Using merge_ordered()
+00:00 - 00:09
+Welcome back! In this last chapter we'll start discussing merge_ordered(). This method can merge time-series and other ordered data.
+
+2. merge_ordered()
+00:09 - 00:34
+The merge_ordered method will allow us to merge the left and right tables shown here. We can see the output of the merge when we merge on the "C" column. The results are similar to the standard merge method with an outer join, but here that the results are sorted. The sorted results make this a useful method for ordered or time-series data.
+
+3. Method comparison
+00:34 - 01:26
+So, let's first give context to this method. It has many of the same arguments we have already covered with the merge method. They both contain arguments to allow us to merge two tables on different columns. Both methods support different types of joins. Although, the default for the merge method is "inner", it is "outer" for merge_order method. Also, both methods support suffixes for overlapping column names. However, how you call each of the methods is different. Earlier in the course, we called the merge method by first listing a table and calling the method afterward. For merge_ordered(), you'll need to first call pandas then merge_ordered(). Let's look at an example.
+
+4. Financial dataset
+01:26 - 01:33
+In this chapter, we will be working with financial, macroeconomic, and stock market data.
+
+1 Photo by Markus Spiske on Unsplash
+5. Stock data
+01:33 - 01:52
+In this example, we have a table of the stock prices of the Apple corporation from February to June 2007. We also have a table of the stock price for McDonald's corporation from January to May 2007, and we want to merge them.
+
+6. Merging stock data
+01:52 - 02:21
+The first two arguments are the left and right tables. We set the "on" argument equal to date. Finally, we set the suffixes argument to determine which table the data originated. This results in a table sorted by date. There isn't a value for Apple in January or a value for McDonald's for June since values for these time periods are not available in the two original tables.
+
+7. Forward fill
+02:21 - 02:42
+We can fill in this missing data using a technique called forward filling. It will interpolate missing data by filling the missing values with the previous value. In the table shown here, the second and fourth rows of column B are filled with the values of B in the rows proceeding them.
+
+8. Forward fill example
+02:42 - 03:17
+Going back to our stock example from before, we now set the fill_method argument to "ffill" for forward fill. In the result, notice that the missing value for McDonald's in the last row is now filled in with the row before it. The table from before is shown on the right for easier comparison. Notice the missing value for Apple in the first row is still missing since there isn't a row before the first row to copy into the missing value for Apple.
+
+9. When to use merge_ordered()?
+03:17 - 03:40
+You might think about using the merge_ordered method instead of the regular merge method when you are working with order or time-series data like in our example. Additionally, the fill forward feature is useful for handling missing data, as most machine learning algorithms require that there are no missing values.
+
+
+Transcript
+1. Using merge_asof()
+00:00 - 00:08
+In this lesson we will talk about another method for ordered or time-series data called merge_asof().
+
+2. Using merge_asof()
+00:08 - 00:37
+The merge_asof() method is similar to an ordered left join. It has similar features as merge_ordered(). However, unlike an ordered left join, merge_asof() will match on the nearest value columns rather than equal values. This brings up an important point - whatever columns you merge on must be sorted. In the table shown here, when we merge on column "C", we bring back all of the rows from the left table.
+
+3. Using merge_asof()
+00:37 - 01:01
+However, the row selected from the right table is the last row whose "C" value is less than or equal to the "C" value in the left table. So, for example, the second row in the left table is matched with the third row in the right table. This because 3 is the closest value in the right table that is still less than or equal to 5.
+
+4. Datasets
+01:01 - 01:21
+For this example, we will look at merging two tables. The first is stock price data for the Visa company with entries for every hour on Nov, 11, 2017. The second table is IBM stock prices on the same day with entries for roughly every five minutes.
+
+5. merge_asof() example
+01:21 - 02:26
+Let's use merge_asof() to merge the tables. The input arguments are very similar to what we have already seen in the course. Here we list the left and right tables first. Then we define that we want to merge on the "date_time" column. Finally, we provide a set of suffixes. Our output is similar to a left join, so we see all of the rows from the left Visa table. However, the values from the IBM table are based on how close the date_time values match with the Visa table. Notice the first row and the IBM price of 149.11. Let's show the IBM table again and see why this value was chosen in the merger. It comes from the row indexed as 4. This row has the closest date_time that is less than the date_time in the Visa table. The next row has a date_time that is slightly greater. We will adjust this behavior in our coming example.
+
+6. merge_asof() example with direction
+02:26 - 03:16
+This time in our merge_asof() method, we list the direction argument as "forward". This will change the behavior of the method to select the first row in the right table whose "on" key column is greater than or equal to the left's key column. The default value for the direction argument is "backward". When we look at our results, we see different values for the IBM column. Let's again look at the first IBM value and trace it back to the IBM table. We see it in the row indexed as 5. Its date_time is slightly greater than the date_time in the visa table. Finally, you can set the direction argument to "nearest" which returns the nearest row in the right table regardless if it is forward or backwards.
+
+7. When to use merge_asof()
+03:16 - 03:47
+Now that we reviewed the merge_asof() method, here are a couple of thoughts on when you might want to use it. First, you might think of this method when you are working with data sampled from a process and the dates or times may not exactly align. This is similar to what we did in our example. It could also be used when you are working on a time-series training set, where you do not want any events from the future to be visible before that point in time.
+
+
+	Transcript
+1. Selecting data with .query()
+00:00 - 00:18
+Now that you have learned quite a bit about combining data from different data sources, let's review a pandas method for selecting data from the table called the query() method. pandas provides many methods for selecting data, and query() is one of them.
+
+2. The .query() method
+00:18 - 00:45
+The query() method accepts an input string that it will use to select rows to return from the table. For those familiar with SQL, the string you provide to the query function is similar to the portion after the WHERE clause of a SQL statement. However, don't let the SQL statement scare you, because prior knowledge of SQL isn't required. Let's look at an example.
+
+3. Querying on a single condition
+00:45 - 01:24
+We have the following table named stocks with the stock price of Disney and Nike on different days. Now imagine we would like to select the rows where Nike is equal to or above 90. Here we provide a string to the query method. The string identifies that we want to condition which rows are returned by the value of the Nike column. We simply input "nike >= 90". The method returns all rows in stocks where Nike is greater than or equal to 90.
+
+4. Querying on a multiple conditions, "and", "or"
+01:24 - 02:00
+Let's look at another example. Here we use the "and" keyword to select rows where Nike is greater than 90 and Disney is less than 140. The method returns two rows of data that match our criteria. Next, instead of using "and" we can also use the "or" keyword. This input string should select all rows where Nike is over 96 or Disney is less than 98. Now the function returns three rows that meet our criteria.
+
+5. Updated dataset
+02:00 - 02:14
+Our next example shows that you can use the query method to select strings. Imagine now that we have an updated dataset, which is the stocks table in a slightly different format.
+
+6. Using .query() to select text
+02:14 - 03:21
+We are interested in selecting all of the rows were the column stock equals "disney" or the column stock equals "nike" and close is less than 90. Let's pause here for a moment to look at our query string. Within the parentheses of our string, we check if the stock column is nike and the close column is less than 90. Both of these conditions have to be true for the parentheses section to return true. We then add that to the condition to check if stock is listed as "disney". When checking text, we use the double equal signs, similar to an if statement in Python. Also, when checking a text string, we used double quotes to surround the word. This is to avoid unintentionally ending our string statement since we used single quotes to start the statement. In our results, we see all of our Disney rows returned. Also, those rows were Nike is the stock name and the close price is less than 90 are returned.
+
+
+Transcript
+1. Reshaping data with .melt()
+00:00 - 00:17
+In our last lesson of the course, let's talk about the melt method. This method will unpivot a table from wide to long format. This is often a much more computer-friendly format, therefore making this a valuable method to know.
+
+2. Wide versus long data
+00:17 - 01:01
+Sometimes we will come across data where every row relates to one subject, and each column has different information about an attribute of that subject. Data formatted in this way is often called wide. There are other times when the information about one subject is found over many rows, and each row has one attribute about that subject. Data formatted in this way is often called long or tall. In general, wide formatted data is easier to read by people than long formatted. However, long formatted data is often more accessible for computers to work with.
+
+3. What does the .melt() method do?
+01:01 - 01:16
+The melt method will allow us to unpivot, or change the format of, our dataset. In this image, we change the height and weight columns from their wide horizontal placement to a long vertical placement.
+
+4. Dataset in wide format
+01:16 - 01:32
+To demonstrate the melt method, let's start with this dataset of financial metrics of two popular social media companies. Notice that the years are horizontal. Let's change them so that they are vertically placed.
+
+5. Example of .melt()
+01:32 - 02:31
+Here we call the melt() method on the table social_fin. The first input argument to the method is id_vars. These are columns to be used as identifier variables. We can also think of them as columns in our original dataset that we do not want to change. In our output, we print the first ten rows. Our years are listed vertically. Our final column now has all of our values in one column versus multiple columns. Again, this is a much more computer-friendly format than our original table. We unpivoted each of the separate columns 2016 through 2019. Our output has data for every year in our starting table, but again, we are only showing the first couple of rows. In the next example, we will look at how to control what columns are unpivoted.
+
+6. Melting with value_vars
+02:31 - 03:16
+This time, let's use the argument value_vars with the melt() method. This argument will allow us to control which columns are unpivoted. Here, we unpivot only the 2018 and 2017 columns. Our output now only has data for the years 2018 and 2017. Additionally, the order of the value_var was kept. The output starts with 2018, then moves to 2017. Finally, notice that the column with the years is now named variable, and our values column is named value. We will adjust that in our next example.
+
+7. Melting with column names
+03:16 - 04:06
+In this example, we have added some additional inputs to our melt() method. The var_name argument will allow us to set the name of the year column in the output. Similarly, the value_name argument will allow us to set the name of the value column in the output. We again print the first few rows of the output. It is the same as before, except our variable and value columns are renamed year and dollars, respectively. We have seen how the melt() method is useful for reshaping our tables. Imagine a situation where you have merged many columns, making your table very wide. The merge() method can then be used to reshape that table into a more computer-friendly format.
+
+
+Transcript
+1. Course wrap-up
+00:00 - 00:07
+Congratulations! You have completed all the videos and exercises. You should feel proud.
+
+2. You're this high performance race car now
+00:07 - 00:19
+It wasn't long ago when you started the course. Now you're like this high-performance race car when it comes to combining data. In this course, we covered a lot of topics.
+
+1 Photo by jae park from Pexels
+3. Data merging basics
+00:19 - 00:37
+In chapter one, you performed an inner join with the default settings using the merge() method. You also learned about the different types of table relationships and merging multiple tables. These are the basics of using the combining data with the merge() method.
+
+4. Merging tables with different join types
+00:37 - 00:51
+In the second chapter, you expanded your joining skills to many different types of joins. You also learned how to merge a table to itself and how to merge using indexes.
+
+5. Advanced merging and concatenating
+00:51 - 01:05
+In the third chapter, you learned about filtering joins, such as semi- and anti joins. You also learned how to combine data vertically with the concat() method and about the importance of data integrity.
+
+6. Merging ordered and time-series data
+01:05 - 01:18
+In the last chapter you discovered how to merge ordered and time-series data with merge_ordered() and merge_asof(). In the last lesson, you learned how to use melt().
+
+
