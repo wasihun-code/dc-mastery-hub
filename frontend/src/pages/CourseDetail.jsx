@@ -68,6 +68,32 @@ function SkeletonHeader() {
 }
 
 function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonText, onClick, disabled, warning, isBoss, stats }) {
+  let itemLabel = "questions"
+  let availableLabel = "questions available"
+  let unattemptedLabel = "unattempted"
+
+  if (title === "Flashcards") {
+    itemLabel = "cards reviewed"
+    availableLabel = "cards available"
+    unattemptedLabel = "unattempted"
+  } else if (title === "Fill in the Blank") {
+    itemLabel = "concepts practiced"
+    availableLabel = "concepts available"
+    unattemptedLabel = "unattempted"
+  } else if (title === "Dataset Challenge") {
+    itemLabel = "challenges attempted"
+    availableLabel = "challenges available"
+    unattemptedLabel = "unattempted"
+  } else if (title === "Matching Game") {
+    itemLabel = "pairs matched"
+    availableLabel = "pairs available"
+    unattemptedLabel = "unattempted"
+  } else if (title === "Boss Battle 🔥") {
+    itemLabel = "questions faced"
+    availableLabel = "questions available"
+    unattemptedLabel = "unattempted"
+  }
+
   return (
     <div className={`flex flex-col justify-between rounded border p-5 transition-all ${
       isBoss 
@@ -84,21 +110,36 @@ function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonT
         <p className="mt-3 text-sm text-[var(--text-muted)]">{description}</p>
         
         {stats && (
-          <div className="mt-1.5 flex flex-wrap gap-[6px] text-[11px]">
-            {stats.attempted > 0 ? (
+          <div className="mt-3 space-y-2 select-none">
+            {stats.sessions > 0 ? (
               <>
-                <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
-                  {stats.attempted} attempted
-                </span>
-                <span className="rounded px-2 py-0.5 border border-[var(--accent-green)]/30 text-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]">
-                  {stats.correct} correct
-                </span>
-                <span className="rounded px-2 py-0.5 border border-[var(--accent-red)]/30 text-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]">
-                  {stats.wrong} wrong
-                </span>
+                <div className="flex flex-wrap gap-[6px] text-[11px] font-bold">
+                  <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
+                    {stats.sessions} attempted
+                  </span>
+                  <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
+                    {stats.attempted} {itemLabel}
+                  </span>
+                  <span className="rounded px-2 py-0.5 border border-[var(--accent-green)]/30 text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]">
+                    {stats.correct} correct
+                  </span>
+                  <span className="rounded px-2 py-0.5 border border-[var(--accent-red)]/30 text-[var(--accent-red)] bg-[rgba(239,68,68,0.05)]">
+                    {stats.wrong} wrong
+                  </span>
+                </div>
+                <div className="flex justify-between text-[10px] text-[var(--text-muted)] border-t border-[var(--border)]/20 pt-1.5 mt-1 font-medium">
+                  <span>{stats.available} {availableLabel}</span>
+                  <span>{stats.unattempted} {unattemptedLabel}</span>
+                </div>
               </>
             ) : (
-              <span className="text-[var(--text-muted)] italic">No attempts yet</span>
+              <>
+                <div className="text-[11px] italic text-[var(--text-muted)]">No attempts yet</div>
+                <div className="flex justify-between text-[10px] text-[var(--text-muted)] border-t border-[var(--border)]/20 pt-1.5 mt-1 font-medium">
+                  <span>{stats.available} {availableLabel}</span>
+                  <span>{stats.available} {unattemptedLabel}</span>
+                </div>
+              </>
             )}
           </div>
         )}
@@ -256,23 +297,23 @@ export default function CourseDetail() {
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7 lg:shrink-0">
             {[
-              { label: 'Flashcards', score: course.flashcard_score, attempts: stats?.flashcard?.attempted || 0 },
-              { label: 'Quizzes', score: course.quiz_score, attempts: stats?.mcq?.attempted || 0 },
-              { label: 'Coding', score: course.code_score, attempts: stats?.ftb?.attempted || 0 },
-              { label: 'Datasets', score: course.dataset_score, attempts: stats?.dataset?.attempted || 0 },
-              { label: 'Matching', score: course.matching_score, attempts: stats?.matching?.attempted || 0 },
-              { label: 'Boss Battle', score: course.boss_score, attempts: stats?.boss_battle?.attempted || 0 },
+              { label: 'Flashcards', score: course.flashcard_score, attempts: stats?.flashcard?.sessions || 0 },
+              { label: 'Quizzes', score: course.quiz_score, attempts: stats?.mcq?.sessions || 0 },
+              { label: 'Coding', score: course.code_score, attempts: stats?.ftb?.sessions || 0 },
+              { label: 'Datasets', score: course.dataset_score, attempts: stats?.dataset?.sessions || 0 },
+              { label: 'Matching', score: course.matching_score, attempts: stats?.matching?.sessions || 0 },
+              { label: 'Boss Battle', score: course.boss_score, attempts: stats?.boss_battle?.sessions || 0 },
               { 
                 label: 'Overall', 
                 score: course.overall_mastery, 
                 isOverall: true, 
                 attempts: stats ? (
-                  stats.flashcard.attempted +
-                  stats.mcq.attempted +
-                  stats.ftb.attempted +
-                  stats.dataset.attempted +
-                  stats.matching.attempted +
-                  stats.boss_battle.attempted
+                  stats.flashcard.sessions +
+                  stats.mcq.sessions +
+                  stats.ftb.sessions +
+                  stats.dataset.sessions +
+                  stats.matching.sessions +
+                  stats.boss_battle.sessions
                 ) : 0
               }
             ].map((box) => (

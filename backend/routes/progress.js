@@ -523,32 +523,160 @@ router.post('/progress/attempt', (req, res, next) => {
   }
 })
 
+function countSessions(attempts, thresholdMs = 15 * 60 * 1000) {
+  if (attempts.length === 0) return 0
+  let sessions = 1
+  let prevTime = new Date(attempts[0].attempted_at).getTime()
+  for (let i = 1; i < attempts.length; i++) {
+    const currTime = new Date(attempts[i].attempted_at).getTime()
+    if (currTime - prevTime > thresholdMs) {
+      sessions++
+    }
+    prevTime = currTime
+  }
+  return sessions
+}
+
 router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
   try {
     const { courseSlug } = req.params
-    const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT c.id, c.slug, t.slug as track_slug 
+      FROM courses c
+      JOIN tracks t ON t.id = c.track_id
+      WHERE c.slug = ?
+    `).get(courseSlug)
+
     if (!course) {
       return res.status(404).json({ error: 'Course not found' })
     }
 
-    const rows = db.prepare(`
-      SELECT 
-        exercise_type,
-        COUNT(*) as total_attempted,
-        SUM(CASE WHEN was_correct = 1 THEN 1 ELSE 0 END) as total_correct,
-        SUM(CASE WHEN was_correct = 0 OR was_correct IS NULL THEN 1 ELSE 0 END) as total_wrong
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+    const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
+
+    // 1. MCQ questions available
+    let mcqAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
+    if (mcqAvailable === 0) {
+      const p = path.join(exercisesDir, 'mcq.json')
+      if (fs.existsSync(p)) {
+        try {
+          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
+          mcqAvailable = (Array.isArray(d) ? d : (d.questions || [])).length
+        } catch (e) {}
+      }
+    }
+
+    // 2. Flashcards available
+    let flashcardAvailable = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
+    if (flashcardAvailable === 0) {
+      const p = path.join(exercisesDir, 'flashcards.json')
+      if (fs.existsSync(p)) {
+        try {
+          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
+          flashcardAvailable = (Array.isArray(d) ? d : (d.cards || [])).length
+        } catch (e) {}
+      }
+    }
+
+    // 3. FTB (concepts) available
+    let ftbAvailable = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+    if (ftbAvailable === 0) {
+      const p = path.join(exercisesDir, 'ftb.json')
+      if (fs.existsSync(p)) {
+        try {
+          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
+          ftbAvailable = (Array.isArray(d) ? d : (d.exercises || [])).length
+        } catch (e) {}
+      }
+    }
+
+    // 4. Matching available
+    let matchingAvailable = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+    const matchingPath = path.join(exercisesDir, 'matching.json')
+    if (fs.existsSync(matchingPath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(matchingPath, 'utf-8'))
+        const rounds = Array.isArray(d) ? d : (d.rounds || [])
+        let pairCount = 0
+        for (const r of rounds) {
+          pairCount += (r.pairs || []).length
+        }
+        if (pairCount > 0) {
+          matchingAvailable = pairCount
+        }
+      } catch (e) {}
+    }
+
+    // 5. Boss battle available
+    let bossAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
+    const bossPath = path.join(exercisesDir, 'bossbattle.json')
+    if (fs.existsSync(bossPath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
+        bossAvailable = (Array.isArray(d) ? d : (d.questions || [])).length
+      } catch (e) {}
+    }
+
+    // 6. Dataset challenges available
+    let datasetAvailable = 0
+    const challengePath = path.join(exercisesDir, 'challenge.json')
+    if (fs.existsSync(challengePath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+        datasetAvailable = (Array.isArray(d) ? d : (d.challenges || [])).length
+      } catch (e) {}
+    }
+    if (datasetAvailable === 0) {
+      try {
+        const challenges = getChallenges(course.slug)
+        datasetAvailable = (challenges || []).length
+      } catch (e) {}
+    }
+
+    // Fetch all attempts for this course
+    const attempts = db.prepare(`
+      SELECT exercise_type, question_id, was_correct, attempted_at
       FROM exercise_attempts
       WHERE course_id = ?
-      GROUP BY exercise_type
+      ORDER BY attempted_at ASC
     `).all(course.id)
 
     const stats = {
-      mcq: { attempted: 0, correct: 0, wrong: 0 },
-      flashcard: { attempted: 0, correct: 0, wrong: 0 },
-      ftb: { attempted: 0, correct: 0, wrong: 0 },
-      matching: { attempted: 0, correct: 0, wrong: 0 },
-      boss_battle: { attempted: 0, correct: 0, wrong: 0 },
-      dataset: { attempted: 0, correct: 0, wrong: 0 }
+      mcq: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: mcqAvailable, unattempted: mcqAvailable },
+      flashcard: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: flashcardAvailable, unattempted: flashcardAvailable },
+      ftb: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: ftbAvailable, unattempted: ftbAvailable },
+      matching: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: matchingAvailable, unattempted: matchingAvailable },
+      boss_battle: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: bossAvailable, unattempted: bossAvailable },
+      dataset: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: datasetAvailable, unattempted: datasetAvailable }
+    }
+
+    const uniqueQuestionsMap = {
+      quiz: new Set(),
+      flashcard: new Set(),
+      fillblank: new Set(),
+      matching: new Set(),
+      bossbattle: new Set(),
+      dataset: new Set()
+    }
+
+    const attemptsByType = {
+      quiz: [],
+      flashcard: [],
+      fillblank: [],
+      matching: [],
+      bossbattle: [],
+      dataset: []
+    }
+
+    for (const a of attempts) {
+      if (attemptsByType[a.exercise_type]) {
+        attemptsByType[a.exercise_type].push(a)
+      }
+      if (a.question_id !== null && uniqueQuestionsMap[a.exercise_type]) {
+        uniqueQuestionsMap[a.exercise_type].add(String(a.question_id))
+      }
     }
 
     const typeMapping = {
@@ -560,12 +688,28 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
       dataset: 'dataset'
     }
 
-    for (const row of rows) {
-      const key = typeMapping[row.exercise_type]
-      if (key && stats[key]) {
-        stats[key].attempted = row.total_attempted
-        stats[key].correct = row.total_correct
-        stats[key].wrong = row.total_wrong
+    for (const type of Object.keys(typeMapping)) {
+      const key = typeMapping[type]
+      const typeAttempts = attemptsByType[type] || []
+      const uniqueSet = uniqueQuestionsMap[type] || new Set()
+      
+      const sessions = countSessions(typeAttempts)
+      const attempted = typeAttempts.length
+      const correct = typeAttempts.filter(a => a.was_correct === 1).length
+      const wrong = attempted - correct
+
+      if (stats[key]) {
+        stats[key].sessions = sessions
+        stats[key].attempted = attempted
+        stats[key].correct = correct
+        stats[key].wrong = wrong
+        
+        const availableCount = stats[key].available
+        if (key === 'matching') {
+          stats[key].unattempted = sessions > 0 ? 0 : availableCount
+        } else {
+          stats[key].unattempted = Math.max(0, availableCount - uniqueSet.size)
+        }
       }
     }
 
