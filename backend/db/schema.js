@@ -14,7 +14,7 @@ export function initSchema() {
 
     CREATE TABLE IF NOT EXISTS courses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      slug TEXT UNIQUE NOT NULL,
+      slug TEXT NOT NULL,
       name TEXT NOT NULL,
       track_id INTEGER REFERENCES tracks(id),
       difficulty TEXT DEFAULT 'Unknown',
@@ -105,6 +105,41 @@ export function initSchema() {
       due_date TEXT,
       priority INTEGER DEFAULT 1
     );
+
+    CREATE TRIGGER IF NOT EXISTS sync_course_updates
+    AFTER UPDATE OF status, difficulty, notes, reviewed, has_pdf, has_glossary, is_deleted, is_archived ON courses
+    FOR EACH ROW
+    BEGIN
+      UPDATE courses
+      SET status = NEW.status,
+          difficulty = NEW.difficulty,
+          notes = NEW.notes,
+          reviewed = NEW.reviewed,
+          has_pdf = NEW.has_pdf,
+          has_glossary = NEW.has_glossary,
+          is_deleted = NEW.is_deleted,
+          is_archived = NEW.is_archived
+      WHERE slug = NEW.slug AND id != NEW.id;
+    END;
+
+    CREATE TRIGGER IF NOT EXISTS sync_mastery_updates
+    AFTER UPDATE ON mastery_scores
+    FOR EACH ROW
+    BEGIN
+      UPDATE mastery_scores
+      SET flashcard_score = NEW.flashcard_score,
+          quiz_score = NEW.quiz_score,
+          code_score = NEW.code_score,
+          dataset_score = NEW.dataset_score,
+          matching_score = NEW.matching_score,
+          boss_score = NEW.boss_score,
+          overall_mastery = NEW.overall_mastery
+      WHERE course_id IN (
+        SELECT id FROM courses WHERE slug = (
+          SELECT slug FROM courses WHERE id = NEW.course_id
+        )
+      ) AND course_id != NEW.course_id;
+    END;
   `)
 
   // Migration: Add has_glossary to courses if it doesn't exist
@@ -132,5 +167,19 @@ export function initSchema() {
   } catch (e) {
     // column already exists, ignore
   }
+
+  // Migration: Add is_deleted and is_archived to tracks and courses
+  try {
+    db.exec(`ALTER TABLE tracks ADD COLUMN is_deleted INTEGER DEFAULT 0`)
+  } catch (e) {}
+  try {
+    db.exec(`ALTER TABLE tracks ADD COLUMN is_archived INTEGER DEFAULT 0`)
+  } catch (e) {}
+  try {
+    db.exec(`ALTER TABLE courses ADD COLUMN is_deleted INTEGER DEFAULT 0`)
+  } catch (e) {}
+  try {
+    db.exec(`ALTER TABLE courses ADD COLUMN is_archived INTEGER DEFAULT 0`)
+  } catch (e) {}
 }
 

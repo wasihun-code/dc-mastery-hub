@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { BookOpen, Brain, LayoutDashboard, Map, Settings } from 'lucide-react'
+import { BookOpen, Brain, LayoutDashboard, Map, Settings, FolderOpen } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/courses', label: 'My Courses', icon: BookOpen },
   { to: '/study-session', label: 'Study Session', icon: Brain },
   { to: '/mastery-map', label: 'Mastery Map', icon: Map },
+  { to: '/manage', label: 'Content Manager', icon: FolderOpen },
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
 

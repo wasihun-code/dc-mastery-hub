@@ -26,6 +26,26 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Overall app text size increase */
+  font-size: 17.5px;
+}
+
+/* Light Theme overrides */
+:root.light-theme {
+  --bg-primary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f1f5f9;
+  --accent-green: #00aa3a; /* Darker green for legibility on light bg */
+  --accent-red: #ef4444;
+  --accent-yellow: #d97706;
+  --accent-blue: #2563eb;
+  --text-primary: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --bg-exercise: #f8fafc;
+  --accent-green-bright: #10b981;
+  --card-hover: #f1f5f9;
 }
 
 body {

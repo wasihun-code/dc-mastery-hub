@@ -11,7 +11,7 @@ const trackSummarySelect = `
     SUM(CASE WHEN c.status = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
     ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
   FROM tracks t
-  LEFT JOIN courses c ON c.track_id = t.id
+  LEFT JOIN courses c ON c.track_id = t.id AND c.is_deleted = 0 AND c.is_archived = 0
   LEFT JOIN mastery_scores ms ON ms.course_id = c.id
 `
 
@@ -20,6 +20,7 @@ router.get('/tracks', (req, res, next) => {
     const tracks = db
       .prepare(`
         ${trackSummarySelect}
+        WHERE t.is_deleted = 0 AND t.is_archived = 0
         GROUP BY t.id
         ORDER BY t.id
       `)
@@ -36,7 +37,7 @@ router.get('/tracks/:slug', (req, res, next) => {
     const track = db
       .prepare(`
         ${trackSummarySelect}
-        WHERE t.slug = ?
+        WHERE t.slug = ? AND t.is_deleted = 0 AND t.is_archived = 0
         GROUP BY t.id
       `)
       .get(req.params.slug)
@@ -57,7 +58,7 @@ router.get('/tracks/:slug', (req, res, next) => {
           ms.dataset_score
         FROM courses c
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id
-        WHERE c.track_id = ?
+        WHERE c.track_id = ? AND c.is_deleted = 0 AND c.is_archived = 0
         ORDER BY c.order_in_track
       `)
       .all(track.id)

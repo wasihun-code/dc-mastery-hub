@@ -459,57 +459,17 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* CONTINUATION: JUMP BACK IN */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4">Jump Back In</h2>
-        {inProgressCourses.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {inProgressCourses.slice(0, 3).map((course) => (
-              <div
-                key={course.id}
-                className="flex items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-4 transition-all hover:border-[var(--text-muted)] group select-none shadow-sm"
-                style={{ borderLeft: `4px solid ${course.track_color || 'var(--accent-blue)'}` }}
-              >
-                <div className="flex-1 pr-4 min-w-0">
-                  <div className="font-bold text-sm text-[var(--text-primary)] truncate" title={course.name}>
-                    {course.name}
-                  </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
-                    <span>Mastery:</span>
-                    <span className="font-bold text-[var(--accent-green)]">
-                      {Number(course.overall_mastery ?? 0).toFixed(0)}%
-                    </span>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => navigate(`/courses/${course.slug}`)}
-                  className="rounded-lg bg-[var(--accent-green)] text-[var(--bg-primary)] p-2 hover:scale-105 active:scale-95 transition-all shadow-sm shrink-0"
-                >
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--bg-primary)] p-6 text-center text-xs text-[var(--text-muted)]">
-            No courses currently in progress. Start one from the Courses catalog!
-          </div>
-        )}
-      </section>
+      {/* WEAK SPOTS */}
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-sm">
+        <div>
+          <h2 className="text-lg font-bold text-[var(--text-primary)]">Target Areas (Weak Spots)</h2>
+          <p className="text-xs text-[var(--text-muted)]">Concepts needing reinforcement based on exercise accuracy</p>
+        </div>
 
-      {/* WEAK SPOTS & RECENT ACTIVITY FEED */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Weak Spots */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-[var(--text-primary)]">Target Areas (Weak Spots)</h2>
-            <p className="text-xs text-[var(--text-muted)]">Concepts needing reinforcement based on exercise accuracy</p>
-          </div>
-
-          <div className="mt-4 space-y-3">
-            {weakSpots.length > 0 ? (
-              weakSpots.slice(0, 5).map((spot) => (
+        <div className="mt-4 space-y-3">
+          {weakSpots.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {weakSpots.slice(0, 6).map((spot) => (
                 <div key={spot.concept_id} className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-4 flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-[var(--text-primary)] truncate">{spot.concept_name}</div>
@@ -522,59 +482,13 @@ export default function Dashboard() {
                     <span className="text-[10px] text-[var(--text-muted)]">{spot.attempt_count} attempts</span>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="rounded-xl border border-dashed border-[var(--border)] p-6 text-center text-xs text-[var(--text-muted)]">
-                No weak spots detected yet. Practice exercises to see data.
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Live Activity Feed */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-[var(--text-primary)]">Recent Activity</h2>
-            <p className="text-xs text-[var(--text-muted)]">Your latest exercise sessions and question submissions</p>
-          </div>
-
-          <div className="mt-4 space-y-3 max-h-96 overflow-y-auto pr-1">
-            {recentActivity.length > 0 ? (
-              recentActivity.map((activity) => (
-                <div key={activity.id} className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-4 flex items-center justify-between gap-4 text-xs">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: EXERCISE_COLORS[activity.exercise_type] || '#888888' }} />
-                      <span className="font-bold text-[var(--text-primary)]">{typeNames[activity.exercise_type] || activity.exercise_type}</span>
-                    </div>
-                    <div className="text-[10px] text-[var(--text-muted)] truncate mt-1">{activity.course_name}</div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 shrink-0 text-right">
-                    <div>
-                      {activity.time_taken_secs > 0 && (
-                        <div className="text-[10px] text-[var(--text-muted)] font-medium flex items-center justify-end gap-1">
-                          <span>{activity.time_taken_secs}s</span>
-                        </div>
-                      )}
-                      <div className="text-[10px] text-[var(--text-muted)]">{formatDate(activity.attempted_at)}</div>
-                    </div>
-                    <span className={`rounded-lg px-2 py-1 font-bold text-[10px] ${
-                      activity.was_correct === 1 
-                        ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)]' 
-                        : 'bg-[rgba(239,68,68,0.1)] text-[var(--accent-red)]'
-                    }`}>
-                      {activity.was_correct === 1 ? 'PASS' : 'FAIL'}
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="rounded-xl border border-dashed border-[var(--border)] p-6 text-center text-xs text-[var(--text-muted)]">
-                No activities completed yet. Start learning today!
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl border border-dashed border-[var(--border)] p-6 text-center text-xs text-[var(--text-muted)]">
+              No weak spots detected yet. Practice exercises to see data.
+            </div>
+          )}
         </div>
       </div>
     </div>

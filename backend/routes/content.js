@@ -9,6 +9,29 @@ import { runCode, runShellCommand } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
 import { recalculateMastery } from './progress.js'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
+
+function getCourseFolder(contentFolder, courseSlug, trackSlug) {
+  // First try the primary track slug
+  const primaryPath = path.join(contentFolder, 'tracks', trackSlug, courseSlug)
+  if (fs.existsSync(primaryPath)) {
+    return primaryPath
+  }
+  // Search other track folders
+  const tracksDir = path.join(contentFolder, 'tracks')
+  if (fs.existsSync(tracksDir)) {
+    const trackDirs = fs.readdirSync(tracksDir)
+    for (const tDir of trackDirs) {
+      const checkPath = path.join(tracksDir, tDir, courseSlug)
+      if (fs.existsSync(checkPath)) {
+        return checkPath
+      }
+    }
+  }
+  return primaryPath
+}
+
 const router = express.Router()
 
 router.use((req, res, next) => {
@@ -36,7 +59,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
           : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER;
 
-    const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', `${exerciseType}.json`);
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const exercisePath = path.join(courseFolder, 'exercises', `${exerciseType}.json`);
 
     // Try serving from database first if data is present
     if (exerciseType === 'mcq') {
@@ -275,10 +299,6 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     next(err);
   }
 });
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
-
 router.post('/scan', (req, res, next) => {
   try {
     const summary = scanContent()
@@ -346,7 +366,8 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
       : DEFAULT_CONTENT_FOLDER
       
     const fileName = type === 'slides' ? `${courseSlug}.pdf` : `${courseSlug}-glossary.pdf`
-    const absolutePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, fileName)
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const absolutePath = path.join(courseFolder, fileName)
 
     if (!fs.existsSync(absolutePath)) {
       return res.status(404).json({ error: 'File not found on disk' })
@@ -374,7 +395,8 @@ router.get('/datasets/:courseSlug', (req, res, next) => {
           : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER
 
-    const datasetsPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets')
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const datasetsPath = path.join(courseFolder, 'datasets')
 
     if (!fs.existsSync(datasetsPath) || !fs.statSync(datasetsPath).isDirectory()) {
       return res.status(200).json([])
@@ -416,7 +438,8 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
             : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
         : DEFAULT_CONTENT_FOLDER;
 
-      const exercisePath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'exercises', 'challenge.json');
+      const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+      const exercisePath = path.join(courseFolder, 'exercises', 'challenge.json');
 
       if (fs.existsSync(exercisePath)) {
         const fileData = fs.readFileSync(exercisePath, 'utf-8');
@@ -484,7 +507,8 @@ router.post('/run-code', (req, res, next) => {
           : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER
 
-    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
     
     if (!fs.existsSync(datasetPath)) {
       return res.status(404).json({ error: 'Dataset file not found' })
@@ -518,7 +542,8 @@ router.post('/run-shell', (req, res, next) => {
           : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER
 
-    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
     
     if (!fs.existsSync(datasetPath)) {
       return res.status(404).json({ error: 'Dataset file not found' })
@@ -551,7 +576,8 @@ router.post('/submit-challenge', (req, res, next) => {
           : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER
 
-    const datasetPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets', datasetFile)
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
     console.log(`[submit-challenge] datasetPath: ${datasetPath}`)
     
     if (!fs.existsSync(datasetPath)) {

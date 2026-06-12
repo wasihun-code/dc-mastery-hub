@@ -8,6 +8,7 @@ import coursesRouter from './routes/courses.js'
 import progressRouter, { recalculateMastery } from './routes/progress.js'
 import tracksRouter from './routes/tracks.js'
 import contentRouter from './routes/content.js'
+import manageRouter from './routes/manage.js'
 import { scanContent } from './services/contentScanner.js'
 import { importJsonExercises } from './db/jsonImporter.js'
 import path from 'path'
@@ -43,6 +44,7 @@ app.use('/api/content', contentRouter)
 app.use('/api', tracksRouter)
 app.use('/api', coursesRouter)
 app.use('/api', progressRouter)
+app.use('/api', manageRouter)
 
 app.use((err, req, res, next) => {
   console.error(err.stack)

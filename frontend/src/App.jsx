@@ -6,6 +6,7 @@ import Tracks from './pages/Tracks'
 import CourseDetail from './pages/CourseDetail'
 import StudySession from './pages/StudySession'
 import MasteryMap from './pages/MasteryMap'
+import ManageContent from './pages/ManageContent'
 import Settings from './pages/Settings'
 import Flashcards from './exercises/Flashcards'
 import Quiz from './exercises/Quiz'
@@ -20,6 +21,7 @@ const routeTitles = [
   { pattern: /^\/courses\/[^/]+$/, title: 'Course Detail' },
   { pattern: /^\/study-session$/, title: 'Study Session' },
   { pattern: /^\/mastery-map$/, title: 'Mastery Map' },
+  { pattern: /^\/manage$/, title: 'Content Manager' },
   { pattern: /^\/settings$/, title: 'Settings' },
   { pattern: /^\/exercise\/flashcards\/[^/]+$/, title: 'Flashcards' },
   { pattern: /^\/exercise\/quiz\/[^/]+$/, title: 'Quiz' },
@@ -48,6 +50,7 @@ export default function App() {
           <Route path="/courses/:courseSlug" element={<CourseDetail />} />
           <Route path="/study-session" element={<StudySession />} />
           <Route path="/mastery-map" element={<MasteryMap />} />
+          <Route path="/manage" element={<ManageContent />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/exercise/flashcards/:courseSlug" element={<Flashcards />} />
           <Route path="/exercise/quiz/:courseSlug" element={<Quiz />} />

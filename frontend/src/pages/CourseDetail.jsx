@@ -294,38 +294,6 @@ export default function CourseDetail() {
               )}
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7 lg:shrink-0">
-            {[
-              { label: 'Flashcards', score: course.flashcard_score, attempts: stats?.flashcard?.sessions || 0 },
-              { label: 'Quizzes', score: course.quiz_score, attempts: stats?.mcq?.sessions || 0 },
-              { label: 'Coding', score: course.code_score, attempts: stats?.ftb?.sessions || 0 },
-              { label: 'Datasets', score: course.dataset_score, attempts: stats?.dataset?.sessions || 0 },
-              { label: 'Matching', score: course.matching_score, attempts: stats?.matching?.sessions || 0 },
-              { label: 'Boss Battle', score: course.boss_score, attempts: stats?.boss_battle?.sessions || 0 },
-              { 
-                label: 'Overall', 
-                score: course.overall_mastery, 
-                isOverall: true, 
-                attempts: stats ? (
-                  stats.flashcard.sessions +
-                  stats.mcq.sessions +
-                  stats.ftb.sessions +
-                  stats.dataset.sessions +
-                  stats.matching.sessions +
-                  stats.boss_battle.sessions
-                ) : 0
-              }
-            ].map((box) => (
-              <div key={box.label} className="flex flex-col items-center justify-center rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4 text-center">
-                <span className={`text-xl font-bold ${box.isOverall ? 'text-2xl' : ''}`} style={{ color: masteryColor(box.score) }}>
-                  {Number(box.score ?? 0).toFixed(0)}%
-                </span>
-                <span className="text-[9px] uppercase tracking-wider text-[var(--text-muted)]">{box.label}</span>
-                <span className="text-[9px] text-[var(--text-muted)] mt-0.5">{box.attempts > 0 ? `${box.attempts} attempted` : 'Not started'}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </header>
 

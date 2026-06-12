@@ -554,6 +554,46 @@ router.post('/progress/attempt', (req, res, next) => {
       )
 
     const attempt = db.prepare('SELECT * FROM exercise_attempts WHERE id = ?').get(result.lastInsertRowid)
+
+    // SM-2 Spaced Repetition update for flashcards in DB
+    if (exercise_type === 'flashcard' && question_id) {
+      const card = db.prepare('SELECT * FROM flashcards WHERE id = ?').get(question_id)
+      if (card) {
+        let q = 3
+        if (score >= 1.0) q = 5
+        else if (score >= 0.8) q = 4
+        else if (score >= 0.5) q = 3
+        else q = 1
+
+        let reps = card.repetitions || 0
+        let interval = card.interval_days || 1
+        let ease = card.ease_factor || 2.5
+
+        if (q < 3) {
+          reps = 0
+          interval = 1
+        } else {
+          if (reps === 0) {
+            interval = 1
+          } else if (reps === 1) {
+            interval = 6
+          } else {
+            interval = Math.round(interval * ease)
+          }
+          reps += 1
+        }
+
+        ease = ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
+        if (ease < 1.3) ease = 1.3
+
+        db.prepare(`
+          UPDATE flashcards 
+          SET repetitions = ?, interval_days = ?, ease_factor = ?, next_review_date = date('now', '+' || ? || ' days')
+          WHERE id = ?
+        `).run(reps, interval, ease, interval, question_id)
+      }
+    }
+
     const mastery = recalculateMastery(course_id)
     updateStreak()
 
@@ -764,6 +804,190 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
     }
 
     res.json(stats)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/progress/reset', (req, res, next) => {
+  try {
+    const { type, targetId } = req.body
+
+    if (!['course', 'track', 'category', 'all'].includes(type)) {
+      res.status(400).json({ error: 'Invalid reset type' })
+      return
+    }
+
+    db.transaction(() => {
+      if (type === 'course') {
+        const courseId = Number(targetId)
+        db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(courseId)
+        db.prepare(`
+          UPDATE mastery_scores 
+          SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
+          WHERE course_id = ?
+        `).run(courseId)
+        db.prepare("UPDATE courses SET status = 'Not Started' WHERE id = ?").run(courseId)
+        db.prepare(`
+          UPDATE flashcards 
+          SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
+          WHERE course_id = ?
+        `).run(courseId)
+        db.prepare(`
+          DELETE FROM spaced_repetition_queue 
+          WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+        `).run(courseId)
+      } else if (type === 'track') {
+        const trackId = Number(targetId)
+        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        const courseIds = courses.map(c => c.id)
+        if (courseIds.length > 0) {
+          const placeholders = courseIds.map(() => '?').join(',')
+          db.prepare(`DELETE FROM exercise_attempts WHERE course_id IN (${placeholders})`).run(...courseIds)
+          db.prepare(`
+            UPDATE mastery_scores 
+            SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
+            WHERE course_id IN (${placeholders})
+          `).run(...courseIds)
+          db.prepare(`UPDATE courses SET status = 'Not Started' WHERE id IN (${placeholders})`).run(...courseIds)
+          db.prepare(`
+            UPDATE flashcards 
+            SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
+            WHERE course_id IN (${placeholders})
+          `).run(...courseIds)
+          db.prepare(`
+            DELETE FROM spaced_repetition_queue 
+            WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+          `).run(...courseIds)
+        }
+      } else if (type === 'category') {
+        const category = String(targetId)
+        const tracks = db.prepare('SELECT id FROM tracks WHERE LOWER(language) = LOWER(?)').all(category)
+        const trackIds = tracks.map(t => t.id)
+        if (trackIds.length > 0) {
+          const trackPlaceholders = trackIds.map(() => '?').join(',')
+          const courses = db.prepare(`SELECT id FROM courses WHERE track_id IN (${trackPlaceholders})`).all(...trackIds)
+          const courseIds = courses.map(c => c.id)
+          if (courseIds.length > 0) {
+            const placeholders = courseIds.map(() => '?').join(',')
+            db.prepare(`DELETE FROM exercise_attempts WHERE course_id IN (${placeholders})`).run(...courseIds)
+            db.prepare(`
+              UPDATE mastery_scores 
+              SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
+              WHERE course_id IN (${placeholders})
+            `).run(...courseIds)
+            db.prepare(`UPDATE courses SET status = 'Not Started' WHERE id IN (${placeholders})`).run(...courseIds)
+            db.prepare(`
+              UPDATE flashcards 
+              SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
+              WHERE course_id IN (${placeholders})
+            `).run(...courseIds)
+            db.prepare(`
+              DELETE FROM spaced_repetition_queue 
+              WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+            `).run(...courseIds)
+          }
+        }
+      } else if (type === 'all') {
+        db.prepare('DELETE FROM exercise_attempts').run()
+        db.prepare(`
+          UPDATE mastery_scores 
+          SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0
+        `).run()
+        db.prepare("UPDATE courses SET status = 'Not Started'").run()
+        db.prepare(`
+          UPDATE flashcards 
+          SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now')
+        `).run()
+        db.prepare('DELETE FROM spaced_repetition_queue').run()
+        db.prepare(`
+          UPDATE user_stats 
+          SET total_xp = 0, level = 'Beginner', current_streak = 0, longest_streak = 0, last_active_date = NULL, badges_json = '[]' 
+          WHERE id = 1
+        `).run()
+      }
+    })()
+
+    res.status(200).json({ success: true, message: `Successfully reset progress for type: ${type}` })
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
+  try {
+    const courseId = Number(req.params.courseId)
+    const concepts = db.prepare('SELECT id, name, definition, category, difficulty FROM concepts WHERE course_id = ?').all(courseId)
+    const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ?').all(courseId)
+    
+    const attemptsByConceptAndType = {}
+    for (const a of attempts) {
+      if (!a.concept_id) continue
+      let key = String(a.concept_id)
+      if (/^\d+$/.test(key)) {
+        key = `concept_${key.padStart(3, '0')}`
+      }
+      
+      if (!attemptsByConceptAndType[key]) {
+        attemptsByConceptAndType[key] = {}
+      }
+      if (!attemptsByConceptAndType[key][a.exercise_type]) {
+        attemptsByConceptAndType[key][a.exercise_type] = []
+      }
+      attemptsByConceptAndType[key][a.exercise_type].push(a)
+    }
+
+    const conceptsWithMastery = concepts.map(c => {
+      const key = `concept_${String(c.id).padStart(3, '0')}`
+      const typesWithAttempts = attemptsByConceptAndType[key]
+      
+      let bestMastery = 0
+      let totalAttempts = 0
+      let totalCorrect = 0
+      
+      if (typesWithAttempts) {
+        for (const type in typesWithAttempts) {
+          const typeAttempts = typesWithAttempts[type]
+          const correct = typeAttempts.filter(a => a.was_correct === 1).length
+          const wrong = typeAttempts.length - correct
+          totalAttempts += typeAttempts.length
+          totalCorrect += correct
+          
+          let itemMastery = 0
+          if (correct > 0) {
+            itemMastery = correct / (correct + 0.5 * wrong)
+          }
+          if (itemMastery > bestMastery) {
+            bestMastery = itemMastery
+          }
+        }
+      }
+      
+      return {
+        ...c,
+        key,
+        mastery: Math.round(bestMastery * 100),
+        attempts: totalAttempts,
+        correct: totalCorrect
+      }
+    })
+    
+    res.status(200).json(conceptsWithMastery)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/progress/due-flashcards', (req, res, next) => {
+  try {
+    const dueCards = db.prepare(`
+      SELECT f.*, c.name AS course_name, c.slug AS course_slug
+      FROM flashcards f
+      JOIN courses c ON c.id = f.course_id
+      WHERE f.next_review_date <= date('now')
+      ORDER BY f.next_review_date ASC
+    `).all()
+    res.status(200).json(dueCards)
   } catch (err) {
     next(err)
   }

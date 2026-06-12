@@ -66,6 +66,7 @@ router.get('/courses', (req, res, next) => {
       FROM courses c
       JOIN tracks t ON t.id = c.track_id
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id
+      WHERE c.is_deleted = 0 AND c.is_archived = 0
       ORDER BY t.id, c.order_in_track
     `).all();
     res.status(200).json(courses);
