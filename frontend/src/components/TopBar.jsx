@@ -37,25 +37,31 @@ export default function TopBar({ title }) {
   }
 
   return (
-    <header className="fixed left-16 md:left-[240px] right-0 top-0 z-10 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-4 md:px-8 transition-all duration-300">
-      <h1 className="text-sm md:text-lg font-semibold text-[var(--text-primary)] truncate pr-2">{title}</h1>
+    <header className="fixed left-16 md:left-[240px] right-0 top-0 z-10 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-3 md:px-8 transition-all duration-300">
+      <h1 className="text-sm md:text-lg font-bold text-[var(--text-primary)] truncate pr-1.5 min-w-0">{title}</h1>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 md:gap-3">
         <button
           onClick={toggleTheme}
-          className="flex items-center justify-center p-2 rounded border border-[var(--border)] text-[var(--text-primary)] hover:border-zinc-700 bg-[var(--bg-card)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer mr-2"
+          className="flex items-center justify-center p-1.5 md:p-2 rounded border border-[var(--border)] text-[var(--text-primary)] hover:border-zinc-700 bg-[var(--bg-card)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer mr-0.5 md:mr-2 shrink-0"
           title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
         >
-          {isLight ? <Moon size={16} className="text-[var(--text-primary)]" /> : <Sun size={16} className="text-[var(--accent-yellow)]" />}
+          {isLight ? <Moon size={14} className="text-[var(--text-primary)]" /> : <Sun size={14} className="text-[var(--accent-yellow)]" />}
         </button>
 
-        <div className="flex items-center gap-2 rounded border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--accent-yellow)] select-none">
-          <Flame size={16} className="fill-[var(--accent-yellow)] animate-pulse" />
-          <span>{stats.current_streak ?? 0} day streak</span>
+        <div className="flex items-center gap-1 md:gap-2 rounded border border-[var(--border)] px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[var(--accent-yellow)] select-none shrink-0">
+          <Flame size={14} className="fill-[var(--accent-yellow)] animate-pulse" />
+          <span className="font-semibold">
+            {stats.current_streak ?? 0}
+            <span className="hidden sm:inline"> day streak</span>
+          </span>
         </div>
-        <div className="flex items-center gap-2 rounded border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--accent-green)] select-none">
-          <Star size={16} className="fill-[var(--accent-green)]" />
-          <span>{stats.total_xp ?? 0} XP</span>
+        <div className="flex items-center gap-1 md:gap-2 rounded border border-[var(--border)] px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[var(--accent-green)] select-none shrink-0">
+          <Star size={14} className="fill-[var(--accent-green)]" />
+          <span className="font-semibold">
+            {stats.total_xp ?? 0}
+            <span className="hidden sm:inline"> XP</span>
+          </span>
         </div>
       </div>
     </header>

@@ -136,8 +136,23 @@ a {
 }
 
 @media (max-width: 768px) {
+  :root {
+    font-size: 14.5px;
+  }
   .exercise-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  main h1 {
+    font-size: 1.5rem !important;
+  }
+  main h2 {
+    font-size: 1.25rem !important;
+  }
+  main h3 {
+    font-size: 1.1rem !important;
+  }
+  aside:hover + header {
+    left: 240px !important;
   }
 }
