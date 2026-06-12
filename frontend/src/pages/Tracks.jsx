@@ -276,7 +276,7 @@ export default function Tracks() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('python')
+  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedTrack, setSelectedTrack] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')
 
@@ -318,7 +318,7 @@ export default function Tracks() {
   for (const c of courses) {
     if (c.track_name && !trackIds.has(c.track_name)) {
       trackIds.add(c.track_name)
-      uniqueTracks.push({ name: c.track_name, id: c.track_id, color: c.track_color })
+      uniqueTracks.push({ name: c.track_name, id: c.track_id, color: c.track_color, language: c.track_language })
     }
   }
 
@@ -340,7 +340,7 @@ export default function Tracks() {
       course.track_name?.toLowerCase().includes(search.toLowerCase())
 
     const courseCategories = getCourseCategories(course)
-    const matchesCategory = courseCategories.includes(selectedCategory)
+    const matchesCategory = selectedCategory === 'all' || courseCategories.includes(selectedCategory)
     const matchesTrack = selectedTrack === 'all' || course.track_name === selectedTrack
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
 
@@ -510,6 +510,25 @@ export default function Tracks() {
                 Categories & Languages
               </label>
               <div className="flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCategory('all')}
+                  className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
+                    selectedCategory === 'all'
+                      ? 'bg-[var(--accent-green)] text-black'
+                      : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
+                  }`}
+                >
+                  <span>All Categories</span>
+                  <span
+                    className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
+                      selectedCategory === 'all' ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
+                    }`}
+                  >
+                    {courses.length}
+                  </span>
+                </button>
+
                 {CATEGORIES.map((cat) => {
                   const count = getCategoryCount(cat.id)
                   const isActive = selectedCategory === cat.id
@@ -581,7 +600,13 @@ export default function Tracks() {
                       <button
                         key={tr.name}
                         type="button"
-                        onClick={() => setSelectedTrack(tr.name)}
+                        onClick={() => {
+                          setSelectedTrack(tr.name)
+                          const trackLang = tr.language?.toLowerCase()
+                          if (trackLang && CATEGORIES.some(cat => cat.id === trackLang)) {
+                            setSelectedCategory(trackLang)
+                          }
+                        }}
                         className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
                           isActive
                             ? 'bg-[var(--accent-blue)] text-white'

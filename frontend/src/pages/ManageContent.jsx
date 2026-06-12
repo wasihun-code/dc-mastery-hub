@@ -113,6 +113,30 @@ function getCourseCategories(course) {
   return categories
 }
 
+function difficultyBadgeClass(difficulty) {
+  switch (difficulty?.toLowerCase()) {
+    case 'easy':
+      return 'bg-green-950/20 border-green-800/40 text-green-400'
+    case 'medium':
+      return 'bg-yellow-950/20 border-yellow-800/40 text-yellow-400'
+    case 'hard':
+      return 'bg-red-950/20 border-red-800/40 text-red-400'
+    default:
+      return 'bg-zinc-800/40 border-zinc-700/40 text-zinc-400'
+  }
+}
+
+function statusBadgeClass(status) {
+  switch (status) {
+    case 'Completed':
+      return 'bg-green-950/40 border-[var(--accent-green)]/40 text-[var(--accent-green)]'
+    case 'In Progress':
+      return 'bg-yellow-950/40 border-[var(--accent-yellow)]/40 text-[var(--accent-yellow)]'
+    default:
+      return 'bg-zinc-900 border-[var(--border)] text-[var(--text-muted)]'
+  }
+}
+
 export default function ManageContent() {
   const [activeTab, setActiveTab] = useState('courses') // 'tracks', 'courses', 'upload', 'trash'
   const [tracks, setTracks] = useState([])
@@ -416,7 +440,7 @@ export default function ManageContent() {
   for (const c of allCourses) {
     if (c.track_name && !trackIds.has(c.track_name)) {
       trackIds.add(c.track_name)
-      uniqueTracks.push({ name: c.track_name, id: c.track_id, color: c.track_color })
+      uniqueTracks.push({ name: c.track_name, id: c.track_id, color: c.track_color, language: c.track_language })
     }
   }
 
@@ -573,20 +597,20 @@ export default function ManageContent() {
                 )}
 
                 {/* Courses list */}
-                <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl overflow-hidden shadow-sm">
-                  <div className="p-5 border-b border-[var(--border)] flex justify-between items-center bg-zinc-900/10">
+                <div className="space-y-4">
+                  <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5 flex justify-between items-center shadow-sm">
                     <h3 className="font-bold text-sm text-[var(--text-primary)]">Curriculum Courses ({filteredCourses.length})</h3>
                     <button
                       onClick={() => toggleSelectAll(filteredCourses)}
-                      className="text-[10px] font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border)] px-2.5 py-1 rounded hover:bg-[var(--bg-primary)]"
+                      className="text-[10px] font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border)] px-2.5 py-1 rounded-lg hover:bg-[var(--bg-primary)]"
                     >
                       Toggle Select All
                     </button>
                   </div>
                   
-                  <div className="divide-y divide-[var(--border)]">
+                  <div className="flex flex-col gap-4">
                     {filteredCourses.length === 0 ? (
-                      <div className="p-16 text-center text-xs text-[var(--text-muted)] flex flex-col items-center gap-2">
+                      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-16 text-center text-xs text-[var(--text-muted)] flex flex-col items-center gap-2 shadow-sm">
                         <Layers className="w-8 h-8 opacity-40 mb-2" />
                         <span className="font-bold text-[var(--text-primary)]">No Matching Courses Found</span>
                         <span>Adjust your filters to explore other curriculum options.</span>
@@ -595,35 +619,61 @@ export default function ManageContent() {
                       filteredCourses.map(course => {
                         const isSelected = selectedCourseIds.includes(course.id)
                         return (
-                          <div key={`${course.id}-${course.is_archived}`} className="p-4 flex items-center justify-between gap-4 hover:bg-[var(--bg-primary)]/40 transition-colors">
-                            <div className="flex items-center gap-3 min-w-0">
+                          <div
+                            key={`${course.id}-${course.is_archived}`}
+                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-zinc-700 hover:shadow-lg hover:shadow-black/15 transition-all select-none gap-6 group relative overflow-hidden"
+                            style={{ borderLeftWidth: '5px', borderLeftColor: course.track_color || 'var(--border)' }}
+                          >
+                            <div className="flex items-start gap-4 flex-1 min-w-0">
                               <button
                                 onClick={() => toggleSelectCourse(course.id)}
-                                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] shrink-0"
+                                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] shrink-0 mt-1 sm:mt-0 self-start sm:self-center"
                               >
-                                {isSelected ? <CheckSquare size={18} className="text-[var(--accent-green)]" /> : <Square size={18} />}
+                                {isSelected ? <CheckSquare size={20} className="text-[var(--accent-green)]" /> : <Square size={20} />}
                               </button>
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <h4 className="text-sm font-bold text-[var(--text-primary)] truncate">{course.name}</h4>
+                              
+                              <div className="flex-1 min-w-0">
+                                <div className="flex flex-wrap items-center gap-2 text-[10px]">
+                                  <span className={`rounded-full border px-2 py-0.5 font-bold uppercase ${difficultyBadgeClass(course.difficulty)}`}>
+                                    {course.difficulty}
+                                  </span>
+                                  <span className={`rounded-full border px-2 py-0.5 font-semibold ${statusBadgeClass(course.status)}`}>
+                                    {course.status}
+                                  </span>
+                                  {course.reviewed === 'Yes' && (
+                                    <span className="text-[var(--accent-green)] font-extrabold uppercase tracking-wider flex items-center gap-0.5 bg-green-950/20 px-2 py-0.5 rounded-full border border-green-900/40">
+                                      ✓ Reviewed
+                                    </span>
+                                  )}
+                                  {course.has_pdf === 1 && (
+                                    <span className="text-[var(--accent-blue)] font-bold flex items-center gap-1 bg-blue-950/20 px-2 py-0.5 rounded-full border border-blue-900/40">
+                                      <FileText size={10} /> PDF Slides
+                                    </span>
+                                  )}
                                   {course.is_archived === 1 && (
-                                    <span className="bg-zinc-800/85 border border-zinc-700 text-zinc-400 text-[9px] rounded px-1.5 py-0.5 font-bold uppercase tracking-wider shrink-0">
+                                    <span className="bg-red-950/20 border border-red-900/40 text-red-400 text-[9px] rounded-full px-2 py-0.5 font-bold uppercase tracking-wider shrink-0">
                                       Archived
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate">
-                                  Slug: <code className="font-mono text-zinc-450">{course.slug}</code> | Path: {course.track_name}
+
+                                <h2 className="mt-3 text-base font-bold text-[var(--text-primary)] leading-snug group-hover:text-[var(--accent-green)] transition-colors line-clamp-1">
+                                  {course.name}
+                                </h2>
+                                
+                                <p className="mt-1 text-xs text-[var(--text-muted)] truncate flex items-center gap-1.5">
+                                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: course.track_color }} />
+                                  Part of {course.track_name}
                                 </p>
                               </div>
                             </div>
 
-                            <div className="flex items-center gap-3 shrink-0">
+                            <div className="flex flex-wrap items-center gap-3 shrink-0 self-stretch sm:self-auto justify-end sm:justify-start pt-3 sm:pt-0 border-t sm:border-0 border-[var(--border)] w-full sm:w-auto">
                               {/* Difficulty Selector */}
                               <select
                                 value={course.difficulty || 'Unknown'}
                                 onChange={(e) => handleUpdateCourseProperties(course.id, { difficulty: e.target.value })}
-                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2 py-1 text-[10px] text-[var(--text-primary)] focus:outline-none cursor-pointer"
+                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2.5 py-1.5 text-xs text-[var(--text-primary)] focus:outline-none cursor-pointer hover:border-zinc-700 transition-colors"
                               >
                                 <option value="Easy">Easy</option>
                                 <option value="Medium">Medium</option>
@@ -635,7 +685,7 @@ export default function ManageContent() {
                               <select
                                 value={course.status || 'Not Started'}
                                 onChange={(e) => handleUpdateCourseProperties(course.id, { status: e.target.value })}
-                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2 py-1 text-[10px] text-[var(--text-primary)] focus:outline-none cursor-pointer"
+                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2.5 py-1.5 text-xs text-[var(--text-primary)] focus:outline-none cursor-pointer hover:border-zinc-700 transition-colors"
                               >
                                 <option value="Not Started">Not Started</option>
                                 <option value="In Progress">In Progress</option>
@@ -647,17 +697,17 @@ export default function ManageContent() {
                                 <button
                                   onClick={() => handleCourseAction(course.id, 'archive', false)}
                                   title="Unarchive Course"
-                                  className="p-1.5 rounded bg-blue-950/40 text-[var(--accent-blue)] hover:text-blue-300 border border-blue-900/30"
+                                  className="p-2 rounded-lg bg-blue-950/40 text-[var(--accent-blue)] hover:text-blue-300 border border-blue-900/30 hover:scale-105 active:scale-95 transition-all"
                                 >
-                                  <ArchiveRestore size={14} />
+                                  <ArchiveRestore size={16} />
                                 </button>
                               ) : (
                                 <button
                                   onClick={() => handleCourseAction(course.id, 'archive', true)}
                                   title="Archive Course"
-                                  className="p-1.5 rounded bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-700/50"
+                                  className="p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-700/50 hover:scale-105 active:scale-95 transition-all"
                                 >
-                                  <Archive size={14} />
+                                  <Archive size={16} />
                                 </button>
                               )}
                               
@@ -665,9 +715,9 @@ export default function ManageContent() {
                               <button
                                 onClick={() => handleCourseAction(course.id, 'delete', true)}
                                 title="Move to Trash"
-                                className="p-1.5 rounded bg-red-950/20 text-red-400 hover:text-red-300 border border-red-900/30"
+                                className="p-2 rounded-lg bg-red-950/20 text-red-400 hover:text-red-300 border border-red-900/30 hover:scale-105 active:scale-95 transition-all"
                               >
-                                <Trash2 size={14} />
+                                <Trash2 size={16} />
                               </button>
                             </div>
                           </div>
@@ -945,7 +995,13 @@ export default function ManageContent() {
                             <button
                               key={tr.name}
                               type="button"
-                              onClick={() => setCourseFilterTrack(tr.name)}
+                              onClick={() => {
+                                setCourseFilterTrack(tr.name)
+                                const trackLang = tr.language?.toLowerCase()
+                                if (trackLang && CATEGORIES.some(cat => cat.id === trackLang)) {
+                                  setCourseFilterCategory(trackLang)
+                                }
+                              }}
                               className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
                                 isActive
                                   ? 'bg-[var(--accent-blue)] text-white'
