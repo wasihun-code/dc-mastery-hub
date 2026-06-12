@@ -90,14 +90,14 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       // Prioritize matching.json file on disk. Fall back to database concepts only if file is missing.
       if (!fs.existsSync(exercisePath)) {
         const dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
-        if (dbConcepts.length >= 6) {
+        if (dbConcepts.length >= 5) {
           const rounds = [];
-          const numRounds = Math.min(Math.ceil(dbConcepts.length / 6), 5);
+          const numRounds = Math.min(Math.ceil(dbConcepts.length / 5), 5);
           const shuffledConcepts = [...dbConcepts].sort(() => Math.random() - 0.5);
           for (let r = 0; r < numRounds; r++) {
             const pairs = [];
-            for (let p = 0; p < 6; p++) {
-              const concept = shuffledConcepts[(r * 6 + p) % shuffledConcepts.length];
+            for (let p = 0; p < 5; p++) {
+              const concept = shuffledConcepts[(r * 5 + p) % shuffledConcepts.length];
               pairs.push({
                 id: concept.id,
                 term: concept.name,
@@ -198,6 +198,13 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       else if (exerciseType === 'matching') items = data.rounds || [];
       else if (exerciseType === 'bossbattle') items = data.questions || [];
       else if (exerciseType === 'challenge') items = data.challenges || [];
+    }
+
+    if (exerciseType === 'matching') {
+      items = items.map(round => ({
+        ...round,
+        pairs: (round.pairs || []).slice(0, 5)
+      }));
     }
 
     // Schema mapping for compatibility with frontend components

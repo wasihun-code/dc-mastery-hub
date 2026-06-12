@@ -108,7 +108,7 @@ export default function Quiz() {
     if (isCorrect) {
       setIsLocked(true);
       shouldPost = true;
-      finalCorrect = true;
+      finalCorrect = wrongSelectedOptions.length === 0;
       if (wrongSelectedOptions.length === 0) {
         setFirstAttemptCorrectCount(prev => prev + 1);
       }

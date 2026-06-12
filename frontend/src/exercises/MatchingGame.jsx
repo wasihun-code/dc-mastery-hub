@@ -130,11 +130,11 @@ export default function MatchingGame() {
     
     // Shuffle terms and definitions independently
     const shuffledTerms = [...roundData.pairs]
-      .map(p => ({ id: p.id, term: p.term }))
+      .map(p => ({ id: p.id, concept_id: p.concept_id, term: p.term }))
       .sort(() => Math.random() - 0.5);
       
     const shuffledDefs = [...roundData.pairs]
-      .map(p => ({ id: p.id, definition: p.match }))
+      .map(p => ({ id: p.id, concept_id: p.concept_id, definition: p.match }))
       .sort(() => Math.random() - 0.5);
     
     setTerms(shuffledTerms);
@@ -180,14 +180,53 @@ export default function MatchingGame() {
 
   const checkMatch = (term, def) => {
     setAttempts(prev => prev + 1);
-    if (term.id === def.id) {
-      // Correct Match
+    const isCorrect = term.id === def.id;
+
+    // Post attempt for this individual match
+    fetch('/api/progress/attempt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        exercise_type: 'matching',
+        course_id: course?.id,
+        question_id: term.id,
+        concept_id: term.concept_id || term.id,
+        score: isCorrect ? 1.0 : 0.0,
+        was_correct: isCorrect ? 1 : 0
+      })
+    }).catch(err => console.error("Error saving match attempt:", err));
+
+    if (isCorrect) {
       const nextMatches = [...matches, term.id];
       setMatches(nextMatches);
       setSelectedTerm(null);
       setSelectedDef(null);
-      
-      if (nextMatches.length === 6) {
+
+      const roundData = allRounds[currentRoundIndex];
+      const totalPairsInRound = roundData?.pairs?.length || 5;
+
+      if (nextMatches.length === totalPairsInRound - 1 && roundData && roundData.pairs) {
+        const remainingPair = roundData.pairs.find(p => !nextMatches.includes(p.id));
+        if (remainingPair) {
+          setMatches([...nextMatches, remainingPair.id]);
+          setAttempts(prev => prev + 1);
+          
+          fetch('/api/progress/attempt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              exercise_type: 'matching',
+              course_id: course?.id,
+              question_id: remainingPair.id,
+              concept_id: remainingPair.concept_id || remainingPair.id,
+              score: 1.0,
+              was_correct: 1
+            })
+          }).catch(err => console.error("Error saving automatic last match attempt:", err));
+        }
+        if (timerRef.current) clearInterval(timerRef.current);
+        setRoundCompleted(true);
+      } else if (nextMatches.length === totalPairsInRound) {
         if (timerRef.current) clearInterval(timerRef.current);
         setRoundCompleted(true);
       }
@@ -222,24 +261,6 @@ export default function MatchingGame() {
     setSavedProgress(null);
     
     try {
-      const totalPairs = allRounds.reduce((acc, r) => acc + (r.pairs ? r.pairs.length : 0), 0);
-      const isPerfect = attempts === totalPairs;
-      const accuracyScore = totalPairs / Math.max(attempts, totalPairs);
-
-      // Record attempt
-      await fetch('/api/progress/attempt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          exercise_type: 'matching',
-          course_id: course.id,
-          concept_id: null,
-          score: accuracyScore,
-          was_correct: isPerfect ? 1 : 0,
-          time_taken_secs: totalTime
-        })
-      });
-
       // Update XP
       const statsRes = await fetch('/api/progress/stats');
       if (statsRes.ok) {
@@ -330,6 +351,7 @@ export default function MatchingGame() {
 
   if (step === 2) {
     const roundData = allRounds[currentRoundIndex];
+    const totalPairsInRound = roundData?.pairs?.length || 5;
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
@@ -341,7 +363,7 @@ export default function MatchingGame() {
         <div className="w-full h-1 bg-[var(--bg-card)] shrink-0">
           <div 
             className="h-full bg-[var(--accent-green)] transition-all duration-300"
-            style={{ width: `${((currentRoundIndex + (matches.length / 6)) / allRounds.length) * 100}%` }}
+            style={{ width: `${((currentRoundIndex + (matches.length / totalPairsInRound)) / allRounds.length) * 100}%` }}
           />
         </div>
         
@@ -366,7 +388,7 @@ export default function MatchingGame() {
               <Clock size={15} /> {formatTime(totalTime)}
             </div>
             <div className="text-sm font-bold text-[var(--accent-green)]">
-              {matches.length} / 6 matched
+              {matches.length} / {totalPairsInRound} matched
             </div>
           </div>
         </header>
@@ -453,7 +475,7 @@ export default function MatchingGame() {
                     Round Time: <span className="text-[var(--accent-green)] font-mono">{formatTime(roundTime)}</span>
                   </div>
                   <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
-                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round((6 / (attempts || 1)) * 100)}%</span>
+                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round((totalPairsInRound / (attempts || 1)) * 100)}%</span>
                   </div>
                 </div>
                 
@@ -494,7 +516,8 @@ export default function MatchingGame() {
   }
 
   if (step === 3) {
-    const accuracy = Math.round(((allRounds.length * 6) / (attempts || 1)) * 100);
+    const totalPairs = allRounds.reduce((acc, r) => acc + (r.pairs ? r.pairs.length : 0), 0);
+    const accuracy = Math.round((totalPairs / (attempts || 1)) * 100);
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">

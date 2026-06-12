@@ -141,7 +141,10 @@ export function recalculateMastery(courseId) {
 
   for (const attempt of attempts) {
     if (!attempt.concept_id) continue
-    const key = attempt.concept_id
+    let key = String(attempt.concept_id)
+    if (/^\d+$/.test(key)) {
+      key = `concept_${key.padStart(3, '0')}`
+    }
     if (!conceptByType[key]) {
       conceptByType[key] = {}
     }
@@ -220,8 +223,28 @@ export function recalculateMastery(courseId) {
   let datasetBonus = 0
   const dsAttempts = attempts.filter(a => a.exercise_type === 'dataset')
   if (dsAttempts.length > 0) {
-    const dsCorrect = dsAttempts.filter(a => a.was_correct === 1).length
-    datasetBonus = Math.min(0.05, (dsCorrect / dsAttempts.length) * 0.05)
+    const solvedChallengeIds = new Set(
+      dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
+    )
+    let totalChallenges = 0
+    const challengePath = path.join(exercisesDir, 'challenge.json')
+    if (fs.existsSync(challengePath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+        totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
+      } catch (e) {}
+    }
+    if (totalChallenges === 0) {
+      try {
+        const challenges = getChallenges(course.slug)
+        totalChallenges = (challenges || []).length
+      } catch (e) {}
+    }
+    if (totalChallenges > 0) {
+      datasetBonus = Math.min(0.05, (solvedChallengeIds.size / totalChallenges) * 0.05)
+    } else {
+      datasetBonus = 0.05
+    }
   }
 
   let bossBonus = 0
@@ -254,8 +277,28 @@ export function recalculateMastery(courseId) {
 
   let datasetScore = 0
   if (dsAttempts.length > 0) {
-    const dsCorrect = dsAttempts.filter(a => a.was_correct === 1).length
-    datasetScore = (dsCorrect / dsAttempts.length) * 100
+    const solvedChallengeIds = new Set(
+      dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
+    )
+    let totalChallenges = 0
+    const challengePath = path.join(exercisesDir, 'challenge.json')
+    if (fs.existsSync(challengePath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+        totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
+      } catch (e) {}
+    }
+    if (totalChallenges === 0) {
+      try {
+        const challenges = getChallenges(course.slug)
+        totalChallenges = (challenges || []).length
+      } catch (e) {}
+    }
+    if (totalChallenges > 0) {
+      datasetScore = (solvedChallengeIds.size / totalChallenges) * 100
+    } else {
+      datasetScore = 100
+    }
   }
 
   const matchingScore = matchingBonus * 20 * 100
@@ -601,12 +644,17 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
         const rounds = Array.isArray(d) ? d : (d.rounds || [])
         let pairCount = 0
         for (const r of rounds) {
-          pairCount += (r.pairs || []).length
+          pairCount += Math.min(5, (r.pairs || []).length)
         }
         if (pairCount > 0) {
           matchingAvailable = pairCount
         }
       } catch (e) {}
+    } else {
+      if (matchingAvailable >= 5) {
+        const numRounds = Math.min(Math.ceil(matchingAvailable / 5), 5)
+        matchingAvailable = numRounds * 5
+      }
     }
 
     // 5. Boss battle available
@@ -693,10 +741,16 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
       const typeAttempts = attemptsByType[type] || []
       const uniqueSet = uniqueQuestionsMap[type] || new Set()
       
-      const sessions = countSessions(typeAttempts)
+      let sessions = countSessions(typeAttempts)
       const attempted = typeAttempts.length
       const correct = typeAttempts.filter(a => a.was_correct === 1).length
       const wrong = attempted - correct
+
+      if (key === 'matching') {
+        sessions = attempted > 0 ? Math.max(1, Math.floor(correct / 5)) : 0
+      } else if (key === 'dataset') {
+        sessions = uniqueSet.size
+      }
 
       if (stats[key]) {
         stats[key].sessions = sessions
@@ -705,11 +759,7 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
         stats[key].wrong = wrong
         
         const availableCount = stats[key].available
-        if (key === 'matching') {
-          stats[key].unattempted = sessions > 0 ? 0 : availableCount
-        } else {
-          stats[key].unattempted = Math.max(0, availableCount - uniqueSet.size)
-        }
+        stats[key].unattempted = Math.max(0, availableCount - uniqueSet.size)
       }
     }
 
