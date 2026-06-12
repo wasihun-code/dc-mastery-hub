@@ -134,6 +134,7 @@ export default function BossBattle() {
           exercise_type: 'bossbattle',
           course_id: course.id,
           question_id: currentQuestion?.id,
+          concept_id: currentQuestion?.concept_id,
           score: 0.0,
           time_taken_secs: 15,
           was_correct: 0
@@ -195,6 +196,7 @@ export default function BossBattle() {
           exercise_type: 'bossbattle',
           course_id: course.id,
           question_id: currentQuestion.id,
+          concept_id: currentQuestion.concept_id,
           score: isCorrect ? 1.0 : 0.0,
           time_taken_secs: timeTaken,
           was_correct: isCorrect ? 1 : 0
@@ -377,7 +379,7 @@ export default function BossBattle() {
             {isReplaying ? 'REPLAY BATTLE' : 'ENTER BATTLE'}
           </button>
           
-          <Link to={`/courses/${courseSlug}`} className="mt-8 text-zinc-600 hover:text-red-500 flex items-center justify-center gap-1.5 font-bold uppercase text-xs tracking-wider transition-colors">
+          <Link to={`/courses/${courseSlug}?refresh=1`} className="mt-8 text-zinc-600 hover:text-red-500 flex items-center justify-center gap-1.5 font-bold uppercase text-xs tracking-wider transition-colors">
             <ChevronLeft size={16} />
             Back to Course
           </Link>
@@ -423,7 +425,7 @@ export default function BossBattle() {
         <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)] shrink-0">
           <div className="flex items-center gap-6">
             <button 
-              onClick={() => navigate(`/courses/${courseSlug}`)} 
+              onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)} 
               className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold border-r border-[var(--border)] pr-4"
             >
               <ChevronLeft size={16} /> Quit
@@ -634,7 +636,7 @@ export default function BossBattle() {
               <RotateCcw size={18} /> Try Again
             </button>
             <button 
-              onClick={() => navigate(`/courses/${courseSlug}`)}
+              onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)}
               className="flex-1 rounded-xl bg-[var(--accent-green)] py-4 font-bold text-sm text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md"
             >
               Back to Course

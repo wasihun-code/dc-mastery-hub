@@ -436,6 +436,8 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
 
     // Filter challenges to find those not yet solved
     const unsolvedChallenges = challenges.filter(c => {
+      if (solvedIds.has(c.id) || solvedIds.has(String(c.id))) return false;
+      
       let qId = null;
       if (c.id && typeof c.id === 'string') {
         const match = c.id.match(/\d+/);
@@ -443,7 +445,7 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
           qId = parseInt(match[0], 10);
         }
       }
-      return qId === null || !solvedIds.has(qId);
+      return qId === null || (!solvedIds.has(qId) && !solvedIds.has(String(qId)));
     });
 
     const isReattempt = req.query.reattempt === 'true';
@@ -587,15 +589,7 @@ router.post('/submit-challenge', (req, res, next) => {
       }
     }
 
-    // Record attempt
-    db.prepare(`
-      INSERT INTO exercise_attempts (exercise_type, course_id, question_id, score, time_taken_secs, was_correct)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `).run('dataset', course.id, qId, score / 100, 0, passed ? 1 : 0)
-
-    // Recalculate mastery
-    recalculateMastery(course.id)
-
+    // Attempt will be recorded by frontend calling /api/progress/attempt
     res.json({
       passed,
       score,

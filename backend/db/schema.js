@@ -125,4 +125,12 @@ export function initSchema() {
   } catch (e) {
     // column already exists, ignore
   }
+
+  // Migration: Add concept_id to exercise_attempts if it doesn't exist
+  try {
+    db.exec(`ALTER TABLE exercise_attempts ADD COLUMN concept_id TEXT DEFAULT NULL`)
+  } catch (e) {
+    // column already exists, ignore
+  }
 }
+

@@ -56,310 +56,212 @@ function scoreForExerciseType(courseId, whereClause) {
 }
 
 export function recalculateMastery(courseId) {
-  // 1. Get counts of available content in the course
+  // 1. Get course and track info
   const course = db.prepare('SELECT id, slug, track_id FROM courses WHERE id = ?').get(courseId)
   if (!course) return null
 
   const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   const trackSlug = track ? track.slug : ''
 
-  let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(courseId).count
-  let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(courseId).count
-  let quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(courseId).count
-
-  // Fallback to JSON counts if database is empty
   const contentFolder = process.env.CONTENT_FOLDER 
     ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
     : DEFAULT_CONTENT_FOLDER;
 
-  if (quizQuestionCount === 0) {
-    const mcqPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'mcq.json');
-    if (fs.existsSync(mcqPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'));
-        quizQuestionCount = (Array.isArray(data) ? data : (data.questions || [])).length;
-      } catch (e) {}
-    }
+  // Step 1 — Get all unique concepts for this course
+  const conceptIdsSet = new Set()
+  const exercisesDir = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises')
+
+  // Parse concept_ids from JSON files
+  // mcq.json
+  const mcqPath = path.join(exercisesDir, 'mcq.json')
+  if (fs.existsSync(mcqPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'))
+      const questions = Array.isArray(data) ? data : (data.questions || [])
+      for (const q of questions) {
+        if (q.concept_id) conceptIdsSet.add(q.concept_id)
+      }
+    } catch (e) {}
   }
-  if (flashcardCount === 0) {
-    const fcPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'flashcards.json');
-    if (fs.existsSync(fcPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'));
-        flashcardCount = (Array.isArray(data) ? data : (data.cards || [])).length;
-      } catch (e) {}
-    }
+
+  // flashcards.json
+  const fcPath = path.join(exercisesDir, 'flashcards.json')
+  if (fs.existsSync(fcPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'))
+      const cards = Array.isArray(data) ? data : (data.cards || [])
+      for (const c of cards) {
+        if (c.concept_id) conceptIdsSet.add(c.concept_id)
+      }
+    } catch (e) {}
   }
-  if (conceptCount === 0) {
-    const ftbPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'ftb.json');
-    if (fs.existsSync(ftbPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'));
-        conceptCount = (Array.isArray(data) ? data : (data.exercises || [])).length;
-      } catch (e) {}
+
+  // ftb.json
+  const ftbPath = path.join(exercisesDir, 'ftb.json')
+  if (fs.existsSync(ftbPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'))
+      const exercises = Array.isArray(data) ? data : (data.exercises || [])
+      for (const ex of exercises) {
+        const cId = ex.concept_id || ex.id
+        if (cId) conceptIdsSet.add(cId)
+      }
+    } catch (e) {}
+  }
+
+  // bossbattle.json
+  const bossPath = path.join(exercisesDir, 'bossbattle.json')
+  if (fs.existsSync(bossPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
+      const questions = Array.isArray(data) ? data : (data.questions || [])
+      for (const q of questions) {
+        if (q.concept_id) conceptIdsSet.add(q.concept_id)
+      }
+    } catch (e) {}
+  }
+
+  // Fallback: query concepts table in DB
+  if (conceptIdsSet.size === 0) {
+    const dbConcepts = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId)
+    for (const c of dbConcepts) {
+      conceptIdsSet.add(`concept_${String(c.id).padStart(3, '0')}`)
     }
   }
 
-  // Get dataset challenges count
-  let datasetChallengeCount = 0;
-  try {
-    const challengePath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'challenge.json');
-    if (fs.existsSync(challengePath)) {
-      const data = JSON.parse(fs.readFileSync(challengePath, 'utf-8'));
-      const challenges = Array.isArray(data) ? data : (data.challenges || []);
-      datasetChallengeCount = challenges.length;
-    } else {
-      const datasetChallenges = getChallenges(course.slug);
-      datasetChallengeCount = datasetChallenges.length;
-    }
-  } catch (e) {
-    console.error("Error getting dataset challenges:", e);
-  }
+  const totalConcepts = conceptIdsSet.size
+  if (totalConcepts === 0) return null
 
-  // Get lists of IDs from DB, or fallback to JSON files
-  let flashcardIds = db.prepare('SELECT id FROM flashcards WHERE course_id = ?').all(courseId).map(fc => fc.id)
-  if (flashcardIds.length === 0 && flashcardCount > 0) {
-    const fcPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'flashcards.json')
-    if (fs.existsSync(fcPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'))
-        const cards = Array.isArray(data) ? data : (data.cards || [])
-        flashcardIds = cards.map(c => c.id)
-      } catch (e) {}
-    }
-  }
-
-  let quizIds = db.prepare('SELECT id FROM quiz_questions WHERE course_id = ?').all(courseId).map(q => q.id)
-  if (quizIds.length === 0 && quizQuestionCount > 0) {
-    const mcqPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'mcq.json')
-    if (fs.existsSync(mcqPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'))
-        const questions = Array.isArray(data) ? data : (data.questions || [])
-        quizIds = questions.map(q => q.id)
-      } catch (e) {}
-    }
-  }
-
-  let conceptIds = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId).map(c => c.id)
-  if (conceptIds.length === 0 && conceptCount > 0) {
-    const ftbPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'ftb.json')
-    if (fs.existsSync(ftbPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'))
-        const exercises = Array.isArray(data) ? data : (data.exercises || [])
-        conceptIds = exercises.map(ex => ex.id)
-      } catch (e) {}
-    }
-  }
-
-  let bossIds = db.prepare('SELECT id FROM quiz_questions WHERE course_id = ?').all(courseId).map(q => q.id)
-  if (bossIds.length === 0 && quizQuestionCount > 0) {
-    const bossPath = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises', 'bossbattle.json')
-    if (fs.existsSync(bossPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
-        const questions = Array.isArray(data) ? data : (data.questions || [])
-        bossIds = questions.map(q => q.id)
-      } catch (e) {}
-    }
-  }
-
-  // 2. Fetch all attempts for this course
+  // Step 2 — Get all exercise_attempts for this course
   const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ?').all(courseId)
 
-  // Group attempts by type
-  const attemptsByType = {}
-  for (const att of attempts) {
-    const type = att.exercise_type
-    if (!attemptsByType[type]) {
-      attemptsByType[type] = []
+  // Step 3 — Calculate per-concept mastery
+  const conceptMastery = {}
+  const conceptByType = {}
+
+  for (const attempt of attempts) {
+    if (!attempt.concept_id) continue
+    const key = attempt.concept_id
+    if (!conceptByType[key]) {
+      conceptByType[key] = {}
     }
-    attemptsByType[type].push(att)
+    const type = attempt.exercise_type
+    if (!conceptByType[key][type]) {
+      conceptByType[key][type] = []
+    }
+    conceptByType[key][type].push(attempt)
   }
 
-  // Calculate Flashcards Score
-  let flashcardScore = 0
-  if (flashcardCount > 0) {
-    const fcAtts = attemptsByType['flashcard'] || []
-    let sumItemMastery = 0
-    const attsByCard = {}
-    for (const att of fcAtts) {
-      if (att.question_id) {
-        if (!attsByCard[att.question_id]) attsByCard[att.question_id] = []
-        attsByCard[att.question_id].push(att)
+  for (const conceptId of conceptIdsSet) {
+    let bestMastery = 0
+    const typesWithAttempts = conceptByType[conceptId]
+
+    if (!typesWithAttempts) {
+      conceptMastery[conceptId] = 0
+      continue
+    }
+
+    for (const type in typesWithAttempts) {
+      const typeAttempts = typesWithAttempts[type]
+      const correct = typeAttempts.filter(a => a.was_correct === 1).length
+      const wrong = typeAttempts.length - correct
+
+      let itemMastery = 0
+      if (correct > 0) {
+        itemMastery = correct / (correct + 0.5 * wrong)
+      }
+
+      if (itemMastery > bestMastery) {
+        bestMastery = itemMastery
       }
     }
-    for (const fcId of flashcardIds) {
-      const cardAtts = attsByCard[fcId] || []
-      if (cardAtts.length > 0) {
-        const correct = cardAtts.filter(a => a.was_correct === 1).length
-        const wrong = cardAtts.length - correct
-        if (correct > 0) {
-          sumItemMastery += correct / (correct + 0.5 * wrong)
-        }
-      }
-    }
-    flashcardScore = (sumItemMastery / flashcardCount) * 100
+
+    conceptMastery[conceptId] = bestMastery
   }
 
-  // Calculate Quiz Score
-  let quizScore = 0
-  if (quizQuestionCount > 0) {
-    const quizAtts = attemptsByType['quiz'] || []
-    let sumQuizMastery = 0
-    const attsByQuiz = {}
-    for (const att of quizAtts) {
-      if (att.question_id) {
-        if (!attsByQuiz[att.question_id]) attsByQuiz[att.question_id] = []
-        attsByQuiz[att.question_id].push(att)
-      }
+  // Step 4 — Calculate base mastery from concepts
+  let conceptsCovered = 0
+  let conceptDepthSum = 0
+
+  for (const conceptId of conceptIdsSet) {
+    const m = conceptMastery[conceptId] || 0
+    if (m > 0) {
+      conceptsCovered++
     }
-    for (const qId of quizIds) {
-      const qAtts = attsByQuiz[qId] || []
-      if (qAtts.length > 0) {
-        const correct = qAtts.filter(a => a.was_correct === 1).length
-        const wrong = qAtts.length - correct
-        if (correct > 0) {
-          sumQuizMastery += correct / (correct + 0.5 * wrong)
-        }
-      }
-    }
-    quizScore = (sumQuizMastery / quizQuestionCount) * 100
+    conceptDepthSum += m
   }
 
-  // Calculate Fill-in-the-Blank Score (code_score)
-  let codeScore = 0
-  if (conceptCount > 0) {
-    const ftbAtts = attemptsByType['fillblank'] || []
-    let sumFtbMastery = 0
-    const attsByFtb = {}
-    for (const att of ftbAtts) {
-      if (att.question_id) {
-        if (!attsByFtb[att.question_id]) attsByFtb[att.question_id] = []
-        attsByFtb[att.question_id].push(att)
-      }
-    }
-    for (const cId of conceptIds) {
-      const cAtts = attsByFtb[cId] || []
-      if (cAtts.length > 0) {
-        const correct = cAtts.filter(a => a.was_correct === 1).length
-        const wrong = cAtts.length - correct
-        if (correct > 0) {
-          sumFtbMastery += correct / (correct + 0.5 * wrong)
-        }
-      }
-    }
-    codeScore = (sumFtbMastery / conceptCount) * 100
+  const conceptCoverage = totalConcepts > 0 ? (conceptsCovered / totalConcepts) : 0
+  const conceptDepth = totalConcepts > 0 ? (conceptDepthSum / totalConcepts) : 0
+
+  const baseMastery = (conceptCoverage * 0.4) + (conceptDepth * 0.6)
+
+  // Step 5 — Calculate exercise type bonuses (max 0.20 total)
+  let flashcardBonus = 0
+  const fcAttempts = attempts.filter(a => a.exercise_type === 'flashcard')
+  if (fcAttempts.length > 0) {
+    const fcCorrect = fcAttempts.filter(a => a.was_correct === 1).length
+    flashcardBonus = Math.min(0.05, (fcCorrect / fcAttempts.length) * 0.05)
   }
 
-  // Calculate Dataset Score
+  let matchingBonus = 0
+  const matchAttempts = attempts.filter(a => a.exercise_type === 'matching')
+  if (matchAttempts.length > 0) {
+    let sumScore = 0
+    for (const a of matchAttempts) {
+      let sc = a.score !== null ? a.score : 1.0
+      if (sc > 1) sc = sc / 100
+      sumScore += sc
+    }
+    const avgScore = sumScore / matchAttempts.length
+    matchingBonus = Math.min(0.05, avgScore * 0.05)
+  }
+
+  let datasetBonus = 0
+  const dsAttempts = attempts.filter(a => a.exercise_type === 'dataset')
+  if (dsAttempts.length > 0) {
+    const dsCorrect = dsAttempts.filter(a => a.was_correct === 1).length
+    datasetBonus = Math.min(0.05, (dsCorrect / dsAttempts.length) * 0.05)
+  }
+
+  let bossBonus = 0
+  const bossAttempts = attempts.filter(a => a.exercise_type === 'bossbattle')
+  if (bossAttempts.length > 0) {
+    const bossCorrect = bossAttempts.filter(a => a.was_correct === 1).length
+    bossBonus = Math.min(0.05, (bossCorrect / bossAttempts.length) * 0.05)
+  }
+
+  const totalBonus = flashcardBonus + matchingBonus + datasetBonus + bossBonus
+
+  // Step 6 — Compute final scores for storage
+  const overallMastery = Math.min(100, (baseMastery + totalBonus) * 100)
+
+  const getConceptDepthForType = (type) => {
+    const conceptsWithType = []
+    for (const conceptId of conceptIdsSet) {
+      if (conceptByType[conceptId] && conceptByType[conceptId][type]) {
+        conceptsWithType.push(conceptId)
+      }
+    }
+    if (conceptsWithType.length === 0) return 0
+    const sum = conceptsWithType.reduce((acc, c) => acc + conceptMastery[c], 0)
+    return sum / conceptsWithType.length
+  }
+
+  const flashcardScore = getConceptDepthForType('flashcard') * 100
+  const quizScore = getConceptDepthForType('quiz') * 100
+  const codeScore = getConceptDepthForType('fillblank') * 100
+
   let datasetScore = 0
-  if (datasetChallengeCount > 0) {
-    const dsAtts = attemptsByType['dataset'] || []
-    let sumDsMastery = 0
-    const attsByDs = {}
-    for (const att of dsAtts) {
-      const rawId = att.question_id
-      const parsedId = rawId ? (parseInt(String(rawId).replace(/\D/g, ''), 10) || 1) : 1
-      if (!attsByDs[parsedId]) attsByDs[parsedId] = []
-      attsByDs[parsedId].push(att)
-    }
-    for (let i = 1; i <= datasetChallengeCount; i++) {
-      const qAtts = attsByDs[i] || []
-      if (qAtts.length > 0) {
-        const correct = qAtts.filter(a => a.was_correct === 1).length
-        const wrong = qAtts.length - correct
-        if (correct > 0) {
-          sumDsMastery += correct / (correct + 0.5 * wrong)
-        }
-      }
-    }
-    datasetScore = (sumDsMastery / datasetChallengeCount) * 100
+  if (dsAttempts.length > 0) {
+    const dsCorrect = dsAttempts.filter(a => a.was_correct === 1).length
+    datasetScore = (dsCorrect / dsAttempts.length) * 100
   }
 
-  // Calculate Matching Score (accuracy + speed)
-  let matchingScore = 0
-  const matchAtts = attemptsByType['matching'] || []
-  if (conceptCount > 0 && matchAtts.length > 0) {
-    let sumMatchingScore = 0
-    for (const att of matchAtts) {
-      const accuracy = att.score !== null ? att.score : 1.0
-      const normAccuracy = accuracy > 1.0 ? accuracy / 100 : accuracy
-      const time = att.time_taken_secs
-      const speedFactor = time !== null ? Math.max(0, Math.min(1, (180 - time) / 120)) : 0.5
-      sumMatchingScore += normAccuracy * (0.6 + 0.4 * speedFactor)
-    }
-    matchingScore = (sumMatchingScore / matchAtts.length) * 100
-  }
+  const matchingScore = matchingBonus * 20 * 100
+  const bossScore = getConceptDepthForType('bossbattle') * 100
 
-  // Calculate Boss Battle Score (accuracy + speed)
-  let bossScore = 0
-  if (quizQuestionCount > 0) {
-    const bossAtts = attemptsByType['bossbattle'] || []
-    let sumBossMastery = 0
-    const attsByBoss = {}
-    for (const att of bossAtts) {
-      if (att.question_id) {
-        if (!attsByBoss[att.question_id]) attsByBoss[att.question_id] = []
-        attsByBoss[att.question_id].push(att)
-      }
-    }
-    for (const qId of bossIds) {
-      const qAtts = attsByBoss[qId] || []
-      if (qAtts.length > 0) {
-        const correctAtts = qAtts.filter(a => a.was_correct === 1)
-        const wrong = qAtts.length - correctAtts.length
-
-        if (correctAtts.length > 0) {
-          let speedFactorSum = 0
-          let speedCount = 0
-          for (const a of correctAtts) {
-            if (a.time_taken_secs !== null) {
-              const sf = Math.max(0, Math.min(1, (15 - a.time_taken_secs) / 11))
-              speedFactorSum += sf
-              speedCount++
-            }
-          }
-          const avgSpeedFactor = speedCount > 0 ? (speedFactorSum / speedCount) : 0.5
-          const weightedCorrect = correctAtts.length * (0.7 + 0.3 * avgSpeedFactor)
-          sumBossMastery += weightedCorrect / (weightedCorrect + 0.5 * wrong)
-        }
-      }
-    }
-    bossScore = (sumBossMastery / quizQuestionCount) * 100
-  }
-
-  // 3. Compute weighted overall mastery based on availability
-  // Weights: flashcard (0.15), quiz (0.20), code/fillblank (0.20), dataset (0.15), matching (0.15), boss (0.15)
-  const weights = {
-    flashcard: flashcardCount > 0 ? 0.15 : 0,
-    quiz: quizQuestionCount > 0 ? 0.20 : 0,
-    code: conceptCount > 0 ? 0.20 : 0,
-    dataset: datasetChallengeCount > 0 ? 0.15 : 0,
-    matching: conceptCount > 0 ? 0.15 : 0,
-    boss: quizQuestionCount > 0 ? 0.15 : 0
-  }
-
-  const scores = {
-    flashcard: flashcardScore,
-    quiz: quizScore,
-    code: codeScore,
-    dataset: datasetScore,
-    matching: matchingScore,
-    boss: bossScore
-  }
-
-  let weightedSum = 0
-  let totalWeight = 0
-  for (const type in weights) {
-    weightedSum += scores[type] * weights[type]
-    totalWeight += weights[type]
-  }
-
-  const overallMastery = totalWeight > 0 ? (weightedSum / totalWeight) : 0
-
-  // 4. Update the database
+  // Step 7 — Update mastery_scores table
   db.prepare(`
     INSERT INTO mastery_scores (
       course_id,
@@ -583,7 +485,7 @@ function updateStreak() {
 
 router.post('/progress/attempt', (req, res, next) => {
   try {
-    const { exercise_type, course_id, question_id, score, time_taken_secs, was_correct } = req.body
+    const { exercise_type, course_id, question_id, concept_id, score, time_taken_secs, was_correct } = req.body
 
     const result = db
       .prepare(`
@@ -591,16 +493,18 @@ router.post('/progress/attempt', (req, res, next) => {
           exercise_type,
           course_id,
           question_id,
+          concept_id,
           score,
           time_taken_secs,
           was_correct
         )
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         exercise_type,
         course_id,
         question_id ?? null,
+        concept_id ?? null,
         score ?? null,
         time_taken_secs ?? null,
         was_correct ? 1 : 0,
@@ -619,4 +523,57 @@ router.post('/progress/attempt', (req, res, next) => {
   }
 })
 
+router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
+  try {
+    const { courseSlug } = req.params
+    const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+
+    const rows = db.prepare(`
+      SELECT 
+        exercise_type,
+        COUNT(*) as total_attempted,
+        SUM(CASE WHEN was_correct = 1 THEN 1 ELSE 0 END) as total_correct,
+        SUM(CASE WHEN was_correct = 0 OR was_correct IS NULL THEN 1 ELSE 0 END) as total_wrong
+      FROM exercise_attempts
+      WHERE course_id = ?
+      GROUP BY exercise_type
+    `).all(course.id)
+
+    const stats = {
+      mcq: { attempted: 0, correct: 0, wrong: 0 },
+      flashcard: { attempted: 0, correct: 0, wrong: 0 },
+      ftb: { attempted: 0, correct: 0, wrong: 0 },
+      matching: { attempted: 0, correct: 0, wrong: 0 },
+      boss_battle: { attempted: 0, correct: 0, wrong: 0 },
+      dataset: { attempted: 0, correct: 0, wrong: 0 }
+    }
+
+    const typeMapping = {
+      quiz: 'mcq',
+      flashcard: 'flashcard',
+      fillblank: 'ftb',
+      matching: 'matching',
+      bossbattle: 'boss_battle',
+      dataset: 'dataset'
+    }
+
+    for (const row of rows) {
+      const key = typeMapping[row.exercise_type]
+      if (key && stats[key]) {
+        stats[key].attempted = row.total_attempted
+        stats[key].correct = row.total_correct
+        stats[key].wrong = row.total_wrong
+      }
+    }
+
+    res.json(stats)
+  } catch (err) {
+    next(err)
+  }
+})
+
 export default router
+

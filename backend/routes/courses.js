@@ -84,6 +84,7 @@ router.get('/courses/:slug', (req, res, next) => {
     }
 
     const scores = getMasteryScores(course.id)
+    const { id: _msId, course_id: _msCourseId, ...scoresData } = scores
 
     let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
     let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
@@ -128,7 +129,7 @@ router.get('/courses/:slug', (req, res, next) => {
 
     res.status(200).json({
       ...course,
-      ...scores,
+      ...scoresData,
       track: {
         id: course.track_id,
         name: course.track_name,

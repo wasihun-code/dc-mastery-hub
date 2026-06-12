@@ -18,6 +18,7 @@ export default function DatasetChallenge() {
   const [sessionScore, setSessionScore] = useState({ correct: 0, total: 0 })
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [course, setCourse] = useState(null)
   
   // Interactive Shell States
   const [shellCounter, setShellCounter] = useState(1)
@@ -86,19 +87,29 @@ export default function DatasetChallenge() {
     try {
       setLoading(true)
       const reattemptFlag = localStorage.getItem(`dataset_reattempt_${courseSlug}`) === 'true';
-      const res = await fetch(`/api/content/challenges/${courseSlug}${reattemptFlag ? '?reattempt=true' : ''}`)
-      if (!res.ok) {
-        if (res.status === 404) {
+      
+      const [courseRes, challengesRes] = await Promise.all([
+        fetch(`/api/courses/${courseSlug}`),
+        fetch(`/api/content/challenges/${courseSlug}${reattemptFlag ? '?reattempt=true' : ''}`)
+      ])
+
+      if (!courseRes.ok || !challengesRes.ok) {
+        if (challengesRes.status === 404) {
           setErrorMsg("No datasets available for this course yet. Add CSV files to: content/tracks/[track]/[course]/datasets/")
         } else {
           setErrorMsg("Failed to load challenges.")
         }
         return
       }
-      const data = await res.json()
-      if (data.length > 0) {
-        setChallenges(data)
-        setCode(data[0].starter_code)
+
+      const courseData = await courseRes.json()
+      const challengesData = await challengesRes.json()
+
+      setCourse(courseData)
+
+      if (challengesData.length > 0) {
+        setChallenges(challengesData)
+        setCode(challengesData[0].starter_code)
       } else {
         setErrorMsg("No datasets available for this course yet.")
       }
@@ -172,6 +183,29 @@ export default function DatasetChallenge() {
           correct: prev.correct + (data.passed ? 1 : 0),
           total: prev.total + 1
         }))
+
+        // Record attempt to progress API
+        const conceptId = challenge.concepts_tested && challenge.concepts_tested[0] 
+          ? challenge.concepts_tested[0] 
+          : null
+
+        try {
+          await fetch('/api/progress/attempt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              exercise_type: 'dataset',
+              course_id: course?.id,
+              question_id: challenge.id,
+              concept_id: conceptId,
+              score: data.passed ? 1.0 : 0.0,
+              was_correct: data.passed ? 1 : 0,
+              time_taken_secs: 0
+            })
+          })
+        } catch (attemptErr) {
+          console.error("Error saving dataset attempt:", attemptErr)
+        }
       } else {
         setResult({ passed: false, feedback: data.error, error: true })
       }
@@ -307,7 +341,7 @@ export default function DatasetChallenge() {
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">Dataset Challenge Unavailable</h2>
         <p className="mt-2 text-[var(--text-muted)] max-w-lg">{errorMsg || "No datasets available."}</p>
         <Link
-          to={`/courses/${courseSlug}`}
+          to={`/courses/${courseSlug}?refresh=1`}
           className="mt-6 flex items-center gap-2 rounded-lg bg-[var(--bg-card)] px-6 py-2 border border-[var(--border)]"
         >
           <ChevronLeft size={20} />
@@ -366,7 +400,7 @@ export default function DatasetChallenge() {
             Re-attempt All
           </button>
           <button 
-            onClick={() => navigate(`/courses/${courseSlug}`)}
+            onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)}
             className="rounded-xl bg-[var(--accent-green)] px-10 py-4 font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
           >
             Return to Course
@@ -395,7 +429,7 @@ export default function DatasetChallenge() {
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)] shrink-0">
         <button 
-          onClick={() => navigate(`/courses/${courseSlug}`)} 
+          onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)} 
           className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold bg-transparent border-none cursor-pointer"
         >
           <ChevronLeft size={16} /> Quit

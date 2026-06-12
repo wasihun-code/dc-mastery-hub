@@ -105,6 +105,7 @@ export default function Flashcards() {
           exercise_type: 'flashcard',
           course_id: course.id,
           question_id: cards[currentIndex].id,
+          concept_id: cards[currentIndex].concept_id,
           score: score,
           was_correct: wasCorrect ? 1 : 0
         })
@@ -217,7 +218,7 @@ export default function Flashcards() {
           {isReplaying ? 'REPLAY' : 'START'}
         </button>
         
-        <Link to={`/courses/${courseSlug}`} className="mt-6 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 text-sm font-medium">
+        <Link to={`/courses/${courseSlug}?refresh=1`} className="mt-6 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 text-sm font-medium">
           <ChevronLeft size={18} />
           Back to Course
         </Link>
@@ -245,7 +246,7 @@ export default function Flashcards() {
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)]">
           <button 
-            onClick={() => navigate(`/courses/${courseSlug}`)} 
+            onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)} 
             className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold"
           >
             <ChevronLeft size={16} /> Quit
@@ -424,7 +425,7 @@ export default function Flashcards() {
             <RotateCcw size={20} /> Review Again
           </button>
           <button 
-            onClick={() => navigate(`/courses/${courseSlug}`)}
+            onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)}
             className="rounded-xl bg-[var(--accent-green)] px-8 py-4 font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
           >
             Back to Course

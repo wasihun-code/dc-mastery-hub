@@ -27,6 +27,8 @@ export default function FillBlank() {
   const [correctExerciseCount, setCorrectExerciseCount] = useState(0);
   const [activeSlot, setActiveSlot] = useState(0);
   const [xpEarned, setXpEarned] = useState(0);
+  const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
+  const [choicesEnabled, setChoicesEnabled] = useState(false);
   
   // Store the shuffled word bank for the current question
   const [shuffledWordBank, setShuffledWordBank] = useState([]);
@@ -92,6 +94,7 @@ export default function FillBlank() {
     setStep(2);
     setCurrentIndex(0);
     setCorrectExerciseCount(0);
+    setQuestionsWithChoicesUsed(new Set());
     resetState();
   };
 
@@ -99,6 +102,27 @@ export default function FillBlank() {
     setUserAnswers({});
     setIsChecked(false);
     setActiveSlot(0);
+    setChoicesEnabled(false);
+  };
+
+  const maxChoicesAllowed = exercises.length >= 15 ? 5 : 3;
+  const choicesUsedCount = questionsWithChoicesUsed.size;
+  const choicesLeft = maxChoicesAllowed - choicesUsedCount;
+
+  const handleToggleChoices = () => {
+    if (isChecked) return;
+    if (choicesEnabled) {
+      setChoicesEnabled(false);
+    } else {
+      if (choicesLeft > 0 || questionsWithChoicesUsed.has(currentIndex)) {
+        setChoicesEnabled(true);
+        if (!questionsWithChoicesUsed.has(currentIndex)) {
+          const updated = new Set(questionsWithChoicesUsed);
+          updated.add(currentIndex);
+          setQuestionsWithChoicesUsed(updated);
+        }
+      }
+    }
   };
 
   const handleTileClick = (word) => {
@@ -167,6 +191,7 @@ export default function FillBlank() {
           exercise_type: 'fillblank',
           course_id: course.id,
           question_id: currentEx.id,
+          concept_id: currentEx.concept_id || currentEx.id,
           score: allCorrect ? 1.0 : 0.0,
           was_correct: allCorrect ? 1 : 0
         })
@@ -268,7 +293,7 @@ export default function FillBlank() {
           {isReplaying ? 'REPLAY' : 'START'}
         </button>
         
-        <Link to={`/courses/${courseSlug}`} className="mt-6 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 text-sm font-medium">
+        <Link to={`/courses/${courseSlug}?refresh=1`} className="mt-6 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 text-sm font-medium">
           <ChevronLeft size={18} />
           Back to Course
         </Link>
@@ -292,22 +317,48 @@ export default function FillBlank() {
           const answer = userAnswers[slotIndex];
           const isCorrect = isChecked && answer === currentEx.answers[slotIndex];
           
-          let slotClass = "inline-flex min-w-[90px] h-[32px] items-center justify-center px-3 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold cursor-pointer select-none vertical-middle ";
-          if (isChecked) {
-            slotClass += isCorrect ? "bg-[var(--accent-green)] border-[var(--accent-green)] text-black" : "bg-[var(--accent-red)] border-[var(--accent-red)] text-white";
+          if (!choicesEnabled) {
+            return (
+              <input
+                key={i}
+                type="text"
+                value={userAnswers[slotIndex] || ""}
+                disabled={isChecked}
+                onChange={(e) => {
+                  setUserAnswers({ ...userAnswers, [slotIndex]: e.target.value });
+                }}
+                placeholder="_____"
+                className={`inline-flex min-w-[100px] h-[32px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold bg-[var(--bg-primary)] focus:outline-none vertical-middle ${
+                  isChecked
+                    ? isCorrect
+                      ? "bg-[var(--accent-green)] border-[var(--accent-green)] text-black"
+                      : "bg-[var(--accent-red)] border-[var(--accent-red)] text-white"
+                    : activeSlot === slotIndex
+                    ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]"
+                    : "border-[var(--border)] text-[var(--text-primary)] focus:border-[var(--accent-blue)]"
+                }`}
+                style={{ width: `${Math.max(100, (userAnswers[slotIndex] || "").length * 10 + 20)}px` }}
+                onFocus={() => setActiveSlot(slotIndex)}
+              />
+            );
           } else {
-            slotClass += activeSlot === slotIndex ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]" : "border-[var(--border)] bg-[var(--bg-primary)] hover:border-[var(--text-muted)] text-[var(--text-muted)]";
-          }
+            let slotClass = "inline-flex min-w-[90px] h-[32px] items-center justify-center px-3 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold cursor-pointer select-none vertical-middle ";
+            if (isChecked) {
+              slotClass += isCorrect ? "bg-[var(--accent-green)] border-[var(--accent-green)] text-black" : "bg-[var(--accent-red)] border-[var(--accent-red)] text-white";
+            } else {
+              slotClass += activeSlot === slotIndex ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]" : "border-[var(--border)] bg-[var(--bg-primary)] hover:border-[var(--text-muted)] text-[var(--text-muted)]";
+            }
 
-          return (
-            <span 
-              key={i} 
-              onClick={() => handleSlotClick(slotIndex)}
-              className={slotClass}
-            >
-              {answer || (isChecked ? currentEx.answers[slotIndex] : "_____")}
-            </span>
-          );
+            return (
+              <span 
+                key={i} 
+                onClick={() => handleSlotClick(slotIndex)}
+                className={slotClass}
+              >
+                {answer || (isChecked ? currentEx.answers[slotIndex] : "_____")}
+              </span>
+            );
+          }
         }
         return <React.Fragment key={i}>{highlightPythonSyntax(part)}</React.Fragment>;
       });
@@ -330,7 +381,7 @@ export default function FillBlank() {
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--bg-primary)] shrink-0">
           <button 
-            onClick={() => navigate(`/courses/${courseSlug}`)} 
+            onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)} 
             className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1 text-sm font-semibold"
           >
             <ChevronLeft size={16} /> Quit
@@ -365,27 +416,54 @@ export default function FillBlank() {
 
               {/* RIGHT COLUMN: Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
               <div className="flex flex-col gap-4">
-                {/* Word Bank */}
-                <div className="flex flex-wrap gap-2.5 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-2">
-                  <h4 className="w-full text-xxs uppercase tracking-wider text-zinc-500 font-extrabold mb-1.5 text-left">Word Bank</h4>
-                  {shuffledWordBank.map((word, i) => {
-                    const isUsed = Object.values(userAnswers).includes(word);
-                    return (
-                      <button
-                        key={i}
-                        onClick={() => handleTileClick(word)}
-                        disabled={isChecked || isUsed}
-                        className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all ${
-                          isUsed 
-                            ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]' 
-                            : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)]'
-                        }`}
-                      >
-                        {word}
-                      </button>
-                    );
-                  })}
+                {/* Mode toggle / Choices Remaining info */}
+                <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[var(--text-primary)]">
+                        {choicesEnabled ? "Choices Enabled" : "Self-Typing Mode (Recommended)"}
+                      </h4>
+                      <p className="text-xxs text-[var(--text-muted)] mt-0.5">
+                        Choices Remaining: <span className="font-bold text-[var(--accent-blue)]">{choicesLeft}</span> / {maxChoicesAllowed}
+                      </p>
+                    </div>
+                    <button
+                      onClick={handleToggleChoices}
+                      disabled={isChecked || (choicesLeft <= 0 && !choicesEnabled && !questionsWithChoicesUsed.has(currentIndex))}
+                      className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
+                        choicesEnabled
+                          ? "bg-[var(--accent-red)] text-white hover:brightness-110"
+                          : "bg-[var(--accent-blue)] text-white hover:brightness-110 disabled:opacity-40"
+                      }`}
+                    >
+                      {choicesEnabled ? "Disable" : "Enable Choices"}
+                    </button>
+                  </div>
                 </div>
+
+                {/* Word Bank */}
+                {choicesEnabled && (
+                  <div className="flex flex-wrap gap-2.5 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <h4 className="w-full text-xxs uppercase tracking-wider text-zinc-500 font-extrabold mb-1.5 text-left">Word Bank</h4>
+                    {shuffledWordBank.map((word, i) => {
+                      const isUsed = Object.values(userAnswers).includes(word);
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => handleTileClick(word)}
+                          disabled={isChecked || isUsed}
+                          className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all ${
+                            isUsed 
+                              ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]' 
+                              : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)]'
+                          }`}
+                        >
+                          {word}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 {/* Actions */}
                 <div className="flex gap-4">
@@ -511,7 +589,7 @@ export default function FillBlank() {
             <RotateCcw size={20} /> Try Again
           </button>
           <button 
-            onClick={() => navigate(`/courses/${courseSlug}`)}
+            onClick={() => navigate(`/courses/${courseSlug}?refresh=1`)}
             className="rounded-xl bg-[var(--accent-green)] px-8 py-4 font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
           >
             Back to Course

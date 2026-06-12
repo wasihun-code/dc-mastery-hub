@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { 
   ArrowLeft, 
   Brain, 
@@ -67,7 +67,7 @@ function SkeletonHeader() {
   )
 }
 
-function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonText, onClick, disabled, warning, isBoss }) {
+function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonText, onClick, disabled, warning, isBoss, stats }) {
   return (
     <div className={`flex flex-col justify-between rounded border p-5 transition-all ${
       isBoss 
@@ -82,6 +82,27 @@ function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonT
           <h3 className="font-bold text-[var(--text-primary)]">{title}</h3>
         </div>
         <p className="mt-3 text-sm text-[var(--text-muted)]">{description}</p>
+        
+        {stats && (
+          <div className="mt-1.5 flex flex-wrap gap-[6px] text-[11px]">
+            {stats.attempted > 0 ? (
+              <>
+                <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
+                  {stats.attempted} attempted
+                </span>
+                <span className="rounded px-2 py-0.5 border border-[var(--accent-green)]/30 text-[var(--accent-green)] bg-[rgba(3,239,98,0.1)]">
+                  {stats.correct} correct
+                </span>
+                <span className="rounded px-2 py-0.5 border border-[var(--accent-red)]/30 text-[var(--accent-red)] bg-[rgba(239,68,68,0.1)]">
+                  {stats.wrong} wrong
+                </span>
+              </>
+            ) : (
+              <span className="text-[var(--text-muted)] italic">No attempts yet</span>
+            )}
+          </div>
+        )}
+
         <p className={`mt-4 text-xs font-medium ${statColor || 'text-[var(--text-muted)]'}`}>{stat}</p>
         {warning && <p className="mt-1 text-[10px] text-[var(--accent-red)]">{warning}</p>}
       </div>
@@ -105,8 +126,10 @@ function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonT
 export default function CourseDetail() {
   const { courseSlug } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   
   const [course, setCourse] = useState(null)
+  const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   
@@ -120,14 +143,20 @@ export default function CourseDetail() {
 
     const fetchData = async () => {
       try {
-        const courseRes = await fetch(`/api/courses/${courseSlug}`)
+        const [courseRes, statsRes] = await Promise.all([
+          fetch(`/api/courses/${courseSlug}`),
+          fetch(`/api/progress/exercise-stats/${courseSlug}`)
+        ])
 
         if (!courseRes.ok) throw new Error(courseRes.status === 404 ? 'Course not found' : 'Failed to fetch course')
+        if (!statsRes.ok) throw new Error('Failed to fetch exercise stats')
         
         const courseData = await courseRes.json()
+        const statsData = await statsRes.json()
 
         if (isMounted) {
           setCourse(courseData)
+          setStats(statsData)
           setLoading(false)
         }
       } catch (err) {
@@ -140,7 +169,7 @@ export default function CourseDetail() {
 
     fetchData()
     return () => { isMounted = false }
-  }, [courseSlug])
+  }, [courseSlug, location.search])
 
   if (loading) {
     return (
@@ -227,19 +256,32 @@ export default function CourseDetail() {
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7 lg:shrink-0">
             {[
-              { label: 'Flashcards', score: course.flashcard_score },
-              { label: 'Quizzes', score: course.quiz_score },
-              { label: 'Coding', score: course.code_score },
-              { label: 'Datasets', score: course.dataset_score },
-              { label: 'Matching', score: course.matching_score },
-              { label: 'Boss Battle', score: course.boss_score },
-              { label: 'Overall', score: course.overall_mastery, isOverall: true }
+              { label: 'Flashcards', score: course.flashcard_score, attempts: stats?.flashcard?.attempted || 0 },
+              { label: 'Quizzes', score: course.quiz_score, attempts: stats?.mcq?.attempted || 0 },
+              { label: 'Coding', score: course.code_score, attempts: stats?.ftb?.attempted || 0 },
+              { label: 'Datasets', score: course.dataset_score, attempts: stats?.dataset?.attempted || 0 },
+              { label: 'Matching', score: course.matching_score, attempts: stats?.matching?.attempted || 0 },
+              { label: 'Boss Battle', score: course.boss_score, attempts: stats?.boss_battle?.attempted || 0 },
+              { 
+                label: 'Overall', 
+                score: course.overall_mastery, 
+                isOverall: true, 
+                attempts: stats ? (
+                  stats.flashcard.attempted +
+                  stats.mcq.attempted +
+                  stats.ftb.attempted +
+                  stats.dataset.attempted +
+                  stats.matching.attempted +
+                  stats.boss_battle.attempted
+                ) : 0
+              }
             ].map((box) => (
               <div key={box.label} className="flex flex-col items-center justify-center rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4 text-center">
                 <span className={`text-xl font-bold ${box.isOverall ? 'text-2xl' : ''}`} style={{ color: masteryColor(box.score) }}>
                   {Number(box.score ?? 0).toFixed(0)}%
                 </span>
                 <span className="text-[9px] uppercase tracking-wider text-[var(--text-muted)]">{box.label}</span>
+                <span className="text-[9px] text-[var(--text-muted)] mt-0.5">{box.attempts > 0 ? `${box.attempts} attempted` : 'Not started'}</span>
               </div>
             ))}
           </div>
@@ -305,6 +347,7 @@ export default function CourseDetail() {
             onClick={() => navigate(`/exercise/flashcards/${courseSlug}`)}
             disabled={course.flashcard_count === 0}
             warning={course.flashcard_count === 0 ? "No flashcards yet — add slides first" : null}
+            stats={stats?.flashcard}
           />
           <ExerciseCard 
             icon={HelpCircle}
@@ -315,6 +358,7 @@ export default function CourseDetail() {
             onClick={() => navigate(`/exercise/quiz/${courseSlug}`)}
             disabled={course.quiz_question_count === 0}
             warning={course.quiz_question_count === 0 ? "No questions yet — add slides first" : null}
+            stats={stats?.mcq}
           />
           <ExerciseCard 
             icon={PenLine}
@@ -324,6 +368,7 @@ export default function CourseDetail() {
             buttonText="Start Coding"
             onClick={() => navigate(`/exercise/fillblank/${courseSlug}`)}
             disabled={course.concept_count === 0}
+            stats={stats?.ftb}
           />
           <ExerciseCard 
             icon={Database}
@@ -332,6 +377,7 @@ export default function CourseDetail() {
             stat="Hands-on coding exercises"
             buttonText="Start Challenge"
             onClick={() => navigate(`/exercise/dataset/${courseSlug}`)}
+            stats={stats?.dataset}
           />
           <ExerciseCard 
             icon={Shuffle}
@@ -341,17 +387,19 @@ export default function CourseDetail() {
             buttonText="Start Matching"
             onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
             disabled={course.concept_count === 0}
+            stats={stats?.matching}
           />
           <ExerciseCard 
             icon={Swords}
             isBoss={true}
             title="Boss Battle 🔥"
             description="Mixed challenge — prove your mastery"
-            stat={course.overall_mastery >= 40 ? "Ready to battle!" : "Complete other exercises first"}
-            statColor={course.overall_mastery >= 40 ? 'text-[var(--accent-green)]' : 'text-[var(--accent-red)]'}
+            stat="Ready to battle!"
+            statColor="text-[var(--accent-green)]"
             buttonText="Enter Battle"
             onClick={() => navigate(`/exercise/boss/${courseSlug}`)}
-            disabled={course.overall_mastery < 40}
+            disabled={false}
+            stats={stats?.boss_battle}
           />
         </div>
       </section>
