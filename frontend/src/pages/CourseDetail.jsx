@@ -304,14 +304,14 @@ export default function CourseDetail() {
             <h2 className="text-lg font-bold text-[var(--text-primary)]">Course Mastery</h2>
           </div>
           <span className="text-sm font-bold" style={{ color: masteryColor(course.overall_mastery) }}>
-            {masteryTier(course.overall_mastery)}
+            {masteryTier(course.overall_mastery)} ({Math.round(course.overall_mastery || 0)}%)
           </span>
         </div>
         <div className="mt-3 h-4 overflow-hidden rounded-full bg-[var(--bg-primary)]">
           <div 
             className="h-full rounded-full transition-all duration-1000"
             style={{ 
-              width: `${course.overall_mastery}%`,
+              width: `${Math.round(course.overall_mastery || 0)}%`,
               backgroundColor: masteryColor(course.overall_mastery)
             }}
           />

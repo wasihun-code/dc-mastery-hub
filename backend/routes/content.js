@@ -345,6 +345,48 @@ router.post('/parse/:courseSlug', (req, res) => {
   })
 })
 
+router.get('/track-test/:trackSlug', (req, res, next) => {
+  try {
+    const { trackSlug } = req.params
+    const track = db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
+    if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(track.id)
+    const courseIds = courses.map(c => c.id)
+
+    if (courseIds.length === 0) {
+      return res.json([])
+    }
+
+    const placeholders = courseIds.map(() => '?').join(',')
+    const questions = db.prepare(`
+      SELECT q.*, c.name AS course_name, c.slug AS course_slug
+      FROM quiz_questions q
+      JOIN courses c ON c.id = q.course_id
+      WHERE q.course_id IN (${placeholders})
+    `).all(...courseIds)
+
+    // Shuffle and pick up to 20 questions
+    questions.sort(() => Math.random() - 0.5)
+    const selectedQuestions = questions.slice(0, 20).map(q => ({
+      id: q.id,
+      course_name: q.course_name,
+      course_slug: q.course_slug,
+      question_text: q.question_text,
+      option_a: q.option_a,
+      option_b: q.option_b,
+      option_c: q.option_c,
+      option_d: q.option_d,
+      correct_option: q.correct_option,
+      explanation: q.explanation
+    }))
+
+    res.json(selectedQuestions)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/pdf/:courseSlug', (req, res, next) => {
   try {
     const { courseSlug } = req.params

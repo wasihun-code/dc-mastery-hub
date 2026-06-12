@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import {
   BookOpen,
   CheckCircle2,
   ChevronRight,
+  ChevronLeft,
   Clock,
   Layers,
   HelpCircle,
@@ -12,7 +13,15 @@ import {
   RotateCcw,
   Sparkles,
   CreditCard,
-  Play
+  Play,
+  Loader2,
+  Check,
+  X,
+  Heart,
+  Skull,
+  Trophy,
+  Flame,
+  Search
 } from 'lucide-react'
 import CodeBlock from '../components/CodeBlock'
 
@@ -36,6 +45,75 @@ export default function StudySession() {
   const [sessionCompleted, setSessionCompleted] = useState(false)
   const [sessionCards, setSessionCards] = useState([])
 
+  const renderContentWithCode = (text) => {
+    if (!text) return null
+    const parts = text.split(/(```[\s\S]*?```)/g)
+    return parts.map((part, idx) => {
+      if (part.startsWith('```')) {
+        const lines = part.split('\n')
+        const firstLine = lines[0]
+        const lang = firstLine.replace('```', '').trim() || 'python'
+        const code = lines.slice(1, lines.length - 1).join('\n')
+        return (
+          <div key={idx} className="my-4 text-left rounded-xl border border-[var(--border)] overflow-hidden">
+            <CodeBlock code={code} language={lang} />
+          </div>
+        )
+      }
+      return (
+        <span key={idx} className="whitespace-pre-wrap leading-relaxed">
+          {part.split(/(`[^`]+`)/g).map((subpart, subidx) => {
+            if (subpart.startsWith('`')) {
+              return <code key={subidx} className="inline-code bg-black/40 border border-zinc-800 text-[var(--accent-green)] px-1 py-0.5 rounded font-mono text-sm">{subpart.slice(1, -1)}</code>
+            }
+            return subpart
+          })}
+        </span>
+      )
+    })
+  }
+
+  // Keyboard Shortcuts Bindings (Unified)
+  const sessionActiveRef = useRef(sessionActive)
+  const isFlippedRef = useRef(isFlipped)
+  const handleRateRef = useRef(null)
+
+  useEffect(() => {
+    sessionActiveRef.current = sessionActive
+    isFlippedRef.current = isFlipped
+  }, [sessionActive, isFlipped])
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return
+      }
+
+      // Spaced Repetition Review Active
+      if (sessionActiveRef.current) {
+        if (e.code === 'Space') {
+          e.preventDefault()
+          setIsFlipped(prev => !prev)
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          setIsFlipped(false)
+        } else if (['1', '2', '3', '4'].includes(e.key)) {
+          if (isFlippedRef.current && handleRateRef.current) {
+            e.preventDefault()
+            const ratings = ['again', 'hard', 'good', 'easy']
+            const rating = ratings[parseInt(e.key, 10) - 1]
+            handleRateRef.current(rating)
+          }
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleGlobalKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown)
+    }
+  }, [])
+
   // Load courses and due flashcards
   useEffect(() => {
     async function loadInitialData() {
@@ -44,7 +122,13 @@ export default function StudySession() {
         if (resCourses.ok) {
           const data = await resCourses.json()
           setCourses(data)
-          if (data.length > 0) {
+          const withQuestions = data.filter(c => (c.quiz_question_count || 0) > 0)
+          const eligible = withQuestions.filter(c => c.status === 'Completed')
+          if (eligible.length > 0) {
+            setSelectedCourseSlug(eligible[0].slug)
+          } else if (withQuestions.length > 0) {
+            setSelectedCourseSlug(withQuestions[0].slug)
+          } else if (data.length > 0) {
             setSelectedCourseSlug(data[0].slug)
           }
         }
@@ -164,6 +248,12 @@ export default function StudySession() {
       }
     }
   }
+
+
+
+  useEffect(() => {
+    handleRateRef.current = handleRate
+  }, [handleRate])
 
   const selectedCourse = courses.find(c => c.slug === selectedCourseSlug)
 
@@ -304,10 +394,36 @@ export default function StudySession() {
                     setSessionActive(false)
                     setSessionCompleted(false)
                   }}
-                  className="w-full text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] py-2 transition-colors"
+                  className="w-full text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] py-2 transition-colors cursor-pointer"
                 >
                   Quit Review Session
                 </button>
+
+                {/* Keyboard Shortcuts Helper */}
+                <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)]/50 p-3 text-xs text-left w-full select-none">
+                  <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/30 pb-1.5 mb-0.5 font-mono">
+                    <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+                    <span>Recall Shortcuts</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-y-1.5 text-[var(--text-muted)] font-medium">
+                    <div className="flex justify-between items-center pr-3">
+                      <span>Flip Card</span>
+                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded font-mono text-[10px]">Space</kbd>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Unflip Card</span>
+                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                    </div>
+                    <div className="flex justify-between items-center pr-3 col-span-2">
+                      <span>Rate (Again - Easy)</span>
+                      <span className="flex gap-1 font-mono">
+                        <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded text-[10px]">1</kbd>
+                        <span>-</span>
+                        <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded text-[10px]">4</kbd>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ) : sessionCompleted ? (
@@ -415,7 +531,7 @@ export default function StudySession() {
               onChange={(e) => setSelectedCourseSlug(e.target.value)}
               className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] p-3 text-sm text-[var(--text-primary)] min-w-[260px] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]"
             >
-              {courses.map(c => (
+              {courses.filter(c => (c.quiz_question_count || 0) > 0).map(c => (
                 <option key={c.id} value={c.slug}>
                   {c.name} ({c.track_language})
                 </option>
@@ -557,7 +673,7 @@ export default function StudySession() {
 
               {/* Boss battle */}
               <div className={`bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 flex flex-col justify-between min-h-[220px] ${
-                (selectedCourse?.overall_mastery || 0) < 60 ? 'opacity-75' : ''
+                Math.round(selectedCourse?.overall_mastery || 0) < 60 ? 'opacity-75' : ''
               }`}>
                 <div>
                   <div className="flex justify-between items-start">
@@ -567,15 +683,15 @@ export default function StudySession() {
                     </span>
                   </div>
                   <h3 className="font-bold text-base text-[var(--text-primary)] mt-3 flex items-center gap-1.5">
-                    Boss Battle {(selectedCourse?.overall_mastery || 0) < 60 && <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-mono">LOCKED</span>}
+                    Boss Battle {Math.round(selectedCourse?.overall_mastery || 0) < 60 && <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-mono">LOCKED</span>}
                   </h3>
                   <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
-                    Test your comprehensive course understanding. Needs at least 60% overall mastery to unlock. Current: {selectedCourse?.overall_mastery || 0}%
+                    Test your comprehensive course understanding. Needs at least 60% overall mastery to unlock. Current: {Math.round(selectedCourse?.overall_mastery || 0)}%
                   </p>
                 </div>
                 <div className="pt-4 flex justify-between items-center border-t border-[var(--border)]/40 mt-4">
                   <span className="text-xs text-[var(--text-muted)]">Attempts: {selectedCourseStats.boss_battle.attempted}</span>
-                  {(selectedCourse?.overall_mastery || 0) >= 60 ? (
+                  {Math.round(selectedCourse?.overall_mastery || 0) >= 60 ? (
                     <Link
                       to={`/exercise/boss/${selectedCourseSlug}`}
                       className="flex items-center gap-1 text-xs font-bold text-[var(--accent-green)] hover:underline"

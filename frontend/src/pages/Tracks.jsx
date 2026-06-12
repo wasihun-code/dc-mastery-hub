@@ -15,7 +15,9 @@ import {
   ChevronRight,
   SlidersHorizontal,
   Flame,
-  FileText
+  FileText,
+  AlertTriangle,
+  X
 } from 'lucide-react'
 
 const CATEGORIES = [
@@ -154,9 +156,9 @@ function SkeletonCard() {
   )
 }
 
-function CourseCard({ course }) {
+function CourseCard({ course, onShowNoQuestions }) {
   const navigate = useNavigate()
-  const mastery = Number(course.overall_mastery ?? 0)
+  const mastery = Math.round(Number(course.overall_mastery ?? 0))
 
   let buttonText = 'Start'
   if (course.status === 'Completed') {
@@ -170,9 +172,18 @@ function CourseCard({ course }) {
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (mastery / 100) * circumference
 
+  const handleClick = (e) => {
+    if (e) e.stopPropagation();
+    if (!course.quiz_question_count || course.quiz_question_count === 0) {
+      onShowNoQuestions(course)
+    } else {
+      navigate(`/courses/${course.slug}`)
+    }
+  }
+
   return (
     <article
-      onClick={() => navigate(`/courses/${course.slug}`)}
+      onClick={handleClick}
       className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-zinc-700 hover:shadow-lg hover:shadow-black/15 transition-all cursor-pointer select-none gap-6 group relative overflow-hidden"
       style={{ borderLeftWidth: '5px', borderLeftColor: course.track_color || 'var(--border)' }}
     >
@@ -207,66 +218,66 @@ function CourseCard({ course }) {
         </p>
       </div>
 
-      {/* Mastery Circular Score */}
-      <div className="flex items-center gap-3 shrink-0">
-        <div className="relative flex items-center justify-center">
-          <svg className="w-12 h-12 transform -rotate-90">
-            {/* Background circle */}
-            <circle
-              cx="24"
-              cy="24"
-              r={radius}
-              stroke="var(--bg-primary)"
-              strokeWidth="3.5"
-              fill="transparent"
-            />
-            {/* Progress circle */}
-            <circle
-              cx="24"
-              cy="24"
-              r={radius}
-              stroke={masteryColor(mastery)}
-              strokeWidth="4"
-              fill="transparent"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              strokeLinecap="round"
-              className="transition-all duration-700"
-            />
-          </svg>
-          <span className="absolute text-[10px] font-extrabold text-[var(--text-primary)] font-mono">
-            {mastery.toFixed(0)}%
-          </span>
-        </div>
-        
-        <div className="hidden md:block text-left">
-          <div className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">Concept Depth</div>
-          <div className="text-xs font-bold text-[var(--text-primary)] mt-0.5">
-            {mastery >= 90 ? 'Mastered' : mastery >= 70 ? 'Proficient' : mastery >= 40 ? 'Learning' : mastery > 0 ? 'Beginner' : 'Not Started'}
+      {/* Actions and Progress Wrapper */}
+      <div className="flex flex-wrap items-center gap-4 shrink-0 self-stretch sm:self-auto justify-between sm:justify-end pt-4 sm:pt-0 border-t sm:border-0 border-[var(--border)]/60 w-full sm:w-auto">
+        {/* Mastery Circular Score */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="relative flex items-center justify-center">
+            <svg className="w-12 h-12 transform -rotate-90">
+              {/* Background circle */}
+              <circle
+                cx="24"
+                cy="24"
+                r={radius}
+                stroke="var(--bg-primary)"
+                strokeWidth="3.5"
+                fill="transparent"
+              />
+              {/* Progress circle */}
+              <circle
+                cx="24"
+                cy="24"
+                r={radius}
+                stroke={masteryColor(mastery)}
+                strokeWidth="4"
+                fill="transparent"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                strokeLinecap="round"
+                className="transition-all duration-700"
+              />
+            </svg>
+            <span className="absolute text-[10px] font-extrabold text-[var(--text-primary)] font-mono">
+              {mastery}%
+            </span>
+          </div>
+          
+          <div className="hidden md:block text-left">
+            <div className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">Concept Depth</div>
+            <div className="text-xs font-bold text-[var(--text-primary)] mt-0.5">
+              {mastery >= 90 ? 'Mastered' : mastery >= 70 ? 'Proficient' : mastery >= 40 ? 'Learning' : mastery > 0 ? 'Beginner' : 'Not Started'}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Action CTA Button */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation()
-          navigate(`/courses/${course.slug}`)
-        }}
-        className={`shrink-0 rounded-lg px-5 py-2.5 text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
-          course.status === 'Completed'
-            ? 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-            : 'bg-[var(--accent-green)] text-black hover:opacity-90'
-        }`}
-      >
-        {course.status === 'In Progress' ? (
-          <Play size={12} className="fill-current" />
-        ) : (
-          <BookIcon size={12} />
-        )}
-        <span>{buttonText}</span>
-      </button>
+        {/* Action CTA Button */}
+        <button
+          type="button"
+          onClick={handleClick}
+          className={`shrink-0 rounded-lg px-5 py-2.5 text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+            course.status === 'Completed'
+              ? 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
+              : 'bg-[var(--accent-green)] text-black hover:opacity-90'
+          }`}
+        >
+          {course.status === 'In Progress' ? (
+            <Play size={12} className="fill-current" />
+          ) : (
+            <BookIcon size={12} />
+          )}
+          <span>{buttonText}</span>
+        </button>
+      </div>
     </article>
   )
 }
@@ -279,6 +290,11 @@ export default function Tracks() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedTrack, setSelectedTrack] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')
+  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '' })
+
+  const handleShowNoQuestions = (course) => {
+    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug })
+  }
 
   useEffect(() => {
     let isMounted = true
@@ -386,7 +402,7 @@ export default function Tracks() {
       {/* Split Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Side: Course Listing (9 Columns) */}
-        <main className="lg:col-span-9 space-y-4">
+        <main className="lg:col-span-9 order-2 lg:order-1 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
               {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Courses ({filteredCourses.length})
@@ -418,14 +434,14 @@ export default function Tracks() {
           {!loading && !error && filteredCourses.length > 0 ? (
             <div className="flex flex-col gap-6">
               {filteredCourses.map((course) => (
-                <CourseCard key={course.id} course={course} />
+                <CourseCard key={course.id} course={course} onShowNoQuestions={handleShowNoQuestions} />
               ))}
             </div>
           ) : null}
         </main>
 
         {/* Right Side: Filter Control Sidebar (3 Columns) */}
-        <aside className="lg:col-span-3 space-y-6">
+        <aside className="lg:col-span-3 order-1 lg:order-2 space-y-6">
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 space-y-6 shadow-sm">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
@@ -636,6 +652,49 @@ export default function Tracks() {
           </div>
         </aside>
       </div>
+      
+      {noQuestionsModal.show && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in-50 zoom-in-95 duration-200 text-left">
+            <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
+              <div className="flex items-center gap-2 text-[var(--accent-yellow)]">
+                <AlertTriangle size={20} />
+                <h3 className="font-bold text-lg text-[var(--text-primary)]">No Questions Yet</h3>
+              </div>
+              <button 
+                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <p className="text-sm text-[var(--text-primary)]">
+                The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
+              </p>
+              <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
+                <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
+                <p>1. Open your terminal or query the agent.</p>
+                <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
+                  extract {noQuestionsModal.courseSlug}
+                </p>
+                <p>2. Refresh the course page or study session once completed.</p>
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <button
+                  type="button"
+                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                  className="px-5 py-2.5 text-xs font-bold rounded-lg bg-[var(--accent-green)] text-black hover:opacity-90 transition-opacity cursor-pointer"
+                >
+                  Understood
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

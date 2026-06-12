@@ -62,7 +62,8 @@ router.get('/courses', (req, res, next) => {
         ms.code_score,
         ms.dataset_score,
         ms.matching_score,
-        ms.boss_score
+        ms.boss_score,
+        (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count
       FROM courses c
       JOIN tracks t ON t.id = c.track_id
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id

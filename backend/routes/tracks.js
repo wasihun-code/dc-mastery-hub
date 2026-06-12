@@ -55,7 +55,8 @@ router.get('/tracks/:slug', (req, res, next) => {
           ms.flashcard_score,
           ms.quiz_score,
           ms.code_score,
-          ms.dataset_score
+          ms.dataset_score,
+          (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count
         FROM courses c
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id
         WHERE c.track_id = ? AND c.is_deleted = 0 AND c.is_archived = 0

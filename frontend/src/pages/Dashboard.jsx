@@ -149,7 +149,7 @@ export default function Dashboard() {
 
     return activeCourses.map((c) => ({
       name: c.name.length > 18 ? `${c.name.slice(0, 15)}...` : c.name,
-      mastery: Number(c.overall_mastery ?? 0),
+      mastery: Math.round(Number(c.overall_mastery ?? 0)),
     }))
   }, [courses])
 
@@ -403,14 +403,14 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between text-xs mt-1 text-[var(--text-muted)]">
                   <span>Language: <span className="font-bold text-[var(--text-primary)]">{track.language}</span></span>
                   <span className="font-bold" style={{ color: track.overall_mastery >= 70 ? 'var(--accent-green)' : 'var(--text-muted)' }}>
-                    {track.overall_mastery}% Mastered
+                    {Math.round(track.overall_mastery)}% Mastered
                   </span>
                 </div>
                 <div className="h-2 rounded-full bg-[var(--bg-card)] overflow-hidden mt-1">
                   <div 
                     className="h-full rounded-full transition-all duration-700" 
                     style={{ 
-                      width: `${track.overall_mastery}%`,
+                      width: `${Math.round(track.overall_mastery)}%`,
                       backgroundColor: track.color || 'var(--accent-green)'
                     }} 
                   />

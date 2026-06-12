@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Award, BookOpen, ChevronRight, CheckCircle2, Loader2, Sparkles, Layers, Shield, HelpCircle } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Award, BookOpen, ChevronRight, CheckCircle2, Loader2, Sparkles, Layers, Shield, HelpCircle, Flame } from 'lucide-react'
 
 export default function MasteryMap() {
   const [tracks, setTracks] = useState([])
@@ -169,6 +170,29 @@ export default function MasteryMap() {
         </div>
       )}
 
+      {/* Capstone Exam Unlock Callout */}
+      {selectedTrack && (
+        <div className="bg-gradient-to-r from-red-950/20 via-orange-950/20 to-zinc-900/10 border border-red-900/40 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
+          <div className="flex items-center gap-4 text-left">
+            <div className="p-3 bg-red-950/40 border border-red-900/40 text-red-500 rounded-xl">
+              <Flame size={24} className="animate-pulse" />
+            </div>
+            <div>
+              <h3 className="font-bold text-base text-[var(--text-primary)]">Learning Path Capstone Battle</h3>
+              <p className="text-xs text-[var(--text-muted)] mt-1">
+                Conquer 20 random challenges from all courses in this track. Test your data science endurance.
+              </p>
+            </div>
+          </div>
+          <Link
+            to={`/track-test/${selectedTrack.slug}`}
+            className="bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3.5 rounded-xl text-xs transition-colors tracking-wider flex items-center gap-2 uppercase shadow-lg shadow-red-950/40 cursor-pointer text-center"
+          >
+            Launch Capstone Test <ChevronRight size={14} />
+          </Link>
+        </div>
+      )}
+
       {/* Main Map Split Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Side: Course Path Nodes */}
@@ -229,7 +253,7 @@ export default function MasteryMap() {
                       <div className="text-right">
                         <div className="text-xs font-bold text-[var(--text-muted)]">Mastery</div>
                         <div className="text-lg font-extrabold text-[var(--text-primary)] mt-0.5">
-                          {course.overall_mastery || 0}%
+                          {Math.round(course.overall_mastery || 0)}%
                         </div>
                       </div>
                     </div>
@@ -239,7 +263,7 @@ export default function MasteryMap() {
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{
-                          width: `${course.overall_mastery || 0}%`,
+                          width: `${Math.round(course.overall_mastery || 0)}%`,
                           backgroundColor: isCompleted
                             ? 'var(--accent-green)'
                             : isInProgress
@@ -349,7 +373,7 @@ export default function MasteryMap() {
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] text-[var(--text-muted)]">Mastery:</span>
                           <span className={`font-mono text-sm font-extrabold ${masteryCol.split(' ')[0]}`}>
-                            {c.mastery || 0}%
+                            {Math.round(c.mastery || 0)}%
                           </span>
                         </div>
                       </div>

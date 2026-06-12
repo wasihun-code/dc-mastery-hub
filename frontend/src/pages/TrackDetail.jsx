@@ -6,7 +6,9 @@ import {
   Clock, 
   Circle, 
   StickyNote,
-  AlertCircle
+  AlertCircle,
+  AlertTriangle,
+  X
 } from 'lucide-react'
 
 function masteryColor(value) {
@@ -80,9 +82,9 @@ function SkeletonCourseRow() {
   )
 }
 
-function CourseCard({ course }) {
+function CourseCard({ course, onShowNoQuestions }) {
   const navigate = useNavigate()
-  const mastery = Number(course.overall_mastery ?? 0)
+  const mastery = Math.round(Number(course.overall_mastery ?? 0))
   
   const getStatusConfig = (status) => {
     switch (status) {
@@ -109,6 +111,14 @@ function CourseCard({ course }) {
 
   const statusConfig = getStatusConfig(course.status)
   const hasNotes = course.notes && course.notes !== '-' && course.notes.trim() !== ''
+
+  const handleClick = () => {
+    if (!course.quiz_question_count || course.quiz_question_count === 0) {
+      onShowNoQuestions(course)
+    } else {
+      navigate(`/courses/${course.slug}`)
+    }
+  }
 
   return (
     <div className="group relative rounded border border-[var(--border)] bg-[var(--bg-card)] p-4 transition-colors hover:border-[var(--text-muted)]">
@@ -142,11 +152,11 @@ function CourseCard({ course }) {
           </div>
         </div>
 
-        {/* Right Side */}
-        <div className="flex items-center justify-between gap-8 sm:justify-end">
+        {/* Right Side Controls Wrapper */}
+        <div className="flex flex-wrap items-center gap-4 shrink-0 self-stretch sm:self-auto justify-between sm:justify-end pt-4 sm:pt-0 border-t sm:border-0 border-[var(--border)]/60 w-full sm:w-auto">
           <div className="flex flex-col items-end">
             <span className="text-lg font-bold" style={{ color: masteryColor(mastery) }}>
-              {mastery.toFixed(0)}%
+              {mastery}%
             </span>
             <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Mastery</span>
             <div className="mt-1 h-1.5 w-[120px] overflow-hidden rounded-full bg-[var(--bg-primary)]">
@@ -161,7 +171,7 @@ function CourseCard({ course }) {
           </div>
           
           <button
-            onClick={() => navigate(`/courses/${course.slug}`)}
+            onClick={handleClick}
             className={`h-10 rounded px-4 text-sm font-semibold transition-all ${
               course.status === 'Completed'
                 ? 'border border-[var(--accent-green)] text-[var(--accent-green)] hover:bg-[var(--accent-green)] hover:text-[var(--bg-primary)]'
@@ -184,6 +194,11 @@ export default function TrackDetail() {
   const [track, setTrack] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '' })
+
+  const handleShowNoQuestions = (course) => {
+    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug })
+  }
 
   useEffect(() => {
     let isMounted = true
@@ -245,7 +260,7 @@ export default function TrackDetail() {
   if (!track) return null
 
   const progressPercent = (track.completed_count / track.course_count) * 100
-  const isFinalTestUnlocked = track.overall_mastery >= 60
+  const isFinalTestUnlocked = Math.round(track.overall_mastery || 0) >= 40
 
   return (
     <div className="space-y-8">
@@ -280,7 +295,7 @@ export default function TrackDetail() {
             </div>
             <div className="flex flex-col items-center justify-center rounded border border-[var(--border)] bg-[var(--bg-primary)] p-4 text-center">
               <span className="text-2xl font-bold" style={{ color: masteryColor(track.overall_mastery) }}>
-                {Number(track.overall_mastery ?? 0).toFixed(0)}%
+                {Math.round(track.overall_mastery || 0)}%
               </span>
               <span className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">Track Mastery</span>
             </div>
@@ -315,7 +330,7 @@ export default function TrackDetail() {
         <h2 className="text-xl font-bold text-[var(--text-primary)] px-1">Curriculum</h2>
         <div className="grid gap-4">
           {track.courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard key={course.id} course={course} onShowNoQuestions={handleShowNoQuestions} />
           ))}
         </div>
       </section>
@@ -334,7 +349,7 @@ export default function TrackDetail() {
             <p className="mt-1 text-[var(--text-muted)]">
               {isFinalTestUnlocked 
                 ? "You've reached enough mastery to attempt the final assessment for this track."
-                : `Reach 60% overall mastery to unlock the final assessment. Current: ${Number(track.overall_mastery ?? 0).toFixed(1)}%`
+                : `Reach 40% overall mastery to unlock the final assessment. Current: ${Math.round(Number(track.overall_mastery ?? 0))}%`
               }
             </p>
           </div>
@@ -351,6 +366,50 @@ export default function TrackDetail() {
           </button>
         </div>
       </section>
+    </div>
+      
+      {noQuestionsModal.show && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in-50 zoom-in-95 duration-200 text-left">
+            <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
+              <div className="flex items-center gap-2 text-[var(--accent-yellow)]">
+                <AlertTriangle size={20} />
+                <h3 className="font-bold text-lg text-[var(--text-primary)]">No Questions Yet</h3>
+              </div>
+              <button 
+                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <p className="text-sm text-[var(--text-primary)]">
+                The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
+              </p>
+              <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
+                <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
+                <p>1. Open your terminal or query the agent.</p>
+                <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
+                  extract {noQuestionsModal.courseSlug}
+                </p>
+                <p>2. Refresh the course page or study session once completed.</p>
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <button
+                  type="button"
+                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                  className="px-5 py-2.5 text-xs font-bold rounded-lg bg-[var(--accent-green)] text-black hover:opacity-90 transition-opacity cursor-pointer"
+                >
+                  Understood
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

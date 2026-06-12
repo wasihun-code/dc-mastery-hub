@@ -14,12 +14,17 @@ import FillBlank from './exercises/FillBlank'
 import DatasetChallenge from './exercises/DatasetChallenge'
 import MatchingGame from './exercises/MatchingGame'
 import BossBattle from './exercises/BossBattle'
+import TrackTest from './pages/TrackTest'
+import WranglingSpeedrun from './pages/WranglingSpeedrun'
+import CapstoneBattleSelection from './pages/CapstoneBattleSelection'
 
 const routeTitles = [
   { pattern: /^\/$/, title: 'Dashboard' },
   { pattern: /^\/courses$/, title: 'My Courses' },
   { pattern: /^\/courses\/[^/]+$/, title: 'Course Detail' },
   { pattern: /^\/study-session$/, title: 'Study Session' },
+  { pattern: /^\/speedrun$/, title: 'Wrangling Speedrun' },
+  { pattern: /^\/capstone$/, title: 'Capstone Battle' },
   { pattern: /^\/mastery-map$/, title: 'Mastery Map' },
   { pattern: /^\/manage$/, title: 'Content Manager' },
   { pattern: /^\/settings$/, title: 'Settings' },
@@ -29,6 +34,7 @@ const routeTitles = [
   { pattern: /^\/exercise\/dataset\/[^/]+$/, title: 'Dataset Challenge' },
   { pattern: /^\/exercise\/matching\/[^/]+$/, title: 'Matching Game' },
   { pattern: /^\/exercise\/boss\/[^/]+$/, title: 'Boss Battle' },
+  { pattern: /^\/track-test\/[^/]+$/, title: 'Capstone Track Test' },
 ]
 
 function getPageTitle(pathname) {
@@ -43,12 +49,14 @@ export default function App() {
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
       <Sidebar />
       <TopBar title={title} />
-      <main className="ml-[240px] h-screen overflow-y-auto px-8 pb-8 pt-[88px]">
+      <main className="ml-16 md:ml-[240px] transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-8 pt-[88px]">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/courses" element={<Tracks />} />
           <Route path="/courses/:courseSlug" element={<CourseDetail />} />
           <Route path="/study-session" element={<StudySession />} />
+          <Route path="/speedrun" element={<WranglingSpeedrun />} />
+          <Route path="/capstone" element={<CapstoneBattleSelection />} />
           <Route path="/mastery-map" element={<MasteryMap />} />
           <Route path="/manage" element={<ManageContent />} />
           <Route path="/settings" element={<Settings />} />
@@ -58,6 +66,7 @@ export default function App() {
           <Route path="/exercise/dataset/:courseSlug" element={<DatasetChallenge />} />
           <Route path="/exercise/matching/:courseSlug" element={<MatchingGame />} />
           <Route path="/exercise/boss/:courseSlug" element={<BossBattle />} />
+          <Route path="/track-test/:trackSlug" element={<TrackTest />} />
         </Routes>
       </main>
     </div>
