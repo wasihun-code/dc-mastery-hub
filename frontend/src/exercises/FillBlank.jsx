@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   ChevronLeft, 
@@ -13,6 +13,7 @@ import {
 export default function FillBlank() {
   const { courseSlug } = useParams();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
   
   const [step, setStep] = useState(1); // 1: Greeting, 2: Exercise, 3: Summary
   const [course, setCourse] = useState(null);
@@ -36,6 +37,71 @@ export default function FillBlank() {
   useEffect(() => {
     fetchCourseAndExercises();
   }, [courseSlug]);
+
+  useEffect(() => {
+    if (step !== 2) return;
+
+    const handleKeyDown = (e) => {
+      // Self-Typing mode shortcuts (when choices are NOT enabled)
+      if (!choicesEnabled) {
+        // Ctrl+Shift+Enter -> check answer (submit)
+        if (e.ctrlKey && e.shiftKey && e.key === 'Enter') {
+          const currentEx = exercises[currentIndex];
+          const allFilled = currentEx?.answers?.every((_, i) => userAnswers[i]) ?? false;
+          if (!isChecked && allFilled) {
+            e.preventDefault();
+            checkAnswer();
+          }
+        }
+      } else {
+        // Choices Mode: numeric keys to select tiles
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+          return;
+        }
+
+        if (!isChecked && ['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(e.key)) {
+          const idx = parseInt(e.key) - 1;
+          if (idx < shuffledWordBank.length) {
+            const word = shuffledWordBank[idx];
+            const isUsed = Object.values(userAnswers).includes(word);
+            if (!isUsed) {
+              handleTileClick(word);
+            }
+          }
+        }
+      }
+
+      // Escape key -> clear answers if not checked
+      if (e.key === 'Escape') {
+        if (!isChecked) {
+          setUserAnswers({});
+        }
+      }
+
+      // Enter key -> proceed to next exercise (if checked)
+      if (e.key === 'Enter' && !e.ctrlKey && !e.shiftKey) {
+        if (isChecked) {
+          handleNext();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [step, currentIndex, exercises, userAnswers, isChecked, choicesEnabled, shuffledWordBank]);
+
+  useEffect(() => {
+    if (step === 2 && !choicesEnabled && !isChecked && inputRef.current) {
+      const timer = setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, activeSlot, choicesEnabled, isChecked, step]);
 
   useEffect(() => {
     if (exercises.length > 0 && exercises[currentIndex]) {
@@ -236,24 +302,25 @@ export default function FillBlank() {
   // Helper to apply basic syntax coloring to regular code parts
   const highlightPythonSyntax = (text) => {
     if (!text) return null;
-    const tokens = text.split(/(\bdef\b|\breturn\b|\bif\b|\belse\b|\bfor\b|\bin\b|\bimport\b|\bas\b|\bprint\b|\bnp\b|\bpd\b|"[^"]*"|'[^']*'|\b\d+\b|#.*)/g);
+    const cleanText = text.replace(/\t/g, '    ');
+    const tokens = cleanText.split(/(\bdef\b|\breturn\b|\bif\b|\belse\b|\bfor\b|\bin\b|\bimport\b|\bas\b|\bprint\b|\bnp\b|\bpd\b|"[^"]*"|'[^']*'|\b\d+\b|#.*)/g);
     return tokens.map((token, tokenIdx) => {
       if (['def', 'return', 'if', 'else', 'for', 'in', 'import', 'as'].includes(token)) {
-        return <span key={tokenIdx} className="text-[#ff79c6] font-bold">{token}</span>;
+        return <span key={tokenIdx} className="text-[#ff79c6] font-bold whitespace-pre">{token}</span>;
       }
       if (['print', 'np', 'pd'].includes(token)) {
-        return <span key={tokenIdx} className="text-[#50fa7b]">{token}</span>;
+        return <span key={tokenIdx} className="text-[#50fa7b] whitespace-pre">{token}</span>;
       }
       if (token.startsWith('"') || token.startsWith("'")) {
-        return <span key={tokenIdx} className="text-[#f1fa8c]">{token}</span>;
+        return <span key={tokenIdx} className="text-[#f1fa8c] whitespace-pre">{token}</span>;
       }
       if (token.startsWith('#')) {
-        return <span key={tokenIdx} className="text-[#6272a4] italic">{token}</span>;
+        return <span key={tokenIdx} className="text-[#6272a4] italic whitespace-pre">{token}</span>;
       }
       if (/^\d+$/.test(token)) {
-        return <span key={tokenIdx} className="text-[#bd93f9]">{token}</span>;
+        return <span key={tokenIdx} className="text-[#bd93f9] whitespace-pre">{token}</span>;
       }
-      return <span key={tokenIdx}>{token}</span>;
+      return <span key={tokenIdx} className="whitespace-pre">{token}</span>;
     });
   };
 
@@ -317,13 +384,19 @@ export default function FillBlank() {
           const answer = userAnswers[slotIndex];
           const isCorrect = isChecked && answer === currentEx.answers[slotIndex];
           
+          if (isChecked) {
+            console.log(`[FillBlank debug] slotIndex: ${slotIndex}, answer: "${answer}", correct: "${currentEx?.answers?.[slotIndex]}", isCorrect: ${isCorrect}`);
+          }
+          
           if (!choicesEnabled) {
             return (
               <input
                 key={i}
+                ref={slotIndex === activeSlot ? inputRef : null}
+                autoFocus={slotIndex === activeSlot}
                 type="text"
                 value={userAnswers[slotIndex] || ""}
-                disabled={isChecked}
+                readOnly={isChecked}
                 onChange={(e) => {
                   setUserAnswers({ ...userAnswers, [slotIndex]: e.target.value });
                 }}
@@ -331,8 +404,8 @@ export default function FillBlank() {
                 className={`inline-flex min-w-[100px] h-[32px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold bg-[var(--bg-primary)] focus:outline-none vertical-middle ${
                   isChecked
                     ? isCorrect
-                      ? "bg-[var(--accent-green)] border-[var(--accent-green)] text-black"
-                      : "bg-[var(--accent-red)] border-[var(--accent-red)] text-white"
+                      ? "!bg-[var(--accent-green)] !border-[var(--accent-green)] !text-black opacity-100"
+                      : "!bg-[var(--accent-red)] !border-[var(--accent-red)] !text-white opacity-100"
                     : activeSlot === slotIndex
                     ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]"
                     : "border-[var(--border)] text-[var(--text-primary)] focus:border-[var(--accent-blue)]"
@@ -452,13 +525,18 @@ export default function FillBlank() {
                           key={i}
                           onClick={() => handleTileClick(word)}
                           disabled={isChecked || isUsed}
-                          className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all ${
+                          className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all flex items-center gap-2 group ${
                             isUsed 
                               ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]' 
                               : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)]'
                           }`}
                         >
-                          {word}
+                          <span>{word}</span>
+                          {!isChecked && !isUsed && i < 9 && (
+                            <kbd className="inline-flex items-center justify-center min-w-[14px] h-[14px] px-1 text-[8px] font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-card)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-blue)] group-hover:text-[var(--accent-blue)]">
+                              {i + 1}
+                            </kbd>
+                          )}
                         </button>
                       );
                     })}
@@ -526,7 +604,46 @@ export default function FillBlank() {
             </div>
           </div>
         </main>
-
+        {/* Keyboard Shortcuts Helper */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-blue)] animate-pulse"></span>
+            <span>Keyboard Shortcuts</span>
+          </div>
+          <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
+            {choicesEnabled ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <span>Select Word</span>
+                  <span className="flex gap-1">
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                    <span>-</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">9</kbd>
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Clear Answers</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex justify-between items-center">
+                  <span>Submit Answer</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Ctrl+Shift+Enter</kbd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Clear Input</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                </div>
+              </>
+            )}
+            <div className="flex justify-between items-center">
+              <span>Next Question</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+            </div>
+          </div>
+        </div>
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (
           <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">

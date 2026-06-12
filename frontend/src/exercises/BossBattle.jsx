@@ -38,13 +38,58 @@ export default function BossBattle() {
   const [waveSurvival, setWaveSurvival] = useState({ 1: 0, 2: 0, 3: 0 });
   
   const timerRef = useRef(null);
+  const advanceTimeoutRef = useRef(null);
 
   useEffect(() => {
     fetchCourseAndBattle();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (advanceTimeoutRef.current) clearTimeout(advanceTimeoutRef.current);
     };
   }, [courseSlug]);
+
+  useEffect(() => {
+    if (step !== 2) return;
+
+    const handleKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      const currentQuestion = questions[currentIndex];
+      if (!currentQuestion) return;
+
+      const keys = ['a', 'b', 'c', 'd'];
+
+      // 1, 2, 3, 4 keys -> select option
+      if (!isAnswered && ['1', '2', '3', '4'].includes(e.key)) {
+        const idx = parseInt(e.key) - 1;
+        const optionKey = keys[idx];
+        if (currentQuestion[`option_${optionKey}`]) {
+          handleOptionClick(optionKey);
+        }
+      }
+
+      // Escape -> clear selected option if not answered
+      if (e.key === 'Escape') {
+        if (!isAnswered) {
+          setSelectedOption(null);
+        }
+      }
+
+      // Enter -> immediately advance next if already answered
+      if (e.key === 'Enter') {
+        if (isAnswered) {
+          advanceNext();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [step, currentIndex, questions, isAnswered, lives]);
 
   const fetchCourseAndBattle = async () => {
     try {
@@ -147,9 +192,9 @@ export default function BossBattle() {
     setLives(prev => {
       const nextLives = prev - 1;
       if (nextLives <= 0) {
-        setTimeout(() => finishBattle('lives'), 1000);
+        advanceTimeoutRef.current = setTimeout(() => finishBattle('lives'), 1000);
       } else {
-        setTimeout(() => {
+        advanceTimeoutRef.current = setTimeout(() => {
           advanceNext();
         }, 1200);
       }
@@ -209,7 +254,7 @@ export default function BossBattle() {
     if (isCorrect) {
       setScore(prev => prev + 1);
       setFlash('correct');
-      setTimeout(() => {
+      advanceTimeoutRef.current = setTimeout(() => {
         advanceNext();
       }, 800);
     } else {
@@ -217,9 +262,9 @@ export default function BossBattle() {
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
-          setTimeout(() => finishBattle('lives'), 1000);
+          advanceTimeoutRef.current = setTimeout(() => finishBattle('lives'), 1000);
         } else {
-          setTimeout(() => {
+          advanceTimeoutRef.current = setTimeout(() => {
             advanceNext();
           }, 1200);
         }
@@ -248,6 +293,7 @@ export default function BossBattle() {
   };
 
   const advanceNext = () => {
+    if (advanceTimeoutRef.current) clearTimeout(advanceTimeoutRef.current);
     if (lives <= 0) return;
     
     const nextIdx = currentIndex + 1;
@@ -498,7 +544,7 @@ export default function BossBattle() {
 
               {/* RIGHT COLUMN: Options */}
               <div className="grid grid-cols-1 gap-3">
-                {['a', 'b', 'c', 'd'].map((key) => {
+                {['a', 'b', 'c', 'd'].map((key, idx) => {
                   const text = currentQuestion?.[`option_${key}`];
                   if (!text) return null;
                   
@@ -526,9 +572,18 @@ export default function BossBattle() {
                       key={key}
                       disabled={isAnswered}
                       onClick={() => handleOptionClick(key)}
-                      className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left font-bold text-base transition-all duration-155 ${buttonStyle}`}
+                      className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left font-bold text-base transition-all duration-155 group ${buttonStyle}`}
                     >
                       <span>{text}</span>
+                      <div className="flex items-center gap-2 shrink-0 ml-2">
+                        {!isAnswered && (
+                          <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-red)] group-hover:text-[var(--accent-red)]">
+                            {idx + 1}
+                          </kbd>
+                        )}
+                        {isAnswered && isCorrect && <Check size={20} className="shrink-0" />}
+                        {isAnswered && isSelected && !isCorrect && <X size={20} className="shrink-0" />}
+                      </div>
                     </button>
                   );
                 })}
@@ -537,6 +592,32 @@ export default function BossBattle() {
             </div>
           </div>
         </main>
+
+        {/* Keyboard Shortcuts Helper */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-red)] animate-pulse"></span>
+            <span>Keyboard Shortcuts</span>
+          </div>
+          <div className="space-y-2 font-medium text-[var(--text-muted)]">
+            <div className="flex justify-between items-center">
+              <span>Select Option</span>
+              <span className="flex gap-1">
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                <span>-</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Clear Choice</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Next Question</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+            </div>
+          </div>
+        </div>
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

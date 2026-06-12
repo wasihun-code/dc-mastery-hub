@@ -31,6 +31,41 @@ export default function Flashcards() {
     fetchCourseAndCards();
   }, [courseSlug]);
 
+  useEffect(() => {
+    if (step !== 2) return;
+
+    const handleKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      // Spacebar -> flip card
+      if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault(); // Prevent page scrolling
+        handleFlip();
+      }
+
+      // Escape -> flip back and hide hint
+      if (e.key === 'Escape') {
+        setIsFlipped(false);
+        setShowHint(false);
+      }
+
+      // 1-5 keys -> rate response (only when flipped)
+      if (isFlipped && ['1', '2', '3', '4', '5'].includes(e.key)) {
+        if (e.key === '1') handleRate('again');
+        else if (e.key === '2') handleRate('hard');
+        else if (e.key === '3') handleRate('good');
+        else handleRate('easy'); // '4' or '5'
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [step, isFlipped, currentIndex, cards]);
+
   const fetchCourseAndCards = async () => {
     try {
       setLoading(true);
@@ -338,27 +373,31 @@ export default function Flashcards() {
                 <div className="w-full grid grid-cols-4 gap-2 mb-6">
                   <button 
                     onClick={() => handleRate('again')}
-                    className="rounded-xl bg-[rgba(255,77,77,0.1)] py-4 text-sm font-bold text-[var(--accent-red)] border border-[var(--accent-red)] hover:bg-[var(--accent-red)] hover:text-white transition-colors"
+                    className="rounded-xl bg-[rgba(255,77,77,0.1)] py-4 text-sm font-bold text-[var(--accent-red)] border border-[var(--accent-red)] hover:bg-[var(--accent-red)] hover:text-white transition-colors flex flex-col items-center justify-center gap-1 group"
                   >
-                    Again
+                    <span>Again</span>
+                    <kbd className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold text-[var(--accent-red)] bg-black/30 rounded border border-[var(--accent-red)]/30 group-hover:border-white group-hover:text-white">1</kbd>
                   </button>
                   <button 
                     onClick={() => handleRate('hard')}
-                    className="rounded-xl bg-[rgba(251,191,36,0.1)] py-4 text-sm font-bold text-[var(--accent-yellow)] border border-[var(--accent-yellow)] hover:bg-[var(--accent-yellow)] hover:text-black transition-colors"
+                    className="rounded-xl bg-[rgba(251,191,36,0.1)] py-4 text-sm font-bold text-[var(--accent-yellow)] border border-[var(--accent-yellow)] hover:bg-[var(--accent-yellow)] hover:text-black transition-colors flex flex-col items-center justify-center gap-1 group"
                   >
-                    Hard
+                    <span>Hard</span>
+                    <kbd className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold text-[var(--accent-yellow)] bg-black/30 rounded border border-[var(--accent-yellow)]/30 group-hover:border-black group-hover:text-black">2</kbd>
                   </button>
                   <button 
                     onClick={() => handleRate('good')}
-                    className="rounded-xl bg-[rgba(96,165,250,0.1)] py-4 text-sm font-bold text-[var(--accent-blue)] border border-[var(--accent-blue)] hover:bg-[var(--accent-blue)] hover:text-white transition-colors"
+                    className="rounded-xl bg-[rgba(96,165,250,0.1)] py-4 text-sm font-bold text-[var(--accent-blue)] border border-[var(--accent-blue)] hover:bg-[var(--accent-blue)] hover:text-white transition-colors flex flex-col items-center justify-center gap-1 group"
                   >
-                    Good
+                    <span>Good</span>
+                    <kbd className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold text-[var(--accent-blue)] bg-black/30 rounded border border-[var(--accent-blue)]/30 group-hover:border-white group-hover:text-white">3</kbd>
                   </button>
                   <button 
                     onClick={() => handleRate('easy')}
-                    className="rounded-xl bg-[rgba(3,239,98,0.1)] py-4 text-sm font-bold text-[var(--accent-green)] border border-[var(--accent-green)] hover:bg-[var(--accent-green)] hover:text-black transition-colors"
+                    className="rounded-xl bg-[rgba(3,239,98,0.1)] py-4 text-sm font-bold text-[var(--accent-green)] border border-[var(--accent-green)] hover:bg-[var(--accent-green)] hover:text-black transition-colors flex flex-col items-center justify-center gap-1 group"
                   >
-                    Easy
+                    <span>Easy</span>
+                    <kbd className="inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-mono font-bold text-[var(--accent-green)] bg-black/30 rounded border border-[var(--accent-green)]/30 group-hover:border-black group-hover:text-black">4/5</kbd>
                   </button>
                 </div>
                 
@@ -374,6 +413,37 @@ export default function Flashcards() {
             )}
 
           </div>
+        {/* Keyboard Shortcuts Helper */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+            <span>Keyboard Shortcuts</span>
+          </div>
+          <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
+            <div className="flex justify-between items-center">
+              <span>Flip Card</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px] min-w-[40px] text-center">Space</kbd>
+            </div>
+            {isFlipped ? (
+              <div className="flex justify-between items-center">
+                <span>Rate Answer</span>
+                <span className="flex gap-1">
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                  <span>-</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">5</kbd>
+                </span>
+              </div>
+            ) : (
+              <div className="text-[10px] text-zinc-500 italic text-center py-0.5">
+                Flip card to unlock rating keys
+              </div>
+            )}
+            <div className="flex justify-between items-center">
+              <span>Reset Card</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+            </div>
+          </div>
+        </div>
         </main>
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

@@ -7,7 +7,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
 export function importJsonExercises() {
-  const contentFolder = process.env.CONTENT_FOLDER || DEFAULT_CONTENT_FOLDER
+  const rawContentFolder = process.env.CONTENT_FOLDER
+  const contentFolder = rawContentFolder
+    ? (path.isAbsolute(rawContentFolder) ? rawContentFolder : path.resolve(__dirname, '..', rawContentFolder))
+    : DEFAULT_CONTENT_FOLDER
   
   try {
     const courses = db.prepare(`

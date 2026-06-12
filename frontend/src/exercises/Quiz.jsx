@@ -37,6 +37,59 @@ export default function Quiz() {
     fetchCourseAndQuestions();
   }, [courseSlug]);
 
+  useEffect(() => {
+    if (step !== 2) return;
+
+    const handleKeyDown = (e) => {
+      // Ignore key events if focused on input elements
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      const currentQuestion = questions[currentIndex];
+      if (!currentQuestion) return;
+
+      const options = [
+        { key: 'a', text: currentQuestion.option_a },
+        { key: 'b', text: currentQuestion.option_b },
+        { key: 'c', text: currentQuestion.option_c },
+        { key: 'd', text: currentQuestion.option_d },
+      ].filter(o => o.text !== undefined && o.text !== null);
+
+      // 1, 2, 3, 4 keys -> select option
+      if (!isLocked && ['1', '2', '3', '4'].includes(e.key)) {
+        const idx = parseInt(e.key) - 1;
+        if (idx < options.length) {
+          const opt = options[idx];
+          if (!wrongSelectedOptions.includes(opt.key)) {
+            handleOptionClick(opt.key);
+          }
+        }
+      }
+
+      // Escape -> clear selections if not locked
+      if (e.key === 'Escape') {
+        if (!isLocked) {
+          setSelectedOption(null);
+          setWrongSelectedOptions([]);
+          setWrongAttempts(0);
+        }
+      }
+
+      // Enter -> next question (if answered/locked and explanation is shown)
+      if (e.key === 'Enter') {
+        if (showExplanation) {
+          handleNext();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [step, currentIndex, questions, isLocked, wrongSelectedOptions, showExplanation]);
+
   const fetchCourseAndQuestions = async () => {
     try {
       setLoading(true);
@@ -348,7 +401,7 @@ export default function Quiz() {
               {/* RIGHT COLUMN: MCQ options, Option Feedback, Explanation, and Next Button */}
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 gap-3">
-                  {options.map((option) => {
+                  {options.map((option, idx) => {
                     const isSelected = selectedOption === option.key;
                     const isWrongSelected = wrongSelectedOptions.includes(option.key);
                     const isCorrect = option.key === currentQuestion?.correct_option;
@@ -376,11 +429,18 @@ export default function Quiz() {
                         key={option.key}
                         disabled={isLocked || isWrongSelected}
                         onClick={() => handleOptionClick(option.key)}
-                        className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium ${buttonStyle}`}
+                        className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium group ${buttonStyle}`}
                       >
                         <span className="text-lg">{option.text}</span>
-                        {isLocked && isCorrect && <Check size={20} className="shrink-0 ml-2" />}
-                        {isWrongSelected && <X size={20} className="shrink-0 ml-2" />}
+                        <div className="flex items-center gap-2 shrink-0 ml-2">
+                          {!isLocked && !isWrongSelected && (
+                            <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-green)] group-hover:text-[var(--accent-green)]">
+                              {idx + 1}
+                            </kbd>
+                          )}
+                          {isLocked && isCorrect && <Check size={20} className="shrink-0" />}
+                          {isWrongSelected && <X size={20} className="shrink-0" />}
+                        </div>
                       </button>
                     );
                   })}
@@ -424,6 +484,32 @@ export default function Quiz() {
             </div>
           </div>
         </main>
+
+        {/* Keyboard Shortcuts Helper */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+            <span>Keyboard Shortcuts</span>
+          </div>
+          <div className="space-y-2 font-medium text-[var(--text-muted)]">
+            <div className="flex justify-between items-center">
+              <span>Select Option</span>
+              <span className="flex gap-1">
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                <span>-</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Clear Choice</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Next Question</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+            </div>
+          </div>
+        </div>
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

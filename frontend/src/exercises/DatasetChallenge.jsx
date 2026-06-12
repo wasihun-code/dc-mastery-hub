@@ -33,6 +33,48 @@ export default function DatasetChallenge() {
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
 
+  // Resizable Terminal States & Logic
+  const [terminalHeight, setTerminalHeight] = useState(250)
+  const isResizingRef = useRef(false)
+  const rightPanelRef = useRef(null)
+
+  const handleMouseDown = (e) => {
+    e.preventDefault()
+    isResizingRef.current = true
+    document.body.style.cursor = 'row-resize'
+    document.body.style.userSelect = 'none'
+  }
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizingRef.current) return
+      if (rightPanelRef.current) {
+        const rect = rightPanelRef.current.getBoundingClientRect()
+        let newHeight = rect.bottom - e.clientY
+        const minHeight = 120
+        const maxHeight = rect.height - 150
+        if (newHeight < minHeight) newHeight = minHeight
+        if (newHeight > maxHeight) newHeight = maxHeight
+        setTerminalHeight(newHeight)
+      }
+    }
+
+    const handleMouseUp = () => {
+      if (isResizingRef.current) {
+        isResizingRef.current = false
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
+
   useEffect(() => {
     codeRef.current = code
   }, [code])
@@ -71,6 +113,27 @@ export default function DatasetChallenge() {
   }, [terminalLines, isShellRunning])
 
   const handleEditorDidMount = (editor, monaco) => {
+    monaco.editor.defineTheme('dc-dark', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [
+        { token: 'keyword', foreground: 'FF60B5', fontStyle: 'bold' },
+        { token: 'string', foreground: '03EF62' },
+        { token: 'comment', foreground: '6272A4', fontStyle: 'italic' },
+        { token: 'number', foreground: 'BD93F9' },
+        { token: 'type', foreground: '8BE9FD' },
+        { token: 'class', foreground: '50FA7B' },
+        { token: 'function', foreground: '50FA7B', fontStyle: 'bold' }
+      ],
+      colors: {
+        'editor.background': '#15161e',
+        'editor.lineHighlightBackground': '#1f2029',
+        'editorLineNumber.foreground': '#6272A4',
+        'editorLineNumber.activeForeground': '#FF79C6'
+      }
+    })
+    monaco.editor.setTheme('dc-dark')
+
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
       handleRunRef.current()
     })
@@ -503,64 +566,76 @@ export default function DatasetChallenge() {
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="w-[62%] h-full flex flex-col bg-[#1e1e1e]">
+      <div ref={rightPanelRef} className="w-[62%] h-full flex flex-col bg-[#1e1e1e]">
         {/* Editor Section */}
-        <div className="flex flex-col border-b border-[var(--border)] min-h-[300px]" style={{ flex: '3 1 0%' }}>
-          <div className="bg-[#2d2d2d] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono flex items-center gap-2 shrink-0">
-             <span className="text-yellow-400">🐍</span> script.py
-          </div>
-          <div className="grow relative">
-            <Editor
-              height="100%"
-              language="python"
-              theme="vs-dark"
-              value={code}
-              onChange={(value) => setCode(value)}
-              onMount={handleEditorDidMount}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                fontFamily: "'Courier New', Courier, monospace",
-                lineHeight: 1.6,
-                padding: { top: 16 },
-                scrollBeyondLastLine: false,
-                wordWrap: 'on'
-              }}
-            />
-          </div>
-          <div className="bg-[#2d2d2d] p-3 border-t border-[#3c3c3c] flex items-center justify-between shrink-0">
-             <div className="flex gap-3">
+        <div className="flex flex-col min-h-[200px] flex-1 overflow-hidden">
+          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono flex items-center justify-between shrink-0 border-t-2 border-[var(--accent-blue)]">
+             <div className="flex items-center gap-2">
                <button 
                  onClick={handleRun}
                  disabled={isRunning || isSubmitting}
-                 className="bg-[var(--accent-blue)] hover:opacity-90 text-white px-6 py-2 rounded font-bold text-sm transition-opacity disabled:opacity-50 flex items-center gap-2"
+                 className="bg-[var(--accent-blue)] hover:bg-[var(--accent-blue)]/80 text-white px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-blue)]/20"
                >
                  {isRunning ? 'Running...' : '▶ Run Code'}
                </button>
                <button 
                  onClick={handleReset}
                  disabled={isRunning || isSubmitting}
-                 className="bg-transparent border border-[#555] hover:bg-[#333] text-[#ccc] px-4 py-2 rounded font-bold text-sm transition-colors disabled:opacity-50 flex items-center gap-2"
+                 className="bg-transparent border border-[var(--border)] hover:border-[var(--accent-red)] hover:text-[var(--accent-red)] hover:bg-[var(--accent-red)]/10 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5"
                >
-                 <RotateCcw size={16} /> Reset
+                 <RotateCcw size={12} /> Reset
                </button>
-             </div>
-             <button 
+               <button 
                  onClick={handleSubmit}
                  disabled={isRunning || isSubmitting}
-                 className="bg-[var(--accent-green)] hover:opacity-90 text-black px-6 py-2 rounded font-bold text-sm transition-opacity disabled:opacity-50 flex items-center gap-2"
+                 className="bg-[var(--accent-green)] hover:bg-[var(--accent-green)]/80 text-black px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-green)]/20"
                >
                  {isSubmitting ? 'Checking...' : '✓ Submit'}
-             </button>
+               </button>
+             </div>
+             <div className="flex items-center gap-2">
+               <span className="text-yellow-400">🐍</span> script.py
+             </div>
+          </div>
+          <div className="grow relative">
+            <div className="absolute inset-0">
+              <Editor
+                height="100%"
+                width="100%"
+                language="python"
+                theme="dc-dark"
+                value={code}
+                onChange={(value) => setCode(value)}
+                onMount={handleEditorDidMount}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 16,
+                  fontFamily: "'Courier New', Courier, monospace",
+                  lineHeight: 1.6,
+                  padding: { top: 16 },
+                  scrollBeyondLastLine: false,
+                  wordWrap: 'on'
+                }}
+              />
+            </div>
           </div>
         </div>
 
+        {/* Resizer */}
+        <div 
+          className="h-1.5 bg-[var(--border)] hover:bg-[var(--accent-blue)] cursor-row-resize transition-colors select-none shrink-0"
+          onMouseDown={handleMouseDown}
+        />
+
         {/* Terminal Section */}
-        <div className="flex flex-col bg-black min-h-[200px] overflow-hidden" style={{ flex: '2 1 0%' }}>
-          <div className="bg-[#2d2d2d] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono shrink-0">
+        <div 
+          className="flex flex-col bg-black overflow-hidden shrink-0 animate-in fade-in duration-300" 
+          style={{ height: `${terminalHeight}px` }}
+        >
+          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono shrink-0 border-t-2 border-[var(--accent-green)]">
              IPython Shell
           </div>
-          <div className="grow overflow-y-auto p-4 font-mono text-sm">
+          <div className="grow overflow-y-auto p-4 font-mono text-base">
              <div className="text-gray-500 mb-2">Python 3.10.x (default, DC Mastery Hub)</div>
              {terminalLines.map((line, i) => (
                <div key={i} className="mb-2">
@@ -582,7 +657,7 @@ export default function DatasetChallenge() {
              {isShellRunning ? (
                 <div className="text-blue-400 mt-2 flex items-center gap-2 animate-in fade-in">
                   <span className="text-green-500">In [{shellCounter}]:</span>
-                  <span className="text-gray-500 animate-pulse">Running command...</span>
+                  <span className="text-gray-500 animate-pulse text-base">Running command...</span>
                 </div>
              ) : (
                 <div className="text-blue-400 mt-2 flex items-center">
@@ -593,7 +668,7 @@ export default function DatasetChallenge() {
                     onChange={(e) => setShellInputValue(e.target.value)}
                     onKeyDown={handleShellKeyDown}
                     disabled={isRunning || isSubmitting}
-                    className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0"
+                    className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0 text-base"
                     placeholder="type python code here..."
                   />
                 </div>

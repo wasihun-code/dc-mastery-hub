@@ -47,6 +47,62 @@ export default function MatchingGame() {
   }, [courseSlug]);
 
   useEffect(() => {
+    if (step !== 2) return;
+
+    const handleKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      if (wrongMatch) return;
+
+      const numKeys = ['1', '2', '3', '4', '5'];
+      const alphaKeys = ['q', 'w', 'e', 'r', 't'];
+
+      // Numeric keys -> Select term on the left
+      if (numKeys.includes(e.key)) {
+        const idx = numKeys.indexOf(e.key);
+        if (idx < terms.length) {
+          const term = terms[idx];
+          if (!matches.includes(term.id)) {
+            handleTermClick(term);
+          }
+        }
+      }
+
+      // Alpha keys -> Select definition on the right
+      const lowerKey = e.key.toLowerCase();
+      if (alphaKeys.includes(lowerKey)) {
+        const idx = alphaKeys.indexOf(lowerKey);
+        if (idx < definitions.length) {
+          const def = definitions[idx];
+          if (!matches.includes(def.id)) {
+            handleDefClick(def);
+          }
+        }
+      }
+
+      // Escape -> Clear selection
+      if (e.key === 'Escape') {
+        setSelectedTerm(null);
+        setSelectedDef(null);
+      }
+
+      // Enter -> Continue to next round (when completed)
+      if (e.key === 'Enter') {
+        if (roundCompleted) {
+          handleNextRound();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [step, terms, definitions, matches, wrongMatch, roundCompleted, selectedTerm, selectedDef]);
+
+  useEffect(() => {
     if (allRounds.length > 0) {
       const saved = localStorage.getItem(`matching_progress_${courseSlug}`);
       if (saved) {
@@ -401,7 +457,7 @@ export default function MatchingGame() {
               {/* Terms Column */}
               <div className="flex flex-col gap-3">
                 <h3 className="text-center text-xs font-extrabold uppercase tracking-widest text-[var(--text-muted)] mb-2">Terms</h3>
-                {terms.map((term) => {
+                {terms.map((term, idx) => {
                   const isMatched = matches.includes(term.id);
                   const isSelected = selectedTerm?.id === term.id;
                   const isWrong = wrongMatch?.termId === term.id;
@@ -420,9 +476,14 @@ export default function MatchingGame() {
                       key={term.id}
                       disabled={isMatched}
                       onClick={() => handleTermClick(term)}
-                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-mono font-bold text-base transition-all flex items-center ${itemStyle}`}
+                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-mono font-bold text-base transition-all flex items-center justify-between group ${itemStyle}`}
                     >
-                      {term.term}
+                      <span>{term.term}</span>
+                      {!isMatched && (
+                        <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-green)] group-hover:text-[var(--accent-green)]">
+                          {idx + 1}
+                        </kbd>
+                      )}
                     </button>
                   );
                 })}
@@ -431,7 +492,7 @@ export default function MatchingGame() {
               {/* Definitions Column */}
               <div className="flex flex-col gap-3">
                 <h3 className="text-center text-xs font-extrabold uppercase tracking-widest text-[var(--text-muted)] mb-2">Definitions</h3>
-                {definitions.map((def) => {
+                {definitions.map((def, idx) => {
                   const isMatched = matches.includes(def.id);
                   const isSelected = selectedDef?.id === def.id;
                   const isWrong = wrongMatch?.defId === def.id;
@@ -445,14 +506,21 @@ export default function MatchingGame() {
                     itemStyle = "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)] scale-102";
                   }
 
+                  const alphaKeys = ['Q', 'W', 'E', 'R', 'T'];
+
                   return (
                     <button
                       key={def.id}
                       disabled={isMatched}
                       onClick={() => handleDefClick(def)}
-                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-semibold text-sm leading-snug transition-all flex items-center ${itemStyle}`}
+                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-semibold text-sm leading-snug transition-all flex items-center justify-between group ${itemStyle}`}
                     >
-                      {def.definition}
+                      <span className="flex-1 pr-3">{def.definition}</span>
+                      {!isMatched && (
+                        <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-green)] group-hover:text-[var(--accent-green)] shrink-0">
+                          {alphaKeys[idx]}
+                        </kbd>
+                      )}
                     </button>
                   );
                 })}
@@ -490,6 +558,39 @@ export default function MatchingGame() {
             )}
 
           </div>
+        {/* Keyboard Shortcuts Helper */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+            <span>Keyboard Shortcuts</span>
+          </div>
+          <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
+            <div className="flex justify-between items-center">
+              <span>Select Term</span>
+              <span className="flex gap-1">
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                <span>-</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">5</kbd>
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Select Match</span>
+              <span className="flex gap-1">
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Q</kbd>
+                <span>-</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">T</kbd>
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Clear Selection</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+            </div>
+            <div className="flex justify-between items-center">
+              <span>Next Round</span>
+              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+            </div>
+          </div>
+        </div>
         </main>
 
         {/* QA Debug Panel */}
