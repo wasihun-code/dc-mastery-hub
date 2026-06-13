@@ -326,10 +326,10 @@ export default function FillBlank() {
         return <span key={tokenIdx} className="text-[#f1fa8c] whitespace-pre">{token}</span>;
       }
       if (token.startsWith('#')) {
-        return <span key={tokenIdx} className="text-[#6272a4] italic whitespace-pre">{token}</span>;
+        return <span key={tokenIdx} className="text-[#03ef62] italic whitespace-pre">{token}</span>;
       }
       if (/^\d+$/.test(token)) {
-        return <span key={tokenIdx} className="text-[#bd93f9] whitespace-pre">{token}</span>;
+        return <span key={tokenIdx} className="text-[#60a5fa] whitespace-pre">{token}</span>;
       }
       return <span key={tokenIdx} className="whitespace-pre">{token}</span>;
     });

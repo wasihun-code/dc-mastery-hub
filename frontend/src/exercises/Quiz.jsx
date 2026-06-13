@@ -33,6 +33,18 @@ export default function Quiz() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
 
+  const [allowMultipleTries, setAllowMultipleTries] = useState(() => {
+    return localStorage.getItem('allowMultipleTries') === 'true';
+  });
+
+  const handleToggleMultipleTries = () => {
+    setAllowMultipleTries(prev => {
+      const nextVal = !prev;
+      localStorage.setItem('allowMultipleTries', String(nextVal));
+      return nextVal;
+    });
+  };
+
   useEffect(() => {
     fetchCourseAndQuestions();
   }, [courseSlug]);
@@ -182,7 +194,7 @@ export default function Quiz() {
       const nextWrongAttempts = wrongAttempts + 1;
       setWrongAttempts(nextWrongAttempts);
       
-      if (nextWrongAttempts >= 5) {
+      if (!allowMultipleTries || nextWrongAttempts >= 3) {
         setIsLocked(true);
         shouldPost = true;
         finalCorrect = false;
@@ -496,28 +508,54 @@ export default function Quiz() {
           </div>
         </main>
 
-        {/* Keyboard Shortcuts Helper */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
-          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
-            <span>Keyboard Shortcuts</span>
+        {/* Left Sidebar Controls Container */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
+          {/* Multiple Tries Toggle Panel */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/85 backdrop-blur-md p-4 text-xs shadow-lg flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-[var(--text-primary)]">Multiple Tries</span>
+              <button
+                type="button"
+                onClick={handleToggleMultipleTries}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
+                  allowMultipleTries ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
+                    allowMultipleTries ? 'translate-x-4' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+            <p className="text-[10px] text-[var(--text-muted)] leading-relaxed font-medium">
+              Enable to get up to 3 attempts to correct wrong answers before the question locks.
+            </p>
           </div>
-          <div className="space-y-2 font-medium text-[var(--text-muted)]">
-            <div className="flex justify-between items-center">
-              <span>Select Option</span>
-              <span className="flex gap-1">
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                <span>-</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
-              </span>
+
+          {/* Keyboard Shortcuts Helper */}
+          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+              <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+              <span>Keyboard Shortcuts</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span>Clear Choice</span>
-              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-            </div>
-            <div className="flex justify-between items-center">
-              <span>Next Question</span>
-              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+            <div className="space-y-2 font-medium text-[var(--text-muted)]">
+              <div className="flex justify-between items-center">
+                <span>Select Option</span>
+                <span className="flex gap-1">
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                  <span>-</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Clear Choice</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Next Question</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+              </div>
             </div>
           </div>
         </div>

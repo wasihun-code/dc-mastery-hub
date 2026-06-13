@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser } from 'lucide-react'
+import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 
 export default function DatasetChallenge() {
@@ -19,6 +19,10 @@ export default function DatasetChallenge() {
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
   const [course, setCourse] = useState(null)
+  const [activeFile, setActiveFile] = useState('script') // 'script', 'expected_output', or 'solution'
+  const [solutionUnlocked, setSolutionUnlocked] = useState(false)
+  const [showSolutionModal, setShowSolutionModal] = useState(false)
+  const [loadingExpectedOutput, setLoadingExpectedOutput] = useState(false)
   
   // Interactive Shell States
   const [shellCounter, setShellCounter] = useState(1)
@@ -37,6 +41,7 @@ export default function DatasetChallenge() {
   const codeRef = useRef(code)
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
+  const activeFileRef = useRef(activeFile)
 
   // Resizable Terminal States & Logic
   const [terminalHeight, setTerminalHeight] = useState(250)
@@ -83,6 +88,10 @@ export default function DatasetChallenge() {
   useEffect(() => {
     codeRef.current = code
   }, [code])
+
+  useEffect(() => {
+    activeFileRef.current = activeFile
+  }, [activeFile])
 
   useEffect(() => {
     handleRunRef.current = handleRun
@@ -142,9 +151,63 @@ export default function DatasetChallenge() {
     }
   }
 
+  const fetchExpectedOutput = async (challenge, index) => {
+    if (!challenge) return
+    if (challenge.expected_output) return // already has it
+
+    setLoadingExpectedOutput(true)
+    const expectedCode = challenge.solution_code || challenge.expected_output_code
+    if (!expectedCode) {
+      setLoadingExpectedOutput(false)
+      return
+    }
+
+    try {
+      const res = await fetch('/api/content/run-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: expectedCode,
+          courseSlug,
+          datasetFile: challenge.dataset_file
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setChallenges(prev => {
+          const updated = [...prev]
+          if (updated[index]) {
+            updated[index] = {
+              ...updated[index],
+              expected_output: data.output
+            }
+          }
+          return updated
+        })
+      } else {
+        setChallenges(prev => {
+          const updated = [...prev]
+          if (updated[index]) {
+            updated[index] = {
+              ...updated[index],
+              expected_output: `Error generating expected output:\n${data.error}`
+            }
+          }
+          return updated
+        })
+      }
+    } catch (err) {
+      console.error('Failed to generate expected output:', err)
+    } finally {
+      setLoadingExpectedOutput(false)
+    }
+  }
+
   useEffect(() => {
     if (challenges.length > 0 && currentIndex < challenges.length) {
-      fetchInitialShellVars(challenges[currentIndex])
+      const currentChallenge = challenges[currentIndex]
+      fetchInitialShellVars(currentChallenge)
+      fetchExpectedOutput(currentChallenge, currentIndex)
       setShellCommands([])
       setTerminalLines([])
       setShellCounter(1)
@@ -160,8 +223,8 @@ export default function DatasetChallenge() {
       rules: [
         { token: 'keyword', foreground: 'FF60B5', fontStyle: 'bold' },
         { token: 'string', foreground: '03EF62' },
-        { token: 'comment', foreground: '6272A4', fontStyle: 'italic' },
-        { token: 'number', foreground: 'BD93F9' },
+        { token: 'comment', foreground: '03EF62', fontStyle: 'italic' },
+        { token: 'number', foreground: '60A5FA' },
         { token: 'type', foreground: '8BE9FD' },
         { token: 'class', foreground: '50FA7B' },
         { token: 'function', foreground: '50FA7B', fontStyle: 'bold' }
@@ -218,6 +281,8 @@ export default function DatasetChallenge() {
       if (challengesData.length > 0) {
         setChallenges(challengesData)
         setCode(challengesData[0].starter_code)
+        setSolutionUnlocked(false)
+        setActiveFile('script')
       } else {
         setErrorMsg("No datasets available for this course yet.")
       }
@@ -233,10 +298,11 @@ export default function DatasetChallenge() {
     if (isRunning || isSubmitting) return
     setIsRunning(true)
     const challenge = challenges[currentIndex]
+    const runCode = activeFile === 'solution' ? (challenge?.solution_code || challenge?.expected_output_code || '') : code
 
     setTerminalLines(prev => [
       ...prev,
-      { type: 'input', text: code, counter: runCounter }
+      { type: 'input', text: runCode, counter: runCounter }
     ])
 
     try {
@@ -244,7 +310,7 @@ export default function DatasetChallenge() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          code,
+          code: runCode,
           courseSlug,
           datasetFile: challenge.dataset_file
         })
@@ -257,9 +323,9 @@ export default function DatasetChallenge() {
       ])
 
       if (data.success) {
-        setEditorRunCode(code)
+        setEditorRunCode(runCode)
         setShellCommands([])
-        setSessionHistory(prev => [...prev, code])
+        setSessionHistory(prev => [...prev, runCode])
         if (data.vars) {
           setShellVars(data.vars)
         }
@@ -279,13 +345,14 @@ export default function DatasetChallenge() {
     if (isRunning || isSubmitting) return
     setIsSubmitting(true)
     const challenge = challenges[currentIndex]
+    const submitCode = activeFile === 'solution' ? (challenge?.solution_code || challenge?.expected_output_code || '') : code
 
     try {
       const res = await fetch('/api/content/submit-challenge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          code,
+          code: submitCode,
           courseSlug,
           challengeId: challenge.id,
           datasetFile: challenge.dataset_file,
@@ -333,6 +400,18 @@ export default function DatasetChallenge() {
     }
   }
 
+  async function handleSkip() {
+    if (isRunning || isSubmitting) return
+    const challenge = challenges[currentIndex]
+    if (!challenge) return
+
+    handleNext()
+  }
+
+  const handleShowSolution = () => {
+    setShowSolutionModal(true)
+  }
+
   const handleNext = () => {
     if (currentIndex < challenges.length - 1) {
       setCurrentIndex(prev => prev + 1)
@@ -350,6 +429,10 @@ export default function DatasetChallenge() {
       setHistoryIndex(-1)
       setEditorRunCode('')
       setSessionHistory([])
+
+      // Reset solution state
+      setSolutionUnlocked(false)
+      setActiveFile('script')
     } else {
       setCurrentIndex(challenges.length) // End state
     }
@@ -369,6 +452,8 @@ export default function DatasetChallenge() {
     setHistoryIndex(-1)
     setEditorRunCode('')
     setSessionHistory([])
+
+    setActiveFile('script')
   }
 
   const handleShellSubmit = async () => {
@@ -484,6 +569,8 @@ export default function DatasetChallenge() {
     setRunCounter(1);
     setHintsShown([false, false]);
     setSessionScore({ correct: 0, total: 0 });
+    setSolutionUnlocked(false);
+    setActiveFile('script');
     fetchChallenges();
   };
 
@@ -631,54 +718,161 @@ export default function DatasetChallenge() {
       <div ref={rightPanelRef} className="w-[62%] h-full flex flex-col bg-[#1e1e1e]">
         {/* Editor Section */}
         <div className="flex flex-col min-h-[200px] flex-1 overflow-hidden">
-          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono flex items-center justify-between shrink-0 border-t-2 border-[var(--accent-blue)]">
-             <div className="flex items-center gap-2">
+          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono flex items-center justify-between shrink-0 border-t-2 border-[var(--accent-blue)] border-box min-h-[48px]">
+             <div className="flex items-center gap-2 flex-wrap">
                <button 
                  onClick={handleRun}
-                 disabled={isRunning || isSubmitting}
-                 className="bg-[var(--accent-blue)] hover:bg-[var(--accent-blue)]/80 text-white px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-blue)]/20"
+                 disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
+                 className="bg-[var(--accent-blue)] hover:bg-[var(--accent-blue)]/80 text-white px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-blue)]/20 cursor-pointer"
                >
                  {isRunning ? 'Running...' : '▶ Run Code'}
                </button>
                <button 
                  onClick={handleReset}
-                 disabled={isRunning || isSubmitting}
-                 className="bg-transparent border border-[var(--border)] hover:border-[var(--accent-red)] hover:text-[var(--accent-red)] hover:bg-[var(--accent-red)]/10 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5"
+                 disabled={isRunning || isSubmitting || activeFile === 'solution' || activeFile === 'expected_output'}
+                 className="bg-transparent border border-[var(--border)] hover:border-[var(--accent-red)] hover:text-[var(--accent-red)] hover:bg-[var(--accent-red)]/10 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
                >
                  <RotateCcw size={12} /> Reset
                </button>
                <button 
                  onClick={handleSubmit}
-                 disabled={isRunning || isSubmitting}
-                 className="bg-[var(--accent-green)] hover:bg-[var(--accent-green)]/80 text-black px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-green)]/20"
+                 disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
+                 className="bg-[var(--accent-green)] hover:bg-[var(--accent-green)]/80 text-black px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-green)]/20 cursor-pointer"
                >
                  {isSubmitting ? 'Checking...' : '✓ Submit'}
                </button>
+               <button 
+                 onClick={handleSkip}
+                 disabled={isRunning || isSubmitting}
+                 className="bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 border border-[var(--border)] px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+               >
+                 <SkipForward size={12} /> Skip
+               </button>
+               <button 
+                 onClick={() => setActiveFile(activeFile === 'expected_output' ? 'script' : 'expected_output')}
+                 disabled={isRunning || isSubmitting}
+                 className={`border px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer ${
+                   activeFile === 'expected_output'
+                     ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20'
+                     : 'bg-transparent border-zinc-700 hover:border-zinc-500 text-zinc-300'
+                 }`}
+               >
+                 👁 Expected Output
+               </button>
+               {!solutionUnlocked && (
+                 <button 
+                   onClick={handleShowSolution}
+                   disabled={isRunning || isSubmitting}
+                   className="bg-transparent border border-amber-500/40 hover:border-amber-400 hover:bg-amber-500/10 text-amber-400 hover:text-amber-300 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+                 >
+                   ✨ Show Solution
+                 </button>
+               )}
              </div>
-             <div className="flex items-center gap-2">
-               <span className="text-yellow-400">🐍</span> script.py
+             <div className="flex items-center gap-1.5 select-none font-mono text-xs">
+               <button
+                 type="button"
+                 onClick={() => setActiveFile('script')}
+                 className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
+                   activeFile === 'script'
+                     ? 'bg-zinc-800 text-white border border-zinc-700'
+                     : 'text-zinc-400 hover:text-white'
+                 }`}
+               >
+                 <span className="text-yellow-500">🐍</span> script.py
+               </button>
+               <button
+                 type="button"
+                 onClick={() => setActiveFile('expected_output')}
+                 className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
+                   activeFile === 'expected_output'
+                     ? 'bg-zinc-800 text-[var(--accent-blue)] border border-zinc-700'
+                     : 'text-zinc-400 hover:text-white'
+                 }`}
+               >
+                 <span className="text-blue-400">👁</span> expected_output.txt
+               </button>
+               {solutionUnlocked && (
+                 <button
+                   type="button"
+                   onClick={() => setActiveFile('solution')}
+                   className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
+                     activeFile === 'solution'
+                       ? 'bg-zinc-800 text-[var(--accent-yellow)] border border-zinc-700'
+                       : 'text-zinc-400 hover:text-white'
+                   }`}
+                 >
+                   <span className="text-[var(--accent-yellow)]">✨</span> solution.py
+                 </button>
+               )}
              </div>
           </div>
           <div className="grow relative">
             <div className="absolute inset-0">
-              <Editor
-                height="100%"
-                width="100%"
-                language="python"
-                theme="dc-dark"
-                value={code}
-                onChange={(value) => setCode(value)}
-                onMount={handleEditorDidMount}
-                options={{
-                  minimap: { enabled: false },
-                  fontSize: 16,
-                  fontFamily: "'Courier New', Courier, monospace",
-                  lineHeight: 1.6,
-                  padding: { top: 16 },
-                  scrollBeyondLastLine: false,
-                  wordWrap: 'on'
-                }}
-              />
+              {activeFile === 'script' && (
+                <Editor
+                  key="script"
+                  height="100%"
+                  width="100%"
+                  language="python"
+                  theme="dc-dark"
+                  value={code}
+                  onChange={(value) => setCode(value)}
+                  onMount={handleEditorDidMount}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 16,
+                    fontFamily: "'Courier New', Courier, monospace",
+                    lineHeight: 1.6,
+                    padding: { top: 16 },
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    readOnly: false
+                  }}
+                />
+              )}
+              {activeFile === 'expected_output' && (
+                <Editor
+                  key="expected_output"
+                  height="100%"
+                  width="100%"
+                  language="text"
+                  theme="dc-dark"
+                  value={challenge?.expected_output || (loadingExpectedOutput ? 'Loading expected output...' : 'No expected output available.')}
+                  onMount={handleEditorDidMount}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 16,
+                    fontFamily: "'Courier New', Courier, monospace",
+                    lineHeight: 1.6,
+                    padding: { top: 16 },
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    readOnly: true
+                  }}
+                />
+              )}
+              {activeFile === 'solution' && (
+                <Editor
+                  key="solution"
+                  height="100%"
+                  width="100%"
+                  language="python"
+                  theme="dc-dark"
+                  value={challenge?.solution_code || challenge?.expected_output_code || ''}
+                  onMount={handleEditorDidMount}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 16,
+                    fontFamily: "'Courier New', Courier, monospace",
+                    lineHeight: 1.6,
+                    padding: { top: 16 },
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    readOnly: true
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -905,6 +1099,53 @@ export default function DatasetChallenge() {
         </div>
       </div>
       </div>
+
+      {/* Show Solution Warning Modal */}
+      {showSolutionModal && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in-50 zoom-in-95 duration-200 text-left">
+            <div className="p-6 border-b border-[var(--border)] flex justify-between items-center bg-amber-500/10">
+              <div className="flex items-center gap-2 text-amber-500">
+                <span className="text-xl">✨</span>
+                <h3 className="font-bold text-lg text-[var(--text-primary)]">Reveal Solution</h3>
+              </div>
+              <button 
+                onClick={() => setShowSolutionModal(false)}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
+              >
+                <span className="text-lg font-bold">✕</span>
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <p className="text-sm text-[var(--text-primary)] leading-relaxed">
+                You should try to solve the challenge using the hints before showing the solution. Are you sure you want to see the solution now?
+              </p>
+              
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSolutionModal(false)}
+                  className="px-4 py-2 text-xs font-bold rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] hover:bg-zinc-800 text-white transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowSolutionModal(false)
+                    setSolutionUnlocked(true)
+                    setActiveFile('solution')
+                  }}
+                  className="px-5 py-2.5 text-xs font-bold rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition-colors cursor-pointer"
+                >
+                  Yes, Show Solution
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Result Overlay (appears on Submit) */}
       {result && (
