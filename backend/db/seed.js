@@ -155,31 +155,20 @@ export function seedDatabase() {
   const getTrackId = db.prepare('SELECT id FROM tracks WHERE slug = ?')
 
   const insertCourse = db.prepare(`
-    INSERT OR IGNORE INTO courses (
-      slug,
-      name,
-      track_id,
-      difficulty,
-      order_in_track,
-      status,
-      notes,
-      reviewed
-    )
-    VALUES (
-      @slug,
-      @name,
-      @track_id,
-      @difficulty,
-      @order_in_track,
-      @status,
-      @notes,
-      @reviewed
-    )
+    INSERT OR IGNORE INTO courses (slug, name, difficulty, status, notes, reviewed)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `)
+
+  const getCourseId = db.prepare('SELECT id FROM courses WHERE slug = ?')
+
+  const insertTrackCourse = db.prepare(`
+    INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track)
+    VALUES (?, ?, ?)
   `)
 
   const insertMasteryScore = db.prepare(`
-    INSERT OR IGNORE INTO mastery_scores (course_id)
-    VALUES (?)
+    INSERT OR IGNORE INTO mastery_scores (user_id, course_id)
+    SELECT id, ? FROM users
   `)
 
   const insertUserStats = db.prepare('INSERT INTO user_stats DEFAULT VALUES')
@@ -193,16 +182,16 @@ export function seedDatabase() {
       const trackId = getTrackId.get(trackSlug).id
 
       courses.forEach(([slug, status, difficulty, notes, reviewed], index) => {
-        insertCourse.run({
+        insertCourse.run(
           slug,
-          name: courseNameFromSlug(slug),
-          track_id: trackId,
+          courseNameFromSlug(slug),
           difficulty,
-          order_in_track: index + 1,
           status,
           notes,
-          reviewed,
-        })
+          reviewed
+        )
+        const courseId = getCourseId.get(slug).id
+        insertTrackCourse.run(trackId, courseId, index + 1)
       })
     }
 
@@ -212,7 +201,11 @@ export function seedDatabase() {
       insertMasteryScore.run(course.id)
     }
 
-    insertUserStats.run()
+    // Seed default stats if empty
+    const statsCount = db.prepare('SELECT COUNT(*) AS count FROM user_stats').get().count
+    if (statsCount === 0) {
+      insertUserStats.run()
+    }
   })
 
   seed()

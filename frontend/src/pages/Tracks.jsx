@@ -55,7 +55,7 @@ function SkeletonCard() {
   )
 }
 
-function CourseCard({ course, onShowNoQuestions }) {
+function CourseCard({ course, onShowNoQuestions, selectedTrack }) {
   const navigate = useNavigate()
   const mastery = Math.round(Number(course.overall_mastery ?? 0))
 
@@ -82,11 +82,14 @@ function CourseCard({ course, onShowNoQuestions }) {
     }
   }
 
+  const activeTrackObj = course.tracks?.find(t => t.name === selectedTrack) || course.tracks?.[0]
+  const cardBorderColor = activeTrackObj?.color || course.track_color || 'var(--border)'
+
   return (
     <article
       onClick={handleClick}
       className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-zinc-700 hover:shadow-lg hover:shadow-black/15 transition-all cursor-pointer select-none gap-6 group relative overflow-hidden"
-      style={{ borderLeftWidth: '5px', borderLeftColor: course.track_color || 'var(--border)' }}
+      style={{ borderLeftWidth: '5px', borderLeftColor: cardBorderColor }}
     >
       {/* Course Info */}
       <div className="flex-1 min-w-0">
@@ -113,10 +116,22 @@ function CourseCard({ course, onShowNoQuestions }) {
           {course.name}
         </h2>
         
-        <p className="mt-1 text-xs text-[var(--text-muted)] truncate flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: course.track_color }} />
-          Part of {course.track_name}
-        </p>
+        {course.tracks && course.tracks.length > 0 ? (
+          <div className="mt-2 text-xs text-[var(--text-muted)] flex flex-wrap items-center gap-1.5">
+            <span className="font-semibold text-[10px] uppercase tracking-wider text-zinc-500">Tracks:</span>
+            {course.tracks.map((t) => (
+              <span key={t.id} className="flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/80 px-2.5 py-0.5 rounded text-[10px] text-zinc-300 font-semibold shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: t.color }} />
+                {t.name}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-1 text-xs text-[var(--text-muted)] truncate flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: course.track_color }} />
+            Part of {course.track_name}
+          </p>
+        )}
       </div>
 
       {/* Actions and Progress Wrapper */}
@@ -193,6 +208,7 @@ export default function Tracks() {
   const [selectedStatus, setSelectedStatus] = useState('all')
   const [selectedReviewed, setSelectedReviewed] = useState('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
+  const [selectedHasExercises, setSelectedHasExercises] = useState('present')
   const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })
 
   const handleShowNoQuestions = (course, type = 'no_questions') => {
@@ -260,12 +276,13 @@ export default function Tracks() {
 
     const courseCategories = getCourseCategories(course)
     const matchesCategory = selectedCategory === 'all' || courseCategories.includes(selectedCategory)
-    const matchesTrack = selectedTrack === 'all' || course.track_name === selectedTrack
+    const matchesTrack = selectedTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === selectedTrack))
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
     const matchesReviewed = selectedReviewed === 'all' || course.reviewed === selectedReviewed
     const matchesDifficulty = selectedDifficulty === 'all' || (course.difficulty || 'Unknown') === selectedDifficulty
+    const matchesHasExercises = selectedHasExercises === 'all' || (course.quiz_question_count && course.quiz_question_count > 0)
 
-    return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty
+    return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty && matchesHasExercises
   })
 
   // Aggregate stats for metrics bar
@@ -304,74 +321,74 @@ export default function Tracks() {
         </div>
       </div>
 
-      {/* Split Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Side: Course Listing (9 Columns) */}
-        <main className="lg:col-span-9 order-2 lg:order-1 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-              {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Courses ({filteredCourses.length})
-            </h3>
-          </div>
-
-          {loading ? (
-            <div className="flex flex-col gap-6">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))}
-            </div>
-          ) : null}
-
-          {!loading && error ? (
-            <div className="rounded-xl border border-[var(--accent-red)] bg-red-950/20 p-4 text-red-400 text-xs">
-              {error}
-            </div>
-          ) : null}
-
-          {!loading && !error && filteredCourses.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--bg-card)] p-16 text-center text-xs text-[var(--text-muted)] flex flex-col items-center gap-2">
-              <Layers className="w-8 h-8 opacity-40 mb-2" />
-              <span className="font-bold text-[var(--text-primary)]">No Matching Courses Found</span>
-              <span>Adjust your filters or query to explore other curriculum options.</span>
-            </div>
-          ) : null}
-
-          {!loading && !error && filteredCourses.length > 0 ? (
-            <div className="flex flex-col gap-6">
-              {filteredCourses.map((course) => (
-                <CourseCard key={course.id} course={course} onShowNoQuestions={handleShowNoQuestions} />
-              ))}
-            </div>
-          ) : null}
-        </main>
-
-        {/* Right Side: Filter Control Sidebar (3 Columns) */}
-        <aside className="lg:col-span-3 order-1 lg:order-2 space-y-6">
-          <CourseFilter
-            courses={courses}
-            search={search}
-            onSearchChange={setSearch}
-            selectedStatus={selectedStatus}
-            onStatusChange={setSelectedStatus}
-            selectedReviewed={selectedReviewed}
-            onReviewedChange={setSelectedReviewed}
-            selectedDifficulty={selectedDifficulty}
-            onDifficultyChange={setSelectedDifficulty}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            selectedTrack={selectedTrack}
-            onTrackChange={setSelectedTrack}
-            onReset={() => {
-              setSelectedCategory('all')
-              setSelectedTrack('all')
-              setSelectedStatus('all')
-              setSelectedReviewed('all')
-              setSelectedDifficulty('all')
-              setSearch('')
-            }}
-          />
-        </aside>
+      {/* Filters on top */}
+      <div className="w-full">
+        <CourseFilter
+          courses={courses}
+          search={search}
+          onSearchChange={setSearch}
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
+          selectedReviewed={selectedReviewed}
+          onReviewedChange={setSelectedReviewed}
+          selectedDifficulty={selectedDifficulty}
+          onDifficultyChange={setSelectedDifficulty}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          selectedTrack={selectedTrack}
+          onTrackChange={setSelectedTrack}
+          selectedHasExercises={selectedHasExercises}
+          onHasExercisesChange={setSelectedHasExercises}
+          onReset={() => {
+            setSelectedCategory('all')
+            setSelectedTrack('all')
+            setSelectedStatus('all')
+            setSelectedReviewed('all')
+            setSelectedDifficulty('all')
+            setSelectedHasExercises('present')
+            setSearch('')
+          }}
+        />
       </div>
+
+      {/* Main Content Area */}
+      <main className="w-full space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Courses ({filteredCourses.length})
+          </h3>
+        </div>
+
+        {loading ? (
+          <div className="flex flex-col gap-6">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
+          </div>
+        ) : null}
+
+        {!loading && error ? (
+          <div className="rounded-xl border border-[var(--accent-red)] bg-red-950/20 p-4 text-red-400 text-xs">
+            {error}
+          </div>
+        ) : null}
+
+        {!loading && !error && filteredCourses.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--bg-card)] p-16 text-center text-xs text-[var(--text-muted)] flex flex-col items-center gap-2">
+            <Layers className="w-8 h-8 opacity-40 mb-2" />
+            <span className="font-bold text-[var(--text-primary)]">No Matching Courses Found</span>
+            <span>Adjust your filters or query to explore other curriculum options.</span>
+          </div>
+        ) : null}
+
+        {!loading && !error && filteredCourses.length > 0 ? (
+          <div className="flex flex-col gap-6">
+            {filteredCourses.map((course) => (
+              <CourseCard key={course.id} course={course} onShowNoQuestions={handleShowNoQuestions} selectedTrack={selectedTrack} />
+            ))}
+          </div>
+        ) : null}
+      </main>
       
       {noQuestionsModal.show && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">

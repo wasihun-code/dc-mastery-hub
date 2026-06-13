@@ -82,6 +82,13 @@ export function initSchema() {
       created_at TEXT DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS track_courses (
+      track_id INTEGER NOT NULL REFERENCES tracks(id),
+      course_id INTEGER NOT NULL REFERENCES courses(id),
+      order_in_track INTEGER,
+      PRIMARY KEY (track_id, course_id)
+    );
+
     CREATE TABLE IF NOT EXISTS concepts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       course_id INTEGER REFERENCES courses(id),
@@ -316,5 +323,94 @@ export function initSchema() {
     db.exec(`ALTER TABLE exercise_attempts ADD COLUMN concept_id TEXT DEFAULT NULL`)
   } catch (e) {
     // column already exists, ignore
+  }
+
+  // Migration: Create track_courses if not exists and run data migration
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS track_courses (
+      track_id INTEGER NOT NULL REFERENCES tracks(id),
+      course_id INTEGER NOT NULL REFERENCES courses(id),
+      order_in_track INTEGER,
+      PRIMARY KEY (track_id, course_id)
+    );
+  `);
+
+  try {
+    const coursesColumns = db.prepare("PRAGMA table_info(courses)").all()
+    const hasTrackIdInCourses = coursesColumns.some(col => col.name === 'track_id')
+    
+    if (hasTrackIdInCourses) {
+      const trackCoursesCount = db.prepare('SELECT COUNT(*) AS count FROM track_courses').get().count
+      if (trackCoursesCount === 0) {
+        console.log('Migrating courses table to many-to-many track_courses relation...')
+        db.transaction(() => {
+          const allCourses = db.prepare('SELECT * FROM courses').all()
+          const coursesBySlug = {}
+          for (const c of allCourses) {
+            if (!coursesBySlug[c.slug]) {
+              coursesBySlug[c.slug] = []
+            }
+            coursesBySlug[c.slug].push(c)
+          }
+
+          for (const [slug, list] of Object.entries(coursesBySlug)) {
+            const unifiedCourse = list[0]
+            const unifiedId = unifiedCourse.id
+
+            for (const c of list) {
+              // Insert association into track_courses
+              db.prepare(`
+                INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track)
+                VALUES (?, ?, ?)
+              `).run(c.track_id, unifiedId, c.order_in_track || 1)
+
+              if (c.id !== unifiedId) {
+                // Relink references
+                db.prepare('UPDATE concepts SET course_id = ? WHERE course_id = ?').run(unifiedId, c.id)
+                db.prepare('UPDATE flashcards SET course_id = ? WHERE course_id = ?').run(unifiedId, c.id)
+                db.prepare('UPDATE quiz_questions SET course_id = ? WHERE course_id = ?').run(unifiedId, c.id)
+                db.prepare('UPDATE exercise_attempts SET course_id = ? WHERE course_id = ?').run(unifiedId, c.id)
+                db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(c.id)
+
+                // Merge user progress
+                const duplicateUserCourses = db.prepare('SELECT * FROM user_courses WHERE course_id = ?').all(c.id)
+                for (const duc of duplicateUserCourses) {
+                  const uuc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?').get(duc.user_id, unifiedId)
+                  if (!uuc) {
+                    db.prepare(`
+                      INSERT INTO user_courses (user_id, course_id, status, difficulty, notes, reviewed, is_deleted, is_archived)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    `).run(duc.user_id, unifiedId, duc.status, duc.difficulty, duc.notes, duc.reviewed, duc.is_deleted, duc.is_archived)
+                  } else {
+                    let mergedStatus = uuc.status
+                    if (duc.status === 'Completed' || uuc.status === 'Completed') {
+                      mergedStatus = 'Completed'
+                    } else if (duc.status === 'In Progress' || uuc.status === 'In Progress') {
+                      mergedStatus = 'In Progress'
+                    }
+                    let mergedReviewed = uuc.reviewed === 'Yes' || duc.reviewed === 'Yes' ? 'Yes' : 'No'
+                    let mergedNotes = uuc.notes || duc.notes
+                    let mergedDifficulty = uuc.difficulty !== 'Unknown' ? uuc.difficulty : duc.difficulty
+
+                    db.prepare(`
+                      UPDATE user_courses
+                      SET status = ?, reviewed = ?, notes = ?, difficulty = ?
+                      WHERE user_id = ? AND course_id = ?
+                    `).run(mergedStatus, mergedReviewed, mergedNotes, mergedDifficulty, duc.user_id, unifiedId)
+                  }
+                }
+                db.prepare('DELETE FROM user_courses WHERE course_id = ?').run(c.id)
+
+                // Delete duplicate course
+                db.prepare('DELETE FROM courses WHERE id = ?').run(c.id)
+              }
+            }
+          }
+        })()
+        console.log('Database migrated successfully to support track_courses.')
+      }
+    }
+  } catch (err) {
+    console.error('Failed to run track_courses migration:', err)
   }
 }

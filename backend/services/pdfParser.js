@@ -64,6 +64,8 @@ export function storeExtractedContent(courseSlug, extractedData) {
   const { concepts, quiz_questions } = extractedData
 
   // 1. Clear existing data in correct order (child tables first)
+  db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+  db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
   db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
   db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
   db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)

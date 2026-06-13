@@ -58,6 +58,7 @@ export default function ManageContent() {
   const [courseFilterDifficulty, setCourseFilterDifficulty] = useState('all')
   const [courseFilterArchive, setCourseFilterArchive] = useState('active') // 'active', 'archived', 'all'
   const [courseFilterReviewed, setCourseFilterReviewed] = useState('all')
+  const [courseFilterHasExercises, setCourseFilterHasExercises] = useState('present')
 
   // Selection states for bulk actions
   const [selectedCourseIds, setSelectedCourseIds] = useState([])
@@ -342,10 +343,17 @@ export default function ManageContent() {
 
   // Dynamic tracks based on all courses
   const uniqueTracks = []
-  const trackIds = new Set()
+  const trackNames = new Set()
   for (const c of allCourses) {
-    if (c.track_name && !trackIds.has(c.track_name)) {
-      trackIds.add(c.track_name)
+    if (c.tracks && Array.isArray(c.tracks)) {
+      for (const t of c.tracks) {
+        if (!trackNames.has(t.name)) {
+          trackNames.add(t.name)
+          uniqueTracks.push({ name: t.name, id: t.id, color: t.color, language: t.language })
+        }
+      }
+    } else if (c.track_name && !trackNames.has(c.track_name)) {
+      trackNames.add(c.track_name)
       uniqueTracks.push({ name: c.track_name, id: c.track_id, color: c.track_color, language: c.track_language })
     }
   }
@@ -356,7 +364,8 @@ export default function ManageContent() {
     const matchesSearch =
       course.name.toLowerCase().includes(courseSearch.toLowerCase()) ||
       course.slug.toLowerCase().includes(courseSearch.toLowerCase()) ||
-      course.track_name?.toLowerCase().includes(courseSearch.toLowerCase())
+      course.track_name?.toLowerCase().includes(courseSearch.toLowerCase()) ||
+      (course.tracks && course.tracks.some(t => t.name.toLowerCase().includes(courseSearch.toLowerCase())))
 
     // 2. Archive status
     let matchesArchive = true
@@ -380,12 +389,15 @@ export default function ManageContent() {
     }
 
     // 6. Track
-    const matchesTrack = courseFilterTrack === 'all' || course.track_name === courseFilterTrack
+    const matchesTrack = courseFilterTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === courseFilterTrack)) || course.track_name === courseFilterTrack
 
     // 7. Reviewed status
     const matchesReviewed = courseFilterReviewed === 'all' || course.reviewed === courseFilterReviewed
 
-    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed
+    // 8. Exercises present
+    const matchesHasExercises = courseFilterHasExercises === 'all' || (course.quiz_question_count && course.quiz_question_count > 0)
+
+    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed && matchesHasExercises
   })
 
   return (
@@ -453,7 +465,40 @@ export default function ManageContent() {
           
           {/* 1. COURSES TAB */}
           {activeTab === 'courses' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="space-y-6">
+              {/* Course Filter on top */}
+              <CourseFilter
+                courses={allCourses}
+                search={courseSearch}
+                onSearchChange={setCourseSearch}
+                selectedStatus={courseFilterStatus}
+                onStatusChange={setCourseFilterStatus}
+                selectedReviewed={courseFilterReviewed}
+                onReviewedChange={setCourseFilterReviewed}
+                selectedDifficulty={courseFilterDifficulty}
+                onDifficultyChange={setCourseFilterDifficulty}
+                selectedCategory={courseFilterCategory}
+                onCategoryChange={setCourseFilterCategory}
+                selectedTrack={courseFilterTrack}
+                onTrackChange={setCourseFilterTrack}
+                selectedArchive={courseFilterArchive}
+                onArchiveChange={setCourseFilterArchive}
+                showArchiveFilter={true}
+                selectedHasExercises={courseFilterHasExercises}
+                onHasExercisesChange={setCourseFilterHasExercises}
+                onReset={() => {
+                  setCourseFilterArchive('active')
+                  setCourseFilterStatus('all')
+                  setCourseFilterReviewed('all')
+                  setCourseFilterDifficulty('all')
+                  setCourseFilterCategory('all')
+                  setCourseFilterTrack('all')
+                  setCourseFilterHasExercises('present')
+                  setCourseSearch('')
+                }}
+              />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Side: Courses list & Bulk Actions (8 Columns) */}
               <div className="lg:col-span-8 space-y-6">
@@ -529,11 +574,13 @@ export default function ManageContent() {
                     ) : (
                       filteredCourses.map(course => {
                         const isSelected = selectedCourseIds.includes(course.id)
+                        const activeTrackObj = course.tracks?.find(t => t.name === courseFilterTrack) || course.tracks?.[0]
+                        const cardBorderColor = activeTrackObj?.color || course.track_color || 'var(--border)'
                         return (
                           <div
                             key={`${course.id}-${course.is_archived}`}
                             className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 hover:border-zinc-700 hover:shadow-lg hover:shadow-black/15 transition-all select-none gap-6 group relative overflow-hidden"
-                            style={{ borderLeftWidth: '5px', borderLeftColor: course.track_color || 'var(--border)' }}
+                            style={{ borderLeftWidth: '5px', borderLeftColor: cardBorderColor }}
                           >
                             <div className="flex items-start gap-4 flex-1 min-w-0">
                               <button
@@ -572,10 +619,22 @@ export default function ManageContent() {
                                   {course.name}
                                 </h2>
                                 
-                                <p className="mt-1 text-xs text-[var(--text-muted)] truncate flex items-center gap-1.5">
-                                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: course.track_color }} />
-                                  Part of {course.track_name}
-                                </p>
+                                {course.tracks && course.tracks.length > 0 ? (
+                                  <div className="mt-2 text-xs text-[var(--text-muted)] flex flex-wrap items-center gap-1.5">
+                                    <span className="font-semibold text-[10px] uppercase tracking-wider text-zinc-500">Tracks:</span>
+                                    {course.tracks.map((t) => (
+                                      <span key={t.id} className="flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/80 px-2.5 py-0.5 rounded text-[10px] text-zinc-300 font-semibold shadow-sm">
+                                        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: t.color }} />
+                                        {t.name}
+                                      </span>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <p className="mt-1 text-xs text-[var(--text-muted)] truncate flex items-center gap-1.5">
+                                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: course.track_color }} />
+                                    Part of {course.track_name}
+                                  </p>
+                                )}
                               </div>
                             </div>
 
@@ -596,39 +655,8 @@ export default function ManageContent() {
 
               </div>
 
-              {/* Right Side: Filters & Add Course Form (4 Columns) */}
+              {/* Right Side: Add Course Form (4 Columns) */}
               <div className="lg:col-span-4 space-y-6">
-                
-                {/* Filter Sidebar */}
-                <CourseFilter
-                  courses={allCourses}
-                  search={courseSearch}
-                  onSearchChange={setCourseSearch}
-                  selectedStatus={courseFilterStatus}
-                  onStatusChange={setCourseFilterStatus}
-                  selectedReviewed={courseFilterReviewed}
-                  onReviewedChange={setCourseFilterReviewed}
-                  selectedDifficulty={courseFilterDifficulty}
-                  onDifficultyChange={setCourseFilterDifficulty}
-                  selectedCategory={courseFilterCategory}
-                  onCategoryChange={setCourseFilterCategory}
-                  selectedTrack={courseFilterTrack}
-                  onTrackChange={setCourseFilterTrack}
-                  selectedArchive={courseFilterArchive}
-                  onArchiveChange={setCourseFilterArchive}
-                  showArchiveFilter={true}
-                  onReset={() => {
-                    setCourseFilterArchive('active')
-                    setCourseFilterStatus('all')
-                    setCourseFilterReviewed('all')
-                    setCourseFilterDifficulty('all')
-                    setCourseFilterCategory('all')
-                    setCourseFilterTrack('all')
-                    setCourseSearch('')
-                  }}
-                />
-
-                {/* Add Course Form */}
                 <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-6 shadow-sm">
                   <h3 className="font-bold text-base text-[var(--text-primary)] flex items-center gap-2">
                     <FilePlus className="text-[var(--accent-green)]" /> Add New Course
@@ -699,6 +727,7 @@ export default function ManageContent() {
               </div>
 
             </div>
+          </div>
           )}
 
           {/* 2. TRACKS TAB */}

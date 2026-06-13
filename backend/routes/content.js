@@ -47,7 +47,10 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       return res.status(400).json({ error: "Invalid exercise type" });
     }
 
-    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug);
+    const course = db.prepare(`
+      SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' });
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
@@ -357,7 +360,7 @@ router.get('/track-test/:trackSlug', (req, res, next) => {
     const track = db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
-    const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(track.id)
+    const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(track.id)
     const courseIds = courses.map(c => c.id)
 
     if (courseIds.length === 0) {
@@ -398,7 +401,11 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
     const { courseSlug } = req.params
     const type = req.query.type || 'slides'
     
-    const course = db.prepare('SELECT id, track_id, has_pdf, has_glossary FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT c.id, c.has_pdf, c.has_glossary,
+             (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     if (type === 'slides' && !course.has_pdf) return res.status(404).json({ error: 'Slides PDF not found' })
@@ -431,7 +438,10 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
 router.get('/datasets/:courseSlug', (req, res, next) => {
   try {
     const { courseSlug } = req.params
-    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
@@ -474,7 +484,10 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
   try {
     const { courseSlug } = req.params
     
-    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug);
+    const course = db.prepare(`
+      SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     let challenges = [];
@@ -543,7 +556,10 @@ router.post('/run-code', (req, res, next) => {
   try {
     const { code, courseSlug, datasetFile } = req.body
     
-    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
@@ -578,7 +594,10 @@ router.post('/run-shell', (req, res, next) => {
   try {
     const { courseSlug, datasetFile, history, command } = req.body
     
-    const course = db.prepare('SELECT track_id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
@@ -612,7 +631,10 @@ router.post('/submit-challenge', (req, res, next) => {
     const expectedCode = expectedOutputCode || solutionCode || solution_code
     console.log(`[submit-challenge] Request received for ${courseSlug} - ${datasetFile}`)
     
-    const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = db.prepare(`
+      SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE c.slug = ?
+    `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)

@@ -31,15 +31,13 @@ function getCourseFolder(contentFolder, courseSlug, trackSlug) {
 }
 
 function getCourseBySlug(slug, userId) {
-  return db
+  const course = db
     .prepare(`
       SELECT
         c.id,
         c.slug,
         c.name,
-        c.track_id,
         c.difficulty AS default_difficulty,
-        c.order_in_track,
         c.has_pdf,
         c.has_glossary,
         c.created_at,
@@ -49,16 +47,37 @@ function getCourseBySlug(slug, userId) {
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
         COALESCE(uc.is_deleted, 0) AS is_deleted,
         COALESCE(uc.is_archived, 0) AS is_archived,
-        t.name AS track_name,
-        t.slug AS track_slug,
-        t.color AS track_color,
-        t.language AS track_language
+        (
+          SELECT json_group_array(json_object(
+            'id', t.id,
+            'slug', t.slug,
+            'name', t.name,
+            'color', t.color,
+            'language', t.language,
+            'order_in_track', tc.order_in_track
+          ))
+          FROM track_courses tc
+          JOIN tracks t ON t.id = tc.track_id
+          WHERE tc.course_id = c.id
+        ) AS tracks_json
       FROM courses c
-      JOIN tracks t ON t.id = c.track_id
       LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       WHERE c.slug = ?
     `)
     .get(userId, slug)
+
+  if (course) {
+    course.tracks = JSON.parse(course.tracks_json || '[]')
+    if (course.tracks.length > 0) {
+      course.track_id = course.tracks[0].id
+      course.track_slug = course.tracks[0].slug
+      course.track_name = course.tracks[0].name
+      course.track_color = course.tracks[0].color
+      course.track_language = course.tracks[0].language
+      course.order_in_track = course.tracks[0].order_in_track
+    }
+  }
+  return course
 }
 
 function getMasteryScores(courseId, userId) {
@@ -90,8 +109,6 @@ router.get('/courses', (req, res, next) => {
         c.id,
         c.slug,
         c.name,
-        c.track_id,
-        c.order_in_track,
         c.has_pdf,
         c.has_glossary,
         c.created_at,
@@ -101,10 +118,6 @@ router.get('/courses', (req, res, next) => {
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
         COALESCE(uc.is_deleted, 0) AS is_deleted,
         COALESCE(uc.is_archived, 0) AS is_archived,
-        t.slug AS track_slug,
-        t.name AS track_name,
-        t.color AS track_color,
-        t.language AS track_language,
         ms.overall_mastery,
         ms.flashcard_score,
         ms.quiz_score,
@@ -112,19 +125,41 @@ router.get('/courses', (req, res, next) => {
         ms.dataset_score,
         ms.matching_score,
         ms.boss_score,
-        (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count
+        (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count,
+        (
+          SELECT json_group_array(json_object(
+            'id', t.id,
+            'slug', t.slug,
+            'name', t.name,
+            'color', t.color,
+            'language', t.language,
+            'order_in_track', tc.order_in_track
+          ))
+          FROM track_courses tc
+          JOIN tracks t ON t.id = tc.track_id
+          WHERE tc.course_id = c.id
+        ) AS tracks_json
       FROM courses c
-      JOIN tracks t ON t.id = c.track_id
       LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
       WHERE COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
-      ORDER BY t.id, c.order_in_track
+      ORDER BY c.name
     `).all(userId, userId);
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
       : DEFAULT_CONTENT_FOLDER;
 
     for (const c of courses) {
+      c.tracks = JSON.parse(c.tracks_json || '[]')
+      if (c.tracks.length > 0) {
+        c.track_id = c.tracks[0].id
+        c.track_slug = c.tracks[0].slug
+        c.track_name = c.tracks[0].name
+        c.track_color = c.tracks[0].color
+        c.track_language = c.tracks[0].language
+        c.order_in_track = c.tracks[0].order_in_track
+      }
+
       if (c.quiz_question_count === 0) {
         const courseFolder = getCourseFolder(contentFolder, c.slug, c.track_slug);
         const mcqPath = path.join(courseFolder, 'exercises', 'mcq.json');

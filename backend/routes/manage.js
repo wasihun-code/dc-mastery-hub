@@ -36,12 +36,30 @@ router.get('/manage/trash', (req, res, next) => {
       WHERE ut.is_deleted = 1
     `).all(userId)
     const courses = db.prepare(`
-      SELECT c.*, t.name AS track_name 
+      SELECT c.*,
+             (
+               SELECT json_group_array(json_object(
+                 'id', t.id,
+                 'slug', t.slug,
+                 'name', t.name,
+                 'color', t.color,
+                 'language', t.language
+               ))
+               FROM track_courses tc
+               JOIN tracks t ON t.id = tc.track_id
+               WHERE tc.course_id = c.id
+             ) AS tracks_json
       FROM courses c 
-      JOIN tracks t ON t.id = c.track_id 
       JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       WHERE uc.is_deleted = 1
     `).all(userId)
+    for (const c of courses) {
+      c.tracks = JSON.parse(c.tracks_json || '[]')
+      if (c.tracks.length > 0) {
+        c.track_name = c.tracks[0].name
+        c.track_color = c.tracks[0].color
+      }
+    }
     res.json({ tracks, courses })
   } catch (err) {
     next(err)
@@ -59,12 +77,32 @@ router.get('/manage/archived', (req, res, next) => {
       WHERE ut.is_archived = 1 AND ut.is_deleted = 0
     `).all(userId)
     const courses = db.prepare(`
-      SELECT c.*, t.name AS track_name, t.slug AS track_slug, t.color AS track_color, t.language AS track_language
+      SELECT c.*,
+             (
+               SELECT json_group_array(json_object(
+                 'id', t.id,
+                 'slug', t.slug,
+                 'name', t.name,
+                 'color', t.color,
+                 'language', t.language
+               ))
+               FROM track_courses tc
+               JOIN tracks t ON t.id = tc.track_id
+               WHERE tc.course_id = c.id
+             ) AS tracks_json
       FROM courses c 
-      JOIN tracks t ON t.id = c.track_id 
       JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       WHERE uc.is_archived = 1 AND uc.is_deleted = 0
     `).all(userId)
+    for (const c of courses) {
+      c.tracks = JSON.parse(c.tracks_json || '[]')
+      if (c.tracks.length > 0) {
+        c.track_name = c.tracks[0].name
+        c.track_color = c.tracks[0].color
+        c.track_slug = c.tracks[0].slug
+        c.track_language = c.tracks[0].language
+      }
+    }
     res.json({ tracks, courses })
   } catch (err) {
     next(err)
@@ -126,7 +164,7 @@ router.post('/manage/track/update-flags', (req, res, next) => {
         db.prepare('UPDATE user_tracks SET is_deleted = ? WHERE user_id = ? AND track_id = ?').run(is_deleted ? 1 : 0, userId, trackId)
         
         // Propagate user deletion to all courses in track
-        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(trackId)
         for (const c of courses) {
           const cExists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, c.id)
           if (!cExists) {
@@ -139,7 +177,7 @@ router.post('/manage/track/update-flags', (req, res, next) => {
         db.prepare('UPDATE user_tracks SET is_archived = ? WHERE user_id = ? AND track_id = ?').run(is_archived ? 1 : 0, userId, trackId)
         
         // Propagate user archival to all courses in track
-        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(trackId)
         for (const c of courses) {
           const cExists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, c.id)
           if (!cExists) {
@@ -177,13 +215,24 @@ router.post('/manage/course/add', (req, res, next) => {
 
     db.transaction(() => {
       // Find current max order in track
-      const maxOrderResult = db.prepare('SELECT MAX(order_in_track) AS max_order FROM courses WHERE track_id = ?').get(trackId)
+      const maxOrderResult = db.prepare('SELECT MAX(order_in_track) AS max_order FROM track_courses WHERE track_id = ?').get(trackId)
       const nextOrder = (maxOrderResult?.max_order || 0) + 1
 
+      let course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(slug)
+      let courseId = course?.id
+      if (!courseId) {
+        const res = db.prepare(`
+          INSERT INTO courses (name, slug, difficulty, status)
+          VALUES (?, ?, ?, 'Not Started')
+        `).run(name, slug, difficulty || 'Unknown')
+        courseId = res.lastInsertRowid
+      }
+
       db.prepare(`
-        INSERT INTO courses (name, slug, track_id, difficulty, order_in_track, status)
-        VALUES (?, ?, ?, ?, ?, 'Not Started')
-      `).run(name, slug, trackId, difficulty || 'Unknown', nextOrder)
+        INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track)
+        VALUES (?, ?, ?)
+      `).run(trackId, courseId, nextOrder)
+      db.prepare('INSERT OR IGNORE INTO mastery_scores (user_id, course_id) SELECT id, ? FROM users').run(courseId)
     })()
 
     // Create folders on disk
@@ -233,86 +282,16 @@ function copyCourseInternal(courseId, destTrackId) {
   const course = db.prepare('SELECT * FROM courses WHERE id = ?').get(courseId)
   if (!course) throw new Error('Course not found')
 
-  const srcTrack = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   const destTrack = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(destTrackId)
   if (!destTrack) throw new Error('Destination track not found')
 
-  let newSlug = course.slug
-  // If slug exists in destination, append copy tag
-  const existing = db.prepare('SELECT id FROM courses WHERE track_id = ? AND slug = ?').get(destTrackId, newSlug)
-  if (existing) {
-    newSlug = `${course.slug}_copy_${Date.now().toString().slice(-4)}`
-  }
+  // In many-to-many relation, copying a course to a track links it
+  db.prepare(`
+    INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track)
+    VALUES (?, ?, (SELECT COALESCE(MAX(order_in_track), 0) + 1 FROM track_courses WHERE track_id = ?))
+  `).run(destTrackId, courseId, destTrackId)
 
-  // Get source max order
-  const maxOrderResult = db.prepare('SELECT MAX(order_in_track) AS max_order FROM courses WHERE track_id = ?').get(destTrackId)
-  const nextOrder = (maxOrderResult?.max_order || 0) + 1
-
-  let newCourseId;
-  db.transaction(() => {
-    // 1. Insert Course
-    const result = db.prepare(`
-      INSERT INTO courses (name, slug, track_id, difficulty, order_in_track, status, notes, reviewed, has_pdf, has_glossary)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
-      course.name,
-      newSlug,
-      destTrackId,
-      course.difficulty,
-      nextOrder,
-      course.status,
-      course.notes,
-      course.reviewed,
-      course.has_pdf,
-      course.has_glossary
-    )
-    newCourseId = result.lastInsertRowid
-
-    // 2. Initialize Mastery Score
-    db.prepare('INSERT INTO mastery_scores (course_id) VALUES (?)').run(newCourseId)
-
-    // 3. Copy Concepts
-    const concepts = db.prepare('SELECT * FROM concepts WHERE course_id = ?').all(courseId)
-    for (const concept of concepts) {
-      const cRes = db.prepare(`
-        INSERT INTO concepts (course_id, name, definition, code_snippet, source_page, category, difficulty)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).run(newCourseId, concept.name, concept.definition, concept.code_snippet, concept.source_page, concept.category, concept.difficulty)
-      const newConceptId = cRes.lastInsertRowid
-
-      // Copy flashcards associated with this concept
-      const flashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ? AND concept_id = ?').all(courseId, concept.id)
-      for (const fc of flashcards) {
-        db.prepare(`
-          INSERT INTO flashcards (concept_id, course_id, front, back, next_review_date, interval_days, ease_factor, repetitions)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(newConceptId, newCourseId, fc.front, fc.back, fc.next_review_date, fc.interval_days, fc.ease_factor, fc.repetitions)
-      }
-
-      // Copy quiz questions associated with this concept
-      const quizzes = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ? AND concept_id = ?').all(courseId, concept.id)
-      for (const q of quizzes) {
-        db.prepare(`
-          INSERT INTO quiz_questions (course_id, concept_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, question_type, difficulty)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(newCourseId, newConceptId, q.question_text, q.option_a, q.option_b, q.option_c, q.option_d, q.correct_option, q.explanation, q.question_type, q.difficulty)
-      }
-    }
-  })()
-
-  // Copy folder structure on disk
-  if (srcTrack && destTrack) {
-    const srcFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', srcTrack.slug, course.slug)
-    const destFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', destTrack.slug, newSlug)
-    if (fs.existsSync(srcFolder)) {
-      copyDirSync(srcFolder, destFolder)
-    } else {
-      fs.mkdirSync(destFolder, { recursive: true })
-      fs.mkdirSync(path.join(destFolder, 'datasets'), { recursive: true })
-    }
-  }
-
-  return newCourseId
+  return courseId
 }
 
 router.post('/manage/course/copy', (req, res, next) => {
@@ -368,16 +347,12 @@ router.post('/manage/courses/bulk-action', (req, res, next) => {
         } else if (action === 'copy') {
           if (!req.user.is_admin) throw new Error('Only administrators can copy courses.')
           if (!destTrackId) throw new Error('destTrackId is required for copy action')
-          copyCourseInternal(cId, Number(destTrackId))
+          db.prepare('INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, 1)').run(destTrackId, cId)
         } else if (action === 'move') {
           if (!req.user.is_admin) throw new Error('Only administrators can move courses.')
           if (!destTrackId) throw new Error('destTrackId is required for move action')
-          const course = db.prepare('SELECT slug, track_id FROM courses WHERE id = ?').get(cId)
-          if (course && Number(course.track_id) !== Number(destTrackId)) {
-            copyCourseInternal(cId, Number(destTrackId))
-            // Mark original as deleted for this user
-            db.prepare('UPDATE user_courses SET is_deleted = 1 WHERE user_id = ? AND course_id = ?').run(userId, cId)
-          }
+          db.prepare('DELETE FROM track_courses WHERE course_id = ?').run(cId)
+          db.prepare('INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, 1)').run(destTrackId, cId)
         }
       }
     })()
@@ -417,7 +392,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
           db.prepare('DELETE FROM user_courses WHERE user_id = ? AND course_id = ?').run(userId, courseId)
         } else if (type === 'track') {
           const trackId = Number(id)
-          const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+          const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(trackId)
           const courseIds = courses.map(c => c.id)
           if (courseIds.length > 0) {
             const placeholders = courseIds.map(() => '?').join(',')
@@ -439,7 +414,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
         // Superuser: Physical global deletion from DB and Disk
         if (type === 'course') {
           const courseId = Number(id)
-          const course = db.prepare('SELECT slug, track_id FROM courses WHERE id = ?').get(courseId)
+          const course = db.prepare('SELECT slug, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id FROM courses c WHERE id = ?').get(courseId)
           
           if (course) {
             const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
@@ -465,7 +440,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
           const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(trackId)
           
           if (track) {
-            const courses = db.prepare('SELECT id, slug FROM courses WHERE track_id = ?').all(trackId)
+            const courses = db.prepare('SELECT c.id, c.slug FROM courses c JOIN track_courses tc ON tc.course_id = c.id WHERE tc.track_id = ?').all(trackId)
             for (const course of courses) {
               db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(course.id)
               db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(course.id)
@@ -509,7 +484,7 @@ router.post('/manage/upload-material', (req, res, next) => {
       return
     }
 
-    const course = db.prepare('SELECT * FROM courses WHERE id = ?').get(courseId)
+    const course = db.prepare('SELECT *, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id FROM courses c WHERE id = ?').get(courseId)
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return

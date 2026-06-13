@@ -69,15 +69,17 @@ export function importJsonExercises() {
 
         db.transaction(() => {
           // 1. Clear existing course data in proper dependency order
+          db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+          db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
           db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
           db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
           db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
 
           // 2. Resolve and insert concepts
           const insertConcept = db.prepare(`
-            INSERT OR REPLACE INTO concepts 
-              (id, course_id, name, definition, code_snippet, source_page, category, difficulty)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO concepts 
+              (course_id, name, definition, code_snippet, source_page, category, difficulty)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
           `)
 
           // Collect all unique concept IDs referenced across exercises, flashcards, quiz questions, and matching pairs
@@ -143,12 +145,12 @@ export function importJsonExercises() {
             return { name, definition, codeSnippet, chapter, difficulty }
           }
 
+          const conceptIdMap = new Map()
+
           for (const conceptIdStr of uniqueConceptIdStrs) {
-            const conceptId = parseInt(String(conceptIdStr).replace(/\D/g, ''), 10)
             const { name, definition, codeSnippet, chapter, difficulty } = resolveConceptData(conceptIdStr)
 
-            insertConcept.run(
-              conceptId,
+            const r = insertConcept.run(
               course.id,
               name.slice(0, 200),
               definition.slice(0, 500),
@@ -157,11 +159,12 @@ export function importJsonExercises() {
               'general',
               difficulty
             )
+            conceptIdMap.set(conceptIdStr, r.lastInsertRowid)
           }
 
           const getConceptId = (conceptIdStr) => {
             if (!conceptIdStr) return null
-            return parseInt(String(conceptIdStr).replace(/\D/g, ''), 10) || null
+            return conceptIdMap.get(conceptIdStr) || null
           }
 
           // 3. Insert flashcards

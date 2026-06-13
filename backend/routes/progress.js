@@ -60,7 +60,10 @@ function scoreForExerciseType(courseId, whereClause, userId) {
 
 export function recalculateMastery(courseId, userId) {
   // 1. Get course and track info
-  const course = db.prepare('SELECT id, slug, track_id FROM courses WHERE id = ?').get(courseId)
+  const course = db.prepare(`
+    SELECT id, slug, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+    FROM courses c WHERE id = ?
+  `).get(courseId)
   if (!course) return null
 
   const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
@@ -70,65 +73,65 @@ export function recalculateMastery(courseId, userId) {
     ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
     : DEFAULT_CONTENT_FOLDER;
 
-  // Step 1 — Get all unique concepts for this course
   const conceptIdsSet = new Set()
   const exercisesDir = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises')
 
-  // Parse concept_ids from JSON files
-  // mcq.json
-  const mcqPath = path.join(exercisesDir, 'mcq.json')
-  if (fs.existsSync(mcqPath)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'))
-      const questions = Array.isArray(data) ? data : (data.questions || [])
-      for (const q of questions) {
-        if (q.concept_id) conceptIdsSet.add(q.concept_id)
-      }
-    } catch (e) {}
+  // Try loading concepts from DB first to align with autoincremented database IDs
+  const dbConcepts = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId)
+  for (const c of dbConcepts) {
+    conceptIdsSet.add(`concept_${String(c.id).padStart(3, '0')}`)
   }
 
-  // flashcards.json
-  const fcPath = path.join(exercisesDir, 'flashcards.json')
-  if (fs.existsSync(fcPath)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'))
-      const cards = Array.isArray(data) ? data : (data.cards || [])
-      for (const c of cards) {
-        if (c.concept_id) conceptIdsSet.add(c.concept_id)
-      }
-    } catch (e) {}
-  }
-
-  // ftb.json
-  const ftbPath = path.join(exercisesDir, 'ftb.json')
-  if (fs.existsSync(ftbPath)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'))
-      const exercises = Array.isArray(data) ? data : (data.exercises || [])
-      for (const ex of exercises) {
-        const cId = ex.concept_id || ex.id
-        if (cId) conceptIdsSet.add(cId)
-      }
-    } catch (e) {}
-  }
-
-  // bossbattle.json
-  const bossPath = path.join(exercisesDir, 'bossbattle.json')
-  if (fs.existsSync(bossPath)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
-      const questions = Array.isArray(data) ? data : (data.questions || [])
-      for (const q of questions) {
-        if (q.concept_id) conceptIdsSet.add(q.concept_id)
-      }
-    } catch (e) {}
-  }
-
-  // Fallback: query concepts table in DB
+  // Fallback to reading JSON files if no concepts are found in the DB
   if (conceptIdsSet.size === 0) {
-    const dbConcepts = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId)
-    for (const c of dbConcepts) {
-      conceptIdsSet.add(`concept_${String(c.id).padStart(3, '0')}`)
+
+    // mcq.json
+    const mcqPath = path.join(exercisesDir, 'mcq.json')
+    if (fs.existsSync(mcqPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'))
+        const questions = Array.isArray(data) ? data : (data.questions || [])
+        for (const q of questions) {
+          if (q.concept_id) conceptIdsSet.add(q.concept_id)
+        }
+      } catch (e) {}
+    }
+
+    // flashcards.json
+    const fcPath = path.join(exercisesDir, 'flashcards.json')
+    if (fs.existsSync(fcPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(fcPath, 'utf-8'))
+        const cards = Array.isArray(data) ? data : (data.cards || [])
+        for (const c of cards) {
+          if (c.concept_id) conceptIdsSet.add(c.concept_id)
+        }
+      } catch (e) {}
+    }
+
+    // ftb.json
+    const ftbPath = path.join(exercisesDir, 'ftb.json')
+    if (fs.existsSync(ftbPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'))
+        const exercises = Array.isArray(data) ? data : (data.exercises || [])
+        for (const ex of exercises) {
+          const cId = ex.concept_id || ex.id
+          if (cId) conceptIdsSet.add(cId)
+        }
+      } catch (e) {}
+    }
+
+    // bossbattle.json
+    const bossPath = path.join(exercisesDir, 'bossbattle.json')
+    if (fs.existsSync(bossPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
+        const questions = Array.isArray(data) ? data : (data.questions || [])
+        for (const q of questions) {
+          if (q.concept_id) conceptIdsSet.add(q.concept_id)
+        }
+      } catch (e) {}
     }
   }
 
@@ -655,7 +658,8 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
     const course = db.prepare(`
       SELECT c.id, c.slug, t.slug as track_slug 
       FROM courses c
-      JOIN tracks t ON t.id = c.track_id
+      JOIN track_courses tc ON tc.course_id = c.id
+      JOIN tracks t ON t.id = tc.track_id
       WHERE c.slug = ?
     `).get(courseSlug)
 
@@ -873,7 +877,7 @@ router.post('/progress/reset', (req, res, next) => {
         `).run(userId, courseId)
       } else if (type === 'track') {
         const trackId = Number(targetId)
-        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(trackId)
         const courseIds = courses.map(c => c.id)
         if (courseIds.length > 0) {
           const placeholders = courseIds.map(() => '?').join(',')
@@ -900,7 +904,7 @@ router.post('/progress/reset', (req, res, next) => {
         const trackIds = tracks.map(t => t.id)
         if (trackIds.length > 0) {
           const trackPlaceholders = trackIds.map(() => '?').join(',')
-          const courses = db.prepare(`SELECT id FROM courses WHERE track_id IN (${trackPlaceholders})`).all(...trackIds)
+          const courses = db.prepare(`SELECT course_id AS id FROM track_courses WHERE track_id IN (${trackPlaceholders})`).all(...trackIds)
           const courseIds = courses.map(c => c.id)
           if (courseIds.length > 0) {
             const placeholders = courseIds.map(() => '?').join(',')
