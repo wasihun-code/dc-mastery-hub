@@ -1,6 +1,57 @@
 import db from './database.js'
+import crypto from 'crypto'
+
+// Helper: Hash password using PBKDF2
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex')
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
+  return { salt, hash }
+}
 
 export function initSchema() {
+  // 1. Create essential user and session tables first
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      salt TEXT NOT NULL,
+      is_admin INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS sessions (
+      id TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      expires_at TEXT NOT NULL
+    );
+  `)
+
+  // 2. Ensure columns exist on users
+  try {
+    db.exec(`ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0`)
+  } catch (e) {}
+
+  // 3. Create the two requested users if they don't exist
+  // User 1: admin@gmail.com / admin123 (super user)
+  const adminExists = db.prepare('SELECT id FROM users WHERE username = ?').get('admin@gmail.com')
+  if (!adminExists) {
+    const { salt, hash } = hashPassword('admin123')
+    db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 1)').run('admin@gmail.com', hash, salt)
+    console.log('Created super user admin@gmail.com')
+  }
+
+  // User 2: wasihunageru@gmail.com / waseageru
+  const wasihunExists = db.prepare('SELECT id FROM users WHERE username = ?').get('wasihunageru@gmail.com')
+  let wasihunUserId = wasihunExists ? wasihunExists.id : null
+  if (!wasihunExists) {
+    const { salt, hash } = hashPassword('waseageru')
+    const res = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('wasihunageru@gmail.com', hash, salt)
+    wasihunUserId = res.lastInsertRowid
+    console.log('Created user wasihunageru@gmail.com')
+  }
+
+  // 4. Create remaining static & dynamic tables
   db.exec(`
     CREATE TABLE IF NOT EXISTS tracks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -9,7 +60,9 @@ export function initSchema() {
       description TEXT,
       language TEXT,
       color TEXT,
-      created_at TEXT DEFAULT (datetime('now'))
+      created_at TEXT DEFAULT (datetime('now')),
+      is_deleted INTEGER DEFAULT 0,
+      is_archived INTEGER DEFAULT 0
     );
 
     CREATE TABLE IF NOT EXISTS courses (
@@ -23,6 +76,9 @@ export function initSchema() {
       notes TEXT,
       reviewed TEXT DEFAULT 'No',
       has_pdf INTEGER DEFAULT 0,
+      has_glossary INTEGER DEFAULT 0,
+      is_deleted INTEGER DEFAULT 0,
+      is_archived INTEGER DEFAULT 0,
       created_at TEXT DEFAULT (datetime('now'))
     );
 
@@ -65,98 +121,192 @@ export function initSchema() {
       difficulty INTEGER DEFAULT 1
     );
 
-    CREATE TABLE IF NOT EXISTS exercise_attempts (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      exercise_type TEXT NOT NULL,
-      course_id INTEGER REFERENCES courses(id),
-      question_id INTEGER,
-      score REAL,
-      time_taken_secs INTEGER,
-      was_correct INTEGER DEFAULT 0,
-      attempted_at TEXT DEFAULT (datetime('now'))
+    CREATE TABLE IF NOT EXISTS user_tracks (
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      track_id INTEGER NOT NULL REFERENCES tracks(id),
+      is_deleted INTEGER DEFAULT 0,
+      is_archived INTEGER DEFAULT 0,
+      PRIMARY KEY (user_id, track_id)
     );
 
-    CREATE TABLE IF NOT EXISTS mastery_scores (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      course_id INTEGER UNIQUE REFERENCES courses(id),
-      flashcard_score REAL DEFAULT 0,
-      quiz_score REAL DEFAULT 0,
-      code_score REAL DEFAULT 0,
-      dataset_score REAL DEFAULT 0,
-      matching_score REAL DEFAULT 0,
-      boss_score REAL DEFAULT 0,
-      overall_mastery REAL DEFAULT 0,
-      updated_at TEXT DEFAULT (datetime('now'))
+    CREATE TABLE IF NOT EXISTS user_courses (
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      course_id INTEGER NOT NULL REFERENCES courses(id),
+      status TEXT DEFAULT 'Not Started',
+      difficulty TEXT DEFAULT 'Unknown',
+      notes TEXT,
+      reviewed TEXT DEFAULT 'No',
+      is_deleted INTEGER DEFAULT 0,
+      is_archived INTEGER DEFAULT 0,
+      PRIMARY KEY (user_id, course_id)
     );
 
-    CREATE TABLE IF NOT EXISTS user_stats (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      total_xp INTEGER DEFAULT 0,
-      level TEXT DEFAULT 'Beginner',
-      current_streak INTEGER DEFAULT 0,
-      longest_streak INTEGER DEFAULT 0,
-      last_active_date TEXT,
-      badges_json TEXT DEFAULT '[]'
+    CREATE TABLE IF NOT EXISTS user_flashcard_progress (
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      flashcard_id INTEGER NOT NULL REFERENCES flashcards(id),
+      interval_days INTEGER DEFAULT 1,
+      ease_factor REAL DEFAULT 2.5,
+      repetitions INTEGER DEFAULT 0,
+      next_review_date TEXT DEFAULT (date('now')),
+      PRIMARY KEY (user_id, flashcard_id)
     );
-
-    CREATE TABLE IF NOT EXISTS spaced_repetition_queue (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      flashcard_id INTEGER REFERENCES flashcards(id),
-      due_date TEXT,
-      priority INTEGER DEFAULT 1
-    );
-
-    CREATE TRIGGER IF NOT EXISTS sync_course_updates
-    AFTER UPDATE OF status, difficulty, notes, reviewed, has_pdf, has_glossary, is_deleted, is_archived ON courses
-    FOR EACH ROW
-    BEGIN
-      UPDATE courses
-      SET status = NEW.status,
-          difficulty = NEW.difficulty,
-          notes = NEW.notes,
-          reviewed = NEW.reviewed,
-          has_pdf = NEW.has_pdf,
-          has_glossary = NEW.has_glossary,
-          is_deleted = NEW.is_deleted,
-          is_archived = NEW.is_archived
-      WHERE slug = NEW.slug AND id != NEW.id;
-    END;
-
-    CREATE TRIGGER IF NOT EXISTS sync_mastery_updates
-    AFTER UPDATE ON mastery_scores
-    FOR EACH ROW
-    BEGIN
-      UPDATE mastery_scores
-      SET flashcard_score = NEW.flashcard_score,
-          quiz_score = NEW.quiz_score,
-          code_score = NEW.code_score,
-          dataset_score = NEW.dataset_score,
-          matching_score = NEW.matching_score,
-          boss_score = NEW.boss_score,
-          overall_mastery = NEW.overall_mastery
-      WHERE course_id IN (
-        SELECT id FROM courses WHERE slug = (
-          SELECT slug FROM courses WHERE id = NEW.course_id
-        )
-      ) AND course_id != NEW.course_id;
-    END;
   `)
+
+  // 5. Run Database migrations to support multi-user state
+  // Check if we need to migrate user_courses, user_tracks, and user_flashcard_progress
+  db.transaction(() => {
+    // If user_courses is empty but courses has notes/status, migrate wasihun's courses
+    const userCoursesCount = db.prepare('SELECT COUNT(*) AS count FROM user_courses').get().count
+    if (userCoursesCount === 0 && wasihunUserId) {
+      db.prepare(`
+        INSERT INTO user_courses (user_id, course_id, status, difficulty, notes, reviewed, is_deleted, is_archived)
+        SELECT ?, id, status, difficulty, notes, reviewed, is_deleted, is_archived FROM courses
+        WHERE status != 'Not Started' OR notes IS NOT NULL OR reviewed != 'No' OR is_deleted = 1 OR is_archived = 1
+      `).run(wasihunUserId)
+      console.log('Migrated courses progress to wasihunageru@gmail.com')
+    }
+
+    const userTracksCount = db.prepare('SELECT COUNT(*) AS count FROM user_tracks').get().count
+    if (userTracksCount === 0 && wasihunUserId) {
+      db.prepare(`
+        INSERT INTO user_tracks (user_id, track_id, is_deleted, is_archived)
+        SELECT ?, id, is_deleted, is_archived FROM tracks
+        WHERE is_deleted = 1 OR is_archived = 1
+      `).run(wasihunUserId)
+      console.log('Migrated tracks states to wasihunageru@gmail.com')
+    }
+
+    const userFcCount = db.prepare('SELECT COUNT(*) AS count FROM user_flashcard_progress').get().count
+    if (userFcCount === 0 && wasihunUserId) {
+      db.prepare(`
+        INSERT INTO user_flashcard_progress (user_id, flashcard_id, interval_days, ease_factor, repetitions, next_review_date)
+        SELECT ?, id, interval_days, ease_factor, repetitions, next_review_date FROM flashcards
+        WHERE repetitions > 0 OR interval_days > 1
+      `).run(wasihunUserId)
+      console.log('Migrated flashcards progress to wasihunageru@gmail.com')
+    }
+
+    // Migrate user_stats table
+    let statsTableInfo = db.prepare("PRAGMA table_info(user_stats)").all()
+    let hasUserIdInStats = statsTableInfo.some(col => col.name === 'user_id')
+    if (!hasUserIdInStats) {
+      console.log('Migrating user_stats table to support user_id...')
+      db.exec(`ALTER TABLE user_stats RENAME TO old_user_stats`)
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS user_stats (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER UNIQUE REFERENCES users(id),
+          total_xp INTEGER DEFAULT 0,
+          level TEXT DEFAULT 'Beginner',
+          current_streak INTEGER DEFAULT 0,
+          longest_streak INTEGER DEFAULT 0,
+          last_active_date TEXT,
+          badges_json TEXT DEFAULT '[]'
+        )
+      `)
+      // Copy the existing stats (id = 1) to wasihun's user_stats
+      const oldStats = db.prepare('SELECT * FROM old_user_stats WHERE id = 1').get()
+      if (oldStats && wasihunUserId) {
+        db.prepare(`
+          INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).run(wasihunUserId, oldStats.total_xp, oldStats.level, oldStats.current_streak, oldStats.longest_streak, oldStats.last_active_date, oldStats.badges_json)
+      }
+      db.exec(`DROP TABLE old_user_stats`)
+      console.log('user_stats table migrated successfully.')
+    }
+
+    // Ensure wasihun user has stats row if not exists
+    if (wasihunUserId) {
+      const hasStatsRow = db.prepare('SELECT 1 FROM user_stats WHERE user_id = ?').get(wasihunUserId)
+      if (!hasStatsRow) {
+        db.prepare('INSERT INTO user_stats (user_id) VALUES (?)').run(wasihunUserId)
+      }
+    }
+    // Also ensure admin has stats row
+    const adminUserId = adminExists ? adminExists.id : db.prepare('SELECT id FROM users WHERE username = ?').get('admin@gmail.com').id
+    const hasAdminStatsRow = db.prepare('SELECT 1 FROM user_stats WHERE user_id = ?').get(adminUserId)
+    if (!hasAdminStatsRow) {
+      db.prepare('INSERT INTO user_stats (user_id) VALUES (?)').run(adminUserId)
+    }
+
+    // Migrate mastery_scores table
+    let masteryTableInfo = db.prepare("PRAGMA table_info(mastery_scores)").all()
+    let hasUserIdInMastery = masteryTableInfo.some(col => col.name === 'user_id')
+    if (!hasUserIdInMastery) {
+      console.log('Migrating mastery_scores table to support user_id...')
+      db.exec(`ALTER TABLE mastery_scores RENAME TO old_mastery_scores`)
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS mastery_scores (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER REFERENCES users(id),
+          course_id INTEGER REFERENCES courses(id),
+          flashcard_score REAL DEFAULT 0,
+          quiz_score REAL DEFAULT 0,
+          code_score REAL DEFAULT 0,
+          dataset_score REAL DEFAULT 0,
+          matching_score REAL DEFAULT 0,
+          boss_score REAL DEFAULT 0,
+          overall_mastery REAL DEFAULT 0,
+          updated_at TEXT DEFAULT (datetime('now')),
+          UNIQUE(user_id, course_id)
+        )
+      `)
+      // Copy and associate all scores with wasihun
+      if (wasihunUserId) {
+        db.prepare(`
+          INSERT OR IGNORE INTO mastery_scores (user_id, course_id, flashcard_score, quiz_score, code_score, dataset_score, matching_score, boss_score, overall_mastery, updated_at)
+          SELECT ?, course_id, flashcard_score, quiz_score, code_score, dataset_score, matching_score, boss_score, overall_mastery, updated_at
+          FROM old_mastery_scores
+        `).run(wasihunUserId)
+      }
+      db.exec(`DROP TABLE old_mastery_scores`)
+      console.log('mastery_scores table migrated successfully.')
+    }
+
+    // Migrate exercise_attempts table
+    let attemptsTableInfo = db.prepare("PRAGMA table_info(exercise_attempts)").all()
+    let hasUserIdInAttempts = attemptsTableInfo.some(col => col.name === 'user_id')
+    if (!hasUserIdInAttempts) {
+      console.log('Migrating exercise_attempts table to support user_id...')
+      db.exec(`ALTER TABLE exercise_attempts ADD COLUMN user_id INTEGER REFERENCES users(id) DEFAULT NULL`)
+      if (wasihunUserId) {
+        db.prepare(`UPDATE exercise_attempts SET user_id = ? WHERE user_id IS NULL`).run(wasihunUserId)
+      }
+      console.log('exercise_attempts table migrated successfully.')
+    }
+
+    // Migrate spaced_repetition_queue table
+    let srqTableInfo = db.prepare("PRAGMA table_info(spaced_repetition_queue)").all()
+    let hasUserIdInSrq = srqTableInfo.some(col => col.name === 'user_id')
+    if (!hasUserIdInSrq) {
+      console.log('Migrating spaced_repetition_queue table to support user_id...')
+      db.exec(`ALTER TABLE spaced_repetition_queue RENAME TO old_spaced_repetition_queue`)
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS spaced_repetition_queue (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL REFERENCES users(id),
+          flashcard_id INTEGER NOT NULL REFERENCES flashcards(id),
+          due_date TEXT,
+          priority INTEGER DEFAULT 1,
+          UNIQUE(user_id, flashcard_id)
+        )
+      `)
+      if (wasihunUserId) {
+        db.prepare(`
+          INSERT OR IGNORE INTO spaced_repetition_queue (user_id, flashcard_id, due_date, priority)
+          SELECT ?, flashcard_id, due_date, priority
+          FROM old_spaced_repetition_queue
+        `).run(wasihunUserId)
+      }
+      db.exec(`DROP TABLE old_spaced_repetition_queue`)
+      console.log('spaced_repetition_queue table migrated successfully.')
+    }
+  })()
 
   // Migration: Add has_glossary to courses if it doesn't exist
   try {
     db.exec(`ALTER TABLE courses ADD COLUMN has_glossary INTEGER DEFAULT 0`)
-  } catch (e) {
-    // column already exists, ignore
-  }
-
-  // Migration: Add matching_score and boss_score to mastery_scores if they don't exist
-  try {
-    db.exec(`ALTER TABLE mastery_scores ADD COLUMN matching_score REAL DEFAULT 0`)
-  } catch (e) {
-    // column already exists, ignore
-  }
-  try {
-    db.exec(`ALTER TABLE mastery_scores ADD COLUMN boss_score REAL DEFAULT 0`)
   } catch (e) {
     // column already exists, ignore
   }
@@ -167,19 +317,4 @@ export function initSchema() {
   } catch (e) {
     // column already exists, ignore
   }
-
-  // Migration: Add is_deleted and is_archived to tracks and courses
-  try {
-    db.exec(`ALTER TABLE tracks ADD COLUMN is_deleted INTEGER DEFAULT 0`)
-  } catch (e) {}
-  try {
-    db.exec(`ALTER TABLE tracks ADD COLUMN is_archived INTEGER DEFAULT 0`)
-  } catch (e) {}
-  try {
-    db.exec(`ALTER TABLE courses ADD COLUMN is_deleted INTEGER DEFAULT 0`)
-  } catch (e) {}
-  try {
-    db.exec(`ALTER TABLE courses ADD COLUMN is_archived INTEGER DEFAULT 0`)
-  } catch (e) {}
 }
-

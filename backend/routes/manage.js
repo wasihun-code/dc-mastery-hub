@@ -28,13 +28,20 @@ function copyDirSync(src, dest) {
 // 1. Get Trash items
 router.get('/manage/trash', (req, res, next) => {
   try {
-    const tracks = db.prepare('SELECT * FROM tracks WHERE is_deleted = 1').all()
+    const userId = req.user.id
+    const tracks = db.prepare(`
+      SELECT t.* 
+      FROM tracks t
+      JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
+      WHERE ut.is_deleted = 1
+    `).all(userId)
     const courses = db.prepare(`
       SELECT c.*, t.name AS track_name 
       FROM courses c 
       JOIN tracks t ON t.id = c.track_id 
-      WHERE c.is_deleted = 1
-    `).all()
+      JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
+      WHERE uc.is_deleted = 1
+    `).all(userId)
     res.json({ tracks, courses })
   } catch (err) {
     next(err)
@@ -44,22 +51,33 @@ router.get('/manage/trash', (req, res, next) => {
 // 2. Get Archived items
 router.get('/manage/archived', (req, res, next) => {
   try {
-    const tracks = db.prepare('SELECT * FROM tracks WHERE is_archived = 1').all()
+    const userId = req.user.id
+    const tracks = db.prepare(`
+      SELECT t.* 
+      FROM tracks t
+      JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
+      WHERE ut.is_archived = 1 AND ut.is_deleted = 0
+    `).all(userId)
     const courses = db.prepare(`
       SELECT c.*, t.name AS track_name, t.slug AS track_slug, t.color AS track_color, t.language AS track_language
       FROM courses c 
       JOIN tracks t ON t.id = c.track_id 
-      WHERE c.is_archived = 1
-    `).all()
+      JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
+      WHERE uc.is_archived = 1 AND uc.is_deleted = 0
+    `).all(userId)
     res.json({ tracks, courses })
   } catch (err) {
     next(err)
   }
 })
 
-// 3. Add Track
+// 3. Add Track (Global - Admin Only)
 router.post('/manage/track/add', (req, res, next) => {
   try {
+    if (!req.user.is_admin) {
+      return res.status(403).json({ error: 'Only administrators can create tracks.' })
+    }
+
     const { name, slug, language, color, description } = req.body
     if (!name || !slug) {
       res.status(400).json({ error: 'Name and slug are required' })
@@ -88,21 +106,47 @@ router.post('/manage/track/add', (req, res, next) => {
   }
 })
 
-// 4. Edit Track flags
+// 4. Edit Track flags (User-specific)
 router.post('/manage/track/update-flags', (req, res, next) => {
   try {
+    const userId = req.user.id
     const { trackId, is_deleted, is_archived } = req.body
+    if (!trackId) {
+      return res.status(400).json({ error: 'trackId is required' })
+    }
     
     db.transaction(() => {
+      // Ensure user_track record exists
+      const exists = db.prepare('SELECT 1 FROM user_tracks WHERE user_id = ? AND track_id = ?').get(userId, trackId)
+      if (!exists) {
+        db.prepare('INSERT INTO user_tracks (user_id, track_id) VALUES (?, ?)').run(userId, trackId)
+      }
+
       if (is_deleted !== undefined) {
-        db.prepare('UPDATE tracks SET is_deleted = ? WHERE id = ?').run(is_deleted ? 1 : 0, trackId)
-        // Propagate to all courses in track
-        db.prepare('UPDATE courses SET is_deleted = ? WHERE track_id = ?').run(is_deleted ? 1 : 0, trackId)
+        db.prepare('UPDATE user_tracks SET is_deleted = ? WHERE user_id = ? AND track_id = ?').run(is_deleted ? 1 : 0, userId, trackId)
+        
+        // Propagate user deletion to all courses in track
+        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        for (const c of courses) {
+          const cExists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, c.id)
+          if (!cExists) {
+            db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, c.id)
+          }
+          db.prepare('UPDATE user_courses SET is_deleted = ? WHERE user_id = ? AND course_id = ?').run(is_deleted ? 1 : 0, userId, c.id)
+        }
       }
       if (is_archived !== undefined) {
-        db.prepare('UPDATE tracks SET is_archived = ? WHERE id = ?').run(is_archived ? 1 : 0, trackId)
-        // Propagate to all courses in track
-        db.prepare('UPDATE courses SET is_archived = ? WHERE track_id = ?').run(is_archived ? 1 : 0, trackId)
+        db.prepare('UPDATE user_tracks SET is_archived = ? WHERE user_id = ? AND track_id = ?').run(is_archived ? 1 : 0, userId, trackId)
+        
+        // Propagate user archival to all courses in track
+        const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+        for (const c of courses) {
+          const cExists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, c.id)
+          if (!cExists) {
+            db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, c.id)
+          }
+          db.prepare('UPDATE user_courses SET is_archived = ? WHERE user_id = ? AND course_id = ?').run(is_archived ? 1 : 0, userId, c.id)
+        }
       }
     })()
 
@@ -112,9 +156,13 @@ router.post('/manage/track/update-flags', (req, res, next) => {
   }
 })
 
-// 5. Add Course to track
+// 5. Add Course to track (Global - Admin Only)
 router.post('/manage/course/add', (req, res, next) => {
   try {
+    if (!req.user.is_admin) {
+      return res.status(403).json({ error: 'Only administrators can create courses.' })
+    }
+
     const { name, slug, trackId, difficulty } = req.body
     if (!name || !slug || !trackId) {
       res.status(400).json({ error: 'Name, slug, and trackId are required' })
@@ -132,13 +180,10 @@ router.post('/manage/course/add', (req, res, next) => {
       const maxOrderResult = db.prepare('SELECT MAX(order_in_track) AS max_order FROM courses WHERE track_id = ?').get(trackId)
       const nextOrder = (maxOrderResult?.max_order || 0) + 1
 
-      const result = db.prepare(`
+      db.prepare(`
         INSERT INTO courses (name, slug, track_id, difficulty, order_in_track, status)
         VALUES (?, ?, ?, ?, ?, 'Not Started')
       `).run(name, slug, trackId, difficulty || 'Unknown', nextOrder)
-
-      // Initialize mastery score
-      db.prepare('INSERT INTO mastery_scores (course_id) VALUES (?)').run(result.lastInsertRowid)
     })()
 
     // Create folders on disk
@@ -153,17 +198,27 @@ router.post('/manage/course/add', (req, res, next) => {
   }
 })
 
-// 6. Update Course flags
+// 6. Update Course flags (User-specific)
 router.post('/manage/course/update-flags', (req, res, next) => {
   try {
+    const userId = req.user.id
     const { courseId, is_deleted, is_archived } = req.body
+    if (!courseId) {
+      return res.status(400).json({ error: 'courseId is required' })
+    }
 
     db.transaction(() => {
+      // Ensure user_course record exists
+      const exists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, courseId)
+      if (!exists) {
+        db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, courseId)
+      }
+
       if (is_deleted !== undefined) {
-        db.prepare('UPDATE courses SET is_deleted = ? WHERE id = ?').run(is_deleted ? 1 : 0, courseId)
+        db.prepare('UPDATE user_courses SET is_deleted = ? WHERE user_id = ? AND course_id = ?').run(is_deleted ? 1 : 0, userId, courseId)
       }
       if (is_archived !== undefined) {
-        db.prepare('UPDATE courses SET is_archived = ? WHERE id = ?').run(is_archived ? 1 : 0, courseId)
+        db.prepare('UPDATE user_courses SET is_archived = ? WHERE user_id = ? AND course_id = ?').run(is_archived ? 1 : 0, userId, courseId)
       }
     })()
 
@@ -262,6 +317,9 @@ function copyCourseInternal(courseId, destTrackId) {
 
 router.post('/manage/course/copy', (req, res, next) => {
   try {
+    if (!req.user.is_admin) {
+      return res.status(403).json({ error: 'Only administrators can copy courses.' })
+    }
     const { courseId, destTrackId } = req.body
     if (!courseId || !destTrackId) {
       res.status(400).json({ error: 'courseId and destTrackId are required' })
@@ -275,9 +333,10 @@ router.post('/manage/course/copy', (req, res, next) => {
   }
 })
 
-// 8. Bulk Actions for Courses
+// 8. Bulk Actions for Courses (User-scoped flags, Admin-only Copy/Move)
 router.post('/manage/courses/bulk-action', (req, res, next) => {
   try {
+    const userId = req.user.id
     const { courseIds, action, destTrackId } = req.body
     if (!Array.isArray(courseIds) || courseIds.length === 0 || !action) {
       res.status(400).json({ error: 'courseIds and action are required' })
@@ -287,29 +346,37 @@ router.post('/manage/courses/bulk-action', (req, res, next) => {
     db.transaction(() => {
       for (const id of courseIds) {
         const cId = Number(id)
+        
+        // Ensure user_courses record exists for flag updates
+        const exists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, cId)
+        if (!exists && !['copy', 'move'].includes(action)) {
+          db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, cId)
+        }
+
         if (action === 'delete') {
-          db.prepare('UPDATE courses SET is_deleted = 1 WHERE id = ?').run(cId)
+          db.prepare('UPDATE user_courses SET is_deleted = 1 WHERE user_id = ? AND course_id = ?').run(userId, cId)
         } else if (action === 'restore') {
-          db.prepare('UPDATE courses SET is_deleted = 0 WHERE id = ?').run(cId)
+          db.prepare('UPDATE user_courses SET is_deleted = 0 WHERE user_id = ? AND course_id = ?').run(userId, cId)
         } else if (action === 'archive') {
-          db.prepare('UPDATE courses SET is_archived = 1 WHERE id = ?').run(cId)
+          db.prepare('UPDATE user_courses SET is_archived = 1 WHERE user_id = ? AND course_id = ?').run(userId, cId)
         } else if (action === 'unarchive') {
-          db.prepare('UPDATE courses SET is_archived = 0 WHERE id = ?').run(cId)
+          db.prepare('UPDATE user_courses SET is_archived = 0 WHERE user_id = ? AND course_id = ?').run(userId, cId)
         } else if (action === 'mark_reviewed') {
-          db.prepare("UPDATE courses SET reviewed = 'Yes' WHERE id = ?").run(cId)
+          db.prepare("UPDATE user_courses SET reviewed = 'Yes' WHERE user_id = ? AND course_id = ?").run(userId, cId)
         } else if (action === 'mark_unreviewed') {
-          db.prepare("UPDATE courses SET reviewed = 'No' WHERE id = ?").run(cId)
+          db.prepare("UPDATE user_courses SET reviewed = 'No' WHERE user_id = ? AND course_id = ?").run(userId, cId)
         } else if (action === 'copy') {
+          if (!req.user.is_admin) throw new Error('Only administrators can copy courses.')
           if (!destTrackId) throw new Error('destTrackId is required for copy action')
           copyCourseInternal(cId, Number(destTrackId))
         } else if (action === 'move') {
+          if (!req.user.is_admin) throw new Error('Only administrators can move courses.')
           if (!destTrackId) throw new Error('destTrackId is required for move action')
           const course = db.prepare('SELECT slug, track_id FROM courses WHERE id = ?').get(cId)
           if (course && Number(course.track_id) !== Number(destTrackId)) {
-            // First Copy Course
             copyCourseInternal(cId, Number(destTrackId))
-            // Then Mark original as deleted (putting in trash)
-            db.prepare('UPDATE courses SET is_deleted = 1 WHERE id = ?').run(cId)
+            // Mark original as deleted for this user
+            db.prepare('UPDATE user_courses SET is_deleted = 1 WHERE user_id = ? AND course_id = ?').run(userId, cId)
           }
         }
       }
@@ -324,6 +391,8 @@ router.post('/manage/courses/bulk-action', (req, res, next) => {
 // 9. Permanent Deletion from trash
 router.post('/manage/trash/permanently-delete', (req, res, next) => {
   try {
+    const userId = req.user.id
+    const isAdmin = req.user.is_admin
     const { type, id } = req.body
     if (!type || !id) {
       res.status(400).json({ error: 'type and id are required' })
@@ -331,54 +400,91 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
     }
 
     db.transaction(() => {
-      if (type === 'course') {
-        const courseId = Number(id)
-        const course = db.prepare('SELECT slug, track_id FROM courses WHERE id = ?').get(courseId)
-        
-        if (course) {
-          const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
-          // 1. Delete DB Records
-          db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(courseId)
-          db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(courseId)
-          db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(courseId)
-          db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(courseId)
-          db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(courseId)
-          db.prepare('DELETE FROM concepts WHERE course_id = ?').run(courseId)
-          db.prepare('DELETE FROM courses WHERE id = ?').run(courseId)
+      if (!isAdmin) {
+        // User-specific deletion: wipes their own attempts and course states
+        if (type === 'course') {
+          const courseId = Number(id)
+          db.prepare('DELETE FROM exercise_attempts WHERE course_id = ? AND user_id = ?').run(courseId, userId)
+          db.prepare('DELETE FROM mastery_scores WHERE course_id = ? AND user_id = ?').run(courseId, userId)
+          db.prepare(`
+            DELETE FROM spaced_repetition_queue 
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+          `).run(userId, courseId)
+          db.prepare(`
+            DELETE FROM user_flashcard_progress 
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+          `).run(userId, courseId)
+          db.prepare('DELETE FROM user_courses WHERE user_id = ? AND course_id = ?').run(userId, courseId)
+        } else if (type === 'track') {
+          const trackId = Number(id)
+          const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
+          const courseIds = courses.map(c => c.id)
+          if (courseIds.length > 0) {
+            const placeholders = courseIds.map(() => '?').join(',')
+            db.prepare(`DELETE FROM exercise_attempts WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+            db.prepare(`DELETE FROM mastery_scores WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+            db.prepare(`
+              DELETE FROM user_flashcard_progress 
+              WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+            `).run(userId, ...courseIds)
+            db.prepare(`
+              DELETE FROM spaced_repetition_queue 
+              WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+            `).run(userId, ...courseIds)
+            db.prepare(`DELETE FROM user_courses WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+          }
+          db.prepare('DELETE FROM user_tracks WHERE user_id = ? AND track_id = ?').run(userId, trackId)
+        }
+      } else {
+        // Superuser: Physical global deletion from DB and Disk
+        if (type === 'course') {
+          const courseId = Number(id)
+          const course = db.prepare('SELECT slug, track_id FROM courses WHERE id = ?').get(courseId)
+          
+          if (course) {
+            const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+            db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(courseId)
+            db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(courseId)
+            db.prepare('DELETE FROM user_courses WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM concepts WHERE course_id = ?').run(courseId)
+            db.prepare('DELETE FROM courses WHERE id = ?').run(courseId)
 
-          // 2. Delete Folder on disk
-          if (track) {
-            const courseFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', track.slug, course.slug)
-            if (fs.existsSync(courseFolder)) {
-              fs.rmSync(courseFolder, { recursive: true, force: true })
+            if (track) {
+              const courseFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', track.slug, course.slug)
+              if (fs.existsSync(courseFolder)) {
+                fs.rmSync(courseFolder, { recursive: true, force: true })
+              }
             }
           }
-        }
-      } else if (type === 'track') {
-        const trackId = Number(id)
-        const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(trackId)
-        
-        if (track) {
-          const courses = db.prepare('SELECT id, slug FROM courses WHERE track_id = ?').all(trackId)
+        } else if (type === 'track') {
+          const trackId = Number(id)
+          const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(trackId)
           
-          // Delete all courses in the track first
-          for (const course of courses) {
-            db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(course.id)
-            db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(course.id)
-            db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
-            db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
-            db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
-            db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
-            db.prepare('DELETE FROM courses WHERE id = ?').run(course.id)
-          }
+          if (track) {
+            const courses = db.prepare('SELECT id, slug FROM courses WHERE track_id = ?').all(trackId)
+            for (const course of courses) {
+              db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+              db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+              db.prepare('DELETE FROM user_courses WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
+              db.prepare('DELETE FROM courses WHERE id = ?').run(course.id)
+            }
 
-          // Delete track
-          db.prepare('DELETE FROM tracks WHERE id = ?').run(trackId)
+            db.prepare('DELETE FROM user_tracks WHERE track_id = ?').run(trackId)
+            db.prepare('DELETE FROM tracks WHERE id = ?').run(trackId)
 
-          // Delete track folder on disk
-          const trackFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', track.slug)
-          if (fs.existsSync(trackFolder)) {
-            fs.rmSync(trackFolder, { recursive: true, force: true })
+            const trackFolder = path.join(DEFAULT_CONTENT_FOLDER, 'tracks', track.slug)
+            if (fs.existsSync(trackFolder)) {
+              fs.rmSync(trackFolder, { recursive: true, force: true })
+            }
           }
         }
       }
@@ -390,9 +496,13 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
   }
 })
 
-// 10. Upload material base64
+// 10. Upload material base64 (Global - Admin Only)
 router.post('/manage/upload-material', (req, res, next) => {
   try {
+    if (!req.user.is_admin) {
+      return res.status(403).json({ error: 'Only administrators can upload learning materials.' })
+    }
+
     const { courseId, fileType, fileName, fileContent } = req.body
     if (!courseId || !fileType || !fileName || !fileContent) {
       res.status(400).json({ error: 'courseId, fileType, fileName, and fileContent are required' })
@@ -445,7 +555,7 @@ router.post('/manage/upload-material', (req, res, next) => {
   }
 })
 
-// 11. Update Course properties (status, difficulty)
+// 11. Update Course properties (difficulty, order, etc. - User-scoped status/notes/reviewed)
 router.post('/manage/course/update-properties', (req, res, next) => {
   try {
     const { courseId, status, difficulty, reviewed } = req.body
@@ -454,6 +564,7 @@ router.post('/manage/course/update-properties', (req, res, next) => {
       return
     }
 
+    const userId = req.user.id
     const fields = []
     const values = []
 
@@ -471,8 +582,13 @@ router.post('/manage/course/update-properties', (req, res, next) => {
     }
 
     if (fields.length > 0) {
-      values.push(Number(courseId))
-      db.prepare(`UPDATE courses SET ${fields.join(', ')} WHERE id = ?`).run(...values)
+      // Ensure user_courses record exists
+      const exists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, courseId)
+      if (!exists) {
+        db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, courseId)
+      }
+      values.push(userId, Number(courseId))
+      db.prepare(`UPDATE user_courses SET ${fields.join(', ')} WHERE user_id = ? AND course_id = ?`).run(...values)
     }
 
     res.json({ success: true })

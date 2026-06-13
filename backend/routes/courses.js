@@ -10,28 +10,43 @@ const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glo
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
-function getCourseBySlug(slug) {
+function getCourseBySlug(slug, userId) {
   return db
     .prepare(`
       SELECT
-        c.*,
+        c.id,
+        c.slug,
+        c.name,
+        c.track_id,
+        c.difficulty AS default_difficulty,
+        c.order_in_track,
+        c.has_pdf,
+        c.has_glossary,
+        c.created_at,
+        COALESCE(uc.status, 'Not Started') AS status,
+        COALESCE(uc.difficulty, c.difficulty) AS difficulty,
+        COALESCE(uc.notes, c.notes) AS notes,
+        COALESCE(uc.reviewed, c.reviewed) AS reviewed,
+        COALESCE(uc.is_deleted, 0) AS is_deleted,
+        COALESCE(uc.is_archived, 0) AS is_archived,
         t.name AS track_name,
         t.slug AS track_slug,
         t.color AS track_color,
         t.language AS track_language
       FROM courses c
       JOIN tracks t ON t.id = c.track_id
+      LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       WHERE c.slug = ?
     `)
-    .get(slug)
+    .get(userId, slug)
 }
 
-function getMasteryScores(courseId) {
+function getMasteryScores(courseId, userId) {
   const scores = db
     .prepare(`
-      SELECT * FROM mastery_scores WHERE course_id = ?
+      SELECT * FROM mastery_scores WHERE course_id = ? AND user_id = ?
     `)
-    .get(courseId)
+    .get(courseId, userId)
 
   if (!scores) {
     return {
@@ -49,9 +64,23 @@ function getMasteryScores(courseId) {
 
 router.get('/courses', (req, res, next) => {
   try {
+    const userId = req.user.id
     const courses = db.prepare(`
       SELECT 
-        c.*,
+        c.id,
+        c.slug,
+        c.name,
+        c.track_id,
+        c.order_in_track,
+        c.has_pdf,
+        c.has_glossary,
+        c.created_at,
+        COALESCE(uc.status, 'Not Started') AS status,
+        COALESCE(uc.difficulty, c.difficulty) AS difficulty,
+        COALESCE(uc.notes, c.notes) AS notes,
+        COALESCE(uc.reviewed, c.reviewed) AS reviewed,
+        COALESCE(uc.is_deleted, 0) AS is_deleted,
+        COALESCE(uc.is_archived, 0) AS is_archived,
         t.slug AS track_slug,
         t.name AS track_name,
         t.color AS track_color,
@@ -66,10 +95,11 @@ router.get('/courses', (req, res, next) => {
         (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count
       FROM courses c
       JOIN tracks t ON t.id = c.track_id
-      LEFT JOIN mastery_scores ms ON ms.course_id = c.id
-      WHERE c.is_deleted = 0 AND c.is_archived = 0
+      LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
+      LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
+      WHERE COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
       ORDER BY t.id, c.order_in_track
-    `).all();
+    `).all(userId, userId);
     res.status(200).json(courses);
   } catch (err) {
     next(err);
@@ -78,22 +108,28 @@ router.get('/courses', (req, res, next) => {
 
 router.get('/courses/:slug', (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug)
+    const userId = req.user.id
+    const course = getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return
     }
 
-    const scores = getMasteryScores(course.id)
-    const { id: _msId, course_id: _msCourseId, ...scoresData } = scores
+    const scores = getMasteryScores(course.id, userId)
+    const { id: _msId, course_id: _msCourseId, user_id: _msUserId, ...scoresData } = scores
 
     let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
     let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
     let quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
     const dueToday = db
-      .prepare("SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ? AND next_review_date <= date('now')")
-      .get(course.id).count
+      .prepare(`
+        SELECT COUNT(*) AS count 
+        FROM flashcards f
+        LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
+        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, date('now')) <= date('now')
+      `)
+      .get(userId, course.id).count
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
@@ -151,7 +187,8 @@ router.get('/courses/:slug', (req, res, next) => {
 
 router.patch('/courses/:slug', (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug)
+    const userId = req.user.id
+    const course = getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
@@ -159,23 +196,37 @@ router.patch('/courses/:slug', (req, res, next) => {
     }
 
     const updates = req.body
-    const fields = []
-    const values = []
+    const userFields = []
+    const userValues = []
+    const globalFields = []
+    const globalValues = []
+
+    const userAllowed = ['status', 'notes', 'reviewed', 'difficulty']
+    const globalAllowed = ['has_pdf', 'has_glossary']
 
     for (const key of Object.keys(updates)) {
-      if (allowedCourseUpdates.includes(key)) {
-        fields.push(`${key} = ?`)
-        values.push(updates[key])
+      if (userAllowed.includes(key)) {
+        userFields.push(`${key} = ?`)
+        userValues.push(updates[key])
+      } else if (globalAllowed.includes(key)) {
+        globalFields.push(`${key} = ?`)
+        globalValues.push(updates[key])
       }
     }
 
-    if (fields.length === 0) {
-      res.status(400).json({ error: 'No valid fields to update' })
-      return
+    if (globalFields.length > 0) {
+      globalValues.push(course.id)
+      db.prepare(`UPDATE courses SET ${globalFields.join(', ')} WHERE id = ?`).run(...globalValues)
     }
 
-    values.push(course.id)
-    db.prepare(`UPDATE courses SET ${fields.join(', ')} WHERE id = ?`).run(...values)
+    if (userFields.length > 0) {
+      const exists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, course.id)
+      if (!exists) {
+        db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, course.id)
+      }
+      userValues.push(userId, course.id)
+      db.prepare(`UPDATE user_courses SET ${userFields.join(', ')} WHERE user_id = ? AND course_id = ?`).run(...userValues)
+    }
 
     res.status(200).json({ status: 'ok' })
   } catch (err) {
@@ -185,7 +236,8 @@ router.patch('/courses/:slug', (req, res, next) => {
 
 router.get('/courses/:slug/concepts', (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug)
+    const userId = req.user.id
+    const course = getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
@@ -202,7 +254,8 @@ router.get('/courses/:slug/concepts', (req, res, next) => {
 
 router.get('/courses/:slug/flashcards/due', (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug)
+    const userId = req.user.id
+    const course = getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
@@ -230,13 +283,18 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
       .prepare(`
         SELECT
           f.*,
-          c.name AS concept_name
+          c.name AS concept_name,
+          COALESCE(ufp.interval_days, 1) AS interval_days,
+          COALESCE(ufp.ease_factor, 2.5) AS ease_factor,
+          COALESCE(ufp.repetitions, 0) AS repetitions,
+          COALESCE(ufp.next_review_date, date('now')) AS next_review_date
         FROM flashcards f
         LEFT JOIN concepts c ON c.id = f.concept_id
-        WHERE f.course_id = ? AND f.next_review_date <= date('now')
-        ORDER BY f.next_review_date
+        LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
+        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, date('now')) <= date('now')
+        ORDER BY COALESCE(ufp.next_review_date, date('now'))
       `)
-      .all(course.id)
+      .all(userId, course.id)
 
     res.status(200).json(flashcards)
   } catch (err) {
@@ -246,7 +304,7 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
 
 router.get('/courses/:slug/quiz-questions', (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug)
+    const course = getCourseBySlug(req.params.slug, req.user.id)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })

@@ -17,11 +17,11 @@ const allowedStatsUpdates = [
   'badges_json',
 ]
 
-function getUserStats() {
-  return db.prepare('SELECT * FROM user_stats WHERE id = 1').get()
+function getUserStats(userId) {
+  return db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(userId)
 }
 
-function getTracksSummary() {
+function getTracksSummary(userId) {
   return db
     .prepare(`
       SELECT
@@ -31,31 +31,34 @@ function getTracksSummary() {
         t.color,
         t.language,
         COUNT(c.id) AS course_count,
-        SUM(CASE WHEN c.status = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
-        SUM(CASE WHEN c.status = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
+        SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
+        SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
         ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
       FROM tracks t
-      LEFT JOIN courses c ON c.track_id = t.id
-      LEFT JOIN mastery_scores ms ON ms.course_id = c.id
+      LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
+      LEFT JOIN courses c ON c.track_id = t.id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
+      LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
+      LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
+      WHERE COALESCE(ut.is_deleted, 0) = 0 AND COALESCE(ut.is_archived, 0) = 0
       GROUP BY t.id
       ORDER BY t.id
     `)
-    .all()
+    .all(userId, userId, userId, userId, userId)
 }
 
-function scoreForExerciseType(courseId, whereClause) {
+function scoreForExerciseType(courseId, whereClause, userId) {
   const result = db
     .prepare(`
       SELECT COALESCE(AVG(was_correct), 0) * 100 AS score
       FROM exercise_attempts
-      WHERE course_id = ? AND ${whereClause}
+      WHERE course_id = ? AND user_id = ? AND ${whereClause}
     `)
-    .get(courseId)
+    .get(courseId, userId)
 
   return result.score ?? 0
 }
 
-export function recalculateMastery(courseId) {
+export function recalculateMastery(courseId, userId) {
   // 1. Get course and track info
   const course = db.prepare('SELECT id, slug, track_id FROM courses WHERE id = ?').get(courseId)
   if (!course) return null
@@ -132,8 +135,8 @@ export function recalculateMastery(courseId) {
   const totalConcepts = conceptIdsSet.size
   if (totalConcepts === 0) return null
 
-  // Step 2 — Get all exercise_attempts for this course
-  const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ?').all(courseId)
+  // Step 2 — Get all exercise_attempts for this course for this user
+  const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ? AND user_id = ?').all(courseId, userId)
 
   // Step 3 — Calculate per-concept mastery
   const conceptMastery = {}
@@ -307,6 +310,7 @@ export function recalculateMastery(courseId) {
   // Step 7 — Update mastery_scores table
   db.prepare(`
     INSERT INTO mastery_scores (
+      user_id,
       course_id,
       flashcard_score,
       quiz_score,
@@ -317,8 +321,8 @@ export function recalculateMastery(courseId) {
       overall_mastery,
       updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-    ON CONFLICT(course_id) DO UPDATE SET
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    ON CONFLICT(user_id, course_id) DO UPDATE SET
       flashcard_score = excluded.flashcard_score,
       quiz_score = excluded.quiz_score,
       code_score = excluded.code_score,
@@ -327,13 +331,15 @@ export function recalculateMastery(courseId) {
       boss_score = excluded.boss_score,
       overall_mastery = excluded.overall_mastery,
       updated_at = excluded.updated_at
-  `).run(courseId, flashcardScore, quizScore, codeScore, datasetScore, matchingScore, bossScore, overallMastery)
+  `).run(userId, courseId, flashcardScore, quizScore, codeScore, datasetScore, matchingScore, bossScore, overallMastery)
 
-  return db.prepare('SELECT * FROM mastery_scores WHERE course_id = ?').get(courseId)
+  return db.prepare('SELECT * FROM mastery_scores WHERE course_id = ? AND user_id = ?').get(courseId, userId)
 }
 
 router.get('/progress/dashboard', (req, res, next) => {
   try {
+    const userId = req.user.id
+
     const weakSpots = db
       .prepare(`
         SELECT
@@ -347,12 +353,13 @@ router.get('/progress/dashboard', (req, res, next) => {
         LEFT JOIN flashcards fc ON ea.exercise_type = 'flashcard' AND fc.id = ea.question_id
         JOIN concepts con ON con.id = COALESCE(qq.concept_id, fc.concept_id)
         JOIN courses crs ON crs.id = ea.course_id
+        WHERE ea.user_id = ?
         GROUP BY COALESCE(qq.concept_id, fc.concept_id)
         HAVING COUNT(*) >= 1
         ORDER BY correct_rate ASC, attempt_count DESC
         LIMIT 10
       `)
-      .all()
+      .all(userId)
 
     const recentActivity = db
       .prepare(`
@@ -362,18 +369,20 @@ router.get('/progress/dashboard', (req, res, next) => {
           c.slug AS course_slug
         FROM exercise_attempts ea
         LEFT JOIN courses c ON c.id = ea.course_id
+        WHERE ea.user_id = ?
         ORDER BY ea.attempted_at DESC
         LIMIT 10
       `)
-      .all()
+      .all(userId)
 
     const dueFlashcardsCount = db
       .prepare(`
         SELECT COUNT(*) AS count
-        FROM flashcards
-        WHERE next_review_date <= date('now')
+        FROM flashcards f
+        LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
+        WHERE COALESCE(ufp.next_review_date, date('now')) <= date('now')
       `)
-      .get().count
+      .get(userId).count
 
     const exerciseBreakdown = db
       .prepare(`
@@ -388,9 +397,10 @@ router.get('/progress/dashboard', (req, res, next) => {
             ELSE was_correct * 100.0 
           END), 1) AS avg_score
         FROM exercise_attempts
+        WHERE user_id = ?
         GROUP BY exercise_type
       `)
-      .all()
+      .all(userId)
 
     const dailyActivity = db
       .prepare(`
@@ -400,11 +410,11 @@ router.get('/progress/dashboard', (req, res, next) => {
           SUM(was_correct) AS correct_attempts,
           SUM(COALESCE(time_taken_secs, 0)) AS total_time_secs
         FROM exercise_attempts
-        WHERE attempted_at >= date('now', '-30 days')
+        WHERE user_id = ? AND attempted_at >= date('now', '-30 days')
         GROUP BY date(attempted_at)
         ORDER BY date ASC
       `)
-      .all()
+      .all(userId)
 
     const overallStats = db
       .prepare(`
@@ -414,12 +424,13 @@ router.get('/progress/dashboard', (req, res, next) => {
           COALESCE(SUM(time_taken_secs), 0) AS total_time_secs,
           ROUND(COALESCE(AVG(was_correct), 0) * 100, 1) AS avg_accuracy
         FROM exercise_attempts
+        WHERE user_id = ?
       `)
-      .get()
+      .get(userId)
 
     res.status(200).json({
-      user_stats: getUserStats(),
-      tracks_summary: getTracksSummary(),
+      user_stats: getUserStats(userId),
+      tracks_summary: getTracksSummary(userId),
       weak_spots: weakSpots,
       recent_activity: recentActivity,
       due_flashcards_count: dueFlashcardsCount,
@@ -434,7 +445,7 @@ router.get('/progress/dashboard', (req, res, next) => {
 
 router.get('/progress/stats', (req, res, next) => {
   try {
-    res.status(200).json(getUserStats())
+    res.status(200).json(getUserStats(req.user.id))
   } catch (err) {
     next(err)
   }
@@ -442,6 +453,7 @@ router.get('/progress/stats', (req, res, next) => {
 
 router.patch('/progress/stats', (req, res, next) => {
   try {
+    const userId = req.user.id
     const updates = allowedStatsUpdates.filter((field) =>
       Object.prototype.hasOwnProperty.call(req.body, field),
     )
@@ -449,17 +461,17 @@ router.patch('/progress/stats', (req, res, next) => {
     if (updates.length > 0) {
       const assignments = updates.map((field) => `${field} = @${field}`).join(', ')
       const params = {
-        id: 1,
+        user_id: userId,
       }
 
       for (const field of updates) {
         params[field] = req.body[field]
       }
 
-      db.prepare(`UPDATE user_stats SET ${assignments} WHERE id = @id`).run(params)
+      db.prepare(`UPDATE user_stats SET ${assignments} WHERE user_id = @user_id`).run(params)
     }
 
-    res.status(200).json(getUserStats())
+    res.status(200).json(getUserStats(userId))
   } catch (err) {
     next(err)
   }
@@ -483,8 +495,8 @@ router.get('/progress/attempted-questions/:courseSlug/:exerciseType', (req, res,
   }
 });
 
-function updateStreak() {
-  const stats = db.prepare('SELECT * FROM user_stats WHERE id = 1').get()
+function updateStreak(userId) {
+  const stats = db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(userId)
   if (!stats) return
 
   const date = new Date()
@@ -522,17 +534,19 @@ function updateStreak() {
   db.prepare(`
     UPDATE user_stats 
     SET current_streak = ?, longest_streak = ?, last_active_date = ? 
-    WHERE id = 1
-  `).run(currentStreak, longestStreak, today)
+    WHERE user_id = ?
+  `).run(currentStreak, longestStreak, today, userId)
 }
 
 router.post('/progress/attempt', (req, res, next) => {
   try {
+    const userId = req.user.id
     const { exercise_type, course_id, question_id, concept_id, score, time_taken_secs, was_correct } = req.body
 
     const result = db
       .prepare(`
         INSERT INTO exercise_attempts (
+          user_id,
           exercise_type,
           course_id,
           question_id,
@@ -541,9 +555,10 @@ router.post('/progress/attempt', (req, res, next) => {
           time_taken_secs,
           was_correct
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
+        userId,
         exercise_type,
         course_id,
         question_id ?? null,
@@ -557,7 +572,17 @@ router.post('/progress/attempt', (req, res, next) => {
 
     // SM-2 Spaced Repetition update for flashcards in DB
     if (exercise_type === 'flashcard' && question_id) {
-      const card = db.prepare('SELECT * FROM flashcards WHERE id = ?').get(question_id)
+      let card = db.prepare(`
+        SELECT 
+          f.id,
+          COALESCE(ufp.repetitions, 0) AS repetitions,
+          COALESCE(ufp.interval_days, 1) AS interval_days,
+          COALESCE(ufp.ease_factor, 2.5) AS ease_factor
+        FROM flashcards f
+        LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
+        WHERE f.id = ?
+      `).get(userId, question_id)
+
       if (card) {
         let q = 3
         if (score >= 1.0) q = 5
@@ -565,9 +590,9 @@ router.post('/progress/attempt', (req, res, next) => {
         else if (score >= 0.5) q = 3
         else q = 1
 
-        let reps = card.repetitions || 0
-        let interval = card.interval_days || 1
-        let ease = card.ease_factor || 2.5
+        let reps = card.repetitions
+        let interval = card.interval_days
+        let ease = card.ease_factor
 
         if (q < 3) {
           reps = 0
@@ -587,15 +612,19 @@ router.post('/progress/attempt', (req, res, next) => {
         if (ease < 1.3) ease = 1.3
 
         db.prepare(`
-          UPDATE flashcards 
-          SET repetitions = ?, interval_days = ?, ease_factor = ?, next_review_date = date('now', '+' || ? || ' days')
-          WHERE id = ?
-        `).run(reps, interval, ease, interval, question_id)
+          INSERT INTO user_flashcard_progress (user_id, flashcard_id, repetitions, interval_days, ease_factor, next_review_date)
+          VALUES (?, ?, ?, ?, ?, date('now', '+' || ? || ' days'))
+          ON CONFLICT(user_id, flashcard_id) DO UPDATE SET
+            repetitions = excluded.repetitions,
+            interval_days = excluded.interval_days,
+            ease_factor = excluded.ease_factor,
+            next_review_date = excluded.next_review_date
+        `).run(userId, question_id, reps, interval, ease, interval)
       }
     }
 
-    const mastery = recalculateMastery(course_id)
-    updateStreak()
+    const mastery = recalculateMastery(course_id, userId)
+    updateStreak(userId)
 
     res.status(200).json({
       attempt,
@@ -730,9 +759,9 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
     const attempts = db.prepare(`
       SELECT exercise_type, question_id, was_correct, attempted_at
       FROM exercise_attempts
-      WHERE course_id = ?
+      WHERE course_id = ? AND user_id = ?
       ORDER BY attempted_at ASC
-    `).all(course.id)
+    `).all(course.id, req.user.id)
 
     const stats = {
       mcq: { sessions: 0, attempted: 0, correct: 0, wrong: 0, available: mcqAvailable, unattempted: mcqAvailable },
@@ -814,6 +843,7 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
 
 router.post('/progress/reset', (req, res, next) => {
   try {
+    const userId = req.user.id
     const { type, targetId } = req.body
 
     if (!['course', 'track', 'category', 'all'].includes(type)) {
@@ -824,44 +854,45 @@ router.post('/progress/reset', (req, res, next) => {
     db.transaction(() => {
       if (type === 'course') {
         const courseId = Number(targetId)
-        db.prepare('DELETE FROM exercise_attempts WHERE course_id = ?').run(courseId)
+        db.prepare('DELETE FROM exercise_attempts WHERE course_id = ? AND user_id = ?').run(courseId, userId)
+        db.prepare('DELETE FROM mastery_scores WHERE course_id = ? AND user_id = ?').run(courseId, userId)
+        
+        // Reset user course state
+        const hasCourse = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, courseId)
+        if (hasCourse) {
+          db.prepare("UPDATE user_courses SET status = 'Not Started', notes = NULL, reviewed = 'No', difficulty = 'Unknown' WHERE user_id = ? AND course_id = ?").run(userId, courseId)
+        }
+        
         db.prepare(`
-          UPDATE mastery_scores 
-          SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
-          WHERE course_id = ?
-        `).run(courseId)
-        db.prepare("UPDATE courses SET status = 'Not Started' WHERE id = ?").run(courseId)
-        db.prepare(`
-          UPDATE flashcards 
-          SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
-          WHERE course_id = ?
-        `).run(courseId)
+          DELETE FROM user_flashcard_progress 
+          WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+        `).run(userId, courseId)
         db.prepare(`
           DELETE FROM spaced_repetition_queue 
-          WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
-        `).run(courseId)
+          WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+        `).run(userId, courseId)
       } else if (type === 'track') {
         const trackId = Number(targetId)
         const courses = db.prepare('SELECT id FROM courses WHERE track_id = ?').all(trackId)
         const courseIds = courses.map(c => c.id)
         if (courseIds.length > 0) {
           const placeholders = courseIds.map(() => '?').join(',')
-          db.prepare(`DELETE FROM exercise_attempts WHERE course_id IN (${placeholders})`).run(...courseIds)
+          
+          db.prepare(`DELETE FROM exercise_attempts WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+          db.prepare(`DELETE FROM mastery_scores WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+          
+          for (const cid of courseIds) {
+            db.prepare("UPDATE user_courses SET status = 'Not Started', notes = NULL, reviewed = 'No', difficulty = 'Unknown' WHERE user_id = ? AND course_id = ?").run(userId, cid)
+          }
+
           db.prepare(`
-            UPDATE mastery_scores 
-            SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
-            WHERE course_id IN (${placeholders})
-          `).run(...courseIds)
-          db.prepare(`UPDATE courses SET status = 'Not Started' WHERE id IN (${placeholders})`).run(...courseIds)
-          db.prepare(`
-            UPDATE flashcards 
-            SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
-            WHERE course_id IN (${placeholders})
-          `).run(...courseIds)
+            DELETE FROM user_flashcard_progress 
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+          `).run(userId, ...courseIds)
           db.prepare(`
             DELETE FROM spaced_repetition_queue 
-            WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
-          `).run(...courseIds)
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+          `).run(userId, ...courseIds)
         }
       } else if (type === 'category') {
         const category = String(targetId)
@@ -873,41 +904,37 @@ router.post('/progress/reset', (req, res, next) => {
           const courseIds = courses.map(c => c.id)
           if (courseIds.length > 0) {
             const placeholders = courseIds.map(() => '?').join(',')
-            db.prepare(`DELETE FROM exercise_attempts WHERE course_id IN (${placeholders})`).run(...courseIds)
+            
+            db.prepare(`DELETE FROM exercise_attempts WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+            db.prepare(`DELETE FROM mastery_scores WHERE user_id = ? AND course_id IN (${placeholders})`).run(userId, ...courseIds)
+            
+            for (const cid of courseIds) {
+              db.prepare("UPDATE user_courses SET status = 'Not Started', notes = NULL, reviewed = 'No', difficulty = 'Unknown' WHERE user_id = ? AND course_id = ?").run(userId, cid)
+            }
+
             db.prepare(`
-              UPDATE mastery_scores 
-              SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0 
-              WHERE course_id IN (${placeholders})
-            `).run(...courseIds)
-            db.prepare(`UPDATE courses SET status = 'Not Started' WHERE id IN (${placeholders})`).run(...courseIds)
-            db.prepare(`
-              UPDATE flashcards 
-              SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now') 
-              WHERE course_id IN (${placeholders})
-            `).run(...courseIds)
+              DELETE FROM user_flashcard_progress 
+              WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+            `).run(userId, ...courseIds)
             db.prepare(`
               DELETE FROM spaced_repetition_queue 
-              WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
-            `).run(...courseIds)
+              WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id IN (${placeholders}))
+            `).run(userId, ...courseIds)
           }
         }
       } else if (type === 'all') {
-        db.prepare('DELETE FROM exercise_attempts').run()
-        db.prepare(`
-          UPDATE mastery_scores 
-          SET flashcard_score = 0, quiz_score = 0, code_score = 0, dataset_score = 0, matching_score = 0, boss_score = 0, overall_mastery = 0
-        `).run()
-        db.prepare("UPDATE courses SET status = 'Not Started'").run()
-        db.prepare(`
-          UPDATE flashcards 
-          SET interval_days = 1, ease_factor = 2.5, repetitions = 0, next_review_date = date('now')
-        `).run()
-        db.prepare('DELETE FROM spaced_repetition_queue').run()
+        db.prepare('DELETE FROM exercise_attempts WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM mastery_scores WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM user_courses WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM user_tracks WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM user_flashcard_progress WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM spaced_repetition_queue WHERE user_id = ?').run(userId)
+        
         db.prepare(`
           UPDATE user_stats 
           SET total_xp = 0, level = 'Beginner', current_streak = 0, longest_streak = 0, last_active_date = NULL, badges_json = '[]' 
-          WHERE id = 1
-        `).run()
+          WHERE user_id = ?
+        `).run(userId)
       }
     })()
 
@@ -921,7 +948,7 @@ router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
   try {
     const courseId = Number(req.params.courseId)
     const concepts = db.prepare('SELECT id, name, definition, category, difficulty FROM concepts WHERE course_id = ?').all(courseId)
-    const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ?').all(courseId)
+    const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ? AND user_id = ?').all(courseId, req.user.id)
     
     const attemptsByConceptAndType = {}
     for (const a of attempts) {
@@ -983,13 +1010,16 @@ router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
 
 router.get('/progress/due-flashcards', (req, res, next) => {
   try {
+    const userId = req.user.id
     const dueCards = db.prepare(`
-      SELECT f.*, c.name AS course_name, c.slug AS course_slug
+      SELECT f.*, c.name AS course_name, c.slug AS course_slug,
+             COALESCE(ufp.next_review_date, date('now')) AS next_review_date
       FROM flashcards f
       JOIN courses c ON c.id = f.course_id
-      WHERE f.next_review_date <= date('now')
-      ORDER BY f.next_review_date ASC
-    `).all()
+      LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
+      WHERE COALESCE(ufp.next_review_date, date('now')) <= date('now')
+      ORDER BY COALESCE(ufp.next_review_date, date('now')) ASC
+    `).all(userId)
     res.status(200).json(dueCards)
   } catch (err) {
     next(err)
