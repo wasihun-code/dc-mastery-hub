@@ -10,6 +10,26 @@ const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glo
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
+function getCourseFolder(contentFolder, courseSlug, trackSlug) {
+  // First try the primary track slug
+  const primaryPath = path.join(contentFolder, 'tracks', trackSlug, courseSlug)
+  if (fs.existsSync(primaryPath)) {
+    return primaryPath
+  }
+  // Search other track folders
+  const tracksDir = path.join(contentFolder, 'tracks')
+  if (fs.existsSync(tracksDir)) {
+    const trackDirs = fs.readdirSync(tracksDir)
+    for (const tDir of trackDirs) {
+      const checkPath = path.join(tracksDir, tDir, courseSlug)
+      if (fs.existsSync(checkPath)) {
+        return checkPath
+      }
+    }
+  }
+  return primaryPath
+}
+
 function getCourseBySlug(slug, userId) {
   return db
     .prepare(`
@@ -100,6 +120,23 @@ router.get('/courses', (req, res, next) => {
       WHERE COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
       ORDER BY t.id, c.order_in_track
     `).all(userId, userId);
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+
+    for (const c of courses) {
+      if (c.quiz_question_count === 0) {
+        const courseFolder = getCourseFolder(contentFolder, c.slug, c.track_slug);
+        const mcqPath = path.join(courseFolder, 'exercises', 'mcq.json');
+        if (fs.existsSync(mcqPath)) {
+          try {
+            const data = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'));
+            c.quiz_question_count = (Array.isArray(data) ? data : (data.questions || [])).length;
+          } catch (e) {}
+        }
+      }
+    }
+
     res.status(200).json(courses);
   } catch (err) {
     next(err);

@@ -385,70 +385,81 @@ export default function CourseDetail() {
         </header>
 
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <ExerciseCard 
-            icon={Brain}
-            title="Flashcards"
-            description="Spaced repetition to lock in concepts"
-            stat={`${course.flashcards_due_today || 0} cards due today`}
-            statColor={course.flashcards_due_today > 0 ? 'text-[var(--accent-yellow)]' : 'text-[var(--text-muted)]'}
-            buttonText="Start Flashcards"
-            onClick={() => navigate(`/exercise/flashcards/${courseSlug}`)}
-            disabled={course.flashcard_count === 0}
-            warning={course.flashcard_count === 0 ? "No flashcards yet — add slides first" : null}
-            stats={stats?.flashcard}
-          />
-          <ExerciseCard 
-            icon={HelpCircle}
-            title="Multiple Choice Quiz"
-            description="Test your knowledge with timed questions"
-            stat={`${course.quiz_question_count || 0} questions available`}
-            buttonText="Start Quiz"
-            onClick={() => navigate(`/exercise/quiz/${courseSlug}`)}
-            disabled={course.quiz_question_count === 0}
-            warning={course.quiz_question_count === 0 ? "No questions yet — add slides first" : null}
-            stats={stats?.mcq}
-          />
-          <ExerciseCard 
-            icon={PenLine}
-            title="Fill in the Blank"
-            description="Complete code snippets from memory"
-            stat={`${course.concept_count || 0} concepts available`}
-            buttonText="Start Coding"
-            onClick={() => navigate(`/exercise/fillblank/${courseSlug}`)}
-            disabled={course.concept_count === 0}
-            stats={stats?.ftb}
-          />
-          <ExerciseCard 
-            icon={Database}
-            title="Dataset Challenge"
-            description="Write real code against real datasets"
-            stat="Hands-on coding exercises"
-            buttonText="Start Challenge"
-            onClick={() => navigate(`/exercise/dataset/${courseSlug}`)}
-            stats={stats?.dataset}
-          />
-          <ExerciseCard 
-            icon={Shuffle}
-            title="Matching Game"
-            description="Match concepts to definitions — timed"
-            stat={`${course.concept_count || 0} pairs available`}
-            buttonText="Start Matching"
-            onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
-            disabled={course.concept_count === 0}
-            stats={stats?.matching}
-          />
-          <ExerciseCard 
-            icon={Swords}
-            isBoss={true}
-            title="Boss Battle 🔥"
-            description="Mixed challenge — prove your mastery"
-            stat="Ready to battle!"
-            statColor="text-[var(--accent-green)]"
-            buttonText="Enter Battle"
-            onClick={() => navigate(`/exercise/boss/${courseSlug}`)}
-            disabled={false}
-            stats={stats?.boss_battle}
-          />
+          {stats?.flashcard?.available > 0 && (
+            <ExerciseCard 
+              icon={Brain}
+              title="Flashcards"
+              description="Spaced repetition to lock in concepts"
+              stat={`${course.flashcards_due_today || 0} cards due today`}
+              statColor={course.flashcards_due_today > 0 ? 'text-[var(--accent-yellow)]' : 'text-[var(--text-muted)]'}
+              buttonText="Start Flashcards"
+              onClick={() => navigate(`/exercise/flashcards/${courseSlug}`)}
+              disabled={stats.flashcard.available === 0}
+              stats={stats.flashcard}
+            />
+          )}
+          {stats?.mcq?.available > 0 && (
+            <ExerciseCard 
+              icon={HelpCircle}
+              title="Multiple Choice Quiz"
+              description="Test your knowledge with timed questions"
+              stat={`${stats.mcq.available} questions available`}
+              buttonText="Start Quiz"
+              onClick={() => navigate(`/exercise/quiz/${courseSlug}`)}
+              disabled={stats.mcq.available === 0}
+              stats={stats.mcq}
+            />
+          )}
+          {stats?.ftb?.available > 0 && (
+            <ExerciseCard 
+              icon={PenLine}
+              title="Fill in the Blank"
+              description="Complete code snippets from memory"
+              stat={`${stats.ftb.available} concepts available`}
+              buttonText="Start Coding"
+              onClick={() => navigate(`/exercise/fillblank/${courseSlug}`)}
+              disabled={stats.ftb.available === 0}
+              stats={stats.ftb}
+            />
+          )}
+          {stats?.dataset?.available > 0 && (
+            <ExerciseCard 
+              icon={Database}
+              title="Dataset Challenge"
+              description="Write real code against real datasets"
+              stat={`${stats.dataset.available} challenges available`}
+              buttonText="Start Challenge"
+              onClick={() => navigate(`/exercise/dataset/${courseSlug}`)}
+              disabled={stats.dataset.available === 0}
+              stats={stats.dataset}
+            />
+          )}
+          {stats?.matching?.available > 0 && (
+            <ExerciseCard 
+              icon={Shuffle}
+              title="Matching Game"
+              description="Match concepts to definitions — timed"
+              stat={`${stats.matching.available} pairs available`}
+              buttonText="Start Matching"
+              onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
+              disabled={stats.matching.available === 0}
+              stats={stats.matching}
+            />
+          )}
+          {stats?.boss_battle?.available > 0 && (
+            <ExerciseCard 
+              icon={Swords}
+              isBoss={true}
+              title="Boss Battle 🔥"
+              description="Mixed challenge — prove your mastery"
+              stat={`${stats.boss_battle.available} questions available`}
+              statColor="text-[var(--accent-green)]"
+              buttonText="Enter Battle"
+              onClick={() => navigate(`/exercise/boss/${courseSlug}`)}
+              disabled={stats.boss_battle.available === 0}
+              stats={stats.boss_battle}
+            />
+          )}
         </div>
       </section>
     </div>
