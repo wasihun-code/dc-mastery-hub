@@ -1,115 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Search,
   BookOpen,
-  Check,
   Play,
-  CheckCircle2,
-  Circle,
-  Award,
-  BookOpen as BookIcon,
-  Filter,
   Layers,
-  Sparkles,
-  ChevronRight,
-  SlidersHorizontal,
-  Flame,
   FileText,
   AlertTriangle,
   X
 } from 'lucide-react'
-
-const CATEGORIES = [
-  { id: 'python', label: 'Python' },
-  { id: 'sql', label: 'SQL' },
-  { id: 'powerbi', label: 'Power BI' },
-  { id: 'statistics', label: 'Statistics' },
-  { id: 'ML', label: 'Machine Learning' },
-  { id: 'chatgpt', label: 'ChatGPT' },
-  { id: 'data communication', label: 'Data Communication' },
-  { id: 'data visualization', label: 'Data Visualization' },
-]
-
-function getCourseCategories(course) {
-  const categories = []
-  const slug = course.slug.toLowerCase()
-  const name = course.name.toLowerCase()
-
-  if (
-    course.track_language?.toLowerCase() === 'python' ||
-    slug.includes('python') ||
-    slug.includes('pandas') ||
-    slug.includes('seaborn') ||
-    slug.includes('matplotlib') ||
-    slug.includes('scikit-learn') ||
-    slug.includes('statsmodels')
-  ) {
-    categories.push('python')
-  }
-  if (course.track_language?.toLowerCase() === 'sql' || slug.includes('sql') || slug.includes('postgresql')) {
-    categories.push('sql')
-  }
-  if (slug.includes('powerbi') || slug.includes('power-bi')) {
-    categories.push('powerbi')
-  }
-  if (
-    slug.includes('statistics') ||
-    slug.includes('sampling') ||
-    slug.includes('hypothesis') ||
-    slug.includes('regression') ||
-    name.includes('statistics') ||
-    name.includes('regression') ||
-    name.includes('hypothesis') ||
-    name.includes('sampling')
-  ) {
-    categories.push('statistics')
-  }
-  if (
-    slug.includes('supervised-learning') ||
-    slug.includes('scikit-learn') ||
-    slug.includes('machine-learning') ||
-    slug.includes('ml') ||
-    slug.includes('regression') ||
-    name.includes('learning') ||
-    name.includes('machine learning') ||
-    name.includes('regression')
-  ) {
-    categories.push('ML')
-  }
-  if (
-    slug.includes('chatgpt') ||
-    slug.includes('gpt') ||
-    slug.includes('llm') ||
-    slug.includes('generative-ai') ||
-    name.includes('chatgpt') ||
-    name.includes('gpt')
-  ) {
-    categories.push('chatgpt')
-  }
-  if (
-    slug.includes('communication') ||
-    slug.includes('communicating') ||
-    slug.includes('insight') ||
-    name.includes('communication') ||
-    name.includes('communicating')
-  ) {
-    categories.push('data communication')
-  }
-  if (
-    slug.includes('visualization') ||
-    slug.includes('seaborn') ||
-    slug.includes('matplotlib') ||
-    slug.includes('visualizing') ||
-    name.includes('visualization') ||
-    name.includes('visualizing') ||
-    name.includes('seaborn') ||
-    name.includes('matplotlib')
-  ) {
-    categories.push('data visualization')
-  }
-  return categories
-}
+import CourseFilter, { getCourseCategories } from '../components/CourseFilter'
 
 function masteryColor(value) {
   if (value >= 90) return 'var(--accent-green)'
@@ -174,8 +73,10 @@ function CourseCard({ course, onShowNoQuestions }) {
 
   const handleClick = (e) => {
     if (e) e.stopPropagation();
-    if (!course.quiz_question_count || course.quiz_question_count === 0) {
-      onShowNoQuestions(course)
+    if (course.reviewed !== 'Yes') {
+      onShowNoQuestions(course, 'not_reviewed')
+    } else if (!course.quiz_question_count || course.quiz_question_count === 0) {
+      onShowNoQuestions(course, 'no_questions')
     } else {
       navigate(`/courses/${course.slug}`)
     }
@@ -273,7 +174,7 @@ function CourseCard({ course, onShowNoQuestions }) {
           {course.status === 'In Progress' ? (
             <Play size={12} className="fill-current" />
           ) : (
-            <BookIcon size={12} />
+            <BookOpen size={12} />
           )}
           <span>{buttonText}</span>
         </button>
@@ -290,10 +191,12 @@ export default function Tracks() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedTrack, setSelectedTrack] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')
-  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '' })
+  const [selectedReviewed, setSelectedReviewed] = useState('all')
+  const [selectedDifficulty, setSelectedDifficulty] = useState('all')
+  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })
 
-  const handleShowNoQuestions = (course) => {
-    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug })
+  const handleShowNoQuestions = (course, type = 'no_questions') => {
+    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug, type })
   }
 
   useEffect(() => {
@@ -359,8 +262,10 @@ export default function Tracks() {
     const matchesCategory = selectedCategory === 'all' || courseCategories.includes(selectedCategory)
     const matchesTrack = selectedTrack === 'all' || course.track_name === selectedTrack
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
+    const matchesReviewed = selectedReviewed === 'all' || course.reviewed === selectedReviewed
+    const matchesDifficulty = selectedDifficulty === 'all' || (course.difficulty || 'Unknown') === selectedDifficulty
 
-    return matchesSearch && matchesCategory && matchesTrack && matchesStatus
+    return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty
   })
 
   // Aggregate stats for metrics bar
@@ -442,214 +347,29 @@ export default function Tracks() {
 
         {/* Right Side: Filter Control Sidebar (3 Columns) */}
         <aside className="lg:col-span-3 order-1 lg:order-2 space-y-6">
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 space-y-6 shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-                <SlidersHorizontal size={14} /> Filters
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedCategory('python')
-                  setSelectedTrack('all')
-                  setSelectedStatus('all')
-                  setSearch('')
-                }}
-                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:underline font-semibold"
-              >
-                Reset Filters
-              </button>
-            </div>
-
-            {/* Search Box */}
-            <div className="space-y-2">
-              <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                Keyword Search
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
-                <input
-                  type="text"
-                  placeholder="Search courses..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] py-2 pl-9 pr-3 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]"
-                />
-              </div>
-            </div>
-
-            {/* Status Filter */}
-            <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-              <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                Completion Status
-              </label>
-              <div className="flex flex-col gap-1.5">
-                {[
-                  { id: 'all', label: 'All Statuses' },
-                  { id: 'Completed', label: 'Completed' },
-                  { id: 'In Progress', label: 'In Progress' },
-                  { id: 'Not Started', label: 'Not Started' }
-                ].map(st => {
-                  const isActive = selectedStatus === st.id
-                  const count = st.id === 'all'
-                    ? courses.length
-                    : courses.filter(c => c.status === st.id).length
-
-                  return (
-                    <button
-                      key={st.id}
-                      type="button"
-                      onClick={() => setSelectedStatus(st.id)}
-                      className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                        isActive
-                          ? 'bg-[var(--accent-green)] text-black'
-                          : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                      }`}
-                    >
-                      <span>{st.label}</span>
-                      <span
-                        className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                          isActive ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                        }`}
-                      >
-                        {count}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Category Filter list */}
-            <div className="space-y-2">
-              <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                Categories & Languages
-              </label>
-              <div className="flex flex-col gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => setSelectedCategory('all')}
-                  className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                    selectedCategory === 'all'
-                      ? 'bg-[var(--accent-green)] text-black'
-                      : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                  }`}
-                >
-                  <span>All Categories</span>
-                  <span
-                    className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                      selectedCategory === 'all' ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                    }`}
-                  >
-                    {courses.length}
-                  </span>
-                </button>
-
-                {CATEGORIES.map((cat) => {
-                  const count = getCategoryCount(cat.id)
-                  const isActive = selectedCategory === cat.id
-
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      disabled={count === 0}
-                      onClick={() => setSelectedCategory(cat.id)}
-                      className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                        isActive
-                          ? 'bg-[var(--accent-green)] text-black'
-                          : count === 0
-                          ? 'opacity-40 cursor-not-allowed bg-transparent text-[var(--text-muted)]'
-                          : 'bg-[var(--bg-primary)] hover:bg-[var(--bg-primary)]/80 text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                      }`}
-                    >
-                      <span>{cat.label}</span>
-                      <span
-                        className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                          isActive
-                            ? 'bg-black/10 text-black'
-                            : 'bg-zinc-800 text-zinc-400'
-                        }`}
-                      >
-                        {count}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Track Filter list */}
-            {uniqueTracks.length > 0 && (
-              <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-                <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                  Learning Path (Track)
-                </label>
-                <div className="flex flex-col gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedTrack('all')}
-                    className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                      selectedTrack === 'all'
-                        ? 'bg-[var(--accent-blue)] text-white'
-                        : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                      All Tracks
-                    </span>
-                    <span
-                      className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                        selectedTrack === 'all' ? 'bg-black/10 text-white' : 'bg-zinc-800 text-zinc-400'
-                      }`}
-                    >
-                      {courses.length}
-                    </span>
-                  </button>
-
-                  {uniqueTracks.map((tr) => {
-                    const count = getTrackCount(tr.name)
-                    const isActive = selectedTrack === tr.name
-
-                    return (
-                      <button
-                        key={tr.name}
-                        type="button"
-                        onClick={() => {
-                          setSelectedTrack(tr.name)
-                          const trackLang = tr.language?.toLowerCase()
-                          if (trackLang && CATEGORIES.some(cat => cat.id === trackLang)) {
-                            setSelectedCategory(trackLang)
-                          }
-                        }}
-                        className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                          isActive
-                            ? 'bg-[var(--accent-blue)] text-white'
-                            : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                        }`}
-                      >
-                        <span className="flex items-center gap-1.5 truncate pr-2">
-                          <span
-                            className="w-1.5 h-1.5 rounded-full shrink-0"
-                            style={{ backgroundColor: tr.color || 'var(--text-muted)' }}
-                          />
-                          <span className="truncate">{tr.name}</span>
-                        </span>
-                        <span
-                          className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono shrink-0 ${
-                            isActive ? 'bg-black/10 text-white' : 'bg-zinc-800 text-zinc-400'
-                          }`}
-                        >
-                          {count}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+          <CourseFilter
+            courses={courses}
+            search={search}
+            onSearchChange={setSearch}
+            selectedStatus={selectedStatus}
+            onStatusChange={setSelectedStatus}
+            selectedReviewed={selectedReviewed}
+            onReviewedChange={setSelectedReviewed}
+            selectedDifficulty={selectedDifficulty}
+            onDifficultyChange={setSelectedDifficulty}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            selectedTrack={selectedTrack}
+            onTrackChange={setSelectedTrack}
+            onReset={() => {
+              setSelectedCategory('all')
+              setSelectedTrack('all')
+              setSelectedStatus('all')
+              setSelectedReviewed('all')
+              setSelectedDifficulty('all')
+              setSearch('')
+            }}
+          />
         </aside>
       </div>
       
@@ -659,10 +379,12 @@ export default function Tracks() {
             <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
               <div className="flex items-center gap-2 text-[var(--accent-yellow)]">
                 <AlertTriangle size={20} />
-                <h3 className="font-bold text-lg text-[var(--text-primary)]">No Questions Yet</h3>
+                <h3 className="font-bold text-lg text-[var(--text-primary)]">
+                  {noQuestionsModal.type === 'not_reviewed' ? 'Course Not Reviewed' : 'No Questions Yet'}
+                </h3>
               </div>
               <button 
-                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })}
                 className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
               >
                 <X size={20} />
@@ -670,22 +392,31 @@ export default function Tracks() {
             </div>
 
             <div className="p-6 space-y-4">
-              <p className="text-sm text-[var(--text-primary)]">
-                The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
-              </p>
-              <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
-                <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
-                <p>1. Open your terminal or query the agent.</p>
-                <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
-                  extract {noQuestionsModal.courseSlug}
+              {noQuestionsModal.type === 'not_reviewed' ? (
+                <p className="text-sm text-[var(--text-primary)]">
+                  For a better experience we recommend you to review the course. After reviewing change the status in the content management page.
                 </p>
-                <p>2. Refresh the course page or study session once completed.</p>
-              </div>
+              ) : (
+                <p className="text-sm text-[var(--text-primary)]">
+                  The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
+                </p>
+              )}
+              
+              {noQuestionsModal.type !== 'not_reviewed' && (
+                <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
+                  <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
+                  <p>1. Open your terminal or query the agent.</p>
+                  <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
+                    extract {noQuestionsModal.courseSlug}
+                  </p>
+                  <p>2. Refresh the course page or study session once completed.</p>
+                </div>
+              )}
 
               <div className="flex justify-end pt-2">
                 <button
                   type="button"
-                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })}
                   className="px-5 py-2.5 text-xs font-bold rounded-lg bg-[var(--accent-green)] text-black hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   Understood

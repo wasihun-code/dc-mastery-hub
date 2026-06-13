@@ -639,44 +639,44 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
       : DEFAULT_CONTENT_FOLDER;
     const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
 
-    // 1. MCQ questions available
-    let mcqAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
-    if (mcqAvailable === 0) {
-      const p = path.join(exercisesDir, 'mcq.json')
-      if (fs.existsSync(p)) {
-        try {
-          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
-          mcqAvailable = (Array.isArray(d) ? d : (d.questions || [])).length
-        } catch (e) {}
-      }
+    // 1. MCQ questions available (prioritize mcq.json on disk)
+    let mcqAvailable = 0
+    const mcqPath = path.join(exercisesDir, 'mcq.json')
+    if (fs.existsSync(mcqPath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(mcqPath, 'utf-8'))
+        mcqAvailable = (Array.isArray(d) ? d : (d.questions || [])).length
+      } catch (e) {}
+    } else {
+      mcqAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
     }
 
-    // 2. Flashcards available
-    let flashcardAvailable = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
-    if (flashcardAvailable === 0) {
-      const p = path.join(exercisesDir, 'flashcards.json')
-      if (fs.existsSync(p)) {
-        try {
-          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
-          flashcardAvailable = (Array.isArray(d) ? d : (d.cards || [])).length
-        } catch (e) {}
-      }
+    // 2. Flashcards available (prioritize flashcards.json on disk)
+    let flashcardAvailable = 0
+    const flashcardPath = path.join(exercisesDir, 'flashcards.json')
+    if (fs.existsSync(flashcardPath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(flashcardPath, 'utf-8'))
+        flashcardAvailable = (Array.isArray(d) ? d : (d.cards || [])).length
+      } catch (e) {}
+    } else {
+      flashcardAvailable = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
     }
 
-    // 3. FTB (concepts) available
-    let ftbAvailable = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
-    if (ftbAvailable === 0) {
-      const p = path.join(exercisesDir, 'ftb.json')
-      if (fs.existsSync(p)) {
-        try {
-          const d = JSON.parse(fs.readFileSync(p, 'utf-8'))
-          ftbAvailable = (Array.isArray(d) ? d : (d.exercises || [])).length
-        } catch (e) {}
-      }
+    // 3. FTB (concepts) available (prioritize ftb.json on disk)
+    let ftbAvailable = 0
+    const ftbPath = path.join(exercisesDir, 'ftb.json')
+    if (fs.existsSync(ftbPath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(ftbPath, 'utf-8'))
+        ftbAvailable = (Array.isArray(d) ? d : (d.exercises || [])).length
+      } catch (e) {}
+    } else {
+      ftbAvailable = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
     }
 
-    // 4. Matching available
-    let matchingAvailable = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+    // 4. Matching available (prioritize matching.json on disk)
+    let matchingAvailable = 0
     const matchingPath = path.join(exercisesDir, 'matching.json')
     if (fs.existsSync(matchingPath)) {
       try {
@@ -691,20 +691,23 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
         }
       } catch (e) {}
     } else {
-      if (matchingAvailable >= 5) {
-        const numRounds = Math.min(Math.ceil(matchingAvailable / 5), 5)
+      const dbConceptsCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+      if (dbConceptsCount >= 5) {
+        const numRounds = Math.min(Math.ceil(dbConceptsCount / 5), 5)
         matchingAvailable = numRounds * 5
       }
     }
 
-    // 5. Boss battle available
-    let bossAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
+    // 5. Boss battle available (prioritize bossbattle.json on disk)
+    let bossAvailable = 0
     const bossPath = path.join(exercisesDir, 'bossbattle.json')
     if (fs.existsSync(bossPath)) {
       try {
         const d = JSON.parse(fs.readFileSync(bossPath, 'utf-8'))
         bossAvailable = (Array.isArray(d) ? d : (d.questions || [])).length
       } catch (e) {}
+    } else {
+      bossAvailable = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
     }
 
     // 6. Dataset challenges available

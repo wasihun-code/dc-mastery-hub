@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight } from 'lucide-react'
+import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 
 export default function DatasetChallenge() {
@@ -27,8 +27,13 @@ export default function DatasetChallenge() {
   const [shellHistory, setShellHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [isShellRunning, setIsShellRunning] = useState(false)
+  const [shellVars, setShellVars] = useState({})
+  const [shellTab, setShellTab] = useState('console')
+  const [editorRunCode, setEditorRunCode] = useState('')
+  const [sessionHistory, setSessionHistory] = useState([])
 
   const terminalEndRef = useRef(null)
+  const shellInputRef = useRef(null)
   const codeRef = useRef(code)
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
@@ -105,12 +110,48 @@ export default function DatasetChallenge() {
     }
   }, [])
 
-  // Auto-scroll IPython shell to bottom
+  // Auto-scroll IPython shell to bottom & maintain input focus
   useEffect(() => {
     if (terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [terminalLines, isShellRunning])
+    if (!isShellRunning && shellInputRef.current) {
+      shellInputRef.current.focus()
+    }
+  }, [terminalLines, isShellRunning, currentIndex])
+
+  const fetchInitialShellVars = async (challenge) => {
+    if (!challenge) return;
+    try {
+      const res = await fetch('/api/content/run-shell', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          datasetFile: challenge.dataset_file,
+          history: [],
+          command: '' // empty command to load variables silently
+        })
+      })
+      const data = await res.json()
+      if (data.success && data.vars) {
+        setShellVars(data.vars)
+      }
+    } catch (err) {
+      console.error('Failed to load initial shell variables:', err)
+    }
+  }
+
+  useEffect(() => {
+    if (challenges.length > 0 && currentIndex < challenges.length) {
+      fetchInitialShellVars(challenges[currentIndex])
+      setShellCommands([])
+      setTerminalLines([])
+      setShellCounter(1)
+      setEditorRunCode('')
+      setSessionHistory([])
+    }
+  }, [currentIndex, challenges])
 
   const handleEditorDidMount = (editor, monaco) => {
     monaco.editor.defineTheme('dc-dark', {
@@ -166,6 +207,10 @@ export default function DatasetChallenge() {
       }
 
       const courseData = await courseRes.json()
+      if (courseData && courseData.reviewed !== 'Yes') {
+        navigate('/courses')
+        return
+      }
       const challengesData = await challengesRes.json()
 
       setCourse(courseData)
@@ -210,6 +255,15 @@ export default function DatasetChallenge() {
         ...prev,
         { type: data.success ? 'output' : 'error', text: data.success ? data.output : data.error }
       ])
+
+      if (data.success) {
+        setEditorRunCode(code)
+        setShellCommands([])
+        setSessionHistory(prev => [...prev, code])
+        if (data.vars) {
+          setShellVars(data.vars)
+        }
+      }
     } catch (err) {
       setTerminalLines(prev => [
         ...prev,
@@ -294,6 +348,8 @@ export default function DatasetChallenge() {
       setShellInputValue('')
       setShellHistory([])
       setHistoryIndex(-1)
+      setEditorRunCode('')
+      setSessionHistory([])
     } else {
       setCurrentIndex(challenges.length) // End state
     }
@@ -311,6 +367,8 @@ export default function DatasetChallenge() {
     setShellInputValue('')
     setShellHistory([])
     setHistoryIndex(-1)
+    setEditorRunCode('')
+    setSessionHistory([])
   }
 
   const handleShellSubmit = async () => {
@@ -336,7 +394,7 @@ export default function DatasetChallenge() {
         body: JSON.stringify({
           courseSlug,
           datasetFile: challenge.dataset_file,
-          history: shellCommands,
+          history: editorRunCode ? [editorRunCode, ...shellCommands] : shellCommands,
           command: cmd
         })
       })
@@ -348,11 +406,15 @@ export default function DatasetChallenge() {
           { type: 'output', text: data.output }
         ])
         setShellCommands(prev => [...prev, cmd])
+        setSessionHistory(prev => [...prev, cmd])
       } else {
         setTerminalLines(prev => [
           ...prev,
           { type: 'error', text: data.error }
         ])
+      }
+      if (data.vars) {
+        setShellVars(data.vars)
       }
     } catch (err) {
       setTerminalLines(prev => [
@@ -632,49 +694,214 @@ export default function DatasetChallenge() {
           className="flex flex-col bg-black overflow-hidden shrink-0 animate-in fade-in duration-300" 
           style={{ height: `${terminalHeight}px` }}
         >
-          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono shrink-0 border-t-2 border-[var(--accent-green)]">
-             IPython Shell
+          {/* Advanced Tabbed Header */}
+          <div className="bg-[#1a1b23] px-4 border-b border-[var(--border)] flex items-center justify-between text-xs font-mono shrink-0 border-t-2 border-[var(--accent-green)] select-none">
+            {/* Tabs */}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setShellTab('console')}
+                className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
+                  shellTab === 'console'
+                    ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
+                    : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <TerminalIcon size={14} /> Console
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => setShellTab('variables')}
+                className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
+                  shellTab === 'variables'
+                    ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
+                    : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Database size={14} /> Variables
+                {Object.keys(shellVars).length > 0 && (
+                  <span className="bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded-full text-[9px] font-bold font-mono">
+                    {Object.keys(shellVars).length}
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShellTab('history')}
+                className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
+                  shellTab === 'history'
+                    ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
+                    : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <History size={14} /> History
+                {shellCommands.length > 0 && (
+                  <span className="bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded-full text-[9px] font-bold font-mono">
+                    {shellCommands.length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex items-center gap-1.5 py-1">
+              <button
+                type="button"
+                onClick={() => setTerminalLines([])}
+                title="Clear Terminal Output"
+                className="p-1.5 rounded bg-zinc-900/60 hover:bg-zinc-800 border border-[var(--border)]/40 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer"
+              >
+                <Eraser size={14} />
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => {
+                  setShellCommands([])
+                  setTerminalLines([])
+                  setShellCounter(1)
+                  setShellVars({})
+                  if (challenges.length > 0 && currentIndex < challenges.length) {
+                    fetchInitialShellVars(challenges[currentIndex])
+                  }
+                }}
+                title="Reset Python Environment"
+                className="p-1.5 rounded bg-zinc-900/60 hover:bg-zinc-800 border border-[var(--border)]/40 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer"
+              >
+                <RotateCcw size={14} />
+              </button>
+            </div>
           </div>
-          <div className="grow overflow-y-auto p-4 font-mono text-base">
-             <div className="text-gray-500 mb-2">Python 3.10.x (default, DC Mastery Hub)</div>
-             {terminalLines.map((line, i) => (
-               <div key={i} className="mb-2">
-                 {line.type === 'input' && (
-                   <div className="text-blue-400">
-                     <span className="text-green-500 mr-2">In [{line.counter}]:</span>
-                     <span className="text-gray-300">{line.text}</span>
-                   </div>
-                 )}
-                 {line.type === 'output' && (
-                   <div className="text-white mt-1 whitespace-pre-wrap">{line.text || '(no output)'}</div>
-                 )}
-                 {line.type === 'error' && (
-                   <div className="text-red-400 mt-1 whitespace-pre-wrap">{line.text}</div>
-                 )}
-               </div>
-             ))}
-             
-             {isShellRunning ? (
-                <div className="text-blue-400 mt-2 flex items-center gap-2 animate-in fade-in">
-                  <span className="text-green-500">In [{shellCounter}]:</span>
-                  <span className="text-gray-500 animate-pulse text-base">Running command...</span>
+
+          {/* Console Tab */}
+          {shellTab === 'console' && (
+            <div 
+              onClick={() => {
+                if (shellInputRef.current) {
+                  shellInputRef.current.focus()
+                }
+              }}
+              className="grow overflow-y-auto p-4 font-mono text-base cursor-text text-left"
+            >
+               <div className="text-gray-500 mb-2">Python 3.10.x (default, DC Mastery Hub)</div>
+               {terminalLines.length === 0 && (
+                 <div className="text-zinc-600 italic text-sm mb-2 select-none">(console cleared. type command to begin)</div>
+               )}
+               {terminalLines.map((line, i) => (
+                 <div key={i} className="mb-2">
+                   {line.type === 'input' && (
+                     <div className="text-blue-400">
+                       <span className="text-green-500 mr-2">In [{line.counter}]:</span>
+                       <span className="text-gray-300">{line.text}</span>
+                     </div>
+                   )}
+                   {line.type === 'output' && (
+                     <div className="text-white mt-1 whitespace-pre-wrap">{line.text || '(no output)'}</div>
+                   )}
+                   {line.type === 'error' && (
+                     <div className="text-red-400 mt-1 whitespace-pre-wrap">{line.text}</div>
+                   )}
+                 </div>
+               ))}
+               
+               {isShellRunning ? (
+                  <div className="text-blue-400 mt-2 flex items-center gap-2 animate-in fade-in">
+                    <span className="text-green-500">In [{shellCounter}]:</span>
+                    <span className="text-gray-500 animate-pulse text-base">Running command...</span>
+                  </div>
+               ) : (
+                  <div className="text-blue-400 mt-2 flex items-center">
+                    <span className="text-green-500 shrink-0">In [{shellCounter}]:</span>
+                    <input
+                      ref={shellInputRef}
+                      type="text"
+                      value={shellInputValue}
+                      onChange={(e) => setShellInputValue(e.target.value)}
+                      onKeyDown={handleShellKeyDown}
+                      disabled={isRunning || isSubmitting}
+                      className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0 text-base"
+                      placeholder="type python code here..."
+                    />
+                  </div>
+               )}
+               <div ref={terminalEndRef} />
+            </div>
+          )}
+
+          {/* Variables Tab */}
+          {shellTab === 'variables' && (
+            <div className="grow overflow-y-auto p-5 font-mono text-left">
+              {Object.keys(shellVars).length === 0 ? (
+                <div className="text-zinc-500 text-xs italic flex flex-col items-center justify-center h-full gap-2">
+                  <Database size={24} className="opacity-40" />
+                  <span>No variables defined in this session yet.</span>
                 </div>
-             ) : (
-                <div className="text-blue-400 mt-2 flex items-center">
-                  <span className="text-green-500 shrink-0">In [{shellCounter}]:</span>
-                  <input
-                    type="text"
-                    value={shellInputValue}
-                    onChange={(e) => setShellInputValue(e.target.value)}
-                    onKeyDown={handleShellKeyDown}
-                    disabled={isRunning || isSubmitting}
-                    className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0 text-base"
-                    placeholder="type python code here..."
-                  />
+              ) : (
+                <div className="border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--bg-primary)] text-xs">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-zinc-900 border-b border-[var(--border)] text-[var(--text-muted)]">
+                        <th className="p-3 font-bold uppercase tracking-wider">Name</th>
+                        <th className="p-3 font-bold uppercase tracking-wider">Type</th>
+                        <th className="p-3 font-bold uppercase tracking-wider">Value</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {Object.entries(shellVars).map(([name, { type, value }]) => (
+                        <tr key={name} className="hover:bg-zinc-800/25 transition-colors font-mono">
+                          <td className="p-3 text-[var(--accent-green)] font-bold">{name}</td>
+                          <td className="p-3 text-[var(--accent-blue)] font-bold">{type}</td>
+                          <td className="p-3 text-zinc-300 max-w-xs truncate" title={value}>{value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-             )}
-             <div ref={terminalEndRef} />
-          </div>
+              )}
+            </div>
+          )}
+
+          {/* History Tab */}
+          {shellTab === 'history' && (
+            <div className="grow overflow-y-auto p-5 font-mono text-left">
+              {sessionHistory.length === 0 ? (
+                <div className="text-zinc-500 text-xs italic flex flex-col items-center justify-center h-full gap-2">
+                  <History size={24} className="opacity-40" />
+                  <span>No commands executed in this session yet.</span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider mb-3 select-none">
+                    Session Command History (Click to load into console)
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    {sessionHistory.map((cmd, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setShellInputValue(cmd)
+                          setShellTab('console')
+                          setTimeout(() => {
+                            if (shellInputRef.current) shellInputRef.current.focus()
+                          }, 50)
+                        }}
+                        className="w-full text-left p-2.5 rounded-lg border border-[var(--border)] bg-zinc-950/40 hover:border-zinc-500 text-xs text-zinc-300 font-mono transition-all hover:bg-zinc-900 flex items-start gap-2.5 group cursor-pointer"
+                      >
+                        <span className="text-zinc-600 font-bold shrink-0">{idx + 1}</span>
+                        <span className="grow whitespace-pre-wrap select-all">{cmd}</span>
+                        <span className="text-[10px] text-[var(--accent-green)] opacity-0 group-hover:opacity-100 font-bold shrink-0">
+                          Load ↵
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       </div>

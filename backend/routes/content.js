@@ -62,51 +62,55 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
     const exercisePath = path.join(courseFolder, 'exercises', `${exerciseType}.json`);
 
-    // Try serving from database first if data is present
+    // Try serving from database first if data is present and JSON file is missing
     if (exerciseType === 'mcq') {
-      const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
-      if (dbQuestions.length > 0) {
-        let items = dbQuestions.map(q => ({
-          id: q.id,
-          question_text: q.question_text,
-          option_a: q.option_a,
-          option_b: q.option_b,
-          option_c: q.option_c,
-          option_d: q.option_d,
-          correct_option: q.correct_option,
-          explanation: q.explanation,
-          question_type: q.question_type || 'application',
-          difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
-        }));
-        if (req.query.count) {
-          const count = parseInt(req.query.count, 10);
-          if (!isNaN(count)) {
-            items.sort(() => Math.random() - 0.5);
-            items = items.slice(0, count);
+      if (!fs.existsSync(exercisePath)) {
+        const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        if (dbQuestions.length > 0) {
+          let items = dbQuestions.map(q => ({
+            id: q.id,
+            question_text: q.question_text,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d,
+            correct_option: q.correct_option,
+            explanation: q.explanation,
+            question_type: q.question_type || 'application',
+            difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
+          }));
+          if (req.query.count) {
+            const count = parseInt(req.query.count, 10);
+            if (!isNaN(count)) {
+              items.sort(() => Math.random() - 0.5);
+              items = items.slice(0, count);
+            }
           }
+          return res.json(items);
         }
-        return res.json(items);
       }
     }
 
     if (exerciseType === 'flashcards') {
-      const dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
-      if (dbFlashcards.length > 0) {
-        let items = dbFlashcards.map(c => ({
-          id: c.id,
-          concept_id: c.concept_id,
-          course_id: c.course_id,
-          front: c.front,
-          back: c.back,
-          next_review_date: c.next_review_date,
-          interval_days: c.interval_days,
-          ease_factor: c.ease_factor,
-          repetitions: c.repetitions
-        }));
-        if (req.query.shuffle === 'true') {
-          items.sort(() => Math.random() - 0.5);
+      if (!fs.existsSync(exercisePath)) {
+        const dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
+        if (dbFlashcards.length > 0) {
+          let items = dbFlashcards.map(c => ({
+            id: c.id,
+            concept_id: c.concept_id,
+            course_id: c.course_id,
+            front: c.front,
+            back: c.back,
+            next_review_date: c.next_review_date,
+            interval_days: c.interval_days,
+            ease_factor: c.ease_factor,
+            repetitions: c.repetitions
+          }));
+          if (req.query.shuffle === 'true') {
+            items.sort(() => Math.random() - 0.5);
+          }
+          return res.json(items);
         }
-        return res.json(items);
       }
     }
 
@@ -140,22 +144,24 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     }
 
     if (exerciseType === 'bossbattle') {
-      const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
-      if (dbQuestions.length > 0) {
-        let items = dbQuestions.map(q => ({
-          id: q.id,
-          question_text: q.question_text,
-          option_a: q.option_a,
-          option_b: q.option_b,
-          option_c: q.option_c,
-          option_d: q.option_d,
-          correct_option: q.correct_option,
-          explanation: q.explanation,
-          question_type: q.question_type || 'application',
-          difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
-        }));
-        items.sort(() => Math.random() - 0.5);
-        return res.json(items);
+      if (!fs.existsSync(exercisePath)) {
+        const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        if (dbQuestions.length > 0) {
+          let items = dbQuestions.map(q => ({
+            id: q.id,
+            question_text: q.question_text,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d,
+            correct_option: q.correct_option,
+            explanation: q.explanation,
+            question_type: q.question_type || 'application',
+            difficulty: q.difficulty === 3 ? 'hard' : q.difficulty === 2 ? 'medium' : 'easy'
+          }));
+          items.sort(() => Math.random() - 0.5);
+          return res.json(items);
+        }
       }
     }
 

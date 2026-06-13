@@ -1,117 +1,22 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import {
   FolderPlus,
   FilePlus,
-  Copy,
   ArrowRight,
   Trash2,
   RotateCcw,
   Archive,
   Upload,
   FileText,
-  CheckCircle2,
-  AlertTriangle,
   Layers,
   Wrench,
   CheckSquare,
   Square,
-  Bookmark,
   ArchiveRestore,
-  Trash,
-  Search,
-  SlidersHorizontal
+  Trash
 } from 'lucide-react'
-
-const CATEGORIES = [
-  { id: 'python', label: 'Python' },
-  { id: 'sql', label: 'SQL' },
-  { id: 'powerbi', label: 'Power BI' },
-  { id: 'statistics', label: 'Statistics' },
-  { id: 'ML', label: 'Machine Learning' },
-  { id: 'chatgpt', label: 'ChatGPT' },
-  { id: 'data communication', label: 'Data Communication' },
-  { id: 'data visualization', label: 'Data Visualization' },
-]
-
-function getCourseCategories(course) {
-  const categories = []
-  const slug = course.slug.toLowerCase()
-  const name = course.name.toLowerCase()
-
-  if (
-    course.track_language?.toLowerCase() === 'python' ||
-    slug.includes('python') ||
-    slug.includes('pandas') ||
-    slug.includes('seaborn') ||
-    slug.includes('matplotlib') ||
-    slug.includes('scikit-learn') ||
-    slug.includes('statsmodels')
-  ) {
-    categories.push('python')
-  }
-  if (course.track_language?.toLowerCase() === 'sql' || slug.includes('sql') || slug.includes('postgresql')) {
-    categories.push('sql')
-  }
-  if (slug.includes('powerbi') || slug.includes('power-bi')) {
-    categories.push('powerbi')
-  }
-  if (
-    slug.includes('statistics') ||
-    slug.includes('sampling') ||
-    slug.includes('hypothesis') ||
-    slug.includes('regression') ||
-    name.includes('statistics') ||
-    name.includes('regression') ||
-    name.includes('hypothesis') ||
-    name.includes('sampling')
-  ) {
-    categories.push('statistics')
-  }
-  if (
-    slug.includes('supervised-learning') ||
-    slug.includes('scikit-learn') ||
-    slug.includes('machine-learning') ||
-    slug.includes('ml') ||
-    slug.includes('regression') ||
-    name.includes('learning') ||
-    name.includes('machine learning') ||
-    name.includes('regression')
-  ) {
-    categories.push('ML')
-  }
-  if (
-    slug.includes('chatgpt') ||
-    slug.includes('gpt') ||
-    slug.includes('llm') ||
-    slug.includes('generative-ai') ||
-    name.includes('chatgpt') ||
-    name.includes('gpt')
-  ) {
-    categories.push('chatgpt')
-  }
-  if (
-    slug.includes('communication') ||
-    slug.includes('communicating') ||
-    slug.includes('insight') ||
-    name.includes('communication') ||
-    name.includes('communicating')
-  ) {
-    categories.push('data communication')
-  }
-  if (
-    slug.includes('visualization') ||
-    slug.includes('seaborn') ||
-    slug.includes('matplotlib') ||
-    slug.includes('visualizing') ||
-    name.includes('visualization') ||
-    name.includes('visualizing') ||
-    name.includes('seaborn') ||
-    name.includes('matplotlib')
-  ) {
-    categories.push('data visualization')
-  }
-  return categories
-}
+import CourseFilter, { getCourseCategories } from '../components/CourseFilter'
 
 function difficultyBadgeClass(difficulty) {
   switch (difficulty?.toLowerCase()) {
@@ -152,6 +57,7 @@ export default function ManageContent() {
   const [courseFilterStatus, setCourseFilterStatus] = useState('all')
   const [courseFilterDifficulty, setCourseFilterDifficulty] = useState('all')
   const [courseFilterArchive, setCourseFilterArchive] = useState('active') // 'active', 'archived', 'all'
+  const [courseFilterReviewed, setCourseFilterReviewed] = useState('all')
 
   // Selection states for bulk actions
   const [selectedCourseIds, setSelectedCourseIds] = useState([])
@@ -476,7 +382,10 @@ export default function ManageContent() {
     // 6. Track
     const matchesTrack = courseFilterTrack === 'all' || course.track_name === courseFilterTrack
 
-    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack
+    // 7. Reviewed status
+    const matchesReviewed = courseFilterReviewed === 'all' || course.reviewed === courseFilterReviewed
+
+    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed
   })
 
   return (
@@ -567,6 +476,8 @@ export default function ManageContent() {
                           <option value="move">Move to Track</option>
                           <option value="archive">Archive</option>
                           <option value="unarchive">Unarchive</option>
+                          <option value="mark_reviewed">Mark as Reviewed</option>
+                          <option value="mark_unreviewed">Mark as Not Reviewed</option>
                           <option value="delete">Move to Trash</option>
                         </select>
                       </div>
@@ -669,56 +580,12 @@ export default function ManageContent() {
                             </div>
 
                             <div className="flex flex-wrap items-center gap-3 shrink-0 self-stretch sm:self-auto justify-end sm:justify-start pt-3 sm:pt-0 border-t sm:border-0 border-[var(--border)] w-full sm:w-auto">
-                              {/* Difficulty Selector */}
-                              <select
-                                value={course.difficulty || 'Unknown'}
-                                onChange={(e) => handleUpdateCourseProperties(course.id, { difficulty: e.target.value })}
-                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2.5 py-1.5 text-xs text-[var(--text-primary)] focus:outline-none cursor-pointer hover:border-zinc-700 transition-colors"
+                              <Link
+                                to={`/manage/courses/${course.slug}`}
+                                className="px-4 py-2 text-xs font-bold rounded-lg border border-[var(--border)] text-[var(--text-primary)] hover:border-zinc-500 hover:bg-[rgba(255,255,255,0.03)] transition-all flex items-center gap-1.5 shrink-0 select-none cursor-pointer"
                               >
-                                <option value="Easy">Easy</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Hard">Hard</option>
-                                <option value="Unknown">Unknown</option>
-                              </select>
-
-                              {/* Status Selector */}
-                              <select
-                                value={course.status || 'Not Started'}
-                                onChange={(e) => handleUpdateCourseProperties(course.id, { status: e.target.value })}
-                                className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-2.5 py-1.5 text-xs text-[var(--text-primary)] focus:outline-none cursor-pointer hover:border-zinc-700 transition-colors"
-                              >
-                                <option value="Not Started">Not Started</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Completed">Completed</option>
-                              </select>
-
-                              {/* Archive/Unarchive Course */}
-                              {course.is_archived === 1 ? (
-                                <button
-                                  onClick={() => handleCourseAction(course.id, 'archive', false)}
-                                  title="Unarchive Course"
-                                  className="p-2 rounded-lg bg-blue-950/40 text-[var(--accent-blue)] hover:text-blue-300 border border-blue-900/30 hover:scale-105 active:scale-95 transition-all"
-                                >
-                                  <ArchiveRestore size={16} />
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => handleCourseAction(course.id, 'archive', true)}
-                                  title="Archive Course"
-                                  className="p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-700/50 hover:scale-105 active:scale-95 transition-all"
-                                >
-                                  <Archive size={16} />
-                                </button>
-                              )}
-                              
-                              {/* Delete Course (trash) */}
-                              <button
-                                onClick={() => handleCourseAction(course.id, 'delete', true)}
-                                title="Move to Trash"
-                                className="p-2 rounded-lg bg-red-950/20 text-red-400 hover:text-red-300 border border-red-900/30 hover:scale-105 active:scale-95 transition-all"
-                              >
-                                <Trash2 size={16} />
-                              </button>
+                                Manage Course <ArrowRight size={14} />
+                              </Link>
                             </div>
                           </div>
                         )
@@ -733,302 +600,33 @@ export default function ManageContent() {
               <div className="lg:col-span-4 space-y-6">
                 
                 {/* Filter Sidebar */}
-                <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5 space-y-6 shadow-sm">
-                  <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
-                      <SlidersHorizontal size={14} /> Filters
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCourseSearch('')
-                        setCourseFilterTrack('all')
-                        setCourseFilterCategory('all')
-                        setCourseFilterStatus('all')
-                        setCourseFilterDifficulty('all')
-                        setCourseFilterArchive('active')
-                      }}
-                      className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:underline font-semibold"
-                    >
-                      Reset Filters
-                    </button>
-                  </div>
-
-                  {/* Search Box */}
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                      Keyword Search
-                    </label>
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
-                      <input
-                        type="text"
-                        placeholder="Search courses..."
-                        value={courseSearch}
-                        onChange={(e) => setCourseSearch(e.target.value)}
-                        className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] py-2 pl-9 pr-3 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Archive Status Filter */}
-                  <div className="space-y-2">
-                    <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                      Archive Status
-                    </label>
-                    <div className="flex flex-col gap-1.5">
-                      {[
-                        { id: 'active', label: 'Active Courses Only' },
-                        { id: 'archived', label: 'Archived Courses Only' },
-                        { id: 'all', label: 'All (Active & Archived)' }
-                      ].map(st => {
-                        const isActive = courseFilterArchive === st.id
-                        const count = st.id === 'active'
-                          ? allCourses.filter(c => c.is_archived !== 1).length
-                          : st.id === 'archived'
-                          ? allCourses.filter(c => c.is_archived === 1).length
-                          : allCourses.length
-
-                        return (
-                          <button
-                            key={st.id}
-                            type="button"
-                            onClick={() => setCourseFilterArchive(st.id)}
-                            className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                              isActive
-                                ? 'bg-[var(--accent-green)] text-black'
-                                : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                            }`}
-                          >
-                            <span>{st.label}</span>
-                            <span
-                              className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                                isActive ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                              }`}
-                            >
-                              {count}
-                            </span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Status Filter */}
-                  <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-                    <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                      Completion Status
-                    </label>
-                    <div className="flex flex-col gap-1.5">
-                      {[
-                        { id: 'all', label: 'All Statuses' },
-                        { id: 'Completed', label: 'Completed' },
-                        { id: 'In Progress', label: 'In Progress' },
-                        { id: 'Not Started', label: 'Not Started' }
-                      ].map(st => {
-                        const isActive = courseFilterStatus === st.id
-                        const count = st.id === 'all'
-                          ? allCourses.length
-                          : allCourses.filter(c => c.status === st.id).length
-
-                        return (
-                          <button
-                            key={st.id}
-                            type="button"
-                            onClick={() => setCourseFilterStatus(st.id)}
-                            className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                              isActive
-                                ? 'bg-[var(--accent-green)] text-black'
-                                : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                            }`}
-                          >
-                            <span>{st.label}</span>
-                            <span
-                              className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                                isActive ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                              }`}
-                            >
-                              {count}
-                            </span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Difficulty Filter */}
-                  <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-                    <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                      Difficulty Level
-                    </label>
-                    <div className="flex flex-col gap-1.5">
-                      {[
-                        { id: 'all', label: 'All Difficulties' },
-                        { id: 'Easy', label: 'Easy' },
-                        { id: 'Medium', label: 'Medium' },
-                        { id: 'Hard', label: 'Hard' },
-                        { id: 'Unknown', label: 'Unknown' }
-                      ].map(df => {
-                        const isActive = courseFilterDifficulty === df.id
-                        const count = df.id === 'all'
-                          ? allCourses.length
-                          : allCourses.filter(c => (c.difficulty || 'Unknown') === df.id).length
-
-                        return (
-                          <button
-                            key={df.id}
-                            type="button"
-                            onClick={() => setCourseFilterDifficulty(df.id)}
-                            className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                              isActive
-                                ? 'bg-[var(--accent-green)] text-black'
-                                : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                            }`}
-                          >
-                            <span>{df.label}</span>
-                            <span
-                              className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                                isActive ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                              }`}
-                            >
-                              {count}
-                            </span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Category Filter list */}
-                  <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-                    <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                      Categories & Languages
-                    </label>
-                    <div className="flex flex-col gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setCourseFilterCategory('all')}
-                        className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                          courseFilterCategory === 'all'
-                            ? 'bg-[var(--accent-green)] text-black'
-                            : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                        }`}
-                      >
-                        <span>All Categories</span>
-                        <span
-                          className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                            courseFilterCategory === 'all' ? 'bg-black/10 text-black' : 'bg-zinc-800 text-zinc-400'
-                          }`}
-                        >
-                          {allCourses.length}
-                        </span>
-                      </button>
-
-                      {CATEGORIES.map((cat) => {
-                        const count = allCourses.filter((c) => getCourseCategories(c).includes(cat.id)).length
-                        const isActive = courseFilterCategory === cat.id
-
-                        return (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            disabled={count === 0}
-                            onClick={() => setCourseFilterCategory(cat.id)}
-                            className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                              isActive
-                                ? 'bg-[var(--accent-green)] text-black'
-                                : count === 0
-                                ? 'opacity-40 cursor-not-allowed bg-transparent text-[var(--text-muted)]'
-                                : 'bg-[var(--bg-primary)] hover:bg-[var(--bg-primary)]/80 text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                            }`}
-                          >
-                            <span>{cat.label}</span>
-                            <span
-                              className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                                isActive
-                                  ? 'bg-black/10 text-black'
-                                  : 'bg-zinc-800 text-zinc-400'
-                              }`}
-                            >
-                              {count}
-                            </span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Track Filter list */}
-                  {uniqueTracks.length > 0 && (
-                    <div className="space-y-2 pt-4 border-t border-[var(--border)]">
-                      <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
-                        Learning Path (Track)
-                      </label>
-                      <div className="flex flex-col gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => setCourseFilterTrack('all')}
-                          className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                            courseFilterTrack === 'all'
-                              ? 'bg-[var(--accent-blue)] text-white'
-                              : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                          }`}
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                            All Tracks
-                          </span>
-                          <span
-                            className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono ${
-                              courseFilterTrack === 'all' ? 'bg-black/10 text-white' : 'bg-zinc-800 text-zinc-400'
-                            }`}
-                          >
-                            {allCourses.length}
-                          </span>
-                        </button>
-
-                        {uniqueTracks.map((tr) => {
-                          const count = allCourses.filter((c) => c.track_name === tr.name).length
-                          const isActive = courseFilterTrack === tr.name
-
-                          return (
-                            <button
-                              key={tr.name}
-                              type="button"
-                              onClick={() => {
-                                setCourseFilterTrack(tr.name)
-                                const trackLang = tr.language?.toLowerCase()
-                                if (trackLang && CATEGORIES.some(cat => cat.id === trackLang)) {
-                                  setCourseFilterCategory(trackLang)
-                                }
-                              }}
-                              className={`w-full flex items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold text-left transition-all ${
-                                isActive
-                                  ? 'bg-[var(--accent-blue)] text-white'
-                                  : 'bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] hover:border-zinc-700'
-                              }`}
-                            >
-                              <span className="flex items-center gap-1.5 truncate pr-2">
-                                <span
-                                  className="w-1.5 h-1.5 rounded-full shrink-0"
-                                  style={{ backgroundColor: tr.color || 'var(--text-muted)' }}
-                                />
-                                <span className="truncate">{tr.name}</span>
-                              </span>
-                              <span
-                                className={`px-1.5 py-0.5 text-[10px] rounded-full font-bold font-mono shrink-0 ${
-                                  isActive ? 'bg-black/10 text-white' : 'bg-zinc-800 text-zinc-400'
-                                }`}
-                              >
-                                {count}
-                              </span>
-                            </button>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <CourseFilter
+                  courses={allCourses}
+                  search={courseSearch}
+                  onSearchChange={setCourseSearch}
+                  selectedStatus={courseFilterStatus}
+                  onStatusChange={setCourseFilterStatus}
+                  selectedReviewed={courseFilterReviewed}
+                  onReviewedChange={setCourseFilterReviewed}
+                  selectedDifficulty={courseFilterDifficulty}
+                  onDifficultyChange={setCourseFilterDifficulty}
+                  selectedCategory={courseFilterCategory}
+                  onCategoryChange={setCourseFilterCategory}
+                  selectedTrack={courseFilterTrack}
+                  onTrackChange={setCourseFilterTrack}
+                  selectedArchive={courseFilterArchive}
+                  onArchiveChange={setCourseFilterArchive}
+                  showArchiveFilter={true}
+                  onReset={() => {
+                    setCourseFilterArchive('active')
+                    setCourseFilterStatus('all')
+                    setCourseFilterReviewed('all')
+                    setCourseFilterDifficulty('all')
+                    setCourseFilterCategory('all')
+                    setCourseFilterTrack('all')
+                    setCourseSearch('')
+                  }}
+                />
 
                 {/* Add Course Form */}
                 <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-6 shadow-sm">

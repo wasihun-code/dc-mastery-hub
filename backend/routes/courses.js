@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 
 const router = express.Router()
-const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glossary']
+const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glossary', 'difficulty']
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')

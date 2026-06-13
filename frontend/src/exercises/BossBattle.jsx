@@ -8,7 +8,9 @@ import {
   Skull,
   Trophy,
   Flame,
-  Lightbulb
+  Lightbulb,
+  Check,
+  X
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
 
@@ -36,6 +38,7 @@ export default function BossBattle() {
   
   // Track wave performance (questions completed/survived per wave)
   const [waveSurvival, setWaveSurvival] = useState({ 1: 0, 2: 0, 3: 0 });
+  const [waveTotals, setWaveTotals] = useState({ 1: 20, 2: 20, 3: 20 });
   
   const timerRef = useRef(null);
   const advanceTimeoutRef = useRef(null);
@@ -105,26 +108,81 @@ export default function BossBattle() {
       }
       
       const courseData = await courseRes.json();
+      if (courseData && courseData.reviewed !== 'Yes') {
+        navigate('/courses');
+        return;
+      }
       const allQuestions = await battleRes.json();
       const attemptedIds = await attemptsRes.json();
       
       setCourse(courseData);
 
-      // Filter out attempted questions
-      let unattempted = allQuestions.filter(q => !attemptedIds.includes(String(q.id)));
-      let selected = [];
-      let replayMode = false;
+      // Normalize attemptedIds to string
+      const attemptedStrIds = attemptedIds.map(id => String(id));
 
-      if (unattempted.length > 0) {
-        // Shuffle unattempted questions so player gets new order
+      // Group questions by wave (1, 2, 3, or other)
+      const wave1 = [];
+      const wave2 = [];
+      const wave3 = [];
+      const otherWaves = [];
+
+      allQuestions.forEach((q, idx) => {
+        const w = q.wave !== undefined && q.wave !== null ? Number(q.wave) : (idx < 20 ? 1 : idx < 40 ? 2 : 3);
+        if (w === 1) wave1.push(q);
+        else if (w === 2) wave2.push(q);
+        else if (w === 3) wave3.push(q);
+        else otherWaves.push(q);
+      });
+
+      // Within each wave, prioritize unattempted questions over attempted questions and shuffle them
+      const sortWaveQuestions = (waveQuestions) => {
+        const unattempted = waveQuestions.filter(q => !attemptedStrIds.includes(String(q.id)));
+        const attempted = waveQuestions.filter(q => attemptedStrIds.includes(String(q.id)));
+        
+        // Shuffle both lists independently for randomness
         unattempted.sort(() => Math.random() - 0.5);
-        selected = unattempted;
-      } else {
-        // Replay all
-        replayMode = true;
-        const shuffledAll = [...allQuestions].sort(() => Math.random() - 0.5);
-        selected = shuffledAll;
+        attempted.sort(() => Math.random() - 0.5);
+        
+        return [...unattempted, ...attempted];
+      };
+
+      const sortedWave1 = sortWaveQuestions(wave1);
+      const sortedWave2 = sortWaveQuestions(wave2);
+      const sortedWave3 = sortWaveQuestions(wave3);
+      const sortedOther = sortWaveQuestions(otherWaves);
+
+      // Select exactly 25 questions: 10 from Wave 1, 10 from Wave 2, 5 from Wave 3
+      let selectedWave1 = sortedWave1.slice(0, 10);
+      let selectedWave2 = sortedWave2.slice(0, 10);
+      let selectedWave3 = sortedWave3.slice(0, 5);
+
+      let selected = [...selectedWave1, ...selectedWave2, ...selectedWave3];
+
+      // If we don't have 25 questions, and there are more available, we fill from the rest of the questions
+      if (selected.length < 25) {
+        const remainingWave1 = sortedWave1.slice(selectedWave1.length);
+        const remainingWave2 = sortedWave2.slice(selectedWave2.length);
+        const remainingWave3 = sortedWave3.slice(selectedWave3.length);
+        const allRemaining = [...remainingWave1, ...remainingWave2, ...remainingWave3, ...sortedOther];
+        
+        const needed = 25 - selected.length;
+        const extra = allRemaining.slice(0, needed);
+        selected = [...selected, ...extra];
       }
+
+      // Calculate totals per wave for dynamic progress display
+      const totals = { 1: 0, 2: 0, 3: 0 };
+      selected.forEach((q, idx) => {
+        const w = q.wave !== undefined && q.wave !== null ? Number(q.wave) : (idx < 20 ? 1 : idx < 40 ? 2 : 3);
+        if (totals[w] !== undefined) {
+          totals[w]++;
+        } else {
+          totals[w] = 1;
+        }
+      });
+      setWaveTotals(totals);
+
+      const replayMode = allQuestions.filter(q => !attemptedStrIds.includes(String(q.id))).length === 0;
       
       setQuestions(selected);
       setIsReplaying(replayMode);
@@ -211,10 +269,11 @@ export default function BossBattle() {
   };
 
   const updateWaveSurvival = (index) => {
-    const wave = Math.floor(index / 20) + 1;
+    const q = questions[index];
+    const wave = q?.wave !== undefined && q?.wave !== null ? Number(q.wave) : (Math.floor(index / 20) + 1);
     setWaveSurvival(prev => ({
       ...prev,
-      [wave]: Math.min(prev[wave] + 1, 20)
+      [wave]: prev[wave] + 1
     }));
   };
 
@@ -274,10 +333,11 @@ export default function BossBattle() {
   };
 
   const handleHintClick = () => {
-    const wave = Math.floor(currentIndex / 20) + 1;
-    if (isAnswered || wave === 3) return;
-    
     const currentQuestion = questions[currentIndex];
+    const wave = currentQuestion?.wave !== undefined && currentQuestion?.wave !== null 
+      ? Number(currentQuestion.wave) 
+      : (Math.floor(currentIndex / 20) + 1);
+    if (isAnswered || wave === 3) return;
     if (currentQuestion?.hints && hintsShown < currentQuestion.hints.length) {
       setHintsShown(prev => prev + 1);
       setTimeLeft(prev => {
@@ -359,7 +419,10 @@ export default function BossBattle() {
     });
   };
 
-  const currentWave = Math.floor(currentIndex / 20) + 1;
+  const currentQuestionAtRoot = questions[currentIndex];
+  const currentWave = currentQuestionAtRoot?.wave !== undefined && currentQuestionAtRoot?.wave !== null 
+    ? Number(currentQuestionAtRoot.wave) 
+    : (Math.floor(currentIndex / 20) + 1);
 
   let waveBgStyle = "bg-[#111219]"; // default wave 1
   if (currentWave === 2) {
@@ -685,26 +748,26 @@ export default function BossBattle() {
             <div className="space-y-2.5">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-[var(--text-muted)]">Wave 1 (Python Basics)</span>
-                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[1]} / 20</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[1]} / {waveTotals[1] || 20}</span>
               </div>
               <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-[var(--accent-red)]" style={{ width: `${(waveSurvival[1] / 20) * 100}%` }}></div>
+                <div className="h-full bg-[var(--accent-red)]" style={{ width: `${(waveSurvival[1] / (waveTotals[1] || 20)) * 100}%` }}></div>
               </div>
 
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-[var(--text-muted)]">Wave 2 (Data Control)</span>
-                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[2]} / 20</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[2]} / {waveTotals[2] || 20}</span>
               </div>
               <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-orange-500" style={{ width: `${(waveSurvival[2] / 20) * 100}%` }}></div>
+                <div className="h-full bg-orange-500" style={{ width: `${(waveSurvival[2] / (waveTotals[2] || 20)) * 100}%` }}></div>
               </div>
 
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-[var(--text-muted)]">Wave 3 (Advanced/Volcanic)</span>
-                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[3]} / 20</span>
+                <span className="font-mono font-bold text-[var(--text-primary)]">{waveSurvival[3]} / {waveTotals[3] || 20}</span>
               </div>
               <div className="w-full bg-[var(--bg-primary)] h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-[var(--accent-yellow)]" style={{ width: `${(waveSurvival[3] / 20) * 100}%` }}></div>
+                <div className="h-full bg-[var(--accent-yellow)]" style={{ width: `${(waveSurvival[3] / (waveTotals[3] || 20)) * 100}%` }}></div>
               </div>
             </div>
           </div>

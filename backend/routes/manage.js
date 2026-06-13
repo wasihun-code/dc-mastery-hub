@@ -295,6 +295,10 @@ router.post('/manage/courses/bulk-action', (req, res, next) => {
           db.prepare('UPDATE courses SET is_archived = 1 WHERE id = ?').run(cId)
         } else if (action === 'unarchive') {
           db.prepare('UPDATE courses SET is_archived = 0 WHERE id = ?').run(cId)
+        } else if (action === 'mark_reviewed') {
+          db.prepare("UPDATE courses SET reviewed = 'Yes' WHERE id = ?").run(cId)
+        } else if (action === 'mark_unreviewed') {
+          db.prepare("UPDATE courses SET reviewed = 'No' WHERE id = ?").run(cId)
         } else if (action === 'copy') {
           if (!destTrackId) throw new Error('destTrackId is required for copy action')
           copyCourseInternal(cId, Number(destTrackId))
@@ -444,7 +448,7 @@ router.post('/manage/upload-material', (req, res, next) => {
 // 11. Update Course properties (status, difficulty)
 router.post('/manage/course/update-properties', (req, res, next) => {
   try {
-    const { courseId, status, difficulty } = req.body
+    const { courseId, status, difficulty, reviewed } = req.body
     if (!courseId) {
       res.status(400).json({ error: 'courseId is required' })
       return
@@ -460,6 +464,10 @@ router.post('/manage/course/update-properties', (req, res, next) => {
     if (difficulty !== undefined) {
       fields.push('difficulty = ?')
       values.push(difficulty)
+    }
+    if (reviewed !== undefined) {
+      fields.push('reviewed = ?')
+      values.push(reviewed)
     }
 
     if (fields.length > 0) {

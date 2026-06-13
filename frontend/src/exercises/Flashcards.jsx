@@ -80,25 +80,36 @@ export default function Flashcards() {
       }
       
       const courseData = await courseRes.json();
+      if (courseData && courseData.reviewed !== 'Yes') {
+        navigate('/courses');
+        return;
+      }
       const allCards = await cardsRes.json();
       const attemptedIds = await attemptsRes.json();
       
       setCourse(courseData);
 
-      // Filter out attempted cards
-      let unattempted = allCards.filter(c => !attemptedIds.includes(String(c.id)));
+      // Normalize attemptedIds to string
+      const attemptedStrIds = attemptedIds.map(id => String(id));
+
+      const unattempted = allCards.filter(c => !attemptedStrIds.includes(String(c.id)));
+      const attempted = allCards.filter(c => attemptedStrIds.includes(String(c.id)));
+
+      // Shuffle both lists independently for randomness
+      unattempted.sort(() => Math.random() - 0.5);
+      attempted.sort(() => Math.random() - 0.5);
+
       let selected = [];
       let replayMode = false;
 
-      if (unattempted.length > 0) {
-        // Shuffle unattempted cards and take up to 15
-        unattempted.sort(() => Math.random() - 0.5);
+      if (unattempted.length >= 15) {
         selected = unattempted.slice(0, 15);
+      } else if (unattempted.length > 0) {
+        const needed = 15 - unattempted.length;
+        selected = [...unattempted, ...attempted.slice(0, needed)];
       } else {
-        // All cards completed! Replay mode.
         replayMode = true;
-        const shuffledAll = [...allCards].sort(() => Math.random() - 0.5);
-        selected = shuffledAll.slice(0, 15);
+        selected = attempted.slice(0, 15);
       }
       
       setCards(selected);

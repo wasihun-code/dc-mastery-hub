@@ -5,7 +5,6 @@ import {
   CheckCircle2, 
   Clock, 
   Circle, 
-  StickyNote,
   AlertCircle,
   AlertTriangle,
   X
@@ -110,11 +109,12 @@ function CourseCard({ course, onShowNoQuestions }) {
   }
 
   const statusConfig = getStatusConfig(course.status)
-  const hasNotes = course.notes && course.notes !== '-' && course.notes.trim() !== ''
 
   const handleClick = () => {
-    if (!course.quiz_question_count || course.quiz_question_count === 0) {
-      onShowNoQuestions(course)
+    if (course.reviewed !== 'Yes') {
+      onShowNoQuestions(course, 'not_reviewed')
+    } else if (!course.quiz_question_count || course.quiz_question_count === 0) {
+      onShowNoQuestions(course, 'no_questions')
     } else {
       navigate(`/courses/${course.slug}`)
     }
@@ -131,14 +131,6 @@ function CourseCard({ course, onShowNoQuestions }) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-bold text-[var(--text-primary)]">{course.name}</h3>
-              {hasNotes && (
-                <div className="group/note relative">
-                  <StickyNote size={16} className="text-[var(--accent-yellow)] cursor-help" />
-                  <div className="absolute bottom-full left-1/2 mb-2 hidden w-48 -translate-x-1/2 rounded bg-[var(--bg-primary)] p-2 text-xs text-[var(--text-primary)] shadow-xl group-hover/note:block z-10 border border-[var(--border)]">
-                    {course.notes}
-                  </div>
-                </div>
-              )}
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
               <span className={`rounded-full border px-2 py-0.5 text-xs font-medium uppercase ${difficultyBadgeClass(course.difficulty)}`}>
@@ -194,10 +186,10 @@ export default function TrackDetail() {
   const [track, setTrack] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '' })
+  const [noQuestionsModal, setNoQuestionsModal] = useState({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })
 
-  const handleShowNoQuestions = (course) => {
-    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug })
+  const handleShowNoQuestions = (course, type = 'no_questions') => {
+    setNoQuestionsModal({ show: true, courseName: course.name, courseSlug: course.slug, type })
   }
 
   useEffect(() => {
@@ -374,10 +366,12 @@ export default function TrackDetail() {
             <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
               <div className="flex items-center gap-2 text-[var(--accent-yellow)]">
                 <AlertTriangle size={20} />
-                <h3 className="font-bold text-lg text-[var(--text-primary)]">No Questions Yet</h3>
+                <h3 className="font-bold text-lg text-[var(--text-primary)]">
+                  {noQuestionsModal.type === 'not_reviewed' ? 'Course Not Reviewed' : 'No Questions Yet'}
+                </h3>
               </div>
               <button 
-                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })}
                 className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
               >
                 <X size={20} />
@@ -385,22 +379,31 @@ export default function TrackDetail() {
             </div>
 
             <div className="p-6 space-y-4">
-              <p className="text-sm text-[var(--text-primary)]">
-                The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
-              </p>
-              <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
-                <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
-                <p>1. Open your terminal or query the agent.</p>
-                <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
-                  extract {noQuestionsModal.courseSlug}
+              {noQuestionsModal.type === 'not_reviewed' ? (
+                <p className="text-sm text-[var(--text-primary)]">
+                  For a better experience we recommend you to review the course. After reviewing change the status in the content management page.
                 </p>
-                <p>2. Refresh the course page or study session once completed.</p>
-              </div>
+              ) : (
+                <p className="text-sm text-[var(--text-primary)]">
+                  The course <strong>{noQuestionsModal.courseName}</strong> does not have any questions generated yet.
+                </p>
+              )}
+              
+              {noQuestionsModal.type !== 'not_reviewed' && (
+                <div className="bg-[var(--bg-primary)] p-4 rounded-xl border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-2 font-mono">
+                  <p className="font-bold text-[var(--accent-green)]">To generate questions:</p>
+                  <p>1. Open your terminal or query the agent.</p>
+                  <p className="bg-black/40 p-2 rounded text-[var(--text-primary)] border border-zinc-800">
+                    extract {noQuestionsModal.courseSlug}
+                  </p>
+                  <p>2. Refresh the course page or study session once completed.</p>
+                </div>
+              )}
 
               <div className="flex justify-end pt-2">
                 <button
                   type="button"
-                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '' })}
+                  onClick={() => setNoQuestionsModal({ show: false, courseName: '', courseSlug: '', type: 'no_questions' })}
                   className="px-5 py-2.5 text-xs font-bold rounded-lg bg-[var(--accent-green)] text-black hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   Understood

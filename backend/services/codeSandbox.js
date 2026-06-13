@@ -79,6 +79,28 @@ if os.path.exists('football.csv'):
     np_shootings = pd.to_numeric(df_football['shooting'], errors='coerce').fillna(0).values
 
 ${code}
+
+# Inspect variables at the end
+import json
+try:
+    user_vars = {}
+    for k, v in list(globals().items()):
+        if k.startswith('_') or k in ['pd', 'np', 'warnings', 'os', 'json', 'user_vars', 'k', 'v', 'scriptContent', 'scriptPath', 'expected_code', 'solution_code', 'datasetFile', 'datasetPath', 'fileName']:
+            continue
+        try:
+            if hasattr(v, 'shape'):
+                val_str = f"{type(v).__name__} of shape {v.shape}"
+            else:
+                val_str = repr(v)
+                if len(val_str) > 80:
+                    val_str = val_str[:77] + '...'
+            type_str = type(v).__name__
+            user_vars[k] = {'type': type_str, 'value': val_str}
+        except:
+            pass
+    print("__DC_VARS_START__" + json.dumps(user_vars) + "__DC_VARS_END__")
+except:
+    pass
 `
     const scriptPath = path.join(tmpDir, 'solution.py')
     fs.writeFileSync(scriptPath, scriptContent)
@@ -96,10 +118,21 @@ ${code}
       }
     )
     
+    let outputStr = output.toString()
+    let vars = {}
+    const varsMatch = outputStr.match(/__DC_VARS_START__(.*?)__DC_VARS_END__/)
+    if (varsMatch) {
+      try {
+        vars = JSON.parse(varsMatch[1])
+      } catch (e) {}
+      outputStr = outputStr.replace(/__DC_VARS_START__(.*?)__DC_VARS_END__/, '')
+    }
+
     return {
       success: true,
-      output: output.toString().trim(),
-      error: null
+      output: outputStr.trim(),
+      error: null,
+      vars
     }
   } catch (err) {
     let errorText = err.stderr ? err.stderr.toString().trim() : err.message
@@ -109,7 +142,8 @@ ${code}
     return {
       success: false, 
       output: '',
-      error: errorText
+      error: errorText,
+      vars: {}
     }
   } finally {
     // Clean up temp directory
@@ -176,12 +210,35 @@ if history_code:
 
 # Run shell command
 cmd = ${JSON.stringify(command)}
+if cmd:
+    try:
+        res = eval(cmd, globals())
+        if res is not None:
+            print(repr(res))
+    except SyntaxError:
+        exec(cmd, globals())
+
+# Inspect variables at the end
+import json
 try:
-    res = eval(cmd, globals())
-    if res is not None:
-        print(repr(res))
-except SyntaxError:
-    exec(cmd, globals())
+    user_vars = {}
+    for k, v in list(globals().items()):
+        if k.startswith('_') or k in ['pd', 'np', 'warnings', 'os', 'history_code', 'cmd', 'res', 'json', 'user_vars', 'k', 'v', 'scriptContent', 'scriptPath', 'expected_code', 'solution_code', 'datasetFile', 'datasetPath', 'fileName']:
+            continue
+        try:
+            if hasattr(v, 'shape'):
+                val_str = f"{type(v).__name__} of shape {v.shape}"
+            else:
+                val_str = repr(v)
+                if len(val_str) > 80:
+                    val_str = val_str[:77] + '...'
+            type_str = type(v).__name__
+            user_vars[k] = {'type': type_str, 'value': val_str}
+        except:
+            pass
+    print("__DC_VARS_START__" + json.dumps(user_vars) + "__DC_VARS_END__")
+except:
+    pass
 `
     const scriptPath = path.join(tmpDir, 'shell_cmd.py')
     fs.writeFileSync(scriptPath, scriptContent)
@@ -199,10 +256,21 @@ except SyntaxError:
       }
     )
     
+    let outputStr = output.toString()
+    let vars = {}
+    const varsMatch = outputStr.match(/__DC_VARS_START__(.*?)__DC_VARS_END__/)
+    if (varsMatch) {
+      try {
+        vars = JSON.parse(varsMatch[1])
+      } catch (e) {}
+      outputStr = outputStr.replace(/__DC_VARS_START__(.*?)__DC_VARS_END__/, '')
+    }
+
     return {
       success: true,
-      output: output.toString().trim(),
-      error: null
+      output: outputStr.trim(),
+      error: null,
+      vars
     }
   } catch (err) {
     let errorText = err.stderr ? err.stderr.toString().trim() : err.message
@@ -211,7 +279,8 @@ except SyntaxError:
     return {
       success: false, 
       output: '',
-      error: errorText
+      error: errorText,
+      vars: {}
     }
   } finally {
     // Clean up temp directory

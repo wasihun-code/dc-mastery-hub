@@ -135,20 +135,67 @@ export default function MatchingGame() {
   const fetchCourseAndMatching = async () => {
     try {
       setLoading(true);
-      const [courseRes, matchingRes] = await Promise.all([
+      const [courseRes, matchingRes, attemptsRes] = await Promise.all([
         fetch(`/api/courses/${courseSlug}`),
-        fetch(`/api/content/exercises/${courseSlug}/matching`)
+        fetch(`/api/content/exercises/${courseSlug}/matching`),
+        fetch(`/api/progress/attempted-questions/${courseSlug}/matching`)
       ]);
       
-      if (!courseRes.ok || !matchingRes.ok) {
+      if (!courseRes.ok || !matchingRes.ok || !attemptsRes.ok) {
         throw new Error("Failed to fetch matching data");
       }
       
       const courseData = await courseRes.json();
+      if (courseData && courseData.reviewed !== 'Yes') {
+        navigate('/courses');
+        return;
+      }
       const matchingData = await matchingRes.json();
+      const attemptedIds = await attemptsRes.json();
       
       setCourse(courseData);
-      setAllRounds(matchingData.slice(0, 10)); // Max 10 rounds
+
+      // Flatten all pairs from all rounds to build a pool of concepts
+      const allPairs = [];
+      matchingData.forEach(round => {
+        if (round.pairs) {
+          allPairs.push(...round.pairs);
+        }
+      });
+
+      // Filter out duplicate pairs by ID (coerced to string)
+      const uniquePairsMap = new Map();
+      allPairs.forEach(p => uniquePairsMap.set(String(p.id), p));
+      const uniquePairs = Array.from(uniquePairsMap.values());
+
+      // Normalize attemptedIds to string
+      const attemptedStrIds = attemptedIds.map(id => String(id));
+
+      // Separate into unattempted and attempted
+      const unattempted = uniquePairs.filter(p => !attemptedStrIds.includes(String(p.id)));
+      const attempted = uniquePairs.filter(p => attemptedStrIds.includes(String(p.id)));
+
+      // Shuffle both lists independently for randomness
+      unattempted.sort(() => Math.random() - 0.5);
+      attempted.sort(() => Math.random() - 0.5);
+
+      // Combine unattempted first, then attempted
+      const combinedPairs = [...unattempted, ...attempted];
+
+      // Chunk combined pairs back into rounds of 5 pairs each
+      const rounds = [];
+      for (let i = 0; i < combinedPairs.length; i += 5) {
+        const chunk = combinedPairs.slice(i, i + 5);
+        if (chunk.length >= 2) {
+          rounds.push({
+            id: rounds.length + 1,
+            theme: `Round ${rounds.length + 1}: Core Concepts`,
+            pairs: chunk
+          });
+        }
+      }
+
+      setAllRounds(rounds.slice(0, 10)); // Max 10 rounds
     } catch (err) {
       console.error('Error fetching matching data:', err);
     } finally {

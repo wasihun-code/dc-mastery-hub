@@ -72,6 +72,7 @@ export default function WranglingSpeedrun() {
   const speedrunIndexRef = useRef(speedrunIndex)
   const speedrunStepRef = useRef(speedrunStep)
   const handleSpeedrunOptionClickRef = useRef(null)
+  const speedrunAttemptedIdsRef = useRef([])
 
   useEffect(() => {
     speedrunActiveRef.current = speedrunActive
@@ -117,7 +118,7 @@ export default function WranglingSpeedrun() {
         if (resCourses.ok) {
           const data = await resCourses.json()
           setCourses(data)
-          const eligible = data.filter(c => c.status === 'Completed' && (c.quiz_question_count || 0) > 0)
+          const eligible = data.filter(c => c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
           if (eligible.length > 0) {
             setSelectedCourseSlug(eligible[0].slug)
           }
@@ -136,17 +137,29 @@ export default function WranglingSpeedrun() {
     const slug = courseSlug || selectedCourseSlug
     if (!slug) return
     try {
-      const res = await fetch(`/api/content/exercises/${slug}/mcq`)
-      if (!res.ok) throw new Error("Failed to load questions")
+      const [res, attemptsRes] = await Promise.all([
+        fetch(`/api/content/exercises/${slug}/mcq`),
+        fetch(`/api/progress/attempted-questions/${slug}/quiz`)
+      ])
+      if (!res.ok || !attemptsRes.ok) throw new Error("Failed to load questions")
       const data = await res.json()
+      const attemptedIds = await attemptsRes.json()
       if (data.length === 0) {
         alert("No quiz questions available for speedrun in this course. Please extract content first.")
         return
       }
 
-      // Shuffle questions
-      const shuffled = [...data].sort(() => Math.random() - 0.5)
-      setSpeedrunQuestions(shuffled)
+      const attemptedStrIds = attemptedIds.map(id => String(id))
+      speedrunAttemptedIdsRef.current = attemptedStrIds
+
+      const unattempted = data.filter(q => !attemptedStrIds.includes(String(q.id)))
+      const attempted = data.filter(q => attemptedStrIds.includes(String(q.id)))
+
+      unattempted.sort(() => Math.random() - 0.5)
+      attempted.sort(() => Math.random() - 0.5)
+
+      const combined = [...unattempted, ...attempted]
+      setSpeedrunQuestions(combined)
       setSpeedrunIndex(0)
       setSpeedrunScore(0)
       setSpeedrunTime(60)
@@ -161,8 +174,15 @@ export default function WranglingSpeedrun() {
   }
 
   const startSpeedrunGameplay = () => {
-    // Reshuffle questions on play/retry
-    setSpeedrunQuestions(prev => [...prev].sort(() => Math.random() - 0.5))
+    // Reshuffle questions on play/retry but prioritize unattempted
+    setSpeedrunQuestions(prev => {
+      const attemptedStrIds = speedrunAttemptedIdsRef.current || []
+      const unattempted = prev.filter(q => !attemptedStrIds.includes(String(q.id)))
+      const attempted = prev.filter(q => attemptedStrIds.includes(String(q.id)))
+      unattempted.sort(() => Math.random() - 0.5)
+      attempted.sort(() => Math.random() - 0.5)
+      return [...unattempted, ...attempted]
+    })
     setSpeedrunIndex(0)
     setSpeedrunScore(0)
     setSpeedrunTime(60)
@@ -283,7 +303,7 @@ export default function WranglingSpeedrun() {
     handleSpeedrunOptionClickRef.current = handleSpeedrunOptionClick
   }, [handleSpeedrunOptionClick])
 
-  const eligibleCourses = courses.filter(c => c.status === 'Completed' && (c.quiz_question_count || 0) > 0)
+  const eligibleCourses = courses.filter(c => c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
   const trackFilters = ['All', ...new Set(eligibleCourses.map(c => c.track_language || c.track_name).filter(Boolean))]
 
   const getCourseCountForTrack = (trackName) => {

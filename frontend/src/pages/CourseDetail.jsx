@@ -10,7 +10,9 @@ import {
   Swords, 
   FileText, 
   AlertCircle,
-  Book
+  Book,
+  AlertTriangle,
+  X
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
 
@@ -239,6 +241,43 @@ export default function CourseDetail() {
   }
 
   if (!course) return null
+
+  if (course.reviewed !== 'Yes') {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in-50 zoom-in-95 duration-200 text-left">
+          <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
+            <div className="flex items-center gap-2 text-[var(--accent-yellow)]">
+              <AlertTriangle size={20} />
+              <h3 className="font-bold text-lg text-[var(--text-primary)]">Course Not Reviewed</h3>
+            </div>
+            <button 
+              onClick={() => navigate('/courses')}
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="p-6 space-y-4">
+            <p className="text-sm text-[var(--text-primary)]">
+              For a better experience we recommend you to review the course. After reviewing change the status in the content management page.
+            </p>
+
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => navigate('/courses')}
+                className="px-5 py-2.5 text-xs font-bold rounded-lg bg-[var(--accent-green)] text-black hover:opacity-90 transition-opacity cursor-pointer"
+              >
+                Back to My Courses
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-8 pb-12">

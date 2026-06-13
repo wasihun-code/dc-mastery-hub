@@ -17,6 +17,7 @@ import BossBattle from './exercises/BossBattle'
 import TrackTest from './pages/TrackTest'
 import WranglingSpeedrun from './pages/WranglingSpeedrun'
 import CapstoneBattleSelection from './pages/CapstoneBattleSelection'
+import ManageCourseDetail from './pages/ManageCourseDetail'
 
 const routeTitles = [
   { pattern: /^\/$/, title: 'Dashboard' },
@@ -27,6 +28,7 @@ const routeTitles = [
   { pattern: /^\/capstone$/, title: 'Capstone Battle' },
   { pattern: /^\/mastery-map$/, title: 'Mastery Map' },
   { pattern: /^\/manage$/, title: 'Content Manager' },
+  { pattern: /^\/manage\/courses\/[^/]+$/, title: 'Manage Course' },
   { pattern: /^\/settings$/, title: 'Settings' },
   { pattern: /^\/exercise\/flashcards\/[^/]+$/, title: 'Flashcards' },
   { pattern: /^\/exercise\/quiz\/[^/]+$/, title: 'Quiz' },
@@ -59,6 +61,7 @@ export default function App() {
           <Route path="/capstone" element={<CapstoneBattleSelection />} />
           <Route path="/mastery-map" element={<MasteryMap />} />
           <Route path="/manage" element={<ManageContent />} />
+          <Route path="/manage/courses/:courseSlug" element={<ManageCourseDetail />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/exercise/flashcards/:courseSlug" element={<Flashcards />} />
           <Route path="/exercise/quiz/:courseSlug" element={<Quiz />} />

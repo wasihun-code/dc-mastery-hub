@@ -126,25 +126,36 @@ export default function FillBlank() {
       }
       
       const courseData = await courseRes.json();
+      if (courseData && courseData.reviewed !== 'Yes') {
+        navigate('/courses');
+        return;
+      }
       const allExercises = await exercisesRes.json();
       const attemptedIds = await attemptsRes.json();
       
       setCourse(courseData);
 
-      // Filter out attempted questions
-      let unattempted = allExercises.filter(ex => !attemptedIds.includes(String(ex.id)));
+      // Normalize attemptedIds to string
+      const attemptedStrIds = attemptedIds.map(id => String(id));
+
+      const unattempted = allExercises.filter(ex => !attemptedStrIds.includes(String(ex.id)));
+      const attempted = allExercises.filter(ex => attemptedStrIds.includes(String(ex.id)));
+
+      // Shuffle both lists independently for randomness
+      unattempted.sort(() => Math.random() - 0.5);
+      attempted.sort(() => Math.random() - 0.5);
+
       let selected = [];
       let replayMode = false;
 
-      if (unattempted.length > 0) {
-        // Shuffle unattempted questions and take up to 10
-        unattempted.sort(() => Math.random() - 0.5);
+      if (unattempted.length >= 10) {
         selected = unattempted.slice(0, 10);
+      } else if (unattempted.length > 0) {
+        const needed = 10 - unattempted.length;
+        selected = [...unattempted, ...attempted.slice(0, needed)];
       } else {
-        // All questions completed! Replay mode.
         replayMode = true;
-        const shuffledAll = [...allExercises].sort(() => Math.random() - 0.5);
-        selected = shuffledAll.slice(0, 10);
+        selected = attempted.slice(0, 10);
       }
       
       setExercises(selected);

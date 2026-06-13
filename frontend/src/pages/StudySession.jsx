@@ -122,7 +122,7 @@ export default function StudySession() {
         if (resCourses.ok) {
           const data = await resCourses.json()
           setCourses(data)
-          const withQuestions = data.filter(c => (c.quiz_question_count || 0) > 0)
+          const withQuestions = data.filter(c => c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
           const eligible = withQuestions.filter(c => c.status === 'Completed')
           if (eligible.length > 0) {
             setSelectedCourseSlug(eligible[0].slug)
@@ -531,7 +531,7 @@ export default function StudySession() {
               onChange={(e) => setSelectedCourseSlug(e.target.value)}
               className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] p-3 text-sm text-[var(--text-primary)] min-w-[260px] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]"
             >
-              {courses.filter(c => (c.quiz_question_count || 0) > 0).map(c => (
+              {courses.filter(c => c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0).map(c => (
                 <option key={c.id} value={c.slug}>
                   {c.name} ({c.track_language})
                 </option>
