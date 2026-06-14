@@ -23,8 +23,11 @@ function playTone(freq, startTime, duration, type = 'sine', volume = 0.2) {
     osc.type = type;
     osc.frequency.value = freq;
     
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, volume * 2.0 * globalVolume);
+    
     gainNode.gain.setValueAtTime(0, startTime);
-    gainNode.gain.linearRampToValueAtTime(volume, startTime + 0.01);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, startTime + 0.01);
     gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
     
     osc.connect(gainNode);
@@ -44,6 +47,16 @@ export function isAudioEnabled() {
 
 export function setAudioEnabled(enabled) {
   localStorage.setItem('feedback_audio_enabled', String(enabled));
+}
+
+export function getAudioVolume() {
+  const vol = localStorage.getItem('feedback_audio_volume');
+  if (vol === null) return 0.8; // Default to 80% volume
+  return parseFloat(vol);
+}
+
+export function setAudioVolume(volume) {
+  localStorage.setItem('feedback_audio_volume', String(volume));
 }
 
 export function isHapticsEnabled() {
@@ -82,8 +95,11 @@ export function playWrong() {
     osc.frequency.setValueAtTime(150, now);
     osc.frequency.linearRampToValueAtTime(80, now + duration);
     
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, 0.2 * 2.0 * globalVolume);
+    
     gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(0.2, now + 0.02);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.02);
     gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
     
     osc.connect(gainNode);
@@ -135,8 +151,11 @@ export function playTimerExpired() {
     osc.frequency.setValueAtTime(180, now);
     osc.frequency.linearRampToValueAtTime(90, now + duration);
     
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, 0.15 * 2.0 * globalVolume);
+    
     gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(0.15, now + 0.04);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.04);
     gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
     
     osc.connect(gainNode);

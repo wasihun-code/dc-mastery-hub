@@ -1,0 +1,328 @@
+1. Introduction to cloud computing
+00:00 - 03:16
+Hey there! I’m Sara, and I’ll be your instructor on your journey to Understanding Cloud Computing. Let’s start with a fun fact. In 2024, Amazon Web Services exceeded $100 billion in revenue with a net operating income of nearly $40 billion - more than 60% of Amazon’s entire revenue! Wait, what? AWS has grown so fast it overshadowed the company’s retail business. Crazy, right? And it’s not slowing down. So, what exactly is cloud computing? At its core, cloud computing is the delivery of technology services—like computing power, storage, databases, and networking—over the internet, with pay-as-you-go pricing. Instead of owning and maintaining physical servers or data centers, companies can rent access to these services from cloud providers like AWS, Microsoft Azure, or Google Cloud Platform. But how does it actually work? Let’s break it down with an example. Imagine you run a company with a website like DataCamp. Learners visit the website to take courses, but during special promotions like "Free Week," traffic surges. More visitors equals more demand on the website’s infrastructure. If DataCamp’s servers can’t handle the spike, the site slows down—or even crashes. Not good. Frustrated users might leave, and that’s a missed opportunity. So, how do we prevent this? One way is the traditional method—buying powerful physical servers and hosting your website on them. This server sits in a data center or office and is always running. But here’s the problem: If traffic surges, you need more servers to keep up. Buying or renting extra servers just for occasional spikes is expensive. If traffic drops again, you’re stuck paying for unused capacity. Now, enter cloud computing. With cloud hosting, you don’t need to own physical servers. Instead, your website runs on cloud servers that you can scale up or down instantly based on demand. Traffic surges? Just increase computing power in seconds. Traffic slows down? Scale back and only pay for what you use. Think of it like your electricity bill—you don’t pay a fixed amount; you pay for what you consume. So, which approach is better? Well, it depends. Cloud computing is flexible, scalable, and quick to set up; however, security and cost has been an issue, but they have improved significantly in recent years. On-premise servers offer control and can be more secure, but they can be challenging to scale and expensive to maintain. And cloud computing isn’t just for hosting websites—it powers data storage, backups, AI models, streaming services, and much more. Companies worldwide rely on the cloud to innovate, grow, and stay competitive.
+
+1. The power of the cloud
+00:00 - 03:37
+Now that you’ve got the basics of cloud computing down, let’s talk about why it’s such a game-changer. Cloud providers offer a ton of services, but at the core, there are three key ones: compute, storage, and databases. Compute is the “brain” that processes workloads—think of it like the server that hosts the DataCamp website. Storage saves your files and data. Databases store data for easy retrieval, management and analysis By combining these, businesses can build powerful cloud solutions without needing their own hardware. Cloud computing isn’t just about convenience—it offers serious advantages in cost, speed, performance, scalability, reliability, and security. Let’s break these down. Ever wonder how cloud providers manage so many users? Virtualization. It splits one physical server into multiple virtual servers, each acting like its own independent machine. This means: Better resource efficiency - no wasted space Lower costs - fewer physical machines = lower expenses! Easier management - cloud providers handle the heavy lifting! Next, scalability is one of the biggest perks of the cloud — you can adjust your resources based on demand. Vertical scaling upgrades an existing machine’s power - more RAM, CPU, etc. Horizontal scaling adds more machines to share the workload - perfect for handling website traffic spikes. Think of an online store on Black Friday—instead of crashing under heavy traffic, cloud resources scale up automatically to handle the surge. Then there is pay-as-You-Go Pricing - which is also, only-pay-for-what-you-need pricing! Forget spending thousands upfront on hardware. Need extra power for a big project? Scale up. Traffic slows down? Scale back and save money. For companies with predictable workloads, on-premise solutions might be more cost-effective. But for most businesses, the cloud’s flexibility wins. Another key component is speed. With on-demand resources, you can launch a new app or service in minutes instead of waiting weeks for hardware to be set up. This is massive in the day and age of first-to-market success. Performance and growth are optimized with the cloud. Traditional on-premise data centers can’t compete with cloud providers who constantly upgrade to the latest, fastest hardware. Plus, cloud computing lets you expand globally—you can deploy services in multiple regions instantly, ensuring a seamless experience for users worldwide. Next is reliability: cloud providers replicate your data across multiple data centers, so if one goes down, your data is still safe. This means less downtime, fewer outages, and more peace of mind. And last but not least is security. Security is a big deal when trusting a third party with your data. Industries like healthcare, finance, and government have strict regulations, but many cloud providers now meet these standards, offering both physical and virtual security to protect your information.
+
+
+1. Cloud service models
+00:00 - 03:15
+In this video, we’ll break down the different cloud service models. The three most common are Infrastructure as a Service, Platform as a Service, and Software as a Service. And to make it easy, let’s compare them to ride-sharing! Instead of buying IT infrastructure, companies "rent" it from cloud providers, just like you rent a ride using Uber or Lyft. No maintenance, no fuel costs—just pay for what you use. Now, let’s compare cloud models to different transportation options based on how much control you want. Owning a car is similar to the on-premise approach: you're responsible for everything — maintenance, insurance, parking, fuel, driving, and finding a route. Infrastructure as a Service or I-a-a-S is comparable to renting a car. With IaaS, you get the basics: networking, storage, and servers—but you handle everything else. Like renting, your provider supplies the vehicle or in cloud terms, your infrastructure, but you’re in charge of driving, refueling, and navigation. Platform as a Service known as P-a-a-S is the same as ride-sharing. PaaS includes everything in IaaS plus the tools needed to build applications, like operating systems and middleware. This is like taking an Uber—you choose the destination on your app, but the driver or cloud provider handles the actual driving. Software as a Service known as S-a-a-S is like taking the bus. With SaaS, everything is managed for you. You just log in and use the software—no setup, maintenance, or infrastructure needed. Think of it like hopping on a bus—you don’t worry about fuel, navigation, or parking. You just enjoy the ride. In summary, IaaS is a scalable, cloud-based infrastructure. These are used by system admins like AWS EC2 or Google Cloud Compute Engine. PaaS is a full development environment, saving developers time. Examples of these are Google App Engine, and AWS Elastic Beanstalk. And SaaS is software available online, no installation needed. These are everyday staples like Google Workspace, Dropbox, and Office 365. Most businesses use a mix of these services. Cloud services can be stacked like a pyramid—as you go up, you trade control for convenience. Then there’s Function as a Service also known as FaaS—also called serverless computing. Instead of managing servers, you just run functions, like processing payments or verifying user logins. You only pay for what you use! Beyond these, there’s XaaS or Anything as a Service, covering everything from databases to disaster recovery. The cloud keeps evolving, offering more flexibility, scalability, and efficiency than ever before. 
+
+
+1. Cloud deployment models
+00:00 - 00:10
+Welcome back! I'm Lis and I'll be your instructor in this second chapter. Here we'll talk about cloud in practice, beginning with cloud deployment models.
+
+2. Cloud deployment models
+00:10 - 00:31
+Choosing a cloud deployment model is one of the first choices to make when migrating to the cloud. It's informed by how much control you need over your cloud environment, which is defined by your business requirements and budget. There are several models, but the most common are public, private, and hybrid. Let's go through each of them and understand their unique value.
+
+3. Private cloud
+00:31 - 01:58
+The private cloud model is private by design and designated for exclusive use by its tenants. This means to access a private cloud, you need to connect to a network link, which means special network access needs to be set up by IT. An organization may hire a third party to host their private cloud infrastructure or host it themselves. The private cloud model can be appealing because infrastructure is designed for exclusive use. This gives an organization direct control over the resources available, alongside with how data is stored. For example, you can specify what kind of operating system and the exact hardware you want. This is flexibility that does not come with other models. This is especially useful if there are specific security requirements or risks. But, it usually requires more investment in terms of time and capital expenditure compared to the other models. Consider the infrastructure that needs to be designed, hardware that needs to be bought, set up, and maintained. However, this decreases if a third-party, like IBM or RackSpace, provides and maintains the hardware. You maybe wondering how this is different from on-premise. If so, good question! The infrastructure in this model adheres to cloud principles, meaning it uses virtualization that allows on-demand compute resources. Private cloud can also be located off-premises.
+
+4. Public cloud
+01:58 - 02:48
+The second model is the public cloud. The cloud infrastructure is shared and open for use by the general public. The infrastructure is owned and managed by a cloud service provider, like AWS or Azure. Public clouds are Internet accessible. This lets organizations get started quickly with minimal investment. They don't have to host or commit to an infrastructure, instead they can pick what services they need from a provider. They can also instantly buy more capacity making it easier to scale. If it's important to have direct access to the data centers or hardware than public cloud is not a good choice. Public cloud providers keep their data center locations secret, even to their clients, for security reasons.
+
+5. Hybrid cloud
+02:48 - 03:52
+Why not both? Enter the third model: hybrid. This is when an organization uses a combination of two or more distinct models. The different models interact with each other via a network link and can share data and services. It's more of a question of where data and services are physically stored. For example, you could store sensitive patient data on a private cloud for security reasons and use an application on the public cloud, like a business intelligence tool, to process it. Hybrid clouds are useful in the case of cloud bursting. This is when a private cloud is overwhelmed by demand and hits capacity. To avoid disruption of service to users, traffic is moved to a public cloud instance. A classic example of this are seasonal spikes. For example, retail businesses can expect extraordinary traffic during sales periods like Black Friday or Boxing Day. This allows organizations to cost-effectively handle periodic spikes with pay-per-use pricing.
+
+6. Other deployment models
+03:52 - 04:25
+There are other cloud deployment models to consider including multicloud. Multicloud combines different cloud provider services. For example, an organization could use Azure for backups, AWS for website hosting, and Google Cloud for analytics. Multicloud provides flexibility on choosing pricing plans and service offerings. It also reduces reliances on one vendor. Don't confuse this with the hybrid model which uses a combination of cloud deployment model, not services!
+
+7. Other deployment models
+04:25 - 05:01
+Another model to consider is the community model. This is when the cloud's infrastructure is shared by a specific community for their exclusive use. Usually this community has a shared interest or concern, whether it be having the same security requirements or jurisdiction, or sharing a mission. This shared infrastructure allows for easier collaboration and sharing of data, whether it's research data between institutions or government data across agencies. The infrastructure itself can be managed and hosted internally or externally.
+
+
+1. Regulations on the cloud
+00:00 - 00:13
+Nice job on those exercises! In this video, we'll talk about the way local regulations and laws can affect an organization's cloud infrastructure. Let's begin with an example.
+
+2. Example
+00:13 - 00:24
+Imagine a fictional social media company founded and based in the US. They started with a data center in the US, but as they grow their user base
+
+3. Example
+00:24 - 00:29
+to international audiences, they add a data center in Europe and another one in South America and eventually
+
+4. Example
+00:29 - 00:53
+one in Africa and one in Asia. Having servers spread out across the globes reduces latency. The greater the distance between two points, the longer it will take for data to get there. This delay between the moment data is transmitted and the moment it is received is known as latency. Having servers spread out across the globes reduces latency.
+
+5. Example
+00:53 - 00:57
+This means that when someone accesses their account in Australia,
+
+6. Example
+00:57 - 01:17
+their request will be sent to the nearest server, rather than a server in the US or South America. Let's say this Australian user just signed up for an account at this fictional social media company. That means her personal data was just sent outside of the borders of Australia. And here's where it can tricky...
+
+7. Example
+01:17 - 01:21
+Australia has regulations on how data should be processed and stored.
+
+8. Example
+01:21 - 01:26
+There will be regulations on data wherever the data center is in Asia.
+
+9. Example
+01:26 - 01:32
+And finally, the company will have another set of regulations it needs to follow in its home country.
+
+10. General Data Protection Regulation (GDPR)
+01:32 - 02:45
+An example of data privacy law is the European Union's General Data Protection Regulation, or GDPR. And that's a good example of the type of regulation I'm talking about because it regulates how personal data is collected, processed, and stored from users in the European Union. For example, before a company collects any data, they need to explicitly get consent. Companies also need to notify users of any data breaches in a timely manner. Personally identifiable information must be encrypted, anonymized, and/or pseudonymized when stored depending on scenario. And, some regulations affect how data can be physically moved, for example, personal data can't leave EU borders unless the company can guarantee that the data will have the same level of protection wherever it may land outside the EU. Can you see how this affects cloud computing where data can move to different servers around the world? There's major incentive to comply to GDPR. The fine can be up to 20 million euros or 4% of the company's worldwide annual revenue - whichever is greater.
+
+11. What is personal data?
+02:45 - 03:47
+A lot of these regulations talk about "Personal Data". What does that exactly mean? The European Commission defines it as any information that relates to an identified or identifiable living individual. Different pieces of information, which collected together can lead to the identification of a particular person, also constitute personal data. This includes home address, first name, last name, email address, location data, IP address, racial or ethnic origin, political opinions, sexual orientation, and health related data. Some of these on their own may not identify a specific individual, but for example, if you combine all the location data of a given person, it can get much easier to identify who they are by where they spend the most time, like their home address. Personal data is often referred to as PII, which stands for personally identifiable information.
+
+1 https://ec.europa.eu/info/law/law-topic/data-protection/reform/what-personal-data_en
+12. Other regulations
+03:47 - 04:26
+GDPR is the most known data protection regulation because of it's massive impact. Severals countries followed suit to comply with aspects of GDPR so that data could more easily flow between borders. Here are a couple other data protection laws, new and old, from other parts of the word, including Brazil, the United States, Japan, Thailand, and Canada. We can't go through each regulation in detail. The point is that it's crucial to check local regulation. Protocols may be different country to country and can influence where companies choose to set up their data centers.
+
+
+1. Cloud roles
+00:00 - 00:23
+Hello! To wrap up this chapter, we'll take a look at cloud computing roles. In previous videos, you learned how cloud adoption can reduce maintenance and operational costs, including personnel. While that's true, the rush to adopt cloud computing has created a huge demand for cloud-related skills in the job market.
+
+2. Most in-demand skill: cloud computing
+00:23 - 01:00
+The employment search engine Indeed listed cloud computing as the most in-demand skill in February of 2020. LinkedIn has it listed as the second hard skill companies need most after blockchain. This means cloud computing skills are ranked as more in-demand than artificial intelligence and machine learning skills! In fact, all the major cloud providers have established certifications for different cloud skills and roles, specific to their cloud platform and services. These are viewed as very valuable in today's job market.
+
+3. Familiar data roles and the cloud
+01:00 - 02:08
+Familiar data roles, like data scientist, machine learning scientists, data engineers and data analyst, can all benefit from learning about the cloud. For example, data scientists can benefit from running computationally expensive analyses on the cloud, which not only saves on cost, but also reduces the time it takes to run because of the vast computation power available on the cloud. Machine learning scientists can train and deploy machine learning models on the cloud. This is something that's typically computationally expensive, especially when we're talking about deep learning. It's standard now for data engineers to be proficient on the cloud. Data engineers build pipelines on the cloud to ingest, transform, and store big data securely and efficiently. Even less technical roles, such as a data analyst, can be expected to know how to access data from the cloud via business intelligence tools, like Tableau or Power BI. Generally, having analyses in the cloud make it easier for teams to collaborate because you aren't passing files from one machine to the next.
+
+4. Creation of new cloud roles
+02:08 - 02:32
+Additionally, the rise of cloud computing has also created new job titles, notably: cloud architect and cloud engineer. It has also increased the need for roles like DevOps engineer and security engineer. Let's go through each briefly to understand how they work to make the cloud possible in an organization. As you will see, there is often overlap in how these growing roles are defined.
+
+5. Cloud architect
+02:32 - 02:52
+A cloud architect is a solutions architect essentially for the cloud. A cloud architect takes the technical requirements of a business problem, designs an appropriate cloud infrastructure, and comes up with a plan to deploy said infrastructure. They have to ensure that their design is scalable and optimized for cost.
+
+6. Cloud engineer
+02:52 - 03:13
+Cloud engineers build, maintain and monitor cloud services. They are often responsible for migrating on-premise solutions to the cloud. This title is often used as a catch-all for any technical work required on the cloud. For example, in smaller companies, the cloud architect and engineer can be one role.
+
+7. DevOps engineer
+03:13 - 03:51
+DevOps combines software development and IT operations. Previously, there were system engineers who maintained server infrastructure by physically configuring hardware. Now we do that by code, which is the developer aspect of DevOps. DevOps engineers ensure the reliability, availability, and scalability of the cloud through software development and automation. For example, if there is a rise in usage, there should be some automation to increase resources or if a server shuts down unexpectedly, there should be an automatic patch and redeploy.
+
+8. Security engineer
+03:51 - 04:17
+As we discussed in the last video, security is very important on the cloud and requires different technical requirements depending on geographic area. Security engineers spec the technical security requirements of an organization's cloud infrastructure. They work to test and asses the security of data on the cloud. Generally, they are responsible for protecting organization and user data from a technical perspective.
+
+
+1. An overview of providers
+00:00 - 00:11
+Welcome to the third and final chapter of this course! My name is Iason, and I will provide you with an overview of the main actors in the cloud computing industry.
+
+2. Overview
+00:11 - 00:32
+Before we dive in, let's get on the same page regarding what we will cover in this chapter. This chapter will provide an overview of the main cloud providers based on market shares, their respective key services, their strengths, and some of their customers. We will also present a case study for the major providers.
+
+3. Overview
+00:32 - 00:56
+It is important to note that markets move, products are deprecated, renamed, or replaced, and customers churn, so the cloud computing landscape can and will change. This chapter will also focus on the main actors in the market. We will examine some of their primary cloud storage, computing, and database services.
+
+4. The players
+00:56 - 01:07
+So, who are the players in this cloud computing game? Some well-known technology and internet companies offer cloud computing services, and you will surely recognize some of these logos.
+
+5. Market share
+01:07 - 01:28
+But what about the market share for each? By the end of 2023, the cloud computing market had the following split in market share for the major players. These splits are based on platform as a service and infrastructure as a service, along with hosted private cloud services.
+
+6. Market share
+01:28 - 01:34
+It is clear that there are three main players in the market, and we will focus on them in this chapter.
+
+7. The rise of cloud computing
+01:34 - 02:01
+Cloud computing services have become essential for many companies in the modern age due to the numerous benefits offered by IaaS and PaaS products and the power of the cloud in general. By correctly implementing cloud computing services, companies can become more agile, efficient, and innovative while reducing costs and focusing on their core business.
+
+8. Making a choice
+02:01 - 02:20
+How does a company choose its provider in a competitive market with many cloud providers? Ultimately, the best cloud provider is the one that will best meet your needs. You can leverage your company's cloud specialists' knowledge and contact cloud providers directly to choose the best option.
+
+9. Making a choice
+02:20 - 02:45
+You will need to consider your current infrastructure costs, the costs of running a data center, managing physical hardware and storage options, the cost of deprecating, migrating, or rebuilding your applications for the cloud, the cost of adding cloud specialists to your workforce, the benefits to your company and its customers, and the potential risks of moving to the cloud.
+
+
+1. Amazon Web Services
+00:00 - 00:04
+Welcome back! Let's talk about Amazon Web Services.
+
+2. AWS and the market
+00:04 - 00:45
+AWS stands for Amazon Web Services. AWS launched in 2006, two years before Google Cloud and four years before Microsoft Azure. Being the first mover on the market provided them with a strong advantage, allowing them to develop a breadth of services: they offer more than 175 services in areas such as computing, storage, analytics, security and enterprise applications, and even machine learning. As of the end of 2023, AWS was the market leader for cloud computing services, with 31% of the total market share.
+
+3. AWS professional cloud services
+00:45 - 00:53
+Regarding applications for professional use, AWS offers Simple Storage Service, or S3, for file storage,
+
+4. AWS professional cloud services
+00:53 - 00:58
+Elastic Compute Cloud, or EC2, for computation,
+
+5. AWS professional cloud services
+00:58 - 01:03
+and Relational Database Service, or RDS, for databases.
+
+6. AWS professional data services
+01:03 - 01:14
+On the data front, some examples of the AWS offering include Redshift, a fully managed, petabyte-scale data warehouse service;
+
+7. AWS professional data services
+01:14 - 01:18
+Kinesis, a real-time data and analytics service;
+
+8. AWS professional data services
+01:18 - 01:24
+and SageMaker, a machine-learning platform for predictive analytics.
+
+9. AWS customers
+01:24 - 01:35
+Over the years, AWS has had numerous high-profile customers across different industries, such as Disney, Verizon, and Deloitte.
+
+10. AWS case study
+01:35 - 02:28
+How about an AWS case study? NerdWallet helps customers make financial decisions, using data science and machine learning to provide personalized financial recommendations. NerdWallet wanted to optimize deployment cost and time: it was taking too long to go from concept to launching into production. The faster models are deployed, the faster the engineering team can iterate and improve the product. NerdWallet was already using compute and container services from Amazon. They decided to add Amazon SageMaker, Amazon's cloud machine learning platform, enabling building, training, and deploying models in one place. With SageMaker, NerdWallet could seamlessly integrate their AWS compute instances to reduce development time and cost.
+
+11. AWS case study
+02:28 - 03:00
+Launching models now takes days instead of months, and data scientists can focus more on strategy and other projects. Training costs have also been reduced by 75% because SageMaker uses on-demand instances rather than running one continuously. NerdWallet has fully modernized its data science engineering practices to remain competitive and continue innovating. You can find more examples of cloud in practice at AWS at the link below!
+
+1 https://aws.amazon.com/solutions/case-studies/
+
+
+1. Microsoft Azure
+00:00 - 00:03
+Let's now talk about Microsoft Azure.
+
+2. Azure and the market
+00:03 - 00:33
+Microsoft first started by re-purposing some of its software, such as Microsoft Office, Windows Server, or SQL Server, to the cloud, and there is a tight integration between these and Azure services. Microsoft benefits from customer loyalty, and Azure comes to mind naturally for people who already use Microsoft products. As of the end of 2023, Microsoft Azure was behind AWS with 24% of the total market share.
+
+3. Azure cloud services
+00:33 - 00:39
+Some key services Azure offers include Azure Blob Storage for file storage,
+
+4. Azure cloud services
+00:39 - 00:43
+Azure Virtual Machines for computation,
+
+5. Azure cloud services
+00:43 - 00:46
+and Azure SQL Database for databases.
+
+6. Microsoft Fabric
+00:46 - 01:10
+One key cloud computing product now offered by Microsoft is Microsoft Fabric. It is a software as a service that brings together different Microsoft solutions for enterprise use. It covers everything from data movement to data science, real-time analytics, and business intelligence, and it will be a key service offering for Microsoft.
+
+7. Azure data services
+01:10 - 01:18
+On the data front, Azure offers services such as Data Lake Storage, which can store data before data preparation tasks;
+
+8. Azure data services
+01:18 - 01:23
+Stream Analytics, which allows for real-time analytics tasks to be performed;
+
+9. Azure data services
+01:23 - 01:29
+and Machine Learning, which can be used to train and deploy machine learning models.
+
+10. Azure customers
+01:29 - 01:44
+Microsoft is over 45 years old and one of the world's most well-known multinationals. As a result, they have had many well-known entities utilize Microsoft Azure, including Siemens, The World Bank, and L'Oréal.
+
+11. Azure case study
+01:44 - 03:06
+For this Azure case study, we will look at The Ottawa Hospital, a leading hospital in Canada that provides care to 1.2 million people and employs tens of thousands of professionals. They manage millions of patient records. The hospital decided to revamp its system for storing electronic health records. They needed their system to share records efficiently between its different sites and partner networks. To do this, they found hosting their data on-premises was cheaper, but they needed a disaster recovery site. Disaster recovery is a set of procedures and tools that allows the continuation of businesses and services after a natural or human-induced disaster. This could be an earthquake, fire, or cyber-attack, for example. Specifically, hospitals need to ensure that all patient records are fully backed up and up-to-date. They found hosting disaster recovery too expensive on-premises, so they looked at the cloud and eventually settled on Azure. They used Azure's infrastructure as a service capability to build a scalable, secure environment there. They also use Azure Storage to store medical image data and Azure Site Recovery to deploy recovery processes automatically when a data loss incident occurs.
+
+12. Azure case study
+03:06 - 03:48
+Altogether, the final infrastructure continuously synchronizes with the on-premises databases to keep the data up-to-date. The infrastructure can back up 700 terabytes of data and support 5,300 concurrent users. Additionally, compliance obligations were met with Canadian data privacy law, particularly the Personal Health Information Protection Act. This was all done in under three months! In total, the hospital saved about 50% on disaster recovery costs. Check out the link below to read many more Azure customer stories and learn about their many different services!
+
+1 https://customers.microsoft.com/
+
+
+1. Google Cloud
+00:00 - 00:03
+All right! Let's now talk about Google Cloud.
+
+2. Google Cloud and the market
+00:03 - 00:49
+Google Cloud acknowledges that multi-cloud - a combination of different cloud provider services - is the future and that consumers don't want to be locked in. In 2019, they launched Google Cloud Anthos, a service that allows customers to manage and deploy workloads across clouds without worrying about the different environments and APIs. In other words, Anthos lets you deploy and run hybrid multi-cloud solutions, combining on-premise servers and several cloud providers all in one place. As of the end of 2023, Google Cloud has a market share of 11%, behind the current leaders in the market, AWS and Microsoft Azure.
+
+3. Google Cloud services
+00:49 - 00:53
+Google Cloud offers Google Cloud Storage for file storage;
+
+4. Google Cloud services
+00:53 - 00:57
+Google Cloud Compute Engine for computation tasks;
+
+5. Google Cloud services
+00:57 - 01:01
+and Google Cloud SQL for database tasks.
+
+6. Google Cloud data services
+01:01 - 01:11
+On the data front, some examples of Google Cloud solutions include Big Query, a data warehousing tool that can retrieve and analyze data at scale;
+
+7. Google Cloud data services
+01:11 - 01:15
+Dataflow, a fully managed streaming analytics service;
+
+8. Google Cloud data services
+01:15 - 01:20
+and AutoML, a suite of machine learning tools and services.
+
+9. Google Cloud customers
+01:20 - 01:31
+Being a key player in the cloud computing market, Google Cloud has been utilized by many large companies, including HSBC, PayPal, and Vodafone.
+
+10. Google Cloud case study
+01:31 - 02:46
+It's time for a Google Cloud case study. Lush is a cosmetics retailer manufacturing creams, soaps, and lotions using only vegetarian recipes. A key sales and discount period for the company is Boxing Day, the UK's biggest shopping event following Christmas Day. In recent years, during Boxing Day, they experienced peak demand that caused website outages: their current infrastructure could not handle more than 12 transactions per second. They sought a scalable infrastructure that could provide stability while handling increased traffic. Lush migrated their entire infrastructure to Google Cloud, including mobile apps, e-commerce platforms, and retail systems. This impacted 17 websites as well, on top of migrating customer and product data. The move was done during December, their busiest month of the year. Using Google Cloud Compute Engine, they could rapidly test, modify, deploy, and get feedback while migrating services and meeting tight deadlines. Their data now lives on Google Cloud SQL.
+
+11. Google Cloud case study
+02:46 - 03:15
+After the migration, Lush survived Boxing Day without any outage, and also experienced a 40% reduction in its hosting costs. They then explored new possibilities offered by Google Cloud. Lush decided to reduce packaging, but the packaging does convey useful information, such as the ingredients or instructions, so they deployed a customer-facing image recognition app to identify their products and provide relevant information.
+
+1 https://cloud.google.com/customers/lush/
+
+
+1. Congratulations!
+00:00 - 00:12
+Congratulations on reaching the end of the course! By now you should have a solid understanding of what cloud computing is, how it is used and what the major cloud providers are.
+
+2. Chapter 1 - Introduction to cloud computing
+00:12 - 00:25
+In the first chapter, you got a general introduction to cloud computing. You understood how cloud computing works, why it's so powerful, and what the main service models are.
+
+3. Chapter 2 - Cloud strategies
+00:25 - 00:41
+In the second chapter, you looked into cloud strategies. You explored the different deployment models, understood the impact of regulations on them, and learned about the different roles needed to build and maintain cloud infrastructures.
+
+4. Chapter 3 - The cloud infrastructure market
+00:41 - 00:53
+In this third chapter, you focused on the major cloud infrastructure players, learning about their position on the market, their respective offerings, and their customers.
+
+5. Next steps
+00:53 - 01:14
+In terms of next steps, if you're looking to take advantage of the cloud, you can talk with your company's cloud experts, explore the cloud providers' websites, or get in touch with them directly. If you want to learn more about managing your own applications on the cloud, we have some cloud focused courses on DataCamp.
+

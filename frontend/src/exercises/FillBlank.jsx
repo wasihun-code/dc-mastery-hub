@@ -31,6 +31,18 @@ export default function FillBlank() {
   const [xpEarned, setXpEarned] = useState(0);
   const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
   const [choicesEnabled, setChoicesEnabled] = useState(false);
+
+  const [showShortcuts, setShowShortcuts] = useState(() => {
+    return localStorage.getItem('showKeyboardShortcuts') !== 'false';
+  });
+
+  const handleToggleShortcuts = () => {
+    setShowShortcuts(prev => {
+      const nextVal = !prev;
+      localStorage.setItem('showKeyboardShortcuts', String(nextVal));
+      return nextVal;
+    });
+  };
   
   // Store the shuffled word bank for the current question
   const [shuffledWordBank, setShuffledWordBank] = useState([]);
@@ -622,43 +634,54 @@ export default function FillBlank() {
         </main>
         {/* Keyboard Shortcuts Helper */}
         <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
-          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-            <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-blue)] animate-pulse"></span>
-            <span>Keyboard Shortcuts</span>
-          </div>
-          <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
-            {choicesEnabled ? (
-              <>
-                <div className="flex justify-between items-center">
-                  <span>Select Word</span>
-                  <span className="flex gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                    <span>-</span>
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">9</kbd>
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Clear Answers</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex justify-between items-center">
-                  <span>Submit Answer</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Ctrl+Shift+Enter</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Clear Input</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                </div>
-              </>
-            )}
-            <div className="flex justify-between items-center">
-              <span>Next Question</span>
-              <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+          <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-blue)] animate-pulse"></span>
+              <span>Shortcuts</span>
             </div>
+            <button 
+              type="button"
+              onClick={handleToggleShortcuts}
+              className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
+            >
+              {showShortcuts ? 'Hide' : 'Show'}
+            </button>
           </div>
+          {showShortcuts && (
+            <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
+              {choicesEnabled ? (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span>Select Word</span>
+                    <span className="flex gap-1">
+                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                      <span>-</span>
+                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">9</kbd>
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Clear Answers</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span>Submit Answer</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Ctrl+Shift+Enter</kbd>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Clear Input</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                  </div>
+                </>
+              )}
+              <div className="flex justify-between items-center">
+                <span>Next Question</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+              </div>
+            </div>
+          )}
         </div>
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

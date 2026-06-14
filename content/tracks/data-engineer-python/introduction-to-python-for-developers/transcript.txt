@@ -1,0 +1,531 @@
+1. What is Python?
+00:00 - 00:09
+Hi, and welcome to this introductory Python course for developers. My name is Jasmin, and I'll be your Python guide.
+
+2. What to expect
+00:09 - 00:27
+This course will teach us all about Python and how to think like a developer. We'll learn why Python is one of the most popular programming languages and, most importantly, write and run our own code. Let's get started.
+
+3. Why learn Python?
+00:27 - 01:03
+Python is a popular, general-purpose programming language used to build almost any type of software like applications, automations, websites, and more. In fact, some of the worlds most popular apps like Facebook, Netflix, and Spotify were built using Python. It is known for its clear, readable syntax, and large developer community. Python is also completely free and open-source, meaning anyone can use it to build anything.
+
+1 Image by Godfrey Atima, Pexels
+4. Build a recipe scaler
+01:03 - 01:37
+Throughout this course, we'll build a recipe scaler that turns a recipe into a shopping list for a party. It will be a practical Python script that demonstrates the core concepts we'll learn throughout this course. A Python script is a file where we write Python code that tells the computer what to do when we run it. We'll follow standard development practices: starting small, iterating, and testing as we build, while documenting along the way.
+
+5. By the end of the course
+01:37 - 01:51
+By the end, we'll understand variables, data types, control flow, and how to structure working Python code. Our first step is the print function.
+
+6. The print function
+01:51 - 02:20
+Every developer needs a way to see what their code is doing, either to fix a mistake or to check their work. In Python, the print function is the tool for this. It is a built-in function that allows us to display the results of code operations, and is what we'll use to test our code. We first write the word 'print' with opening and closing parentheses after it.
+
+7. The print function
+02:20 - 02:37
+Next, we place the message we want to display within the parentheses, enclosed in a set of quotation marks, which can be either single or double. When we run the code, we'll see the result of our code operation.
+
+8. Documenting with comments
+02:37 - 03:03
+Before we begin, remember that we also need to document along the way. We'll do that with code comments within our code. These comments serve as a reminder and help others understand what our code is doing. A line starting with # is a code comment; it appears in a different color and does not affect the rest of the code.
+
+
+1. Python variables, strings, and integers
+00:00 - 00:10
+Great work with your first print statement. Now let's learn about variables and data types, fundamental concepts in any programming language.
+
+2. Understanding variables
+00:10 - 00:47
+As we write code, we'll often use the same values multiple times. Variables let us store these values with descriptive names, so our code is easier to read and update. Instead of typing the same thing over and over, we give it a name and reference that name whenever we need it. Variables work like labeled containers. Just as we might label a container "Pasta" so we can quickly find it later, we label our data so we can easily use it throughout our code.
+
+1 Image by reginafosterphotos
+3. Data types
+00:47 - 01:13
+The information we store comes in different types. A data type tells us what kind of information a value represents, like whether it's a number, a piece of text, or a True/False answer. Python figures this out automatically based on what we store, but understanding data types helps us know what we can do with our data.
+
+4. String data types
+01:13 - 01:42
+For our recipe scaler, every ingredient needs a name and a quantity. That means we need to store text and numbers. When we store text in Python, we call this a string data type. The text "Hello, world!" is a string, but a string can also contain numbers and punctuation. For example, "20-minute pasta recipe", is also a string.
+
+5. String data types
+01:42 - 02:20
+Python strings can be created using either single or double quotes. Both work the same way, but there's one important reason to choose double quotes: if our string includes an apostrophe. For example, if we want to store "Chef's secret seasoning", we'd need to use double quotes because the apostrophe is the same character as a single quote. If we tried using single quotes, Python would think the apostrophe ends the string and get confused about the rest of the text, causing an error.
+
+6. String variable
+02:20 - 02:43
+To store a string variable, we write a variable name. This can be anything we like. In Python, the standard way is to write variable names in lowercase with underscores for spaces, like ingredient_name. This convention makes our code easier for other developers to read.
+
+7. String variable
+02:43 - 02:49
+We follow that with an equals sign, which assigns a value to our variable name,
+
+8. String variable
+02:49 - 02:55
+and then write the string we want to store in the variable using quotation marks.
+
+9. Integer data types and variables
+02:55 - 03:24
+Next, we need to store how much of this ingredient we need. Whole numbers in Python are referred to as an integer data type. These numbers do not have fractions or decimals. For our tomatoes, let's say we need two, so we create another variable called ingredient_quantity. Notice that we don't use quotation marks when storing integers.
+
+10. Printing variables
+03:24 - 03:43
+We've stored our first variables! Let's now test to confirm they've been stored correctly by using the print function. This time, we pass the variable name to the print function. Python looks inside the variable and prints the value we have stored.
+
+11. Adjusting variables
+03:43 - 04:01
+One of the powerful things about variables is that we can change what's stored in them. Let's adjust our ingredient_quantity, since we actually only need one tomato. The next time we print this variable, we'll see the updated quantity.
+
+
+1. Common data types
+00:00 - 00:11
+We've learned to create variables and work with strings and integers. Now let's expand this and learn about more common data types.
+
+2. Decimal data types
+00:11 - 00:42
+We've learned that integers are the data type for whole numbers. What if a recipe calls for 1.5 tomatoes? This number is now a decimal, and Python has data types for these too. We'll test this out and store it as new_ingredient_quantity. In Python, numbers with decimals are classified as floats. Similar to integers, we do not use quotation marks when storing this value.
+
+3. Boolean data types
+00:42 - 01:30
+Python has another useful data type called a boolean that can only store two values: True or False. Booleans are great for storing yes/no information or tracking whether something is on or off. In programming, we use them to make decisions and control what our programs do next. Let's add this information. We can create a boolean variable called is_in_stock and set it to True if we have it in stock, and False if we don't. Note that True and False must be capitalized, and do not use quotation marks; otherwise, they will not work in Python.
+
+4. The type function
+01:30 - 02:01
+Now we've worked with four different data types: strings for text, integers for whole numbers, floats for decimals, and booleans for yes/no information. Python provides a helpful function called type() that tells us the data type stored in any variable. The type() function is especially useful when debugging or working with data from external sources where we're not sure what type we're getting.
+
+5. The type function
+02:01 - 02:23
+We can pass any variable into the type() function and then use the print() function to display the result. The type() function will typically return a text that starts with the less than symbol (<) and the word class followed by the data type in short form, ending with the greater than symbol (>).
+
+6. Understanding data types
+02:23 - 02:53
+Knowing what data types we are working with can be helpful to understand what our code is doing and why. With the type function, we can quickly identify if we're working with the correct data type. This also determines what operations we can perform on our data, such as specific functions that are only available to certain types. We'll explore these functions more in the next video.
+
+1 Image by wutzkoh
+7. Operators
+02:53 - 03:36
+Python uses symbols called operators to perform computations. Arithmetic operators are plus for addition, a hyphen used for subtraction, the asterisk for multiplication; and a forward slash for division. When working with numbers, all four operators behave like regular math and Python automatically handles mixes of the two types. With strings, only + and * work: + joins strings together, and * repeats them. The others will cause an error.
+
+
+1. Working with strings
+00:00 - 00:12
+Welcome back! Previously, we introduced strings. Now let's look at this data type in more detail by looking at multi-line strings and methods.
+
+2. Strings are everywhere!
+00:12 - 00:35
+Strings are one of the most common data types we'll work with as developers. We use them for displaying messages to users, processing text input, working with file names, formatting output, and handling data. Understanding how to manipulate strings efficiently is essential.
+
+1 Image generated by ChatGPT
+3. Python knows single and double quotes
+00:35 - 00:47
+As we know, Python strings can be created using single or double quotes. One reason for choosing double quotes is if we want to use an apostrophe.
+
+4. Advantages of double quotes
+00:47 - 01:02
+Python will think the apostrophe is the end of the string and show a syntax error as an output. Using double quotes, we can save and then print out the variable without any errors.
+
+5. Sentences and paragraphs
+01:02 - 01:17
+So far we haven't worked with long blocks of text. Here, we store a recipe step, which just fits on a single line. When working with more text we will need to wrap it onto additional lines.
+
+6. Multi-line strings
+01:17 - 01:56
+The convention is to use three sets of double quotes. As an example, we store a full recipe instruction with multiple steps. When we use three sets of quotes like this, it is generally referred to as a multi-line string. The benefit of this approach is that it is easily readable. Multi-line strings are commonly used in Python for documentation, such as in scripts. They're also useful for storing longer text like instructions, error messages, or help text.
+
+7. Methods
+01:56 - 02:30
+Python offers built-in methods for working with strings. A method is a function that is only available to a particular data type, for example, strings. They are tools commonly used in development for standardizing input, or transforming text. The generic syntax is to place a period, or dot, after the variable we are working with, then call the method by writing its name and ending with parentheses.
+
+8. Replacing parts of strings
+02:30 - 03:10
+We can replace parts of the string with values of our choice using the .replace() method. Let's update a message. As we are updating the variable we assign it by writing the variable name equals, then write the variable again, followed by calling the .replace() method. We provide two things inside the parentheses: first, the text to be replaced, and second, the text to change it to. This updates welcome_message by changing "George" to "John".
+
+9. Changing case
+03:10 - 03:50
+We can also convert between upper and lowercase, which is useful for standardizing inputs. For example, when comparing email addresses, we typically convert them to lowercase first to ensure accurate matching regardless of how the user typed it. If we want to convert our ingredient_name variable to lowercase, we use the .lower() method. Unlike .replace(), we don't need to provide anything inside parentheses. Likewise, to convert to all uppercase, we can use the .upper() method.
+
+
+1. Lists
+00:00 - 00:06
+So far, each variable we've worked with has contained a single value.
+
+2. Problem
+00:06 - 00:22
+However, in real development work, we often need to handle collections of data, like multiple ingredients in a recipe, user inputs, or database records. Keeping these values as separate variables isn't efficient.
+
+3. Lists to the rescue!
+00:22 - 00:49
+Python has a data type called a list, allowing us to store multiple values of any data type in a single variable. We create a list using square brackets, with values separated by commas. Here's our ingredient list for the recipe scaler. We can also provide variables rather than raw values, which is useful when building lists dynamically.
+
+4. Checking the data type
+00:49 - 01:05
+We can use Python's type function to check the type of a list variable. The output confirms it is a list. This will be the case regardless of what type of data we store as values inside the list.
+
+5. Accessing elements of a list
+01:05 - 01:35
+Let's print our list. However, as lists contain multiple values we might only want to check for one or more specific values, so printing the entire list every time is inefficient. Lists are ordered and indexed, meaning each element has a specific position we can reference. Python assigns an index number to each value, starting at zero for the first element.
+
+6. Accessing elements of a list
+01:35 - 02:05
+We use square brackets to create a list. To access individual elements, we also use square brackets with the index position inside. Here, we provide zero to access the first element in our ingredients list, which returns the corresponding value. If we want the fourth element, we use index three (remember, we start counting from zero) returning the string "basil".
+
+7. Finding the last element in a list
+02:05 - 02:34
+To access the final value in a list, we could count to the end. In this case, it would be index five as there are six elements. However, Python provides a more practical approach that's especially useful when working with lists of unknown length. We can use index minus one, which is shorthand for the last element. This works regardless of the list length.
+
+8. Accessing multiple elements
+02:34 - 03:17
+Often we need to access a range of values from a list. For example, extracting the first few ingredients for a preview or processing data in chunks. Python's slice syntax makes this straightforward. We use square brackets to subset, passing the index of the first element, followed by a colon, and then the index of the last element plus one. We add one because Python slices up to but not including the final index. Here we've grabbed the second and third list items, tomatoes and garlic.
+
+9. Accessing multiple elements
+03:17 - 03:50
+If we want all elements from a specific index to the end of the list, we include the starting index and colon, but leave the end position empty. Here, we get the last three elements at indexes three, four, and five. Likewise, to get elements from the start up to a specific position, we leave the starting position empty. Here, we get the first three elements at indexes zero, one, and two.
+
+10. Alternating access
+03:50 - 04:25
+We can also use step values to access elements at intervals. This is useful for sampling data or processing alternating items. To grab every second element starting from the first, we use two colons followed by two, returning the elements at indexes zero, two, and four. To start from the second element at index one and get every third value, we specify the starting index, then both colons, then the step value of three.
+
+
+1. Dictionaries
+00:00 - 00:08
+We've used lists to store multiple values, but what if we need to show a relationship between them?
+
+2. Ingredients list
+00:08 - 00:24
+Our ingredients list holds names, but it doesn't link them to quantities. There's no clear way to show that "pasta" requires 500 grams. We need a data structure that stores paired information: dictionaries.
+
+3. Dictionary
+00:24 - 00:40
+In Python, a dictionary is a data structure consisting of key-value pairs. Like a real dictionary, we can look up a word, which would be a key, and get its associated definition or value.
+
+1 https://unsplash.com/@sandym10
+4. Why use dictionaries?
+00:40 - 01:07
+Dictionaries are fundamental in Python development because they let us structure related data efficiently. For example, we can use them to store user profile data with keys like username, email, and preferences, or to map IP addresses to locations for analytics. For our recipe scaler, we'll use them to link ingredient names to their quantities.
+
+1 User image by Bilobaba Vladimir, Aviavlad; https://unsplash.com/@jjying
+5. Creating a dictionary
+01:07 - 01:14
+To create a dictionary we name our variable and use an equals sign, as usual.
+
+6. Creating a dictionary
+01:14 - 01:20
+Instead of the square brackets we used to make a list, we use curly brackets.
+
+7. Creating a dictionary
+01:20 - 01:28
+Inside, we provide our first key as a string. In this case, the first ingredient name.
+
+8. Creating a dictionary
+01:28 - 01:33
+To associate a value with the key we follow this with a colon,
+
+9. Creating a dictionary
+01:33 - 01:41
+after which we enter the associated value, the quantity. This syntax makes a key-value pair.
+
+10. Creating a dictionary
+01:41 - 01:44
+To add more pairs, we add a comma,
+
+11. Creating a dictionary
+01:44 - 01:49
+then provide more keys and values using the same syntax,
+
+12. Creating a dictionary
+01:49 - 01:52
+and so on to complete the dictionary,
+
+13. Creating a dictionary
+01:52 - 01:55
+finishing with a closing curly bracket.
+
+14. Accessing a value based on the key
+01:55 - 02:19
+A dictionary consists of key-value pairs whose order remains unchanged once set. We can access a value by subsetting with its key. For example, to find the quantity of a specific ingredient, we use square brackets with the key name instead of an index. The output shows the ingredient's quantity.
+
+15. Accessing all values
+02:19 - 02:30
+To get all values in a dictionary, we can use the dictionary's .values() method, which returns only the values without their associated keys.
+
+16. Accessing all keys
+02:30 - 02:37
+Alternatively, we can use the .keys() method to retrieve all keys in a dictionary.
+
+17. Viewing an entire dictionary
+02:37 - 03:02
+To view the entire dictionary, we can print it. With the .items() method, we can return a list of all key-value pairs, where each key-value pair is shown as comma separated values inside parentheses. Values in parentheses are known as a tuple, a data structure we'll cover next.
+
+18. Adding a key-value pair
+03:02 - 03:24
+To update a dictionary with a new key-value pair, we use our typical assignment syntax with the variable name and an equals sign. However, as we are creating new information in an existing dictionary, we use square brackets to subset, providing the new key name, in this case, another ingredient.
+
+19. Updating a value
+03:24 - 03:37
+The same syntax can be used to update the value associated with an existing key. To change the quantity of an ingredient, we can assign it a new value like so.
+
+20. Duplicate keys
+03:37 - 03:58
+Note that dictionaries do not accept duplicate keys. If we have two identical keys, like here with garlic, then the most recent value will be the one assigned. This is important to remember when debugging, as duplicate keys won't cause an error but will silently overwrite earlier values.
+
+
+. Sets and tuples
+00:00 - 00:09
+We've seen how Python allows us to store multiple values in lists and dictionaries. Let's look at more data structures for achieving this!
+
+2. Sets
+00:09 - 00:58
+A set is a data structure that stores unique information. This means that if we have a set containing a duplicate value, then we will only see one instance of it when we print the set. Additionally, their values cannot be changed, though values can be added or deleted. Because of these properties, sets are ideal for de-duplicating data, or tracking unique items. For example, in our recipe scaler, we might use a set to track unique ingredients across multiple recipes. Searching sets for values in Python is also very fast, particularly compared to other data structures such as lists where each element would need to be checked.
+
+3. Creating a set
+00:58 - 01:27
+We create a set using curly brackets, similar to dictionaries. Python determines whether we're creating a dictionary or a set based on the presence of a colon. Without colons, we create a set. Here, we make a set containing our ingredients. Even though there are two instances of pasta, notice that when we view the variable, this ingredient only occurs once.
+
+4. Converting to a set
+01:27 - 01:50
+Given sets' unique properties, we might want to convert another data type, such as a list, to a set. This process is known as casting. We can do this by calling the set() function and providing our variable. Checking the data type confirms we now have a set,
+
+5. Converting to a set
+01:50 - 01:54
+and printing it confirms there are no longer any duplicates.
+
+6. Limitations of sets
+01:54 - 02:13
+Sets are great but have their limitations. They don't have an index. While this is a benefit because it's the reason we can't have duplicates, it also means we can't access elements by position like we do with lists. If we try, then we will get an error.
+
+7. Sorting a set
+02:13 - 02:43
+While sets are unordered, Python has a helpful built-in function that we can apply to sort a set's values. By calling sorted() and passing our ingredients_set, we get the values returned in alphabetical order. Notice the output has square brackets, which is because Python converts the set to a list to enable sorting, returning all unique values in alphabetical order.
+
+8. Tuples
+02:43 - 03:27
+Another Python data structure is the tuple. The key benefit of a tuple is that it is immutable, meaning it cannot be changed. We can't add, remove, or change values in a tuple, in contrast to sets where we can add or remove values, but not change them. Tuples are also ordered, just like lists and dictionaries, which means we can access elements by index using square brackets. Tuples are great if we need to prevent information from being edited, ensuring data integrity, such as for location information or identifiers.
+
+1 https://unsplash.com/@towfiqu999999
+9. Creating a tuple
+03:27 - 03:44
+We create a tuple using parentheses, providing values separated by commas. Here, we store serving sizes. We can also use the tuple function to convert another data structure to a tuple.
+
+10. Accessing tuples
+03:44 - 03:53
+We can use square brackets to access tuple elements the same way we access list elements. Here, we get the second element.
+
+
+1. Conditional statements and operators
+00:00 - 00:15
+As developers, we'll need our code to make decisions such as when to show an error message. Python lets us build this decision-making into our code using comparison operators and conditional statements.
+
+2. Booleans
+00:15 - 00:27
+Remember, we can work with booleans, which have values of true or false. These can be used to compare variables, data structures, and values!
+
+3. Operators
+00:27 - 00:46
+We can make comparisons using comparison operators, symbols that compare values. The first comparison is checking equality. Since we use a single equals sign to assign variables, we use two equals signs to check if two things are equal.
+
+4. Checking for equality
+00:46 - 01:13
+Here, we check if two equals three. We get False, as they're different. Alternatively, to check for inequality, we use an exclamation mark followed by an equals. This now returns True. As developers, we use equality checks all the time, like checking submitted login details against information stored in a user's account.
+
+5. Numeric comparison operators
+01:13 - 01:32
+We can use a left arrow to check if one value is less than another. To check if it is less than or equal to another value, we also include an equals symbol. We can change the arrow direction to ask if a value is greater or equal to another.
+
+6. Other comparisons
+01:32 - 01:52
+We mentioned that we can check for equality in strings, but what about asking Python if one string is greater than another? Surprisingly, this works! If we check whether "James" is greater than "Brian", Python returns True because J comes after B in the alphabet.
+
+7. Conditional statements
+01:52 - 02:30
+Now that we can make comparisons, we can use them to control what our code does. This is one of the most important skills developers use, running different code based on different conditions. The if statement lets us say "if this is True, run this code; otherwise, skip it." For our recipe scaler, let's check if we have enough pasta before we continue. We start with the if keyword, then write our condition, checking if pasta_quantity is greater than or equal to required_quantity.
+
+8. Conditional statements
+02:30 - 02:39
+We finish the line with a colon, which lets Python know that we are about to provide code to run if this condition is met.
+
+9. Conditional statements
+02:39 - 02:56
+We put the action in a new indented line underneath using tab or four spaces. Python requires this indentation to know which code belongs to the if statement. If we have enough pasta, the print statement runs.
+
+10. Indentation
+02:56 - 03:06
+Whenever we end a line with a colon Python expects an indentation in the following line. If we don't do this then we will get an error.
+
+11. Elif statement
+03:06 - 03:34
+We can extend our workflow to check multiple conditions with elif, which is short for else if. This checks another condition only if the previous one was False. Here, if we don't have enough for the full recipe but have at least 300 grams, we can suggest making a smaller portion instead. We can use as many elif statements as we need.
+
+12. Else statement
+03:34 - 03:45
+If none of our conditions are True, we use else as a catch-all for any remaining cases. This ensures we always give some kind of response.
+
+13. Comparison operators cheat sheet
+03:45 - 03:59
+These conditional statements are fundamental tools for developers. We'll use them to check conditions, handle different situations, make decisions based on data, and control what our code does.
+
+
+1. For loops
+00:00 - 00:12
+We've learned how to work with individual values and data collections. Now, let's explore a key development skill: automating repetitive tasks with loops.
+
+2. Individual comparisons
+00:12 - 00:35
+Developers often need to process submissions and validate values. If we had to write separate code for each item, it would become very lengthy and difficult to maintain. For example, if we have a list of ingredient quantities, we could check each one by index, but what if there are 100 ingredients?
+
+3. For loop syntax
+00:35 - 01:13
+Python provides for loops to handle this efficiently. A for loop says, "For each value in a sequence, perform this action". Notice the action is indented because the line before ends with a colon. The sequence is known as an iterable, as it can be iterated over. It can be any data structure with multiple elements. The value is known as an iterator. It is a placeholder we can name however we like. It's common to use i as shorthand for the index or item.
+
+4. Print individual values
+01:13 - 01:51
+For our recipe scaler, let's loop through the ingredients list and print each one. We write: for ingredient in ingredients, then print the ingredient. Python takes each item from the list, one at a time, and runs the indented code. Here, ingredient is the iterator, and ingredients is the iterable. Python interprets this as "print the first ingredient, then the second," and so on, showing each on its own line in the output.
+
+5. Conditional statements in for loops
+01:51 - 02:08
+In development work, we often need to make decisions or take specific actions based on the findings. This is where combining loops with conditionals becomes powerful. Let's check our ingredient quantities and categorize them.
+
+6. Conditional statements in for loops
+02:08 - 02:29
+We loop through the quantities and use an if statement to check whether each one is greater than 500 grams, at least 100 grams, or below 100 grams. This is the same if/elif/else syntax we learned before, but it is indented inside the for loop.
+
+7. Conditional statements in for loops
+02:29 - 02:38
+The output shows which quantities fall into each category, giving us actionable information about our ingredients.
+
+8. Looping through strings
+02:38 - 03:00
+Loops aren't just for lists. We can also loop over strings. Developers use this for tasks like validating passwords character by character, checking for special characters in usernames, or analyzing text input. This code prints each letter in our ingredient name, one at a time.
+
+9. Looping through dictionaries
+03:00 - 03:30
+To loop through a dictionary's keys and values we can use the .items() method. As this produces tuples of keys and values, we need to provide two iterators, one for the keys, item, and another for the values, qty. The print statement here tells Python to print several pieces of information together: the value of item, a colon, the value of qty, and the word "grams".
+
+10. Looping through dictionaries
+03:30 - 03:50
+Inside the loop, we can use both variables. For example, if we want to scale our recipe by a factor of 2, we can calculate the new quantities. We create a variable scaled_qty, which equals qty multiplied by 2.
+
+11. Looping through dictionaries
+03:50 - 03:59
+If we just want the keys or values we can loop over the .keys() or .values() methods respectively, using a single iterator.
+
+12. Range
+03:59 - 04:28
+One final and common for loops use case is repeating an action a set number of times with the built-in range() function. It starts at one number and stops before the end number, so the last value is one less than what we provide. range() is often used to generate or modify values. For example, to print numbers 1 through 5, use range(1, 6).
+
+
+1. While loops
+00:00 - 00:09
+For loops and conditional statements are great tools for building a custom workflow. Let's examine one more technique, while loops.
+
+2. If statement
+00:09 - 00:25
+Before we discuss while loops, let's reiterate the flow of an if statement. It checks for a condition, which, if met, triggers an action, and then ends. If the condition is not met, the action is skipped.
+
+3. If statement versus while loop
+00:25 - 00:41
+A while loop is similar to an if statement. It executes code if the condition is True. However, the while loop will continue to execute this code over and over again as long as the condition is true.
+
+4. While loop
+00:41 - 01:06
+We start a while loop with the while keyword followed by a condition and end the line with a colon. The next line is indented and contains the action to perform while the condition is met. While loops are useful for continuous tasks. For example, think of a racing game where a player should accelerate while a button is pressed.
+
+1 https://unsplash.com/@joaoscferrao
+5. While loop
+01:06 - 02:07
+For our recipe scaler, imagine we're adding ingredients to our shopping list one at a time until we've added everything we need. We have a variable called ingredients_to_add, set to 5, representing how many ingredients we still need to add. We create another variable called items_added, equal to zero, to track our progress. We want to keep adding ingredients while we still have items left. This is perfect for a while loop, we know the stopping condition, but not exactly how many steps it will take. Inside the while loop, each time we add an ingredient, we increase items_added by one, using the plus equals syntax, which is the same as saying the variable is equal to itself plus another value. We then print how many ingredients are left by subtracting items_added from ingredients_to_add.
+
+6. Output
+02:07 - 02:18
+The output prints the remaining capacity during each iteration of the loop. It runs down to zero then the while loop exits.
+
+7. A word of caution
+02:18 - 02:31
+Remember, we saw that when using a while loop the code will continually execute as long as the condition is met. What happens if we forget to increment items_added inside the loop?
+
+8. Running forever
+02:31 - 02:46
+The loop will run forever because the condition never changes - ingredients_to_add will always be greater than items_added. This is called an infinite loop, and it's a common bug that can freeze our application.
+
+9. Breaking a loop
+02:46 - 03:21
+To avoid this we have a couple of options. We can use the break keyword inside the loop, which will terminate the code. This can be helpful if we want to perform an action once or add additional code to set the number of times an action is performed. Break can also be used in for loops. If we're already running the code and want to terminate the Python program we can press Control and C on Windows or Command and C on Mac to interrupt it.
+
+10. Conditional statements within while loops
+03:21 - 04:02
+Just like how we can include conditional statements in for loops, we can also do this in while loops! Let's customize our output based on how many ingredients are left. This pattern is common when providing progress updates or status messages to users. Instead of just printing numbers, we can give more helpful feedback. If ingredients_to_add is more than 3, we print "Several ingredients remaining." Using elif, we print "Almost done!" if there are 1 or 2 items left. Otherwise, we print "Shopping list complete!"
+
+11. Conditional statements output
+04:02 - 04:09
+The output now provides meaningful feedback at each stage, and the loop still exits when all ingredients are added.
+
+
+
+1. Building a workflow
+00:00 - 00:07
+Let's round out our knowledge by examining some additional techniques to use when building workflows.
+
+2. Complex workflows
+00:07 - 00:39
+When developing software we might need to implement extensive custom logic. For example, we may need to loop through multiple data structures, evaluate them against multiple conditions, update variables based on these checks, and display various outputs depending on the results. We have the majority of the knowledge required for this complex workflow, given our ability to use for and while loops, operators, and if, elif, and else statements.
+
+3. The "in" keyword
+00:39 - 01:14
+Let's examine some more conditional keywords and techniques to help us design complex workflows. First, there's in, which is used to check if a value exists in a variable or data structure. For our recipe scaler, let's check if a specific ingredient is in our recipe dictionary. We check if "pasta" is one of our recipe keys, and return True if it is, or False if it isn't. This is faster than looping through every key to find a match.
+
+4. The "not" keyword
+01:14 - 01:32
+Next is the not keyword, which is used to confirm that a condition has not been met. Here we check if "salt" is not in our pantry items. If salt is missing, this returns True, and we might add it to our shopping list.
+
+5. The "and" keyword
+01:32 - 02:09
+Another important keyword is and, which allows us to check if multiple conditions are met, like checking if a user is logged in AND has the right permissions, or if a form is complete AND all fields are valid. For our recipe scaler, let's check if we have enough of two key ingredients. We check if we have at least 500g of pasta, and 30ml of olive oil. Both conditions must be True for this check to return True.
+
+6. The "or" keyword
+02:09 - 02:31
+The last keyword for us to discuss is or. This allows us to provide multiple conditions and evaluate if at least one of them is true. For our recipe scaler, let's check our pasta and oil stocks again using or. This time if either condition is True, we can proceed.
+
+7. Adding/subtracting from variables
+02:31 - 03:04
+We can combine keywords with other techniques to build custom workflows. One example is updating variables based on loops or conditions. Recall that we can increment the value of a variable using a for loop, like so. We can also swap the plus-equals for minus-equals to subtract one from the value of a variable. However, we might need other ways to update variables, such as a data structure like a list.
+
+8. Appending
+03:04 - 03:44
+Let's build a shopping list of ingredients that we need to buy. First, we create an empty list called shopping_list. This will hold our results. Then we loop through the keys and values in our recipe dictionary using .items(). Each key is an ingredient name, and each value is the quantity we need. Inside the loop, we check a condition: is the required quantity more than what we currently have in our pantry? If so, we use the .append() method to add that ingredient to the our shopping list.
+
+9. Appending
+03:44 - 03:52
+After the loop completes, we print the shopping_list, which now contains only the ingredients we need to buy!
+
+
+1. Congratulations!
+00:00 - 00:03
+Great work on completing the course, you've learned a lot!
+
+2. Chapter 1 recap
+00:03 - 00:12
+You first learned about Python's versatility and used a range of syntax such as code comments, variables, strings, and floats.
+
+3. Chapter 2 recap
+00:12 - 00:23
+You then worked with string methods and discovered how data structures such as lists, dictionaries, sets, and tuples can be used to store multiple values.
+
+4. Chapter 3 recap
+00:23 - 00:31
+You ramped things up in chapter 3, starting with operators and keywords, the essentials for building conditional workflows!
+
+5. Chapter 3 recap
+00:31 - 00:33
+You then progressed to for loops,
+
+6. Chapter 3 recap
+00:33 - 00:39
+and while loops, as well as how to increment variable's value.
+
+7. Chapter 3 recap
+00:39 - 00:46
+You wrapped up by learning additional keywords to evaluate conditions and saw how to append values to a list!
+
+8. Next steps
+00:46 - 01:02
+Python has so much more on offer! From here, you may wish to learn about additional built-in functions, how to install and use packages or work with Python's built-in modules, and explore how to create your own custom functions!

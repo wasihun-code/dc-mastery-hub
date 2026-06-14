@@ -1,0 +1,532 @@
+1. Built-in functions
+00:00 - 00:06
+Welcome! I'm Jasmin, and I'll be your host as we explore essential Python programming skills!
+
+2. What we'll cover
+00:06 - 00:26
+In this course, we'll master built-in functions, modules, and packages before creating custom functions and handling errors to keep our code running smoothly. To get the most from this course, you should be familiar with the Python foundations covered in the prerequisite course.
+
+3. Functions we know
+00:26 - 00:45
+Let's recap the functions we already know. First, there's `print()`, which displays outputs. There's `type()`, which tells us what a variable, value, or function is. We also know `range()`, which can be used to repeat a task several times.
+
+4. Built-in functions
+00:45 - 01:10
+Developers frequently need to process data. Python's built-in functions make this easier, helping us build features with less code. Let's say we're building a performance monitoring dashboard for a food delivery app. The operations team needs to track restaurant preparation times, and we'll use Python's built-in functions to create this feature.
+
+5. max() and min()
+01:10 - 01:30
+Here are today's preparation times from one restaurant in minutes. To find the longest preparation time, we call the `max()` function, passing our list and printing the result. Likewise, to get the shortest preparation time, we use the `min()` function.
+
+6. sum() and round()
+01:30 - 01:50
+Next, to calculate the total preparation time, we use the `sum()` function. Let's round this! We store the calculation as `total_time`, then use the `round()` function, providing the value to be rounded, followed by the number of decimals - in this case, one.
+
+7. len()
+01:50 - 02:23
+Another useful function is `len()`, which counts the number of elements. Calling `len()` on our preparation times confirms there are seven orders. We now have the tools to calculate the average preparation time. We get the sum of preparation times and divide by the number of orders using the division operator, which is a forward slash. This means on average, it takes around 28 minutes to prepare an order.
+
+8. len()
+02:23 - 02:40
+We can use `len()` on other data types, such as strings. It counts the number of characters, including spaces. For example, the length of our partner "Burger Hub" is 10 because of the included space.
+
+9. sorted()
+02:40 - 03:06
+Another useful function is `sorted()`, which sorts a variable in ascending order. Here, we use it on our preparation times to review them from shortest to longest. We can also use `sorted()` on strings. Notice that the string "George" gets sorted by uppercase characters alphabetically first, followed by lowercase characters.
+
+10. Benefits of functions
+03:06 - 03:19
+Functions allow us to perform complex tasks with less code. Let's demonstrate this by looking at how to find the sum of a list if the `sum()` function didn't exist.
+
+11. Benefits of functions
+03:19 - 03:56
+We would have to create a variable to store our calculation, starting at zero. We then loop through preparation times, adding each time to `time_count`. Recall the handy `+=` operator that we use to add time to the current total. Printing the variable during each loop confirms the same final result, but it took way more code! The `sum()` function is reusable - we just change the values we pass to it. It's also much shorter, cleaner, and less prone to mistakes.
+
+
+1. Modules
+00:00 - 00:10
+We know how useful Python's built-in functions are. Now let's look at another helpful component of the Python ecosystem - modules.
+
+2. What are modules?
+00:10 - 00:39
+Modules are Python scripts, meaning they are files ending with the `.py` extension that contain reusable code. Modules contain functions and attributes, which we cover in this video. In larger projects, modules can also contain other modules! Like built-in functions, modules help us avoid rewriting code that already exists.
+
+3. Python modules
+00:39 - 01:10
+Python comes with around 200 built-in modules. In this video, we'll cover two of the most popular: `os` and `string`. The `os` module lets us interact with our operating system. We can check the current working directory, list available files, access environment variables, and more. The `string` module provides predefined character sets that simplify common text processing tasks.
+
+4. Importing a module
+01:10 - 01:27
+To use code from a module, we need to import it first. We use the `import` keyword followed by the module name. Here, we import the `os` module. Checking the type confirms that `os` is a module.
+
+5. Finding a module's functions
+01:27 - 01:46
+Once a module is imported, how do we know what's inside? The easiest approach is to check the documentation. We can also use the built-in `help()` function, which shows how to use a module and what it contains, though the output can be quite lengthy.
+
+6. Getting the current working directory
+01:46 - 02:34
+To use a function from the `os` module, we write os-dot, followed by the function name. For example, calling `os.getcwd()` retrieves the current working directory - that's the folder where our Python script is running. The output shows the full directory path, which is the complete location on our computer, including parent directories or folders that contain our current folder. Let's save this result to a variable called `work_dir`. This is useful when we need to reference the directory later in our script, such as when reading multiple files from the same location.
+
+7. Changing directory
+02:34 - 03:00
+We can change directories using `os.chdir()`, passing in the path we want to move to. Calling `os.getcwd()` again confirms we've successfully changed locations. As expected, our `work_dir` variable still contains the old path, which we might need to reference later.
+
+8. Module attributes
+03:00 - 03:30
+The `os` module also has attributes, which are values rather than functions that perform tasks. For example, `os.environ` gives us information about our local environment. Since it's an attribute, we don't include parentheses - we're not calling it like a function. This returns a dictionary containing values like where Python is installed and our current timezone.
+
+9. String module
+03:30 - 04:20
+Now let's look at the `string` module. After importing it, we can access useful attributes for text validation. When building apps, we often need to check if a string contains letters, numbers, or specific characters. The `ascii_lowercase` attribute returns all lowercase letters. The `digits` attribute returns numbers from 0 to 9. And `punctuation` returns all special characters. These attributes are especially handy when validating that user input matches a specific format, like checking if a password contains the required character types. Later in the course, we'll use those attributes to create a password validator.
+
+
+1. Packages
+00:00 - 00:08
+Python's built-in modules are extensive, but if they don't offer what we need, we have another option - packages.
+
+2. Modules are Python files
+00:08 - 00:18
+Remember that a module is a single Python file. While modules come built into Python, anyone can create their own!
+
+3. Packages
+00:18 - 00:50
+Many developers have done exactly this, creating collections of modules known as packages, also called libraries. Packages are publicly available and free of charge! To access a package, we first need to download it from the Python Package Index, known as PyPI, which is essentially a directory of packages. Afterwards, we can import the package using the same approach we took with modules.
+
+1 https://pypi.org/
+4. Installing a package
+00:50 - 01:27
+To download a package from PyPI, we open a terminal in macOS or the Command Prompt in Windows. A terminal is a text-based interface for running commands in our computer. Once opened, we type `python3 -m pip install`, followed by the package name. Python3 executes Python code from the terminal, while pip stands for the preferred installer program, a tool used to install Python packages.
+
+5. Installing a package
+01:27 - 01:47
+Let's look at pandas, a popular package for data manipulation and analysis! As a developer, you'll often work with CSV files or database exports - pandas makes these tasks incredibly efficient. Let's install pandas first to access it in our script.
+
+6. Importing with an alias
+01:47 - 02:12
+We can now use pandas by importing it, just like we did with the `os` module. However, it's common to use an alias when importing packages. To assign an alias, we import pandas with the `as` keyword followed by our alias name. The convention is `pd`, helping us shorten our code.
+
+7. Creating a DataFrame
+02:12 - 02:54
+Say we have a dictionary containing sales data with `user_id` and `order_value` keys, each containing lists with respective values. We can use pandas to turn this into tabular data, similar to what we see in a spreadsheet. To do this, we use the pandas `DataFrame()` function, writing `pd.DataFrame()` because we imported pandas under the alias `pd`. Outputting the variable shows the data is now organized as a table, with each row showing the user_id and their order value.
+
+8. Reading in a CSV file
+02:54 - 03:16
+We might have our data saved in a CSV file and want to read it into Python as a pandas DataFrame. To do this, we call the `pd.read_csv()` function and pass the file name as a string inside the parentheses. Checking the type confirms it is a pandas DataFrame.
+
+9. Previewing the file
+03:16 - 03:30
+If there are many rows in our data, we might not want to look at all of them. pandas DataFrames have a method for this - we call `.head()`, and the first five rows are displayed!
+
+10. Checking the file info
+03:30 - 03:43
+If we want to quickly overview the data, the `.info()` method comes in handy. The output shows the number of values, column types, memory usage, and much more.
+
+11. Functions versus methods
+03:43 - 04:23
+We've discussed functions and methods, but let's clarify how they differ. A function is called to perform a task. A method is a function that is specific to a data type. Function examples include the built-in `sum()` function or the pandas `DataFrame()` function, where we use the syntax of package name dot function. For methods, `.head()` is a method specific to a data type - in this case, a pandas DataFrame. Therefore, it won't work if we try to use it with other data types like lists.
+
+
+1. Defining a custom function
+00:00 - 00:08
+Welcome back! Functions from Python's modules and packages are useful, but what if they still don't give us the functionality we need?
+
+2. Calculating the average
+00:08 - 00:29
+An example is calculating the average of a list, in our case, the list of order preparation times in minutes. We need to add up the values and then divide by the number of elements. To make the results easier to read, we can round the results to two decimal places.
+
+3. When to make a custom function
+00:29 - 01:03
+If we can't find a module or package that provides the function that we need, then we can make our own custom functions! A common guideline for when to use a custom function is the principle "Don't repeat yourself", usually abbreviated to DRY. This means that if we find ourselves writing the same lines of code multiple times, using complex syntax repeatedly, or performing the same task often, it's best to create a custom function instead.
+
+4. Creating a custom function
+01:03 - 01:10
+To make a function, we start with the def statement, which means "define".
+
+5. Creating a custom function
+01:10 - 01:22
+We then provide the name of our function. It can have any name, but we should make it descriptive yet concise, similar to how we think about naming variables.
+
+6. Creating a custom function
+01:22 - 01:25
+Next, we open parentheses.
+
+7. Creating a custom function
+01:25 - 01:47
+Inside, we provide the value or data structure that we want the function to work on, then close the parentheses. We can give this any name, but again, it should be descriptive. The item placed inside a function is called an argument, which is the information the function needs to do its job.
+
+8. Creating a custom function
+01:47 - 01:51
+We finish the line with a colon.
+
+9. Creating a custom function
+01:51 - 02:04
+The code inside the function is indented, and we can write as many lines as we like. We start by calculating the average of the variable provided to the function, values.
+
+10. Creating a custom function
+02:04 - 02:09
+Next, we round that calculation to two decimal places.
+
+11. Creating a custom function
+02:09 - 02:37
+Our task is complete, but we should note that any variables created in a function do not automatically exist outside of it. If we don't need any outputs, then we can finish our function there. However, as we need an output in this case, we can accomplish this by using the return keyword. This tells Python what we want to produce as an output.
+
+12. Creating a custom function
+02:37 - 02:49
+We finish by instructing Python to return our rounded_average variable. Later in the course, we'll cover best practices for documenting our functions.
+
+13. Using a custom function
+02:49 - 03:18
+Let's use the average function on our `preparation_times` list. We call our average function, inside which we pass our list. The output is as expected, but we can now complete this task in a single line of code, regardless of which variable we are working with! For example, to calculate the average daily orders, we simply call average again with the orders variable.
+
+14. Storing a function's output
+03:18 - 03:51
+While calling our function returns an output, we might want to store this information to use elsewhere in a program. As we've done with built-in functions, we can assign a variable equal to a call of a function, which will store the result of the function as the variable's value. Here, we create a variable called average_time that is equal to the call of average on the preparation_times variable. Printing the variable confirms the same value.
+
+
+1. Default and keyword arguments
+00:00 - 00:06
+Now we know how to build custom functions, let's look at how to extend their capabilities!
+
+2. Average
+00:06 - 00:15
+Recall our average function. We briefly discussed that the variable, `values`, provided inside parentheses, was an argument.
+
+3. Arguments
+00:15 - 00:30
+In a Python function or method, an argument refers to a value or data structure that is provided. There are two types of arguments: positional and keyword arguments.
+
+4. Positional arguments
+00:30 - 00:54
+We've been using positional arguments already, where we provide arguments in order, separating each by a comma. An example is `round()`, where we provide the value to be rounded as the first positional argument, then add a comma, followed by the number of digits to round to as the second positional argument.
+
+5. Keyword arguments
+00:54 - 01:20
+In contrast, keyword arguments require us to define each argument's value using its name. They help us understand what a function is doing and keep track when a function has many arguments. Here, we call the `round()` function again, this time providing the `number` keyword argument and setting it equal to pi with 10 decimal places.
+
+6. Keyword arguments
+01:20 - 01:30
+We follow with a comma, then set the `ndigits` keyword argument equal to two. We get the same result!
+
+7. Identifying keyword arguments
+01:30 - 01:44
+But how do we know what these keywords are? We can use the `help()` function to get this information! Let's look at the output of calling `help()` on the `round()` function.
+
+8. Keyword arguments
+01:44 - 01:55
+We can see the first argument is called `number` and the second is called `ndigits`. Notice that `ndigits` is set equal to `None` within the output.
+
+9. Default arguments
+01:55 - 02:40
+In Python, `None` means no value, or empty. This is an example of a default argument, which is a way of assigning a default value to an argument. We have been overwriting this argument's value from `None` to two, but the help output tells us that if `ndigits` is omitted, the result will be rounded to zero decimal places, resulting in an integer. Default arguments are helpful as they force us to think about how people will use our functions. If we expect an argument to have a specific value most of the time, we can set it as a default argument.
+
+10. Adding an argument
+02:40 - 02:45
+With this new knowledge, let's modify our previous average function.
+
+11. Adding an argument
+02:45 - 02:53
+We add a keyword argument called `rounded`, with a default boolean value of `False`.
+
+12. Adding an argument
+02:53 - 03:06
+Inside the function, we check if `rounded` has been changed to `True`. If so, we calculate the average, round it to two decimal places, and return this value.
+
+13. Adding an argument
+03:06 - 03:12
+Otherwise, we calculate the average and return it without any rounding.
+
+14. Using the modified average() function
+03:12 - 03:19
+Using our preparation times data from earlier, let's test our function.
+
+15. Using the modified average() function
+03:19 - 03:41
+We can call the function using positional arguments, providing `preparation_times`, then the boolean value of `False`, so the results are not rounded. Alternatively, as the default value of `rounded` is `False`, we can omit the `rounded` argument, and the results will be the same!
+
+16. Using the modified average() function
+03:41 - 03:58
+Likewise, we can use keyword arguments. Here, we set `values` equal to `preparation_times` and `rounded` equal to `True`. This returns the average time value rounded to two decimal places.
+
+
+1. Docstrings
+00:00 - 00:18
+Custom functions, when designed well, can be fairly intuitive. But it's great to make things easy for ourselves and others to understand how to use our functions. With that in mind, let's look at one more important element of custom functions: docstrings.
+
+2. Docstrings
+00:18 - 00:45
+A docstring is a string, or block of text, used to describe what a function does. Docstrings are displayed, along with additional information, when we use the help function. Here, we see the docstring as part of the output of calling help on the round function. Docstrings are incredibly useful as they explain how to use functions.
+
+3. Accessing a docstring
+00:45 - 00:52
+So, we can get information about a function, including its docstring, by calling help.
+
+4. Accessing a docstring
+00:52 - 00:58
+However, if we just want the docstring, then we write the function name,
+
+5. Accessing a docstring
+00:58 - 01:00
+add a dot,
+
+6. Accessing a docstring
+01:00 - 01:02
+then two underscores.
+
+7. Accessing a docstring
+01:02 - 01:06
+We then write doc, representing the docstring,
+
+8. Accessing a docstring
+01:06 - 01:29
+and finish with two more underscores and a closing parenthesis. Two sets of double underscores are referred to as "dunder" in programming. In this case, we access the "dunder-doc" attribute of the round function. The output only shows the docstring without any additional information.
+
+9. Creating a docstring
+01:29 - 01:54
+Let's add a docstring to the average function that we created earlier. To add a docstring, we use triple quotation marks directly after defining the function. Here, we provide a brief description, which is known as a one-line docstring. Just like any other content within the function body, the docstring must be indented.
+
+10. Accessing the docstring
+01:54 - 02:01
+We can display our docstring by accessing the function's dunder-doc attribute as we did before!
+
+11. Updating a docstring
+02:01 - 02:23
+Because dunder-doc is an attribute of a function, we can modify a docstring by assigning a new value to it! Here, we assign the average function's docstring to a new sentence. If we call the `help()` function on our average again, we see the updated docstring.
+
+12. Multi-line docstring
+02:23 - 02:35
+We can also use a multi-line docstring to provide more information, which is useful if the function is more complex or has lots of arguments.
+
+13. Multi-line docstring
+02:35 - 02:45
+We keep the summary line at the start, leave a blank line, and then write Args, representing the function's arguments.
+
+14. Multi-line docstring
+02:45 - 02:59
+We then indent the next line and write the argument name, put its data type in brackets, and add a brief description. We can repeat this if we have more arguments.
+
+15. Multi-line docstring
+02:59 - 03:09
+We then write Returns, and again indent. Here, we describe the variable that is returned, including its data type.
+
+16. Accessing the docstring
+03:09 - 03:15
+Calling help shows our full docstring, including the blank line formatting.
+
+
+1. Lambda functions
+00:00 - 00:10
+We've worked with custom functions. Now, let's explore an approach that offers flexibility without the need to build a complete function from scratch.
+
+2. Simple functions
+00:10 - 00:35
+Custom functions are great, but can require a lot of code! As an example, this function calculating the average from a sequence of values requires three lines of code - one to define the function, one for the function body, and another to return an output. However, there is a quicker way to achieve the same result!
+
+3. Lambda functions
+00:35 - 00:49
+We can use the lambda keyword to create an anonymous function, which doesn't require a name or need to be saved as a variable. The general syntax is lambda,
+
+4. Lambda functions
+00:49 - 00:52
+followed by one or more arguments,
+
+5. Lambda functions
+00:52 - 00:54
+a colon,
+
+6. Lambda functions
+00:54 - 01:23
+and an expression. The convention is to use x for a single argument, although any word will work. The expression is the equivalent of the function body. Also, no return statement is required to produce an output! Lastly, while lambda functions can be used anonymously, they can also be stored as variables to reuse later. Let's explore both approaches.
+
+7. Creating a lambda function
+01:23 - 01:42
+Here, we write a lambda function to find the average value. The output shows that a lambda function was created. This is the equivalent of defining a custom function and displaying it without calling the function and providing an argument.
+
+8. Using lambda functions
+01:42 - 01:48
+To use the lambda function, we place it inside parentheses.
+
+9. Using lambda functions
+01:48 - 02:03
+Immediately after, we open parentheses again and provide a value representing x — in this case, a list of three values. When we print the result, we see an output of six.
+
+10. Storing and calling a lambda function
+02:03 - 02:22
+If we intend to use the lambda function more than once, we could store it as a variable, like here. We can then call the variable, average, like a regular function, and provide the list representing x. The result is the same!
+
+11. Multiple parameters
+02:22 - 02:42
+We can extend lambda functions in a couple of ways. We can use more than one argument, such as raising x to the power of y. The values of two and three represent x and y, respectively, producing an output of eight.
+
+12. Lambda functions with iterables
+02:42 - 03:47
+We can use lambda functions to perform actions on values within an iterable, such as a list. To do this, we need to use a lambda inside Python's built-in map function, which applies a function to the iterable we provide. Let's use this approach to capitalize every value in a list called names. We call map, first providing the lambda function which uses the string.capitalize method, followed by the iterable to apply the function to, names. Printing this shows a map object pointing to the memory location where this function is stored. To produce an output, we need to convert it to a data structure. As we are working with a list, we do this by calling the list function and providing our capitalize function inside. It returns all values in the names list with capitalized first letters!
+
+13. Custom vs. lambda functions
+03:47 - 04:10
+So, when should we use lambda functions over custom functions? If the function is complex, such as using if-else syntax, or will be used many times, we should make a custom one. In contrast, if we need to do something once or it's relatively simple, we should use lambda.
+
+
+1. Introduction to errors
+00:00 - 00:17
+For the remainder of the course, we'll discuss how to handle errors, extending our knowledge of implementing custom logic in our functions. To start, let's discuss what an error is and the important skill of reading error messages.
+
+2. What is an error?
+00:17 - 00:41
+An error occurs when we try to run code that violates a rule. Python has many different types of errors. We may also hear errors called exceptions—these terms have the same meaning. An error will cause our program to terminate, so our code should try to avoid its occurrence where possible!
+
+1 https://docs.python.org/3/library/exceptions.html#exception-hierarchy
+3. TypeError
+00:41 - 01:06
+Let's look at a couple of common errors. First is TypeError, which generally occurs when we try to use an incompatible data type when performing a task. Here, we try to add a string and an integer and get an error message that this action is not supported on these two data types.
+
+4. ValueError
+01:06 - 01:31
+There is ValueError, which occurs when a value provided is not within an acceptable range. For example, we get a ValueError if we try to convert the string "Hello" to a float. This differs from a TypeError, because no error is produced if we call float and provide the number two as a string.
+
+5. Tracebacks
+01:31 - 01:40
+Notice that the error outputs mentions the word "Traceback"? A traceback can be thought of as a report,
+
+6. Tracebacks
+01:40 - 01:48
+providing information, including what type of error occurred, in this case a ValueError,
+
+7. Tracebacks
+01:48 - 01:52
+and where it occurred in our code, in line 1 here.
+
+8. Code in packages
+01:52 - 02:32
+We've looked at errors in our code, but what if an error occurs when using a package? Remember, when we import packages and use their functions, we use somebody else's code. The code for these packages is generally referred to as source code. When we install a package, we download the source code so that it works in our local environment, such as our computer. We don't see it when we call a function from the package, such as the pandas `pd.read_csv()` function, but the source code gets executed behind the scenes.
+
+9. Tracebacks from packages
+02:32 - 02:47
+Let's examine a traceback from using a package. Here, we import pandas, create a DataFrame, and then try to access a column called tag, which doesn't exist.
+
+10. Tracebacks from packages
+02:47 - 02:51
+That's a huge traceback! Let's break it down.
+
+11. Tracebacks from packages
+02:51 - 02:55
+The first few lines show that the error occurred
+
+12. Tracebacks from packages
+02:55 - 03:10
+in line 3803 of the code. But we only wrote eight lines. What's going on? We see a line starting with a file location. This refers to the fact that
+
+13. Tracebacks from packages
+03:10 - 03:34
+line 3803 is in a file called base.py. Put another way, the pandas' file base.py was executed when we tried to subset our DataFrame for the tag column, and an error occurred in line 3803 of that file. At the bottom,
+
+14. Tracebacks from packages
+03:34 - 03:38
+we see it was a KeyError and the following code caused this.
+
+15. Tracebacks from packages
+03:38 - 03:44
+It then shows our code, highlighting the line that caused the error.
+
+16. Tracebacks from packages
+03:44 - 03:56
+After this, we see that the code in frame.py was executed, where it tried to access the key or column name. Lastly,
+
+17. Tracebacks from packages
+03:56 - 04:12
+in base.py, the code says raise KeyError, which is where pandas developers have intentionally returned an error because the key does not exist. We'll discuss this syntax more in the following video.
+
+
+1. Error handling
+00:00 - 00:06
+Now that you're familiar with errors, let's look at how we can handle them in our custom functions.
+
+2. Pandas traceback
+00:06 - 00:44
+Remember this traceback from trying to subset a nonexistent column in a pandas DataFrame? In lines 3804 and 3805 of base.py, we see the terms except and raise. These are keywords used to perform an action if an error occurs, specifically a KeyError. Part of being a good developer is anticipating where others might incorrectly use our code and providing them with information on how to resolve the issue.
+
+3. Design-thinking
+00:44 - 01:07
+We should consider how developers will want to use our code, just like city planners should consider how people want to travel between different locations. Therefore, we should think about how people might use our custom functions, try running them in these different ways, and see what outputs or errors are produced.
+
+4. Error handling in custom functions
+01:07 - 01:13
+Let's look at how we can help people who might use this custom average function.
+
+5. Where might they go wrong?
+01:13 - 01:44
+The function has been written with the expectation that the single argument is a data structure such as a list or set. This might not be obvious, resulting in developers seeking the average of several values, each passed as positional arguments. Alternatively, they could provide a dictionary, expecting our function to infer the data type and complete the calculation accordingly.
+
+6. Where might they go wrong?
+01:44 - 01:54
+Let's focus on the second example. As expected, providing a dictionary results in a TypeError.
+
+7. Previous error-handling
+01:54 - 02:13
+Previously, we've looked at ways to avoid this problem, including control flow to check data types and writing docstrings that state the data type accepted. We can also use a technique within the body of the function. This involves some new keywords.
+
+8. try-except
+02:13 - 02:54
+We can use a try-except block. To do this, we use the try keyword followed by a colon. We then indent the following line and write the code we want to try to execute, which is the function body. Afterward, we use the except keyword, which instructs Python on what code to run if the code inside the try block results in an error. Again, we indent the next line, and we can provide a descriptive print message highlighting the potential issue with how the function has been used.
+
+9. raise
+02:54 - 03:09
+Alternatively, we can choose to raise an error and customize the message we provide. Here, we check if an appropriate data type was used. If so, we run the function.
+
+10. raise
+03:09 - 03:15
+Otherwise, we use the raise keyword, which instructs Python to raise an Exception.
+
+11. raise TypeError
+03:15 - 03:24
+We follow this with the specific type of error, calling it so that we can provide a custom output message!
+
+12. raise TypeError output
+03:24 - 03:39
+Calling the average function on a dictionary now returns a TypeError, as it previously would have, but it now contains our custom message. This makes debugging much easier!
+
+13. try-except vs. raise
+03:39 - 04:14
+Each approach has benefits and use cases. Using try-except, if an error occurs, the code in the error block will run, and the program will not terminate! This can be useful if our code is not sequential, meaning if one section fails, it won't impact the remainder of the script. Conversely, the raise keyword is designed to produce an error. This is useful if we want to avoid running subsequent code that may cause an unintended result.
+
+
+1. Congratulations
+00:00 - 00:03
+Nice work on completing the course! Let's recap.
+
+2. Chapter 1 recap
+00:03 - 00:14
+You discovered how Python's rich ecosystem provides built-in functions, modules, and packages so that we don't always have to write code from scratch!
+
+3. Chapter 2 recap
+00:14 - 00:22
+For scenarios where existing code isn't suitable, you then learned how to create your own custom functions,
+
+4. Chapter 2 recap
+00:22 - 00:26
+and enhanced them by adding default keyword arguments!
+
+5. Chapter 2 recap
+00:26 - 00:31
+You added information about their use through docstrings,
+
+6. Chapter 2 recap
+00:31 - 00:40
+and you implemented flexibility in your custom functions using arbitrary positional and keyword arguments!
+
+7. Chapter 3 recap
+00:40 - 00:50
+You then explored how to build functions on the fly, using lambda and map to produce results in a few lines of code.
+
+8. Chapter 3 recap
+00:50 - 00:56
+You closed out the course by learning about errors and techniques for handling them!
+
+9. Next steps
+00:56 - 01:18
+Python has so much more on offer! From here, you may wish to learn about additional built-in functions, install and use other packages or work with more of Python's built-in modules, and explore object-oriented programming, which is a crucial approach to writing code when building software at scale.
+
+10. Congratulations!
+01:18 - 01:30
+You're building up crucial knowledge and skills in your developer journey. Check out more DataCamp courses and try applying yourself with our projects!
+
+

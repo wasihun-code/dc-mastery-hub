@@ -1,0 +1,474 @@
+1. The ins and outs of INNER JOIN
+00:00 - 00:29
+Hello, my name is Maham Faisal Khan, and I'll be your instructor on a journey through the world of SQL joins. Joining data is an essential skill which enables us to draw information from separate tables together into a single, meaningful set of results. Although this course focuses on PostgreSQL, the material here applies to multiple forms of SQL.
+
+2. The ins and outs of INNER JOINs
+00:29 - 01:04
+We'll begin with INNER JOIN, which along with LEFT JOIN makes up one of the two most common joins. Two tables named "left_table" and "right_table" are shown. Matching values of "id" in both tables are shown in the same color. In both tables, the id field is the key. A key is a single column or group of columns that uniquely identifies records in a table. Both tables also have fields called left_val and right_val, which will help visualize records returned after a join.
+
+3. The ins and outs of INNER JOINs
+01:04 - 01:23
+With SQL joins, you can join on a key field, or any other field. The INNER JOIN shown looks for records in both tables with the same values in the key field, id. Arrows indicate records where the id matches.
+
+4. The ins and outs of INNER JOINs
+01:23 - 01:33
+In this diagram, we focus on records that match on id and fade out any records that are not of interest to our INNER JOIN.
+
+5. The ins and outs of INNER JOINs
+01:33 - 01:38
+The result is records with ids 1 and 4.
+
+6. The leadership database schema
+01:38 - 02:00
+Throughout this course, we'll work with a database of world leaders. Our database schema is displayed here. It contains the presidents, prime_ministers and monarchs tables, as well as the states table containing independence years, and the prime_minister_terms table, providing years the prime_ministers assumed office.
+
+7. At the presidents table
+02:00 - 02:13
+Let's start querying our database by selecting all fields from the presidents table. Recall the use of the asterisk in SQL to select all fields quickly.
+
+8. Meet the prime ministers
+02:13 - 02:18
+Here's a snippet of the prime_ministers table from the same database.
+
+9. Prime ministers, meet the presidents
+02:18 - 02:42
+Suppose that we're interested in countries that have both a president and prime minister. In these small tables, we might notice that Egypt, Portugal, Pakistan and India appear in both tables. For larger tables though, it's not as feasible to identify these records by visual inspection. Here's where SQL joins can be helpful.
+
+10. Our first INNER JOIN
+02:42 - 03:37
+The syntax for performing an INNER JOIN on our tables is shown step-by-step. It is common to begin constructing the query with the join first, and selecting fields later. After FROM, we list the left table, followed by the INNER JOIN keyword and the right table. We then specify the field to match the tables on, using the ON keyword. Here, we use the "country" field. Lastly, we add SELECT at the start of the query and choose the fields we want returned. When selecting columns that exist in both tables, such as "country" and "continent", the table-dot-column_name format must be used to avoid a SQL error. The result of our query is displayed: four countries in our database have both presidents and prime ministers.
+
+11. Aliasing tables
+03:37 - 04:01
+In our INNER JOIN, we've had to type out "president" and "prime_minister" several times. Luckily, we can alias table names using the same AS keyword used to alias column names. Here, we use aliases p1 and p2 in both our SELECT and ON clauses to shorten our query.
+
+12. Using USING
+04:01 - 04:23
+Before we end this lesson, let's add one more SQL shortcut to make our query even more concise. When joining on two identical column names, we can employ the USING command followed by the shared column name in parentheses. Here, since the join field is named "country" in both tables, we can use USING.
+
+
+1. Defining relationships
+00:00 - 00:14
+Welcome back! Now that we have written our very first SQL joins, it's time to think more conceptually about the kinds of the relationships tables can have to each other.
+
+2. One-to-many relationships
+00:14 - 00:44
+The first type of relationship we'll talk about is a one-to-many relationship. This is the most common type of relationship, one where a single entity can be associated with several entities. Think about a music library. One artist can produce many songs over their career. This is a one-to-many relationship. The same applies for authors and their books, directors and movie titles, and so on.
+
+3. One-to-many relationships
+00:44 - 01:01
+Jane Austen wrote many books, and each of her books had just one author. In the table schema shown, each of her works are stored in the books table, and can be merged with the authors table using author_id from both tables.
+
+4. One-to-one relationships
+01:01 - 01:32
+A second type of relationship is a one-to-one relationship. One-to-one relationships imply unique pairings between entities and are therefore less common. A commonly held premise of forensic science is that no two fingerprints are identical, and therefore that a particular fingerprint can only be generated by one person. This is an example of a one-to-one relationship: one fingerprint for one finger.
+
+5. One-to-one relationships
+01:32 - 02:26
+Imagine fingerprint scanning at airport border control. Border control might have two tables in a database: a table of people and a table of their prints. Each person's fingerprint could be merged with the individuals table using their passport number. We won't cover this in detail here, but using a binary format is one way to store images, such as fingerprints, in a database. Note here that although an individual will have four fingerprints stored in the fingerprints table, this is not a one-to-many relationship. It is a one-to-one relationship, because a single individual - represented as one record on the individuals table - will have one set of fingerprints - represented as one record on the fingerprints table. The four different fingerprints are four different fields in each record.
+
+6. Many-to-many relationships
+02:26 - 03:02
+The last type of relationship we'll discuss is a many-to-many relationship. An example of this is languages and countries. Here we show the official languages of Germany, Belgium and the Netherlands, where we see that many languages can be spoken in many countries. For example, Belgium has three official languages: French, German, and Dutch. Conversely, languages can be official in many countries: Dutch is an official language of both the Netherlands and Belgium, but not Germany.
+
+
+1. Multiple joins
+00:00 - 00:11
+We've seen a few inner joins and thought about the relationships tables can have to each other. Now it's time to level up our joins by building on these ideas.
+
+2. Joins on joins
+00:11 - 00:49
+A powerful feature of SQL is that multiple joins can be combined and run in a single query. Let's have a look at some syntax for multiple joins. We begin with the same INNER JOIN as before, and then chain another INNER JOIN to the result of our first INNER JOIN. Notice that we use left_table.id in the last line of this example. If we want to perform the second join using the id field of right_table rather than left_table, we can replace left_table.id with right_table.id in the final line.
+
+3. Joins on joins
+00:49 - 01:19
+Thinking back to our example of world leaders, let's say that we are interested in identifying countries of the world that have both a president and a prime minister, and want to know the year each prime minister came into office. Let's have a look at the prime_minister_terms table from our database of world leaders. It contains a prime_minister column with prime minister names as well as a pm_start column containing the start year of a prime minister's term.
+
+4. What to join first?
+01:19 - 01:43
+Let's apply the new syntax we have learned to our world leaders example. We can begin as before with an INNER JOIN of the presidents and prime_ministers tables, using our aliasing skills to shorten the length of the query. Recall from our first lesson that the result set of this join was a combined table showing countries with both a prime_minister and a president.
+
+5. Chaining joins
+01:43 - 02:12
+If we now join the result of our first INNER JOIN with our prime_minister_terms table on the prime_minister field, the final result will be only those countries with both prime_ministers and presidents, along with the years their prime_ministers assumed office. Notice that the prime_minister_terms table has 10 records, whereas our final result only has four records. This is because only four records from the prime_minister_terms table match the result of our first INNER JOIN.
+
+6. Chaining joins
+02:12 - 02:34
+Here is a look at the final SQL query for chaining a second INNER JOIN to our first INNER JOIN. Notice that the syntax for the second join is exactly the same as for the first join, but we use prime_minister as the field to join on instead. We can continue the chain and join as many tables together as we need!
+
+7. What are we joining ON?
+02:34 - 03:05
+Great work! Now let's step back from our world leaders example. One more thing to know about joins is that it isn't always the case that each value in the field being joined on corresponds to exactly one record in the joining field of the right table. In the example shown, if we join on one field as we have done before, the query will return multiple records from right_table that match with left_table on the id field.
+
+8. Joining on multiple keys
+03:05 - 03:27
+We can limit the records returned by supplying an additional field to join on by adding the AND keyword to our ON clause. In this example, we join on date, a frequently used second column when joining on multiple fields. The result set now contains records that match on both id AND date.
+
+
+1. LEFT and RIGHT JOINs
+00:00 - 00:10
+Congratulations on completing Chapter 1 on inner joins, and welcome to Chapter 2 on outer joins, cross joins and self joins!
+
+2. INNER JOIN diagram
+00:10 - 00:22
+Recall the INNER JOIN diagram from Chapter 1. The only records in the result were those where the id field had matching values in both tables.
+
+3. LEFT JOIN initial diagram
+00:22 - 01:00
+We'll now compare INNER JOIN with three types of outer joins, beginning with LEFT JOIN. Outer joins can obtain records from other tables, even if matches are not found for the field being joined on. A LEFT JOIN will return all records in the left_table, and those records in the right_table that match on the joining field provided. In the diagram shown, the values of 2 and 3 do not appear in the id field of right_table but will still be retained in the join. Records that are not of interest to a LEFT JOIN on the id field have been faded out.
+
+4. LEFT JOIN diagram
+01:00 - 01:25
+We now look at the result of the LEFT JOIN on id. INNER JOIN returns only records corresponding to ids 1 and 4, whereas LEFT JOIN keeps all records in left_table, as well as null values for right_val where is no match in right_table. Note that ids 5 and 6 in right_table do not feature in LEFT JOIN in any way.
+
+5. LEFT JOIN syntax
+01:25 - 02:14
+Let's go back to our world leaders example. Say we want our query to include all countries with prime ministers, presidents if they happen to have them, and missing values if they don't. LEFT JOIN will give us the results we need! The syntax of LEFT JOIN is very similar to INNER JOIN. Only the word INNER is replaced with LEFT. Note that LEFT JOIN can also be written as LEFT OUTER JOIN in SQL. The first three records in the result are the same as they were with an INNER JOIN, but from the fourth record the result starts to look different. Since the United Kingdom does not have a president, a corresponding null value is returned in the president field.
+
+6. RIGHT JOIN
+02:14 - 02:47
+On to RIGHT JOIN! RIGHT JOIN is the second type of outer join, and is much less common than LEFT JOIN so we won't spend as much time on it here. Instead of matching entries in the id column of the left table to the id column of the right table, a RIGHT JOIN does the reverse. All records are retained from right_table, even when id doesn't find a corresponding match in left_table. Null values are returned for the left_value field in records that do not find a match.
+
+7. RIGHT JOIN syntax
+02:47 - 03:05
+Generic syntax for a RIGHT JOIN is shown. Note that the order of left_table and right_table is the same as in LEFT JOIN. The only change is that we call RIGHT JOIN instead of LEFT JOIN. RIGHT JOIN can also be written as RIGHT OUTER JOIN in SQL.
+
+8. RIGHT JOIN with presidents and prime ministers
+03:05 - 03:27
+Let's make this concrete with our world leaders example. We perform a right join of prime_ministers on the left and presidents on the right. The only change is from the LEFT JOIN keyword to RIGHT JOIN. The result contains null values where countries have presidents but no prime ministers.
+
+9. LEFT JOIN or RIGHT JOIN?
+03:27 - 03:49
+Now that you're familiar with both LEFT and RIGHT JOIN, let's discuss why RIGHT JOIN is less commonly used. A key reason for this is that a RIGHT JOIN can always be re-written as a LEFT JOIN. Because we typically type from left to right, LEFT JOIN feels more intuitive to most users when constructing queries.
+
+
+ FULL JOINs
+00:00 - 00:16
+In this video, we'll introduce FULL JOIN. FULL JOIN is the last of the three types of outer join. We'll compare FULL JOIN to the two other types of outer join we have learned (LEFT JOIN and RIGHT JOIN), as well as to INNER JOIN.
+
+2. FULL JOIN initial diagram
+00:16 - 00:35
+A FULL JOIN combines a LEFT JOIN and a RIGHT JOIN. As you can see in this diagram, no values are faded out as they were in earlier diagrams. This is because the FULL JOIN will return all ids, irrespective of whether they have a match in the other table being joined.
+
+3. FULL JOIN diagram
+00:35 - 01:01
+Let's have a look at the result after FULL JOIN. We see that it has retained all ids, returning missing values in the form of nulls for fields corresponding to records where id did not find a match. All six ids we have been working with are included in the result after the FULL JOIN. Note that this time, nulls can appear in either left_value or right_value fields.
+
+4. FULL JOIN syntax
+01:01 - 01:26
+Time for some SQL code. In order to produce a FULL JOIN, the general format aligns closely with the SQL syntax we've been using for INNER JOIN, LEFT JOIN and RIGHT JOIN. We adapt our join to have the word 'FULL' before 'JOIN'. Note that the keyword FULL OUTER JOIN can also be used to return the same result.
+
+5. FULL JOIN example using leaders database
+01:26 - 01:52
+Let's make our sample syntax concrete with our example from the leaders database. Suppose we were interested in all the countries in our database, and wanted to check whether they had a president, a prime minister, or both. We'll walk through the code line by line to do this using a FULL JOIN. The SELECT statement starts us off by including the country, as well as the prime_minister and president fields.
+
+6. FULL JOIN example using leaders database
+01:52 - 02:12
+Next, we specify prime_ministers as our left table and alias this as p1. Note that order of the tables matters here, and if we switched the order, the records would be ordered differently depending on how prime ministers and presidents are ordered in the tables.
+
+7. FULL JOIN example using leaders database
+02:12 - 02:19
+We then add the FULL JOIN query and add presidents as the right table, using alias p2.
+
+8. FULL JOIN example using leaders database
+02:19 - 02:30
+Lastly, the join is performed using country as the field to join on in both tables. We LIMIT to the first 10 records.
+
+9. FULL JOIN example using leaders database
+02:30 - 02:45
+Here is a look at our result. Note that there are null values in both the prime_minister and president fields. We chose a FULL JOIN because we were interested in all countries, whether they had a prime minister, a president, or both.
+
+1. Self joins
+00:00 - 00:15
+Well done getting to the last lesson of this chapter! We'll now dive into a special kind of join, where a table is joined with itself. These types of joins are called self joins.
+
+2. Self joins
+00:15 - 00:43
+Joining a table to itself may seem like an unusual thing to do. Why would we want to do that? Self joins are used to compare values from part of a table to other values from within the same table. Recall the prime_ministers table from earlier. Suppose all prime ministers are convening in summits on their own continents. We want to create a new table showing all countries in the same continent as pairs.
+
+3. Prime minister, meet prime minister
+00:43 - 01:42
+Self joins don't have dedicated syntax as other joins we have seen do. We can't just write SELF JOIN in SQL code, for example. In addition, aliasing is required for a self join. Let's look at a chunk of INNER JOIN code using the prime_ministers table. The country column is selected twice, and so is the continent column. The prime_ministers table is on both the left and the right of the JOIN, making this both a self join and an INNER JOIN! The vital step here is setting the joining fields which we use to match the table to itself. For each country, we will find multiple matched countries in the right table, since we are joining on continent. Each of these matched countries will be returned as pairs. Since this query will return several records, we use LIMIT to return only the first 10 records.
+
+4. Prime minister, meet prime minister
+01:42 - 02:05
+The results are a pairing of each country with every other country in the same continent. However, note that our join also paired countries with themselves, since they too are in the same continent as themselves. We don't want to include these, since a leader from Portugal does not need to meet with themselves, for example. Let's fix this.
+
+5. Prime minister, meet prime minister
+02:05 - 02:21
+Recall the use of the AND clause to ensure multiple conditions are met in the ON clause. In our second condition, we use the not equal to operator to exclude records where the p1-dot-country and p2-dot-country fields are identical.
+
+6. The self joined prime ministers table
+02:21 - 02:33
+Here's a look at our final table, showing combinations of countries in our database that are in the same continent, but excluding records where the two country fields are the same.
+
+
+ Set theory for SQL Joins
+00:00 - 00:17
+Welcome back for Chapter 3! In this chapter, we explore a new way of joining data: set operations. Along the way, we'll highlight key differences between set operations and the joins we have seen so far.
+
+2. Venn diagrams and set theory
+00:17 - 00:41
+SQL has three main set operations, UNION, INTERSECT and EXCEPT. The Venn diagrams shown visualize the differences between them. We can think of each circle as representing a table. The green parts represent what is included after the set operation is performed on each pair of tables.
+
+3. Venn diagrams and set theory
+00:41 - 00:50
+In this lesson, we will cover UNION and UNION ALL. Let's take a closer look at how they work.
+
+4. UNION diagram
+00:50 - 01:22
+In SQL, the UNION operator takes two tables as input, and returns all records from both tables. The diagram shows two tables: left and right, and performing a UNION returns all records in each table. If two records are identical, UNION only returns them once. To illustrate this, the first two records of the right table have been faded out. Our result has seven records.
+
+5. UNION ALL diagram
+01:22 - 01:47
+In SQL, there is a further operator for unions called UNION ALL. In contrast to UNION, given the same two tables, UNION ALL will include duplicate records. Therefore, performing UNION ALL on this data will return nine records, whereas UNION only returned seven. No records have been faded out.
+
+6. UNION and UNION ALL syntax
+01:47 - 02:27
+The syntax for performing all the set operations in this chapter is highly similar. We perform a SELECT statement on our first table, a SELECT statement on our second table, and specify a set operation (in this example, either UNION or UNION ALL) between them. Note that set operations do not require a field to join ON. This is because they do not do quite the same thing as join operations we covered in earlier chapters. Rather than comparing and merging tables on the left and right, they stack fields on top of one another.
+
+7. UNION and UNION ALL syntax
+02:27 - 02:40
+For all set operations, the number of selected columns and their respective data types must be identical. For instance, we can't stack a number field on top of a character field.
+
+8. UNION and UNION ALL syntax
+02:40 - 02:49
+The result will only use field names (or aliases, if used) of the first SELECT statement in the query.
+
+9. To the monarchs table
+02:49 - 03:08
+We now return to our world leaders example. In this example, we use one more table from our leaders database: the monarchs table. Of course, this table is only a sample of monarchs, and not a comprehensive list of monarchs across the world.
+
+10. Prime ministers, meet the monarchs
+03:08 - 03:35
+We can use UNION on the monarchs and prime_ministers tables to show all the different prime ministers and monarchs in these two tables. Note that the monarch field has been aliased as 'leader'. As we have learned, the monarch and prime_minister fields will be combined under the leader field, even though we only aliased the monarch field. We'll LIMIT to the first 10 results so that they fit on our screen.
+
+11. After the UNION
+03:35 - 04:03
+Our UNION returns the top 10 monarchs, prime_ministers and their corresponding countries. Does something stand out here? Recall that the monarchs for Oman and Brunei are also prime ministers. UNION only lists them once each, because they are the same person. Norway is listed twice, however, because its monarch and prime minister are different people.
+
+12. UNION ALL with the leaders
+04:03 - 04:15
+This is where a UNION ALL is helpful! A UNION ALL will tell us if there are any monarchs who also act as prime ministers. The syntax for this is shown.
+
+13. UNION ALL result
+04:15 - 04:20
+After UNION ALL, Brunei and Oman are now listed twice.
+
+
+1. At the INTERSECT
+00:00 - 00:07
+Welcome back. In this lesson we'll explore our next set operation: INTERSECT.
+
+2. INTERSECT Venn diagram
+00:07 - 00:14
+INTERSECT takes two tables as input, and returns only the records that exist in both tables.
+
+3. INTERSECT diagram
+00:14 - 00:33
+In the diagram shown, we have two tables, left_table and right_table. The result of performing INTERSECT on these tables is only the records common to both tables: the first record. All records that are not of interest to the INTERSECT operation are faded out.
+
+4. INTERSECT syntax
+00:33 - 00:48
+The syntax for this set operation is very similar to that of UNION and UNION ALL. We perform a SELECT statement on our first table, a SELECT statement on our second table, and specify our set operator between them.
+
+5. INTERSECT vs. INNER JOIN on two columns
+00:48 - 01:37
+Let's compare INTERSECT to performing an INNER JOIN on two fields with identical field names. Similar to UNION, for a record to be returned, INTERSECT requires all fields to match, since in set operations we do not specify any fields to match on. This is also why it requires the left and right table to have the same number of columns in order to compare records. In the figure shown, only records where both columns match are returned. In INNER JOIN, similar to INTERSECT, only results where both fields match are returned. INNER JOIN will return duplicate values, whereas INTERSECT will only return common records once. As we know from earlier lessons, INNER JOIN will add more columns to the result set.
+
+6. Countries with prime ministers and presidents
+01:37 - 02:06
+Let's have a look at how we can use INTERSECT to determine all countries that have both a prime minister and a president. Each SELECT statement in our query has the same number of columns, of identical data types, in order for the set operation to be performed. The result of the query is the four countries with both a prime minister and a president in our leaders database. As with UNION, the result set uses the field names provided for the left table, whether aliased or not.
+
+7. INTERSECT on two fields
+02:06 - 02:43
+Next, let's think about what would happen if we selected two columns, country and prime_minister, instead of just country, as in our previous example. The code shown does just that. What will the result of this query be? Will this also give us the names of countries that have both a prime minister and a president? The actual result is an empty table. Why is that? As we saw in our INTERSECT diagrams, INTERSECT requires data from both fields in the left table to match their corresponding fields in the right table. The search did not find any countries where the prime minister and president share the same name.
+
+8. Countries with prime ministers and monarchs
+02:43 - 03:00
+However, recall that there are monarchs in our database who also act as prime_ministers. In the example shown, performing an INTERSECT on the prime_ministers and monarchs tables using both country and leader name does not return an empty result.
+
+
+1. EXCEPT
+00:00 - 00:07
+Way to go! We are now at the last of our set operations in this course.
+
+2. EXCEPT Venn diagram
+00:07 - 00:21
+EXCEPT allows us to identify the records that are present in one table, but not the other. More specifically, it retains only records from the left table that are not present in the right table.
+
+3. EXCEPT diagram
+00:21 - 00:49
+The diagram shown illustrates the workings of the EXCEPT operation. All records that are not of interest to the EXCEPT operation are faded out. Only the last two records of the left_table are returned. Note that while the id 4 does exist in the right_table, the whole record does not match, which is why the last record of left_table is not faded out.
+
+4. EXCEPT syntax
+00:49 - 01:28
+We saw earlier that there are some monarchs that also act as the prime minister for their country. Let's say we were interested in monarchs that do NOT also hold the title of prime minister. The EXCEPT clause is really handy for this! The SQL code shown selects the monarch and country field from monarchs and then looks for common entries in the prime_minister and country fields in the prime_ministers table, looking to exclude those entries. In the result, we see only the three monarchs from our leaders database who do not also serve the role of prime minister.
+
+
+1. Subquerying with semi joins and anti joins
+00:00 - 00:14
+We've made it to the final chapter of this course! Keep up the excellent work. In this lesson, we'll return to joins one last time, with an introduction to nested SQL queries.
+
+2. Calling all joins
+00:14 - 00:30
+The six joins we've worked with so far are all "additive" in that they add columns to the original "left" table. The diagram shows an INNER JOIN on the id field, showing an additional column being added to the original left table.
+
+3. Additive joins
+00:30 - 00:41
+Here is some familiar INNER JOIN syntax for this join on the id field. Lets dive deeper into what it means for this join to be "additive".
+
+4. Additive joins
+00:41 - 01:01
+Fields with different names are added to the result set with their original names. Fields with the same name, such as date, are added to the result set too, but notice how we now have duplicate date columns with the same name. This can be changed, however, with aliasing.
+
+5. Semi join
+01:01 - 01:31
+In this lesson, we'll see ways of joining data that do not expressly use JOIN keywords and are not additive in the same way. Instead of using JOIN or set operators, we can leverage the WHERE clause to specify the records to include. We'll use the two tables, left_table and right_table, in the diagram shown. A semi join chooses records in the first table where a condition is met in the second table.
+
+6. Semi join
+01:31 - 01:47
+More specifically, the semi join will return all values of left_table where values of col1 are in a column we specify, namely col2 in the right_table. Records not of interest to the semi join have been faded out.
+
+7. Semi join
+01:47 - 01:54
+The final result of our semi join is records corresponding to ids 2 and 3.
+
+8. Kicking off our semi join
+01:54 - 02:17
+Let's make this concrete with an example. Suppose we are interested in determining the presidents of countries that gained independence before 1800. We select the fields country, continent, and president. How do we filter this data for independence year, which is a field in the states table? We'll use a semi join!
+
+9. Building on our semi join
+02:17 - 02:36
+Before we knew anything about joins, we knew we could leverage the WHERE clause to filter data. The query that returns countries with indep_year before 1800 is shown. The query returns only Spain and Portugal from our database.
+
+10. Finish the semi join (an intro to subqueries)
+02:36 - 02:57
+We can use this list of countries as a filter by embedding it in a further WHERE clause. This is called a subquery! It chooses records in the first table where the country matches the list returned by our subquery. Since Spain does not have a president, only the Portuguese president is listed.
+
+11. Anti join
+02:57 - 03:06
+Moving on to anti joins! The anti join chooses records in the first table where col1 does NOT find a match in col2.
+
+12. Anti join
+03:06 - 03:17
+The final result of our anti join is records corresponding to ids 1 and 4. Again, no new columns are added.
+
+13. An anti join with the presidents
+03:17 - 04:05
+How might we adapt our semi join to determine countries in the Americas founded after 1800? To change our semi join from before to after 1800, we add NOT before the IN statement. We call this an anti join! In addition, we add to our first WHERE clause to filter for continents in the Americas. The result shows presidents of countries in the Americas that gained independence after 1800. Only Chile and Uruguay are returned, not the USA, which gained independence before 1800. Note again that we are only using the few countries in our database for illustration; this is not a comprehensive list of countries in the world!1. Subquerying with semi joins and anti joins
+00:00 - 00:14
+We've made it to the final chapter of this course! Keep up the excellent work. In this lesson, we'll return to joins one last time, with an introduction to nested SQL queries.
+
+2. Calling all joins
+00:14 - 00:30
+The six joins we've worked with so far are all "additive" in that they add columns to the original "left" table. The diagram shows an INNER JOIN on the id field, showing an additional column being added to the original left table.
+
+3. Additive joins
+00:30 - 00:41
+Here is some familiar INNER JOIN syntax for this join on the id field. Lets dive deeper into what it means for this join to be "additive".
+
+4. Additive joins
+00:41 - 01:01
+Fields with different names are added to the result set with their original names. Fields with the same name, such as date, are added to the result set too, but notice how we now have duplicate date columns with the same name. This can be changed, however, with aliasing.
+
+5. Semi join
+01:01 - 01:31
+In this lesson, we'll see ways of joining data that do not expressly use JOIN keywords and are not additive in the same way. Instead of using JOIN or set operators, we can leverage the WHERE clause to specify the records to include. We'll use the two tables, left_table and right_table, in the diagram shown. A semi join chooses records in the first table where a condition is met in the second table.
+
+6. Semi join
+01:31 - 01:47
+More specifically, the semi join will return all values of left_table where values of col1 are in a column we specify, namely col2 in the right_table. Records not of interest to the semi join have been faded out.
+
+7. Semi join
+01:47 - 01:54
+The final result of our semi join is records corresponding to ids 2 and 3.
+
+8. Kicking off our semi join
+01:54 - 02:17
+Let's make this concrete with an example. Suppose we are interested in determining the presidents of countries that gained independence before 1800. We select the fields country, continent, and president. How do we filter this data for independence year, which is a field in the states table? We'll use a semi join!
+
+9. Building on our semi join
+02:17 - 02:36
+Before we knew anything about joins, we knew we could leverage the WHERE clause to filter data. The query that returns countries with indep_year before 1800 is shown. The query returns only Spain and Portugal from our database.
+
+10. Finish the semi join (an intro to subqueries)
+02:36 - 02:57
+We can use this list of countries as a filter by embedding it in a further WHERE clause. This is called a subquery! It chooses records in the first table where the country matches the list returned by our subquery. Since Spain does not have a president, only the Portuguese president is listed.
+
+11. Anti join
+02:57 - 03:06
+Moving on to anti joins! The anti join chooses records in the first table where col1 does NOT find a match in col2.
+
+12. Anti join
+03:06 - 03:17
+The final result of our anti join is records corresponding to ids 1 and 4. Again, no new columns are added.
+
+13. An anti join with the presidents
+03:17 - 04:05
+How might we adapt our semi join to determine countries in the Americas founded after 1800? To change our semi join from before to after 1800, we add NOT before the IN statement. We call this an anti join! In addition, we add to our first WHERE clause to filter for continents in the Americas. The result shows presidents of countries in the Americas that gained independence after 1800. Only Chile and Uruguay are returned, not the USA, which gained independence before 1800. Note again that we are only using the few countries in our database for illustration; this is not a comprehensive list of countries in the world!
+
+
+1. Subqueries inside WHERE and SELECT
+00:00 - 00:12
+In this lesson, we'll dive deeper into embedding queries within queries. We'll revisit subqueries within a WHERE clause, and then go on to subqueries within a SELECT statement.
+
+2. Syntax for subqueries inside WHERE
+00:12 - 00:42
+The semi joins and anti joins we have seen so far involve subqueries inside WHERE. The WHERE clause is the most common place for subqueries, because filtering data is one of the most common data manipulation tasks. Let's revisit this with some generic syntax and understand the nuances of this type of subquery. Have a look at the query shown. Recall that the WHERE IN clause enables us to provide a list of values to filter on.
+
+3. Syntax for subqueries inside WHERE
+00:42 - 01:02
+As we have seen in the lesson on semi joins, arguments to the IN operator are not limited to lists typed out by us. We can include a SQL subquery as an argument for the IN operator, provided the result of the subquery is of the same data type as the field we are filtering on.
+
+4. Syntax for subqueries inside WHERE
+01:02 - 01:24
+The query shown will only work if some_field is of the same data type as some_numeric_field, because the result of the subquery will be a numeric field. Subqueries inside WHERE can be from the same table or from a different table, and here, the subquery is from a different table.
+
+5. Subqueries inside SELECT
+01:24 - 01:46
+The second most common type of subquery is inside a SELECT clause. Say we want to count the number of monarchs listed in the monarchs table for each continent in the states table. Again, let's build up our solution, step by step. The query shown selects each of the five continents in the states table, and the result is displayed.
+
+6. Subqueries inside SELECT
+01:46 - 02:35
+In earlier courses we have seen the use of GROUP BY to COUNT data by a group. However, since our monarchs data lives in a different table than the states table, this would involve a careful join before the GROUP BY. Let's look at how to do this with a subquery instead. Our subquery requires two things. First, it needs to COUNT all monarchs. Second, it needs a WHERE statement matching the continent fields in the two tables. This subquery follows the selection of DISTINCT continents, and will therefore count all monarchs within them in the SELECT statement. A subquery inside a SELECT statement like this requires an alias, like monarch_count here. Magic!
+
+
+1. Subqueries inside FROM
+00:00 - 00:08
+The last type of subquery we'll cover is a query inside a FROM clause. Let's dig in!
+
+2. Subqueries inside FROM
+00:08 - 00:41
+Let's say we are interested in all the continents with monarchs, along with the most recent country to gain independence in that continent. A starting SQL query to pull all the most recent independence years by continent is shown. The query groups records by continent and returns the most recent independence year for each group, by using the MAX() function AS most_recent. The result set is shown. Now how do we filter this for continents with monarchs?
+
+3. Focusing on records inside monarchs
+00:41 - 01:14
+We haven't seen yet that we can include multiple tables in a FROM clause by adding a comma between them. In the SQL syntax shown, we include two different tables, left_table and right_table, in our FROM clause. The diagram shown illustrates that this query returns duplicates for multiple occurrences of id when it matches in both tables. We can drop duplicates using the DISTINCT command in the query shown. Let's investigate a way to solve our problem using this trick.
+
+4. Finishing off the subquery
+01:14 - 02:14
+We can nest the subquery we initially wrote into a FROM statement, so that we are selecting from both monarchs and our subquery, aliased as "sub". We also use the WHERE clause as before to identify records in both tables that match on continent. As we saw on the previous slide, because the continents from our subquery will find multiple matches in monarchs, this match will return duplicates. As before, in our SELECT statement, we use the DISTINCT command to drop duplicate continents, and select sub-dot-most_recent to get the most recent independence year for each continent. Lastly, we ORDER BY continent. Have a look at our result set. There we have it: the continents with monarchs in our database, and the most recent year of independence in those continents! That's how we include a subquery as a temporary table in our FROM clause and then SELECT from it.
+
+
+1. The finish line
+00:00 - 00:11
+Congratulations on making it to the end of the course, and well done learning so many ways to join data! Let's do a rapid round-up of everything we've learned.
+
+2. Types of joins
+00:11 - 00:35
+We talked a lot about joins. In SQL, a join combines columns from one or more tables in a relational database via a lookup process. We learned about INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN, and CROSS JOIN. We also learned about semi joins, anti joins, and self joins.
+
+3. Set operations
+00:35 - 00:40
+We also covered a different way of joining data in SQL: set operations.
+
+4. Types of basic subqueries
+00:40 - 00:54
+Lastly, we covered subquerying, which is covered in more detail in later SQL courses by DataCamp. We saw subquerying inside the SELECT, WHERE and FROM clauses.
+
+5. WHERE to from here?
+00:54 - 01:16
+If you'd like to continue on your journey to becoming a SQL pro, we recommend you take the SQL course listed. If you would like to continue practicing joining data, have a look at some projects, practice exercises and competitions. Alternatively, head to Workspace to build a portfolio of your own projects!
+
+

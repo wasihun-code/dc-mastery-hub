@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
-import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone } from 'lucide-react'
+import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard } from 'lucide-react'
 import { 
   isAudioEnabled, 
   setAudioEnabled, 
+  getAudioVolume,
+  setAudioVolume,
   isHapticsEnabled, 
   setHapticsEnabled,
   triggerCorrectFeedback,
@@ -33,6 +35,11 @@ export default function Settings() {
   // Feedback preferences state
   const [audioActive, setAudioActive] = useState(isAudioEnabled())
   const [hapticsActive, setHapticsActive] = useState(isHapticsEnabled())
+  const [shortcutsActive, setShortcutsActive] = useState(() => {
+    return localStorage.getItem('showKeyboardShortcuts') !== 'false';
+  });
+  const [volumeLevel, setVolumeLevel] = useState(getAudioVolume())
+  const [lastPlayTime, setLastPlayTime] = useState(0)
 
   const handleToggleAudio = () => {
     const nextVal = !audioActive
@@ -50,6 +57,29 @@ export default function Settings() {
     if (nextVal) {
       setTimeout(() => triggerCorrectFeedback(), 50)
     }
+  }
+
+  const handleToggleShortcuts = () => {
+    const nextVal = !shortcutsActive;
+    localStorage.setItem('showKeyboardShortcuts', String(nextVal));
+    setShortcutsActive(nextVal);
+  }
+
+  const handleVolumeChange = (e) => {
+    const val = parseFloat(e.target.value)
+    setVolumeLevel(val)
+    setAudioVolume(val)
+    
+    // Play a preview chime in real-time, throttled to 250ms
+    const now = Date.now()
+    if (now - lastPlayTime > 250) {
+      playCorrect()
+      setLastPlayTime(now)
+    }
+  }
+
+  const handleVolumeMouseUp = () => {
+    playCorrect()
   }
 
   useEffect(() => {
@@ -166,15 +196,15 @@ export default function Settings() {
           </div>
           <div className="space-y-2">
             <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
-              Sound & Haptics Feedback
+              Workspace Preferences & Feedback
             </h2>
             <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-              Enable or disable synthesized audio chimes and physical vibrations triggered during exercise events.
+              Configure audio chimes, physical haptic vibrations, and global keyboard shortcut helpers for your study session.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Audio toggle card */}
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -233,6 +263,104 @@ export default function Settings() {
                 }`}
               />
             </button>
+          </div>
+
+          {/* Keyboard shortcuts toggle card */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-lg border transition-all ${
+                shortcutsActive 
+                  ? 'border-[var(--accent-yellow)] text-[var(--accent-yellow)] bg-[rgba(251,191,36,0.05)]' 
+                  : 'border-[var(--border)] text-[var(--text-muted)]'
+              }`}>
+                <Keyboard size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white">Keyboard Shortcuts</h4>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Shows keyboard helper in exercises</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleToggleShortcuts}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
+                shortcutsActive ? 'bg-[var(--accent-yellow)]' : 'bg-zinc-800'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
+                  shortcutsActive ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Volume Control Slider */}
+        <div className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-lg border transition-all ${
+                audioActive 
+                  ? 'border-[var(--accent-green)] text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]' 
+                  : 'border-[var(--border)] text-[var(--text-muted)]'
+              }`}>
+                <Volume2 size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white">Audio Feedback Volume</h4>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Adjust chime and tone volume level</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <span className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold mr-1">Strength:</span>
+              <span className="text-sm font-mono font-bold text-[var(--accent-green)] bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] px-2.5 py-1 rounded">
+                {Math.round(volumeLevel * 100)}%
+              </span>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={volumeLevel}
+                onChange={handleVolumeChange}
+                onMouseUp={handleVolumeMouseUp}
+                onTouchEnd={handleVolumeMouseUp}
+                disabled={!audioActive}
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[var(--accent-green)] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+              />
+            </div>
+            
+            {/* Real-time Strength Indicator Visualizer */}
+            <div className="flex items-end justify-between h-5 gap-[3px] px-2 py-1 bg-zinc-950/60 rounded-lg border border-[var(--border)]">
+              {Array.from({ length: 32 }).map((_, i) => {
+                const barThreshold = i / 32;
+                const isActive = audioActive && volumeLevel > barThreshold;
+                let colorClass = 'bg-zinc-800/40';
+                if (isActive) {
+                  if (barThreshold < 0.6) {
+                    colorClass = 'bg-[var(--accent-green)] shadow-[0_0_8px_rgba(3,239,98,0.3)]';
+                  } else if (barThreshold < 0.85) {
+                    colorClass = 'bg-[var(--accent-yellow)] shadow-[0_0_8px_rgba(251,191,36,0.3)]';
+                  } else {
+                    colorClass = 'bg-[var(--accent-red)] shadow-[0_0_8px_rgba(239,68,68,0.3)]';
+                  }
+                }
+                const heightPercent = 20 + (i * 2.5);
+                return (
+                  <div 
+                    key={i} 
+                    className={`w-full rounded-full transition-all duration-150 ${colorClass}`}
+                    style={{ height: `${heightPercent}%` }}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
 
