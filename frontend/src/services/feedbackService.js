@@ -24,7 +24,7 @@ function playTone(freq, startTime, duration, type = 'sine', volume = 0.2) {
     osc.frequency.value = freq;
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, volume * 2.0 * globalVolume);
+    const finalVolume = Math.min(1.0, volume * 5.0 * globalVolume);
     
     gainNode.gain.setValueAtTime(0, startTime);
     gainNode.gain.linearRampToValueAtTime(finalVolume, startTime + 0.01);
@@ -96,7 +96,7 @@ export function playWrong() {
     osc.frequency.linearRampToValueAtTime(80, now + duration);
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, 0.2 * 2.0 * globalVolume);
+    const finalVolume = Math.min(1.0, 0.2 * 5.0 * globalVolume);
     
     gainNode.gain.setValueAtTime(0, now);
     gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.02);
@@ -152,7 +152,7 @@ export function playTimerExpired() {
     osc.frequency.linearRampToValueAtTime(90, now + duration);
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, 0.15 * 2.0 * globalVolume);
+    const finalVolume = Math.min(1.0, 0.15 * 5.0 * globalVolume);
     
     gainNode.gain.setValueAtTime(0, now);
     gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.04);

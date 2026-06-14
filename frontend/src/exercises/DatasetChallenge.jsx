@@ -688,7 +688,7 @@ export default function DatasetChallenge() {
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">{challenge.title}</h2>
           
           <div className="prose prose-invert max-w-none text-[var(--text-primary)] leading-relaxed mb-6">
-            {challenge.description}
+            {challenge.context || challenge.description}
           </div>
 
           <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-8">
@@ -699,7 +699,7 @@ export default function DatasetChallenge() {
           </div>
 
           <div className="space-y-3 mb-8">
-            {challenge.hints.map((hint, idx) => (
+            {(challenge.hints || []).map((hint, idx) => (
               <div key={idx} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
                 <button 
                   onClick={() => {
