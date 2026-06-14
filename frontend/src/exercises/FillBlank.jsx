@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Check, 
@@ -256,6 +257,9 @@ export default function FillBlank() {
     const allCorrect = currentEx.answers.every((ans, idx) => userAnswers[idx] === ans);
     if (allCorrect) {
       setCorrectExerciseCount(prev => prev + 1);
+      triggerCorrectFeedback();
+    } else {
+      triggerWrongFeedback();
     }
     setIsChecked(true);
 
@@ -289,6 +293,7 @@ export default function FillBlank() {
 
   const finishExercise = async () => {
     setStep(3);
+    triggerSuccessFeedback();
     const earnedXp = 25;
     setXpEarned(earnedXp);
     

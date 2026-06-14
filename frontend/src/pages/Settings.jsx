@@ -1,5 +1,22 @@
 import { useState, useEffect } from 'react'
-import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw } from 'lucide-react'
+import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone } from 'lucide-react'
+import { 
+  isAudioEnabled, 
+  setAudioEnabled, 
+  isHapticsEnabled, 
+  setHapticsEnabled,
+  triggerCorrectFeedback,
+  playCorrect,
+  playWrong,
+  playSuccess,
+  playTimerWarning,
+  playTimerExpired,
+  vibrateCorrect,
+  vibrateWrong,
+  vibrateSuccess,
+  vibrateTimerWarning,
+  vibrateTimerExpired
+} from '../services/feedbackService'
 
 export default function Settings() {
   // Reset Progress state
@@ -12,6 +29,28 @@ export default function Settings() {
   const [verificationInput, setVerificationInput] = useState('')
   const [resetting, setResetting] = useState(false)
   const [resetSuccessMsg, setResetSuccessMsg] = useState('')
+
+  // Feedback preferences state
+  const [audioActive, setAudioActive] = useState(isAudioEnabled())
+  const [hapticsActive, setHapticsActive] = useState(isHapticsEnabled())
+
+  const handleToggleAudio = () => {
+    const nextVal = !audioActive
+    setAudioEnabled(nextVal)
+    setAudioActive(nextVal)
+    if (nextVal) {
+      setTimeout(() => triggerCorrectFeedback(), 50)
+    }
+  }
+
+  const handleToggleHaptics = () => {
+    const nextVal = !hapticsActive
+    setHapticsEnabled(nextVal)
+    setHapticsActive(nextVal)
+    if (nextVal) {
+      setTimeout(() => triggerCorrectFeedback(), 50)
+    }
+  }
 
   useEffect(() => {
     // Load tracks
@@ -118,6 +157,195 @@ export default function Settings() {
         <h1 className="text-3xl font-extrabold text-[var(--text-primary)]">Settings</h1>
         <p className="mt-2 text-sm text-[var(--text-muted)]">Configure workspace settings, database parameters, and reset course progress.</p>
       </div>
+
+      {/* Sound & Haptic Feedback Section */}
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl text-left">
+        <div className="flex items-start gap-4">
+          <div className="p-3 rounded-xl bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] text-[var(--accent-green)] shrink-0">
+            <Volume2 size={24} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
+              Sound & Haptics Feedback
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              Enable or disable synthesized audio chimes and physical vibrations triggered during exercise events.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Audio toggle card */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-lg border transition-all ${
+                audioActive 
+                  ? 'border-[var(--accent-green)] text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]' 
+                  : 'border-[var(--border)] text-[var(--text-muted)]'
+              }`}>
+                {audioActive ? <Volume2 size={20} /> : <VolumeX size={20} />}
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white">Audio Sound Effects</h4>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Plays tones for correct/wrong answers</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleToggleAudio}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
+                audioActive ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
+                  audioActive ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Haptics toggle card */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className={`p-2.5 rounded-lg border transition-all ${
+                hapticsActive 
+                  ? 'border-[var(--accent-blue)] text-[var(--accent-blue)] bg-[rgba(96,165,250,0.05)]' 
+                  : 'border-[var(--border)] text-[var(--text-muted)]'
+              }`}>
+                <Smartphone size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white">Haptic Vibration</h4>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Vibrates on supported mobile devices</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleToggleHaptics}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
+                hapticsActive ? 'bg-[var(--accent-blue)]' : 'bg-zinc-800'
+              }`}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
+                  hapticsActive ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Feedback Preview Panel */}
+        <div className="mt-8 border-t border-[var(--border)] pt-6">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
+            Interactive Feedback Tester
+          </h3>
+          <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
+            Test synthesized audio tones and haptic vibration patterns directly. Enable toggles above to unmute or enable device vibration.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Audio Tones Test */}
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--accent-green)]">
+                Audio Tones (Native Synthesizer)
+              </h4>
+              <div className="grid grid-cols-1 gap-2.5">
+                <button
+                  type="button"
+                  onClick={playCorrect}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-green)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Chime (Correct Answer)</span>
+                  <span className="text-[10px] bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={playWrong}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Tone (Wrong Answer)</span>
+                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={playSuccess}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-yellow)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Arpeggio (Session Complete)</span>
+                  <span className="text-[10px] bg-[rgba(251,191,36,0.1)] text-[var(--accent-yellow)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={playTimerWarning}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Pulse (Timer Warning)</span>
+                  <span className="text-[10px] bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={playTimerExpired}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Sweep (Timer Expired)</span>
+                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Haptic Vibrations Test */}
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--accent-blue)]">
+                Haptic Vibration Patterns
+              </h4>
+              <div className="grid grid-cols-1 gap-2.5">
+                <button
+                  type="button"
+                  onClick={vibrateCorrect}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Light Pulse (Correct)</span>
+                  <span className="text-[10px] bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-2 py-0.5 rounded font-mono font-bold">[60ms]</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={vibrateWrong}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Medium Pulse (Wrong)</span>
+                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">[150ms]</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={vibrateSuccess}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-yellow)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Triple Burst (Success)</span>
+                  <span className="text-[10px] bg-[rgba(251,191,36,0.1)] text-[var(--accent-yellow)] px-2 py-0.5 rounded font-mono font-bold">80-50-80ms</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={vibrateTimerWarning}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Quick Warning Pulse</span>
+                  <span className="text-[10px] bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-2 py-0.5 rounded font-mono font-bold">[50ms]</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={vibrateTimerExpired}
+                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
+                >
+                  <span>Long Burst (Expired)</span>
+                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">[250ms]</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Reset Progress Danger Card */}
       <section className="relative overflow-hidden rounded-2xl border border-red-950/40 bg-gradient-to-br from-red-950/10 via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl">

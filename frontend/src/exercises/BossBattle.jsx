@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
+  triggerCorrectFeedback, 
+  triggerWrongFeedback, 
+  triggerSuccessFeedback, 
+  triggerTimerWarningFeedback, 
+  triggerTimerExpiredFeedback 
+} from '../services/feedbackService';
+import { 
   ChevronLeft, 
   Heart, 
   Zap, 
@@ -42,6 +49,7 @@ export default function BossBattle() {
   
   const timerRef = useRef(null);
   const advanceTimeoutRef = useRef(null);
+  const warningFiredRef = useRef(false);
 
   useEffect(() => {
     fetchCourseAndBattle();
@@ -93,6 +101,13 @@ export default function BossBattle() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [step, currentIndex, questions, isAnswered, lives]);
+
+  useEffect(() => {
+    if (step === 2 && timeLeft === 5 && !isAnswered && !warningFiredRef.current) {
+      warningFiredRef.current = true;
+      triggerTimerWarningFeedback();
+    }
+  }, [timeLeft, step, isAnswered]);
 
   const fetchCourseAndBattle = async () => {
     try {
@@ -223,6 +238,7 @@ export default function BossBattle() {
     setIsAnswered(true);
     setFlash('wrong');
     setSelectedOption(null);
+    triggerTimerExpiredFeedback();
     
     setSurvivedCount(prev => prev + 1);
     updateWaveSurvival(currentIndex);
@@ -266,6 +282,7 @@ export default function BossBattle() {
     setFlash(null);
     setHintsShown(0);
     setTimeLeft(15);
+    warningFiredRef.current = false;
   };
 
   const updateWaveSurvival = (index) => {
@@ -313,11 +330,13 @@ export default function BossBattle() {
     if (isCorrect) {
       setScore(prev => prev + 1);
       setFlash('correct');
+      triggerCorrectFeedback();
       advanceTimeoutRef.current = setTimeout(() => {
         advanceNext();
       }, 800);
     } else {
       setFlash('wrong');
+      triggerWrongFeedback();
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
@@ -370,6 +389,7 @@ export default function BossBattle() {
     if (timerRef.current) clearInterval(timerRef.current);
     setGameOverReason(reason);
     setStep(3);
+    triggerSuccessFeedback();
     
     const finalXp = survivedCount * 5;
     

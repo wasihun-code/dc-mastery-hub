@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Lightbulb, 
@@ -184,6 +185,7 @@ export default function Quiz() {
     if (isCorrect) {
       setIsLocked(true);
       shouldPost = true;
+      triggerCorrectFeedback();
       finalCorrect = wrongSelectedOptions.length === 0;
       if (wrongSelectedOptions.length === 0) {
         setFirstAttemptCorrectCount(prev => prev + 1);
@@ -193,6 +195,7 @@ export default function Quiz() {
       setWrongSelectedOptions(prev => [...prev, optionKey]);
       const nextWrongAttempts = wrongAttempts + 1;
       setWrongAttempts(nextWrongAttempts);
+      triggerWrongFeedback();
       
       if (!allowMultipleTries || nextWrongAttempts >= 3) {
         setIsLocked(true);
@@ -233,6 +236,7 @@ export default function Quiz() {
 
   const finishExercise = async () => {
     setStep(3);
+    triggerSuccessFeedback();
     const earnedXp = 30;
     setXpEarned(earnedXp);
     

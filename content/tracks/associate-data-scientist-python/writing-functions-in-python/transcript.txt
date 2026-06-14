@@ -1,0 +1,593 @@
+Docstrings
+00:00 - 00:18
+Hi. My name is Shayne Miel. You've probably spent a lot of time using functions that someone else wrote. In this course, you'll learn how to write functions that others can use. Docstrings are a Python best practice that will make your code much easier to use, read, and maintain.
+
+2. A complex function
+00:18 - 00:31
+Look at this split_and_stack() function. If you wanted to understand what the function does, what the arguments are supposed to be, and what it returns, you would have to spend some time deciphering the code.
+
+3. A complex function with a docstring
+00:31 - 00:44
+With a docstring though, it is much easier to tell what the expected inputs and outputs should be, as well as what the function does. This makes it easier for you and other engineers to use your code in the future.
+
+4. Anatomy of a docstring
+00:44 - 01:15
+A docstring is a string written as the first line of a function. Because docstrings usually span multiple lines, they are enclosed in triple quotes, Python's way of writing multi-line strings. Every docstring has some (although usually not all) of these five key pieces of information: what the function does, what the arguments are, what the return value or values should be, info about any errors raised, and anything else you'd like to say about the function.
+
+5. Docstring formats
+01:15 - 01:30
+Consistent style makes a project easier to read, and the Python community has evolved several standards for how to format your docstrings. Google-style and Numpydoc are the most popular formats, so we'll focus on those.
+
+6. Google Style - description
+01:30 - 01:48
+In Google style, the docstring starts with a concise description of what the function does. This should be in imperative language. For instance: "Split the data frame and stack the columns" instead of "This function will split the data frame and stack the columns".
+
+7. Google style - arguments
+01:48 - 02:15
+Next comes the "Args" section where you list each argument name, followed by its expected type in parentheses, and then what its role is in the function. If you need extra space, you can break to the next line and indent as I've done here. If an argument has a default value, mark it as "optional" when describing the type. If the function does not take any parameters, feel free to leave this section out.
+
+8. Google style - return value(s)
+02:15 - 02:33
+The next section is the "Returns" section, where you list the expected type or types of what gets returned. You can also provide some comment about what gets returned, but often the name of the function and the description will make this clear. Additional lines should not be indented.
+
+9. Google-style - errors raised and extra notes
+02:33 - 02:46
+Finally, if your function intentionally raises any errors, you should add a "Raises" section. You can also include any additional notes or examples of usage in free form text at the end.
+
+10. Numpydoc
+02:46 - 03:06
+The Numpydoc format is very similar and is the most common format in the scientific Python community. Personally, I think it looks better than the Google style. It takes up more vertical space though, so this course will either use Google-style or leave out the docstrings entirely to keep the examples compact and legible.
+
+11. Retrieving docstrings
+03:06 - 03:46
+Sometimes it is useful for your code to access the contents of your function's docstring. Every function in Python comes with a __doc__ attribute that holds this information. Notice that the __doc__ attribute contains the raw docstring, including any tabs or spaces that were added to make the words line up visually. To get a cleaner version, with those leading spaces removed, you can use the getdoc() function from the inspect module. The inspect module contains a lot of useful methods for gathering information about functions.
+
+
+
+. DRY and "Do One Thing"
+00:00 - 00:00
+DRY (also known as "don't repeat yourself") and the "Do One Thing" principle are good ways to ensure that your functions are well designed and easy to test. Let's see how.
+
+2. Don't repeat yourself (DRY)
+00:00 - 00:00
+When you are writing code to look for answers to a research question, it is totally normal to copy and paste a bit of code, tweak it slightly, and re-run it. However, this kind of repeated code can lead to real problems. In this code snippet, I load my train, validation, and test data, and plot the first two principal components of each dataset. I wrote the code for the train dataset, then copied it and pasted it into the next two blocks, updating the paths and the variable names.
+
+3. The problem with repeating yourself
+00:00 - 00:00
+But one of the problems with copying and pasting is that it is easy to accidentally introduce errors that are hard to spot. If you'll notice in the last block, I accidentally took the principal components of the train data instead of the test data. Yikes!
+
+4. Another problem with repeating yourself
+00:00 - 00:00
+Another problem with repeated code is that if you want to change something, you often have to do it in multiple places. For instance, if we realized that our CSVs used the column name "label" instead of "labels", we would have to change our code in six places. Repeated code like this is a good sign that you should write a function. So let's do that.
+
+5. Use functions to avoid repetition
+00:00 - 00:00
+Wrapping the repeated logic in a function and then calling that function several times makes it much easier to avoid the kind of errors introduced by copying and pasting. And if you ever need to change the column "label" back to "labels", or you want to swap out PCA for some other dimensionality reduction technique, you only have to do it in one or two places.
+
+6. Problem: it does multiple things
+00:00 - 00:00
+However, there is still a big problem with this function.
+
+7. Problem: it does multiple things
+00:00 - 00:00
+First, it loads the data.
+
+8. Problem: it does multiple things
+00:00 - 00:00
+Then it plots the data.
+
+9. Problem: it does multiple things
+00:00 - 00:00
+And then it returns the loaded data. This function violates another software engineering principle: Do One Thing. Every function should have a single responsibility. Let's look at how we could split this one up.
+
+10. Do One Thing
+00:00 - 00:00
+Instead of one big function, we could have a more nimble function that just loads the data and a second one for plotting. We get several advantages from splitting the load_and_plot() function into two smaller functions. First of all, our code has become more flexible. Imagine that later on in your script, you just want to load the data and not plot it. That's easy now with the load_data() function. Likewise, if you wanted to do some transformation to the data before plotting, you can do the transformation and then call the plot_data() function. We have decoupled the loading functionality from the plotting functionality.
+
+11. Advantages of doing one thing
+00:00 - 00:00
+The code will also be easier for other developers to understand, and it will be more pleasant to test and debug. Finally, if you ever need to update your code, functions that each have a single responsibility make it easier to predict how changes in one place will affect the rest of the code.
+
+12. Code smells and refactoring
+00:00 - 00:00
+Repeated code and functions that do more than one thing are examples of "code smells", which are indications that you may need to refactor. Refactoring is the process of improving code by changing it a little bit at a time. This process is well described in Martin Fowler's book, "Refactoring", which is a good read for any aspiring software engineer.
+
+
+. Pass by assignment
+00:00 - 00:00
+The way that Python passes information to functions is different from many other languages. It is referred to as "pass by assignment", which I will explain in this lesson.
+
+2. A surprising example
+00:00 - 00:00
+Let's say we have a function foo() that takes a list and sets the first value of the list to 99. Then we set "my_list" to the value [1, 2, 3] and pass it to foo(). What do you expect the value of "my_list" to be after calling foo()? If you said "[99, 2, 3]", then you are right. Lists in Python are mutable objects, meaning that they can be changed. Now let's say we have another function bar() that takes an argument and adds ninety to it. Then we assign the value 3 to the variable "my_var" and call bar() with "my_var" as the argument. What do you expect the value of "my_var" to be after we've called bar()? If you said "3", you're right. In Python, integers are immutable, meaning they can't be changed.
+
+3. Digging deeper
+00:00 - 00:00
+Let's look at another example to understand what's going on. Imagine that this gray bar is your computer's memory.
+
+4. Digging deeper
+00:00 - 00:00
+When we set the variable "a" equal to the list [1, 2, 3], the Python interpreter says, "Okay, now 'a' points to this location in memory."
+
+5. Digging deeper
+00:00 - 00:00
+Then if we type "b = a", the interpreter says, "Okay, now 'b' points to whatever 'a' is pointing to."
+
+6. Digging deeper
+00:00 - 00:00
+So if we were to append 4 to the end of "a", both variables get it because there is only one list.
+
+7. Digging deeper
+00:00 - 00:00
+Likewise, if we append 5 to "b", both variables get it.
+
+8. Digging deeper
+00:00 - 00:00
+However, if we assign "a" to a different object in memory, that does not change where "b" is pointing. Now, things that happen to "a" are no longer happening to "b", and vice versa.
+
+9. Pass by assignment
+00:00 - 00:00
+How does this relate to the example functions we saw earlier?
+
+10. Pass by assignment
+00:00 - 00:00
+When we assign a list to the variable "my_list", it sets up a location in memory for it.
+
+11. Pass by assignment
+00:00 - 00:00
+Then, when we pass "my_list" to the function foo(), the parameter "x" gets assigned to that same location.
+
+12. Pass by assignment
+00:00 - 00:00
+So when the function modifies the thing that "x" points to, it is also modifying the thing that "my_list" points to.
+
+13. Pass by assignment
+00:00 - 00:00
+In the other example, we created a variable "my_var" and assigned it the value 3.
+
+14. Pass by assignment
+00:00 - 00:00
+Then we passed it to the function bar(), which caused the argument "x" to point to the same place "my_var" is pointing.
+
+15. Pass by assignment
+00:00 - 00:00
+But the bar() function assigns "x" to a new value, so the "my_var" variable isn't touched. In fact, there is no way in Python to have changed "x" or "my_var" directly, because integers are immutable variables.
+
+16. Immutable or Mutable?
+00:00 - 00:00
+There are only a few immutable data types in Python because almost everything is represented as an object. The only way to tell if something is mutable is to see if there is a function or method that will change the object without assigning it to a new variable.
+
+17. Mutable default arguments are dangerous!
+00:00 - 00:00
+Finally, here is a thing that can get you into trouble. foo() is a function that appends the value 1 to the end of a list. But, whoever wrote this function gave the argument an empty list as a default value. When we call foo() the first time, we get what you would expect, a list with one entry. But, when we call foo() again, the default value has already been modified! If you really want a mutable variable as a default value, consider defaulting to None and setting the argument in the function.
+
+
+ Using context managers
+00:00 - 00:07
+In this lesson, I'll introduce the concept of context managers and show you how to use these special kinds of functions.
+
+2. What is a context manager?
+00:07 - 00:21
+A context manager is a type of function that sets up a context for your code to run in, runs your code, and then removes the context. That's not a very helpful definition though, so let me explain with an analogy.
+
+3. A catered party
+00:21 - 00:28
+Imagine that you are throwing a fancy party, and have hired some caterers to provide refreshments for your guests.
+
+4. A catered party
+00:28 - 00:33
+Before the party starts, the caterers set up tables with food and drinks.
+
+5. A catered party
+00:33 - 00:38
+Then you and your friends dance, eat, and have a good time.
+
+6. A catered party
+00:38 - 00:40
+When the party is done,
+
+7. A catered party
+00:40 - 00:42
+the caterers clean up the food and remove the tables.
+
+8. Catered party as context
+00:42 - 01:07
+In this analogy, the caterers are like a context manager. First, they set up a context for your party, which was a room full of food and drinks. Then they let you and your friends do whatever you want. This is like you being able to run your code inside the context manager's context. Finally, when the party is over, the caterers clean up and remove the context that the party happened in.
+
+9. A real-world example
+01:07 - 01:49
+You may have used code like this before. The "open()" function is a context manager. When you write "with open()", it opens a file that you can read from or write to. Then, it gives control back to your code so that you can perform operations on the file object. In this example, we read the text of the file, store the contents of the file in the variable "text", and store the length of the contents in the variable "length". When the code inside the indented block is done, the "open()" function makes sure that the file is closed before continuing on in the script. The print statement is outside of the context, so by the time it runs the file is closed.
+
+10. Using a context manager
+01:49 - 01:58
+Any time you use a context manager, it will look like this. The keyword "with" lets Python know that you are trying to enter a context.
+
+11. Using a context manager
+01:58 - 02:09
+Then you call a function. You can call any function that is built to work as a context manager. In the next lesson, I'll show you how to write your own functions that work this way.
+
+12. Using a context manager
+02:09 - 02:13
+A context manager can take arguments like any normal function.
+
+13. Using a context manager
+02:13 - 02:19
+You end the "with" statement with a colon as if you were writing a for loop or an if statement.
+
+14. Using a context manager
+02:19 - 02:39
+Statements in Python that have an indented block after them, like for loops, if/else statements, function definitions, etc. are called "compound statements". The "with" statement is another type of compound statement. Any code that you want to run inside the context that the context manager created needs to be indented.
+
+15. Using a context manager
+02:39 - 02:49
+When the indented block is done, the context manager gets a chance to clean up anything that it needs to, like when the "open()" context manager closed the file.
+
+16. Using a context manager
+02:49 - 03:17
+Some context managers want to return a value that you can use inside the context. By adding "as" and a variable name at the end of the "with" statement, you can assign the returned value to the variable name. We used this ability when calling the "open()" context manager, which returns a file that we can read from or write to. By adding "as my_file" to the "with" statement, we assigned the file to the variable "my_file".
+
+
+. Writing context managers
+00:00 - 00:00
+Now that you know how to use context managers, I want to show you how to write a context manager for other people to use.
+
+2. Two ways to define a context manager
+00:00 - 00:00
+There are two ways to define a context manager in Python: by using a class that has special __enter__() and __exit__() methods or by decorating a certain kind of function.
+
+3. Two ways to define a context manager
+00:00 - 00:00
+This course is focused on writing functions, and some of you may not have been introduced to the concept of classes yet, so I will only present the function-based method here.
+
+4. How to create a context manager
+00:00 - 00:00
+There are five parts to creating a context manager. First, you need to define a function. Next, you can add any setup code your context needs. This is not required though. Third, you must use the "yield" keyword to signal to Python that this is a special kind of function. I will explain what this keyword means in a moment. After the "yield" statement, you can add any teardown code that you need to clean up the context.
+
+5. How to create a context manager
+00:00 - 00:00
+Finally, you must decorate the function with the "contextmanager" decorator from the "contextlib" module. You might not know what a decorator is, and that's ok. We will discuss decorators in-depth in the next chapter of this course. For now, the important thing to know is that you write the "at" symbol, followed by "contextlib.contextmanager" on the line immediately above your context manager function.
+
+6. The "yield" keyword
+00:00 - 00:00
+The "yield" keyword may also be new to you. When you write this word, it means that you are going to return a value, but you expect to finish the rest of the function at some point in the future. The value that your context manager yields can be assigned to a variable in the "with" statement by adding "as <variable name>". Here, we've assigned the value 42 that my_context() yields to the variable "foo". By running this code, you can see that after the context block is done executing, the rest of the my_context() function gets run, printing "goodbye". Some of you may recognize the "yield" keyword as a thing that gets used when creating generators. In fact, a context manager function is technically a generator that yields a single value.
+
+7. Setup and teardown
+00:00 - 00:00
+The ability for a function to yield control and know that it will get to finish running later is what makes context managers so useful. This context manager is an example of code that accesses a database. Like most context managers, it has some setup code that runs before the function yields. This context manager uses that setup code to connect to the database.
+
+8. Setup and teardown
+00:00 - 00:00
+Most context managers also have some teardown or cleanup code when they get control back after yielding. This one uses the teardown section to disconnect from the database.
+
+9. Setup and teardown
+00:00 - 00:00
+This setup/teardown behavior allows a context manager to hide things like connecting and disconnecting from a database so that a programmer using the context manager can just perform operations on the database without worrying about the underlying details.
+
+10. Yielding a value or None
+00:00 - 00:00
+The database() context manager that we've been looking at yields a specific value - the database connection - that can be used in the context block. Some context managers don't yield an explicit value. in_dir() is a context manager that changes the current working directory to a specific path and then changes it back after the context block is done. It does not need to return anything with its "yield" statement.
+
+
+. Advanced topics
+00:00 - 00:10
+You've learned a lot about how to using and writing context managers. In this lesson, we'll cover nested contexts, handling errors, and how to know when to create a context manager.
+
+2. Nested contexts
+00:10 - 00:33
+Imagine you are implementing this copy() function that copies the contents of one file to another file. One way you could write this function would be to open the source file, store the contents of the file in the "contents" variable, then open the destination file and write the contents to it. This approach works fine until you try to copy a file that is too large to fit in memory.
+
+3. Nested contexts
+00:33 - 00:56
+What would be ideal is if we could open both files at once and copy over one line at a time. Fortunately for us, the file object that the "open()" context manager returns can be iterated over in a for loop. The statement "for line in my_file" here will read in the contents of my_file one line at a time until the end of the file.
+
+4. Nested contexts
+00:56 - 01:42
+So, going back to our copy() function, if we could open both files at once, we could read in the source file line-by-line and write each line out to the destination as we go. This would let us copy the file without worrying about how big it is. In Python, nested "with" statements are perfectly legal. This code opens the source file and then opens the destination file inside the source file's context. That means code that runs inside the context created by opening the destination file has access to both the "f_src" and the "f_dst" file objects. So we are able to copy the file over one line at a time like we wanted to!
+
+5. Handling errors
+01:42 - 02:28
+One thing you will want to think about when writing your context managers is: What happens if the programmer who uses your context manager writes code that causes an error? Imagine you've written this function that lets someone connect to the printer. The printer only allows one connection at a time, so it is imperative that "p.disconnect()" gets called, or else no one else will be able to print! Someone decides to use your get_printer() function to print the text of their document. However, they weren't paying attention and accidentally typed "txt" instead of "text". This will raise a KeyError because "txt" is not in the "doc" dictionary. And that means "p.disconnect()" doesn't get called.
+
+6. Handling errors
+02:28 - 02:53
+So what can we do? You may be familiar with the "try" statement. It allows you to write code that might raise an error inside the "try" block and catch that error inside the "except" block. You can choose to ignore the error or re-raise it. The "try" statement also allows you to add a "finally" block. This is code that runs no matter what, whether an exception occurred or not.
+
+7. Handling errors
+02:53 - 03:13
+The solution then is to put a "try" statement before the "yield" statement in our get_printer() function and a "finally" statement before "p.disconnect()". When the sloppy programmer runs their code, they still get the KeyError, but "finally" ensures that "p.disconnect()" is called before the error is raised.
+
+8. Context manager patterns
+03:13 - 03:35
+If you notice that your code is following any of these patterns, you might consider using a context manager. For instance, in this lesson we've talked about "open()", which uses the open/close pattern, and "get_printer()", which uses the connect/disconnect pattern. See if you can find other instances of these patterns in code you are familiar with.
+
+1 Adapted from Dave Brondsema's talk at PyCon 2012: https://youtu.be/cSbD5SKwak0?t=795
+
+
+ Functions as objects
+00:00 - 00:13
+In this chapter, you are going to learn about decorators, a powerful way of modifying the behavior of functions. But first, we need to build up some foundational concepts that will make decorators easier to understand.
+
+2. Functions are just another type of object
+00:13 - 00:31
+The main thing you should take away from this lesson is that functions are just like any other object in Python. They are not fundamentally different from lists, dictionaries, DataFrames, strings, integers, floats, modules, or anything else in Python.
+
+3. Functions as variables
+00:31 - 01:01
+And because functions are just another type of object, you can do anything to or with them that you would do with any other kind of object. You can take a function and assign it to a variable, like "x". Then, if you wanted to, you could call x() instead of my_function(). It doesn't have to be a function you defined, either. If you felt so inclined, you could assign the print() function to PrintyMcPrintface, and use it as your print() function.
+
+4. Lists and dictionaries of functions
+01:01 - 01:38
+You can also add functions to a list or dictionary. Here, we've added the functions my_function(), open(), and print() to the list "list_of_functions". We can call an element of the list, and pass it arguments. Since the third element of the list is the print() function, it prints the string argument to the console. Below that, we've added the same three functions to a dictionary, under the keys "func1", "func2", and "func3". Since the print() function is stored under the key "func3", we can reference it and use it as if we were calling the function directly.
+
+5. Referencing a function
+01:38 - 02:06
+Notice that when you assign a function to a variable, you do not include the parentheses after the function name. This is a subtle but very important distinction. When you type my_function() with the parentheses, you are calling that function. It evaluates to the value that the function returns. However, when you type "my_function" without the parentheses, you are referencing the function itself. It evaluates to a function object.
+
+6. Functions as arguments
+02:06 - 02:42
+Here's where things get really fun. Since a function is just an object like anything else in Python, you can pass one as an argument to another function. The has_docstring() function checks to see whether the function that is passed to it has a docstring or not. We could define these two functions, no() and yes(), and pass them as arguments to the has_docstring() function. Since the no() function doesn't have a docstring, the has_docstring() function returns False. Likewise, has_docstring() returns True for the yes() function.
+
+7. Defining a function inside another function
+02:42 - 02:55
+Functions can also be defined inside other functions. These kinds of functions are called nested functions, although you may also hear them called inner functions, helper functions, or child functions.
+
+8. Defining a function inside another function
+02:55 - 03:12
+A nested function can make your code easier to read. In this example, if x and y are within some bounds, foo() prints x times y. We can make that if statement easier to read by defining an in_range() function.
+
+9. Functions as return values
+03:12 - 03:41
+There's also nothing stopping us from returning a function. For instance, the function get_function() creates a new function, print_me(), and then returns it. If we assign the result of calling get_function() to the variable "new_func", we are assigning the return value, "print_me()" to "new_func". We can then call new_func() as if it were the print_me() function.
+
+
+ Scope
+00:00 - 00:00
+Before we can dig into decorators, we must understand how scope works in Python. Scope determines which variables can be accessed at different points in your code.
+
+2. Names
+00:00 - 00:00
+Names are very useful things, both in Python and in the real world. For instance, this is Tom.
+
+3. Names
+00:00 - 00:00
+And this is Janelle. When we say "Tom", we know we are talking about the person on the left, and when we say "Janelle", we know we are talking about the person on the right.
+
+4. Scope
+00:00 - 00:00
+If Janelle says, "Tom didn't go to work yesterday," we can be fairly sure she is talking about the Tom standing next to her,
+
+5. Scope
+00:00 - 00:00
+And not some Tom in a different country. This is sort of how scope works in programming languages like Python.
+
+6. Scope
+00:00 - 00:00
+Python has names too—variable names. When we say "print(x)" here, Python knows we mean the x that we just defined. What happens if we redefine x inside the function foo() though? In foo()'s print() statement, do we mean the x that equals 42 or the x that equals 7? Python applies the same logic we applied with Tom and Janelle and assumes we mean the x that was defined right there in the function. However, there is no y defined in the function foo(), so it looks outside the function for a definition when asked to print y. Note that setting x equal to 42 inside the function foo() doesn't change the value of x that we set earlier outside of the function.
+
+7. Scope
+00:00 - 00:00
+Python has to have strict rules about which variable you are referring to when using a particular variable name. So when we typed print(x) in the function foo(), the interpreter had to follow those rules to determine which x we meant.
+
+8. Scope
+00:00 - 00:00
+First, the interpreter looks in the local scope. When you are inside a function, the local scope is made up of the arguments and any variables defined inside the function.
+
+9. Scope
+00:00 - 00:00
+If the interpreter can't find the variable in the local scope, it expands its search to the global scope. These are the things defined outside the function.
+
+10. Scope
+00:00 - 00:00
+Finally, if it can't find the thing it is looking for in the global scope, the interpreter checks the builtin scope. These are things that are always available in Python. For instance, the print() function is in the builtin scope, which is why we are able to use it in our foo() function.
+
+11. Scope
+00:00 - 00:00
+I actually skipped a level in that diagram. In the case of nested functions, where one function is defined inside another function, Python will check the scope of the parent function before checking the global scope. This is called the nonlocal scope to show that it is not the local scope of the child function and not the global scope.
+
+12. The global keyword
+00:00 - 00:00
+Note that Python only gives you read access to variables defined outside of your current scope. In foo() when we set x equal to 42, Python assumed we wanted a new variable in the local scope, not the x in the global scope. If what we had really wanted was to change the value of x in the global scope, then we have to declare that we mean the global x by using the global keyword. Notice that when we print x after calling foo() now, it prints 42 instead of 7 like it used to. However, you should try to avoid using global variables like this if possible, because it can make testing and debugging harder.
+
+13. The nonlocal keyword
+00:00 - 00:00
+And if we ever want to modify a variable that is defined in the nonlocal scope, we have to use the "nonlocal" keyword. It works exactly the same as the "global" keyword, but it is used when you are inside a nested function, and you want to update a variable that is defined inside your parent function.
+
+
+ Closures
+00:00 - 00:00
+The last topic I need to explain before discussing decorators is how closures work in Python.
+
+2. Attaching nonlocal variables to nested functions
+00:00 - 00:00
+A closure in Python is a tuple of variables that are no longer in scope, but that a function needs in order to run. Let's explain this with an example. The function foo() defines a nested function bar() that prints the value of "a". foo() returns this new function, so when we say "func = foo()" we are assigning the bar() function to the variable "func". Now what happens when we call func()? As expected, it prints the value of variable "a", which is 5. But wait a minute, how does function "func()" know anything about variable "a"? "a" is defined in foo()'s scope, not bar()'s. You would think that "a" would not be observable outside of the scope of foo(). That's where closures come in. When foo() returned the new bar() function, Python helpfully attached any nonlocal variable that bar() was going to need to the function object. Those variables get stored in a tuple in the "__closure__" attribute of the function. The closure for "func" has one variable, and you can view the value of that variable by accessing the "cell_contents" of the item.
+
+3. Closures and deletion
+00:00 - 00:00
+Let's examine this bit of code. Here, x is defined in the global scope. foo() creates a function bar() that prints whatever argument was passed to foo(). When we call foo() and assign the result to "my_func", we pass in "x". So, as expected, calling my_func() prints the value of x. Now let's delete x and call my_func() again. What do you think will happen this time? If you guessed that we would still print 25, then you are correct. That's because foo()'s "value" argument gets added to the closure attached to the new "my_func" function. So even though x doesn't exist anymore, the value persists in its closure.
+
+4. Closures and overwriting
+00:00 - 00:00
+Notice that nothing changes if we overwrite "x" instead of deleting it. Here we've passed x into foo() and then assigned the new function to the variable x. The old value of "x", 25, is still stored in the new function's closure, even though the new function is now stored in the "x" variable. This is going to be important to remember when we talk about decorators in the next lesson.
+
+5. Definitions - nested function
+00:00 - 00:00
+Let's go over some of the key concepts again to be sure you understand. A nested function is a function defined inside another function. We'll sometimes refer to the outer function as the parent and the nested function as the child.
+
+6. Definitions - nonlocal variables
+00:00 - 00:00
+A nonlocal variable is any variable that gets defined in the parent function's scope, and that gets used by the child function.
+
+7. Definitions - closure
+00:00 - 00:00
+And finally, a closure is Python's way of attaching nonlocal variables to a returned function so that the function can operate even when it is called outside of its parent's scope.
+
+8. Why does all of this matter?
+00:00 - 00:00
+We've gone pretty deep into the internals of how Python works, and you must be wondering, "Why does all of this matter?" Well, in the next lesson we'll finally get to talk about decorators. In order to work, decorators have to make use of all of these concepts: functions as objects, nested functions, nonlocal scope, and closures. Now that you have a firm foundation to build on, understanding how decorators work should be easy.
+
+Decorators
+00:00 - 00:00
+Now that you know functions can be passed around as variables, and you understand scope and closures, we can talk about decorators.
+
+2. Functions
+00:00 - 00:00
+So what is a decorator? Let's say you have a function that takes some inputs and returns some outputs.
+
+3. Decorators
+00:00 - 00:00
+A decorator is a wrapper that you can place around a function that changes that function's behavior.
+
+4. Modify inputs
+00:00 - 00:00
+You can modify the inputs,
+
+5. Modify outputs
+00:00 - 00:00
+modify the outputs,
+
+6. Modify function
+00:00 - 00:00
+or even change the behavior of the function itself.
+
+7. What does a decorator look like?
+00:00 - 00:00
+You may have seen decorators in Python before. When you use them, you type the "@" symbol followed by the decorator's name on the line directly above the function you are decorating. Here, the "double_args" decorator modifies the behavior of the multiply() function. double_args is a decorator that multiplies every argument by two before passing them to the decorated function. So 1 times 5 becomes 2 times 10, which equals 20. That seems kind of magical that we can alter the behavior of functions, so let's peel back the layers and see how it works. We will build the double_args decorator together in this lesson.
+
+8. The double_args decorator
+00:00 - 00:00
+Let's continue to use the multiply() function as the function we are decorating. Now, decorators are just functions that take a function as an argument and return a modified version of that function. To start off, let's not have double_args modify anything. It just takes a function and immediately returns it. If we call this version of double_args() that does nothing and pass it the multiply function and then assign the result to the variable "new_multiply", then we can call new_multiply(1, 5) and get the same value we would have gotten from multiply(1, 5).
+
+9. The double_args decorator
+00:00 - 00:00
+In order for your decorator to return a modified function, it is usually helpful for it to define a new function to return. We'll call that nested function "wrapper()". All wrapper() does is take two arguments and passes them on to whatever function was passed to double_args() in the first place. If double_args() then returns the new wrapper() function, the return value acts exactly the same as whatever function was passed to double_args(), assuming that the function passed to double_args() also takes exactly two arguments. So, double_args() is still not doing anything to actually modify the function it is decorating. Once again, we'll pass multiply() to double_args() and assign the result to new_multiply(). If we then call new_multiply(), which is now equal to the wrapper() function, wrapper() calls multiply() because it is the function that was passed to double_args(). So wrapper() calls multiply() with the arguments 1 and 5, which returns 5.
+
+10. The double_args decorator
+00:00 - 00:00
+Now let's actually modify the function our decorator is decorating. This time, wrapper() will still call whatever function is passed to double_args(), but it will double every argument when it calls the original function. See how it calls func() with a times 2 and b times 2? As usual, we will call double_args() on the multiply() function and assign the result to new_multiply(). Now, what happens when we call new_multiply() with 1 and 5 as arguments? Well, new_multiply() is equal to wrapper(), which calls multiply() after doubling each argument. So 1 becomes 2 and 5 becomes 10, giving us 2 times 10, which equals 20.
+
+11. The double_args decorator
+00:00 - 00:00
+We're almost there. This time, instead of assigning the new function to "new_multiply", we're going to overwrite the "multiply" variable. Now calling multiply() with arguments 1 and 5 gives us 20 instead of 5. Remember that we can do this because Python stores the original multiply function in the new function's closure.
+
+12. Decorator syntax
+00:00 - 00:00
+When I first showed you the double_args() decorator at the beginning of this lecture, I used "@double_args" on the line before the definition of multiply(). This is just a Python convenience for saying "multiply" equals the value returned by calling double_args() with "multiply" as the only argument. The code shown here on the left is exactly equivalent to the code on the right.
+
+
+
+. Real-world examples
+00:00 - 00:10
+You've learned a lot about how decorators work. This lesson will walk you through some real-world decorators so that you can start to recognize common decorator patterns.
+
+2. Time a function
+00:10 - 00:38
+The timer() decorator runs the decorated function and then prints how long it took for the function to run. I usually wind up adding some version of this to all of my projects because it is a pretty easy way to figure out where your computational bottlenecks are. All decorators have fairly similar-looking docstrings because they all take and return a single function. For brevity, I will only include the description of the function in the docstrings of the examples that follow.
+
+3. Time a function
+00:38 - 01:20
+Like most decorators, we'll start off by defining a wrapper() function. This is the function that the decorator will return. wrapper() takes any number of positional and keyword arguments so that it can be used to decorate any function. The first thing the new function will do is record the time that it was called with the time() function. Then wrapper() gets the result of calling the decorated function. We don't return that value yet though. After calling the decorated function, wrapper() checks the time again, and prints a message about how long it took to run the decorated function. Once we've done that, we need to return the value that the decorated function calculated.
+
+4. Using timer()
+01:20 - 01:40
+So if we decorate this simple sleep_n_seconds() function, you can see that sleeping for 5 seconds takes about 5 seconds, and sleeping for 10 seconds takes about 10 seconds. This is a trivial use of the decorator to show it working, but it can be very useful for finding the slow parts of your code.
+
+5. Memoizing
+01:40 - 02:23
+Memoizing is the process of storing the results of a function so that the next time the function is called with the same arguments; you can just look up the answer. We start by setting up a dictionary that will map arguments to results. Then, as usual, we create wrapper() to be the new decorated function that this decorator returns. When the new function gets called, we check to see whether we've ever seen these arguments before. If we haven't, we send them to the decorated function and store the result in the "cache" dictionary. Now we can look up the return value quickly in a dictionary of results. The next time we call this function with those same arguments, the return value will already be in the dictionary.
+
+6. Using memoize()
+02:23 - 02:58
+Here we are memoizing slow_function(). slow_function() simply returns the sum of its arguments. In order to simulate a slow function, we have it sleep for 5 seconds before returning. If we call slow_function() with the arguments 3 and 4, it will sleep for 5 seconds and then return 7. But if we call slow_function() with the arguments 3 and 4 again, it will immediately return 7. Because we've stored the answer in the cache, the decorated function doesn't even have to call the original slow_function() function.
+
+7. When to use decorators
+02:58 - 03:19
+So when is it appropriate to use a decorator? You should consider using a decorator when you want to add some common bit of code to multiple functions. We could have added timing code in the body of all three of these functions, but that would violate the principle of Don't Repeat Yourself. Adding a decorator is a better choice.
+
+
+1. Decorators and metadata
+00:00 - 00:09
+One of the problems with decorators is that they obscure the decorated function's metadata. In this lesson, I'll show you why it's a problem and how to fix it.
+
+2. Function with a docstring
+00:09 - 00:22
+Here we have a nice function, sleep_n_seconds(), with a docstring that explains exactly what it does. If we look at the docstring attribute, we can see the text of the docstring.
+
+3. Other metadata
+00:22 - 00:29
+We can also access other metadata for the function, like its name and default arguments.
+
+4. A decorated function
+00:29 - 00:46
+But watch what happens when we decorate sleep_n_seconds() with the timer() decorator as we've done here. When we try to print the docstring, we get nothing back. Even stranger, when we try to look up the function's name, Python tells us that sleep_n_seconds()'s name is "wrapper".
+
+5. The timer decorator
+00:46 - 01:13
+To understand why we have to examine the timer() decorator. Remember that when we write decorators, we almost always define a nested function to return. Because the decorator overwrites the sleep_n_seconds() function, when you ask for sleep_n_seconds()'s docstring or name, you are actually referencing the nested function that was returned by the decorator. In this case, the nested function was called wrapper() and it didn't have a docstring.
+
+6. functools.wraps()
+01:13 - 01:45
+Fortunately, Python provides us with an easy way to fix this. The wraps() function from the functools module is a decorator that you use when defining a decorator. If you use it to decorate the wrapper function that your decorator returns, it will modify wrapper()'s metadata to look like the function you are decorating. Notice that the wraps() decorator takes the function you are decorating as an argument. We haven't talked about decorators that take arguments yet, but we will cover that in the next lesson.
+
+7. The metadata we want
+01:45 - 01:56
+If we use this updated version of the timer() decorator to decorate sleep_n_seconds() and then try to print sleep_n_seconds()'s docstring, we get the result we expect.
+
+8. The metadata we want
+01:56 - 02:06
+Likewise, printing the name or any other metadata now gives you the metadata from the function being decorated rather than the metadata of the wrapper() function.
+
+9. Access to the original function
+02:06 - 02:26
+As an added bonus, using wraps() when creating your decorator also gives you easy access to the original undecorated function via the __wrapped__ attribute. Of course, you always had access to this function via the closure, but this is an easy way to get to it if you need it.
+
+
+1. Decorators that take arguments
+00:00 - 00:07
+Sometimes it would be nice to add arguments to our decorators. To do that, we need another level of function nesting.
+
+2. run_three_times()
+00:07 - 00:25
+Let's consider this silly run_three_times() decorator. If you use it to decorate a function, it will run that function three times. If we use it to decorate the print_sum() function and then run print_sum(3,5), it will print 8 three times.
+
+3. run_n_times()
+00:25 - 00:59
+Let's think about what we would need to change if we wanted to write a run_n_times() decorator. We want to pass "n" as an argument, instead of hard-coding it in the decorator. If we had some way to pass n into the decorator, we could decorate print_sum() so that it gets run three times and decorate print_hello() to run five times. But a decorator is only supposed to take one argument - the function it is decorating. Also, when you use decorator syntax, you're not supposed to use the parentheses. So what gives?
+
+4. A decorator factory
+00:59 - 02:23
+To make run_n_times() work, we have to turn it into a function that returns a decorator, rather than a function that is a decorator. So let's start by redefining run_n_times() so that it takes n as an argument, instead of func. Then, inside of run_n_times(), we'll define a new decorator function. This function takes "func" as an argument because it is the function that will be acting as our decorator. We start our new decorator with a nested wrapper() function, as usual. Now, since we are still inside the run_n_times() function, we have access to the n parameter that was passed to run_n_times(). We can use that to control how many times we repeat the loop that calls our decorated function. As usual for any decorator, we return the new wrapper() function. And, if run_n_times() returns the decorator() function we just defined, then we can use that return value as a decorator. Notice how when we decorate print_sum() with run_n_times(), we use parentheses after @run_n_times. This indicates that we are actually calling run_n_times() and decorating print_sum() with the result of that function call. Since the return value from run_n_times() is a decorator function, we can use it to decorate print_sum().
+
+5. Expanded code
+02:23 - 03:10
+This is a little bit confusing, so let me show you how this works without using decorator syntax. Like before, we have a function, run_n_times() that returns a decorator function when you call it. If we call run_n_times() with the argument 3, it will return a decorator. In fact, it returns the decorator that we defined at the beginning of this lesson, run_three_times(). We could decorate print_sum() with this new decorator using decorator syntax. Python makes it convenient to do both of those in a single step though. When we use decorator syntax, the thing that comes after the @ symbol must be a reference to a decorator function. We can use the name of a specific decorator, or we can call a function that returns a decorator.
+
+6. Using run_n_times()
+03:10 - 03:36
+To prove to you that it works the way we expect here is print_sum() decorated with run_n_times(3). When we call print_sum() with the arguments 3 and 5, it prints 8 three times. And we can just as easily decorate print_hello(), which prints a hello message, with run_n_times(5). When we call print_hello(), we get five hello messages, as expected.
+
+
+1. Timeout(): a real world example
+00:00 - 00:07
+We're going to finish up by looking at an example of a real-world decorator that takes an argument to give you a better sense of how they work.
+
+2. Timeout
+00:07 - 00:15
+For our first example, let's imagine that we have some functions that occasionally either run for longer than we want them to or just hang and never return.
+
+3. Timeout
+00:15 - 00:24
+It would be nice if we could add some kind of timeout() decorator to those functions that will raise an error if the function runs for longer than expected.
+
+4. Timeout - background info
+00:24 - 01:07
+To create the timeout() decorator, we are going to use some functions from Python's signal module. These functions have nothing to do with decorators, but understanding them will help you understand the timeout() decorator I am about to show you. The raise_timeout() function simply raises a TimeoutError when it is called. The signal() function tells Python, "When you see the signal whose number is signalnum, call the handler function." In this case, we tell Python to call raise_timeout() whenever it sees the alarm signal. The alarm() function lets us set an alarm for some number of seconds in the future. Passing 0 to the alarm() function cancels the alarm.
+
+5. Timeout in 5 seconds
+01:07 - 02:09
+We'll start by creating a decorator that times out in exactly 5 seconds, and then build from there to create a decorator that takes the timeout length as an argument. Our timeout_in_5s() decorator starts off by defining a wrapper() function to return as the new decorated function. Returning this function is what makes timeout_in_5s() a decorator. First wrapper() sets an alarm for 5 seconds in the future. Then it calls the function being decorated. It wraps that call in a try block so that in a finally block we can cancel the alarm. This ensures that the alarm either rings or gets canceled. Remember, when the alarm rings, Python calls the raise_timeout() function. Let's use timeout_in_5s() to decorate a function that will definitely timeout. foo() sleeps for 10 seconds and then prints "foo!". If we call foo(), the 5-second alarm will ring before it finishes sleeping, and Python will raise a TimeoutErrror.
+
+6. Timeout in n seconds
+02:09 - 03:31
+Now let's create a more useful version of the timeout() decorator. This decorator takes an argument. To decorate foo() we'll set the timeout to 5 seconds like we did previously. But when decorating bar(), we can set the timeout to 20 seconds. This allows us to set a timeout that is appropriate for each function. timeout() is a function that returns a decorator. I like to think of it as a decorator factory. When you call timeout(), it cranks out a brand new decorator that times out in 5 seconds, or 20 seconds, or whatever value we pass as n_seconds. The first thing we need to do is define this new decorator that it will return. That decorator begins, like all of our decorators, by defining a wrapper() function to return. Now because n_seconds is available to the wrapper() function we can set an alarm for n_seconds in the future. The rest of the wrapper() function looks exactly like the wrapper() function from the timeout_in_5s() function. Notice that wrapper() returns the result of calling func(), decorator() returns wrapper, and timeout() returns decorator. So when we call foo(), which has a 5-second timeout, it will timeout like before. But bar(), which has a 20-second timeout, prints its message in 10 seconds, so the alarm gets canceled.
+
+

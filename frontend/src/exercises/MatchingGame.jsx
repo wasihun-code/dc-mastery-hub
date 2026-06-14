@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Check, 
@@ -300,6 +301,7 @@ export default function MatchingGame() {
     }).catch(err => console.error("Error saving match attempt:", err));
 
     if (isCorrect) {
+      triggerCorrectFeedback();
       const nextMatches = [...matches, term.id];
       setMatches(nextMatches);
       setSelectedTerm(null);
@@ -335,6 +337,7 @@ export default function MatchingGame() {
       }
     } else {
       // Wrong Match: trigger shake animation and reset selections
+      triggerWrongFeedback();
       setWrongMatch({ termId: term.id, defId: def.id });
       setTimeout(() => {
         setWrongMatch(null);
@@ -360,6 +363,7 @@ export default function MatchingGame() {
 
   const finishExercise = async (finalXp) => {
     setStep(3);
+    triggerSuccessFeedback();
     localStorage.removeItem(`matching_progress_${courseSlug}`);
     setSavedProgress(null);
     

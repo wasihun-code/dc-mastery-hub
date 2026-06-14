@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Lightbulb, 
@@ -141,6 +142,12 @@ export default function Flashcards() {
     // Determine performance score from rating
     const wasCorrect = rating !== 'again';
     const score = rating === 'easy' ? 1.0 : rating === 'good' ? 0.8 : rating === 'hard' ? 0.5 : 0.0;
+
+    if (wasCorrect) {
+      triggerCorrectFeedback();
+    } else {
+      triggerWrongFeedback();
+    }
     
     // Post question-level attempt immediately
     try {
@@ -171,6 +178,7 @@ export default function Flashcards() {
 
   const finishExercise = async () => {
     setStep(3);
+    triggerSuccessFeedback();
     const earnedXp = 20;
     setXpEarned(earnedXp);
     

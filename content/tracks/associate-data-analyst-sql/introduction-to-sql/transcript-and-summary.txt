@@ -1,0 +1,302 @@
+1. Databases
+00:00 - 00:08
+Hello and welcome! My name is Jasmin, and I will be your SQL coach.
+
+2. Course goals
+00:08 - 00:36
+We have two main goals in this course. In Chapter One, we will get to know databases, which store and organize data. We'll discuss what databases are and how they are structured to store data. This context will prepare us for our second goal: to interact with data from databases using SQL code in Chapter Two. Let's get started with
+
+3. Structured Query Language (SQL)
+00:36 - 00:58
+SQL. SQL, or Structured Query Language, is the most widely used programming language for communicating with data in databases. It lets us quickly access, organize, and analyze large amounts of data with direct commands, known as queries.
+
+4. Introducing databases
+00:58 - 01:46
+These large amounts of data are stored in a database. Let's imagine that we are in charge of storing and organizing data for a library. We need to keep track of the library's books, its patrons, that is people who have joined the library, and what books are checked out and by whom. Because of that, we need to create a database that contains a checkouts table, a books table, and a patrons table. These tables might look similar to the way data is organized in spreadsheets, but databases are far more powerful. They can handle much more data and are more secure due to encryption.
+
+5. A closer look at tables
+01:46 - 02:07
+A table is a component of a database. Our patrons table stores various data about our library's patrons, such as their library card number, name, the year they joined and the total fines they owe our library.
+
+6. Rows and columns
+02:07 - 02:32
+Tables organize data into rows and columns. Rows contain individual data, and each column describes a specific part of that data. For example, our patrons table has a row for each patron and a column for each part of their data, such as the year they joined.
+
+7. Relational databases
+02:32 - 03:13
+Several tables usually make up a database, and they work together through relationships. Relational databases include tables that share information. This creates connections between them. For example, the checkouts table relates to the patrons and books tables through shared data. The card number column relates checkouts to patrons. The book ID column relates checkouts to books. By arranging information this way, we can answer questions like how many books Izzy checked out.
+
+8. Database advantages
+03:13 - 03:41
+These questions are asked in the form of SQL queries. Many users can write queries to gather insights from the data within a database simultaneously. When a database is queried, the data stored inside the database does not change; rather, the database information is accessed and presented according to instructions in the query.
+
+
+In this lesson, you'll explore the fundamentals of databases and SQL. Here's what you'll learn:
+
+Understand what databases are and how they store and organize data.
+Discover the structure of tables, including rows and columns.
+Learn about relational databases and how tables connect through shared data.
+Use SQL, a powerful language, to query and interact with databases.
+Imagine managing a library's data with tables for books, patrons, and checkouts. Here's a simple SQL query example to find out how many books a patron named Izzy checked out:
+
+SELECT COUNT(*)
+FROM checkouts
+WHERE patron_name = 'Izzy';
+Dive into exercises to apply these concepts!
+
+
+1. Tables
+00:00 - 00:09
+Now that we know the basic organization of a database, let's examine its main building block: tables!
+
+2. Table naming
+00:09 - 00:29
+Let's begin with table naming. A table name should be clear and refer to the data it contains, like inventory, products, or books. Also, table names should be in lowercase and use underscores instead of spaces.
+
+3. Records and fields
+00:29 - 00:47
+In the previous video, we saw that databases are organized into tables, which are organized into rows and columns; in the world of databases, rows are often referred to as records and columns as fields.
+
+4. Records
+00:47 - 01:10
+Each record contains the data for an individual observation. Here, the patrons table contains four records, one for each patron. The record for Jasmin indicates that she became a member in 2022 and currently owes $2.05 in fines.
+
+5. Fields
+01:10 - 01:24
+Fields contain one piece of information for every record in a table. For example, the name field in the patrons table contains all our library patrons' names.
+
+6. Field naming
+01:24 - 02:16
+Field naming is important because field names must be typed out when querying a database with SQL. Similar to table names, field names should be lowercase and use underscores instead of spaces. A field name should be singular rather than plural because it refers to the information contained in that field for a single record. This is why our table has "card_num" and "name" fields rather than "card_nums" and "names". Finally, two fields in a table cannot have the same name, and they should never share a name with the table they are housed in so that it's clear whether a field or table is being referred to.
+
+7. Unique identifiers
+02:16 - 02:46
+Tables include a special field containing a unique identifier for each record, sometimes called a key. The key value must be unique for every record. In the patrons table, the card_num field is the unique identifier for each member, as opposed to the name field, because it's possible that two patrons might have the same name as our little library grows.
+
+8. Multiple tables
+02:46 - 03:34
+Using several, well-organized tables is often better than putting everything into one big table. For example, if we combine our patrons and checkouts tables, the information can get confusing. It's the same data, but much less clear because it now contains duplicate information. While we can see that Izzy has two checkouts and Maham has none, the card_num column is no longer unique because of Izzy's multiple checkouts. By keeping data in separate, related tables and connecting them with SQL, we can analyze and answer questions more easily than we could with spreadsheets.
+
+
+
+Dive into the essentials of database tables in this lesson. Understand how tables serve as the backbone of databases, organizing data into rows (records) and columns (fields). Key points include:
+
+Table Naming: Use lowercase, underscores instead of spaces, and collective or plural names.
+Field Naming: Singular, lowercase, no spaces, and unique within the table.
+Unique Identifiers: Use unique values like numbers to distinguish records.
+Here's a glimpse of a simple SQL query:
+
+SELECT name, card_num FROM patrons WHERE card_num = 12345;
+Remember, keeping data organized across separate tables enhances clarity and efficiency. Now, let's practice!
+
+
+1. Data types
+00:00 - 00:08
+Welcome to the final part of the databases chapter where we'll learn about database storage and data types.
+
+2. Database storage
+00:08 - 00:45
+Now that we know what a database is, we have to think about where it is housed. All this data in our databases must be stored somewhere, right? Data is stored on a server's hard disk. Servers are powerful computers that store information and perform services via requests made over a network. In our case, the service performed is data access. Servers can handle a large number of data requests simultaneously, making them ideal for collaboration.
+
+3. SQL data types
+00:45 - 01:20
+When creating a table, we name each field and decide what type of data will be stored in it. The data type depends on the specific information stored in the field, such as numbers, text, or dates. We also want to consider the type of operations that we want to apply to that information. For example, it is logical to multiply numbers together, but multiplying someone's name does not make sense.
+
+4. Strings
+01:20 - 01:50
+A "string" is a sequence of characters such as letters, numbers, or punctuation. In the patrons table, the data in the name field is made up of strings, such as "Maham" and "James". SQL has several different data types that can hold strings. The VARCHAR data type is commonly used due to its flexibility to store small or large strings.
+
+5. Integers
+01:50 - 02:11
+Integer data types store whole numbers, such as the numbers in the card_num field of the checkouts table. INT, a common SQL integer data type, can store numbers from less than negative two billion to more than positive two billion!
+
+6. Floats
+02:11 - 02:42
+In addition to whole numbers, we also have numbers that include a fractional part or a decimal point, such as the $2.05 that one patron, Jasmin, owes in fines. In programming, these numbers are referred to as floats. The NUMERIC data type can store floats with up to 38 digits total, including those before and after the decimal point.
+
+7. Schemas
+02:42 - 03:27
+Now that we're familiar with data types, we can look at a database schema. Schemas are often referred to as "blueprints" of databases. A schema shows a database's design, such as what tables are included, any relationships between its tables, and what data type each field can hold. The schema for our library database shows the VARCHAR data type is used for strings like book title, author, and genre. We can also see that the patrons table is related to the checkouts table, but not the books table.
+
+
+In this lesson, dive into the essentials of database data and storage. Understand how data types are crucial for efficient storage and operations.
+
+Learn about string, integer, and float data types in SQL.
+Discover how VARCHAR and INT are used for flexible data storage.
+Explore database schemas as blueprints showing table designs and relationships.
+Understand how data is stored on server hard disks, and the role of servers in data access.
+Here's a quick code snippet to create a table with different data types:
+
+CREATE TABLE patrons (
+  id INT,
+  name VARCHAR(250),
+  member_year INT,
+  fines NUMERIC(5, 2)
+);
+
+
+1. Introducing queries
+00:00 - 00:10
+Welcome back. Now that we understand how data is organized in databases, we can begin drawing insights using SQL queries!
+
+2. What is SQL useful for?
+00:10 - 00:41
+Recall from the last chapter that SQL is used to answer questions both within and across relational database tables. In the library database, we might use SQL to find which books James checked out from the library in 2022. In an HR database, we could query salaries for employees in Marketing and Accounting to determine whether pay across departments is comparable.
+
+3. Best for large datasets
+00:41 - 01:11
+In many organizations, SQL is used as a complement to other tools such as spreadsheet applications. We can use SQL queries to uncover trends in website traffic, customer reviews, and product sales. Which products had the highest sales last week? Which products get the worst review scores from customers? How did website traffic change when a feature was introduced?
+
+4. Keywords
+01:11 - 01:52
+Let's write our first SQL code! To do that, we will need to learn a few keywords. Keywords are reserved words used to indicate what operation we'd like our code to perform. The two most common keywords are SELECT and FROM. Perhaps we'd like a list of every patron's name. The SELECT keyword indicates which fields should be selected - in this case, the name field. The FROM keyword indicates the table in which these fields are located - in this case, the patrons table.
+
+5. Our first query
+01:52 - 02:27
+Let's put these parts together and write a query. The SELECT statement appears first, followed by the FROM statement. We end the query with a semicolon to indicate that the query is complete. Notice keywords are capitalized while keeping table and field names all lowercase. Now let's take a look at the results of our query, often called a result set. The result set lists all patron names, just as we had hoped.
+
+6. Selecting multiple fields
+02:27 - 02:47
+To select multiple fields, we can list multiple field names after the SELECT keyword, separated by commas. For example, to select card number and name, we'd list both field names in the order we'd like them to appear in our result set.
+
+7. Selecting multiple fields
+02:47 - 03:02
+As you might expect, we can select three fields such as name, card_num, and total_fine, by listing all three field names after the SELECT keyword and separating them with commas.
+
+8. Selecting all fields
+03:02 - 03:25
+What if we want to select all of the fields in the patrons table? We could type out the four individual field names after the SELECT statement, but there's an easier way: we can tell SQL to select all fields using an asterisk or star, also known as a wildcard character, instead.
+
+
+In this lesson, you'll dive into using SQL to extract insights from databases. You'll learn how to construct basic queries to retrieve data from tables.
+
+Key points include:
+
+Understanding the role of SQL in querying databases.
+Using the SELECT and FROM keywords to specify data fields and tables.
+Writing queries to retrieve specific fields or all fields using an asterisk (*).
+Recognizing the importance of result sets and how they reflect queried data without altering the database.
+Here's a simple SQL query example:
+
+SELECT name, card_num FROM patrons;
+This query retrieves the names and card numbers from the patrons table.
+
+
+1. Writing queries
+00:00 - 00:08
+It's time to level up on our SQL queries by learning a few more commonly used keywords. Let's dive in.
+
+2. Aliasing
+00:08 - 00:51
+Sometimes, it can be helpful to rename columns in our result set, whether for clarity or brevity. We can do this using aliasing. For instance, let's consider an employees table that includes a field for each employee's name and their hire date. Because the name field only contains each employee's first name, we can use the AS keyword to alias the name field as first_name. This changes the field name to first_name in the result set, while the actual field name in the table remains as name.
+
+3. Selecting distinct records
+00:51 - 01:34
+Some SQL questions require a way to return a list of unique values. Let's imagine we want to create a list of years when we hired our employees. Selecting the year_hired field from the employees table shows some years multiple times, which is not what we want. To get a list of years with no repeat values, we can add the DISTINCT keyword before the year_hired field name in the SELECT statement. Now, we can see that all of our employees were hired in just four different years.
+
+4. DISTINCT with multiple fields
+01:34 - 02:11
+It's possible to return the unique combinations of multiple field values by listing multiple fields after the DISTINCT keyword. Take a look at the employees table. Perhaps we'd like to know the years that different departments hired employees. We could use this SQL query to look at this information, selecting the dept_id and year_hired from the employees table. Looking at the results, we see that department three hired two employees in 2021.
+
+5. DISTINCT with multiple fields
+02:11 - 02:33
+To avoid repeating this information, we could add the DISTINCT keyword before the fields to select. Notice that the department id and year_hired fields still have repeat values individually, but none of the records are the same: they are all unique combinations of the two fields.
+
+6. Views
+02:33 - 03:23
+Finally, let's explore saving SQL result sets. A view is a saved SQL query that acts like a virtual table. Views don't store data; they store the query, ensuring the results are always up-to-date with the latest database changes. To create a view, use CREATE VIEW, followed by the view name, and AS to define the query. For example, employee_hire_years can be created by saving a query that selects specific fields from the employees table. Note that creating a view doesn't produce a result set, it only saves the query for reuse.
+
+7. Using views
+03:23 - 03:31
+Once a view is created, we can query it just as we would a normal table by selecting FROM the view.
+
+
+/
+Daily XP
+0
+In this lesson, you'll enhance your SQL skills by mastering a few essential keywords. Here's what you'll explore:
+
+Aliasing: Learn how to rename columns in your result set for clarity using the AS keyword.
+DISTINCT: Discover how to retrieve unique values from your data, eliminating duplicates.
+Views: Understand how to create virtual tables with CREATE VIEW for efficient data retrieval.
+Here's a quick example to illustrate:
+
+CREATE VIEW employee_hire_years AS
+SELECT dept_id, year_hired
+FROM employees
+WHERE year_hired IS NOT NULL;
+
+
+1. SQL flavors
+00:00 - 00:03
+Our last topic is SQL flavors.
+
+2. SQL flavors
+00:03 - 00:45
+SQL has several different versions or flavors, ranging from free versions to those designed for major databases like Microsoft SQL Server or Oracle Database. All SQL flavors work with table-based relational databases and share a majority of keywords. In fact, all SQL flavors must follow universal standards set by the International Organization for Standards and the American National Standards Institute. Only additional features on top of these standards result in different SQL flavors.
+
+1 Table flatlay photo created by freepik www.freepik.com
+3. Two popular SQL flavors
+00:45 - 01:45
+Let's take a look at two of the most popular SQL flavors. First is PostgreSQL, a free and open-source relational database system which was originally created at the University of California, Berkeley, and was sponsored by America's famous Defense Advanced Research Projects Agency, or DARPA. The name "PostgreSQL" refers to both the database system itself and the SQL flavor used with it. Next is SQL Server. It is a relational database system available in both free and enterprise versions. It was created by Microsoft, so it pairs well with other Microsoft products. T-SQL is Microsoft's proprietary flavor of SQL, used with SQL Server databases.
+
+4. Comparing PostgreSQL and SQL Server
+01:45 - 02:36
+While there are many similarities between SQL Server and PostgreSQL, there are some small differences worth noting. For example, if we want to limit the number of employee names and IDs selected to only the first two records, PostgreSQL 1. Congratulations!
+00:00 - 00:09
+You did it! Congratulations on completing this course. You've now got a strong understanding of the foundations of SQL.
+
+2. What you've learned
+00:09 - 00:13
+You've learned when and why databases are useful,
+
+3. What you've learned
+00:13 - 00:18
+you've navigated the organization of relational databases,
+
+4. What you've learned
+00:18 - 00:23
+and you've written your own SQL queries to extract insight from a database.
+
+5. Where to go next
+00:23 - 01:07
+From here, it's only a matter of learning more keywords before you're writing complex SQL queries! As we discussed, the keywords you learned in this course are shared between SQL flavors, and that is true of most keywords. However, given the small differences between flavors, the next course you take will be specific to a SQL flavor. Here are a few DataCamp courses that you may want to take next.
+
+6. Thank you!
+00:00 - 01:07
+No matter where you take your new SQL knowledge, thanks for taking this course all the way to the end! And congratulations again on a successful start to your SQL journey!
+
+
+This lesson wraps up your journey into the basics of SQL. You’ve gained a solid foundation in understanding databases and crafting SQL queries. Key points covered include:
+
+Importance and utility of databases
+Structure of relational databases
+Writing SQL queries for data extraction
+Remember, while SQL keywords are generally consistent across different versions, exploring specific SQL flavors will enhance your skills further. Here's a simple SQL query to refresh your memory:
+
+SELECT column_name FROM table_name WHERE condition;
+Keep building on this foundation, and soon you'll be crafting complex queries with ease.
+
+
+
+
+5. Choosing a flavor
+02:36 - 03:15
+New SQL learners often wonder which flavor to start with. The decision is straightforward if an employer uses a specific system like Microsoft SQL Server. For job seekers or students unsure about future tools, the differences between flavors are minor. Don't worry too much about what flavor to learn. A PostgreSQL expert can quickly adapt to SQL Server by learning just a few additional keywords. Mastering the fundamentals builds versatility across any SQL flavor.
+
+
+In this lesson, you'll explore the concept of SQL flavors, which are different versions of SQL used with relational databases. Here's what you'll learn:
+
+SQL flavors include PostgreSQL and SQL Server, each with unique features.
+PostgreSQL is open-source, while SQL Server is developed by Microsoft.
+Both flavors follow universal SQL standards, with minor keyword differences.
+Example: PostgreSQL uses LIMIT, while SQL Server uses TOP to restrict query results.
+Understanding these differences helps you adapt to various database systems. Let's dive into the exercises to reinforce these concepts!
+
+-- PostgreSQL
+SELECT name, id FROM employees LIMIT 2;
+
+-- SQL Server
+SELECT TOP 2 name, id FROM employees;
+
+

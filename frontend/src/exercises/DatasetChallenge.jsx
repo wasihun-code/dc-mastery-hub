@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
 import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 
@@ -363,6 +364,11 @@ export default function DatasetChallenge() {
       
       if (res.ok) {
         setResult(data)
+        if (data.passed) {
+          triggerCorrectFeedback()
+        } else {
+          triggerWrongFeedback()
+        }
         setSessionScore(prev => ({
           correct: prev.correct + (data.passed ? 1 : 0),
           total: prev.total + 1
@@ -391,9 +397,11 @@ export default function DatasetChallenge() {
           console.error("Error saving dataset attempt:", attemptErr)
         }
       } else {
+        triggerWrongFeedback()
         setResult({ passed: false, feedback: data.error, error: true })
       }
     } catch (err) {
+      triggerWrongFeedback()
       setResult({ passed: false, feedback: 'Connection failed or server error.', error: true })
     } finally {
       setIsSubmitting(false)
@@ -435,6 +443,7 @@ export default function DatasetChallenge() {
       setActiveFile('script')
     } else {
       setCurrentIndex(challenges.length) // End state
+      triggerSuccessFeedback()
     }
   }
 
