@@ -1,0 +1,316 @@
+1. Introduction to version control
+00:00 - 00:16
+Hi, my name is George. I'm a Curriculum Manager at DataCamp, and I use Git on a daily basis for version control in my projects. In this course, we'll discover the benefits of version control and why Git is so popular for this!
+
+2. What is version control?
+00:16 - 00:28
+Let's start by defining version control, which is a group of systems and processes to manage changes made to documents, programs, and directories.
+
+3. What should be version controlled?
+00:28 - 00:40
+Version control is helpful for anything that changes over time or needs to be shared, such as code and data. In this course, we'll focus on version control for code.
+
+4. What can version control do?
+00:40 - 00:51
+Version control allows us to track files in different states, combine different versions, identify a particular version of a file, and revert changes.
+
+5. Why is version control important?
+00:51 - 01:07
+So why should we care about version control for our software or data projects? Well, a project without version control is like cooking without a recipe - it'll be difficult to remember how to produce the same results again.
+
+6. Why is version control important?
+01:07 - 01:32
+Imagine we work for an e-commerce company and release a new feature on our website that recommends products to customers. However, there is a bug in our code, and the website stops working! With version control, we can easily revert our website to a previous working version, then work separately to identify the issue before safely re-releasing the new feature.
+
+7. Introducing Git
+01:32 - 01:50
+So, how do we perform version control? One popular program for version control is called Git. Git is open source and scalable to easily track everything from small solo projects to complex collaborative efforts with large teams!
+
+8. Benefits of Git
+01:50 - 02:14
+A key benefit of Git is that it stores everything, so nothing is ever lost. It allows us to compare the contents of files at different times. We can even examine what changes have been made, who made them, and when. Critically, if our software has issues, we can revert to a previous version that is known to work correctly!
+
+9. Using Git
+02:14 - 02:42
+A common method to use Git is via the shell, also known as the terminal. The shell is a program for executing commands. Before we use Git, we'll run through some shell commands that will often be used in our version control workflow, such as previewing and inspecting files or directories. Note that a directory is often referred to on a computer as a folder.
+
+10. Useful terminal commands
+02:42 - 03:10
+To see our location, we can execute pwd, which prints the current working directory. Here, we are in the Documents directory of a user called Repl. We can use the ls command to see what is in our current directory. The output returns a list of all files and directories. There is a directory called archive and three csv files.
+
+11. Changing directory
+03:10 - 03:26
+If we need to change directory, we can execute cd followed by the directory we want to move into. Here, we navigate to the archive directory. Rechecking our location confirms we have successfully moved.
+
+12. Checking Git version
+03:26 - 03:41
+Let's learn our first Git command! Different versions of software have different functionality, and Git is no exception. We can check which version of Git we have installed by typing git dash-dash-version in the shell.
+
+
+1. Creating repos
+00:00 - 00:02
+Let's start working with Git!
+
+2. Mental health in tech project
+00:02 - 00:20
+Throughout the course, we'll work on a project about mental health in tech. The files and directories are shown here. To use Git for version control in our project, we first need to create a Git repository, often referred to as a repo.
+
+3. What is a Git repo?
+00:20 - 00:38
+A repo is a directory consisting of two parts - the first is the files and sub-directories that we create and edit. In this case a file called funding.doc, a report in markdown file format, and a sub-directory called data.
+
+4. What is a Git repo?
+00:38 - 01:07
+The second part is the extra information that Git records about the project's history. The combination of these two things is called a repository. Git stores all of its extra information in a directory called dot-git, located in the repo's main directory. Git expects this information to be laid out in a particular way, so we should not edit or delete dot-git.
+
+5. Benefits of repos
+01:07 - 01:28
+There are many benefits to creating a Git repo, including the ability to systematically track the versions of files, to revert to previous versions, and to compare versions at different points in time. If we host our repo in the cloud, then it also enables easy collaboration with colleagues!
+
+6. Creating a new repo
+01:28 - 02:12
+To create a new Git repo for our project, we use the git init command in the terminal, followed by the name of our project, mental-health-workspace. When we run the git init command with the name we provided for the repo, Git creates a new repo within the directory we ran the command from. We can use cd to change into this new repo. We can check that the Git repo has been initialized correctly by running the git status command. Success! The output confirms we have a Git repo, and suggests that once we've created files we can use the git add command to track them using Git.
+
+7. Converting a project into a repo
+02:12 - 02:45
+Now we know how to create a Git repo from scratch, let's look at how to convert an existing project into a repo. Let's say we started working on the mental health in tech project without first creating a new Git repo. We can convert the existing directory to a Git repo by executing git init without providing a directory name. We run the command from our project directory. The output confirms that an empty repo has been created and provides the location.
+
+8. What is being tracked?
+02:45 - 03:11
+Something interesting happens if we check the status of the repo. We can see Git has immediately recognized that there are modified files not being tracked by Git, in this case, the report-dot-md file and files within the data subdirectory. The output encourages us to start tracking these files using Git! We'll discuss how to do this in the next video.
+
+9. Nested repositories
+03:11 - 03:38
+One word of caution when creating Git repos. Unless we are working on a very complex project, we should generally avoid creating a Git repo inside another Git repo, also known as nested repos. If we do this, there will be two dot-git directories. Unfortunately, as we try to make commits, Git will get confused about which directory it needs to update
+
+
+1. Staging and committing files
+00:00 - 00:08
+We've set up our repo. In this video, we will build a workflow for updating and tracking our files using Git.
+
+2. The Git workflow
+00:08 - 00:54
+There are three core steps to our Git workflow. First, we edit and save one or more files to our computer, as usual. Next, using Git, we add the file or files to a staging area. The staging area is created when we initialize a Git repository and it keeps track of what has been modified. Lastly, to save the files using Git, we make a commit. When we make a commit, Git will take a snapshot of the files at that point in time. This is essential in allowing us to compare files at different points in time and, if necessary, revert to previous versions!
+
+3. Staging versus committing
+00:54 - 01:16
+We can think of adding files to the staging area as placing a letter in an envelope. By contrast, making a commit is like putting the envelope in a mailbox. We can add more things to the envelope or take things out as often as we want, but once we put it in the mailbox, we can't make further changes.
+
+4. Adding to the staging area
+01:16 - 01:50
+So how do we track files using Git? Using the terminal, we can add a single file to the staging area using the command git add followed by the filename and extension. Here, we add our README Markdown file to the staging area. Alternatively, we can add all modified files in the current directory and any sub-directories using git add dot, as a dot represents all files and directories in our current location.
+
+5. Making a commit
+01:50 - 02:43
+We then commit our draft file using git commit. We add the -m flag to allow us to include a log message about our commit, placing it in quotes. We include -m because it allows us to include a log message as part of the command. If we just wrote git commit it would open a text editor, which we would need to add a message to, save the file, then exit to return to the terminal. The output shows one file was changed and includes a series of characters called a hash. We'll learn about commit hashes in the next chapter. The log message is important, as we can refer to it later. The best practice is to keep it concise.
+
+
+1. Viewing the version history
+00:00 - 00:12
+Welcome back! So, how can we see the version history of our files using Git? To do this, we need to understand how Git is storing data.
+
+2. The commit structure
+00:12 - 01:08
+Git stores data through commits, which have three parts: the commit itself, the tree, and blobs. Let's examine each of these components. The commit contains metadata such as the author, log message, and commit time. The tree tracks the names and locations of files and directories when that commit happened. Think of it like a dictionary, with keys represented as unique identifiers, mapping to files or directories. For each file in the tree, there is a blob, which means binary large object. A blob may contain data of any kind. Blobs contain a compressed snapshot of the file's contents when the commit happened.
+
+3. Visualizing the commit structure
+01:08 - 01:14
+Here, we visualize three commits to our repo to see these three components.
+
+4. Visualizing the commit structure
+01:14 - 01:40
+In the first commit, we see a unique identifier ending in six-five. This identifier is known as a hash, which we will discuss later. Two files were modified in the tree - report.md and mental-health-survey.csv. The blob shows a snapshot of what the files contained at that time.
+
+5. Visualizing the commit structure
+01:40 - 02:03
+In the second commit, three files are in the tree, but only two were modified - mental-health-survey.csv and a newly created summary statistics file. Therefore, the tree links report.md to the blob from the previous commit, as it wasn't modified in this commit.
+
+6. Visualizing the commit structure
+02:03 - 02:22
+In the third and most recent commit, report-dot-md and mental-health-survey.csv are modified, with updated blobs created and linked to the tree. The summary statistics file wasn't changed, so the tree links to the blob in the second commit.
+
+7. Git hash
+02:22 - 03:04
+Earlier, we mentioned a unique identifier called a hash. This is a 40-character string of numbers and letters like this. It is called a hash because Git produces it using a pseudo-random number generator called a hash function. Hashes enable Git to share data efficiently between repos. If two files are the same, their hashes will be the same. Therefore, Git can tell what information needs to be saved in which location by comparing hashes rather than entire files.
+
+8. Git log
+03:04 - 03:40
+We can view commit information using the git log command, displaying all commits made to the repo in reverse chronological order, starting with the most recent commit. It will show the commit hash, author, date, and commit message. If the output doesn't fit in the terminal window, a colon will be at the end, indicating more commits. We can see more by pressing the space bar. To exit the log, we can press q and return to the terminal.
+
+
+1. Version history tips and tricks
+00:00 - 00:08
+We've seen how to view the history of a repo; now, let's examine how we can customize this to suit our needs.
+
+2. Projects grow!
+00:08 - 00:21
+Git log is great, but the longer our project goes on, the more commits we will make, and the more difficult and time-consuming it will become to find what we are looking for.
+
+3. Restricting the number of commits
+00:21 - 00:36
+We have a few options for customizing the git log output. We can restrict the number of commits displayed by including a dash followed by the number of commits. Here, we show the three most recent commits.
+
+4. Restricting the file
+00:36 - 00:50
+Another option is to restrict the output to a specific file. Here, we include the filename report.md, which would restrict the output to the history of this file.
+
+5. Combining techniques
+00:50 - 01:01
+We can even combine these two techniques! Here, we change into the data directory and display our CSV file's two most recent commits!
+
+6. git log output
+01:01 - 01:05
+We see both of these commits added more data to the file.
+
+7. Customizing the date range
+01:05 - 02:04
+Another way to restrict the git log output is by date. Adding the dash-dash-since equals flag, followed by a date in single or double quotation marks, shows only the commits since the specified date. We use the format of month, day, and year, where month is a three-letter abbreviation, day is one or two digits, and year is four digits. For example, to see commits since the second of April 2024 we execute git log dash-dash-since equals April two, 2024. We can add an end for the date range too. Here, we show commits between the second and eleventh of April 2024 by including the dash-dash-until flag at the end, followed by the date range to filter on.
+
+8. Acceptable filter formats
+02:04 - 03:05
+The since and until flags are very flexible in the date and time formatting that they accept. We can use natural language such as 2 weeks ago. We can also provide a date using a numeric format, like 07-15-2024. While various date formats can be used, we recommend following ISO Format, providing year, month, then day, separated by hyphens. We should also check our system settings to avoid unexpected results, such as 12-06-2024 being 6th December or 12th June! We can also provide month in written format, either abbreviated or in full, such as 15 July 2024. Note that we must not use other characters here, such as commas.
+
+1 https://www.iso.org/iso-8601-date-and-time-format.html
+9. Finding a particular commit
+03:05 - 03:32
+Suppose we have observed issues since a particular date. We need to see what changed in a specific commit on that day. We run git log and note the commit hash of interest. Generally, the first 8-10 characters of the hash are enough to be unique, so this is all we need. We can then use the git show command with the partial commit hash.
+
+10. git show output
+03:32 - 04:03
+The output displays the log entry for that commit at the top, followed by a diff output showing changes between the file in that commit and the current version in the repo. In the following video, we'll discuss diffs and how to interpret them. At the bottom, the added line appears to have data in the wrong order, with gender in the first column instead of the second. This looks like the source of the issue!
+
+
+1. Comparing versions
+00:00 - 00:05
+Now it's time to compare versions of files at different points in time!
+
+2. git show output
+00:05 - 00:12
+In the last video, we saw the output of git show, which contains a diff section.
+
+3. git diff
+00:12 - 00:33
+A diff is how git shows us the difference between versions! We can perform comparisons using the git diff command. Here, we compare the last committed version of our report with a modified version that is not in the staging area by running git diff report.md.
+
+4. Comparing to an unstaged file
+00:33 - 00:51
+The output shows two versions of the report: A is the last version that has been committed, and B is the version that we still need to add to the staging area. Generally speaking, version B will be the newest version.
+
+5. git diff output
+00:51 - 01:17
+The line starting with two at symbols tells us what changed between the two versions. The minus 1 and 5 indicate that version A starts at line 1 and has 5 lines, and the plus 1 and 5 show that version B also starts at line 1 and has 5 lines. This makes sense when we look at the next part of the output.
+
+6. git diff output
+01:17 - 01:35
+We finished our executive summary and deleted this task from the report in our latest commit, for version A. This is shown by the red text starting with a minus symbol, representing a line in version A that is not in version B.
+
+7. git diff output
+01:35 - 01:48
+We added a task in version B of the report, which is not in version A. It is shown in the final line with green text starting with a plus symbol.
+
+8. Comparing to a staged file
+01:48 - 02:06
+What if the latest version, B, is now in the staging area? We can still compare it to the last committed version using git diff, but we need to add the --staged flag to indicate we want to look at a particular revision of the file.
+
+9. Comparing to a staged file
+02:06 - 02:14
+We get the exact same output as previously, given no further changes were made to the file now in the staging area.
+
+10. Comparing multiple staged files
+02:14 - 02:24
+Note that if we omit the file name we'll get a comparison of all staged files versus their last committed versions.
+
+11. Comparing two commits
+02:24 - 03:35
+We can also compare versions between commits! We have two options for this. First, we can find the commit hashes of interest using git log. Then we can run git diff followed by the two commit hashes. Git will show what changed from the first commit to the second one. So, generally, we should put the most recent commit hash second. Alternatively, Git has a shortcut for us! The word HEAD, in capitals, can be used to refer to the most recent commit! To look at older commits we can reference them to HEAD by using a tilde, then a number. So, to compare the second most recent commit with the latest commit, we replace the first hash with HEAD-tilde-one and the second hash with HEAD. Tilde-one equates to the last commit minus one, so it represents one commit prior to the latest.
+
+12. Comparing two commits
+03:35 - 03:45
+The output shows version B, the version from the most recent commit, has one more line than version A, which is from the second most recent commit.
+
+13. Summary
+03:45 - 03:55
+We've covered a lot! This table summarizes the commands and syntax that we discussed; please use it for reference.
+
+1. Restoring and reverting files
+00:00 - 00:09
+We've learned several ways to compare files; now, let's look at how to use Git commands to resolve problems.
+
+2. Making an error
+00:09 - 00:20
+Suppose we've modified a file, added it to the staging area, and made a commit. However, we've realized the last edit has a typo.
+
+3. Reverting files
+00:20 - 01:09
+We need to undo our most recent changes, restoring this file to the state before the last commit. To do this, we use the git revert command, which reinstates previous versions of files and creates a new commit with these older versions. Note that it will restore all files updated in that commit. We need to provide a reference, through a commit hash or HEAD, to the changes that we want to undo. Referencing HEAD, means undoing changes made in the last commit, while adding tilde-one would undo, or revert, the second-most recent commit. Let's run this and see what happens.
+
+4. Reverting files
+01:09 - 01:20
+By default, this opens a text editor where we are prompted to add a commit message. We can save and exit using these commands.
+
+5. Reverting files
+01:20 - 01:31
+Exiting the text editor, we see a terminal output confirming the revert, including the number of files and lines that were changed.
+
+6. git revert flags
+01:31 - 01:55
+If we want to avoid the text editor opening when we revert, we can include the --no-edit flag. If we want to revert without making a commit at that point, allowing us to review and modify the changes before finalizing with a commit, we can include the -n flag, which is short for 'no commit'.
+
+7. Revert a single file
+01:55 - 02:45
+The git revert command only reverts a commit. It worked for us in this scenario because we only committed a single file, but if we had updated more files, then those would have been reverted, too. To revert a single file, we need a different command. We use git checkout. It is a versatile command, which, in this scenario, allows us to check out one or more files from a specific commit, again using the commit hash or HEAD syntax. Here, we refer to the second most recent commit and narrow the command to a single file by including two dashes, a space, and the filename.
+
+8. Checking the checkout
+02:45 - 02:55
+We won't get an output, but we can confirm the file has been modified to its previous state and is in the staging area by running git status.
+
+9. Making a commit
+02:55 - 03:00
+We then make a new commit to save the file's latest state.
+
+10. Unstaging a file
+03:00 - 03:12
+We now know how to restore files to versions from previous commits. But what if we need to restore a file in the staging area before the update has been committed?
+
+11. Unstaging a file
+03:12 - 03:21
+We need to remove this file from the staging area or, to put it another way, unstage it so it is back in the repo.
+
+12. Unstaging a single file
+03:21 - 03:39
+To unstage a single file, we can use the git restore command with the --staged flag, followed by the filename. This will move the file back to the working directory, allowing us to edit it before restaging and committing.
+
+13. Unstaging all files
+03:39 - 03:51
+Alternatively, to move all files in the staging area back to the repo, we execute git restore --staged without specifying any filenames.
+
+14. Summary
+03:51 - 04:03
+We covered three new commands with several flags: git revert, git checkout, and git restore. This table summarizes their usage.
+
+
+1. Congratulations
+00:00 - 00:05
+Great job completing the course! Let's recap what you learned.
+
+2. Chapter 1 recap
+00:05 - 00:20
+In the first chapter, you discovered Git's benefits and applications for version control, learned to navigate the terminal, created your first Git project, and used Git to start tracking your files!
+
+3. Chapter 2 recap
+00:20 - 00:46
+In the second chapter, you saw the three components of how Git stores data - the commit, the tree, and the blob. You were able to view a repo's history by using and customizing the git log command. This enabled you to identify specific commit hashes and use the git show command to see what changed in that commit!
+
+4. Chapter 2 recap
+00:46 - 00:57
+You progressed to comparing the state of files between different commits and the staging area using commit hashes and HEAD syntax.
+
+5. Chapter 2 recap
+00:57 - 01:08
+You ended by taking things up a notch, reverting and restoring files to previous states, which is essential in case mistakes are made!
+
+6. What's next?
+01:08 - 01:37
+Git has lots more to offer! You can discover how branches enable continuous development, where multiple versions of files can coexist. You can learn about remote repos, which are crucial for collaboration with colleagues, and dive into advanced techniques such as rebasing, bisecting, and submodules.
+
+

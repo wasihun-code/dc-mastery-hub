@@ -1,0 +1,330 @@
+1. Your first database
+00:00 - 00:28
+Welcome to this course on Introduction to Relational Databases. My name is Timo Grossenbacher, and I work as a data journalist in Switzerland. In this course, you will see why using relational databases has many advantages over using flat files like CSVs or Excel sheets. You'll learn how to create such databases, and bring into force their most prominent features.
+
+2. Investigating universities in Switzerland
+00:28 - 01:37
+Let me tell you a little story first. As a data journalist, I try to uncover corruption, misconduct and other newsworthy stuff with data. A couple of years ago I researched secondary employment of Swiss university professors. It turns out a lot of them have more than one side job besides their university duty, being paid by big companies like banks and insurances. So I discovered more than 1500 external employments and visualized them in an interactive graphic, shown on the left. For this story, I had to compile data from various sources with varying quality. Also, I had to account for certain specialties, for example, that a professor can work for different universities; or that a third-party company can have multiple professors working for them. In order to analyze the data, I needed to make sure its quality was good and stayed good throughout the process. That's why I stored my data in a database, whose quite complex design you can see in the right graphic. All these rectangles were turned into database tables.
+
+3. A relational database:
+01:37 - 02:22
+But why did I use a database? A database models real-life entities like professors and universities by storing them in tables. Each table only contains data from a single entity type. This reduces redundancy by storing entities only once – for example, there only needs to be one row of data containing the details of a certain company. Lastly, a database can be used to model relationships between entities. You can define exactly how entities relate to each other. For instance, a professor can work at multiple universities and companies, while a company can employ more than one professor.
+
+4. Throughout this course you will:
+02:22 - 03:04
+Throughout this course, you will actually work with the same real-life data used during my investigation. You'll start from a single table of data and build a full-blown relational database from it, column by column, table by table. By doing so, you'll get to know constraints, keys, and referential integrity. These three concepts help preserve data quality in databases. By the end of the course, you'll know how to use them. In order to get going, you'll just need a basic understanding of SQL – which can also be used to build and maintain databases, not just for querying data.
+
+5. Your first duty: Have a look at the PostgreSQL database
+03:04 - 03:50
+I've already created a single PostgreSQL database table containing all the raw data for this course. In the next few exercises, I want you to have a look at that table. For that, you'll need to retrieve your SQL knowledge and query the "information_schema" database, which is available in PostgreSQL by default. "information_schema" is actually some sort of meta-database that holds information about your current database. It's not PostgreSQL specific and also available in other database management systems like MySQL or SQL Server. This "information_schema" database holds various information in different tables, for example in the "tables" table.
+
+6. Have a look at the columns of a certain table
+03:50 - 04:12
+"information_schema" also holds information about columns in the "columns" table. Once you know the name of a table, you can query its columns by accessing the "columns" table. Here, for example, you see that the system table "pg_config" has only two columns – supposedly for storing name-value pairs.
+
+1. Tables: At the core of every database
+00:00 - 00:09
+Now that you've had a first look at your database, let's delve into one of the most important concepts behind databases: tables.
+
+2. Redundancy in the university_professors table
+00:09 - 00:18
+You might have noticed that there's some redundancy in the "university_professors" table. Let's have a look at the first three records, for example.
+
+3. Redundancy in the university_professors table
+00:18 - 00:49
+As you can see, this professor is repeated in the first three records. Also, his university, the "ETH Lausanne", is repeated a couple of times – because he only works for this university. However, he seems to have affiliations with at least three different organizations. So, there's a certain redundancy in that table. The reason for this is that the table actually contains entities of at least three different types. Let's have a look at these entity types.
+
+4. Redundancy in the university_professors table
+00:49 - 01:07
+Actually the table stores professors, highlighted in blue, universities, highlighted in green, and organizations, highlighted in brown. There's also this column called "function" which denotes the role the professor plays at a certain organization. More on that later.
+
+5. Currently: One "entity type" in the database
+01:07 - 01:35
+Let's look at the current database once again. The graphic used here is called an entity-relationship diagram. Squares denote so-called entity types, while circles connected to these denote attributes (or columns). So far, we have only modeled one so-called entity type – "university_professors". However, we discovered that this table actually holds many different entity types...
+
+6. A better database model with three entity types
+01:35 - 02:08
+...so this updated entity-relationship model on the right side would be better suited. It represents three entity types, "professors", "universities", and "organizations" in their own tables, with respective attributes. This reduces redundancy, as professors, unlike now, need to be stored only once. Note that, for each professor, the respective university is also denoted through the "university_shortname" attribute. However, one original attribute, the "function", is still missing.
+
+7. A better database model with four entity types
+02:08 - 02:38
+As you know, this database contains affiliations of professors with third-party organizations. The attribute "function" gives some extra information to that affiliation. For instance, somebody might act as chairman for a certain third-party organization. So the best idea at the moment is to store these affiliations in their own table – it connects professors with their respective organizations, where they have a certain function.
+
+8. Create new tables with CREATE TABLE
+02:38 - 03:00
+The first thing you need to do now is to create four empty tables for professors, universities, organizations, and affiliations. This is quite easy with SQL – you'll use the "CREATE TABLE" command for that. At the minimum, this command requires a table name and one or more columns with their respective data types.
+
+9. Create new tables with CREATE TABLE
+03:00 - 03:30
+For example, you could create a "weather" table with three aptly named columns. After each column name, you must specify the data type. There are many different types, and you will discover some in the remainder of this course. For example, you could specify a text column, a numeric column, and a column that requires fixed-length character strings with 5 characters each. These data types will be explained in more detail in the next chapter.
+
+1. . Update your database as the structure changes
+00:00 - 00:09
+Well done so far. You now have a database consisting of five different tables. Now it's time to migrate the data.
+
+2. The current database model
+00:09 - 00:14
+Here's the current entity-relationship diagram, showing the five tables.
+
+3. The current database model
+00:14 - 00:38
+At this moment, only the "university_professors" table holds data. The other four, shown in red, are still empty. In the remainder of this chapter, you will migrate data from the green part of this diagram to the red part, moving the respective entity types to their appropriate tables. In the end, you'll be able to delete the "university_professors" table.
+
+4. Only store DISTINCT data in the new tables
+00:38 - 01:07
+One advantage of splitting up "university_professors" into several tables is the reduced redundancy. As of now, "university_professors" holds 1377 entries. However, there are only 1287 distinct organizations, as this query shows. Therefore, you only need to store 1287 distinct organizations in the new "organizations" table.
+
+5. INSERT DISTINCT records INTO the new tables
+01:07 - 01:55
+In order to copy data from an existing table to a new one, you can use the "INSERT INTO SELECT DISTINCT" pattern. After "INSERT INTO", you specify the name of the target table – "organizations" in this case. Then you select the columns that should be copied over from the source table – "unviversity_professors" in this case. You use the "DISTINCT" keyword to only copy over distinct organizations. As the output shows, only 1287 records are inserted into the "organizations" table. If you just used "INSERT INTO SELECT", without the "DISTINCT" keyword, duplicate records would be copied over as well. In the following exercises, you will migrate your data to the four new tables.
+
+6. The INSERT INTO statement
+01:55 - 02:13
+By the way, this is the normal use case for "INSERT INTO" – where you insert values manually. "INSERT INTO" is followed by the table name and an optional list of columns which should be filled with data. Then follows the "VALUES" keyword and the actual values you want to insert.
+
+7. RENAME a COLUMN in affiliations
+02:13 - 02:55
+Before you start migrating the table, you need to fix some stuff! In the last lesson, I created the "affiliations" table for you. Unfortunately, I made a mistake in this process. Can you spot it? The way the "organisation" column is spelled is not consistent with the American-style spelling of this table, using an "s" instead of a "z". In the first exercise after the video, you will correct this with the known "ALTER TABLE" syntax. You do this with the RENAME COLUMN command by specifying the old column name first and then the new column name, i.e., "RENAME COLUMN old_name TO new_name".
+
+8. DROP a COLUMN in affiliations
+02:55 - 03:18
+Also, the "university_shortname" column is not even needed here. So I want you to delete it. The syntax for this is again very simple, you use a "DROP COLUMN" command followed by the name of the column. Dropping columns is straightforward when the tables are still empty, so it's not too late to fix this error. But why is it an error in the first place?
+
+9. A professor is uniquely identified by firstname, lastname only
+03:18 - 03:47
+Well, I queried the "university_professors" table and saw that there are 551 unique combinations of first names, last names, and associated universities. I then queried the table again and only looked for unique combinations of first and last names. Turns out, this is also 551 records. This means that the columns "firstname" and "lastname" uniquely identify a professor.
+
+10. A professor is uniquely identified by firstname, lastname only
+03:47 - 04:10
+So the "university_shortname" column is not needed in order to reference a professor in the affiliations table. You can remove it, and this will reduce the redundancy in your database again. In other words: The columns "firstname", "lastname", "function", and "organization" are enough to store the affiliation a professor has with a certain organization.
+
+1. Better data quality with constraints
+00:00 - 00:33
+So far you've learned how to set up a simple database that consists of multiple tables. Apart from storing different entity types, such as professors, in different tables, you haven't made much use of database features. In the end, the idea of a database is to push data into a certain structure – a pre-defined model, where you enforce data types, relationships, and other rules. Generally, these rules are called integrity constraints, although different names exist.
+
+2. Integrity constraints
+00:33 - 01:20
+Integrity constraints can roughly be divided into three types. The most simple ones are probably the so-called attribute constraints. For example, a certain attribute, represented through a database column, could have the integer data type, allowing only for integers to be stored in this column. They'll be the subject of this chapter. Secondly, there are so-called key constraints. Primary keys, for example, uniquely identify each record, or row, of a database table. They'll be discussed in the next chapter. Lastly, there are referential integrity constraints. In short, they glue different database tables together. You'll learn about them in the last chapter of this course.
+
+3. Why constraints?
+01:20 - 02:08
+So why should you know about constraints? Well, they press the data into a certain form. With good constraints in place, people who type in birthdates, for example, have to enter them in always the same form. Data entered by humans is often very tedious to pre-process. So constraints give you consistency, meaning that a row in a certain table has exactly the same form as the next row, and so forth. All in all, they help to solve a lot of data quality issues. While enforcing constraints on human-entered data is difficult and tedious, database management systems can be a great help. In the next chapters and exercises, you'll explore how.
+
+4. Data types as attribute constraints
+02:08 - 02:43
+You'll start with attribute constraints in this chapter. In its simplest form, attribute constraints are data types that can be specified for each column of a table. Here you see the beginning of a list of all data types in PostgreSQL. There are basic data types for numbers, such as "bigint", or strings of characters, such as "character varying". There are also more high-level data types like "cidr", which can be used for IP addresses. Implementing such a type on a column would disallow anything that doesn't fit the structure of an IP.
+
+5. Dealing with data types (casting)
+02:43 - 03:23
+Data types also restrict possible SQL operations on the stored data. For example, it is impossible to calculate a product from an integer *and* a text column, as shown here in the example. The text column "wind_speed" may store numbers, but PostgreSQL doesn't know how to use text in a calculation. The solution for this is type casts, that is, on-the-fly type conversions. In this case, you can use the "CAST" function, followed by the column name, the AS keyword, and the desired data type, and PostgreSQL will turn "wind_speed" into an integer right before the calculation.
+
+1. Working with data types
+00:00 - 00:06
+Working with data types is straightforward in a database management system like PostgreSQL.
+
+2. Working with data types
+00:06 - 00:45
+As said before, data types are attribute constraints and are therefore implemented for single columns of a table. They define the so-called "domain" of values in a column, that means, what form these values can take – and what not. Therefore, they also define what operations are possible with the values in the column, as you saw in the previous exercises. Of course, through this, consistent storage is enforced, so a street number will always be an actual number, and a postal code will always have no more than 6 digits, according to your conventions. This greatly helps with data quality.
+
+3. The most common types
+00:45 - 01:25
+Here are the most common types in PostgreSQL. Note that these types are specific to PostgreSQL but appear in many other database management systems as well, and they mostly conform to the SQL standard. The "text" type allows characters strings of any length, while the "varchar" and "char" types specify a maximum number of characters, or a character string of fixed length, respectively. You'll use these two for your database. The "boolean" type allows for two boolean values, for example, "true" and "false" or "1" and "0", and for a third unknown value, expressed through "NULL".
+
+4. The most common types (cont'd.)
+01:25 - 01:45
+Then there are various formats for date and time calculations, also with timezone support. "numeric" is a general type for any sort of numbers with arbitrary precision, while "integer" allows only whole numbers in a certain range. If that range is not enough for your numbers, there's also "bigint" for larger numbers.
+
+5. Specifying types upon table creation
+01:45 - 02:30
+Here's an example of how types are specified upon table creation. Let's say the social security number, "ssn", should be stored as an integer as it only contains whole numbers. The name may be a string with a maximum of 64 characters, which might or might not be enough. The date of birth, "dob", is naturally stored as a date, while the average grade is a numeric value with a precision of 3 and a scale of 2, meaning that numbers with a total of three digits and two digits after the fractional point are allowed. Lastly, the information whether the tuition of the student was paid is, of course, a boolean one, as it can be either true or false.
+
+6. Alter types after table creation
+02:30 - 03:16
+Altering types after table creation is also straightforward, just use the shown "ALTER TABLE ALTER COLUMN" statement. In this case, the maximum name length is extended to 128 characters. Sometimes it may be necessary to truncate column values or transform them in any other way, so they fit with the new data type. Then you can use the "USING" keyword, and specify a transformation that should happen before the type is altered. Let's say you'd want to turn the "average_grade" column into an integer type. Normally, PostgreSQL would just keep the part of the number before the fractional point. With "USING", you can tell it to round the number to the nearest integer, for example.
+
+1. The not-null and unique constraints
+00:00 - 00:09
+In the last part of this chapter, you'll get to know two special attribute constraints: the not-null and unique constraints.
+
+2. The not-null constraint
+00:09 - 00:34
+As the name already says, the not-null constraint disallows any "NULL" values on a given column. This must hold true for the existing state of the database, but also for any future state. Therefore, you can only specify a not-null constraint on a column that doesn't hold any "NULL" values yet. And: It won't be possible to insert "NULL" values in the future.
+
+3. What does NULL mean?
+00:34 - 00:58
+Before I go on explaining how to specify not-null constraints, I want you to think about "NULL" values. What do they actually mean to you? There's no clear definition. "NULL" can mean a couple of things, for example, that the value is unknown, or does not exist at all. It can also be possible that a value does not apply to the column. Let's look into an example.
+
+4. What does NULL mean? An example
+00:58 - 01:49
+Let's say we define a table "students". The first two columns for the social security number and the last name cannot be "NULL", which makes sense: this should be known and apply to every student. The "home_phone" and "office_phone" columns though should allow for null values – which is the default, by the way. Why? First of all, these numbers can be unknown, for any reason, or simply not exist, because a student might not have a phone. Also, some values just don't apply: Some students might not have an office, so they don't have an office phone, and so forth. So, one important take away is that two "NULL" values must not have the same meaning. This also means that comparing "NULL" with "NULL" always results in a "FALSE" value.
+
+5. How to add or remove a not-null constraint
+01:49 - 02:21
+You've just seen how to add a not-null constraint to certain columns when creating a table. Just add "not null" after the respective columns. But you can also add and remove not-null constraints to and from existing tables. To add a not-null constraint to an existing table, you can use the "ALTER COLUMN SET NOT NULL" syntax as shown here. Similarly, to remove a not-null constraint, you can use "ALTER COLUMN DROP NOT NULL".
+
+6. The unique constraint
+02:21 - 02:57
+The unique constraint on a column makes sure that there are no duplicates in a column. So any given value in a column can only exist once. This, for example, makes sense for university short names, as storing universities more than once leads to unnecessary redundancy. However, it doesn't make sense for university cities, as two universities can co-exist in the same city. Just as with the not-null constraint, you can only add a unique constraint if the column doesn't hold any duplicates before you apply it.
+
+7. Adding unique constraints
+02:57 - 03:26
+Here's how to create columns with unique constraints. Just add the "UNIQUE" keyword after the respective table column. You can also add a unique constraint to an existing table. For that, you have to use the "ADD CONSTRAINT" syntax. This is different from adding a "NOT NULL" constraint. However, it's a pattern that frequently occurs. You'll see plenty of other examples of "ADD CONSTRAINT" in the remainder of this course.
+
+1. Keys and superkeys
+00:00 - 00:10
+Welcome back! Let's discuss key constraints. They are a very important concept in database systems, so we'll spend a whole chapter on them.
+
+2. The current database model
+00:10 - 00:30
+Let's have a look at your current database model first. In the last chapter, you specified attribute constraints, first and foremost data types. You also set not-null and unique constraints on certain attributes. This didn't actually change the structure of the model, so it still looks the same.
+
+3. The database model with primary keys
+00:30 - 00:56
+By the end of this chapter, the database will look slightly different. You'll add so-called primary keys to three different tables. You'll name them "id". In the entity-relationship diagram, keys are denoted by underlined attribute names. Notice that you'll add a whole new attribute to the "professors" table, and you'll modify existing columns of the "organizations" and "universities" tables.
+
+4. What is a key?
+00:56 - 01:52
+Before we go into the nitty-gritty of what a primary key actually is, let's look at keys in general. Typically a database table has an attribute, or a combination of multiple attributes, whose values are unique across the whole table. Such attributes identify a record uniquely. Normally, a table, as a whole, only contains unique records, meaning that the combination of all attributes is a key in itself. However, it's not called a key, but a superkey, if attributes from that combination can be removed, and the attributes still uniquely identify records. If all possible attributes have been removed but the records are still uniquely identifiable by the remaining attributes, we speak of a minimal superkey. This is the actual key. So a key is always minimal. Let's look at an example.
+
+5. An example
+01:52 - 02:17
+Here's an example that I found in a textbook on database systems. Obviously, the table shows six different cars, so the combination of all attributes is a superkey. If we remove the "year" attribute from the superkey, the six records are still unique, so it's still a superkey. Actually, there are a lot of possible superkeys in this example.
+
+6. An example (contd.)
+02:17 - 03:06
+However, there are only four minimal superkeys, and these are "license_no", "serial_no", and "model", as well as the combination of "make" and "year". Remember that superkeys are minimal if no attributes can be removed without losing the uniqueness property. This is trivial for K1 to 3, as they only consist of a single attribute. Also, if we remove "year" from K4, "make" would contain duplicates, and would, therefore, be no longer suited as key. These four minimal superkeys are also called candidate keys. Why candidate keys? In the end, there can only be one key for the table, which has to be chosen from the candidates. More on that in the next video.
+
+
+1. Primary keys
+00:00 - 00:06
+Okay, now it's time to look at an actual use case for superkeys, keys, and candidate keys.
+
+2. Primary keys
+00:06 - 00:57
+Primary keys are one of the most important concepts in database design. Almost every database table should have a primary key – chosen by you from the set of candidate keys. The main purpose, as already explained, is uniquely identifying records in a table. This makes it easier to reference these records from other tables, for instance – a concept you will go through in the next and last chapter. You might have already guessed it, but primary keys need to be defined on columns that don't accept duplicate or null values. Lastly, primary key constraints are time-invariant, meaning that they must hold for the current data in the table – but also for any future data that the table might hold. It is therefore wise to choose columns where values will always be unique and not null.
+
+3. Specifying primary keys
+00:57 - 01:34
+So these two tables accept exactly the same data, however, the latter has an explicit primary key specified. As you can see, specifying primary keys upon table creation is very easy. Primary keys can also be specified like so: This notation is necessary if you want to designate more than one column as the primary key. Beware, that's still only one primary key, it is just formed by the combination of two columns. Ideally, though, primary keys consist of as few columns as possible!
+
+4. Specifying primary keys (contd.)
+01:34 - 01:50
+Adding primary key constraints to existing tables is the same procedure as adding unique constraints, which you might remember from the last chapter. As with unique constraints, you have to give the constraint a certain name.
+
+5. Your database
+01:50 - 02:05
+In the exercises that follow, you will add primary keys to the tables "universities" and "organizations". You will add a special type of primary key, a so-called surrogate key, to the table "professors" in the last part of this chapter.
+
+
+1. Surrogate keys
+00:00 - 00:14
+Surrogate keys are sort of an artificial primary key. In other words, they are not based on a native column in your data, but on a column that just exists for the sake of having a primary key. Why would you need that?
+
+2. Surrogate keys
+00:14 - 00:48
+There are several reasons for creating an artificial surrogate key. As mentioned before, a primary key is ideally constructed from as few columns as possible. Secondly, the primary key of a record should never change over time. If you define an artificial primary key, ideally consisting of a unique number or string, you can be sure that this number stays the same for each record. Other attributes might change, but the primary key always has the same value for a given record.
+
+3. An example
+00:48 - 01:27
+Let's look back at the example in the first video of this chapter. I altered it slightly and added the "color" column. In this table, the "license_no" column would be suited as the primary key – the license number is unlikely to change over time, not like the color column, for example, which might change if the car is repainted. So there's no need for a surrogate key here. However, let's say there were only these three attributes in the table. The only sensible primary key would be the combination of "make" and "model", but that's two columns for the primary key.
+
+4. Adding a surrogate key with serial data type
+01:27 - 02:04
+You could add a new surrogate key column, called "id", to solve this problem. Actually, there's a special data type in PostgreSQL that allows the addition of auto-incrementing numbers to an existing table: the "serial" type. It is specified just like any other data type. Once you add a column with the "serial" type, all the records in your table will be numbered. Whenever you add a new record to the table, it will automatically get a number that does not exist yet. There are similar data types in other database management systems, like MySQL.
+
+5. Adding a surrogate key with serial data type (contd.)
+02:04 - 02:29
+Also, if you try to specify an ID that already exists, the primary key constraint will prevent you from doing so. So, after all, the "id" column uniquely identifies each record in this table – which is very useful, for example, when you want to refer to these records from another table. But this will be the subject of the next chapter.
+
+6. Another type of surrogate key
+02:29 - 02:58
+Another strategy for creating a surrogate key is to combine two existing columns into a new one. In this example, we first add a new column with the "varchar" data type. We then "UPDATE" that column with the concatenation of two existing columns. The "CONCAT" function glues together the values of two or more existing columns. Lastly, we turn that new column into a surrogate primary key.
+
+7. Your database
+02:58 - 03:44
+In the exercises, you'll add a surrogate key to the "professors" table, because the existing attributes are not really suited as primary key. Theoretically, there could be more than one professor with the same name working for one university, resulting in duplicates. With an auto-incrementing "id" column as the primary key, you make sure that each professor can be uniquely referred to. This was not necessary for organizations and universities, as their names can be assumed to be unique across these tables. In other words: It is unlikely that two organizations with the same name exist, solely for trademark reasons. The same goes for universities.
+
+
+
+1. Model 1:N relationships with foreign keys
+00:00 - 00:06
+Welcome to the last chapter of this course. Now it's time to make use of key constraints.
+
+2. The current database model
+00:06 - 00:20
+Here's your current database model. The three entity types "professors", "organizations", and "universities" all have primary keys – but "affiliations" doesn't, for a specific reason that will be revealed in this chapter.
+
+3. The next database model
+00:20 - 00:51
+Next up, you'll model a so-called relationship type between "professors" and "universities". As you know, in your database, each professor works for a university. In the ER diagram, this is drawn with a rhombus. The small numbers specify the cardinality of the relationship: a professor works for at most one university, while a university can have any number of professors working for it – even zero.
+
+4. Implementing relationships with foreign keys
+00:51 - 01:36
+Such relationships are implemented with foreign keys. Foreign keys are designated columns that point to a primary key of another table. There are some restrictions for foreign keys. First, the domain and the data type must be the same as one of the primary key. Secondly, only foreign key values are allowed that exist as values in the primary key of the referenced table. This is the actual foreign key constraint, also called "referential integrity". You'll dig into referential integrity at the end of this chapter. Lastly, a foreign key is not necessarily an actual key, because duplicates and "NULL" values are allowed. Let's have a look at your database.
+
+5. A query
+01:36 - 02:16
+As you can see, the column "university_shortname" of "professors" has the same domain as the "id" column of the "universities" table. If you go through each record of "professors", you can always find the respective "id" in the "universities" table. So both criteria for a foreign key in the table "professors" referencing "universities" are fulfilled. Also, you see that "university_shortname" is not really a key because there are duplicates. For example, the id "EPF" and "UBE" occur three times each.
+
+6. Specifying foreign keys
+02:16 - 03:10
+When you create a new table, you can specify a foreign key similarly to a primary key. Let's look at two example tables. First, we create a "manufacturers" table with a primary key called "name". Then we create a table "cars", that also has a primary key, called "model". As each car is produced by a certain manufacturer, it makes sense to also add a foreign key to this table. We do that by writing the "REFERENCES" keyword, followed by the referenced table and its primary key in brackets. From now on, only cars with valid and existing manufacturers may be entered into that table. Trying to enter models with manufacturers that are not yet stored in the "manufacturers" table won't be possible, thanks to the foreign key constraint.
+
+7. Specifying foreign keys to existing tables
+03:10 - 03:20
+Again, the syntax for adding foreign keys to existing tables is the same as the one for adding primary keys and unique constraints.
+
+
+1. Model more complex relationships
+00:00 - 00:12
+In the last few exercises, you made your first steps in modeling and implementing 1:N-relationships. Now it's time to look at more complex relationships between tables.
+
+2. The current database model
+00:12 - 00:56
+So you've added a 1:N-relationship between professors and universities. Such relationships have to be implemented with one foreign key in the table that has at most one foreign entity associated. In this case, that's the "professors" table, as professors cannot have more than one university associated. Now, what about affiliations? We know that a professor can have more than one affiliation with organizations, for instance, as a chairman of a bank and as a president of a golf club. On the other hand, organizations can also have more than one professor connected to them. Let's look at the entity-relationship diagram that models this.
+
+3. The final database model
+00:56 - 01:52
+There are a couple of things that are new. First of all, a new relationship between organizations and professors was added. This is an N:M relationship, not an 1:N relationship as with professors and universities. This depicts the fact that a professor can be affiliated with more than one organization and vice versa. Also, it has an own attribute, the function. Remember that each affiliation comes with a function, for instance, "chairman". The second thing you'll notice is that the affiliations entity type disappeared altogether. For clarity, I still included it in the diagram, but it's no longer needed. However, you'll still have four tables: Three for the entities "professors", "universities" and "organizations", and one for the N:M-relationship between "professors" and "organizations".
+
+4. How to implement N:M-relationships
+01:52 - 03:06
+Such a relationship is implemented with an ordinary database table that contains two foreign keys that point to both connected entities. In this case, that's a foreign key pointing to the "professors.id" column, and one pointing to the "organizations.id" column. Also, additional attributes, in this case "function", need to be included. If you were to create that relationship table from scratch, you would define it as shown. Note that "professor_id" is stored as "integer", as the primary key it refers to has the type "serial", which is also an integer. On the other hand, "organization_id" has "varchar(256)" as type, conforming to the primary key in the "organizations" table. One last thing: Notice that no primary key is defined here because a professor can theoretically have multiple functions in one organization. One could define the combination of all three attributes as the primary key in order to have some form of unique constraint in that table, but that would be a bit over the top.
+
+1. Referential integrity
+00:00 - 00:08
+We'll now talk about one of the most important concepts in database systems: referential integrity. It's a very simple concept...
+
+2. Referential integrity
+00:08 - 00:46
+...that states that a record referencing another record in another table must always refer to an existing record. In other words: A record in table A cannot point to a record in table B that does not exist. Referential integrity is a constraint that always concerns two tables, and is enforced through foreign keys, as you've seen in the previous lessons of this chapter. So if you define a foreign key in the table "professors" referencing the table "universities", referential integrity is held from "professors" to "universities".
+
+3. Referential integrity violations
+00:46 - 01:19
+Referential integrity can be violated in two ways. Let's say table A references table B. So if a record in table B that is already referenced from table A is deleted, you have a violation. On the other hand, if you try to insert a record in table A that refers to something that does not exist in table B, you also violate the principle. And that's the main reason for foreign keys – they will throw errors and stop you from accidentally doing these things.
+
+4. Dealing with violations
+01:19 - 02:08
+However, throwing an error is not the only option. If you specify a foreign key on a column, you can actually tell the database system what should happen if an entry in the referenced table is deleted. By default, the "ON DELETE NO ACTION" keyword is automatically appended to a foreign key definition, like in the example here. This means that if you try to delete a record in table B which is referenced from table A, the system will throw an error. However, there are other options. For example, there's the "CASCADE" option, which will first allow the deletion of the record in table B, and then will automatically delete all referencing records in table A. So that deletion is cascaded.
+
+5. Dealing with violations, contd.
+02:08 - 02:47
+There are even more options. The "RESTRICT" option is almost identical to the "NO ACTION" option. The differences are technical and beyond the scope of this course. More interesting is the "SET NULL" option. It will set the value of the foreign key for this record to "NULL". The "SET DEFAULT" option only works if you have specified a default value for a column. It automatically changes the referencing column to a certain default value if the referenced record is deleted. Setting default values is also beyond the scope of this course, but this option is still good to know.
+
+
+1. Roundup
+00:00 - 00:06
+Congratulations, you're almost done. Let's quickly revise what you've done throughout this course.
+
+2. How you've transformed the database
+00:06 - 00:49
+You started with a simple table with a lot of redundancy. You might be used to such tables when working with flat files like CSVs or Excel files. Throughout the course, you transformed it step by step into the database schema on the right – only by executing SQL queries. You've defined column data types, added primary keys and foreign keys, and through that, specified relationships between tables. All these measures will guarantee better data consistency and therefore quality. This is especially helpful if you add new data to the database but also makes analyzing the data easier.
+
+3. The database ecosystem
+00:49 - 01:33
+To go further from here, it's useful to look at the bigger picture for a minute. In this course, you've transformed a database. You did that with PostgreSQL, which is also called a "Database Management System", or DBMS. The DBMS and one or more databases together form the "Database System". The DBMS exposes a query interface where you can run ad-hoc analyses and queries with SQL. However, you can also access this interface through other client applications. You could, for example, program a Python script that connects to the database, loads data from it, and visualizes it.
+
+4. The database ecosystem
+01:33 - 01:55
+In the remainder of this course, you'll no longer manipulate data in your database system, but employ some analysis queries on your database. This will be a quick repetition of what you've learned in previous SQL courses such as "Intro to SQL for Data Science", but it will also demonstrate the advantages of having a database instead of a flat file in the first place.
+

@@ -1,0 +1,340 @@
+1. Introduction and lists
+00:00 - 00:07
+Hello, I'm Jason Myers and welcome to the course. I'm an author, open source maintainer, and an avid Python user.
+
+2. Data types
+00:07 - 00:25
+In most programming languages, the data type system sets the stage for the capabilities of the language. Understanding how to use the fundamental data types of a language greatly empowers you as a data scientist. You've already encountered integers and strings, so let's start with container sequences.
+
+3. Container sequences
+00:25 - 01:10
+A container sequence gets its name because it holds a sequence of elements of other data types. In the data science world, we'll use these containers to store our data for aggregation, order, sorting, and more. Python provides several container sequences such as lists, sets, and tuples to name a few. They can be mutable meaning that they can have elements added and removed from them. Immutability, not able to be altered, allows us to protect our reference data, and replace individual data points with sums, averages, derivations, etc. We can iterate, also known as looping, over the data contained within these containers. Being able to iterate over these sequences allows us to group data, aggregate it, and process it over time. Let's start with learning about container types by looking at lists.
+
+4. Lists
+01:10 - 01:26
+Often we need to hold an ordered collection of items, and lists allow us to do just that. Lists are mutable so we can add or remove data from them. Lists also allow us to access an individual element within them using an index. Let's see this in action.
+
+5. Accessing single items in list
+01:26 - 01:55
+If I wanted to store a list of cookies I've eaten this week, I would begin by creating that list of cookies. When I eat another cookie, I'll want to add that to my list as well, which I can do with the append method. Then I can print the whole list of cookies. If I wanted to print the cookie I ate third; then I could use an index, which in this case would be 2 since indexes starts at zero, and print that element from the list. In addition to appending each cookie one at a time, we might also want to combine multiple lists.
+
+6. Combining lists
+01:55 - 02:19
+Python empowers us to combine lists in a few ways. First, we can use operators like the plus sign to add two lists together. When we do this, we will get a new list object returned to us. For example, we can add a list of cookies and cakes to create a list of desserts. Additionally, we can use the extend method on the list to combine two lists effectively appending all the values from a second list.
+
+7. Finding elements in a list
+02:19 - 02:34
+Earlier, we took advantage of the indexability of lists to return the item at a certain index. However, if we only know the value of an element, we can use it with the index method to get its index. Here I'm trying to remember when I had a sugar cookie.
+
+8. Removing elements in a List
+02:34 - 02:54
+Another reason I might want to know the index of a value is to remove it from a list with the pop method. Here I want to remove that sugar cookie from the list of cookies. So I pass the index I found earlier to the pop method, and I store the result of the pop method, which is the value we removed. Finally, I print the list so I can ensure it was removed.
+
+9. Iterating over lists
+02:54 - 03:15
+Often when working with lists, we want to work on that list one element at a time. We can do that by iterating over the list using a list comprehension. Here I want to print each cookie name in title case I've eaten this week. So I use a list comprehension to loop over each cookie in the cookies list, convert it to title case with the dot-title() method and print it.
+
+10. Sorting lists
+03:15 - 03:26
+Python provides the sorted function that accepts an iterable such as a list and returns a new list with the elements in the proper order. Here I sort the cookies list and then print it so I can see the cookie names in alphabetical order. Time for you to try this on your own.
+
+1. Meet the tuples
+00:00 - 00:09
+The next container type we want to learn about is the tuple. Tuples are widely used internally by many of the systems we depend on like databases.
+
+2. Tuple, tuple
+00:09 - 00:44
+Tuples are very much like lists they hold data in the order, and we can access elements inside a tuple with an index. However, the similarities end there. Tuples are easier to process and more memory efficient than lists. Tuples are immutable, which means we can't add or remove elements from them. This is powerful because we can use them to ensure that our data is not altered. We can create tuples by pairing up elements. Finally, we can use something called unpacking to expand a tuple into named variables that represent each element in the tuple. Let's explore these features.
+
+3. Zipping tuples
+00:44 - 01:14
+Often, we'll have lists where we want to matchup elements into pairs, and the zip function enables us to do that. Here I've got a list for the most popular cookies in the US and India, and I want to build a list of pairs by the popularity rank of the cookie in each country and I'll pass them the zip function. Then I can print the result of my zip and you can see I have what looks like a list of Tuples. It's really an iterator, but that's for a different course. Notice that the tuples use a parenthesis as their object representation.
+
+4. Unpacking tuples
+01:14 - 01:53
+Now let's look at how we can use unpacking with a tuple. Tuple unpacking, also sometimes called tuple expansion, allows us to assign the elements of a tuple to a named variable for later use. This syntax allows us to create more readable and less error prone code. Here I have a tuple containing the top ranked cookie from both countries, and I want to store them as us_num_1 and in_num_1. So that I can print them by name. I start by putting both variables as the target of the assignment statement separated by a comma. Then assign the first tuple in our top_pairs list to them. Let's look at a another great use case for tuple unpacking.
+
+5. More unpacking in Loops
+01:53 - 02:28
+For me the place I use tuple unpacking the most is when working with loops. We can use tuple unpacking when declaring the for loop, to separate a list of tuples into their elements as we loop over them. This sounds a bit strange, but let's take a look at it. Here I'm building a for loop that uses tuple unpacking when iterating over the top_pairs list. It splits each tuple in the list into its Indian and US cookie elements. We then use each of these variables to print the cookies in order. Another use of tuple unpacking helps us keep track of which element in the iterable or list we are currently on.
+
+6. Enumerating positions
+02:28 - 03:03
+Often we want to know what the index is of an element in the iterable is. The enumerate function enabled us to do that by creating tuples where the first element of the tuple is the index of the element in the original list, then the element itself. We can use this to track rankings in our data or skip elements we are not interested in. Here I'm going to enumerate our top pairs list and split that resulting tuple into idx and item. I can also use tuple unpacking on the item to get all three components separately. This can be exceptionally powerful. Let's look at a bit of responsibility that comes with this power.
+
+7. Be careful when making tuples
+03:03 - 03:25
+When we are creating tuples, we can make them with zip or enumerate or use parentheses as shown here. However the real magic for creating a tuple in Python is the comma, if we accidentally end a line with a comma, we can create a tuple! This can have some very undesirable side affects further down in our code. Keep this in mind if you get a tuple where you don't expect it.
+
+
+1. Strings
+00:00 - 00:14
+Strings are also a sequence type and likely the most common type you'll encounter. We can loop over them like all the other sequence types we've encountered so far; however, they also have some unique ways we can construct and work with them.
+
+2. Creating formatted strings
+00:14 - 00:54
+We will focus first on the f-string, which is short for formatted string literals. Python has several different string types indicated by a letter in front of the opening quote of the string. To make an f-string, you place an f in front of the opening quote, and then you can use python expressions wrapped in curly braces inside them to access additional data points and incorporate them into the string. For example, if I had two variables named cookie_name set to Anzac and a cookie_price set to one dollar ninety-nine, I could use them to print out the string you see here. f" Each { cookie_name } cookie costs { cookie_price }", which would output: "Each Anzac cookie costs one dollar ninety-nine".
+
+3. Joining with strings
+00:54 - 01:38
+Another helpful feature of strings is that they support the use of a join() method on them that you can use the string to join some other iterable data type like a list. For example, if we have a list of child_ages containing "3", "4", "7", and "8". We can join them with a comma by doing the following. ', ', join(child_ages), which would output "3, 4, 7, 8". We could combine this with an f-string to do even more. f"The children are ages {','join(child_ages[0:3])}, and {child_ages[-1]}". Which would output: "The children are ages 3, 4, 7, and 8".
+
+4. Matching parts of a string
+01:38 - 02:12
+Now that we've explored just a few ways to create strings let's look at how we can find things inside strings. One approach to finding strings that start or end with a specific letter is to use the startswith() or endswith() methods. For example, if we have a list of boy_names Mohamed, Youssef, and Ahmed, we can find the one that starts with 'A' by using a list comprehension. Note these functions are case-sensitive. For example: [name for name in boy_names where name-dot-startswith('A')] would return: ['Ahmed'].
+
+5. Searching for things in strings
+02:12 - 02:42
+Another way to find things in a string is to use the in operator. This searches for some value inside a string. For example, we can look for the word long in this quote by doing the following: "long" in "Life is a long lesson in humility." True "life" in "Life is a long lesson in humility." False This is due to this search being case sensitive and Life being capitalized in the quote but not in our search string.
+
+6. An approach to being case insensitive
+02:42 - 02:57
+A common way to deal with the case sensitivity is to use the lower() method on a string. Let's repeat that last example but lower the quote string. "life" in "Life is a long lesson in humility"-dot-lower() True
+
+
+1. Using dictionaries
+00:00 - 00:24
+Now that you are familiar with the container sequence types, let's dive into dictionaries. People often joke that everything in Python is a dictionary, and while it is a joke, there is a tiny bit of truth to that. I find myself using dictionaries the most of any container type. Dictionaries are useful for storing key/value pair, grouping data by time or structuring hierarchical data like org charts. Let's take a look.
+
+2. Creating and looping through dictionaries
+00:24 - 01:17
+Dictionaries hold data in key/value pairs. While the key must be alphanumeric, the value can be any other data type. It's also possible to nest dictionaries so that you can work with grouped or hierarchical data. Additionally, we can iterate over the keys and values of a dictionary. We can also iterate over the items of a dictionary, which are tuples of the key value pairs)! We create dictionaries using the dict() method or the braces shortcut. Here, I've got a list of tuples containing the name and zip for New York City Art Galleries. I'd like to turn that into a dictionary so I can quickly find the zip code without having to scan the whole list. I begin by creating an empty dictionary named art_galleries. Next, I use tuple unpacking as I loop over the galleries in the list that contains my data. Then, inside the loop, I set the name of the gallery as the key in my dictionary and the zip code as the value.
+
+3. Printing in the loop
+01:17 - 01:33
+Finally, I'd like to find the last 5 art gallery names. By default, when using sorted on a dictionary or looping over a dictionary, we loop over the keys. So we'll print the keys which are the names. Let's talk more about accessing dictionary values by key.
+
+4. Safely finding by key
+01:33 - 01:58
+Here I'm looking for the Louvre gallery in New York, but it's in Paris and throws an exception. Often you will know the key you want to get from the dictionary, and using the key as an index value to get the data. However, if the key is not present you will get an ugly exception that stops the execution of your code. While you could use Python exception handling, this is so common that dictionaries have a get() method just for this problem.
+
+5. Safely finding by key (cont.)
+01:58 - 02:33
+The get method allows you to safely get a value from a key by passing the key. If the key is not found in the dictionary, it returns None. You can optionally supply a second argument which will be returned instead of None. Continuing from the prior example of looking for the Louvre, I make the same request with the get method, and supply the string Not Found to be returned if it is not present, which is exactly what happens. Finally, I supplied a valid key to the get() method and it returned the value from the dictionary. Accessing data in a safe manner is critical to ensure your programs execute properly.
+
+
+1. Altering dictionaries
+00:00 - 00:12
+In the prior video we learned that dictionaries are mutable, so we can alter them in a number of ways. Let's start by adding data to them. Which is something that you, as a data scientist, will need to do all the time.
+
+2. Adding and extending dictionaries
+00:12 - 00:39
+You can add data to a dictionary just by using a new key as an index and assigning it a value. It's also possible to supply a dictionary, list of tuples or a set of keywords arguments to the update() method to add values into a dictionary. I have a dictionary that contains the art galleries in the 10007 zip code and I want to add it to my art_galleries dictionary. I assign the zip code as the key and then the dictionary as the value.
+
+3. Updating a dictionary
+00:39 - 01:04
+I can also create a list of tuples, and supply them to the update() method. Here I'm supplying them to a dictionary index of the zip code since I want this data to be nested underneath it. Finally I'll print the zip code to be sure they were added. Notice how those are now a dictionary under that key. Often, We'll also want to narrow down our dataset to only the data which is relevant to the problem at hand, so let's learn how to remove data.
+
+4. Popping and deleting from dictionaries
+01:04 - 01:36
+You can use the del python instruction on a dictionary key to remove data from a dictionary. However, it's important to remember that del will throw a KeyError if the key you are trying to delete does not exist. The pop() method provides a safe way to remove keys from a dictionary. Let's start by removing all the galleries from zipcode '11234', then I'm not sure if there are any galleries in zip code 10310, so I'm going to pop that zip code from the dictionary and save it. Finally, I'll print the popped value.
+
+
+1. Pythonically using dictionaries
+00:00 - 00:10
+So far, we've been working with dictionaries in a straight forward manner, but Python has more efficient ways to work with them. We refer to these manners of interacting as being Pythonic.
+
+2. Working with dictionaries more pythonically
+00:10 - 00:43
+Previously, we looped through dictionary keys then used the keys to get the values we desired. Python provides an items() method which returns a dict_items object, but we can iterate over it as a list of key/value tuples. If I use the dot items() method on my original art_galleries dictionary it returns a tuple of the gallery name and the phone number. I can use tuple unpacking to go ahead and expand that into its two components in the loop. Finally, I print them so you can see the information. Now let's look at a more Pythonic method for checking if data is present in a dictionary.
+
+3. Checking dictionaries for data
+00:43 - 01:23
+Earlier, we used the get method to safely look for keys, and we can use that to check to see if a key is in a dictionary. However, Python provides the in operator to see if a key is in a dictionary. It returns a boolean (True or False). Here I'm checking to see if 11234 is in the art_galleries dictionary, and since I deleted that key earlier it returns false. Since it returns a boolean, it is often used in conditionals statements like an if/else statement. Here if the key 10010 is in the art_galleries dictionary I'm going to print a message saying that it was found and with the value of the key.
+
+
+1. Numeric data types
+00:00 - 00:05
+There are several numeric types built-in and supported by Python.
+
+2. Built in numeric types
+00:05 - 00:20
+Integers and floats are numeric types that are built into Python. Integers, int for short, are great for whole numbers and anytime you need to handle substantial values. Floats work for holding fractional amounts where an approximation is acceptable and scientific notation.
+
+3. Decimals
+00:20 - 00:31
+Decimals are perfect for exacting precision and currency operations. To use Decimals, we need to import them from the decimal module as shown here. Notice a Decimal doesn't convert to scientific notation.
+
+4. Printing floats
+00:31 - 01:06
+Working with floats can result in printing out scientific notation; however, f-strings can help us handle outputting those correctly. For example, if there is a float like 0.00001 and you print it, you'll get back scientific notation of 1e-05. However, f-strings allow us to pass a format specifier to them to control the output by following the variable with a colon and a format specifier, which for floats is the letter f. For example, print(f"{0.00001:f}") You will get the output of 0.000010.
+
+5. Printing floats
+01:06 - 01:30
+However, if you try print(f"{0.0000001:f}"), you will get back 0.000000. It isn't what you probably expected, but it happens because the bare float format specifier stops at six decimal places. We can tell it what precision we want by adding a .X where X is the precision we want. For example print(f"{0.0000001:.7f}") will return 0.0000001
+
+6. Python division types
+01:30 - 01:53
+Python supports two kinds of division, float division using a single backslash and floored division using a double backslash. For example, 4/2 will return 2.0; 4//2 will return 2 as it floors the result. This behavior is exemplified better with 7//3, which will also return 2.
+
+
+1. Booleans - the logical data type
+00:00 - 00:05
+Booleans are helpful both as a data type and a context for evaluation.
+
+2. Booleans as a data type
+00:05 - 00:33
+As a data type, booleans only have two values, true and false, and those two values work like an on-off switch and are complete opposites of each other. Be careful if you come from other languages or switch between multiple languages because these values are capitalized in Python. They are often used for conditionals, as shown in this example where I'm setting a value equal to true, then checking if it is truthful by using an if statement, and finally printing a line about going to get more.
+
+3. Truthy and Falsey
+00:33 - 01:07
+In addition to boolean values True and False, all values can be truthy or falsey when you view them in a boolean evaluation context such as an if statement. Truthy values are ones that will return true in an boolean evaluation falsey values will evaluate to false. For example, if we have the variable apples set to two, and we use it in an if statement it will act as it if were true. That makes the integer two a truthy value. If apples is 0 it will evaluate to False and thus is falsey.
+
+4. Truthy and Falsey
+01:07 - 01:28
+Let's explore some truthy and falsey values. Any non-zero numeric type is truthy, and zero is falsey. Any non-empty string is truthy, while empty ones are falsey. That same logic applies to lists and dictionaries as well. Also, None is falsey. In general, something is truthy if it's not empty of value.
+
+5. Operators - a boolean evaluation context
+01:28 - 01:52
+We'll often use a python operator as a boolean evaluation context. For example, the cookie_qty == 3, which when evaluated, returns a boolean data type of True or False depending on the value of cookie_qty. In addition to the equality comparison you see here, Python provides operators for not equal to, less than, less than or equal to, greater than, and greater than or equal to.
+
+6. Floats are approximately an issue
+01:52 - 02:23
+Remember when I was talking about floats, and I said they were suitable for approximations? Equality comparisons are an area where using floats can throw you off, as floating points are stored internally in a less precise way than we expect. For example, if we add 0-point-1 and 1-point-1, that should give us 1-point-2. Well, when we evaluate it, that turns out to be false. If we print the value, we see that it's stored slightly off what we expected. There are ways to handle this with rounding and absolute values, but we'll leave those to math class.
+
+
+1. Sets (unordered data with optimized logic operations)
+00:00 - 00:07
+Sets are excellent for finding all the unique values in a column of your data, a list of elements, or even rows from a file.
+
+2. Set
+00:07 - 00:29
+We use sets when we want to store unique data elements in an unordered fashion. For example, I might want to store a list of each type of cookie I had without any duplicates. Sets are also mutable so I can add and remove elements from them. We're just going to scratch the surface of what can be done with a set. It has many more capabilities that align with set theory from math.
+
+3. Creating sets
+00:29 - 00:54
+A set is almost always created from a list. For example, I might have a list of cookies I've eaten today. I can make a set of them by passing them into the set constructor. Finally if I print it, you might notice that although I had three chocolate chip cookies in my list, once I make it a set, there is only one occurrence of it in the set. This occurs because sets only store unique items. Now let's explore modifying a set.
+
+4. Modifying sets
+00:54 - 01:14
+When working with a set we will use the add method to add a new element to the set. It will only add the element if it is unique otherwise it just continues on. While making the first two sections of this chapter, I ate two more cookies: a biscotti and a chocolate chip cookie. So let's use the add method to add those to our set, and print the result.
+
+5. Updating sets
+01:14 - 01:33
+Also, we can add multiple items using the update method. The update method takes a list of items and adds each one to the set if it is not present. Finally, Hugo also had some cookies, so let's use the update method to add the cookies he ate to our set and print them. Now let's learn how to remove some elements from our set.
+
+6. Removing data from sets
+01:33 - 02:06
+When removing data from a set, we can use the discard method to safely remove an element from the set by its value. No error will be thrown if the value is not found. We can also use the pop method to remove and return an arbitrary element from the set. Let's remove the biscotti from our cookie set as Hugo and I had some debate about whether or not this was even a cookie with the discard method, and print the set. Next, we'll pop two cookies out of the list to decide what we could eat next. Next, we're going to leverage some of that set theory from math to perform very quick comparison operations.
+
+7. Set operations - similarities
+02:06 - 02:44
+The union method on a set accepts a set as an argument and returns all the unique elements from both sets as a new one. The intersection method also accepts a set and returns the overlapping elements found in both sets. This is great for comparing data year over year for example. Speaking of examples, I'm going to create two new sets of the cookies Hugo and I have eaten. Then I'm going to use the union method to see the full set of cookies eaten by both of us. Finally, I use the intersection method to see the cookies that Hugo and I both ate. While these two methods help us find commonality, sets also provide methods to help us find differences.
+
+8. Set operations - differences
+02:44 - 03:10
+We can use the difference method, which accepts a set, to find elements in one set that are not present in another set. The target we call the difference method on is important as that will be the basis for our differences. So here I want to see the cookies that I ate that Hugo didn't, which I can do by calling difference on my set of cookies and giving it Hugo's set and I can perform the reverse of this operation by using Hugo's list as the target.
+
+
+1. Counting made easy
+00:00 - 00:09
+As a data scientist, we're often going to need to count items, create dictionaries values before we know keys to store them in, or structure complex types.
+
+2. Collections Module
+00:09 - 00:20
+The collections module is part of Python standard library and holds several more advanced data containers which solve these problems and more. Let's start our tour of the collection module by learning about Counter.
+
+3. Counter
+00:20 - 01:00
+Counter is a powerful python object based on the dictionary object that accepts a list and counts the number of times a value is found within the elements of that list. Since it's based on a dictionary, you can use all the normal dictionary features. Here, I have an list named nyc_eatery_types that contains one column of data called type from a table about eateries in NYC parks. I create a new Counter based on that list and print it. You can see each type from list and the number of times it was found in the list. I can also see how many restaurants are in the counter by using Restaurant as the index and printing it. Counters also provide a wonderful way to find the high values they contain.
+
+4. Counter to find the most common
+01:00 - 01:23
+The most_common() method on a Counter returns a list of tuples containing the items and their count in descending order. Here I'm printing the top 3 eatery types in the NYC park system with the most_common method and passing it 3 as the number items to return. most_common() is great for frequency analytics, how often something occurs, a problem I encounter often when working on data science problems.
+
+
+1. Dictionaries of unknown structure - defaultdict
+00:00 - 00:17
+Often, we'll be working with data where we don't know all the keys that will be used, but we want to store a complex structure under those keys. A good example is I want every key to have a list of values. I'd have to initialize every key with an empty list then add the values to the list. Here is an example of just that.
+
+2. Dictionary Handling
+00:17 - 00:38
+I start by looping over a list of tuples with the park's id and the name of the eatery. Then I check to see if I have a list for that park already in my dictionary. If not I create an empty list. Next, I append the name of the eatery to the list for that park id. Thankfully, collections provides an easier way using defaultdict.
+
+3. Using defaultdict
+00:38 - 01:24
+Defaultdict accepts a type that every value will default to if the key is not present in the dictionary. You can override that type by setting the key manually to a value of different type. Still working with the NYC Parks eatery data, I have a list of tuples that contain the park id and the name of an eatery. I want to create a list of eateries by park. I begin by importing defaultdict from collections. Next, I create a defaultdict that defaults to a list. Next I iterate over my data and unpack it into the park_id and name. I append each eatery name into list for each park id. Finally, I print the eateries in the park with the ID is M010, which if you are curious is Central Park. Let's look at another example.
+
+4. Using defaultdict
+01:24 - 01:56
+It's also common to use a defaultdict as a type of counter for a list of dictionaries where we are counting multiple keys from those dictionaries. In our NYC park eateries, I was curious how many had a published phone number or a website. This time when creating my defaultdict, I tell it I want it to be an int. Then I look over my nyc_eateries data and add 1 to the phones key on my defaultdict if it has a phone number that is not None. Then I add 1 to the websites key if it has a website. Finally, I print my defaultdict to see the counts.
+
+
+1. namedtuple
+00:00 - 00:08
+Often times when working with data, you will use a dictionary just so you can use key names to make reading the code and accessing the data easier to understand.
+
+2. What is a namedtuple?
+00:08 - 00:24
+Python has another container called a namedtuple which is a tuple, but has names for each position of the tuple. This works well when you don't need the nested structure of a dictionary or desire each item to look identical, and don't want to add the overhead of a Pandas dataframe.
+
+3. Creating a namedtuple
+00:24 - 01:09
+You create a namedtuple by passing a name for the tuple type and a list of field names. Let's begin by importing namedtuple from the collections module. Next we'll define our namedtuple. It's common practice to use Pascalcase (capitalizing each word) when naming namedtuples so I've used Eatery with a capital E for both the tuple name and the variable we stored the namedtuple as. Then we provide a list of fields we want on the nametuple. Now we can create our Eatery named tuples. I'm going to change our NYC Park eateries data into a list of namedtuples. I create an empty list then iterate over my nyc_eateries list creating an instance of my Eatery namedtuple by passing in the data from the loop as the arguments to my namedtuple.
+
+4. Print the first element
+01:09 - 01:16
+Finally, let's print the first Eatery in the list. Now that we've got a list of named tuples let's see how we can use them.
+
+5. Leveraging namedtuples
+01:16 - 01:49
+One of the great things about named tuples is that they can make code clearer because each field is available an as attribute. An attribute is basically a named field or data storage location. We can also depend on every instance of a namedtuple to have all the fields, although some might be empty or None in Python terms. This means we can always have safe access to a field without the need for a get method like a dictionary. Here I'm going to use the list of tuples we created in the prior slide, and print the name, park_id, and location for the first three entries in the list.
+
+
+1. Dataclasses
+00:00 - 00:08
+Another common way to represent complex data would be using a python dataclass. I like to think of dataclass as a more powerful namedtuple.
+
+2. Why use dataclasses
+00:08 - 00:49
+In addition to being usable like a namedtuple, dataclasses offer many other benefits. You can set default values for particular fields to ensure that each time you use a dataclass those fields are preset. Dataclasses also provide a nice default representation for print, log and other outputs. If you need to convert your dataclass to a dictionary or a tuple dataclasses have functions that can perform that application for you. You can also make custom properties that do more than just store a value. It's also possible to make frozen instances of a dataclass that doesn't allow any edits to the properties after the dataclass has been created. These are just a few benefits of using a dataclass, and the python documentation can supply you with even more.
+
+3. Looking at our first dataclass
+00:49 - 01:20
+Lets take a look at how to make a dataclass. You first import dataclass from the dataclasses module. Next you use the @ symbol and the word dataclass to create a decorator for the class you are about to make. A decorator is a wrapper around something code in python that adds extra behaviors. Now we define our class name and field names with their types and any default values. For example we're using the name as a string and the quantity as an integer with a default value of zero.
+
+4. Easy tuple or a dictionary conversion
+01:20 - 01:42
+The dataclasses module also has functions like asdict() and astuple() that can automatically convert your dataclasses into useful dictionaries and tuples. For example, I can import asdict and astuple from the dataclasses module, and using the same dataclass we created previously I can make a ginger molasses cookie. Then I can use those two functions to convert it to a dict and a tuple.
+
+5. Custom properties
+01:42 - 02:20
+While it's more common to define methods on standard python classes, we often will want to define our own custom properties on dataclasses that perform some function to our dataclasses property's values and return the result of that operation. Python has a built in decorator called @ property that makes that work as any other property would. Suppose we expand our cookie dataclass to have a new property called cost, a decimal. In that case, we can add a new custom property by using the @property decorator on the value_of_goods method, which always gets itself as an argument, and then we use self-dot-cost multiplied by self-dot-quantity to get the value of our cookie.
+
+6. Using custom properties
+02:20 - 02:36
+We can use the hybrid property just like any other property on our dataclass. For example, I'm creating a new peanut cookie and getting the value_of_goods property. Notice methods decorated with the @property decorator do not need me to add parentheses onto them to call them appropriately.
+
+7. Frozen instances
+02:36 - 03:01
+A frozen instance of a dataclass can not be edited one it has been created. To make a dataclass that creates frozen instances, we pass the frozen equals True argument to our dataclass decorator. Then once we make an instance of our dataclass like the c cookie we made here it will be frozen and we can't update it. For example, if we try to update the quantity to 15, it will give us an error saying we can't assign to field quantity.
+
+
+1. Wrap-up
+00:00 - 00:06
+Congratulations, you've completed the course! Let's take a quick look back at everything you've learned.
+
+2. Sequence data types
+00:06 - 00:29
+In chapter one, we learned about the fundamental sequence types in Python. We learned to use list methods to add, find and remove items. Then we learned to use list comprehensions to perform operations on each item. For tuples, we learned how to unpack them and to be careful not to make new ones accidentally. We also learned about formatting strings, combining strings, and searching for string fragments in a string.
+
+3. Dictionaries
+00:29 - 00:48
+Chapter two was focused entirely on dictionaries. We learned how to safely add, find, and remove items in a dictionary. Then, we covered how to use unpacking with the dot-items method to work with individual key and value pairs. Finally, we wrapped up the chapter covering how to handle nested data in dictionaries.
+
+4. Numeric and logical types
+00:48 - 01:14
+Chapter three took us through numeric data types, booleans, and sets. We learned when to use integers, floats, and Decimals, along with some Python division guidelines. Next, we learned that booleans are about more than just True and False and explored what values can be Truthy and Falsey and how to use that with Python operators. Finally, we learned how to quickly find differences between two sets, overlapping data between two sets, and removing duplicates within a set.
+
+5. Complex data types
+01:14 - 01:23
+In the fourth chapter, we explored complex datatypes like Counters, defaultdicts, and namedtuples that can help handle particular situations or represent complex data.
+
+6. Complex data types
+01:23 - 01:29
+We also learned about dataclasses and how we can use them to model complex datatypes.
+
+7. Congratulations!
+01:29 - 01:39
+Again congratulations on completing the course. I hope you continue your data science education, and hopefully I'll see you again in a later class.
+
