@@ -11,13 +11,15 @@ import {
   AlertTriangle, 
   ArrowRight,
   Sparkles,
-  Award
+  Award,
+  Trash2
 } from 'lucide-react'
 import { 
   triggerCorrectFeedback, 
   triggerWrongFeedback 
 } from '../services/feedbackService'
 import CodeBlock from '../components/CodeBlock'
+import { getSessionLimit } from '../services/settingsService'
 
 export default function IncorrectReview() {
   const { courseSlug } = useParams()
@@ -39,6 +41,34 @@ export default function IncorrectReview() {
   const [wrongReviewOptions, setWrongReviewOptions] = useState([]) // shuffled options for Matching
   const [isLocked, setIsLocked] = useState(false)
   const [lockedPct, setLockedPct] = useState(0)
+
+  const renderContentWithCode = (text) => {
+    if (!text) return null;
+    const parts = text.split(/(```[\s\S]*?```)/g);
+    return parts.map((part, idx) => {
+      if (part.startsWith('```')) {
+        const lines = part.split('\n');
+        const firstLine = lines[0];
+        const lang = firstLine.replace('```', '').trim() || 'python';
+        const code = lines.slice(1, lines.length - 1).join('\n');
+        return (
+          <div key={idx} className="my-4 text-left rounded-xl border border-[var(--border)] overflow-hidden">
+            <CodeBlock code={code} language={lang} />
+          </div>
+        );
+      }
+      return (
+        <span key={idx} className="whitespace-pre-wrap leading-relaxed">
+          {part.split(/(`[^`]+`)/g).map((subpart, subidx) => {
+            if (subpart.startsWith('`')) {
+              return <code key={subidx} className="inline-code">{subpart.slice(1, -1)}</code>;
+            }
+            return subpart;
+          })}
+        </span>
+      );
+    });
+  };
 
   // Keyboard Shortcuts state
   const [showShortcuts, setShowShortcuts] = useState(() => {
@@ -147,7 +177,8 @@ export default function IncorrectReview() {
           setIsLocked(true)
           setLockedPct(completionPercentage)
         } else {
-          setQuestions(questionsData.questions)
+          const sessionLimit = getSessionLimit('incorrect', courseSlug, undefined, questionsData.questions.length)
+          setQuestions(questionsData.questions.slice(0, sessionLimit))
           setCourseId(questionsData.course_id)
         }
       }
@@ -157,6 +188,51 @@ export default function IncorrectReview() {
       setLoading(false)
     }
   }
+
+  const handleDeleteQuestion = async (questionId, exerciseType) => {
+    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
+    
+    const typeMapping = {
+      quiz: 'mcq',
+      bossbattle: 'bossbattle',
+      flashcard: 'flashcards',
+      fillblank: 'ftb',
+      matching: 'matching'
+    };
+    const mappedType = typeMapping[exerciseType] || exerciseType;
+
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: mappedType,
+          questionId
+        })
+      });
+      if (res.ok) {
+        const updated = questions.filter(q => q.question_id !== questionId);
+        setQuestions(updated);
+        if (updated.length === 0) {
+          setSessionCompleted(true);
+        } else if (currentIndex >= updated.length) {
+          setCurrentIndex(updated.length - 1);
+          setIsChecked(false);
+          setIsFlipped(false);
+          setSelectedOption(null);
+          setFillBlankInput('');
+        } else {
+          setIsChecked(false);
+          setIsFlipped(false);
+          setSelectedOption(null);
+          setFillBlankInput('');
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete question:", err);
+    }
+  };
 
   const currentItem = questions[currentIndex]
 
@@ -431,7 +507,7 @@ export default function IncorrectReview() {
                     disabled={isChecked}
                     className={`w-full text-left p-4 rounded-xl border transition-all text-xs font-semibold flex items-center justify-between cursor-pointer ${buttonStyle}`}
                   >
-                    <span>{val}</span>
+                    <span>{renderContentWithCode(val)}</span>
                     <span className="text-[10px] bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded font-mono font-bold uppercase shrink-0 ml-2">
                       Option {key.toUpperCase()}
                     </span>
@@ -649,7 +725,7 @@ export default function IncorrectReview() {
                     disabled={isChecked}
                     className={`w-full text-left p-4 rounded-xl border transition-all text-xs font-semibold cursor-pointer ${buttonStyle}`}
                   >
-                    {opt}
+                    <span>{renderContentWithCode(opt)}</span>
                   </button>
                 )
               })}
@@ -690,32 +766,44 @@ export default function IncorrectReview() {
         )}
       </div>
 
-      {/* Keyboard Shortcuts Helper */}
-      {showShortcuts && (
-        <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)]/50 p-4 text-xs select-none">
-          <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/30 pb-1.5 mb-0.5 font-mono">
-            <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-            <span>Keyboard Shortcuts Guide</span>
-          </div>
-          <div className="grid grid-cols-2 gap-y-1.5 text-[var(--text-muted)] font-medium">
-            <div className="flex justify-between items-center pr-3">
-              <span>Next Question (when checked)</span>
-              <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+      {/* Left Sidebar Controls Container */}
+      <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
+        {/* Delete Question Button */}
+        <button
+          type="button"
+          onClick={() => handleDeleteQuestion(currentItem?.question_id, currentItem?.exercise_type)}
+          className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
+        >
+          <Trash2 size={14} /> Delete Question
+        </button>
+
+        {/* Keyboard Shortcuts Helper */}
+        {showShortcuts && (
+          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center gap-2 font-bold text-[var(--text-primary)] border-b border-[var(--border)]/30 pb-1.5 mb-0.5 font-mono">
+              <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <span>Shortcuts</span>
             </div>
-            {currentItem.exercise_type === 'flashcard' ? (
+            <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
               <div className="flex justify-between items-center">
-                <span>Flip / Unflip Card</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded font-mono text-[10px]">Space</kbd>
+                <span>Next (checked)</span>
+                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)]/80 border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
               </div>
-            ) : (
-              <div className="flex justify-between items-center">
-                <span>Submit / Check Answer</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-card)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
-              </div>
-            )}
+              {currentItem.exercise_type === 'flashcard' ? (
+                <div className="flex justify-between items-center">
+                  <span>Flip Card</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)]/80 border border-[var(--border)] rounded font-mono text-[10px]">Space</kbd>
+                </div>
+              ) : (
+                <div className="flex justify-between items-center">
+                  <span>Submit / Check</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)]/80 border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

@@ -18,9 +18,11 @@ import {
   Flame,
   Lightbulb,
   Check,
-  X
+  X,
+  Trash2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
+import { getSessionLimit } from '../services/settingsService';
 
 export default function BossBattle() {
   const { courseSlug } = useParams();
@@ -179,23 +181,33 @@ export default function BossBattle() {
       const sortedWave3 = sortWaveQuestions(wave3);
       const sortedOther = sortWaveQuestions(otherWaves);
 
-      // Select exactly 25 questions: 10 from Wave 1, 10 from Wave 2, 5 from Wave 3
-      let selectedWave1 = sortedWave1.slice(0, 10);
-      let selectedWave2 = sortedWave2.slice(0, 10);
-      let selectedWave3 = sortedWave3.slice(0, 5);
+      const trackSlug = courseData.track?.slug || courseData.track_slug;
+      const sessionLimit = getSessionLimit('bossbattle', courseSlug, trackSlug, allQuestions.length);
 
-      let selected = [...selectedWave1, ...selectedWave2, ...selectedWave3];
+      let selected = [];
+      if (sessionLimit === allQuestions.length) {
+        selected = [...sortedWave1, ...sortedWave2, ...sortedWave3, ...sortedOther];
+      } else {
+        const w1Limit = Math.max(1, Math.round(sessionLimit * 0.40));
+        const w2Limit = Math.max(1, Math.round(sessionLimit * 0.40));
+        const w3Limit = Math.max(1, sessionLimit - w1Limit - w2Limit);
 
-      // If we don't have 25 questions, and there are more available, we fill from the rest of the questions
-      if (selected.length < 25) {
-        const remainingWave1 = sortedWave1.slice(selectedWave1.length);
-        const remainingWave2 = sortedWave2.slice(selectedWave2.length);
-        const remainingWave3 = sortedWave3.slice(selectedWave3.length);
-        const allRemaining = [...remainingWave1, ...remainingWave2, ...remainingWave3, ...sortedOther];
-        
-        const needed = 25 - selected.length;
-        const extra = allRemaining.slice(0, needed);
-        selected = [...selected, ...extra];
+        let selectedWave1 = sortedWave1.slice(0, w1Limit);
+        let selectedWave2 = sortedWave2.slice(0, w2Limit);
+        let selectedWave3 = sortedWave3.slice(0, w3Limit);
+
+        selected = [...selectedWave1, ...selectedWave2, ...selectedWave3];
+
+        if (selected.length < sessionLimit) {
+          const remainingWave1 = sortedWave1.slice(selectedWave1.length);
+          const remainingWave2 = sortedWave2.slice(selectedWave2.length);
+          const remainingWave3 = sortedWave3.slice(selectedWave3.length);
+          const allRemaining = [...remainingWave1, ...remainingWave2, ...remainingWave3, ...sortedOther];
+          
+          const needed = sessionLimit - selected.length;
+          const extra = allRemaining.slice(0, needed);
+          selected = [...selected, ...extra];
+        }
       }
 
       // Calculate totals per wave for dynamic progress display
@@ -218,6 +230,40 @@ export default function BossBattle() {
       console.error('Error fetching boss battle data:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteQuestion = async (questionId) => {
+    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: 'bossbattle',
+          questionId
+        })
+      });
+      if (res.ok) {
+        const updated = questions.filter(q => q.id !== questionId);
+        setQuestions(updated);
+        if (updated.length === 0) {
+          finishBattle('complete');
+        } else {
+          // Clear active timers
+          if (timerRef.current) clearInterval(timerRef.current);
+          if (advanceTimeoutRef.current) clearTimeout(advanceTimeoutRef.current);
+
+          if (currentIndex >= updated.length) {
+            setCurrentIndex(updated.length - 1);
+          }
+          resetQuestionState();
+          startTimer();
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete battle question:", err);
     }
   };
 
@@ -683,7 +729,7 @@ export default function BossBattle() {
                       onClick={() => handleOptionClick(key)}
                       className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left font-bold text-base transition-all duration-155 group ${buttonStyle}`}
                     >
-                      <span>{text}</span>
+                      <span className="w-full">{renderContentWithCode(text)}</span>
                       <div className="flex items-center gap-2 shrink-0 ml-2">
                         {!isAnswered && (
                           <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-red)] group-hover:text-[var(--accent-red)]">
@@ -702,41 +748,53 @@ export default function BossBattle() {
           </div>
         </main>
 
-        {/* Keyboard Shortcuts Helper */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
-          <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-red)] animate-pulse"></span>
-              <span>Shortcuts</span>
+        {/* Left Sidebar Controls Container */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
+          {/* Delete Question Button */}
+          <button
+            type="button"
+            onClick={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
+          >
+            <Trash2 size={14} /> Delete Question
+          </button>
+
+          {/* Keyboard Shortcuts Helper */}
+          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-red)] animate-pulse"></span>
+                <span>Shortcuts</span>
+              </div>
+              <button 
+                type="button"
+                onClick={handleToggleShortcuts}
+                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
+              >
+                {showShortcuts ? 'Hide' : 'Show'}
+              </button>
             </div>
-            <button 
-              type="button"
-              onClick={handleToggleShortcuts}
-              className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
-            >
-              {showShortcuts ? 'Hide' : 'Show'}
-            </button>
+            {showShortcuts && (
+              <div className="space-y-2 font-medium text-[var(--text-muted)]">
+                <div className="flex justify-between items-center">
+                  <span>Select Option</span>
+                  <span className="flex gap-1">
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                    <span>-</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Clear Choice</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Next Question</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+                </div>
+              </div>
+            )}
           </div>
-          {showShortcuts && (
-            <div className="space-y-2 font-medium text-[var(--text-muted)]">
-              <div className="flex justify-between items-center">
-                <span>Select Option</span>
-                <span className="flex gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                  <span>-</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Clear Choice</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Next Question</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* QA Debug Panel */}

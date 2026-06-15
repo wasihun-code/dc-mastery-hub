@@ -73,7 +73,8 @@ export function scanContent() {
 
         // Check for glossary PDF
         const glossaryPath = path.join(courseFolderPath, `${courseSlug}-glossary.pdf`)
-        if (fs.existsSync(glossaryPath)) {
+        const genericGlossaryPath = path.join(courseFolderPath, 'glossary.pdf')
+        if (fs.existsSync(glossaryPath) || fs.existsSync(genericGlossaryPath)) {
           slugsWithGlossary.add(courseSlug)
         }
 

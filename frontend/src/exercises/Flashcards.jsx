@@ -7,9 +7,11 @@ import {
   RotateCcw, 
   Check,
   CreditCard,
-  Zap
+  Zap,
+  Trash2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
+import { getSessionLimit } from '../services/settingsService';
 
 export default function Flashcards() {
   const { courseSlug } = useParams();
@@ -37,6 +39,42 @@ export default function Flashcards() {
       localStorage.setItem('showKeyboardShortcuts', String(nextVal));
       return nextVal;
     });
+  };
+
+  const restart = () => {
+    fetchCourseAndCards();
+    setStep(1);
+  };
+
+  const handleDeleteCard = async (questionId) => {
+    if (!window.confirm("Are you sure you want to delete this card? It will not be shown again.")) return;
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: 'flashcards',
+          questionId
+        })
+      });
+      if (res.ok) {
+        const updated = cards.filter(c => c.id !== questionId);
+        setCards(updated);
+        if (updated.length === 0) {
+          setStep(3);
+        } else if (currentIndex >= updated.length) {
+          setCurrentIndex(updated.length - 1);
+          setIsFlipped(false);
+          setShowHint(false);
+        } else {
+          setIsFlipped(false);
+          setShowHint(false);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete card:", err);
+    }
   };
 
   useEffect(() => {
@@ -114,14 +152,17 @@ export default function Flashcards() {
       let selected = [];
       let replayMode = false;
 
-      if (unattempted.length >= 15) {
-        selected = unattempted.slice(0, 15);
+      const trackSlug = courseData.track?.slug || courseData.track_slug;
+      const sessionLimit = getSessionLimit('flashcard', courseSlug, trackSlug, allCards.length);
+
+      if (unattempted.length >= sessionLimit) {
+        selected = unattempted.slice(0, sessionLimit);
       } else if (unattempted.length > 0) {
-        const needed = 15 - unattempted.length;
+        const needed = sessionLimit - unattempted.length;
         selected = [...unattempted, ...attempted.slice(0, needed)];
       } else {
         replayMode = true;
-        selected = attempted.slice(0, 15);
+        selected = attempted.slice(0, sessionLimit);
       }
       
       setCards(selected);
@@ -443,8 +484,17 @@ export default function Flashcards() {
             )}
 
           </div>
-        {/* Keyboard Shortcuts Helper */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+        {/* Left Sidebar Controls Container */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
+          {/* Delete Card Button */}
+          <button
+            type="button"
+            onClick={() => handleDeleteCard(cards[currentIndex]?.id)}
+            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20 mb-1"
+          >
+            <Trash2 size={14} /> Delete Card
+          </button>
+
           <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
             <div className="flex items-center gap-2">
               <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>

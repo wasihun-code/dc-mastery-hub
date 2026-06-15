@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard } from 'lucide-react'
+import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard, Layers } from 'lucide-react'
 import { 
   isAudioEnabled, 
   setAudioEnabled, 
@@ -19,8 +19,23 @@ import {
   vibrateTimerWarning,
   vibrateTimerExpired
 } from '../services/feedbackService'
+import {
+  getSessionQuestionCount,
+  setSessionQuestionCount,
+  getDisabledSessionCourses,
+  toggleSessionModeForCourse,
+  getDisabledSessionTracks,
+  toggleSessionModeForTrack,
+  getDisabledSessionCategories,
+  toggleSessionModeForCategory
+} from '../services/settingsService'
 
 export default function Settings() {
+  // Study session count & infinite mode preferences state
+  const [sessionCount, setSessionCount] = useState(getSessionQuestionCount())
+  const [disabledCourses, setDisabledCourses] = useState(getDisabledSessionCourses())
+  const [disabledTracks, setDisabledTracks] = useState(getDisabledSessionTracks())
+  const [disabledCategories, setDisabledCategories] = useState(getDisabledSessionCategories())
   // Reset Progress state
   const [tracks, setTracks] = useState([])
   const [courses, setCourses] = useState([])
@@ -489,6 +504,197 @@ export default function Settings() {
                   <span>Long Burst (Expired)</span>
                   <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">[250ms]</span>
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Study Session Configuration Section */}
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl text-left">
+        <div className="flex items-start gap-4">
+          <div className="p-3 rounded-xl bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] text-[var(--accent-green)] shrink-0">
+            <Layers size={24} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
+              Study Session Configurations
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              Manage the session question size and toggle continuous practice mode (disabling question limits) for specific categories, tracks, or courses.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 space-y-6">
+          {/* Session Count Control */}
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg border border-[var(--border)] text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]">
+                  <Layers size={20} />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">Session Question Limit</h4>
+                  <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Number of questions per active session</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextVal = Math.max(5, sessionCount - 1);
+                    setSessionQuestionCount(nextVal);
+                    setSessionCount(nextVal);
+                  }}
+                  className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--card-hover)] font-bold text-white flex items-center justify-center text-lg transition-all cursor-pointer"
+                >
+                  -
+                </button>
+                <span className="text-lg font-mono font-bold text-[var(--accent-green)] bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] px-4 py-1.5 rounded min-w-[3.5rem] text-center">
+                  {sessionCount}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextVal = Math.min(50, sessionCount + 1);
+                    setSessionQuestionCount(nextVal);
+                    setSessionCount(nextVal);
+                  }}
+                  className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--card-hover)] font-bold text-white flex items-center justify-center text-lg transition-all cursor-pointer"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Continuous Practice / Disabled Session Mode controls */}
+          <div className="border-t border-[var(--border)]/40 pt-6 space-y-6">
+            <div>
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-2">Disable Session Limits (Continuous Practice)</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Disable session size constraints for targeted scopes. When disabled, sessions will present all available questions at once.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Exercise Categories */}
+              <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-green)] border-b border-[var(--border)]/40 pb-2">Exercise Types</h4>
+                <div className="space-y-3">
+                  {[
+                    { id: 'quiz', label: 'MCQ Quiz' },
+                    { id: 'flashcard', label: 'Flashcards' },
+                    { id: 'fillblank', label: 'Fill in the Blank' },
+                    { id: 'matching', label: 'Matching Game' },
+                    { id: 'bossbattle', label: 'Boss Battle' },
+                    { id: 'dataset', label: 'Dataset Challenge' }
+                  ].map(cat => {
+                    const isDisabled = disabledCategories.includes(cat.id);
+                    return (
+                      <div key={cat.id} className="flex items-center justify-between text-xs">
+                        <span className="text-white font-semibold">{cat.label}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const nextList = toggleSessionModeForCategory(cat.id);
+                            setDisabledCategories(nextList);
+                          }}
+                          className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                            isDisabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                          }`}
+                        >
+                          <span
+                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                              isDisabled ? 'translate-x-4' : 'translate-x-0'
+                            }`}
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Tracks */}
+              <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-blue)] border-b border-[var(--border)]/40 pb-2">Tracks</h4>
+                <div className="space-y-3">
+                  {tracks.map(track => {
+                    const isDisabled = disabledTracks.includes(track.slug);
+                    return (
+                      <div key={track.id} className="flex items-center justify-between text-xs">
+                        <span className="text-white font-semibold truncate max-w-[140px]">{track.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const nextList = toggleSessionModeForTrack(track.slug);
+                            setDisabledTracks(nextList);
+                          }}
+                          className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                            isDisabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                          }`}
+                        >
+                          <span
+                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                              isDisabled ? 'translate-x-4' : 'translate-x-0'
+                            }`}
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Courses */}
+              <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-yellow)] border-b border-[var(--border)]/40 pb-2">Courses</h4>
+                <div className="space-y-3">
+                  <select
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        const nextList = toggleSessionModeForCourse(e.target.value);
+                        setDisabledCourses(nextList);
+                        e.target.value = ''; // Reset select
+                      }
+                    }}
+                    className="w-full rounded bg-[var(--bg-card)] border border-[var(--border)] p-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-yellow)] cursor-pointer"
+                  >
+                    <option value="">Choose Course to Toggle...</option>
+                    {courses.map(course => (
+                      <option key={course.id} value={course.slug}>
+                        {course.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="max-h-[160px] overflow-y-auto space-y-2 pr-1">
+                    {disabledCourses.length === 0 ? (
+                      <p className="text-[10px] text-[var(--text-muted)] italic">No courses set to infinite mode.</p>
+                    ) : (
+                      disabledCourses.map(slug => {
+                        const c = courses.find(course => course.slug === slug);
+                        return (
+                          <div key={slug} className="flex items-center justify-between text-[11px] bg-[var(--bg-card)] p-2 rounded border border-[var(--border)]">
+                            <span className="text-white font-medium truncate max-w-[120px]">{c ? c.name : slug}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const nextList = toggleSessionModeForCourse(slug);
+                                setDisabledCourses(nextList);
+                              }}
+                              className="text-[var(--accent-red)] hover:text-red-400 font-bold ml-1 cursor-pointer font-semibold"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

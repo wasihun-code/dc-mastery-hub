@@ -525,7 +525,7 @@ export default function WranglingSpeedrun() {
                           onClick={() => handleSpeedrunOptionClick(key)}
                           className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left font-bold text-base transition-all duration-150 group cursor-pointer ${buttonStyle}`}
                         >
-                          <span>{text}</span>
+                          <span className="w-full">{renderContentWithCode(text)}</span>
                           <div className="flex items-center gap-2 shrink-0 ml-2 font-mono">
                             {!speedrunIsAnswered && (
                               <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-zinc-500 bg-zinc-950 border border-zinc-850 rounded shadow-sm select-none transition-colors group-hover:border-orange-500 group-hover:text-red-500">

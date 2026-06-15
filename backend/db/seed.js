@@ -124,14 +124,14 @@ const coursesByTrack = {
 
 const wordExceptions = {
   sql: 'SQL',
-  pandas: 'pandas',
-  python: 'python',
+  pandas: 'Pandas',
+  python: 'Python',
   postgresql: 'PostgreSQL',
   apis: 'APIs',
   etl: 'ETL',
   elt: 'ELT',
   git: 'Git',
-  statsmodels: 'statsmodels',
+  statsmodels: 'Statsmodels',
 }
 
 function courseNameFromSlug(slug) {

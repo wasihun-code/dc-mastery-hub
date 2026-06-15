@@ -8,8 +8,10 @@ import {
   Layers,
   Clock,
   Zap,
-  ArrowRight
+  ArrowRight,
+  Trash2
 } from 'lucide-react';
+import { getSessionLimit } from '../services/settingsService';
 
 export default function MatchingGame() {
   const { courseSlug } = useParams();
@@ -208,11 +210,71 @@ export default function MatchingGame() {
         }
       }
 
-      setAllRounds(rounds.slice(0, 10)); // Max 10 rounds
+      const trackSlug = courseData.track?.slug || courseData.track_slug;
+      const sessionLimit = getSessionLimit('matching', courseSlug, trackSlug, rounds.length);
+      setAllRounds(rounds.slice(0, sessionLimit));
     } catch (err) {
       console.error('Error fetching matching data:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeletePair = async () => {
+    if (!selectedTerm) {
+      alert("Please select a term on the left first to delete it.");
+      return;
+    }
+    const pairId = selectedTerm.id;
+    const termText = selectedTerm.term;
+    if (!window.confirm(`Are you sure you want to delete the pair for "${termText}"? It will not be shown again.`)) return;
+
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: 'matching',
+          questionId: pairId
+        })
+      });
+      if (res.ok) {
+        // Remove from the current round's terms and definitions
+        const updatedTerms = terms.filter(t => t.id !== pairId);
+        const updatedDefs = definitions.filter(d => d.id !== pairId);
+        
+        setTerms(updatedTerms);
+        setDefinitions(updatedDefs);
+        setSelectedTerm(null);
+        setSelectedDef(null);
+        
+        // Also remove from the underlying round pairs
+        const updatedRounds = allRounds.map((round, idx) => {
+          if (idx === currentRoundIndex) {
+            return {
+              ...round,
+              pairs: round.pairs.filter(p => p.id !== pairId)
+            };
+          }
+          return round;
+        });
+        setAllRounds(updatedRounds);
+
+        // Check if the current round has any unmatched pairs left
+        const nextMatches = matches.filter(mId => mId !== pairId);
+        setMatches(nextMatches);
+
+        const currentRound = updatedRounds[currentRoundIndex];
+        const totalPairsInRound = currentRound?.pairs?.length || 0;
+        
+        if (totalPairsInRound === 0 || nextMatches.length >= totalPairsInRound) {
+          if (timerRef.current) clearInterval(timerRef.current);
+          setRoundCompleted(true);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete pair:", err);
     }
   };
 
@@ -621,49 +683,61 @@ export default function MatchingGame() {
             )}
 
           </div>
-        {/* Keyboard Shortcuts Helper */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
-          <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
-              <span>Shortcuts</span>
+        {/* Left Sidebar Controls Container */}
+        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
+          {/* Delete Pair Button */}
+          <button
+            type="button"
+            onClick={handleDeletePair}
+            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
+          >
+            <Trash2 size={14} /> Delete Pair
+          </button>
+
+          {/* Keyboard Shortcuts Helper */}
+          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
+                <span>Shortcuts</span>
+              </div>
+              <button 
+                type="button"
+                onClick={handleToggleShortcuts}
+                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
+              >
+                {showShortcuts ? 'Hide' : 'Show'}
+              </button>
             </div>
-            <button 
-              type="button"
-              onClick={handleToggleShortcuts}
-              className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
-            >
-              {showShortcuts ? 'Hide' : 'Show'}
-            </button>
+            {showShortcuts && (
+              <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
+                <div className="flex justify-between items-center">
+                  <span>Select Term</span>
+                  <span className="flex gap-1">
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
+                    <span>-</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">5</kbd>
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Select Match</span>
+                  <span className="flex gap-1">
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Q</kbd>
+                    <span>-</span>
+                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">T</kbd>
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Clear Selection</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Next Round</span>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+                </div>
+              </div>
+            )}
           </div>
-          {showShortcuts && (
-            <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
-              <div className="flex justify-between items-center">
-                <span>Select Term</span>
-                <span className="flex gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                  <span>-</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">5</kbd>
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Select Match</span>
-                <span className="flex gap-1">
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Q</kbd>
-                  <span>-</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">T</kbd>
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Clear Selection</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-              </div>
-              <div className="flex justify-between items-center">
-                <span>Next Round</span>
-                <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
-              </div>
-            </div>
-          )}
         </div>
         </main>
 

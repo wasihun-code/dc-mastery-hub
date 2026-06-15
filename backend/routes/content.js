@@ -56,6 +56,12 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' });
 
+    const userId = req.user.id;
+    const deletedQuestions = db.prepare(`
+      SELECT question_id FROM deleted_questions 
+      WHERE user_id = ? AND course_slug = ? AND (exercise_type = ? OR (exercise_type = 'flashcard' AND ? = 'flashcards') OR (exercise_type = 'flashcards' AND ? = 'flashcard'))
+    `).all(userId, courseSlug, exerciseType, exerciseType, exerciseType).map(row => String(row.question_id));
+
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
           ? process.env.CONTENT_FOLDER 
@@ -68,7 +74,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     // Try serving from database first if data is present and JSON file is missing
     if (exerciseType === 'mcq') {
       if (!fs.existsSync(exercisePath)) {
-        const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        let dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        dbQuestions = dbQuestions.filter(q => !deletedQuestions.includes(String(q.id)));
         if (dbQuestions.length > 0) {
           let items = dbQuestions.map(q => ({
             id: q.id,
@@ -96,7 +103,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
 
     if (exerciseType === 'flashcards') {
       if (!fs.existsSync(exercisePath)) {
-        const dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
+        let dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
+        dbFlashcards = dbFlashcards.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbFlashcards.length > 0) {
           let items = dbFlashcards.map(c => ({
             id: c.id,
@@ -120,7 +128,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     if (exerciseType === 'matching') {
       // Prioritize matching.json file on disk. Fall back to database concepts only if file is missing.
       if (!fs.existsSync(exercisePath)) {
-        const dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
+        let dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
+        dbConcepts = dbConcepts.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbConcepts.length >= 5) {
           const rounds = [];
           const numRounds = Math.min(Math.ceil(dbConcepts.length / 5), 5);
@@ -148,7 +157,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
 
     if (exerciseType === 'bossbattle') {
       if (!fs.existsSync(exercisePath)) {
-        const dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        let dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        dbQuestions = dbQuestions.filter(q => !deletedQuestions.includes(String(q.id)));
         if (dbQuestions.length > 0) {
           let items = dbQuestions.map(q => ({
             id: q.id,
@@ -171,7 +181,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     if (exerciseType === 'ftb') {
       // Prioritize ftb.json file on disk. Fall back to database concepts only if file is missing.
       if (!fs.existsSync(exercisePath)) {
-        const dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
+        let dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
+        dbConcepts = dbConcepts.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbConcepts.length > 0) {
           const items = dbConcepts.map((concept) => {
             const code = concept.code_snippet;
@@ -231,6 +242,16 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       else if (exerciseType === 'matching') items = data.rounds || [];
       else if (exerciseType === 'bossbattle') items = data.questions || [];
       else if (exerciseType === 'challenge') items = data.challenges || [];
+    }
+
+    // Filter out user-deleted items
+    if (exerciseType === 'matching') {
+      items = items.map(round => ({
+        ...round,
+        pairs: (round.pairs || []).filter(p => !deletedQuestions.includes(String(p.id)))
+      })).filter(round => round.pairs.length > 0);
+    } else {
+      items = items.filter(item => !deletedQuestions.includes(String(item.id)));
     }
 
     if (exerciseType === 'matching') {
@@ -490,6 +511,12 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
     `).get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
+    const userId = req.user.id
+    const deletedQuestions = db.prepare(`
+      SELECT question_id FROM deleted_questions 
+      WHERE user_id = ? AND course_slug = ? AND (exercise_type = 'challenge' OR exercise_type = 'dataset')
+    `).all(userId, courseSlug).map(row => String(row.question_id));
+
     let challenges = [];
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (track) {
@@ -512,6 +539,9 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
     if (challenges.length === 0) {
       challenges = getChallenges(courseSlug);
     }
+
+    // Filter out deleted challenges
+    challenges = challenges.filter(c => !deletedQuestions.includes(String(c.id)));
 
     if (!challenges || challenges.length === 0) {
       return res.status(404).json({ error: 'No datasets available for this course' })

@@ -21,7 +21,7 @@ router.get('/tracks', (req, res, next) => {
           COUNT(c.id) AS course_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
-          ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
+          ROUND(AVG(COALESCE(ms.overall_mastery, 0)), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
         LEFT JOIN track_courses tc ON tc.track_id = t.id
@@ -58,7 +58,7 @@ router.get('/tracks/:slug', (req, res, next) => {
           COUNT(c.id) AS course_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
-          ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
+          ROUND(AVG(COALESCE(ms.overall_mastery, 0)), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
         LEFT JOIN track_courses tc ON tc.track_id = t.id

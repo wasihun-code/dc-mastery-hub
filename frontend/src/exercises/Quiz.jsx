@@ -9,9 +9,11 @@ import {
   ArrowRight, 
   RotateCcw, 
   HelpCircle,
-  Zap
+  Zap,
+  Trash2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
+import { getSessionLimit } from '../services/settingsService';
 
 export default function Quiz() {
   const { courseSlug } = useParams();
@@ -151,14 +153,17 @@ export default function Quiz() {
       let selected = [];
       let replayMode = false;
 
-      if (unattempted.length >= 10) {
-        selected = unattempted.slice(0, 10);
+      const trackSlug = courseData.track?.slug || courseData.track_slug;
+      const sessionLimit = getSessionLimit('quiz', courseSlug, trackSlug, allQuestions.length);
+
+      if (unattempted.length >= sessionLimit) {
+        selected = unattempted.slice(0, sessionLimit);
       } else if (unattempted.length > 0) {
-        const needed = 10 - unattempted.length;
+        const needed = sessionLimit - unattempted.length;
         selected = [...unattempted, ...attempted.slice(0, needed)];
       } else {
         replayMode = true;
-        selected = attempted.slice(0, 10);
+        selected = attempted.slice(0, sessionLimit);
       }
       
       setQuestions(selected);
@@ -234,6 +239,35 @@ export default function Quiz() {
       } catch (err) {
         console.error("Error saving question attempt:", err);
       }
+    }
+  };
+
+  const handleDeleteQuestion = async (questionId) => {
+    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: 'mcq',
+          questionId
+        })
+      });
+      if (res.ok) {
+        const updated = questions.filter(q => q.id !== questionId);
+        setQuestions(updated);
+        if (updated.length === 0) {
+          setStep(3);
+        } else if (currentIndex >= updated.length) {
+          setCurrentIndex(updated.length - 1);
+          resetQuestionState();
+        } else {
+          resetQuestionState();
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete question:", err);
     }
   };
 
@@ -470,7 +504,7 @@ export default function Quiz() {
                         onClick={() => handleOptionClick(option.key)}
                         className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium group ${buttonStyle}`}
                       >
-                        <span className="text-lg">{option.text}</span>
+                        <span className="text-lg w-full">{renderContentWithCode(option.text)}</span>
                         <div className="flex items-center gap-2 shrink-0 ml-2">
                           {!isLocked && !isWrongSelected && (
                             <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-green)] group-hover:text-[var(--accent-green)]">
@@ -526,6 +560,15 @@ export default function Quiz() {
 
         {/* Left Sidebar Controls Container */}
         <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
+          {/* Delete Question Button */}
+          <button
+            type="button"
+            onClick={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
+          >
+            <Trash2 size={14} /> Delete Question
+          </button>
+
           {/* Multiple Tries Toggle Panel */}
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/85 backdrop-blur-md p-4 text-xs shadow-lg flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-2">
             <div className="flex items-center justify-between">

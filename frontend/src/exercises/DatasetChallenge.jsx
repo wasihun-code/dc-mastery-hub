@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
-import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward } from 'lucide-react'
+import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward, Trash2 } from 'lucide-react'
 import Editor from '@monaco-editor/react'
+import { getSessionLimit } from '../services/settingsService'
 
 export default function DatasetChallenge() {
   const { courseSlug } = useParams()
@@ -279,9 +280,13 @@ export default function DatasetChallenge() {
 
       setCourse(courseData)
 
-      if (challengesData.length > 0) {
-        setChallenges(challengesData)
-        setCode(challengesData[0].starter_code)
+      const trackSlug = courseData.track?.slug || courseData.track_slug;
+      const sessionLimit = getSessionLimit('dataset', courseSlug, trackSlug, challengesData.length);
+      const selectedChallenges = challengesData.slice(0, sessionLimit);
+
+      if (selectedChallenges.length > 0) {
+        setChallenges(selectedChallenges)
+        setCode(selectedChallenges[0].starter_code)
         setSolutionUnlocked(false)
         setActiveFile('script')
       } else {
@@ -294,6 +299,39 @@ export default function DatasetChallenge() {
       setLoading(false)
     }
   }
+
+  const handleDeleteQuestion = async (questionId) => {
+    if (!window.confirm("Are you sure you want to delete this challenge? It will not be shown again.")) return;
+    try {
+      const res = await fetch('/api/progress/delete-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          exerciseType: 'challenge',
+          questionId
+        })
+      });
+      if (res.ok) {
+        const updated = challenges.filter(c => c.id !== questionId);
+        setChallenges(updated);
+        if (updated.length === 0) {
+          navigate(`/courses/${courseSlug}?refresh=1`);
+        } else if (currentIndex >= updated.length) {
+          setCurrentIndex(updated.length - 1);
+          setCode(updated[updated.length - 1].starter_code);
+          setResult(null);
+          setTerminalLines([]);
+        } else {
+          setCode(updated[currentIndex].starter_code);
+          setResult(null);
+          setTerminalLines([]);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete challenge:", err);
+    }
+  };
 
   async function handleRun() {
     if (isRunning || isSubmitting) return
@@ -667,8 +705,8 @@ export default function DatasetChallenge() {
       {/* Main Panel Content Area */}
       <div className="flex-1 flex overflow-hidden">
         {/* LEFT PANEL */}
-        <div className="w-[38%] h-full border-r border-[var(--border)] flex flex-col bg-[var(--bg-primary)] overflow-y-auto">
-          <div className="p-6">
+        <div className="w-[38%] h-full border-r border-[var(--border)] relative flex flex-col bg-[var(--bg-primary)]">
+          <div className="flex-1 overflow-y-auto p-6 pb-24">
             <div className="flex items-center gap-3 mb-4">
               <span className={`px-2.5 py-1 text-xs font-extrabold uppercase rounded shadow-sm ${
                 String(challenge.difficulty).toLowerCase() === 'easy' || challenge.difficulty === 1 ? 'bg-emerald-600 text-white' :
@@ -720,8 +758,18 @@ export default function DatasetChallenge() {
               </div>
             ))}
           </div>
+          </div>
+          {/* Delete Challenge button in bottom-left */}
+          <div className="absolute bottom-4 left-6 z-40">
+            <button
+              type="button"
+              onClick={() => handleDeleteQuestion(challenge?.id)}
+              className="bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
+            >
+              <Trash2 size={14} /> Delete Challenge
+            </button>
+          </div>
         </div>
-      </div>
 
       {/* RIGHT PANEL */}
       <div ref={rightPanelRef} className="w-[62%] h-full flex flex-col bg-[#1e1e1e]">

@@ -128,6 +128,16 @@ export function initSchema() {
       difficulty INTEGER DEFAULT 1
     );
 
+    CREATE TABLE IF NOT EXISTS deleted_questions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      course_slug TEXT NOT NULL,
+      exercise_type TEXT NOT NULL,
+      question_id TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(user_id, exercise_type, question_id)
+    );
+
     CREATE TABLE IF NOT EXISTS user_tracks (
       user_id INTEGER NOT NULL REFERENCES users(id),
       track_id INTEGER NOT NULL REFERENCES tracks(id),
@@ -419,4 +429,36 @@ export function initSchema() {
   try {
     db.exec(`ALTER TABLE mastery_scores ADD COLUMN incorrect_score REAL DEFAULT 0`)
   } catch (e) {}
+
+  // Migration: Update all course names with correct casing
+  try {
+    const courses = db.prepare('SELECT id, slug FROM courses').all()
+    const wordExceptions = {
+      sql: 'SQL',
+      pandas: 'Pandas',
+      python: 'Python',
+      postgresql: 'PostgreSQL',
+      apis: 'APIs',
+      etl: 'ETL',
+      elt: 'ELT',
+      git: 'Git',
+      statsmodels: 'Statsmodels',
+    }
+    const courseNameFromSlug = (slug) => {
+      return slug
+        .split('-')
+        .map((word) => wordExceptions[word] ?? `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+        .join(' ')
+    }
+    const updateCourseName = db.prepare('UPDATE courses SET name = ? WHERE id = ?')
+    db.transaction(() => {
+      for (const course of courses) {
+        const correctName = courseNameFromSlug(course.slug)
+        updateCourseName.run(correctName, course.id)
+      }
+    })()
+    console.log('Course names casing migration completed successfully.')
+  } catch (err) {
+    console.error('Failed to run course names casing migration:', err)
+  }
 }

@@ -433,28 +433,12 @@ export default function CourseFilter({
           icon={trackIcon}
         />
 
-        {/* Category Dropdown */}
-        <FilterDropdown
-          label="Category"
-          value={selectedCategory}
-          options={categoryOptions}
-          onChange={onCategoryChange}
-        />
-
         {/* Completion Status Dropdown */}
         <FilterDropdown
           label="Completion Status"
           value={selectedStatus}
           options={statusOptions}
           onChange={onStatusChange}
-        />
-
-        {/* Difficulty Level Dropdown */}
-        <FilterDropdown
-          label="Difficulty Level"
-          value={selectedDifficulty}
-          options={difficultyOptions}
-          onChange={onDifficultyChange}
         />
 
         {/* Reviewed Status Dropdown */}

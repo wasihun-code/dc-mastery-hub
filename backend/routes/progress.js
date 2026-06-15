@@ -33,7 +33,7 @@ function getTracksSummary(userId) {
         COUNT(c.id) AS course_count,
         SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
         SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
-        ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
+        ROUND(AVG(COALESCE(ms.overall_mastery, 0)), 1) AS overall_mastery
       FROM tracks t
       LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
       LEFT JOIN track_courses tc ON tc.track_id = t.id
@@ -156,6 +156,36 @@ export function recalculateMastery(courseId, userId) {
 
   // Step 2 — Get all exercise_attempts for this course for this user
   const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ? AND user_id = ?').all(courseId, userId)
+
+  if (attempts.length === 0) {
+    db.prepare(`
+      INSERT INTO mastery_scores (
+        user_id,
+        course_id,
+        flashcard_score,
+        quiz_score,
+        code_score,
+        dataset_score,
+        matching_score,
+        boss_score,
+        incorrect_score,
+        overall_mastery,
+        updated_at
+      )
+      VALUES (?, ?, 0, 0, 0, 0, 0, 0, 0, 0, datetime('now'))
+      ON CONFLICT(user_id, course_id) DO UPDATE SET
+        flashcard_score = 0,
+        quiz_score = 0,
+        code_score = 0,
+        dataset_score = 0,
+        matching_score = 0,
+        boss_score = 0,
+        incorrect_score = 0,
+        overall_mastery = 0,
+        updated_at = excluded.updated_at
+    `).run(userId, courseId)
+    return db.prepare('SELECT * FROM mastery_scores WHERE course_id = ? AND user_id = ?').get(courseId, userId)
+  }
 
   // Load question-to-concept mapping from JSON files
   const jsonQuestionConceptMap = new Map()
@@ -539,7 +569,7 @@ router.get('/progress/attempted-questions/:courseSlug/:exerciseType', (req, res,
     const attempts = db.prepare(`
       SELECT DISTINCT question_id 
       FROM exercise_attempts 
-      WHERE course_id = ? AND exercise_type = ? AND question_id IS NOT NULL
+      WHERE course_id = ? AND exercise_type = ? AND question_id IS NOT NULL AND was_correct = 1
     `).all(course.id, exerciseType);
     
     res.json(attempts.map(a => a.question_id));
@@ -848,7 +878,7 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
       if (attemptsByType[a.exercise_type]) {
         attemptsByType[a.exercise_type].push(a)
       }
-      if (a.question_id !== null && uniqueQuestionsMap[a.exercise_type]) {
+      if (a.question_id !== null && uniqueQuestionsMap[a.exercise_type] && a.was_correct === 1) {
         uniqueQuestionsMap[a.exercise_type].add(String(a.question_id))
       }
     }
@@ -1353,9 +1383,48 @@ router.get('/progress/due-flashcards', (req, res, next) => {
       JOIN courses c ON c.id = f.course_id
       LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
       WHERE COALESCE(ufp.next_review_date, date('now')) <= date('now')
+        AND CAST(f.id AS TEXT) NOT IN (
+          SELECT question_id FROM deleted_questions 
+          WHERE user_id = ? AND (exercise_type = 'flashcard' OR exercise_type = 'flashcards')
+        )
       ORDER BY COALESCE(ufp.next_review_date, date('now')) ASC
-    `).all(userId)
+    `).all(userId, userId)
     res.status(200).json(dueCards)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/progress/delete-question', (req, res, next) => {
+  try {
+    const userId = req.user.id
+    const { courseSlug, exerciseType, questionId } = req.body
+
+    if (!courseSlug || !exerciseType || !questionId) {
+      return res.status(400).json({ error: "Missing required fields" })
+    }
+
+    db.prepare(`
+      INSERT OR IGNORE INTO deleted_questions (user_id, course_slug, exercise_type, question_id)
+      VALUES (?, ?, ?, ?)
+    `).run(userId, courseSlug, exerciseType, String(questionId))
+
+    // If it is a flashcard, also remove it from queue/progress
+    if (exerciseType === 'flashcard' || exerciseType === 'flashcards') {
+      const qIdNum = parseInt(String(questionId).replace(/\D/g, ''), 10) || null
+      if (qIdNum) {
+        db.prepare(`
+          DELETE FROM spaced_repetition_queue 
+          WHERE user_id = ? AND flashcard_id = ?
+        `).run(userId, qIdNum)
+        db.prepare(`
+          DELETE FROM user_flashcard_progress
+          WHERE user_id = ? AND flashcard_id = ?
+        `).run(userId, qIdNum)
+      }
+    }
+
+    res.status(200).json({ status: 'ok' })
   } catch (err) {
     next(err)
   }
