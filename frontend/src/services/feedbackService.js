@@ -24,7 +24,7 @@ function playTone(freq, startTime, duration, type = 'sine', volume = 0.2) {
     osc.frequency.value = freq;
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, volume * 5.0 * globalVolume);
+    const finalVolume = Math.min(1.0, volume * 10.0 * globalVolume); // Boosted volume multiplier from 5.0 to 10.0
     
     gainNode.gain.setValueAtTime(0, startTime);
     gainNode.gain.linearRampToValueAtTime(finalVolume, startTime + 0.01);
@@ -96,7 +96,7 @@ export function playWrong() {
     osc.frequency.linearRampToValueAtTime(80, now + duration);
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, 0.2 * 5.0 * globalVolume);
+    const finalVolume = Math.min(1.0, 0.2 * 10.0 * globalVolume); // Boosted volume multiplier to 10.0
     
     gainNode.gain.setValueAtTime(0, now);
     gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.02);
@@ -152,7 +152,7 @@ export function playTimerExpired() {
     osc.frequency.linearRampToValueAtTime(90, now + duration);
     
     const globalVolume = getAudioVolume();
-    const finalVolume = Math.min(1.0, 0.15 * 5.0 * globalVolume);
+    const finalVolume = Math.min(1.0, 0.15 * 10.0 * globalVolume); // Boosted volume multiplier to 10.0
     
     gainNode.gain.setValueAtTime(0, now);
     gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.04);
@@ -168,6 +168,188 @@ export function playTimerExpired() {
   }
 }
 
+// 2. Boss Battle Specific Methods
+export function playBossAttack() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Fast frequency slide representing a sword slash/hit
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.12);
+    
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, 0.14 * 10.0 * globalVolume);
+    
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.015);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 0.12);
+    
+    // Supporting chime
+    playTone(659.25, now + 0.03, 0.14, 'sine', 0.1);
+  } catch (err) {
+    console.warn('feedbackService playBossAttack error:', err);
+  }
+}
+
+export function playBossDamage() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const duration = 0.32;
+    // Low explosion rumble
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(110, now);
+    osc.frequency.linearRampToValueAtTime(40, now + duration);
+    
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, 0.22 * 10.0 * globalVolume);
+    
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch (err) {
+    console.warn('feedbackService playBossDamage error:', err);
+  }
+}
+
+export function playBossVictory() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Triumphant battle victory arpeggio
+    const freqs = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5 -> E5 -> G5 -> C6 -> E6
+    freqs.forEach((f, idx) => {
+      playTone(f, now + idx * 0.07, 0.28, 'sine', 0.14);
+    });
+  } catch (err) {
+    console.warn('feedbackService playBossVictory error:', err);
+  }
+}
+
+export function playBossDefeat() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Sad minor/diminished arpeggio
+    const freqs = [392.00, 349.23, 311.13, 261.63, 196.00]; // G4 -> F4 -> Eb4 -> C4 -> G3
+    freqs.forEach((f, idx) => {
+      playTone(f, now + idx * 0.11, 0.35, 'triangle', 0.15);
+    });
+  } catch (err) {
+    console.warn('feedbackService playBossDefeat error:', err);
+  }
+}
+
+export function playBossWaveComplete() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Level up rising chime
+    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+    notes.forEach((freq, idx) => {
+      playTone(freq, now + idx * 0.05, 0.12, 'sine', 0.12);
+    });
+  } catch (err) {
+    console.warn('feedbackService playBossWaveComplete error:', err);
+  }
+}
+
+// 3. Wrangling Speedrun Specific Methods
+export function playSpeedrunCorrect() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Quick Mario Coin chime (B5 -> E6)
+    playTone(987.77, now, 0.05, 'sine', 0.16);
+    playTone(1318.51, now + 0.04, 0.12, 'sine', 0.16);
+  } catch (err) {
+    console.warn('feedbackService playSpeedrunCorrect error:', err);
+  }
+}
+
+export function playSpeedrunWrong() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const duration = 0.15;
+    // Penalty buzz
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(240, now);
+    osc.frequency.linearRampToValueAtTime(130, now + duration);
+    
+    const globalVolume = getAudioVolume();
+    const finalVolume = Math.min(1.0, 0.18 * 10.0 * globalVolume);
+    
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(finalVolume, now + 0.015);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch (err) {
+    console.warn('feedbackService playSpeedrunWrong error:', err);
+  }
+}
+
+export function playSpeedrunTick() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Clean high woodblock/click
+    playTone(1500, now, 0.012, 'sine', 0.08);
+  } catch (err) {
+    console.warn('feedbackService playSpeedrunTick error:', err);
+  }
+}
+
+export function playSpeedrunComplete() {
+  if (!isAudioEnabled()) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    // Rapid bright arpeggio
+    const notes = [392.00, 523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, idx) => {
+      playTone(freq, now + idx * 0.05, 0.16, 'sine', 0.14);
+    });
+  } catch (err) {
+    console.warn('feedbackService playSpeedrunComplete error:', err);
+  }
+}
+
 // Helper to trigger haptics safely
 function vibrate(pattern) {
   if (!isHapticsEnabled()) return;
@@ -180,7 +362,7 @@ function vibrate(pattern) {
   }
 }
 
-// 2. Haptic Methods
+// 4. Haptic Methods
 export function vibrateCorrect() {
   vibrate([60]);
 }
@@ -201,7 +383,7 @@ export function vibrateTimerExpired() {
   vibrate([250]);
 }
 
-// 3. Convenience Methods
+// 5. Convenience Trigger Methods
 export function triggerCorrectFeedback() {
   playCorrect();
   vibrateCorrect();
@@ -225,4 +407,49 @@ export function triggerTimerWarningFeedback() {
 export function triggerTimerExpiredFeedback() {
   playTimerExpired();
   vibrateTimerExpired();
+}
+
+export function triggerBossAttackFeedback() {
+  playBossAttack();
+  vibrate([35, 25, 45]);
+}
+
+export function triggerBossDamageFeedback() {
+  playBossDamage();
+  vibrate([130, 70, 130]);
+}
+
+export function triggerBossVictoryFeedback() {
+  playBossVictory();
+  vibrate([120, 60, 120, 60, 180]);
+}
+
+export function triggerBossDefeatFeedback() {
+  playBossDefeat();
+  vibrate([320]);
+}
+
+export function triggerBossWaveCompleteFeedback() {
+  playBossWaveComplete();
+  vibrate([70, 50, 130]);
+}
+
+export function triggerSpeedrunCorrectFeedback() {
+  playSpeedrunCorrect();
+  vibrate([35]);
+}
+
+export function triggerSpeedrunWrongFeedback() {
+  playSpeedrunWrong();
+  vibrate([95]);
+}
+
+export function triggerSpeedrunTickFeedback() {
+  playSpeedrunTick();
+  vibrate([12]);
+}
+
+export function triggerSpeedrunCompleteFeedback() {
+  playSpeedrunComplete();
+  vibrate([70, 50, 70, 50, 90]);
 }

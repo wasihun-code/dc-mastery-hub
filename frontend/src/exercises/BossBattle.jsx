@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
-  triggerCorrectFeedback, 
-  triggerWrongFeedback, 
-  triggerSuccessFeedback, 
-  triggerTimerWarningFeedback, 
-  triggerTimerExpiredFeedback 
+  triggerBossAttackFeedback, 
+  triggerBossDamageFeedback, 
+  triggerBossVictoryFeedback, 
+  triggerBossDefeatFeedback,
+  triggerBossWaveCompleteFeedback,
+  triggerTimerWarningFeedback 
 } from '../services/feedbackService';
 import { 
   ChevronLeft, 
@@ -250,7 +251,7 @@ export default function BossBattle() {
     setIsAnswered(true);
     setFlash('wrong');
     setSelectedOption(null);
-    triggerTimerExpiredFeedback();
+    triggerBossDamageFeedback();
     
     setSurvivedCount(prev => prev + 1);
     updateWaveSurvival(currentIndex);
@@ -342,13 +343,13 @@ export default function BossBattle() {
     if (isCorrect) {
       setScore(prev => prev + 1);
       setFlash('correct');
-      triggerCorrectFeedback();
+      triggerBossAttackFeedback();
       advanceTimeoutRef.current = setTimeout(() => {
         advanceNext();
       }, 800);
     } else {
       setFlash('wrong');
-      triggerWrongFeedback();
+      triggerBossDamageFeedback();
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
@@ -389,6 +390,15 @@ export default function BossBattle() {
     
     const nextIdx = currentIndex + 1;
     if (nextIdx < questions.length) {
+      const currentQ = questions[currentIndex];
+      const nextQ = questions[nextIdx];
+      const currentW = currentQ?.wave !== undefined && currentQ?.wave !== null ? Number(currentQ.wave) : (Math.floor(currentIndex / 20) + 1);
+      const nextW = nextQ?.wave !== undefined && nextQ?.wave !== null ? Number(nextQ.wave) : (Math.floor(nextIdx / 20) + 1);
+      
+      if (nextW > currentW) {
+        triggerBossWaveCompleteFeedback();
+      }
+
       setCurrentIndex(nextIdx);
       resetQuestionState();
       startTimer();
@@ -401,7 +411,11 @@ export default function BossBattle() {
     if (timerRef.current) clearInterval(timerRef.current);
     setGameOverReason(reason);
     setStep(3);
-    triggerSuccessFeedback();
+    if (reason === 'complete') {
+      triggerBossVictoryFeedback();
+    } else {
+      triggerBossDefeatFeedback();
+    }
     
     const finalXp = survivedCount * 5;
     

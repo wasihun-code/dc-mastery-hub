@@ -13,6 +13,13 @@ import {
   Loader2
 } from 'lucide-react'
 import CodeBlock from '../components/CodeBlock'
+import {
+  triggerBossAttackFeedback,
+  triggerBossDamageFeedback,
+  triggerBossVictoryFeedback,
+  triggerBossDefeatFeedback,
+  triggerTimerWarningFeedback
+} from '../services/feedbackService'
 
 export default function TrackTest() {
   const { trackSlug } = useParams()
@@ -36,6 +43,14 @@ export default function TrackTest() {
 
   const timerRef = useRef(null)
   const advanceTimeoutRef = useRef(null)
+  const warningFiredRef = useRef(false)
+
+  useEffect(() => {
+    if (step === 2 && timeLeft === 5 && !isAnswered && !warningFiredRef.current) {
+      warningFiredRef.current = true
+      triggerTimerWarningFeedback()
+    }
+  }, [timeLeft, step, isAnswered])
 
   useEffect(() => {
     async function fetchTrackData() {
@@ -144,12 +159,14 @@ export default function TrackTest() {
     setSelectedOption(null)
     setFlash(null)
     setTimeLeft(15)
+    warningFiredRef.current = false
   }
 
   const handleTimeOut = async () => {
     setIsAnswered(true)
     setFlash('wrong')
     setSelectedOption(null)
+    triggerBossDamageFeedback()
     setAttemptedCount((prev) => prev + 1)
 
     const currentQuestion = questions[currentIndex]
@@ -228,11 +245,13 @@ export default function TrackTest() {
     if (isCorrect) {
       setScore((prev) => prev + 1)
       setFlash('correct')
+      triggerBossAttackFeedback()
       advanceTimeoutRef.current = setTimeout(() => {
         advanceNext()
       }, 800)
     } else {
       setFlash('wrong')
+      triggerBossDamageFeedback()
       setLives((prev) => {
         const nextLives = prev - 1
         if (nextLives <= 0) {
@@ -265,6 +284,11 @@ export default function TrackTest() {
     if (timerRef.current) clearInterval(timerRef.current)
     setGameOverReason(reason)
     setStep(3)
+    if (reason === 'complete') {
+      triggerBossVictoryFeedback()
+    } else {
+      triggerBossDefeatFeedback()
+    }
 
     // Save overall XP bonus
     const finalXp = score * 10

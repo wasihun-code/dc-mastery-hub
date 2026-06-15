@@ -15,6 +15,12 @@ import {
   Search
 } from 'lucide-react'
 import CodeBlock from '../components/CodeBlock'
+import {
+  triggerSpeedrunCorrectFeedback,
+  triggerSpeedrunWrongFeedback,
+  triggerSpeedrunTickFeedback,
+  triggerSpeedrunCompleteFeedback
+} from '../services/feedbackService'
 
 export default function WranglingSpeedrun() {
   const navigate = useNavigate()
@@ -207,6 +213,9 @@ export default function WranglingSpeedrun() {
           finishSpeedrun()
           return 0
         }
+        if (prev <= 6) {
+          triggerSpeedrunTickFeedback()
+        }
         return prev - 1
       })
     }, 1000)
@@ -230,9 +239,11 @@ export default function WranglingSpeedrun() {
       setSpeedrunScore(prev => prev + 1)
       setSpeedrunFlash('correct')
       setSpeedrunTime(prev => prev + 5) // add 5 seconds
+      triggerSpeedrunCorrectFeedback()
     } else {
       setSpeedrunFlash('wrong')
       setSpeedrunTime(prev => Math.max(0, prev - 10)) // subtract 10 seconds
+      triggerSpeedrunWrongFeedback()
     }
 
     // Save attempt to database (same logic as bossbattle/quiz to count towards course mastery!)
@@ -287,6 +298,7 @@ export default function WranglingSpeedrun() {
     if (speedrunTimerRef.current) clearInterval(speedrunTimerRef.current)
     if (speedrunTimeoutRef.current) clearTimeout(speedrunTimeoutRef.current)
     setSpeedrunStep(3) // Transition to Completed Summary
+    triggerSpeedrunCompleteFeedback()
 
     // Save final accumulated XP to user statistics
     const finalXp = speedrunScore * 10
