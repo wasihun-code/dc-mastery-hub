@@ -429,7 +429,7 @@ export default function FillBlank() {
                   setUserAnswers({ ...userAnswers, [slotIndex]: e.target.value });
                 }}
                 placeholder="_____"
-                className={`inline-flex min-w-[100px] h-[32px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold bg-[var(--bg-primary)] focus:outline-none vertical-middle ${
+                className={`inline-flex min-w-[120px] h-[38px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-lg font-bold bg-[var(--bg-primary)] focus:outline-none vertical-middle ${
                   isChecked
                     ? isCorrect
                       ? "!bg-[var(--accent-green)] !border-[var(--accent-green)] !text-black opacity-100"
@@ -438,12 +438,12 @@ export default function FillBlank() {
                     ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]"
                     : "border-[var(--border)] text-[var(--text-primary)] focus:border-[var(--accent-blue)]"
                 }`}
-                style={{ width: `${Math.max(100, (userAnswers[slotIndex] || "").length * 10 + 20)}px` }}
+                style={{ width: `${Math.max(120, (userAnswers[slotIndex] || "").length * 11 + 24)}px` }}
                 onFocus={() => setActiveSlot(slotIndex)}
               />
             );
           } else {
-            let slotClass = "inline-flex min-w-[90px] h-[32px] items-center justify-center px-3 mx-1.5 rounded-lg border-2 transition-all font-mono text-sm font-bold cursor-pointer select-none vertical-middle ";
+            let slotClass = "inline-flex min-w-[110px] h-[38px] items-center justify-center px-3 mx-1.5 rounded-lg border-2 transition-all font-mono text-lg font-bold cursor-pointer select-none vertical-middle ";
             if (isChecked) {
               slotClass += isCorrect ? "bg-[var(--accent-green)] border-[var(--accent-green)] text-black" : "bg-[var(--accent-red)] border-[var(--accent-red)] text-white";
             } else {
@@ -508,8 +508,8 @@ export default function FillBlank() {
                 </h2>
                 
                 <div className={isMultiLine 
-                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-base leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
-                  : "inline-flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-base mb-4 overflow-x-auto max-w-full whitespace-pre"
+                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
+                  : "inline-flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
                 }>
                   {renderCodeWithSlots()}
                 </div>

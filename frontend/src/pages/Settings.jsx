@@ -27,6 +27,7 @@ export default function Settings() {
   const [categories, setCategories] = useState([])
   const [resetType, setResetType] = useState('') // 'course', 'track', 'category', 'all'
   const [selectedTarget, setSelectedTarget] = useState('') // trackId, courseId, or categoryName
+  const [selectedCategory, setSelectedCategory] = useState('') // flashcard, quiz, fillblank, etc.
   const [confirmStep, setConfirmStep] = useState(0) // 0: closed, 1: yes/no, 2: type to confirm
   const [verificationInput, setVerificationInput] = useState('')
   const [resetting, setResetting] = useState(false)
@@ -106,6 +107,7 @@ export default function Settings() {
     if (type === 'course') return 'reset course progress permanently'
     if (type === 'track') return 'reset track progress permanently'
     if (type === 'category') return 'reset category progress permanently'
+    if (type === 'course_exercise_category') return 'reset exercise progress permanently'
     return 'reset all progress permanently'
   }
 
@@ -113,6 +115,18 @@ export default function Settings() {
     if (resetType === 'course') {
       const course = courses.find(c => String(c.id) === String(selectedTarget))
       return course ? course.name : 'Selected Course'
+    }
+    if (resetType === 'course_exercise_category') {
+      const course = courses.find(c => String(c.id) === String(selectedTarget))
+      const catLabel = {
+        flashcard: 'Flashcards',
+        quiz: 'Multiple Choice Quiz / Speedrun',
+        fillblank: 'Fill in the Blank',
+        dataset: 'Dataset Challenge',
+        matching: 'Matching Games',
+        bossbattle: 'Boss Battle'
+      }[selectedCategory] || 'Selected Category'
+      return course ? `[${catLabel}] in ${course.name}` : 'Selected Course Category'
     }
     if (resetType === 'track') {
       const track = tracks.find(t => String(t.id) === String(selectedTarget))
@@ -127,6 +141,10 @@ export default function Settings() {
   const handleOpenResetDialog = () => {
     if (resetType !== 'all' && !selectedTarget) {
       alert('Please select a target to reset.')
+      return
+    }
+    if (resetType === 'course_exercise_category' && !selectedCategory) {
+      alert('Please select an exercise type to reset.')
       return
     }
     setVerificationInput('')
@@ -154,6 +172,7 @@ export default function Settings() {
         body: JSON.stringify({
           type: resetType,
           targetId: selectedTarget,
+          category: selectedCategory,
         }),
       })
 
@@ -165,6 +184,7 @@ export default function Settings() {
       setConfirmStep(0)
       setResetType('')
       setSelectedTarget('')
+      setSelectedCategory('')
       setVerificationInput('')
       
       // Auto dismiss success and reload to reflect changes
@@ -496,7 +516,7 @@ export default function Settings() {
 
         {/* Form elements */}
         <div className="mt-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={`grid grid-cols-1 ${resetType === 'course_exercise_category' ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6`}>
             <div>
               <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
                 1. Reset Scope
@@ -506,11 +526,13 @@ export default function Settings() {
                 onChange={(e) => {
                   setResetType(e.target.value)
                   setSelectedTarget('')
+                  setSelectedCategory('')
                 }}
                 className="w-full rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] p-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-red)] transition-all cursor-pointer"
               >
                 <option value="">Select Scope...</option>
-                <option value="course">Specific Course</option>
+                <option value="course">Specific Course (All Exercises)</option>
+                <option value="course_exercise_category">Specific Exercise Type in Course</option>
                 <option value="track">Specific Track</option>
                 <option value="category">Specific Category</option>
                 <option value="all">Everything (Full Database Reset)</option>
@@ -521,7 +543,7 @@ export default function Settings() {
             {resetType && resetType !== 'all' && (
               <div>
                 <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
-                  2. Select Target
+                  2. Select Target Course / Track
                 </label>
                 {resetType === 'course' && (
                   <select
@@ -532,6 +554,26 @@ export default function Settings() {
                     <option value="">Choose a Course...</option>
                     {courses
                       .filter(c => (c.overall_mastery || 0) > 0 && (c.quiz_question_count || 0) > 0)
+                      .map(c => (
+                        <option key={c.id} value={c.id}>
+                          {c.name} ({c.track_language})
+                        </option>
+                      ))}
+                  </select>
+                )}
+
+                {resetType === 'course_exercise_category' && (
+                  <select
+                    value={selectedTarget}
+                    onChange={(e) => {
+                      setSelectedTarget(e.target.value)
+                      setSelectedCategory('')
+                    }}
+                    className="w-full rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] p-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-red)] transition-all cursor-pointer"
+                  >
+                    <option value="">Choose a Course...</option>
+                    {courses
+                      .filter(c => (c.overall_mastery || 0) > 0 || c.status !== 'Not Started')
                       .map(c => (
                         <option key={c.id} value={c.id}>
                           {c.name} ({c.track_language})
@@ -571,10 +613,36 @@ export default function Settings() {
                 )}
               </div>
             )}
+
+            {/* Exercise category selector for course_exercise_category */}
+            {resetType === 'course_exercise_category' && selectedTarget && (
+              <div>
+                <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
+                  3. Select Exercise Type
+                </label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] p-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-red)] transition-all cursor-pointer"
+                >
+                  <option value="">Choose Exercise Type...</option>
+                  <option value="flashcard">Flashcards</option>
+                  <option value="quiz">Multiple Choice Quiz / Speedrun</option>
+                  <option value="fillblank">Fill in the Blank</option>
+                  <option value="dataset">Dataset Challenge</option>
+                  <option value="matching">Matching Games</option>
+                  <option value="bossbattle">Boss Battle</option>
+                </select>
+              </div>
+            )}
           </div>
 
           {/* Action Button */}
-          {resetType && (resetType === 'all' || selectedTarget) && (
+          {resetType && (
+            resetType === 'all' || 
+            (resetType === 'course_exercise_category' && selectedTarget && selectedCategory) ||
+            (resetType !== 'course_exercise_category' && selectedTarget)
+          ) && (
             <div className="pt-4 border-t border-[var(--border)]/40 flex items-center justify-end">
               <button
                 type="button"

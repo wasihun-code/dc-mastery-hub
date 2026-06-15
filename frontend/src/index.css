@@ -100,7 +100,7 @@ a {
   border-radius: 6px;
   padding: 12px 16px;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 13px;
+  font-size: 16px;
   color: #e6edf3;
   white-space: pre-wrap;
   word-break: break-word;
@@ -115,7 +115,7 @@ a {
   border-radius: 3px;
   padding: 2px 6px;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
+  font-size: 15px;
   color: #e6edf3;
 }
 
@@ -131,8 +131,12 @@ a {
 }
 
 .exercise-layout .code-block {
-  font-size: 16px !important;
+  font-size: 19px !important;
   padding: 18px 24px !important;
+}
+
+.exercise-layout .inline-code {
+  font-size: 18px !important;
 }
 
 @media (max-width: 768px) {

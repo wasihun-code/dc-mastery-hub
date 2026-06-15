@@ -246,32 +246,28 @@ export function recalculateMastery(courseId, userId) {
     conceptMastery[conceptId] = bestMastery
   }
 
-  // Step 4 — Calculate base mastery from concepts
-  let conceptsCovered = 0
-  let conceptDepthSum = 0
-
-  for (const conceptId of conceptIdsSet) {
-    const m = conceptMastery[conceptId] || 0
-    if (m > 0) {
-      conceptsCovered++
+  // Helper to compute average concept mastery for a given type (out of all course concepts)
+  const getScoreForType = (type) => {
+    let sum = 0
+    for (const conceptId of conceptIdsSet) {
+      const typeAttempts = conceptByType[conceptId]?.[type] || []
+      if (typeAttempts.length > 0) {
+        const correct = typeAttempts.filter(a => a.was_correct === 1).length
+        const wrong = typeAttempts.length - correct
+        const mastery = correct > 0 ? (correct / (correct + 0.5 * wrong)) : 0
+        sum += mastery
+      }
     }
-    conceptDepthSum += m
+    return totalConcepts > 0 ? (sum / totalConcepts) * 100 : 0
   }
 
-  const conceptCoverage = totalConcepts > 0 ? (conceptsCovered / totalConcepts) : 0
-  const conceptDepth = totalConcepts > 0 ? (conceptDepthSum / totalConcepts) : 0
+  const flashcardScore = getScoreForType('flashcard')
+  const quizScore = getScoreForType('quiz')
+  const codeScore = getScoreForType('fillblank')
+  const bossScore = getScoreForType('bossbattle')
 
-  const baseMastery = (conceptCoverage * 0.4) + (conceptDepth * 0.6)
-
-  // Step 5 — Calculate exercise type bonuses (max 0.20 total)
-  let flashcardBonus = 0
-  const fcAttempts = attempts.filter(a => a.exercise_type === 'flashcard')
-  if (fcAttempts.length > 0) {
-    const fcCorrect = fcAttempts.filter(a => a.was_correct === 1).length
-    flashcardBonus = Math.min(0.05, (fcCorrect / fcAttempts.length) * 0.05)
-  }
-
-  let matchingBonus = 0
+  // Calculate matching score (based on score of all matching attempts)
+  let matchingScore = 0
   const matchAttempts = attempts.filter(a => a.exercise_type === 'matching')
   if (matchAttempts.length > 0) {
     let sumScore = 0
@@ -280,93 +276,46 @@ export function recalculateMastery(courseId, userId) {
       if (sc > 1) sc = sc / 100
       sumScore += sc
     }
-    const avgScore = sumScore / matchAttempts.length
-    matchingBonus = Math.min(0.05, avgScore * 0.05)
+    matchingScore = (sumScore / matchAttempts.length) * 100
   }
 
-  let datasetBonus = 0
+  // Calculate dataset score (percentage of solved challenges)
   const dsAttempts = attempts.filter(a => a.exercise_type === 'dataset')
-  if (dsAttempts.length > 0) {
-    const solvedChallengeIds = new Set(
-      dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
-    )
-    let totalChallenges = 0
-    const challengePath = path.join(exercisesDir, 'challenge.json')
-    if (fs.existsSync(challengePath)) {
-      try {
-        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
-        totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
-      } catch (e) {}
-    }
-    if (totalChallenges === 0) {
-      try {
-        const challenges = getChallenges(course.slug)
-        totalChallenges = (challenges || []).length
-      } catch (e) {}
-    }
-    if (totalChallenges > 0) {
-      datasetBonus = Math.min(0.05, (solvedChallengeIds.size / totalChallenges) * 0.05)
-    } else {
-      datasetBonus = 0.05
-    }
-  }
-
-  let bossBonus = 0
-  const bossAttempts = attempts.filter(a => a.exercise_type === 'bossbattle')
-  if (bossAttempts.length > 0) {
-    const bossCorrect = bossAttempts.filter(a => a.was_correct === 1).length
-    bossBonus = Math.min(0.05, (bossCorrect / bossAttempts.length) * 0.05)
-  }
-
-  const totalBonus = flashcardBonus + matchingBonus + datasetBonus + bossBonus
-
-  // Step 6 — Compute final scores for storage
-  const overallMastery = Math.min(100, (baseMastery + totalBonus) * 100)
-
-  const getConceptDepthForType = (type) => {
-    const conceptsWithType = []
-    for (const conceptId of conceptIdsSet) {
-      if (conceptByType[conceptId] && conceptByType[conceptId][type]) {
-        conceptsWithType.push(conceptId)
-      }
-    }
-    if (conceptsWithType.length === 0) return 0
-    const sum = conceptsWithType.reduce((acc, c) => acc + conceptMastery[c], 0)
-    return sum / conceptsWithType.length
-  }
-
-  const flashcardScore = getConceptDepthForType('flashcard') * 100
-  const quizScore = getConceptDepthForType('quiz') * 100
-  const codeScore = getConceptDepthForType('fillblank') * 100
-
   let datasetScore = 0
-  if (dsAttempts.length > 0) {
+  let totalChallenges = 0
+  const challengePath = path.join(exercisesDir, 'challenge.json')
+  if (fs.existsSync(challengePath)) {
+    try {
+      const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+      totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
+    } catch (e) {}
+  }
+  if (totalChallenges === 0) {
+    try {
+      const challenges = getChallenges(course.slug)
+      totalChallenges = (challenges || []).length
+    } catch (e) {}
+  }
+
+  if (totalChallenges > 0) {
     const solvedChallengeIds = new Set(
       dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
     )
-    let totalChallenges = 0
-    const challengePath = path.join(exercisesDir, 'challenge.json')
-    if (fs.existsSync(challengePath)) {
-      try {
-        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
-        totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
-      } catch (e) {}
-    }
-    if (totalChallenges === 0) {
-      try {
-        const challenges = getChallenges(course.slug)
-        totalChallenges = (challenges || []).length
-      } catch (e) {}
-    }
-    if (totalChallenges > 0) {
-      datasetScore = (solvedChallengeIds.size / totalChallenges) * 100
-    } else {
-      datasetScore = 100
-    }
+    datasetScore = (solvedChallengeIds.size / totalChallenges) * 100
+  } else {
+    // Default to 100% if course has no dataset challenges so it doesn't block 100% overall mastery
+    datasetScore = 100
   }
 
-  const matchingScore = matchingBonus * 20 * 100
-  const bossScore = getConceptDepthForType('bossbattle') * 100
+  // Compute final overall mastery score based on the split formula:
+  // overall = (flashcard * 0.20) + (quiz * 0.30) + (code * 0.30) + (dataset * 0.20)
+  const overallMastery = Math.min(
+    100,
+    (flashcardScore * 0.20) +
+    (quizScore * 0.30) +
+    (codeScore * 0.30) +
+    (datasetScore * 0.20)
+  )
 
   // Step 7 — Update mastery_scores table
   db.prepare(`
@@ -906,15 +855,33 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
 router.post('/progress/reset', (req, res, next) => {
   try {
     const userId = req.user.id
-    const { type, targetId } = req.body
+    const { type, targetId, category } = req.body
 
-    if (!['course', 'track', 'category', 'all'].includes(type)) {
+    if (!['course', 'track', 'category', 'all', 'course_exercise_category'].includes(type)) {
       res.status(400).json({ error: 'Invalid reset type' })
       return
     }
 
     db.transaction(() => {
-      if (type === 'course') {
+      if (type === 'course_exercise_category') {
+        const courseId = Number(targetId)
+        const cat = String(category)
+        
+        db.prepare('DELETE FROM exercise_attempts WHERE course_id = ? AND user_id = ? AND exercise_type = ?').run(courseId, userId, cat)
+        
+        if (cat === 'flashcard') {
+          db.prepare(`
+            DELETE FROM user_flashcard_progress 
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+          `).run(userId, courseId)
+          db.prepare(`
+            DELETE FROM spaced_repetition_queue 
+            WHERE user_id = ? AND flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)
+          `).run(userId, courseId)
+        }
+        
+        recalculateMastery(courseId, userId)
+      } else if (type === 'course') {
         const courseId = Number(targetId)
         db.prepare('DELETE FROM exercise_attempts WHERE course_id = ? AND user_id = ?').run(courseId, userId)
         db.prepare('DELETE FROM mastery_scores WHERE course_id = ? AND user_id = ?').run(courseId, userId)
