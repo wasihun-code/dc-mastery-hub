@@ -14,17 +14,30 @@ export function importJsonExercises() {
   
   try {
     const courses = db.prepare(`
-      SELECT c.id, c.slug, t.slug AS track_slug 
+      SELECT c.id, c.slug 
       FROM courses c
-      JOIN tracks t ON t.id = c.track_id
     `).all()
 
     let coursesImported = 0
 
     for (const course of courses) {
-      const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
+      const trackCourses = db.prepare(`
+        SELECT t.slug AS track_slug
+        FROM track_courses tc
+        JOIN tracks t ON t.id = tc.track_id
+        WHERE tc.course_id = ?
+      `).all(course.id)
+
+      let exercisesDir = null
+      for (const tc of trackCourses) {
+        const dir = path.join(contentFolder, 'tracks', tc.track_slug, course.slug, 'exercises')
+        if (fs.existsSync(dir)) {
+          exercisesDir = dir
+          break
+        }
+      }
       
-      if (!fs.existsSync(exercisesDir)) continue
+      if (!exercisesDir) continue
 
       const mcqPath = path.join(exercisesDir, 'mcq.json')
       const fcPath = path.join(exercisesDir, 'flashcards.json')

@@ -254,6 +254,7 @@ export function initSchema() {
           dataset_score REAL DEFAULT 0,
           matching_score REAL DEFAULT 0,
           boss_score REAL DEFAULT 0,
+          incorrect_score REAL DEFAULT 0,
           overall_mastery REAL DEFAULT 0,
           updated_at TEXT DEFAULT (datetime('now')),
           UNIQUE(user_id, course_id)
@@ -413,4 +414,9 @@ export function initSchema() {
   } catch (err) {
     console.error('Failed to run track_courses migration:', err)
   }
+
+  // Migration: Add incorrect_score to mastery_scores if it doesn't exist
+  try {
+    db.exec(`ALTER TABLE mastery_scores ADD COLUMN incorrect_score REAL DEFAULT 0`)
+  } catch (e) {}
 }

@@ -36,7 +36,8 @@ function getTracksSummary(userId) {
         ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
       FROM tracks t
       LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
-      LEFT JOIN courses c ON c.track_id = t.id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
+      LEFT JOIN track_courses tc ON tc.track_id = t.id
+      LEFT JOIN courses c ON c.id = tc.course_id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
       LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
       WHERE COALESCE(ut.is_deleted, 0) = 0 AND COALESCE(ut.is_archived, 0) = 0
@@ -261,60 +262,100 @@ export function recalculateMastery(courseId, userId) {
     return totalConcepts > 0 ? (sum / totalConcepts) * 100 : 0
   }
 
-  const flashcardScore = getScoreForType('flashcard')
-  const quizScore = getScoreForType('quiz')
-  const codeScore = getScoreForType('fillblank')
-  const bossScore = getScoreForType('bossbattle')
+  const hasMcq = fs.existsSync(path.join(exercisesDir, 'mcq.json')) || db.prepare('SELECT 1 FROM quiz_questions WHERE course_id = ? LIMIT 1').get(courseId) !== undefined
+  const hasFlashcard = fs.existsSync(path.join(exercisesDir, 'flashcards.json')) || db.prepare('SELECT 1 FROM flashcards WHERE course_id = ? LIMIT 1').get(courseId) !== undefined
+  const hasFtb = fs.existsSync(path.join(exercisesDir, 'ftb.json'))
+  const hasMatching = fs.existsSync(path.join(exercisesDir, 'matching.json'))
+  const hasBoss = fs.existsSync(path.join(exercisesDir, 'bossbattle.json'))
+  const hasDataset = fs.existsSync(path.join(exercisesDir, 'challenge.json'))
+
+  const flashcardScore = hasFlashcard ? getScoreForType('flashcard') : 100
+  const quizScore = hasMcq ? getScoreForType('quiz') : 100
+  const codeScore = hasFtb ? getScoreForType('fillblank') : 100
+  const bossScore = hasBoss ? getScoreForType('bossbattle') : 100
 
   // Calculate matching score (based on score of all matching attempts)
   let matchingScore = 0
-  const matchAttempts = attempts.filter(a => a.exercise_type === 'matching')
-  if (matchAttempts.length > 0) {
-    let sumScore = 0
-    for (const a of matchAttempts) {
-      let sc = a.score !== null ? a.score : 1.0
-      if (sc > 1) sc = sc / 100
-      sumScore += sc
+  if (hasMatching) {
+    const matchAttempts = attempts.filter(a => a.exercise_type === 'matching')
+    if (matchAttempts.length > 0) {
+      let sumScore = 0
+      for (const a of matchAttempts) {
+        let sc = a.score !== null ? a.score : 1.0
+        if (sc > 1) sc = sc / 100
+        sumScore += sc
+      }
+      matchingScore = (sumScore / matchAttempts.length) * 100
     }
-    matchingScore = (sumScore / matchAttempts.length) * 100
+  } else {
+    matchingScore = 100
   }
 
   // Calculate dataset score (percentage of solved challenges)
-  const dsAttempts = attempts.filter(a => a.exercise_type === 'dataset')
   let datasetScore = 0
-  let totalChallenges = 0
-  const challengePath = path.join(exercisesDir, 'challenge.json')
-  if (fs.existsSync(challengePath)) {
-    try {
-      const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
-      totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
-    } catch (e) {}
-  }
-  if (totalChallenges === 0) {
-    try {
-      const challenges = getChallenges(course.slug)
-      totalChallenges = (challenges || []).length
-    } catch (e) {}
-  }
+  if (hasDataset) {
+    const dsAttempts = attempts.filter(a => a.exercise_type === 'dataset')
+    let totalChallenges = 0
+    const challengePath = path.join(exercisesDir, 'challenge.json')
+    if (fs.existsSync(challengePath)) {
+      try {
+        const d = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+        totalChallenges = (Array.isArray(d) ? d : (d.challenges || [])).length
+      } catch (e) {}
+    }
+    if (totalChallenges === 0) {
+      try {
+        const challenges = getChallenges(course.slug)
+        totalChallenges = (challenges || []).length
+      } catch (e) {}
+    }
 
-  if (totalChallenges > 0) {
-    const solvedChallengeIds = new Set(
-      dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
-    )
-    datasetScore = (solvedChallengeIds.size / totalChallenges) * 100
+    if (totalChallenges > 0) {
+      const solvedChallengeIds = new Set(
+        dsAttempts.filter(a => a.was_correct === 1).map(a => String(a.question_id))
+      )
+      datasetScore = (solvedChallengeIds.size / totalChallenges) * 100
+    } else {
+      datasetScore = 100
+    }
   } else {
-    // Default to 100% if course has no dataset challenges so it doesn't block 100% overall mastery
     datasetScore = 100
   }
 
-  // Compute final overall mastery score based on the split formula:
-  // overall = (flashcard * 0.20) + (quiz * 0.30) + (code * 0.30) + (dataset * 0.20)
+  // Calculate incorrect review score (percentage of cleared incorrect attempts)
+  const incorrectCount = db.prepare(`
+    SELECT COUNT(DISTINCT a.question_id || '-' || a.exercise_type) AS count
+    FROM exercise_attempts a
+    JOIN (
+      SELECT exercise_type, question_id, MAX(attempted_at) as max_attempted_at
+      FROM exercise_attempts
+      WHERE course_id = ? AND user_id = ? AND question_id IS NOT NULL
+      GROUP BY exercise_type, question_id
+    ) sub ON a.exercise_type = sub.exercise_type 
+          AND a.question_id = sub.question_id 
+          AND a.attempted_at = sub.max_attempted_at
+    WHERE a.was_correct = 0
+  `).get(courseId, userId).count
+
+  const totalAttemptedQuestions = db.prepare(`
+    SELECT COUNT(DISTINCT question_id || '-' || exercise_type) AS count
+    FROM exercise_attempts
+    WHERE course_id = ? AND user_id = ? AND question_id IS NOT NULL
+  `).get(courseId, userId).count
+
+  const incorrectScore = totalAttemptedQuestions > 0 ? ((totalAttemptedQuestions - incorrectCount) / totalAttemptedQuestions) * 100 : 100
+
+  // Compute final overall mastery score based on the new breakdown:
+  // overall = (dataset * 0.30) + (boss * 0.15) + (code * 0.20) + (matching * 0.10) + (quiz * 0.15) + (flashcard * 0.05) + (incorrect * 0.05)
   const overallMastery = Math.min(
     100,
-    (flashcardScore * 0.20) +
-    (quizScore * 0.30) +
-    (codeScore * 0.30) +
-    (datasetScore * 0.20)
+    (datasetScore * 0.30) +
+    (bossScore * 0.15) +
+    (codeScore * 0.20) +
+    (matchingScore * 0.10) +
+    (quizScore * 0.15) +
+    (flashcardScore * 0.05) +
+    (incorrectScore * 0.05)
   )
 
   // Step 7 — Update mastery_scores table
@@ -328,10 +369,11 @@ export function recalculateMastery(courseId, userId) {
       dataset_score,
       matching_score,
       boss_score,
+      incorrect_score,
       overall_mastery,
       updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
     ON CONFLICT(user_id, course_id) DO UPDATE SET
       flashcard_score = excluded.flashcard_score,
       quiz_score = excluded.quiz_score,
@@ -339,9 +381,10 @@ export function recalculateMastery(courseId, userId) {
       dataset_score = excluded.dataset_score,
       matching_score = excluded.matching_score,
       boss_score = excluded.boss_score,
+      incorrect_score = excluded.incorrect_score,
       overall_mastery = excluded.overall_mastery,
       updated_at = excluded.updated_at
-  `).run(userId, courseId, flashcardScore, quizScore, codeScore, datasetScore, matchingScore, bossScore, overallMastery)
+  `).run(userId, courseId, flashcardScore, quizScore, codeScore, datasetScore, matchingScore, bossScore, incorrectScore, overallMastery)
 
   return db.prepare('SELECT * FROM mastery_scores WHERE course_id = ? AND user_id = ?').get(courseId, userId)
 }
@@ -1090,6 +1133,211 @@ router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
     })
     
     res.status(200).json(conceptsWithMastery)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/progress/incorrect-questions/:courseSlug', (req, res, next) => {
+  try {
+    const { courseSlug } = req.params
+    const userId = req.user.id
+
+    const course = db.prepare(`
+      SELECT c.id, c.slug, t.slug as track_slug 
+      FROM courses c
+      JOIN track_courses tc ON tc.course_id = c.id
+      JOIN tracks t ON t.id = tc.track_id
+      WHERE c.slug = ?
+    `).get(courseSlug)
+
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+
+    const attempts = db.prepare(`
+      SELECT a.exercise_type, a.question_id, a.concept_id
+      FROM exercise_attempts a
+      JOIN (
+        SELECT exercise_type, question_id, MAX(attempted_at) as max_attempted_at
+        FROM exercise_attempts
+        WHERE course_id = ? AND user_id = ? AND question_id IS NOT NULL
+        GROUP BY exercise_type, question_id
+      ) sub ON a.exercise_type = sub.exercise_type 
+            AND a.question_id = sub.question_id 
+            AND a.attempted_at = sub.max_attempted_at
+      WHERE a.was_correct = 0
+    `).all(course.id, userId)
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+    const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
+
+    // Read all exercise JSON files to create detail maps
+    const mcqMap = new Map()
+    const bossMap = new Map()
+    const fcMap = new Map()
+    const ftbMap = new Map()
+    const matchingMap = new Map()
+
+    const readJsonFile = (fileName) => {
+      const filePath = path.join(exercisesDir, fileName)
+      if (fs.existsSync(filePath)) {
+        try {
+          return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+        } catch (e) {}
+      }
+      return null
+    }
+
+    const mcqData = readJsonFile('mcq.json')
+    if (mcqData) {
+      const items = Array.isArray(mcqData) ? mcqData : (mcqData.questions || [])
+      for (const q of items) {
+        mcqMap.set(String(q.id), {
+          question_text: q.question_text || q.question,
+          options: q.options || { a: q.option_a, b: q.option_b, c: q.option_c, d: q.option_d },
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          per_option_feedback: q.per_option_feedback || {}
+        })
+      }
+    }
+
+    const bossData = readJsonFile('bossbattle.json')
+    if (bossData) {
+      const items = Array.isArray(bossData) ? bossData : (bossData.questions || [])
+      for (const q of items) {
+        bossMap.set(String(q.id), {
+          question_text: q.question_text || q.question,
+          options: q.options || { a: q.option_a, b: q.option_b, c: q.option_c, d: q.option_d },
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          per_option_feedback: q.per_option_feedback || {}
+        })
+      }
+    }
+
+    const fcData = readJsonFile('flashcards.json')
+    if (fcData) {
+      const items = Array.isArray(fcData) ? fcData : (fcData.cards || [])
+      for (const c of items) {
+        fcMap.set(String(c.id), {
+          front: c.front,
+          back: c.back
+        })
+      }
+    }
+
+    const ftbData = readJsonFile('ftb.json')
+    if (ftbData) {
+      const items = Array.isArray(ftbData) ? ftbData : (ftbData.exercises || [])
+      for (const ex of items) {
+        ftbMap.set(String(ex.id), {
+          task_description: ex.description || ex.task_description,
+          code_template: ex.code || ex.code_template,
+          blanks: ex.blanks || [],
+          explanation: ex.explanation
+        })
+      }
+    }
+
+    const matchingData = readJsonFile('matching.json')
+    if (matchingData) {
+      const rounds = Array.isArray(matchingData) ? matchingData : (matchingData.rounds || [])
+      for (const r of rounds) {
+        const theme = r.theme || 'Vocabulary'
+        const pairs = r.pairs || []
+        const allMatches = pairs.map(p => p.match)
+        for (const p of pairs) {
+          matchingMap.set(String(p.id), {
+            theme,
+            term: p.term,
+            match: p.match,
+            wrong_matches: allMatches.filter(m => m !== p.match),
+            feedback_correct: 'Correct definition mapping.',
+            feedback_wrong: 'Definitions did not map correctly.'
+          })
+        }
+      }
+    }
+
+    const questionsList = []
+    for (const a of attempts) {
+      const qIdStr = String(a.question_id)
+      let details = null
+
+      if (a.exercise_type === 'quiz') {
+        details = mcqMap.get(qIdStr)
+        if (!details) {
+          const q = db.prepare('SELECT * FROM quiz_questions WHERE id = ?').get(a.question_id)
+          if (q) {
+            details = {
+              question_text: q.question_text,
+              options: { a: q.option_a, b: q.option_b, c: q.option_c, d: q.option_d },
+              correct_option: q.correct_option,
+              explanation: q.explanation,
+              per_option_feedback: q.per_option_feedback ? JSON.parse(q.per_option_feedback) : {}
+            }
+          }
+        }
+      } else if (a.exercise_type === 'bossbattle') {
+        details = bossMap.get(qIdStr)
+        if (!details) {
+          const q = db.prepare('SELECT * FROM quiz_questions WHERE id = ?').get(a.question_id)
+          if (q) {
+            details = {
+              question_text: q.question_text,
+              options: { a: q.option_a, b: q.option_b, c: q.option_c, d: q.option_d },
+              correct_option: q.correct_option,
+              explanation: q.explanation,
+              per_option_feedback: q.per_option_feedback ? JSON.parse(q.per_option_feedback) : {}
+            }
+          }
+        }
+      } else if (a.exercise_type === 'flashcard') {
+        details = fcMap.get(qIdStr)
+        if (!details) {
+          const f = db.prepare('SELECT * FROM flashcards WHERE id = ?').get(a.question_id)
+          if (f) {
+            details = { front: f.front, back: f.back }
+          }
+        }
+      } else if (a.exercise_type === 'fillblank') {
+        details = ftbMap.get(qIdStr)
+      } else if (a.exercise_type === 'matching') {
+        details = matchingMap.get(qIdStr)
+        if (!details) {
+          const c = db.prepare('SELECT * FROM concepts WHERE id = ?').get(a.question_id)
+          if (c) {
+            const others = db.prepare('SELECT definition FROM concepts WHERE course_id = ? AND id != ? LIMIT 4').all(course.id, c.id)
+            details = {
+              theme: 'Core Concepts',
+              term: c.name,
+              match: c.definition,
+              wrong_matches: others.map(o => o.definition),
+              feedback_correct: 'Correct definition mapping.',
+              feedback_wrong: 'Definitions did not map correctly.'
+            }
+          }
+        }
+      }
+
+      if (details) {
+        questionsList.push({
+          exercise_type: a.exercise_type,
+          question_id: a.question_id,
+          concept_id: a.concept_id,
+          details
+        })
+      }
+    }
+
+    res.json({
+      course_id: course.id,
+      questions: questionsList
+    })
   } catch (err) {
     next(err)
   }

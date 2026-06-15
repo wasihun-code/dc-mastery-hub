@@ -24,7 +24,8 @@ router.get('/tracks', (req, res, next) => {
           ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
-        LEFT JOIN courses c ON c.track_id = t.id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
+        LEFT JOIN track_courses tc ON tc.track_id = t.id
+        LEFT JOIN courses c ON c.id = tc.course_id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
         LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
         WHERE COALESCE(ut.is_deleted, 0) = 0 AND COALESCE(ut.is_archived, 0) = 0
@@ -60,7 +61,8 @@ router.get('/tracks/:slug', (req, res, next) => {
           ROUND(COALESCE(AVG(ms.overall_mastery), 0), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
-        LEFT JOIN courses c ON c.track_id = t.id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
+        LEFT JOIN track_courses tc ON tc.track_id = t.id
+        LEFT JOIN courses c ON c.id = tc.course_id AND COALESCE((SELECT uc2.is_deleted FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0 AND COALESCE((SELECT uc2.is_archived FROM user_courses uc2 WHERE uc2.course_id = c.id AND uc2.user_id = ?), 0) = 0
         LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
         WHERE t.slug = ? AND COALESCE(ut.is_deleted, 0) = 0 AND COALESCE(ut.is_archived, 0) = 0
@@ -79,8 +81,8 @@ router.get('/tracks/:slug', (req, res, next) => {
           c.id,
           c.slug,
           c.name,
-          c.track_id,
-          c.order_in_track,
+          tc.track_id,
+          tc.order_in_track,
           c.has_pdf,
           c.has_glossary,
           c.created_at,
@@ -97,10 +99,11 @@ router.get('/tracks/:slug', (req, res, next) => {
           ms.dataset_score,
           (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count
         FROM courses c
+        JOIN track_courses tc ON tc.course_id = c.id
         LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
-        WHERE c.track_id = ? AND COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
-        ORDER BY c.order_in_track
+        WHERE tc.track_id = ? AND COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
+        ORDER BY tc.order_in_track
       `)
       .all(userId, userId, track.id)
 
