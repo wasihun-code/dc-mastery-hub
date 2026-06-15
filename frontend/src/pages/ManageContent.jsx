@@ -395,7 +395,11 @@ export default function ManageContent() {
     const matchesReviewed = courseFilterReviewed === 'all' || course.reviewed === courseFilterReviewed
 
     // 8. Exercises present
-    const matchesHasExercises = courseFilterHasExercises === 'all' || (course.quiz_question_count && course.quiz_question_count > 0)
+    const hasEx = course.quiz_question_count && course.quiz_question_count > 0
+    const matchesHasExercises =
+      courseFilterHasExercises === 'all' ||
+      (courseFilterHasExercises === 'present' && hasEx) ||
+      (courseFilterHasExercises === 'absent' && !hasEx)
 
     return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed && matchesHasExercises
   })

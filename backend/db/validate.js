@@ -17,7 +17,7 @@ export function validateDatabase() {
       'associate-data-scientist-python': 23,
       'data-engineer-python': 14,
       'data-analyst-python': 13,
-      'associate-data-analyst-sql': 11,
+      'associate-data-analyst-sql': 12,
       'associate-python-developer': 9
     }
 
@@ -30,8 +30,12 @@ export function validateDatabase() {
         continue
       }
 
-      // Check course count
-      const courses = db.prepare('SELECT * FROM courses WHERE track_id = ? AND is_deleted = 0').all(track.id)
+      // Check course count via track_courses join
+      const courses = db.prepare(`
+        SELECT c.* FROM courses c
+        JOIN track_courses tc ON tc.course_id = c.id
+        WHERE tc.track_id = ? AND c.is_deleted = 0
+      `).all(track.id)
       report.push(`    Course count for ${slug}: ${courses.length} (Expected: ${expected})`)
       if (courses.length !== expected) {
         errors.push(`Track ${slug} has course count ${courses.length}, but expected ${expected}`)
@@ -55,9 +59,9 @@ export function validateDatabase() {
       }
     }
 
-    report.push(`Total memberships found: ${totalMemberships} (Expected: 70)`)
-    if (totalMemberships !== 70) {
-      errors.push(`Total track-course memberships is ${totalMemberships}, but expected 70`)
+    report.push(`Total memberships found: ${totalMemberships} (Expected: 71)`)
+    if (totalMemberships !== 71) {
+      errors.push(`Total track-course memberships is ${totalMemberships}, but expected 71`)
     }
 
     // Check shared courses
@@ -73,10 +77,14 @@ export function validateDatabase() {
     ]
 
     for (const slug of sharedCoursesExpected) {
-      const occurrences = db.prepare('SELECT COUNT(*) AS count FROM courses WHERE slug = ? AND is_deleted = 0').get(slug).count
+      const occurrences = db.prepare(`
+        SELECT COUNT(*) AS count FROM track_courses tc
+        JOIN courses c ON c.id = tc.course_id
+        WHERE c.slug = ? AND c.is_deleted = 0
+      `).get(slug).count
       if (occurrences < 2) {
         // Some shared courses might only exist in a subset of tracks based on the PDF
-        errors.push(`Course slug ${slug} was expected to be shared across tracks, but has only ${occurrences} occurrences in the database`)
+        errors.push(`Course slug ${slug} was expected to be shared across tracks, but has only ${occurrences} occurrences in track_courses`)
       } else {
         report.push(`    Shared course "${slug}" verified with ${occurrences} track memberships.`)
       }

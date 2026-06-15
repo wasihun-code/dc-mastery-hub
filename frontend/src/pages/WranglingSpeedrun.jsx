@@ -118,9 +118,17 @@ export default function WranglingSpeedrun() {
         if (resCourses.ok) {
           const data = await resCourses.json()
           setCourses(data)
-          const eligible = data.filter(c => c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
-          if (eligible.length > 0) {
-            setSelectedCourseSlug(eligible[0].slug)
+          
+          const params = new URLSearchParams(window.location.search)
+          const courseParam = params.get('course')
+          
+          if (courseParam && data.some(c => c.slug === courseParam)) {
+            setSelectedCourseSlug(courseParam)
+          } else {
+            const eligible = data.filter(c => c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
+            if (eligible.length > 0) {
+              setSelectedCourseSlug(eligible[0].slug)
+            }
           }
         }
       } catch (err) {
@@ -303,7 +311,10 @@ export default function WranglingSpeedrun() {
     handleSpeedrunOptionClickRef.current = handleSpeedrunOptionClick
   }, [handleSpeedrunOptionClick])
 
-  const eligibleCourses = courses.filter(c => c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0)
+  const eligibleCourses = courses.filter(c => 
+    (c.status === 'Completed' && c.reviewed === 'Yes' && (c.quiz_question_count || 0) > 0) ||
+    c.slug === selectedCourseSlug
+  )
   const trackFilters = ['All', ...new Set(eligibleCourses.map(c => c.track_language || c.track_name).filter(Boolean))]
 
   const getCourseCountForTrack = (trackName) => {

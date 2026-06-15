@@ -12,7 +12,9 @@ import {
   AlertCircle,
   Book,
   AlertTriangle,
-  X
+  X,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
 
@@ -179,6 +181,23 @@ export default function CourseDetail() {
   // PDF Viewer states
   const [showPdf, setShowPdf] = useState(false)
   const [pdfType, setPdfType] = useState('slides')
+  const [showCongrats, setShowCongrats] = useState(false)
+
+  useEffect(() => {
+    if (loading || !stats || !courseSlug) return
+
+    const searchParams = new URLSearchParams(location.search)
+    if (searchParams.get('refresh') === '1') {
+      const keys = ['mcq', 'flashcard', 'ftb', 'matching', 'boss_battle', 'dataset']
+      const allDone = keys.every(k => !stats[k] || stats[k].unattempted === 0)
+      
+      if (allDone) {
+        // Clear parameter so it doesn't trigger again
+        navigate(location.pathname, { replace: true })
+        setShowCongrats(true)
+      }
+    }
+  }, [stats, loading, location.search])
   
   useEffect(() => {
     let isMounted = true
@@ -242,6 +261,19 @@ export default function CourseDetail() {
 
   if (!course) return null
 
+  // Calculate completion percentage across all categories
+  const categoryKeys = ['mcq', 'flashcard', 'ftb', 'matching', 'boss_battle', 'dataset']
+  let totalAvailable = 0
+  let totalAttempted = 0
+  categoryKeys.forEach(k => {
+    if (stats?.[k]) {
+      totalAvailable += stats[k].available || 0
+      totalAttempted += (stats[k].available || 0) - (stats[k].unattempted || 0)
+    }
+  })
+  const completionPercentage = totalAvailable > 0 ? (totalAttempted / totalAvailable) * 100 : 0
+  const isReviewUnlocked = completionPercentage >= 75
+
   if (course.reviewed !== 'Yes') {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
@@ -281,6 +313,35 @@ export default function CourseDetail() {
 
   return (
     <div className="space-y-8 pb-12">
+      {showCongrats && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl p-8 text-center space-y-6 animate-in zoom-in-95 duration-200">
+            <div className="w-20 h-20 bg-green-950/40 border border-[var(--accent-green)]/40 text-[var(--accent-green)] rounded-full flex items-center justify-center mx-auto shadow-lg shadow-green-950/20">
+              <Sparkles size={40} className="animate-pulse" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-extrabold text-white uppercase tracking-tight italic">Course Fully Completed!</h2>
+              <p className="text-sm text-zinc-300 leading-relaxed">
+                Outstanding! You have attempted every single question across all categories for this course!
+              </p>
+              <p className="text-xs text-[var(--text-muted)] leading-relaxed mt-2">
+                As a master of this course, you are now qualified for the Time-Attack Code Training. Prepare your keyboard!
+              </p>
+            </div>
+            
+            <button
+              onClick={() => {
+                setShowCongrats(false)
+                navigate(`/speedrun?course=${courseSlug}`)
+              }}
+              className="w-full bg-[var(--accent-green)] text-black font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider hover:opacity-95 transition-opacity flex items-center justify-center gap-2 cursor-pointer"
+            >
+              Start Time-Attack Code Training <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      )}
+
       {showPdf && (
         <PdfViewer 
           courseSlug={courseSlug} 
@@ -444,6 +505,37 @@ export default function CourseDetail() {
               onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
               disabled={stats.matching.available === 0}
               stats={stats.matching}
+            />
+          )}
+          {stats?.wrong_review && (
+            <ExerciseCard 
+              icon={AlertTriangle}
+              title="Incorrect Review"
+              description="Re-attempt questions you answered incorrectly in other categories"
+              stat={
+                !isReviewUnlocked
+                  ? `Locked: Reach 75% course completion (Current: ${Math.round(completionPercentage)}%)`
+                  : stats.wrong_review.available > 0 
+                  ? `${stats.wrong_review.available} questions to review` 
+                  : 'All corrected! Great job.'
+              }
+              statColor={
+                !isReviewUnlocked 
+                  ? 'text-[var(--text-muted)] font-semibold'
+                  : stats.wrong_review.available > 0 
+                  ? 'text-amber-500 font-bold animate-pulse' 
+                  : 'text-[var(--accent-green)] font-bold'
+              }
+              buttonText={
+                !isReviewUnlocked
+                  ? 'Locked (Needs 75%)'
+                  : stats.wrong_review.available > 0 
+                  ? 'Start Review' 
+                  : 'Queue Clear'
+              }
+              onClick={() => navigate(`/exercise/review/${courseSlug}`)}
+              disabled={!isReviewUnlocked || stats.wrong_review.available === 0}
+              stats={stats.wrong_review}
             />
           )}
           {stats?.boss_battle?.available > 0 && (

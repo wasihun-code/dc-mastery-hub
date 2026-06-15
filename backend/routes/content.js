@@ -14,8 +14,8 @@ const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
 function getCourseFolder(contentFolder, courseSlug, trackSlug) {
   // First try the primary track slug
-  const primaryPath = path.join(contentFolder, 'tracks', trackSlug, courseSlug)
-  if (fs.existsSync(primaryPath)) {
+  const primaryPath = trackSlug ? path.join(contentFolder, 'tracks', trackSlug, courseSlug) : ''
+  if (primaryPath && fs.existsSync(primaryPath)) {
     return primaryPath
   }
   // Search other track folders

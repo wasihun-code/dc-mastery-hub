@@ -1,0 +1,475 @@
+1. Welcome to the course!
+00:00 - 00:09
+Welcome to the first course on Importing Data in Python! My name is Hugo Bowne-Anderson and I am a Data Scientist at DataCamp.
+
+2. Import data
+00:09 - 00:23
+In this course, you'll learn how to import data from a large variety of import data sources, for example, (i) flat files such as dot txts and dot csvs; (ii) files native to other software such as Excel spreadsheets, Stata, SAS and MATLAB files;
+
+3. Import data
+00:23 - 00:29
+(iii) relational databases such as SQLite & PostgreSQL. We’ll cover all of these topics in this course.
+
+4. Plain text files
+00:29 - 00:44
+First off, we're going to learn how to import basic text files, which we can broadly classify into 2 types of files - those containing plain text, such as the opening of Mark Twain's novel The Adventures of Huckleberry Finn, which you can see here,
+
+5. Table data
+00:44 - 00:50
+and those containing records, that is, table data, such as titanic dot csv, in which each
+
+1 Source: Kaggle
+6. Table data
+00:50 - 00:52
+row is a unique passenger onboard and each
+
+7. Table data
+00:52 - 01:03
+column is a characteristic or feature, such as gender, cabin and 'survived or not'. The latter is known as a flat file and we'll come back to these in a minute.
+
+8. Reading a text file
+01:03 - 01:48
+In this section, we'll figure out how to read lines from a plain text file: So let's do it! To check out any plain text file, you can use Python’s basic open function to open a connection to the file. To do so, you assign the filename to a variable as a string, pass the filename to the function open and also pass it the argument mode equals 'r', which makes sure that we can only read it (we wouldn't want to accidentally write to it!), assign the text from the file to a variable text by applying the method read to the connection to the file. After you do this, make sure that you close the connection to the file using the command file dot close. It’s always best practice to clean while cooking!
+
+9. Printing a text file
+01:48 - 01:56
+You can then print the file to console and check it out using the command print(text). A brief side note:
+
+10. Writing to a file
+01:56 - 02:11
+if you wanted to open a file in order to write to it, you would pass it the argument mode equals 'w'. We won't use that in this course as this is course on Importing Data but it is good to know. You can avoid having to close the connection to the file by
+
+11. Context manager with
+02:11 - 02:44
+using a with statement. This allows you to create a context in which you can execute commands with the file open. Once out of this clause/context, the file is no longer open and, for this reason, with is called a Context Manager. What you're doing here is called 'binding' a variable in the context manager construct; while still within this construct, the variable file will be bound to open(filename, 'r'). It is best practice to use the with statement as you never have to concern yourself with closing the files again.
+
+12. In the exercises, you’ll:
+02:44 - 03:06
+In the following interactive coding sessions, you’ll figure out how to print files to console. You’ll also learn to print specific lines, which can be very useful for large files. Then we’ll be back to discuss flat files and then I'll show you how to use the Python package NumPy to make our job of importing flat files & numerical data a far easier beast to tame.
+
+
+1. The importance of flat files in data science
+00:00 - 00:04
+Now you know how to import plain text files,
+
+2. Flat files
+00:04 - 00:08
+we're going to look at flat files, such as 'titanic dot csv',
+
+3. Flat files
+00:08 - 00:10
+in which each
+
+4. Flat files
+00:10 - 00:12
+row is a unique passenger onboard and each
+
+5. Flat files
+00:12 - 00:23
+column is a feature of attribute, such as gender, cabin and 'survived or not'. It is essential for any budding data scientist to know precisely what the term flat file means.
+
+6. Flat files
+00:23 - 00:54
+Flat files are basic text files containing records, that is, table data, without structured relationships. This is in contrast to a relational database, for example, in which columns of distinct tables can be related. We'll get to these later. To be even more precise, flat files consist of records, where by a record we mean a row of fields or attributes, each of which contains at most one item of information. In the flat file 'titanic dot csv', each
+
+7. Flat files
+00:54 - 01:00
+row or record is a unique passenger onboard and each column is a feature or attribute, such as
+
+8. Flat files
+01:00 - 01:03
+name, gender and cabin.
+
+9. Header
+01:03 - 01:10
+It is also essential to note that a flat file can have a header, such as in 'titanic dot csv', which is a
+
+10. Header
+01:10 - 01:34
+row that occurs as the first row and describes the contents of the data columns or states what the corresponding attributes or features in each column are. It will be important to know whether or not your file has a header as it may alter your data import. The reason that flat files are so important in data science is that we data scientists really honestly like to think in records or rows of attributes.
+
+11. File extension
+01:34 - 02:09
+Now you may have noticed that the file extension was dot csv. You may be wondering what this is? Well, CSV is an acronym for comma separated value and it means exactly what it says. The values in each row are separated by commas. Another common extension for a flat file is dot txt, which means a text file. Values in flat files can be separated by characters or sequences of characters other than commas, such as a tab, and the character or characters in question is called a delimiter.
+
+12. Tab-delimited file
+02:09 - 02:18
+See here an example of a tab-delimited file. The data consists of the famous MNIST digit recognition images, where
+
+13. Tab-delimited file
+02:18 - 02:29
+each row contains the pixel values of a given image. Note that all fields in the MNIST data are numeric, while the 'titanic dot csv' also contained strings.
+
+14. How do you import flat files?
+02:29 - 03:00
+How do we import such files? If they consist entirely of numbers and we want to store them as a numpy array, we could use numpy. If, instead, we want to store the data in a dataframe, we could use pandas. Most of the time, you will use one of these options. In the rest of this Chapter, you'll learn how to import flat files that contain only numerical data, such as the MNIST data, and import flat files that contain both numerical data and strings, such as 'titanic dot csv'.
+
+
+1. Importing flat files using NumPy
+00:00 - 00:20
+Okay so you now know how to use Python’s built-in open function to open text files. What if you now want to import a flat file and assign it to a variable? If all the data are numerical, you can use the package numpy to import the data as a numpy array. Why would we want to do this?
+
+2. Why NumPy?
+00:20 - 00:27
+First off, numpy arrays are the Python standard for storing numerical data. They are efficient, fast and clean.
+
+3. Why NumPy?
+00:27 - 00:49
+Secondly, numpy arrays are often essential for other packages, such as scikit-learn, a popular Machine Learning package for Python. Numpy itself has a number of built-in functions that make it far easier and more efficient for us to import data as arrays. Enter the NumPy functions loadtxt and genfromtxt.
+
+4. Importing flat files using NumPy
+00:49 - 01:07
+To use either of these we first need to import NumPy. We then call loadtxt and pass it the filename as the first argument, along with the delimiter as the 2nd argument. Note that the default delimiter is any white space so we’ll usually need to specify it explicitly.
+
+5. Customizing your NumPy import
+01:07 - 01:29
+There are a number of additional arguments you may wish to specify. If, for example, your data consists of numerics and your header has strings in it, such as in the MNIST digits data, you will want to skip the first row by calling loadtxt with the argument skiprows equals 1; if you want only the 1st and 3rd columns of the data,
+
+6. Customizing your NumPy import
+01:29 - 01:35
+you’ll want to set usecols equals the list containing ints 0 and 2.
+
+7. Customizing your NumPy import
+01:35 - 01:51
+You can also import different datatypes into NumPy arrays: for example, setting the argument dtype equals 'str' will ensure that all entries are imported as strings. loadtxt is great for basic cases, but tends to break down when we have
+
+8. Mixed datatypes
+01:51 - 01:53
+mixed datatypes, for example,
+
+1 Source: Kaggle
+9. Mixed datatypes
+01:53 - 02:00
+columns consisting of floats AND columns consisting of strings, such as we saw in the Titanic dataset.
+
+1 Source: Kaggle
+
+
+1. Importing flat files using pandas
+00:00 - 00:17
+Congrats! You're now able to import a bunch of different types of flat files into Python as NumPy arrays. Although arrays are incredibly powerful and serve a number of essential purposes, they cannot fulfill one of the most basic needs of a Data Scientist:
+
+2. What a data scientist needs
+00:17 - 00:42
+to have "[two]-dimensional labeled data structure[s] with columns of potentially different types" that you can easily perform a plethora of Data Sciencey type things on: manipulate, slice, reshape, groupby, join, merge, perform statistics in a missing-value-friendly manner, deal with times series. The need for such a data structure, among other issues,
+
+3. Pandas and the DataFrame
+00:42 - 00:45
+prompted Wes McKinney to develop the
+
+4. Pandas and the DataFrame
+00:45 - 00:51
+pandas library for Python. Nothing speaks to the project of pandas more than the documentation itself:
+
+5. Pandas and the DataFrame
+00:51 - 01:23
+"Python has long been great for data munging and preparation, but less so for data analysis and modeling. pandas helps fill this gap, enabling you to carry out your entire data analysis workflow in Python without having to switch to a more domain specific language like R". The data structure most relevant to the data manipulation and analysis workflow that pandas offers is the DataFrame and it is the Pythonic analogue of R's data frame.
+
+6. Pandas and the DataFrame
+01:23 - 01:31
+As Hadley Wickham tweeted, "A matrix has rows and columns. A data frame has observations and variables."
+
+7. Manipulating pandas DataFrames
+01:31 - 02:21
+Manipulating DataFrames in pandas can be useful in all steps of the data scientific method, from exploratory data analysis to data wrangling, preprocessing, building models and visualization. Here, we will see its great utility in importing flat files, even merely in the way that it deals with missing data, comments along with the many other issues that plague working data scientists. For all of these reasons, it is now standard and best practice in Data Science to use pandas to import flat files as DataFrames. Later in this course, we'll see how many other types of data, whether they're stored in relational databases, hdf5, MATLAB or excel files, can easily be imported as DataFrames.
+
+8. Importing using pandas
+02:21 - 02:56
+To use pandas, you first need to import it. Then, if we wish to import a CSV in the most basic case all we need to do is to call the function read_csv() and supply it with a single argument, the name of the file. Having assigned the DataFrame to the variable data, we can check the first 5 rows of the DataFrame, including the header, with the command 'data.head'. We can also easily convert the DataFrame to a numpy array. Now it's your turn to play around importing flat files using Python.
+
+9. You'll experience:
+02:56 - 03:09
+You'll get experience importing a flat file that is straightforward and you'll also get experience importing a flat file that has a few issues, such as one that contains comments and strings that should be interpreted as missing values.
+
+
+1. Final thoughts on data import
+00:00 - 00:16
+We have seen a number of ways to read, print and import flat files. As a data scientist, you will most often wish to use pandas, however it was important to check out all the possible ways to import because you never know when they will be useful.
+
+2. Next chapters:
+00:16 - 00:36
+In the next chapter, we'll see just how useful pandas can be when attempting to import a variety of other file types, such as Excel spreadsheets, along with native SAS & Stata files. After learning to import many other file types in the next chapter, you'll learn how to interact with relational databases in Python.
+
+3. Next course:
+00:36 - 00:56
+Then, in the sequel to this course, you'll learn how to tear all types of data down from the web and how to interact with APIs to fulfil your big data fix. These are all essential techniques for the modern day Data Scientist to master, and the upcoming chapters and course will place you in good stead to becoming
+
+
+1. Introduction to other file types
+00:00 - 00:12
+Now that you have mastered the art of importing flat files in Python, it is time to check out a number of other file types that you will find yourself needing to work with as a data scientist.
+
+2. Other file types
+00:12 - 00:56
+In this chapter, you will learn how to import Excel spreadsheets, which professionals from all disciplines use to store their data. You will also gain familiarity with importing MATLAB, SAS and Stata files, which are commonplace. You will also learn how to import HDF5 files and you'll actually import an HDF5 file containing data from the Laser Interferometer Gravitational-Wave Observatory project that provided empirical support for Einstein's Theory of Gravitational Waves in 2016. HDF5 files are becoming a more prevalent way to store large datasets, as demonstrated by the fact that the LIGO researchers use it to store their data.
+
+3. Pickled files
+00:56 - 01:54
+Another file type you'll learn about in this Chapter is that of a 'pickled' file. This is a file type native to Python. The concept of pickling a file is motivated by the following: while it may be easy to save a numpy array or a pandas dataframe to a flat file, there are many other datatypes, such as dictionaries and lists, for which it isn't obvious how to store them. 'Pickle' to the rescue! If you want your files to be human readable, you may want to save them as text files in a clever manner (JSONs, which you will see in a later chapter, are appropriate for Python dictionaries). If, however, you merely want to be able to import them into Python, you can serialize them. All this means is converting the object into a sequence of bytes, or bytestream. As this is a course in Importing Data in Python,
+
+4. Pickled files
+01:54 - 02:19
+you'll learn how to import files that have already been pickled. As you have done before, when opening such a file, you'll want to specify that it is read only; you'll also want to specify that it is a binary file, meaning that it is computer-readable and not human-readable. To specify both read only and binary, you'll want pass the string 'rb' as the second argument of open.
+
+5. Importing Excel spreadsheets
+02:19 - 03:26
+You'll then dive head-first into Excel spreadsheets, the use of which is so widespread that they need next to no introduction at all. An Excel file generally consists of a number of sheets. There are many ways to import Excel files and you'll use pandas to do so because it produces dataframes natively, which is great for your practice as a Data Scientist. As you can see in this example, you can use the functionExcelfile to assign an Excel file to a variable data. As an Excel file consists of sheets, the first thing to do is figure out what the sheets are. This is straightforward with the command 'data dot sheet_names'. To then load a particular sheet as a dataframe, you need only apply the method parse to the object data with a single argument, which is either the name as a string or the index as a float of the sheet that you wish to load: pandas is clever enough to know if you're telling it the sheet name or the index!
+
+6. You’ll learn:
+03:26 - 03:37
+You'll also learn how to customize your spreadsheet import in order to skip rows, import only certain columns and to change the column names. That's enough from me,
+
+
+1. Importing SAS/Stata files using pandas
+00:00 - 00:14
+There are many statistical software packages out there and, although you may not need to do so all the time, it will be important for you, as a working Data Scientist, to be able to import these files into your Python environment.
+
+2. SAS and Stata files
+00:14 - 00:37
+The most common examples are SAS, which is an acronym for 'Statistical Analysis System', and Stata, which is a contraction of 'Statistics' and 'Data'. The former is used a great deal in business analytics and biostatistics, while the latter is popular in academic social sciences research, such as economics and epidemiology.
+
+3. SAS files
+00:37 - 00:52
+SAS files are important because SAS is a software suite that performs advanced analytics, multivariate analyses, business intelligence, data management, predictive analytics and is a standard for statisticians to do computational analysis.
+
+4. Importing SAS files
+00:52 - 01:35
+The most common SAS files have the extension dot sas7bdat and dot sas7bcat, which are dataset files and catalog files respectively. You'll learn how to import the former as dataframes using the function SAS7BDAT (upper case) from the package sas7bdat (lower case). In this case, you can bind the variable file to a connection to the file 'urbanpop dot sas7bdat' in a context manager. Within this context, you can assign to a variable df_sas the result of applying method to_data_frame to file.
+
+5. Importing Stata files
+01:35 - 02:06
+Stata files have extension dot dta and we can import them using pandas. We don't even need to initialize a context manager in this case! We merely pass the filename to the function read_stata and assign it to a variable, just like this. In the following exercises, you'll gain invaluable experience at importing these important file formats in Python as pandas dataframes and then seeing what was inside them.
+
+
+1. Importing HDF5 files
+00:00 - 00:07
+According to the 2013 O'Reilly book Python and HDF5 by Andrew Collette,
+
+2. HDF5 files
+00:07 - 00:41
+"In the Python world, consensus is rapidly converging on Hierarchical Data Format version 5, or 'HDF5,' as the standard mechanism for storing large quantities of numerical data." How large are we talking here? According to Collette, "It’s now relatively common to deal with datasets hundreds of gigabytes or even terabytes in size; HDF5 itself can scale up to exabytes." Let's explore with a concrete example from LIGO, the Laser Interferometer Gravitational-Wave Observatory project.
+
+3. Importing HDF5 files
+00:41 - 00:57
+You first import the package h5py and then import the file using 'h5py dot File', remembering to use 'r' in order to specify read only. Printing the datatype to the shell reveals that we are dealing with an h5py file.
+
+4. The structure of HDF5 files
+00:57 - 01:50
+But what is the structure of this file? You can explore it's hierarchical structure as you would that of a Python dictionary using the method keys. You see that there are three keys, meta, quality and strain. Each of these is an HDF group. You can think of these groups as directories. The LIGO documentation tells us that 'meta' contains meta-data for the file, 'quality' contains information about data quality and 'strain' contains 'strain data from the interferometer', the main measurement performed by LIGO, the data of interest. If you knew what data and metadata should be in each group, you could access it straightforwardly. However, if not, due to the hierarchical nature of the file structure, it is easy to explore. For example,
+
+5. The structure of HDF5 files
+01:50 - 02:30
+let's say you wanted to find out what type of metadata there is, you could easily print out the keys. Now you know the keys, you can access any metadata of interest. If you're interested in 'Description' and 'Detector', you can pass these keys to the numpy-dot-array function to convert the values to a NumPy array. You see that the data in the file is 'Strain data time series from LIGO' and that the detector used was 'H1'. Next perhaps you would like to check out the actual data? Great idea and that's precisely what you're going to do in the upcoming exercises!
+
+6. The HDF Project
+02:30 - 02:45
+Before you do so, it is also worth noting that the HDF project is actively maintained by the HDF group, based in Champaign, Illinois and formerly part of the University of Illinois Urbana-Champaign.
+
+
+1. Importing MATLAB files
+00:00 - 00:03
+MATLAB, which is short
+
+2. MATLAB
+00:03 - 00:38
+for Matrix Laboratory, is a numerical computing environment that is an industry standard in the disciplines of engineering and science. This is due in part to its powerful linear algebra and matrix capabilities, in part to its proprietary nature and in part to how difficult the academic world finds it to shake off old habits. Regardless of the reasons for its widespread use, the fact of the matter is that a lot of people use MATLAB and save their data as 'dot mat' files, the file format native to MATLAB. How can you import these into Python?
+
+3. SciPy to the rescue!
+00:38 - 00:50
+Luckily for us Python afficionados, the standard library scipy has functions loadmat and savemat, which allow us to read and write dot mat files, respectively.
+
+4. What is a .mat file?
+00:50 - 00:58
+"What exactly is in a dot mat file?" you may ask. To answer this, lets look at the MATLAB IDE. In particular,
+
+5. What is a .mat file?
+00:58 - 01:14
+check out the MATLAB workspace where all your variables are stored. This workspace can contain strings, floats, vectors and arrays, among many other objects. A dot mat file is simply a collection of such objects.
+
+6. Importing a .mat file
+01:14 - 01:55
+Now this means when importing a dot mat file in Python, we should expect to see a number of different variables and objects. In this code, I first import scipy-dot-io and then load the file 'workspace dot mat'. Checking out what type of object results tells me that it's a dictionary. How this dictionary relates to a MATLAB workspace is straightforward: the keys of the Python dictionary are the MATLAB variable names and the values of the Python dictionary are the objects that are assigned to the variables. In the example above, mat['x'] is a numpy corresponding to the MATLAB array x in your MATLAB workspace. It's that easy.
+
+
+1. Introduction to relational databases
+00:00 - 00:17
+You have already mastered the art of importing all types of single files in Python: congratulations! However, to earn your daily bread and butter as a Data Scientist, you'll be required to interact with more complex data structures, such as relational databases.
+
+2. What is a relational database?
+00:17 - 00:35
+What is a relational database? It's a type of database that is based upon the Relational model of data, first described by Ted Codd in the late 1960s. Before getting too theoretical, however, let's check out at an illuminating example,
+
+3. Example: Northwind database
+00:35 - 00:50
+the Northwind Traders database, a synthetic database that contains sales data for a fictitious company. Firstly, a database consists of tables. Here you can see 3 tables from the Northwind database:
+
+4. Example: Northwind database
+00:50 - 00:51
+'Orders',
+
+5. Example: Northwind database
+00:51 - 00:53
+'Customers' and
+
+6. Example: Northwind database
+00:53 - 00:59
+'Employees'. So what's a table? A table generally represents one entity type,
+
+7. The Orders table
+00:59 - 01:08
+such as 'Order' . Notice that this table looks a great deal like a dataframe. That's the point. In a relational database table,
+
+8. The Orders table
+01:08 - 01:16
+each row or record represents an instance of the entity type: in this case, each row is an Order.
+
+9. The Orders table
+01:16 - 01:42
+Each column represents an attribute of each instance, such as 'OrderDate' in the case of 'Orders'. In this sense, a table is entirely analogous to a dataframe. It is essential that each row contain a unique identifier, known as a primary key, that we can use to explicitly access the row in question. In our 'Orders' table, you can see that
+
+10. The Orders table
+01:42 - 01:56
+the key is 'OrderID' the first column. But recall that a database consists of many tables! The really cool thing about relational databases is not merely that you have a bunch of tables,
+
+11. Tables are linked
+01:56 - 02:05
+but that the tables are linked. How this linking works is ultra-intuitive: see that the 'Orders' table has
+
+12. Tables are linked
+02:05 - 02:15
+both a column called 'CustomerID' and one called 'EmployeeID'. These columns correspond precisely to the primary keys in the
+
+13. Tables are linked
+02:15 - 02:42
+'Customers' and 'Employees' tables, respectively. So, given an Order, you can immediately look up the details of the relevant Customer or Employee. This is cool because it means that you don't need to store all the Customer details, such as first name, last name, company with every order that they place: you merely need to look it up in the 'Customers' table. This saves an incredible amount of space!
+
+14. Relational model
+02:42 - 03:30
+As stated earlier, the relational database model was originally proposed by "Ted" Codd and has been widely adopted. There is a great deal to theory but it is most neatly summarized in Codd's 12 Rules, also known as Codd's 12 Commandments, which he developed in the early 1980s to combat what he viewed as a dilution of his original relational database vision. Codd's 12 Rules actually consist of 13 rules but they are zero-indexed, that is, the first rule is zero-indexed. If that makes you laugh, you're definitely a geek like me! These 13 rules were defined to describe what a Relational Database Management System should adhere to in order to be considered relational.
+
+15. Relational Database Management Systems
+03:30 - 03:37
+Among the most popular of such systems are PostreSQL (commonly called Postgres),
+
+16. Relational Database Management Systems
+03:37 - 03:39
+MySQL and
+
+17. Relational Database Management Systems
+03:39 - 03:47
+SQLite, all of which use the SQL query language. In fact, SQL itself is actually an acronym
+
+18. Relational Database Management Systems
+03:47 - 04:07
+for Structured Query Language, which describes how you communicate with a database in order to both access and update the information it contains. The term "querying" is really just a fancy way of saying getting data out from the database. Next up, you'll learn how to connect to databases but before that,
+
+
+1. Creating a database engine in Python
+00:00 - 00:16
+All right, we're back! What we really want to do is to get data out of our databases using SQL, or the Structured Query Language. But before we get to that, we're going to need to figure out how to connect to a database.
+
+2. Creating a database engine
+00:16 - 01:35
+We'll use an SQLite database as an example because SQLite is fast and simple while still containing enough functionality to introduce you to all the necessary concepts of querying a database. There are times when you would prefer to use PostgreSQL or MySQL, but for our purposes here, an Introduction to Interacting with Relational Databases in Python, a SQLite database is perfect. We'll once again look at the Northwind database. There are many packages we could use to access an SQLite database such as sqlite3 and SQLAlchemy. We'll use SQLAlchemy as it works with many other Relational Database Management Systems, such as Postgres and MySQL. So without further ado, to connect to 'Northwind dot sqlite', we need to import the relevant funtion create_engine from the package SQLAlchemy. We then use the function create_engine to fire up an SQL engine that will communicate our queries to the database. The only required argument of create_engine is a string that indicates the type of database you're connecting to and the name of the database. Next, In order to query the database, we need to connect to the engine to do so.
+
+3. Getting table names
+01:35 - 01:58
+But before we do this, we would like to know the names of the tables it contains. To do this, apply the method table_names to the object engine. This will return a list of the table names that you can then print the console. Now it's your turn to do the same: fire up the database engine and print the table names!
+
+
+1. Querying relational databases in Python
+00:00 - 00:18
+Now that you have figured out how to create a database engine and to list the tables of the database in question, it's time to connect to the engine and query the database. Once again, the term "querying" is just a fancy way of saying getting data out from the database.
+
+2. Basic SQL query
+00:18 - 01:00
+THe HELLO WORLD of SQL queries is 'SELECT * FROM Table_Name', where 'Table_name' is the name of any of the tables in the database. This query returns all columns of all rows of the Table of interest. For example, I could query the Northwind database with 'SELECT * FROM Orders' and this would return all columns of all rows of the 'Orders' table. The star after SELECT means 'all columns'. Straightforward, right? Well, nearly! This is an SQL query and we need to figure out how to make such a query using python, SQLAlchemy and, in fact, we'll also use pandas to store the results of our queries.
+
+3. Workflow of SQL querying
+01:00 - 01:18
+The workflow will be as follows. You'll import the required packages and functions, create the engine, connect to it, query the database save the results of the query to a dataframe, and close the connection.
+
+4. Your first SQL query
+01:18 - 02:14
+Let's now check out how to do each of these steps! Create the engine using the function create_engine. To connect to the database after creating the engine, you create a connection object con by applying the method connect to the engine. To query the DB, apply the method execute to the connection con and pass it a single argument, the relevant SQL query; This creates a SQLAlchemy results object which we assign to the variable rs. To turn the results object rs into a dataframe, we apply the method fetchall to rs and save it as a dataframe using the pandas function DataFrame. fetchall fetches all rows, as you would expect. To close the connection, execute 'con dot close'. Don't forget to do this!
+
+5. Printing your query results
+02:14 - 02:24
+You can then print the head of the dataframe, as we have done before, as a sanity check: all the rows look good but the column names aren't correct.
+
+6. Set the DataFrame column names
+02:24 - 02:35
+To fix this, before closing the connection, you can set the dataframe's column names by executing 'df dot columns equals rs dot keys'.
+
+7. Set the data frame column names
+02:35 - 02:43
+One last note: analogous to what you saw in chapter 1 when opening plain text files, you can use
+
+8. Using the context manager
+02:43 - 03:35
+the context manager construct to open a connection, which will save you the trouble of closing the connection later, or save you the trouble of forgetting to close it! There are two other differences that you may have notice between this and the previous code: firstly, I no longer have 'SELECT *' in the SQL query; I now have column names of the table 'Orders'; all this does is it imports those particular columns and no others whereas 'SELECT *' imports all columns; secondly, instead of applying the method fetchall to the results rs, I apply the method fetchmany with the argument size equals 5; this imports 5 rows instead of all rows. You'll become better acquainted with these functions and arguments very soon.
+
+
+1. Querying relational databases directly with pandas
+00:00 - 00:03
+You have seen that,
+
+2. The pandas way to query
+00:03 - 00:49
+after creating a database engine, you can get the results of any particular line using 4 lines of code: connecting, executing a query, passing the results to a dataframe and naming the columns: 4 lines of code is pretty good but you can do better! You can actually do it in 1 line, utilizing the pandas function read_sql_query and passing it 2 arguments. The first argument will be the query you wish to make, the 2nd argument the engine you want to connect to. And thus you can achieve the same as this code by executing this single line. The power of pandas! In the following exercises, you'll gain more expertise in writing SQL queries and using pandas to execute them.
+
+
+1. Advanced querying: exploiting table relationships
+00:00 - 00:20
+By now, you have become familiar with querying individual tables of databases, such as the 'Orders' table of the Northwind database. You will remember, however, that much of the power of relational databases stems from the fact that they can capture relationships between tables: the tables are linked!
+
+2. Tables are linked
+00:20 - 00:28
+For example, as we saw earlier, the 'Orders' table of the the Northwind Traders database has both a column called
+
+3. Tables are linked
+00:28 - 00:34
+'CustomerID' and one called 'EmployeeID', columns which correspond precisely to the
+
+4. Tables are linked
+00:34 - 00:48
+primary keys in the 'Customers' and 'Employees' tables, respectively. This means that, given an Order, you can immediately look up the details of the relevant Customer or Employee in the appropriate table.
+
+5. JOINing tables
+00:48 - 01:10
+Now what if you want to incorporate such information into your query? For example, if you want to query the 'Orders' table and include, for each Order, information about the corresponding Customer from the 'Customers' table? A specific illustrative example will go a long way here: let's say that we wanted, for each Order, to get the
+
+6. JOINing tables
+01:10 - 01:12
+OrderID and the
+
+7. JOINing tables
+01:12 - 01:29
+CompanyName of the Customer. The OrderID lives in the 'Orders' table while the CompanyName lives in the 'Customers' table. SQL has a really clever way of doing this: it's called a JOIN because what you're really doing is joining two tables together,
+
+8. JOINing tables
+01:29 - 01:32
+in this case, the 'Orders' and
+
+9. JOINing tables
+01:32 - 01:34
+'Customers' tables. Specifically
+
+10. INNER JOIN in Python (pandas)
+01:34 - 02:28
+it's an INNER JOIN. There are other types of JOINs which we won't cover here. As it's the CustomerID columns of the 'Orders' and 'Customers' tables that correspond to each, you'll want to JOIN the tables ON these columns and that is precisely what I have done in this code. The notation of dot followed by Column name is merely selecting a column of a table. The table that we are selecting from is "Orders INNER JOIN Customers on Orders dot CustomerID equals Customers dot CustomerID" and I am selecting the OrderID column and the CompanyName column of this new table. I know that that's a bit to take in, but after you get your hands dirty performing some INNER JOINs, you'll be far more comfortable with this advanced querying technique.
+
+
+1. Final Thoughts
+00:00 - 00:04
+Congratulations on doing so well in a
+
+2. What you’ve learned:
+00:04 - 00:50
+crash course on Relational Databases. Whether you have seen them before or not, you're now able to create engines and connect to them in Python, perform simple SELECT queries, filter you results using WHERE, perform more complex queries such as JOIN and store all your querying results in pandas dataframes, among many other things. These skills will get you a long way in using Python to import data from relational databases. In fact, having made it through this course, you're now well-equipped to import all types of files in Python, from plain text to flat files, Excel to Matlab, among many others. Well done! But that doesn't mean there's not more to be learnt. What about importing data from the web, where so much of it is??
+
+3. Next course:
+00:50 - 01:13
+In the sequel to this, you'll learn how to import web-data. It's a short course and will equip you to import data from the world wide web and pull data from Application Programming Interfaces, also known as APIs. You'll take a deep dive into the Twitter streaming API, which allows us to stream real-time tweets. I'm sure that you're itching to get your hands dirty with web data;
+
+

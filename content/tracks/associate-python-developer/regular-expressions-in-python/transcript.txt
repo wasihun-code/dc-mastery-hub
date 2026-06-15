@@ -1,0 +1,630 @@
+1. Introduction to string manipulation
+00:00 - 00:09
+Welcome to this course! My name is Eugenia and I will guide you in your journey to master regular expressions.
+
+2. You will learn
+00:09 - 00:34
+In this course, you will learn how to manipulate strings to find and replace specific substrings. You will also explore different approaches for string formatting, such as interpolating a string in a template. Last, you will dive into basic and advanced regular expressions to master how to find complex patterns in a string.
+
+3. Why it is important
+00:34 - 01:09
+As a data scientist, you can encounter strings when cleaning a dataset to prepare it for text mining or sentiment analysis. Sometimes, you will need to process text to feed an algorithm that determines whether an email is spam. Maybe, you will need to parse and extract specific data from a website to build a database.Learning to manipulate strings and master regular expressions will allow you to perform these tasks faster and more efficiently.
+
+4. Strings
+01:09 - 01:53
+The first step of our journey is strings, a data type used to represent textual data. Python recognizes any sequence of characters inside quotes as a single string object. As shown on the slide, both single or double quotes can be used. You should use the same quote type to open and close the string. If a quote is part of the string as seen in the code, we need to use the other quote type to enclose the string. Otherwise, python recognizes the second quote as a closing one.
+
+5. More strings
+01:53 - 02:20
+Python has built-in functions to handle strings. Suppose we define the following string. We can get the number of characters in the string by applying the function len() which returns eleven as shown in the output. The function str() returns the string representation of an object as seen in the code.
+
+6. Concatenation
+02:20 - 02:45
+Suppose now we have the following two strings shown on the slide. You want to concatenate them. Concatenate means obtaining a new string that contains both of the original strings. Applying the plus operand to sum up both strings, specifying also the space, generates the output seen in the code.
+
+7. Indexing
+02:45 - 03:40
+Individual characters of a string can be accessed directly using an index; the position of that character within the string. Let's work with the following example. To get the fourth character of the string, we specify the string name followed by the position inside square brackets. In python, string indexing is zero-based meaning that the first character has index zero as shown on the slide. For character four, we specify index three getting the following output. We can also indicate indices with negative numbers. If we specify index minus one, we get the last character of the string as shown in the output.
+
+8. Slicing
+03:40 - 04:19
+With the bracket notation, python allows you to access a specific part or sequence of characters within the original string. For that aim, we specify the starting and ending positions inside square brackets separated by a colon as you see on the slide. The ending position is excluded in the resulting output. Omitting the first or second index results in the slice starting at the beginning or going until the end of the string as shown in the output.
+
+9. Stride
+04:19 - 04:58
+String slicing also accepts a third index which specifies how many characters to omit before retrieving a character. In the example, the specified indices returns the following output. They are the characters retrieved between positions zero and six, skipping two characters in between. Interestingly, omitting the first and second indices and designating a minus one step returns a reversed string as shown in the output.
+
+
+1. String operations
+00:00 - 00:09
+In this video, we'll learn more about string manipulation, specifically, about basic string operations.
+
+2. Adjusting cases
+00:09 - 00:51
+Most data science projects involve string manipulation. Python has many built-in methods that allow us to handle strings. Let's check some of them. Suppose we have a string like the one in the example code. Sometimes, the analysis requires the string to be entirely lowercase. We could use the dot lower method to convert all alphabetic characters to lowercase as shown in the output. On the contrary, we might want the string to be uppercase. We could use the dot upper method to convert all alphabetic characters to uppercase as displayed.
+
+3. Adjusting cases2
+00:51 - 01:06
+Lastly, we could use dot capitalize to return a copy of the string with the first character in uppercase while keeping all other characters in lowercase as displayed.
+
+4. Splitting
+01:06 - 02:14
+There are methods that can convert between a string and other types of data, such as lists by breaking a string into pieces. Let's work with the following example. We want to split the string into a list of substrings. Python provides us with two methods: dot split and dot rsplit. Both of them return a list.They both take a separating element by which we are splitting the string, and a maxsplit that tells us the maximum number of substrings we want. As we can see in the code, the difference is that split starts splitting at the left. rsplit begins at the right of the string. If maxsplit is not specified both methods behave in the same way. They give as many substrings as possible. If you want the split to be done by the whitespace you don't have to specify the sep argument.
+
+5. Splitting
+02:14 - 02:44
+Consider the following string. If we print it out, we can see that contains two lines. Why is that? There are some escape sequences such as slash n or slash r that indicates a line boundary. Sometimes, we want to split a string into lines. So in the case of our string, we want to split it at the slash n.
+
+6. splitlines
+02:44 - 02:59
+For this aim, Python has the method splitlines(). As we can see in the code, the string is split at the slash n sequence returning a list of two elements.
+
+7. Joining
+02:59 - 03:41
+Some methods can paste or concatenate together the objects in a list or other iterable data. This is the case for dot join method. The syntax is simple. It first takes the separating element. Inside the call, we specify the list or iterable element. We can observe in the example, that whitespace is specified as a separator and the data type is a list. The result is a single string containing all the objects in the list separated by whitespace.
+
+8. Stripping characters
+03:41 - 04:19
+Lastly, we'll talk about methods that will trim characters from a string. The dot strip method will remove both leading and trailing characters. Inside the call, we can specifying a character. If we don't do it, whitespace will be removed. Let's say we have the following string. And we apply the dot strip method as shown. We get a string where both the leading space and the trailing escape sequence were removed.
+
+9. Stripping characters2
+04:19 - 04:38
+We can apply dot rstrip method and it will return a string where the trailing slash n was removed. If we apply the dot lstrip method, we'll get a string with the leading whitespace eliminated.
+
+
+1. Finding and replacing
+00:00 - 00:07
+Finally, we'll talk about different methods that allow us to search or replace substrings.
+
+2. Finding substrings
+00:07 - 00:58
+Python has several built-in methods that will help you search a target string for a specified substring. The first method is dot find. As you can see in the slide, it takes the desired substring as a mandatory argument. You can specify two other arguments. An inclusive starting position and an exclusive ending position. In the example code, we search for Waldo in the string Where's Waldo?. The dot find method returns the lowest index in the string where it can find the substring, in this case, eight. If we search for Wenda, the substring is not found and the method returns minus one.
+
+3. Finding substrings
+00:58 - 01:23
+Now, we check if we can find Waldo between characters number zero and five. In the code, we specify the starting position, zero, and the ending position, six, because this position is not inclusive. The dot find method will not find the substring and returns minus one as we see in the output.
+
+4. Index function
+01:23 - 02:00
+The dot index method is identical to dot find. In the slide, we see that it takes the desired substring as mandatory argument. It can take optional starting and ending positions as well. In the example, we search again for Waldo using dot index. We get eight again. When we look for a substring that is not there, we have a difference. The dot index method raises an exception, as we can see in the output.
+
+5. Index function
+02:00 - 02:23
+We can handle this using the try except block. In the slide, you can observe the syntax. The try part will test the given code. If any error appears the except part will be executed obtaining the following output as a result.
+
+6. Counting occurrences
+02:23 - 03:16
+The dot count method searches for a specified substring in the target string. It returns the number of non-overlapping occurrences. In simple words, how many times the substring is present in the string. The syntax of dot count is very similar to the other methods as we can observe. In the example, we use the dot count method to get how many times fruit appears. In the output, we see that is two. Then, we limit the occurrences of fruit between character zero and fifteen of the string as we can observe in the code. The method will return 1. Remember that starting position is inclusive, but the ending is not.
+
+7. Replacing substrings
+03:16 - 04:13
+Sometimes you will want to replace occurrences of a substring with a new substring. In this case, Python provides us with the dot replace method. As we see in the slide, it takes three arguments: the substring to replace, the new string to replace it, and an optional number that indicates how many occurrences to replace. In the example code, we replace the substring house with car. The method will return a copy with all house substrings replaced. In the next example, we specified that we only want 2 of the occurrences to be replaced. We see in the output that the method return a copy of the string with the first two occurrences of house replaced by car.
+
+8. Wrapping up
+04:13 - 04:42
+In this chapter, we walked through learning how to manipulate strings, a valuable skill for any data science project. You saw how to slide, concatenate and adjust cases of strings, how to split them into pieces and join them back together, how to remove characters and finally how to find, count and replace occurrences of substrings.
+
+
+1. Positional formatting
+00:00 - 00:09
+The next step of our journey is string formatting. In this video, we'll talk about positional formatting.
+
+2. What is string formatting?
+00:09 - 00:34
+String formatting is also called string interpolation. It is the process of inserting a custom string in a predefined text. Here, we see an example. Don't panic. We are going to explain this later. As data scientist, you will use it to insert a title in a graph, show an error message or pass a statement into a function.
+
+3. Methods for formatting
+00:34 - 00:50
+The modern versions of Python have three main approaches to string formatting: positional formatting, covered in this video, formatted strings literals, and template methods, covered in following videos.
+
+4. Positional formatting
+00:50 - 01:27
+Positional formatting works in the following way. We put placeholders defined by a pair of curly braces in a text. We call the string dot format method. Then, we pass the desired value into the method. The method replaces the placeholders using the values in order of appearance. Let's examine the example. We define a string and insert two placeholders. We pass two strings to the method which will be passed to get the following output.
+
+5. Positional formatting
+01:27 - 01:57
+We can use variables for both the string and the values passed to the method. In the example code, we defined a string with placeholders along with two other variables. We apply the format method to the string using the two defined variables. The method reads the string and replaces the placeholders with the given values. And we get the output seen in the slide.
+
+6. Reordering values
+01:57 - 02:29
+We can add index numbers into the curly braces. This affects the order in which the method replaces placeholders. In the example, we left the placeholders empty. The method replaces them with the values in the given order. And we get the output shown here. If we add the index numbers, the replacement order changes accordingly. Now, the output changes as you can observe.
+
+7. Named placeholders
+02:29 - 02:54
+We can also introduce keyword arguments that are called by their keyword name. In the example code, we inserted keywords in the placeholders. Then, we call these keywords in the format method. We then assign which variable will be passed for each of them resulting in the following output.
+
+8. Named placeholders
+02:54 - 03:39
+Let's examine this code. We have defined a dictionary with keys: tool and goal. We want to insert their values in a string. Inside the placeholders, we can specify the value associated with the key tool of the variable data using bracket notation. Pay attention to the code. Data is the dictionary specified in the method and tool is the key present in that dictionary. So, we get the desired output shown in the slide. Be careful! You need to specify the index without using quotes.
+
+9. Format specifier
+03:39 - 04:24
+We can also use format specifiers inside the curly braces. This defines how individual values are presented. We’ll use the syntax index colon specifier. One of the most common format specifiers is float represented by the letter f. In the code, we specified that the value passed with index 0 will be a float, getting the displayed output. We could also add dot two f indicating that we want the float to have two decimals as seen in the resulting output.
+
+10. Formatting datetime
+04:24 - 04:52
+Python has a module called datetime that allows us to, for example, get the date and time for today. You can see that the format returned is very particular. We can use format specifiers such as percentage y, m, d, h and capital m to adjust the format to something more familiar to us as you can observe in the slide.
+
+
+1. Formatted string literal
+00:00 - 00:10
+Modern versions of Python introduced a new powerful string formatting: formatted string literal method.
+
+2. f-strings
+00:10 - 00:58
+The strings defined by this method are called f-strings. They have a minimal syntax as you can see in the slide. To defined them, you need to add the prefix f before the string. Inside quotes, you put your text along with curly braces, which identify placeholders where you insert the expressions. In the example code, we have two variables, way and method. Then, we define an f-string. Inside curly braces, we pass the two variables. The method replaces the placeholders with the variables. And we obtain the following output.
+
+3. Type conversion
+00:58 - 01:42
+f-strings allow us to convert expressions into different types. We can use exclamation mark s for strings, r for printable representation of strings, or a to escape non-ascii characters. Let's imagine we define the variable name as you can see in the slide. The variable should be surrounded by quotes in the resulting string. We can add after the variable the exclamation r conversion. This will return a printable representation of the string. In the output, we can see that quotes are surrounding the variable.
+
+4. Format specifiers
+01:42 - 02:09
+We can also use format specifiers such as e for scientific notation, d for digit and f for float. In the example code, we define a variable containing a number. Then, we insert it in the f-string. We specify that we want it to have only two decimals. And we get the following string.
+
+5. Format specifiers
+02:09 - 02:29
+We can also format datetime. We only need to insert the variable containing the datetime object. After that, we placed a colon and the specifiers month name, day and year. And we get the string containing the date as we see on the code.
+
+6. Index lookups
+02:29 - 02:58
+Do you remember when we accessed dictionaries from the string format method? To insert the value associated with a specific key, we specify the index without quotes. Let's try the same to access dictionaries in f-strings. As we see in the code, Python raises an error telling us that it cannot find the variable. This is due to the fact we need to surround the index with quotes.
+
+7. Escape sequences
+02:58 - 03:15
+In the first video, we said that a string is anything appearing inside quotes. If the string contains quotes as well, one of the ways to escape the error raised is to add a backslash before the quotes.
+
+8. Escape sequences
+03:15 - 03:54
+What does this have to do with f-strings? We said that indexes required quotes. f-strings follow the same rule as strings. If Python finds a second quote, it understands that this is a closing mark. So we could escape the quotes by adding backslash. But, we can observe in the code that backslashes are not allowed in the f-string expression. So our only solution is to use single quotes to get the desire output as we can observe in the slide.
+
+9. Inline operations
+03:54 - 04:19
+One of the biggest advantages of f-strings is that they allow us to perform inline operations. In the example, we define two numeric variables. We then insert them into the f-string. We can also multiply them inside the expression. And we get the result of that operation in the output.
+
+10. Calling functions
+04:19 - 04:42
+We can also call functions inside the expression of f-strings. In the example, we define a function. Then, we call this function and pass two numbers inside the expression in the f-string. This will return the value in the final string as we can observe in the slide.
+
+
+1. Template method
+00:00 - 00:07
+In this video, we'll take a closer look at the last string formatting method, template strings.
+
+2. Template strings
+00:07 - 00:29
+Template strings have a simpler syntax. They are slow. And they don't allow the use of format specifiers. Yet, they are very suitable in some specific situations. Specially, when working with externally formatted strings that you don't have control over.
+
+3. Basic syntax
+00:29 - 01:17
+Template strings do not belong to the Python core features. You need to import the Template class from the string module. First, you need to create the template string. For that, you use the Template constructor that takes only the string, as you can observe in the slide. Template strings use dollar signs to identify placeholders or identifiers. Then, you need to call the method that substitutes the identifier by the string values. For that, you use the identifier name equal the replacement string. And we'll get the output shown in the slide.
+
+4. Substitution
+01:17 - 01:48
+We can place many identifiers as well as variables when using Template strings. In the example code, we define two variables containing strings. We can create a template having two identifiers with a designated name. Afterward, we call the method substitute to assign the identifiers to the different variables. And we get the following output.
+
+5. Substitution
+01:48 - 02:31
+Sometimes we need to add extra curly braces after the dollar sign to enclose the identifier. This is required when valid characters follow the identifier but are not part of it. Let's clarify this. In the example, we need to add the ending -ing immediately after the first identifier. We need to include curly braces. If we don't do it, Python believes that -ing belong to the identifier name. We replace it by the variable noun obtaining the shown output.
+
+6. Substitution
+02:31 - 02:53
+Let's imagine now that you are working with numbers and you want to include the dollar sign as part of a string. Because they are use for identifiers, you will need to escape this character by adding an extra dollar sign. And get the correct output as seen in the code.
+
+7. Substitution
+02:53 - 03:22
+In the example code, we have defined a dictionary with only one key. However, when we define our template string, we include two identifiers. What would happen if we pass this dictionary to the method substitute? Python will raise an error. It tries to replace every placeholder and some of them are missing.
+
+8. Substitution
+03:22 - 03:45
+We could try using the try except block again. In the slide, you can observe again the syntax. The try part will test the given code. If any error appears the except part will be executed obtaining the following output as a result.
+
+9. Safe substitution
+03:45 - 04:25
+A better way to handle this situation is using the safe substitute method. This method will always try to return a usable string. How? It will place missing placeholders in the resulting string. Let's say we have the same situation as before. Now, if we pass the dictionary to the safe substitute, we will not get an error. Instead, we'll get the identifier dollar sign cake in our resulting string, as you can observe in the output.
+
+10. Which should I use?
+04:25 - 04:58
+In summary, how do you decide which string formatting you should use? String format is easy to use. You could start mastering this method and then apply the concepts to f-strings. Moreover, the f-strings are always advisable above all methods. But only if you are working with modern versions of Python. Use template strings only when working with user-provided strings.
+
+
+1. Introduction to regular expressions
+00:00 - 00:06
+We arrive to an important part of our journey: regular expressions.
+
+2. What is a regular expression?
+00:06 - 00:41
+A regular expression, or regex, is a string that contains a combination of normal and special characters that describes patterns to find text within a text. This sounds very complicated. Let's break it down to understand it better. Here, we have an example of what a regular expression looks like. In Python, the r at the beginning indicates a raw string. It is always advisable to use it.
+
+3. What is a regular expression?
+00:41 - 01:01
+We said that a regex contains normal characters, or literal characters we already know. The normal characters match themselves. In the case shown in our slide, st exactly matches an s followed by a t.
+
+4. What is a regular expression?
+01:01 - 01:16
+They also contain special characters. Metacharacters represent types of characters. Let's look one by one as they appear in the slide. Backslash d represents a digit.
+
+5. What is a regular expression?
+01:16 - 01:21
+backslash s a whitespace,
+
+6. What is a regular expression?
+01:21 - 01:31
+backslash w a word character.They also represent ideas, such as location or quantity.
+
+7. What is a regular expression?
+01:31 - 01:46
+In the example, 3 and 10 inside curly braces indicates that the character immediately to the left, in this case backslash w, should appear between 3 and 10 times.
+
+8. What is a regular expression?
+01:46 - 01:58
+We said that regex describes a pattern. A pattern is a sequence of characters that maps to words or punctuation.
+
+9. What is a regular expression?
+01:58 - 02:21
+As a data scientist, you will use pattern matching to find and replace specific text. To validate strings such as passwords or email addresses. Why use regex? They are very powerful and fast. They allow you to search complex patterns that would be very difficult to find otherwise.
+
+10. The re module
+02:21 - 02:59
+Python has a useful library, the re module, to handle regex. You can import it as shown in the code. Let's see how it works. To find all matches of a pattern, we use the dot findall method. It takes two arguments: the regex and the string. In the code, we want to find all the matches of hashtag movies in the specified string. The method returns a list with the two matches found.
+
+11. The re module
+02:59 - 03:21
+To split a string at each pattern match, we could use the method dot split In the example, we want to split the specified string at every exclamation mark match. It returns a list of the substrings as you can see in the output.
+
+12. The re module
+03:21 - 03:48
+Finally, we could replace any pattern match with another string using the dot sub method. It takes three arguments: the regex, replacement and string. In the example, we replace every match of yellow with the word nice. We get the following output.
+
+13. Supported metacharacters
+03:48 - 04:23
+Let's look at the supported metacharacters. In the example, we want to find all matches of the patterns containing User followed by a number. We use backlash d to represent the digit. We get the following matches. Next, we find matches of the pattern containing User followed by a non-digit. In that case, we use backslash capital D obtaining the following match.
+
+14. Supported metacharacters
+04:23 - 04:56
+If we want to find all matches of the pattern containing User followed by any digit or normal character, we can use backlash w. We get all following matches. In the next example, we need to find the price in a string. We use backslash capital W to match the dollar sign followed by a digit obtaining the following output.
+
+15. Supported metacharacters
+04:56 - 05:27
+Finally, we use backslash s to specify the pattern Data whitespace science getting the following match. In the second example, we use backslash capital S to detect the matches of ice, followed by any non-space character, followed by cream and replace them with the word ice cream.
+
+
+1. Repetitions
+00:00 - 00:06
+In this video, we are going to talk about how to match repeated characters.
+
+2. Repeated characters
+00:06 - 00:11
+Let's imagine that we are given the task to validate a password.
+
+3. Repeated characters
+00:11 - 00:14
+It should contain eight characters
+
+4. Repeated characters
+00:14 - 00:18
+followed by four numbers.
+
+5. Repeated characters
+00:18 - 00:48
+To search for a pattern, we can use the method dot search. It takes the regex and string. It tells us if there is a match. Let's apply what we have learned until now. We use backslash w eight times to match the first part and backslash d four times to match the last part. So our method finds a match.
+
+6. Repeated characters
+00:48 - 01:25
+But this seems cumbersome for longer regex. Instead, we can use quantifiers to save this situation. A quantifier is a metacharacter that specifies how many times a character located to its left needs to be matched. In our example, we specify that backslash w is repeated 8 times and backslash d four times. And we get a match as seen in the output.
+
+7. Quantifiers
+01:25 - 01:56
+In the following string, we want to match the dates. We can see that the pattern is one or multiple digits, dash, and again one or multiple digits. The plus metacharacter indicates a character that appears once or more times. Let's construct the regex from simple to complex. We will use dot findall method as you can see in the code.
+
+8. Quantifiers
+01:56 - 02:07
+We indicate that the digit, backslash d, should appear once or more times adding the plus quantifier. Then, a dash.
+
+9. Quantifiers
+02:07 - 02:25
+And again a digit, backslash d. It should appear once or more times, so again we use the plus quantifier. We get the two matches that we expected as seen in the output.
+
+10. Quantifiers
+02:25 - 03:19
+To indicate that a character should appear zero or more times, we can use the star metacharacter. In this example, we have the following string. We want to find all mentions of users, which start with an at. We notice that they could contain or not contain a non-word character in the middle. So, we construct our regex as seen in the code: an at, followed by backslash w plus, backslash capital w with start to indicate a non-word character zero or more times, then backslash w plus. And we get the matches seen in the output.
+
+11. Quantifiers
+03:19 - 04:00
+Another helpful quantifier is the question mark. It indicates that a character should appear zero times or once. In the example, we need to find matches for the word color, which has spelling variations. So, our regex is c, o, l, o, u which can appear once or zero times, so we add the question mark after it, then r. With this regex, we get the two matches wanted.
+
+12. Quantifiers
+04:00 - 04:22
+Finally, we can use the curly braces to indicate a specific minimum and maximum times. In the example, we want to find all matches for a phone number. We'll use the dot findall method and construct our regex step by step.
+
+13. Quantifiers
+04:22 - 04:29
+As we can see, we can have a digit, once or twice, then slash.
+
+14. Quantifiers
+04:29 - 04:34
+Then, again a digit, three times. Then, a slash.
+
+15. Quantifiers
+04:34 - 04:57
+Then, a digit twice or three times. Then, slash. And finally a digit again. We indicate that this last digit need to appear at least four times leaving the second argument in black. The regex engine returns two matches as expected.
+
+16. Quantifiers
+04:57 - 05:16
+It's very important to remember that the quantifier applies only to the character immediately to the left. As an example, in the regex apple plus, the plus applies only to the letter e and not to the entire word.
+
+
+1. Regex metacharacters
+00:00 - 00:06
+Now, we will look at some other metacharacters that are very useful.
+
+2. Looking for patterns
+00:06 - 00:57
+Let's first look at two methods of the re module: dot search and dot match. As you can see, they have the same syntax and are used to find a match. In the example, we use both methods to find a digit appearing four times. Both methods return an object with the match found. The difference is that dot match is anchored at the beginning of the string. In the second example, we used them to find a match for a digit. In this case, dot search finds a match, but dot match does not. This is because the first characters do not match the regex.
+
+3. Special characters
+00:57 - 01:18
+The dot metacharacter matches any character. In the example code, we need to match links in the string. We know a link starts with w, w, w and ends with c, o, m. So we first write this in our regex.
+
+4. Special characters
+01:18 - 01:37
+We don't know how many character are in between. So we indicate that we want any character, a dot, once or more times, adding the plus. We can see in the output that we get our match.
+
+5. Special characters
+01:37 - 02:07
+The circumflex anchors the regex to the start of a string. In the example, we find the pattern starting with t, followed by h, e, whitespace, two digits and ending with s. The method finds the following two matches. Now, we add the anchor metacharacter. We receive only one match. The one that appears at the beginning of the string.
+
+6. Special characters
+02:07 - 02:21
+On the contrary, the dollar sign anchors the regex to the end of the string. If we use it in the previous example, we get the match that appears at the end of the string.
+
+7. Special characters
+02:21 - 03:02
+What if I want to use characters like dollar sign or dot, which also have other meanings? Let's look at an example. We want to split the string by dot whitespace. We write the following regex. And we get an output that it is not what we expected. Why? Because the regex interprets the dot as any character. To solve this situation, we need to escape the character by adding a backslash in front of the dot. Now we get the correct output.
+
+8. OR operator
+03:02 - 03:26
+In the example code, we want to match the word elephant. However, we see that it's written with capital E or lower e. In that case, we use the vertical bar. In this way, we indicate that we want to match one variant OR the other obtaining both elephant-matches.
+
+9. OR operator
+03:26 - 04:21
+Square brackets also represent the OR operand. Inside them, we can specify optional characters to match. Look at the example. We want to find a pattern that contains lowercase or uppercase letter followed by a digit. To do so, we can use the square brackets. Inside them, we will use lowercase a dash lowercase z to specify any lowercase letter. Then, uppercase a dash uppercase z to indicate any uppercase letter. Then the plus. Then backslash d. Thus, we get the following matches.
+
+10. OR operator
+04:21 - 04:45
+In the following string, we want to replace the non-word characters by whitespace. We specify optional characters inside the square brackets. The engine searches for one or the other. When it finds a match, it replaces the character by a whitespace, getting the following output.
+
+11. OR operand
+04:45 - 05:05
+The circumflex transforms the expression inside square brackets into negative. In the example, we add the circumflex to specify we want the links that do not contain any number. And we get the following output.
+
+
+1. Greedy vs. non-greedy matching
+00:00 - 00:09
+You have already worked with repetitions. In this video, we'll deepen our understanding of how the quantifiers work.
+
+2. Greedy vs. non-greedy matching
+00:09 - 00:25
+There are two types of matching methods: greedy and non-greedy (also called lazy) operators. The quantifiers that you have been learning until now (which are called standard quantifiers) are greedy by default.
+
+3. Greedy matching
+00:25 - 01:22
+We said that the standard quantifiers have a greedy behavior, meaning that they will attempt to match as many characters as possible. And in doing so, they will return the longest match found with a match attempt. Let's take a look at this code. We want to find a pattern that has one or more digits on the string displayed and our greedy quantifier will return the pattern '12345'. We can explain this in the following way: our quantifier will start by matching the first digit found, '1'. Because it is greedy, it will keep going to find 'more' digits and stop only when no other digit can be matched, returning '12345'.
+
+4. Greedy matching
+01:22 - 02:55
+However, there is another characteristic that we should explore. If the greedy quantifier has matched so many characters that can not match the rest of pattern, it will backtrack, giving up characters matched earlier one at a time and try again. Backtracking is like driving a car without a map. If you drive through a path and hit a dead end street, you need to backtrack along your road to an earlier point to take another street. To make this more clear, we'll take this example code. We use the greedy quantifier .* to find anything, zero or more times, followed by the letters "h" "e" "l" "l" "o". We can see here that it returns the pattern 'xhello'. So our greedy quantifier will start by matching as much as possible, the entire string. Then it tries to match the h, but there are no characters left. So it backtracks, giving up one matched character. Trying again. It still doesn't match the h, so it backtracks one more step repeatedly till it finally matches the h in the regex, and the rest of the characters.
+
+5. Non-greedy matching
+02:55 - 03:46
+Because they have lazy behavior, non-greedy quantifiers will attempt to match as few characters as needed returning the shortest match. So how do we obtain non-greedy quantifiers? We can append a question mark at the end of the greedy quantifiers to convert them into lazy. If we take the same code as before, our non-greedy quantifier will return the pattern '1'. In this case, our quantifier will start by matching the first digit found, '1'. Because it is non-greedy, it will stop there as we stated that we want 'one or more' and one is as few as needed.
+
+6. Non-greedy matching
+03:46 - 04:53
+Non-greedy quantifiers also backtrack. In this case, if they have matched so few characters that the rest of the pattern cannot match, they backtrack, expand the matched character one at a time and try again. Let's take the same example code again. This time we will use the lazy quantifier .*?. Interestingly, we obtain the same match 'xhello'. But how this match was obtained is different from the first time. The lazy quantifier first matches as little as possible, nothing, leaving the entire string unmatched. Then it tries to match the h, but it doesn't work. So it backtracks, matching one more character, the x. Then it tries again, this time matching the h, and afterwards, the rest of the regex.
+
+
+1. Grouping and capturing
+00:00 - 00:12
+In the last stop of our journey, we are going to talk about some advanced concepts of regex. More specifically, in this video, we'll talk about capturing groups.
+
+2. Group characters
+00:12 - 00:16
+Let's say that we have the following text.
+
+3. Group characters
+00:16 - 01:02
+And we want to extract information about a person, how many and which type of relationships they have. So, we want to extract Clary 2 friends, Susan 3 brothers and John 4 sisters, as you can see in the slide. We know the structure of the sentences. Let's try our first approach. We would write something like in the code, any upper or lowercase letter, whitespace, any word character, whitespace, a number, whitespace and any word character. Let's see the output. Quite close. But we don't want the word has.
+
+4. Capturing groups
+01:02 - 01:18
+What can we do about this? We start simple by trying to extract only the names. We can place parentheses to group those characters as shown in the slide. Capture them. And retrieve only that group.
+
+5. Capturing groups
+01:18 - 01:34
+In the code, we have now added parentheses to group our first part of the regex. We can observe in the output that the group was captured. And only the three names were retrieved.
+
+6. Capturing groups
+01:34 - 02:02
+Let's look at the example again. We can place parentheses around the three groups that we want to capture as shown in the slide. Each group will receive a number. The entire expression will always be group zero. The first group one, the second two, and the third number three. We'll see how to use these numbers later.
+
+7. Capturing groups
+02:02 - 02:27
+Let's see this in the code example. We add the parentheses to group together each of the three parts of the regex. In the output, we got a list of tuples. The first element of each tuple is the match captured corresponding to group one. The second to group two. The last to group three.
+
+8. Capturing groups
+02:27 - 02:42
+As we already discussed, we can use capturing groups to match a specific subpattern in a pattern. We can use this information for retrieving the groups by numbers as we'll learn later in the next videos.
+
+9. Capturing groups
+02:42 - 03:12
+But we can also use it to organize data. As you saw earlier, the matches are retrieved as lists. In the code, we placed the parentheses to capture the name of the owner, the number and which type of pets each one has. We can access the information retrieved by using indexing and slicing as seen in the code. You've learned this in the first videos.
+
+10. Capturing groups
+03:12 - 03:55
+But capturing groups have one important feature. Remember that quantifiers apply to the character immediately to the left. So, we can place parentheses to group characters and then apply the quantifier to the entire group. In the code, we have placed parentheses to match the group containing a number and any letter. We applied the plus quantifier to specify that we want this group repeated once or more times. And we get the following match shown in the output.
+
+11. Capturing groups
+03:55 - 04:37
+But be careful. It's not the same to capture a repeated group than to repeat a capturing group. In the first code, we use findall to match a capturing group containing one number. We want this capturing group to be repeated once or more times. We get 5 and 3 as an output. Because these numbers are repeated consecutively once or more times. In the second code, we specify that we should capture a group containing one or more repetitions of a number. We now get the following output.
+
+
+1. Alternation and non-capturing groups
+00:00 - 00:07
+In this video, we'll talk about other ways in which grouping characters can help us.
+
+2. Pipe
+00:07 - 00:35
+You've learned in previous videos about the vertical bar or pipe operator. Suppose we have the following string. And we want to find all matches for pet names. So we can use the pipe operator to specify that we want to match cat or dog or bird as you see in the code. This will output the following list.
+
+3. Pipe
+00:35 - 01:11
+Now, we changed the string a little bit. And once more we want to find all the pet names. But this time only those that come after a number and a whitespace. So we specify this again with the pipe operator. Hmm we got the wrong output. Why? The pipe operator works comparing everything that is to its left (digit whitespace cat) with everything to the right, dog.
+
+4. Alternation
+01:11 - 01:46
+In order to solve this, we can use alternation. In simpler terms, we can use parentheses again to group the optional characters as you can see in the slide. In the code, now the parentheses are added to group cat or dog or bird. This time we get the output cat and dog. This is the correct match as only these two patterns followed a number and whitespace.
+
+5. Alternation
+01:46 - 02:11
+In the previous example, we may also want to match the number. In that case, we need to place parentheses to capture the digit group as seen in the slide. In the code, we now use two pair of parentheses. We use findall in the string. And we get a list with two tuples as shown in the output.
+
+6. Non-capturing groups
+02:11 - 02:36
+Sometimes, we need to group characters using parentheses. But we are not going to reference back to this group. For these cases, there are a special type of groups called non-capturing groups. For using them, we just need to add question mark colon inside the parenthesis but before the regex.
+
+7. Non-capturing groups
+02:36 - 03:40
+We have the following string. We want to find all matches of numbers. We see that the pattern consists of two numbers and dash repeated three times. After that, three numbers, dash, four numbers. We want to extract only the last part without the first repeated elements. We need to group the first two elements to indicate repetitions. But we don't want to capture them. So we use non-capturing groups to group backslash d repeated two times and dash. Then we indicate this group should be repeated three times. Then, we group backslash d repeated three times, dash, backslash d repeated three times as shown in the slide. In the code, we then match the regex to the string. And we get the numbers we were looking for as shown in the output.
+
+8. Alternation
+03:40 - 04:42
+Finally, we can combine non-capturing groups and alternation together. Remember that alternation implies using parentheses and the pipe operand to group optional characters. Let's suppose that we have the following string. And we want to match all the numbers of the day. We know that they are followed by th or rd. But we only want to capture the number and not the letters that follow. We write our regex. We capture inside parentheses backslash d repeated once or more times. Then, we can use a non-capturing group. Inside we use the pipe operator to choose between th and rd as shown in the code. We find all the matches in the string. And we get the correct output.
+
+
+1. Backreferences
+00:00 - 00:06
+We will now discuss how we can backreference capturing groups.
+
+2. Numbered groups
+00:06 - 00:23
+Imagine we come across this text. And we want to extract the date highlighted. But we want to extract only the numbers. So, we can place parentheses in a regex to capture these groups as we learned.
+
+3. Numbered groups
+00:23 - 00:37
+We have also seen that each of these groups receive a number. The whole expression is group zero. The first group one, and so on, as shown in the slide.
+
+4. Numbered groups
+00:37 - 01:12
+Let's use dot search to match the pattern to the text. To retrieve the groups captured, we can use the method dot group specifying the number of a group we want. For example, three. The method retrieves the match corresponding to group number three as shown in the output. We can also retrieve group zero. It will output the entire expression. Dot group can only be used with dot search and dot match methods.
+
+5. Named groups
+01:12 - 01:26
+We can also give names to our capturing groups. Inside the parentheses, we write question mark capital p, and the name inside angle brackets as shown in the slide.
+
+6. Named groups
+01:26 - 02:01
+Let's say we have the following string. We want to match the name of the city and zipcode in different groups. We can use capturing groups and assign them the name city and zipcode as shown in the code. We retrieve the information by using dot group. We indicate the name of the group. For example, specifying city gives us the output Austin. Specifying zipcode gives us the number match as shown.
+
+7. Backreferences
+02:01 - 02:19
+There is another way to backreference groups. In fact, the matched group can be reused inside the same regex or outside for substitution. We can do this using backslash and the number of the group as you can see in the slide.
+
+8. Backreferences
+02:19 - 02:36
+Let's see an example. We have the following string. We want to find all matches of repeated words. In the code, we specify that we want to capture a sequence of word characters. Then a whitespace.
+
+9. Backreferences
+02:36 - 03:02
+Then we write backslash one. This will indicate that we want to match the first group captured again. In other words, it says match that sequence of characters that was previously captured once more. And we get the word happy as an output. This was the repeated word in our string.
+
+10. Backreferences
+03:02 - 03:43
+Now, we will replace the repeated word with one occurrence of the same word. In the code, we use the same regex as before. This time, we use the dot sub method. In the replacement part, we can also reference back to the captured group. We write r backslash one inside quotes. This says replace the entire expression match with the first captured group. In the output string, we have only one occurrence of the word happy.
+
+11. Backreferences
+03:43 - 04:12
+We can also use named groups for backreferencing. To do this, we use question mark capital p equal sign and the group name. In the code, we want to find all matches of the same number. We use a capturing group and name it code. Later, we reference back to this group. And we obtain the number as an output.
+
+12. Backreferences
+04:12 - 04:41
+On the other hand, to reference the group back for replacement we need to use backslash g and the group name inside angle brackets. In the code, we want to replace repeated words by one occurrence of the same word. Inside the regex, we use the previous syntax. In the replacement field, we need to use this new syntax as seen in the code to get the following output.
+
+
+1. Lookaround
+00:00 - 00:11
+In this final video, we will look into specific types of non-capturing groups. They help us look around an expression.
+
+2. Looking around
+00:11 - 00:20
+Look-around will look for what is behind or ahead of a pattern. Imagine that we have the following string.
+
+3. Looking around
+00:20 - 00:45
+We want to see what is surrounding a specific word. For example, we position ourselves in the word cat. So look-around will let us answer the following problem. At my current position, look ahead and search if sat is there. Or look behind and search if white is there.
+
+4. Look-ahead
+00:45 - 01:24
+We'll start by exploring look-ahead. This non-capturing group checks whether the first part of the expression is followed or not by the lookahead expression. As a consequence, it will return the first part of the expression. In the previous example, we are looking for the word cat. The look ahead expression can be either positive or negative. For positive we use question mark equal. For negative question mark exclamation mark.
+
+5. Positive look-ahead
+01:24 - 01:50
+Let's start with positive lookahead. Let's imagine that we have a string containing file names and the status of that file as shown in the code. We want to extract only those files that are followed by the word transferred. So we start building the regex by indicating any word character followed by dot txt.
+
+6. Positive look-ahead
+01:50 - 02:14
+We now indicate we want the first part to be followed by the word transferred. We do so by writing question mark equal and then whitespace transferred all inside the parenthesis. With that specification, we get only the desired strings as shown in the output.
+
+7. Negative look-ahead
+02:14 - 02:18
+Now, let's use negative lookahead in the same example.
+
+8. Negative look-ahead
+02:18 - 02:39
+In this case, we will say that we want those matches that are NOT followed by the expression transferred. We use instead question mark exclamation mark inside parenthesis as seen in the code. Now, we get this other output.
+
+9. Look-behind
+02:39 - 03:17
+The non-capturing group look-behind gets all matches that are preceded or not by a specific pattern. As a consequence, it will return the matches after the look expression. Let's use the same example, but now we are looking before the word cat. Look behind expression can also be either positive or negative. For positive we use question mark angle bracket equal. For negative question mark angle bracket exclamation mark.
+
+10. Positive look-behind
+03:17 - 03:44
+Let's look at the following string. We want to find all matches of the names that are preceded by the word member. How do we construct our regex with positive look-behind? Let's examine the code. At the end of the regex, we'll indicate we want a sequence of word characters whitespace another sequence of word characters.
+
+11. Positive look-behind
+03:44 - 04:11
+Pay attention to the code. The look-behind expression goes before that expression. We indicate question mark angle bracket equal followed by member, colon, and whitespace. All inside parentheses. In that way we get the two names that were preceded by the word member as shown in the output.
+
+12. Negative look-behind
+04:11 - 04:54
+Now, we have this other string. We will use negative look-behind. We will find all matches of the word cat or dog that are not preceded by the word brown. In this code example, we use question mark angle bracket exclamation mark, followed by brown, whitespace. All inside the parenthesis. Then, we indicate our alternation group: cat or dog. Consequently, we get cat as an output. The cat or dog word that is not after the word brown.
+
+
+1. Finishing line
+00:00 - 00:06
+You have reached the finishing line of this course on regular expression in python.
+
+2. Congratulations
+00:06 - 00:11
+Congratulations! You have done an amazing job!
+
+3. Our journey
+00:11 - 00:32
+In our journey, you started by learning the key concepts of string manipulation. Along the way, you have manipulated strings coming from movie reviews. You concatenated them and split them. You accessed them by index and sliced them. Finally, you replaced and removed characters.
+
+4. Our journey
+00:32 - 00:52
+You went a little bit further and learned how to insert custom strings into predefined text. You worked with strings scraped from the web. You applied the three string formatting methods that Python allows. You also learned in which situation they fit best.
+
+5. Our journey
+00:52 - 01:14
+These concepts helped you take a deep turn and learn the basic syntax of regular expressions. You worked with a dataset containing real tweets. You matched, found and replaced normal characters and metacharacters. You also applied quantifiers, both greedy and non-greedy ones.
+
+6. Our journey
+01:14 - 01:41
+Finally, you went ahead and learned advanced concepts of regular expressions. You used capturing and non-capturing groups to match a specific subpattern in a text. You also learned how to backreference them as well as how to look what comes before or after a specific pattern. Overall, you now have a better understanding of regular expressions.
+
+7. Last tips
+01:41 - 02:10
+However, there is more to learn. And I would like to give you some last tips. Practice regex whenever you can. This will help you reinforce what you've learned. Apply them in your projects. They will help you do things in an easier way. Have fun. Regex can be difficult at the beginning. But enjoy learning them as they are a powerful tool.
+

@@ -1,0 +1,436 @@
+1. What is OOP?
+00:00 - 00:08
+Hi! I'm George, and I'll be walking us through the fundamentals of object-oriented programming, or OOP!
+
+2. Procedural vs OOP
+00:08 - 00:27
+Until now, we have likely been coding in procedural style: our code was a sequence of steps to be carried out. This is common when performing simple, non-repetitive tasks, or for data analysis, where we load data, explore it, and produce insights.
+
+1 Image source: https://unsplash.com/@tateisimikito
+3. Thinking in sequences
+00:27 - 00:49
+Procedural thinking is natural and how we tend to plan our days. But a software engineer, like a city planner, needs to think about thousands of people with their own routines. Mapping out a sequence of actions for each individual would become unsustainable. Instead, we should think about patterns of behavior.
+
+4. Procedural vs OOP
+00:49 - 01:13
+This is what OOP involves - thinking about objects and patterns of their interactions - like users interacting with elements of an interface. This point of view becomes invaluable when designing and building software like Python packages! It helps us organize our code better, making it more reusable and maintainable.
+
+5. Objects
+01:13 - 02:00
+The first fundamental concept of OOP is an object, which is a combination of data and functionality. For example, an object representing a customer can have data such as a phone number and email associated with them, and functionality like the ability to place or cancel an order. Data associated with an object is known as the object's state. The functionality of an object is known as its behavior. In OOP, state and behavior are bundled together. So, instead of thinking about customer data separately from customer actions, we think of them as one unit representing a customer.
+
+6. Objects in Python
+02:00 - 02:10
+In Python, everything is an object. Numbers, strings, DataFrames, and even functions are objects.
+
+7. Classes as blueprints
+02:10 - 02:51
+But how do objects get created? This leads to the other core concept of OOP, classes. Classes are like blueprints for objects. They describe the possible states and behaviors that every object from that class can have. Therefore, Customer objects are made from a Customer class. To enable Customer objects to have states such as email address and phone number and behaviors including placing and canceling orders, they must be defined in the Customer class. The class allows us to talk about customers in a unified way.
+
+8. Classes as blueprints
+02:51 - 03:03
+An object is an instance of a class. So an individual customer is an object created from our Customer class blueprint.
+
+9. Classes in Python
+03:03 - 03:36
+The unified templates that classes create are what allow Python objects of the same type to behave in the same way. For example, all lists can store data in the same way, through comma-separated values, and have the same methods, such as dot-append. To find out the class of a Python object we can call the type function. Here, we confirm the class of comma-separated values inside square brackets is a list.
+
+10. Attributes and methods
+03:36 - 04:15
+Remember that in OOP, state refers to data associated with an object. In Python, this is represented by attributes. As an example, every pandas DataFrame has a "shape" attribute that we can access by specifying the name of the DataFrame, then dot-shape. Meanwhile, behavior reflects an object's functionality. In Python, this is represented by methods. An example is the dot-head method of a pandas DataFrame, allowing a preview of the first five rows.
+
+11. Displaying attributes and methods
+04:15 - 04:37
+We can display all the attributes and methods by calling dir on a specific object. For example here, we see that a list has methods like pop and sort. This also works on a class. We'll discuss why some methods and attributes are surrounded by underscores later in the course.
+
+12. Cheat sheet
+04:37 - 04:44
+We covered a lot of new terms in this video, so please use this cheat sheet for reference!
+
+
+1. Class anatomy: attributes and methods
+00:00 - 00:08
+Great job so far! Now that we know how to work with existing objects and classes, let's look at how to create our own!
+
+2. A Customer class
+00:08 - 01:01
+To start a new class definition, we start with a class statement, followed by the name of the class, and end with a colon. We then indent code beneath. Everything in the indented block after will be considered a part of the class. We can create an "empty" class - like a blank template - by including the pass statement after the class declaration. Even though this class is empty, we can already create objects of the class by specifying the name of the class, followed by parentheses. Here, c_one and c_two are two different objects of the empty class Customer. We want to create objects that store data and can perform defined tasks - in other words, have attributes and methods.
+
+3. Add methods to a class
+01:01 - 02:04
+Here, we define the "identify" method for the Customer class. Recall that methods are functions, so the definition of a method looks just like a regular Python function, with one exception. We provide the special self argument that every method will have as the first argument, followed by name as a second argument. The method will print "I am Customer" plus name when called. We'll get back to self in a minute, first, let's see how this works. We create a new customer object by calling the name of the class, then call cust.identify passing the desired name, and get the output. Note that name was the second parameter in the method definition, but it is the first parameter when the method is called. The mysterious self is not needed in the method call.
+
+4. What is self?
+02:04 - 02:55
+So what was that self? Classes are templates. So when we make the class there are not yet any associated objects. So, we include self as the first argument to methods as a way of referring to the object that we will create. Put another way, it's a stand-in for the future object. When a method is called from an object, it is the equivalent of calling the method from the class and passing the object, so cust.identify is the same as Customer.identify, where cust is passed as the first argument. That's why we don't specify it explicitly when calling the method from an existing object.
+
+5. We need attributes
+02:55 - 03:27
+What about data, or state? In OOP, we include this within methods, therefore bundling state and behavior. For example, customer name should be an attribute of a customer object, instead of a parameter passed to a method. In Python, attributes, like variables, are created by assignment, meaning we need to assign a value to an attribute.
+
+6. Add an attribute to class
+03:27 - 04:14
+Here is a method set_name with arguments self and new_name. To create an attribute of the Customer class called "name", we need to assign something to self-dot-name. Remember, self is a stand-in for an object, so self-dot-attribute is equivalent to the object-dot-attribute syntax. Here, we set the name attribute to the new_name parameter of the function. When we create a customer, it does not yet have a name attribute. But after the set_name method is called, the name attribute is created, and we can access it through dot-name.
+
+7. Using attributes in class definition
+04:14 - 04:53
+Equipped with the name attribute, we can improve our identify method! We add the set_name method we just discussed. Now, in the identify method we remove the name argument and refer to the self.name attribute, which, will pull the name attribute from the object that called the method. We create a new customer object, call the set_name method and provide our name. Now, the identify method will only use the data that is associated with the object, instead of using whatever we passed to it.
+
+
+1. Class anatomy: the __init__ constructor
+00:00 - 00:07
+Welcome back! In the previous video, we learned how to define methods and attributes in classes.
+
+2. Methods and attributes
+00:07 - 00:39
+Remember, methods are functions within a class with a special first argument self, and that attributes are created by assignment and referred to using the self variable within methods. In the exercises, you created an Employee class, and for each new attribute, you defined a new method, and then called those methods one after another. This could get unsustainable if your class contains a lot of data.
+
+3. Constructor
+00:39 - 01:41
+A better strategy would be to add data to the object when creating it, like we do when creating a list or DataFrame. Python allows us to do this by adding a special method to our class called the constructor. The constructor is automatically called every time an object is created. The method has to be called underscore underscore init underscore underscore - the exact name and double underscores are essential for Python to recognize it. Here, we define the init method for the Customer class. The method takes on one argument, name, in addition to the self argument that should be there for any method. In the body of the method, we create the name attribute using self.attribute syntax, assigning its value to the name parameter, and print a message.
+
+4. Constructor
+01:41 - 01:54
+Now we can pass the customer name in parentheses when creating a customer object, resulting in the init method being automatically called and the name attribute assigned.
+
+5. The right place to define attributes
+01:54 - 02:47
+So, there are two ways to define attributes: we can define an attribute in any method in a class; and then calling the method will add the attribute to the object. Alternatively, we can define them all together in the constructor. Where possible, we should avoid defining attributes outside the constructor. Our class definition can be hundreds lines of code long, and the person reading it would have to comb through all of them to find all the attributes. Additionally, defining all attributes in the constructor ensures that all of them are created when the object is created, so we don't have to worry about trying to access an attribute that doesn't exist yet. All this results in more organized, readable, and maintainable code.
+
+6. Add arguments
+02:47 - 02:59
+We can add another parameter, account balance, to the init method, and create another attribute, also called balance, that will be initialized during object creation.
+
+7. Add parameters
+02:59 - 03:06
+We can now create a customer object by calling Customer with two parameters in parentheses.
+
+8. Default arguments
+03:06 - 03:18
+The init constructor is also a good place to set the default values for attributes. For example, here we set the default value of the balance argument to zero.
+
+9. Default arguments
+03:18 - 03:29
+When we create a Customer object without specifying the value of the balance, the attribute is created anyway, and is initialized to the default value zero.
+
+10. Best practices
+03:29 - 03:37
+While we're on the subject of best practices, let's quickly go over a few more conventions that will make our code more user-friendly.
+
+11. Best practices
+03:37 - 04:01
+To name our classes, use camel case, which means that if our class name contains several words, they should be written without underscores and each word should start with a capital letter. For methods and attributes, it's the opposite - words should be separated by underscores and all lowercase.
+
+12. Best practices
+04:01 - 04:20
+The name "self" is a convention. We could use any word for the first variable of a method, it will always be treated as the object reference regardless. However, for consistency, which makes our code easier to understand, we should always use "self".
+
+13. Best practices
+04:20 - 04:42
+Finally, classes allow for docstrings, allowing us to display useful information about our class and objects created from it. Like with custom functions, a docstring for a class must be placed immediately after the line declaring the class. We should use docstrings to make developer's lives easier.
+
+
+1. Class vs. instance attributes
+00:00 - 00:11
+Great work so far! Now we're going to dive deeper into classes versus objects. But first, let's examine the core principles of OOP.
+
+2. Core principles of OOP
+00:11 - 00:38
+First, there is encapsulation, which is the term for grouping data and methods together. Second, there is inheritance, which allows us to build on top of existing code. Lastly, polymorphism enables the access of different types of objects through the same interface, meaning we can use different objects from the same class in the same way.
+
+3. Instance-level attributes
+00:38 - 01:20
+We've actually been implementing encapsulation in our classes already by creating objects with different attribute values and using our custom-defined methods. We can extend this by separating instance and class-level data! Remember the Employee class we previously defined? It had attributes like name and salary, and we were able to assign values to them when creating each new object. These attributes are only applicable to the object we assigned them to. The use of self within the method allowed us to assign to a particular object when they are initialized.
+
+4. Class-level attributes
+01:20 - 01:53
+But what if we need to store some data that is shared among all the instances of a class? For example, if we want to introduce a minimal salary across the entire organization. That data should not differ among objects. Then, we can define an attribute directly in the class body, rather than when we define the init constructor. This will create a class attribute, that will serve as a "global variable" within a class. For example,
+
+5. Implementing class-level attributes
+01:53 - 02:36
+we can define the MIN_SALARY attribute and set it to 30000. We don't use self to create this attribute. The convention is to capitalize class attributes. We can use this attribute inside the class like we would use any global variable, only we use class name-dot-attribute syntax rather than self. For example, here, we check if the value of the salary attribute is greater than MIN_SALARY in the init method. If so, we assign the salary value to self, otherwise, we assign the MIN_SALARY value.
+
+6. Class-level attributes
+02:36 - 03:06
+This min_salary variable will be shared among all the instances of the Employee class. We can access it like any other attribute from an object instance, and the value will be the same across instances. Here, we print the MIN_SALARY class attribute from two employee objects. This approach is an example of encapsulation, where data and methods are grouped within the class.
+
+7. Modifying class-level attributes
+03:06 - 03:30
+Remember, MIN_SALARY is a class-level attribute. So what would happen if we change its value for a specific object? We have two employee objects and set the min_salary of the first one to 50000. When we print the min_salary of both employees, we see that it has only changed for the first one.
+
+8. Modifying class-level attributes
+03:30 - 03:55
+The min_salary attribute is created in the class definition, so updating this attribute's value for an individual object will not change the value in the class! This makes sense from a security perspective - we don't want a scenario where changing data in a single instance results in changes to data in all other instances from a class!
+
+9. Why use class attributes?
+03:55 - 04:25
+Now we understand the scope of class attributes, let's discuss why they are useful! Firstly, they can be used to set global constants for a class, such as minimum and maximum values for attributes, like min_salary, serving as a safety measure to prevent invalid data. Secondly, they can be used for common values like configuration settings for a Database class, avoiding repetition when creating objects.
+
+
+1. Class methods
+00:00 - 00:06
+We looked at class attributes, now let's look at class methods!
+
+2. Methods
+00:06 - 00:31
+We've already seen how methods created in a class can be used by any object of that class. If we have two Employee objects with different values for their name and salary attributes, calling the give_raise method on each object separately results in different salaries between objects. In other words, the methods are using instance-level data.
+
+3. Class methods
+00:31 - 02:00
+However, it is possible to define methods bound to a class rather than an object. These class methods must have a narrow scope because they will not be able to use any object-level data. To define a class method, we start with a classmethod decorator. Remember, a decorator is convenience feature that allows us to modify the behavior of a function. Also remember that a method is a function that is specific to a class. So, the classmethod decorator allows us to modify the behavior of the method defined directly afterwards. When defining the class method, the only difference compared to previous methods is that now the first argument is not self, but cls, referring to the class. This is just like how the self argument was a reference to a particular object. Then we write it as any other function, keeping in mind that we can't refer to any instance attributes in that method. To call a class method, we use class-dot-method syntax, rather than object-dot-method syntax. Note that as with self, cls is used by convention but any word will work.
+
+4. Alternative constructors
+02:00 - 03:02
+So why would we ever need class methods? The main use case is to enable alternative constructors. A class can only have one init method, but there might be multiple ways to initialize an object. For example, we might want to create an Employee object from data stored in a file. We can't use a method, because it would require an instance, and there isn't one yet! Here, we introduce a class method from_file that accepts a file name, reads the file that contains the name of the employee in the first line and the salary in the second line, returning an object. In the return statement, we use the cls variable. Remember that cls refers to the class, so this will call the init constructor, just like using Employee with parentheses would when used outside the class definition.
+
+5. Alternative constructors
+03:02 - 03:23
+Then we can call Employee.from_file by using class-dot-method syntax, which will create an employee object without explicitly calling the constructor. The file only contains the name and the salary, so these values are assigned to the emp object's attributes.
+
+6. When to use class methods
+03:23 - 04:12
+Given class methods require a narrow scope, when should we use them? We've seen their application as an alternative constructor, such as creating an object from a file or accepting a different format than a regular constructor. Remember, class methods can't access instance attributes. While this might seem like a limitation, it means we can create methods that don't require these attributes to work correctly! Another scenario is when we want to restrict a class to a single object. This is known as the Singleton design pattern and can be useful when exactly one instance of a class is needed to control access to resources, such as database connections or configuration settings.
+
+
+1. Class inheritance
+00:00 - 00:07
+Now that we know the fundamentals of classes and instances, we'll get to the essence of OOP,
+
+2. Code reuse
+00:07 - 00:53
+which is fundamentally about code reuse. Millions of people are writing code, so there's a good chance someone has already written code that solves a part of our problem! Packages like requests allow us to reuse code written by other developers. But what if that code doesn't match our needs exactly? For example, we might want to modify the requests.get function so that the default output of the response's content is always JSON. We could do that by importing requests and writing a new function, but it will not be integrated into the response class. OOP will allow us to keep a consistent interface while customizing functionality.
+
+3. Code reuse
+00:53 - 01:22
+We will also often find ourselves reusing our own code repeatedly. For example, when building a website with lots of elements like buttons and checkboxes, regardless of the element, the basic functionality is the same: we need to be able to click on it and trigger an action. A few details differ based on the element type, but a lot of the code will be repeated. Should we copy-paste the code for every new element?
+
+4. Code reuse
+01:22 - 01:32
+A better approach is to have a general data structure like GUIelement that implements the required functionality.
+
+5. Inheritance
+01:32 - 01:51
+We can accomplish this with class inheritance. Inheritance is a mechanism by which we can define a new class that gets all the functionality of another class without re-implementing the code, allowing us to quickly build extra functionality on top!
+
+6. Example hierarchy
+01:51 - 02:01
+Let's say we have a bank account class with a balance attribute and a withdraw method. In our company, we work with several types of accounts.
+
+7. Example hierarchy
+02:01 - 02:23
+For example, a SavingsAccount also has an interest rate and a method to compute interest, but it will still have a balance, and we can withdraw from it. By having SavingsAccount inherit methods and attributes from BankAccount we can reuse the code we already wrote for the BankAccount class.
+
+8. Example hierarchy
+02:23 - 02:33
+We could have a CheckingAccount class that also has a balance and a withdraw method, but maybe that method is slightly different:
+
+9. Example hierarchy
+02:33 - 02:49
+it modifies the amount to be withdrawn to include a fee. With inheritance, we'll be able to customize the withdraw method to first adjust the amount if necessary, and then use the method from the BankAccount class without rewriting it.
+
+10. Implementing class inheritance
+02:49 - 03:30
+We have our BankAccount class here, so how do we implement a SavingsAccount class that inherits from BankAccount? We declare a new class, but this time, we add parentheses after the class name and, inside, specify the class to inherit from. Using the pass keyword results in the SavingsAccount class having all the functionality of BankAccount. In inheritance, the class we inherit from is known as the Parent class, while the class that inherits from another is known as the Child class or subclass.
+
+11. Child class has all of the parent data
+03:30 - 04:02
+We can test the functionality. Here, we create an object from the SavingsAccount class even though we did not define a constructor. We can access the balance attribute and use the withdraw method from the object even though these features weren't defined in the child class! This is an example of both polymorphism, which defines a unified interface, as well as inheritance, because the parent and child classes can be used in the same way!
+
+12. Inheritance: "is-a" relationship
+04:02 - 04:27
+That's because an instance of a Child class is an instance of the Parent class too. We can confirm this by calling isinstance on a SavingsAccount object, showing that Python treats it as an instance of both the SavingsAccount and BankAccount classes. However, this is not the case for a generic BankAccount object.
+
+
+1. Customizing functionality via inheritance
+00:00 - 00:09
+Great job so far! In the previous video, you learned that inheritance allows us to build relationships between classes.
+
+2. Hierarchy
+00:09 - 00:27
+For example, a SavingsAccount is a special kind of BankAccount, known as a child class, that has all the functionality of the parent class BankAccount, but also contains additional properties like interest rate and a method to compute interest.
+
+3. What we have so far
+00:27 - 00:33
+We know how to create an empty child class, now let's customize it by
+
+4. Customizing constructors
+00:33 - 01:33
+adding a constructor for SavingsAccount. The SavingsAccount constructor takes two arguments, balance, just like BankAccount, and an additional interest_rate argument. In the constructor, we first call the BankAccount, or parent, class's init method. We use BankAccount-dot-init to tell Python to call the constructor from the parent class. We pass self to that constructor, which, in this case, refers to a SavingsAccount object. Remember that in Python, objects of a child class are also considered as objects of the parent class. Then, we can add more functionality, in this case, initializing the interest rate. We aren't required to call the parent constructor in the subclass or to call it first, but we'll likely almost always use the parent constructor.
+
+5. Create objects with a customized constructor
+01:33 - 01:42
+Let's create a SavingsAccount object. We provide a balance and interest rate, and can access these attributes as usual.
+
+6. Adding functionality
+01:42 - 02:23
+We can add methods to a child class in the same way we add them to any other class. Within the methods we add, we can use data from both the child and parent classes. For example, here, we add a compute_interest method that returns the amount of interest in the account. We include the n_periods argument. The method performs a calculation using n_periods, the interest_rate attribute from the SavingsAccount class, which is the child class, along with using self to access the balance attribute from the BankAccount class, which is the parent.
+
+7. Customizing functionality
+02:23 - 02:49
+SavingsAccount inherits the withdraw method from the parent BankAccount class, so calling withdraw on a savings object will execute the same code as calling it on a BankAccount object. We want to create a CheckingAccount class, which should have a slightly modified version of the withdraw method: it will have another argument and adjust the withdrawal amount.
+
+8. Adding a second child class
+02:49 - 03:37
+To create CheckingAccount, we add a code that executes the parent class BankAccount constructor. We follow this with a new deposit method, and a withdraw method, but we add a new argument to withdraw - a fee that represents the additional withdrawal fee. We compare the amount to the withdrawal limit from the constructor, and, if the condition is met, call the parent's withdraw method, subtracting the amount and the fee from the balance. If the amount is above the limit, the withdrawal is declined. So this method runs almost the same code as the BankAccount's withdraw method without re-implementing it - just augmenting.
+
+9. Comparison
+03:37 - 04:36
+Now when we call withdraw from a CheckingAccount object, the new customized version will be used. But when we call it from regular BankAccount, the parent class version will be used. The interface of the call is the same, and the actual method that is called is determined by the instance class, which is an application of polymorphism. Another difference is that for a CheckingAccount object, we could call the method with 2 parameters. But trying this call for a BankAccount object would cause an error because the method defined in the BankAccount class was not affected by the changes in the subclass. It's worth noting that our approach technically violates polymorphism because the parent and child class no longer have a unified interface - their methods have different arguments, so they do not work in the same way.
+
+
+1. Operator overloading: comparing objects
+00:00 - 00:06
+Welcome back. In this chapter, we'll learn how to compare objects.
+
+2. Object equality
+00:06 - 00:27
+As a class is a blueprint, we might expect two objects with identical attributes to be treated as equals, right? If we check that these two objects are equal, the result is "False". This makes sense: we can have two different customers with the same name and account balance.
+
+3. Object equality
+00:27 - 00:50
+But what if each customer has a unique account ID? Then, two customers with the same ID should be treated as equal... but they aren't. Why? Python doesn't consider two objects with the same data equal by default because of how the objects and variables representing them are stored.
+
+4. Variables are references
+00:50 - 01:39
+If we try to print the value of a customer object, we'll see "Customer at" and a series of characters. When an object is created, Python allocates a chunk of memory to that object, and the variable the object is assigned to just contains the reference to the memory chunk. These characters represent the memory location. So, this code tells Python to allocate a chunk of memory for a customer object and label it customer_one, then allocate another chunk for customer_two. When we compare customer_one and customer_two, we are comparing references, not the data. Because the two objects point to different chunks in memory, they are not considered equal.
+
+5. Custom comparison
+01:39 - 02:05
+But it doesn't have to be that way! For example, lists are compared using their data. Here, we initialize two lists with the same data, and Python considers them equal. Same with other data structures such as sets. So, how can we enforce this comparison using data, or attributes, for our custom classes?
+
+6. The __eq__() method
+02:05 - 02:42
+We can define a special method for this. We know about the __init__ constructor, which is implicitly called when an object is created. Similarly, there is the __eq__ method, which Python implicitly calls whenever two objects of the same class are compared. The method should accept two arguments, referring to the objects to be compared. They are usually called self and other by convention. It should always return a Boolean value - True or False.
+
+7. The __eq__() method
+02:42 - 03:15
+Here, we have a Customer class with id and name attributes, and we define our custom eq method passing self and other. We customize the return statement which, by default, looks at whether the two objects are allocated to the same memory chunk. It will now compare the id and name of the two objects, returning True if the values of these attributes are equal. We also included a printout for illustration.
+
+8. Comparison of objects
+03:15 - 03:43
+Now, if we create two objects containing the same data and try to compare them using the double equality sign, our custom eq method is called, which we see from the diagnostic printout. As both objects have the same attribute values, the comparison returns "True". On the other hand, we get "False" for two objects with different id values.
+
+9. Checking types
+03:43 - 04:05
+This is a good start, but what if we tried comparing two objects from different classes with the same attributes and values? Python will see them as equal! To avoid this, we also need to ensure that the two objects are from the same class, which we can do by checking their type within our eq method.
+
+10. Other comparison operators
+04:05 - 04:33
+In Python, each comparison operator has an equivalent method that we can implement in a custom class, as shown in the table. When we write an exclamation mark followed by an equals sign, Python will automatically attempt to use the not equals method, or ne for short. To customize any of these, we need to define them as methods within our custom class.
+
+
+1. Inheritance comparison and string representation
+00:00 - 00:10
+Great job with comparisons! Let's dive further into this topic, then move on to how we can display our custom objects' data.
+
+2. Comparing objects from different classes
+00:10 - 00:18
+We saw how to modify the eq method in a custom class so it compares the attributes and types of two objects.
+
+3. Comparing objects with inheritance
+00:18 - 00:24
+But what will happen if the second object we compare to has inherited from the first one?
+
+4. Bank and savings accounts
+00:24 - 00:29
+Remember our bank and savings account classes from earlier in the course?
+
+5. __eq__ in parent/child classes
+00:29 - 00:46
+Here, we've added eq methods to the BankAccount and the SavingsAccount class, a child class inherited from BankAccount. They include print statements, so when we compare objects, we'll see which method is called.
+
+6. Comparing parent and child objects
+00:46 - 01:07
+We can now create one object for each class and compare them. Notice that the child class' eq method was called and evaluated as False as they are different. Regardless of the order of comparison, the results are the same because Python will always call the child's eq method.
+
+7. Printing an object
+01:07 - 01:40
+We know how to compare objects, but how do we display them? Remember, in the last video, we saw that calling print on an object of a custom class returns the object's address in memory by default. But there are plenty of classes for which the printout is much more informative. For example, if we print a list we'll see the actual data contained in the object. Displaying objects is an essential component of software, so let's explore how we can do this with our custom classes.
+
+8. str vs repr
+01:40 - 02:51
+There are two special methods that we can define in a class that will return a printable representation of an object. The double-underscore-str-double-underscore method is executed when we call print or str on an object, and the repr method is executed when we call repr on the object or print it in the console without explicitly calling print. The difference is that str gives an informal representation that is suitable for an end user, and repr is mainly used by developers. The best practice is to use repr to print a string that can be used to reproduce the object. For example, our NumPy array shows the exact method call that was used to create the object. If we only implement one of them, we should choose repr because it is also used as a fall-back for print when str is not defined.
+
+9. Implementation: repr
+02:51 - 03:51
+Starting with the repr method, we can define it to accept one argument, self, and return a string. The return statement uses an f-string, which is where we write "f" right before our quotes. This technique allows the insertion of variables inside curly brackets. Here, we provide self.name and self.balance. We include single quotes around self.name to ensure that repr returns the code that can be used to reproduce the object - the name as a string and balance as a number. We can create an object and then display it, which shows the output of repr. As this class doesn't have the str method, repr will be used if we call the print method on the object as well.
+
+10. Implementation: str
+03:51 - 04:30
+The str method also shouldn't accept any arguments besides self, and it should return a string. Here, the string representation of a customer will consist of the word Customer, then on the next line, name, colon, followed by the customer's name, then balance, colon, and the customer's balance. We use triple quotes to define multi-line strings in this case and again use an f-string to provide variables. Now, if we create a customer object and print it, we will see a user-friendly output.
+
+
+1. Exceptions
+00:00 - 00:09
+Let's talk about exceptions. We'll start with a brief recap, and then learn how to define custom exceptions.
+
+2. Errors are exceptions
+00:09 - 00:50
+Some statements in Python will cause an error when executed, for example, dividing by zero, combining objects of incompatible types, and many others. These errors are called exceptions. Many exceptions have special names, like ZeroDivisionError or TypeError, which you can see here. If exceptions are not handled correctly, they will stop the execution of our program. This often makes sense, for example, if we're trying to use a variable that was never defined, something must have gone very wrong with our script. But other times, it's undesirable.
+
+3. Exception handling
+00:50 - 02:09
+For example, we might want to run the rest of the script but log the error without terminating the program. We can implement a special code to handle this case. We can use a try-except-finally sequence to catch an exception and handle it. Start with try, then place the code we're worried won't work inside. Let's demonstrate this with code we know will cause an error. Here, we try to add 5 and the string "a". Then, we add an except block, stating the name of the particular exception we want to handle, in this case a TypeError. Inside the except block, we provide the code that should be executed if this exception is raised, showing a print statement. Then, if this particular exception does happen, the program will not terminate but execute the code in the except block instead. We can also have multiple exception blocks. Lastly, we can use the optional "finally" block that will contain the code that runs no matter what.
+
+4. Exception handling output
+02:09 - 02:20
+The output shows our print statement because the error was raised, but also includes the output from the finally block, which runs regardless.
+
+5. Raising exceptions
+02:20 - 02:45
+Sometimes, we want to raise exceptions ourselves, for example when some conditions aren't satisfied. We can use the raise keyword followed by the exception to raise, optionally adding a specific error message in parentheses. The user of the code can then decide to handle the error using try/except.
+
+6. Exceptions are classes
+02:45 - 03:09
+In Python, exceptions are actually classes inherited from built-in classes BaseException or Exception. Here's a glimpse into the huge built-in exception class hierarchy. For example, there's a general class of arithmetic errors, of which ZeroDivisionError is a subclass.
+
+1 https://docs.python.org/3/library/exceptions.html
+7. Custom exceptions
+03:09 - 03:58
+We can define our own exceptions in Python! Custom exception classes are useful because they can be specific to our application and provide bespoke error handling. To define a custom exception, we define a class that inherits from the built-in Exception class or one of its subclasses. The class itself can be empty because inheritance alone is enough to ensure that Python treats this class as an Exception. For example, we define a BalanceError class that inherits from Exception. Then, in our customer class, we raise a BalanceError exception if a negative balance value is passed on to the constructor.
+
+8. Exception in constructor
+03:58 - 04:13
+If we attempt to create a customer with a negative account balance, the BalanceError exception is raised. Previously, we dealt with this situation by merely printing a message and then creating an object with zero balance.
+
+9. Exceptions terminate the program
+04:13 - 04:36
+Handling it with exceptions is better, because in this case, the constructor terminates, and the customer object is not created at all, instead of being implicitly created with account balance set to zero, despite the error. This sends a clear signal to the user of the Customer class that something went wrong. The user, on their side,
+
+10. Catching custom exceptions
+04:36 - 04:57
+can decide to handle this exception using try-except block if they want, but we, the authors of the code, do not make this decision for them. For example, here, the BalanceError is caught in the except block, and if that occurs, a customer is created with a zero balance instead.
+
+
+1. Congratulations
+00:00 - 00:03
+Well done on completing the course!
+
+2. Classes and objects
+00:03 - 00:11
+You learned that everything in Python is an object, and that objects are designed from templates called classes.
+
+3. Attributes and methods
+00:11 - 00:20
+You saw how to create classes with custom attributes, or data, and methods, or behavior!
+
+4. Core concepts
+00:20 - 00:51
+You were introduced to the core concepts of OOP: polymorphism, where classes enable the use of a unified interface; inheritance, allowing classes to be built on top of one another; and encapsulation, whereby data and behavior are grouped together. These concepts underpin the benefits of OOP as you move from thinking in sequences to thinking about interactions.
+
+5. Comparisons
+00:51 - 00:57
+You went on to learn how you can implement methods to compare objects,
+
+6. String representation
+00:57 - 01:01
+display objects to users and developers,
+
+7. Error-handling
+01:01 - 01:08
+and use Exceptions and try-except blocks to customize how errors are handled in your classes!
+
+8. Where to next?
+01:08 - 01:27
+We've only scraped the surface of OOP and there are lots of interesting concepts and techniques you can learn from here, including multiple inheritance, descriptors, custom attributes and iterators, type hints, and abstract base classes!
+

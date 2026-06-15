@@ -252,7 +252,8 @@ export default function CourseFilter({
       // 7. Has Exercises
       if (excludeFilter !== 'hasExercises' && selectedHasExercises !== 'all') {
         const hasEx = c.quiz_question_count && c.quiz_question_count > 0
-        if (!hasEx) return false
+        if (selectedHasExercises === 'present' && !hasEx) return false
+        if (selectedHasExercises === 'absent' && hasEx) return false
       }
 
       // 8. Archive status
@@ -286,6 +287,7 @@ export default function CourseFilter({
   // Calculate dynamic counts for exercises status
   const baseForHasExercises = getFilteredSubset('hasExercises')
   const exercisesGeneratedCount = baseForHasExercises.filter(c => c.quiz_question_count && c.quiz_question_count > 0).length
+  const exercisesUnavailableCount = baseForHasExercises.filter(c => !c.quiz_question_count || c.quiz_question_count <= 0).length
   const totalHasExercisesCount = baseForHasExercises.length
 
   // Calculate dynamic counts for completion status
@@ -320,6 +322,7 @@ export default function CourseFilter({
   // Setup options for each dropdown
   const exercisesOptions = [
     { value: 'present', label: 'Practice Available', count: exercisesGeneratedCount },
+    { value: 'absent', label: 'Practice Unavailable', count: exercisesUnavailableCount },
     { value: 'all', label: 'All Courses', count: totalHasExercisesCount }
   ]
 

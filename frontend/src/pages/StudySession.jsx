@@ -21,7 +21,8 @@ import {
   Skull,
   Trophy,
   Flame,
-  Search
+  Search,
+  AlertTriangle
 } from 'lucide-react'
 import CodeBlock from '../components/CodeBlock'
 
@@ -256,6 +257,19 @@ export default function StudySession() {
   }, [handleRate])
 
   const selectedCourse = courses.find(c => c.slug === selectedCourseSlug)
+
+  // Calculate completion percentage for active course
+  const categoryKeys = ['mcq', 'flashcard', 'ftb', 'matching', 'boss_battle', 'dataset']
+  let activeCourseAvailable = 0
+  let activeCourseAttempted = 0
+  categoryKeys.forEach(k => {
+    if (selectedCourseStats?.[k]) {
+      activeCourseAvailable += selectedCourseStats[k].available || 0
+      activeCourseAttempted += (selectedCourseStats[k].available || 0) - (selectedCourseStats[k].unattempted || 0)
+    }
+  })
+  const activeCourseCompletionPercentage = activeCourseAvailable > 0 ? (activeCourseAttempted / activeCourseAvailable) * 100 : 0
+  const isSelectedCourseReviewUnlocked = activeCourseCompletionPercentage >= 75
 
   return (
     <div className="space-y-8 pb-16 max-w-5xl">
@@ -670,6 +684,51 @@ export default function StudySession() {
                   </Link>
                 </div>
               </div>
+
+              {/* Incorrect Review */}
+              {selectedCourseStats.wrong_review && (
+                <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 flex flex-col justify-between min-h-[220px]">
+                  <div>
+                    <div className="flex justify-between items-start">
+                      <span className="text-xs font-semibold text-[var(--text-muted)] uppercase">Incorrect Review</span>
+                      <span className={`text-xs font-mono font-semibold ${
+                        !isSelectedCourseReviewUnlocked
+                          ? 'text-[var(--text-muted)]'
+                          : selectedCourseStats.wrong_review.available > 0 
+                          ? 'text-amber-500 font-bold animate-pulse' 
+                          : 'text-[var(--accent-green)] font-bold'
+                      }`}>
+                        {!isSelectedCourseReviewUnlocked ? 'LOCKED' : `${selectedCourseStats.wrong_review.available} items`}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-base text-[var(--text-primary)] mt-3">Wrong Answer Queue</h3>
+                    <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
+                      {!isSelectedCourseReviewUnlocked 
+                        ? `Locked: Reach 75% course completion first (Current: ${Math.round(activeCourseCompletionPercentage)}%)`
+                        : "Re-attempt questions you answered incorrectly in other categories."}
+                    </p>
+                  </div>
+                  <div className="pt-4 flex justify-between items-center border-t border-[var(--border)]/40 mt-4">
+                    <span className="text-xs text-[var(--text-muted)]">
+                      {!isSelectedCourseReviewUnlocked 
+                        ? 'Needs 75% completion' 
+                        : `Unresolved: ${selectedCourseStats.wrong_review.available}`}
+                    </span>
+                    {isSelectedCourseReviewUnlocked && selectedCourseStats.wrong_review.available > 0 ? (
+                      <Link
+                        to={`/exercise/review/${selectedCourseSlug}`}
+                        className="flex items-center gap-1 text-xs font-bold text-[var(--accent-green)] hover:underline"
+                      >
+                        Start Review <ChevronRight size={14} />
+                      </Link>
+                    ) : (
+                      <span className="text-xs text-zinc-650 font-semibold cursor-not-allowed">
+                        {!isSelectedCourseReviewUnlocked ? 'Locked' : 'Queue Clear'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Boss battle */}
               <div className={`bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 flex flex-col justify-between min-h-[220px] ${

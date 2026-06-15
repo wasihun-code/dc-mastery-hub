@@ -1,0 +1,482 @@
+1. Dates in Python
+00:00 - 00:32
+Hi! My name is Max Shron, I will be your instructor for this course on working with dates and times in Python. Dates are everywhere in data science. Stock prices go up and down, experiments begin and end, people are born, politicians take votes, and on and on. All these events happen at a particular point in time. Knowing how to analyze data over time is a core data science skill.
+
+2. Course overview
+00:32 - 01:07
+This course is divided into four chapters. The first chapter will be about working with dates and calendars. In chapter two, we will add time into the mix, and combine dates and times. In chapter three, we'll tackle one of the toughest parts of working with time: time zones and Daylight Saving. And finally, in chapter four, we'll connect what we've learned about working with dates and times to explore how Pandas can make answering even complex questions about dates much easier.
+
+3. Dates in Python
+01:07 - 01:30
+Let's begin. Python has a special date class, called "date", which you will use to represent dates. A date, like a string, or a number, or a numpy array, has special rules for creating it and methods for working with it. In this lesson, we're going to discuss creating dates and extracting some basic information out of them.
+
+4. Why do we need a date class in Python?
+01:30 - 02:33
+Why do we need a special date class? Let's have a look. To understand how dates work, in this chapter you're going to be exploring 67 years of Hurricane landfalls in the US state of Florida. two_hurricanes is a list with the dates of two hurricanes represented as strings: the last 2016 hurricane (on October 7th, 2016) and the first 2017 hurricane (on June 21st, 2017). The dates are represented in the US style, with the month, then the day, then the year. Suppose you want to do something interesting with these dates. How would you figure out how many days had elapsed between them? How would you check that they were ordered from earliest to latest? How would you know which day of the week each was? Doing these things manually would be challenging, but Python makes all of them easy. By the end of this chapter, you'll know how to do each of these things yourself.
+
+5. Creating date objects
+02:33 - 03:26
+To create a date object, we start by importing the date class. The collection of date and time-related classes are stored in the "datetime" package. We create a date using the date() function. Here we've created dates corresponding to the two hurricanes, now as Python date objects. The inputs to date() are the year, month, and day. The first date is October 7, 2016, and the second date is June 21, 2017. The order is easy to remember: it goes from the biggest to smallest. Year, month, day. Later in this chapter, you'll create dates directly from lists of strings, but in this lesson, you're going to stick to creating dates by hand or using lists of already created dates.
+
+6. Attributes of a date
+03:26 - 03:47
+You can access individual components of a date using the date's attributes. You can access the year of the date using the year attribute, like so, and the result is 2016. Similarly, you can access the month and day using the month and day attributes like so.
+
+7. Finding the weekday of a date
+03:47 - 04:12
+You can also ask Python to do more complicated work. Here we call the weekday() method on the date, and see that the weekday is 4. What does 4 mean here? Python counts weekdays from 0, starting on Monday. 1 is Tuesday, 2 is Wednesday, and so on, up to 6 being a Sunday. This date was a Friday.
+
+1. Math with Dates
+00:00 - 00:20
+In the last lesson, we discussed how to create date objects and access their attributes. In this lesson, we're going to talk about how to do math with dates: counting days between events, moving forward or backward by a number of days, putting them in order, and so on.
+
+2. Math with dates
+00:20 - 01:04
+Let's take a step back. Think back to when you first learned arithmetic. You probably started with something like this: a number line. This one has the numbers 10 through 16 on it. A number line tells you what order the numbers go in, and how far apart numbers are from each other. Let's pick two numbers, 11 and 14, and represent them in Python as the variables a and b, respectively. We'll put them into a list, l. Python can tell us which number in this list is the least, using the min() function. min stands for the minimum. In this case, 11 is the lowest number in the list, so we get 11.
+
+3. Math with dates
+01:04 - 01:18
+We can also subtract numbers. When you subtract two numbers, in this case subtracting 11 from 14, the result is 3. Said another way, if we took three steps from 11, we would get 14.
+
+4. Math with dates
+01:18 - 01:30
+Now let's think about how this applies to dates. Let's call this line a calendar line, instead of a number line. Each dot on this calendar line corresponds to a particular day.
+
+5. Math with dates
+01:30 - 02:14
+Let's put two dates onto this calendar line: November 5th, 2017, and December 4th, 2017. Let's represent this in Python. We start by importing the date class from the datetime package. We create two date objects: d1 is November 5th, 2017, and d2 is December 4th, 2017. As before, we put them into a list, l. What Python is doing under the hood, so to speak, is not that different from putting the dates onto a calendar line. For example, if we call min of l, we again get the "least" date, which means the earliest one. In this case, that's November 5th, 2017.
+
+6. Math with dates
+02:14 - 02:33
+And just like numbers, we can subtract two dates. When we do this, we get an object of type "timedelta". Timedeltas give us the elapsed time between events. If you access the days attribute of this object, you can obtain the number of days between the two dates.
+
+7. Math with dates
+02:33 - 03:07
+We can also use a timedelta in the other direction. First, let's import timedelta from datetime. Next, we create a 29-day timedelta, by passing days=29 to timedelta(). Now when we add td to our original date we get back December 4th, 2017. Python handled the fact that November has 30 days in it for us, without us having to remember which months are 30 day months, 31 day months, or 28 day months.
+
+8. Incrementing variables with +=
+03:07 - 03:40
+Finally a quick side note: we will use the "plus-equals" operation a number of times in the rest of the course, so we should discuss it. If you aren't familiar with it, you can see how it works here. On the left-hand side, we create a variable x, set it to zero. If we set x equal to x + 1, we increment x by 1. Similarly, on the right-hand side, we set x = 0, and then we increment it with x += 1. It has the same effect, and we'll use it all the time for counting.
+
+
+1. Turning dates into strings
+00:00 - 00:21
+Python has a very flexible set of tools for turning dates back into strings to be easily read. We want to put dates back into strings when, for example, we want to print results, but also if we want to put dates into filenames, or if we want to write dates out to CSV or Excel files.
+
+2. ISO 8601 format
+00:21 - 01:44
+For example, let's create a date and see how Python prints it by default. As before, we import date from datetime and let's again create an object for November 5th, 2017. When we ask Python to print the date, it prints the year, day and then the month, separated by dashes, and always with two digits for the day and month. In the comment, you can see I've noted this as YYYY-MM-DD; four digit year, two digit month, and two digit day of the month. This default format is also known as ISO format, or ISO 8601 format, after the international standard ISO 8601 that it is based on. ISO 8601 strings are always the same length since month and day are written with 0s when they are less than 10. We'll talk about another advantage of ISO 8601 in a moment. If we want the ISO representation of a date as a string, say to write it to a CSV file instead of just printing it, you can call the isoformat() method. In this example, we put it inside a list so you can see that it creates a string.
+
+3. ISO 8601 format
+01:44 - 02:31
+The ISO 8601 format has another nice advantage. To demonstrate, we've created a variable called some_dates and represented two dates here as strings: January 1, 2000, and December 31, 1999. Dates formatted as ISO 8601 strings sort correctly. When we print the sorted version of this list, the earlier day is first, and the later date is second. For example, if we use ISO 8601 dates in filenames, they can be correctly sorted from earliest to latest. If we had month or day first, the strings would not sort in chronological order.
+
+4. Every other format
+02:31 - 02:44
+If you don't want to put dates in ISO 8601 format, Python has a flexible set of options for representing dates in other ways, using the strftime() method.
+
+5. Every other format: strftime
+02:44 - 03:29
+strftime() works by letting you pass a "format string" which Python uses to format your date. Let's see an example. We again create an example date of January 5th, 2017. We then call strftime() on d, with the format string of % capital Y. Strftime reads the % capital Y and fills in the year in this string for us. strftime() though is very flexible: we can give it arbitrary strings with % capital Y in them for the format string, and it will stick the year in. For example, we can use the format string of "Year is %Y".
+
+6. Every other format: strftime
+03:29 - 03:46
+Strftime has other placeholders besides %Y: % lowercase m gives the month, and % lowercase d gives the day of the month. Using these, we can represent dates in arbitrary formats for whatever our needs are.
+
+
+
+
+1. Adding time to the mix
+00:00 - 00:13
+In this chapter, you are going to move from only working with dates to working with both dates and times: the calendar day AND the time on the clock within that day.
+
+2. Dates and Times
+00:13 - 00:37
+As always, let's start with an example. Here is an example of a date and a time together: October 1, 2017, at 3:23:25 PM. Unlike before, where we were only working with the date, we're now going to also include the time. Let's see how to represent this in Python.
+
+3. Dates and Times
+00:37 - 00:54
+The first thing we have to do is import the datetime class from the datetime package. Ideally, these would have different names, but unfortunately for historical reasons they have the same name. This is just something to get used to.
+
+4. Dates and Times
+00:54 - 01:01
+We're going to create a datetime called "dt" and populate the fields together.
+
+5. Dates and Times
+01:01 - 01:12
+The first three arguments to the datetime class are exactly the same as the date class. Year, then month, then day, each as a number.
+
+6. Dates and Times
+01:12 - 01:25
+Next, we fill in the hour. Computers generally use 24 hour time, meaning that 3 PM is represented as hour 15 of 24.
+
+7. Dates and Times
+01:25 - 01:29
+We put in the minutes, 23 out of 60.
+
+8. Dates and Times
+01:29 - 01:54
+And finally, the seconds. October 1, 2017 at 3:23:25PM is represented as a datetime in Python as 2017, 10, 1, 15, 23, 25). All of these arguments need to be whole numbers; if you want to represent point-5 seconds,
+
+9. Dates and Times
+01:54 - 02:27
+you can add microseconds to your datetime. Here we've added 500,000 microseconds, or point-5 seconds. That is, Python breaks seconds down into millionths of a second for you when you need that kind of precision. If you need billionths of a second precision (which happens sometimes in science and finance) we'll cover nanoseconds when we get to Pandas at the end of this course. Python defaults to 0 microseconds if you don't include it.
+
+10. Dates and Times
+02:27 - 02:35
+That's a lot of arguments; if it helps, you can always be more explicit and use named arguments.
+
+11. Replacing parts of a datetime
+02:35 - 03:05
+We can also make new datetimes from existing ones by using the replace() method. For example, we can take the datetime we just made, and make a new one which has the same date but is rounded down to the start of the hour. We call dt-dot-replace() and set minutes, seconds, and microseconds to 0. This creates a new datetime with the same values in all the other fields, but these ones changed.
+
+12. Capital Bikeshare
+03:05 - 03:56
+Before we wrap up, let's talk about the data we will use for the rest of this course. You will be working with data from Capital Bikeshare, the oldest municipal shared bike program in the United States. Throughout the Washington, DC area, you will find these special bike docks, where riders can pay to take a bike, ride it, and return to this or any other station in the network. We will be following one bike, ID number "W20529", on all the trips it took in October, November, and December of 2017. Each trip consisted of a date and time when a bike was undocked from a station, then some time passed, and the date and time when W20529 was docked again.
+
+
+
+1. Printing and parsing datetimes
+00:00 - 00:17
+Much like dates, datetimes can be printed in many ways. Python also has another trick: you can take a string and turn it directly into a datetime. Let's start with printing dates and then move on to asking Python to parse them.
+
+2. Printing datetimes
+00:17 - 01:30
+First, let's create a datetime again. dt corresponds to December 30, 2017 at 15:19:13, the end of the last trip that W20529 takes in our data set. Just like with date objects, we use strftime() to create a string with a particular format. First, we'll just print the year, month and date, using the same format codes we used for dates. % capital Y stands for the four digit year, % lowercase m for the month, and % lowercase d for the day of the month. Now we can add in the hours, minutes and seconds. Again, we print the year, month and day, and now we add three more format codes: % capital H gives us the hour, % capital M gives us the minute, and % capital S gives us the seconds. There are also format codes for 12-hour clocks, and for printing the correct AM or PM.
+
+3. Printing datetimes
+01:30 - 01:40
+As before, we can make these formatting strings as complicated as we need. Here's another version of the previous string.
+
+4. ISO 8601 Format
+01:40 - 02:06
+Finally, we can use the isoformat() method, just like with dates, to get a standards-compliant way of writing down a datetime. The officially correct way of writing a datetime is the year, month, day, then a capital T, then the time in 24 hour time, followed by the minute and second. When in doubt, this is a good format to use.
+
+5. Parsing datetimes with strptime
+02:06 - 02:26
+We can also parse dates from strings, using the same format codes we used for printing. You'll use this often when getting date and time data from the Internet since dates and times are often represented as strings. We start, as before, by importing the datetime class.
+
+6. Parsing datetimes with strptime
+02:26 - 02:47
+The method we're going to use is called strptime(), which is short for string parse time. strptime() takes two arguments: the first argument is the string to turn into a datetime, and the second argument is the format string that says how to do it.
+
+7. Parsing datetimes with strptime
+02:47 - 02:59
+First we pass the string we want to parse. In this case, a string representing December 30, 2017, at 15:19:13.
+
+8. Parsing datetimes with strptime
+02:59 - 03:27
+Then we pass the format string, which as mentioned before uses the same format codes we used with strftime(). In this case, first the month, then the day, then the year, all separated by slashes, then a space, and then the hour, minutes, and seconds separated by colons. You usually need to figure this out once per data set.
+
+9. Parsing datetimes with strptime
+03:27 - 03:45
+If we look and see what kind of object we've made, by printing the type of dt, we see that we've got a datetime. And if we print that datetime, we get a string representation of the datetime. We can see that the parsing worked correctly.
+
+10. Parsing datetimes with strptime
+03:45 - 04:03
+We need an exact match to do a string conversion. For example, if we leave out how to parse the time, Python will throw an error. And similarly, if there is an errant comma or other symbols, strptime() will not be happy.
+
+11. Parsing datetimes with Python
+04:03 - 04:36
+Finally, there is another kind of datetime you will sometimes encounter: the Unix timestamp. Many computers store datetime information behind the scenes as the number of seconds since January 1, 1970. This date is largely considered the birth of modern-style computers. To read a Unix timestamp, use the datetime-dot-fromtimestamp() method. Python will read your timestamp and return a datetime.
+
+
+1. Working with durations
+00:00 - 00:19
+Much like dates, datetimes have a kind of arithmetic; we can compare them, subtract them, and add intervals to them. Because we are working with both days and times, the logic for durations is a little more complicated, but not by much. Let's have a look.
+
+2. Working with durations
+00:19 - 00:32
+Just as with dates, to get a sense for what's going on we put our datetimes on a timeline. These two datetimes here correspond to the start and end of one ride in our data set.
+
+3. Working with durations
+00:32 - 00:50
+To follow along in Python, we'll load these two in as "start" and "end". When we subtract datetimes, we get a timedelta. A timedelta represents what is called a duration: the elapsed time between events.
+
+4. Working with durations
+00:50 - 01:11
+When we call the method total_seconds(), we get back the number of seconds that our timedelta represents. In this case, 1450 seconds elapsed between our start and end. 1450 seconds is 24 minutes and 10 seconds.
+
+5. Creating timedeltas
+01:11 - 01:31
+You can also create a timedelta by hand. You start by importing timedelta from datetime. To create a timedelta, you specify the amount of time which has elapsed. For example, we make delta1, a timedelta which corresponds to a one second duration.
+
+6. Creating timedeltas
+01:31 - 01:40
+Now when we add delta1 to start, we see that we get back a datetime which is one second later.
+
+7. Creating timedeltas
+01:40 - 02:09
+We also create a timedelta, delta2, which is one day and one second in duration. Now when we add it to start, we get a new datetime which is the next day and one second later. Timedeltas can be created with any number of weeks, days, minutes, hours, seconds, or microseconds, and can be as small as a microsecond or as large as 2-point-7 million years.
+
+8. Negative timedeltas
+02:09 - 02:24
+Timedeltas can also be negative. For example, if we create delta3, whose argument is -1 weeks, and we add it to start we get a datetime corresponding to one week earlier.
+
+9. Negative timedeltas
+02:24 - 02:44
+We can also subtract a positive timedelta and get the same result. We create delta4, which corresponds to a 1 week duration, and we subtract it from start. As you can see, we get the same answer as when we added a negative timedelta.
+
+10. Working with durations
+02:44 - 03:16
+In this lesson, we showed how to create timedeltas, which represent a duration of time. You can create timedeltas by subtracting two datetimes, which tells you how much time has elapsed between events. You can also create a timedelta directly, then add and subtract timedeltas from datetimes to make new datetimes. In the next few exercises, you'll see how these pieces can be combined together to answer more complex questions.
+
+
+1. UTC offsets
+00:00 - 00:18
+Sometimes, you really need to know exactly when something happened. Up until now, the datetime objects you have worked with are what is called "naive", and can't be compared across different parts of the world. They don't know anything about their time zone.
+
+2. Time zones
+00:18 - 00:28
+Why does this matter? Before time zones, each town or city set its clock so that noon was directly overhead.
+
+3. Time zones
+00:28 - 00:35
+Another city 100 miles away would also set their clocks to be noon when the sun was overhead.
+
+4. Time zones
+00:35 - 00:47
+But this meant that these two cities had clocks that were different, by maybe 15 or 20 minutes. When people moved by foot or horseback, this wasn't a problem.
+
+5. Time zones
+00:47 - 01:01
+Then railroads, and later telegraphs, came into existence. Now you could move or communicate with someone 100 or even 1000 miles away fast enough that time had to be consistent.
+
+6. Time zones
+01:01 - 01:26
+Governments solved this problem by declaring that all clocks within a wide area would agree on the hour, even if some were ahead or behind of their solar time. The United States, for example, has 4 major time zones, plus one for Alaska and another for Hawaii. Our bike data was collected in Washington, DC, which observes Eastern time.
+
+7. UTC
+01:26 - 02:19
+But since we're not using the sun anymore, how do we know how to set the clock? Because the United Kingdom was the first to standardize its time, everyone in the world sets their clocks relative to the original historical UK standard. This standard time is called UTC. Because all clocks are set relative to UTC, we can compare time around the world. Generally, clocks west of the UK are set earlier than UTC, and clocks east of the UK are set later than UTC. For example, the eastern United States is typically UTC minus 5 hours, while India is typically UTC plus 5 hours 30 minutes.
+
+8. UTC
+02:19 - 02:36
+Let's see this in code. As before, you import datetime and timedelta. Now you also import timezone. This will let you specify what timezone the clock was in when our data was recorded.
+
+9. UTC
+02:36 - 03:16
+We create a timezone object, which accepts a timedelta that explains how to translate your datetime into UTC. In this case, since the clock that measured our bicycle data set was five hours behind UTC, we create ET to be at UTC-5. We can specify what time zone the clock was in when the last ride started in our data set. The clock that recorded the ride was 5 hours behind UTC. Now if you print it, your datetime includes the UTC offset.
+
+10. UTC
+03:16 - 04:15
+Making a datetime "aware" of its timezone means you can ask Python new questions. For example, suppose you want to know what the date and time would have been if the clock had been set to India Standard Time instead. First, create a new timezone object set to UTC plus 5 hours 30 minutes. Now use the astimezone() method to ask Python to create a new datetime object corresponding to the same moment, but adjusted to a different time zone. In this case, because clocks in India would have been set 10-point-5 hours ahead of clocks on the eastern US, the last ride would have taken place on December 31, at 1 hour, 39 minutes, and 3 seconds past midnight local time. Same moment, different clock.
+
+11. Adjusting timezone vs changing tzinfo
+04:15 - 04:59
+Finally, there is an important difference between adjusting timezones and changing the tzinfo directly. You can set the tzinfo directly, using the replace() method. Here we've set the tzinfo to be timezone-dot-utc, a convenient object with zero UTC offset. The clock stays the same, but the UTC offset has shifted. Or, just like before, you can call the astimezone() method. Now if we adjust into UTC with astimezone(timezone-dot-utc), we change both the UTC offset and the clock itself.
+
+
+1. Time zone database
+00:00 - 00:09
+Now that you understand how UTC offsets work, it's time to talk about how you use timezones in practice.
+
+2. Time zone database
+00:09 - 00:38
+This is a picture of all of the different time zones in the world, as of 2017. They cut across countries, and within countries, and sometimes one is even totally surrounded by another one. How could you possibly know all of these when you need to align your data to UTC? Do you need to look up the offset for each one in some big spreadsheet somewhere? Can't a computer help with this?
+
+3. Time zone database
+00:38 - 01:05
+Thankfully, yes. There is a database called tz, updated 3-4 times a year as timezone rules change. This database is used by computer programs across many programming languages. Because timezone information changes so quickly, it doesn't make sense to bundle it directly into Python. Instead, you will use a package called dateutil.
+
+4. Time zone database
+01:05 - 01:41
+Let's start by making a timezone object that corresponds to the eastern United States, where our bicycle data comes from. Within tz, time zones are defined first by the continent they are on, and then by the nearest major city. For example, the time zone used on the eastern seaboard of the United States is 'America/New York'. We fetch this timezone by calling tz-dot-gettz(), and passing 'America/New York' as the string.
+
+5. Time zone database
+01:41 - 01:52
+Here are a few more examples: 'America/Mexico_City'. 'Europe/London'. 'Africa/Accra'.
+
+6. Time zone database
+01:52 - 02:08
+Let's look at our last ride again. Instead of specifying the UTC offset yourself, you pass the timezone you got from tz. Look at the result, and you can see that it's got the right UTC offset.
+
+7. Time zone database
+02:08 - 03:05
+Even more excitingly, this same object will adjust the UTC offset depending on the date and time. If we call datetime() with the time of our first ride, and pass in the same timezone info, we see that it gives us a different UTC offset. We will discuss daylight savings time in the next lesson, but suffice to say that in some places the clocks change twice a year. Instead of having to look up when these things change, we just ask the timezone database to know for us. tz includes rules for UTC offsets going all the way back to the late 1960s, and sometimes earlier. If you have data stretching over a long period of time, and you really care about getting the exact hours and minutes correct, you can use tz to put all of your date 
+
+
+1. Starting Daylight Saving Time
+00:00 - 00:40
+Some places change their clocks twice a year to create longer summer evenings. This practice is called daylight saving time, but it would better be called daylight shifting time. In some countries it is called "summer time". Dealing with daylight saving time can be one of the most fiendish challenges in dealing with dates and times. To keep things simple, let's start with the situation where the clocks move forward in the spring. In the next lesson, we'll discuss handling the opposite case, when the clocks move back in the fall.
+
+2. Start of Daylight Saving Time
+00:40 - 01:01
+Let's look at an example. On March 12, 2017, in Washington, DC, the clock jumped straight from 1:59 am to 3 am. The clock "springs forward". It never officially struck 2 am anywhere on the East Coast of the United States that day.
+
+3. Start of Daylight Saving Time
+01:01 - 01:37
+Just like before, to make our clock in Washington, DC comparable to clocks in other places, we need to represent it with a UTC offset. Only now the UTC offset is going to change. On this date, at 1 AM in Washington, DC, we were in Eastern Standard Time. It was 6 AM UTC, a five-hour difference. At 3 AM in Washington, DC, we were in Eastern Daylight Time. It was 7 AM UTC, a four-hour difference.
+
+4. Start of Daylight Saving Time
+01:37 - 02:25
+Let's see the same thing in code. To be as clear as possible, let's create the UTC offsets by hand for now instead of using dateutil-dot-tz. We start by creating a datetime object, spring_ahead_159am, for March 12th, at 1:59:59, without any timezone information. We print the results out with isoformat() to check that we have the time right, and we make another object for spring_ahead_3am. We subtract the two datetime objects and ask how much time has elapsed by calling total_seconds(). As expected, they're an hour and one second apart.
+
+5. Start of Daylight Saving Time
+02:25 - 02:52
+As before, to fix problems with comparing datetimes we start by creating timezone objects. We define Eastern Standard Time, or EST, using the timezone constructor. We set the offset to -5 hours. Similarly, we define Eastern Daylight Time, or EDT, with an offset of -4 hours.
+
+6. Start of Daylight Saving Time
+02:52 - 03:27
+We assign our first timestamp, at 1:59 am to be in EST. When we call isoformat(), we see it has the correct offset. We assign our second timestamp, at 3:00 am, to be in EDT, and again check the output with isoformat(). When we subtract the two datetime objects, we see correctly that one second has elapsed. Putting things in terms of UTC once again allowed us to make proper comparisons.
+
+7. Start of Daylight Saving Time
+03:27 - 04:33
+But how do we know when the cutoff is without looking it up ourselves? dateutil to the rescue again. Just like before when it saved us from having to define timezones by hand, dateutil saves us from having to know daylight savings rules. We create a timezone object by calling tz-dot-gettz() and pass our timezone description string. Recall that since Washington, DC is in the America/New_York time zone, that's what we use. Once again we create a datetime corresponding to 1:59 am on the day that the east coast of the US springs forward. This time though, we set the tzinfo to eastern time. Similarly, we create a datetime set to 3 am on March 12th, and when we set tzinfo to be eastern time, dateutil figures out for us that it should be in EDT.
+
+1. Ending Daylight Saving Time
+00:00 - 00:31
+In the previous lesson, we discussed how to handle when the clock "springs ahead" and we enter daylight saving. In the fall, when the clocks are reset back to standard time, an interesting wrinkle occurs. In this lesson, we'll finish our discussion of daylight saving time by showing what happens when we "fall back", and also talk about how to unambiguously handle events which bridge a daylight savings jump.
+
+2. Ending Daylight Saving Time
+00:31 - 00:54
+Let's look back at our example in Washington, DC, on the day that daylight saving time ended. On November 5th, 2017, at 2 AM the clocks jumped back an hour. That means there were two 1 AMs! We've represented this by "folding" over our timeline to show the repeat.
+
+3. Ending Daylight Saving Time
+00:54 - 01:43
+As before, in order to make sense of this situation, we need to map everything back to UTC. The first 1 AM maps to 5 AM UTC. This is the minus 4 hour UTC offset for Eastern Daylight Time we discussed in the previous lesson. At 1:59:59 local time, we're at 5:59:59 UTC. The next moment, our local clock jumps back, but since time has not actually gone backward, the clock continues to tick in UTC. We switch to a UTC offset of minus 5 hours (colored in blue), and the second 1 AM corresponds to 6 AM UTC.
+
+4. Ending Daylight Saving Time
+01:43 - 02:36
+First, let's make a tzinfo object corresponding to our bike data's timezone. We make a datetime for November 5th and 1 am. Let's check and see if this time is ambiguous, meaning we need to tell it apart somehow. We call tz-dot-datetime_ambiguous(), and see that, yes, this is a time which could occur at two different UTC moments in this timezone. Now we create a second datetime, with the same date and time. This time, we call tz-dot-enfold(), which takes the argument of the datetime we want to mark. enfold says, this datetime belongs to the *second* time the wall clock struck 1 AM this day, and not the first.
+
+5. Ending Daylight Saving Time
+02:36 - 03:34
+The thing is, enfold by itself doesn't change any of the behavior of a datetime. You can see here that Python doesn't take it into account when doing datetime arithmetic. Fold is just a placeholder, and it's up to further parts of the program to pay attention to fold and do something with it. What are we going to do?! We need to convert to UTC, which is unambiguous. When we really want to make sure that everything is accounted for, putting everything into UTC is the way to do it. Now when we ask Python to take the difference, we see that it correctly tells us these two timestamps are an hour apart. In general, whenever we really want to be sure of the duration between events that might cross a daylight saving boundary, we need to do our math in UTC.
+
+6. Ending Daylight Saving Time
+03:34 - 04:08
+We've covered how to handle springing forward and falling back, both with hand-coded UTC offsets and with dateutil. Python often tries to be helpful by glossing over daylight saving time difference, and oftentimes that's what you want. However, when you do care about it, use dateutil to set the timezone information correctly and then switch into UTC for the most accurate comparisons between events.
+
+
+1. Reading date and time data in Pandas
+00:00 - 00:12
+In this chapter, you will use the Pandas library to work with dates and times. You should have encountered Pandas before, but now we will add datetimes to the mix.
+
+2. A simple Pandas example
+00:12 - 00:49
+To start with, let's load data with Pandas. First, we import pandas, and as is customary we use the alias pd. Our data is in a csv file, so we load it with the read_csv() function. pd-dot-read_csv() has one required argument, the name of the file to load, which in this case is capital-onebike-dot-csv. We save the result to the variable rides. Let's print the first three rows to see what we've got.
+
+3. A simple Pandas example
+00:49 - 01:17
+Note that the index, listed all the way to the left, starts with zero. Because the table is too wide, it wraps around. Each of these three rows has a start date, an end date, a start station, and end station, the bike number, and whether the ride was from someone who is a member or someone who walked up to the kiosk and bought a ride on the spot.
+
+4. A simple Pandas example
+01:17 - 01:50
+We can also select a particular column by using the brackets, as here where we call rides['Start date']. And we can get a particular row with dot-iloc[], in this case row number 2. Because we didn't tell Pandas to treat the start date and end date columns as datetimes, they are simply strings or objects. We want them to be datetimes so we can work with them effectively, using the tools from the first three chapters of this course.
+
+5. Loading datetimes with parse_dates
+01:50 - 02:29
+If we want Pandas to treat these columns as datetimes, we can make use of the argument parse_dates in read_csv(), and set it to be a list of column names, passed as strings. Now Pandas will read these columns and convert them for us to datetimes. Pandas will try and be intelligent and figure out the format of your datetime strings. In the rare case that this doesn't work, you can use the to_datetime() method that lets you specify the format manually. For more details, see the Pandas documentation.
+
+6. Loading datetimes with parse_dates
+02:29 - 02:45
+Now when we again ask for the Start date for row 2, we get back a Pandas Timestamp, which for essentially all purposes you can imagine is a Python Datetime object with a different name. They behave basically exactly the same.
+
+7. Timezone-aware arithmetic
+02:45 - 03:26
+Since our Start date and End date columns are now datetimes, we can deal with them the way we usually deal with datetimes. For example, we can create a new column, Duration, by subtracting Start date from End date. Because each of these columns are datetimes, when we subtract them we get timedeltas. If we print out the first 5 rows, we get that the first ride lasted for only 3 minutes and 1 second, the second ride lasted for 2 hours and 7 minutes, the third ride lasted for 5 minutes 43 seconds, and so on.
+
+8. Loading datetimes with parse_dates
+03:26 - 04:20
+Pandas has two features worth noting here. Let's see an example of converting our Duration to seconds, and looking at the first 5 rows. First, Pandas code is often written in a "method chaining" style, where we call a method, and then another, and then another. For readability, it's common to break them up with a backslash and a linebreak at the end of each. Second, you can access all of the typical datetime methods within the namespace -dot-dt. For example, we can convert our timedeltas into numbers with dot-dt-dot-total_seconds(). Now when we look at the results, we see that we've got seconds instead of timedeltas. Our first ride lasted 181 seconds, our second ride 7622 seconds, and so on.
+
+
+1. Summarizing datetime data in Pandas
+00:00 - 00:28
+In this lesson, we will discuss how to summarize Pandas tables, especially when we have datetime columns. One note: Pandas continues to evolve quickly. Many of the techniques in this chapter don't work on versions of Pandas more than a few years old. If anything breaks on your personal computer, make sure you're using at least Pandas version 0-point-23.
+
+2. Summarizing data in Pandas
+00:28 - 01:10
+First things first, let's review some general principles for summarizing data in Pandas. You can call dot-mean(), dot-median(), dot-sum() and so on, on any column where it makes sense. For example, rides['Duration']-dot-mean() returns that the average time the bike was out of the dock was 19 minutes and 38 seconds. We also can ask: how much is this column in total? By using the dot-sum() method, we can see that the bike was out of the dock for a total of 3 days, 22 hours, 58 minutes and 10 seconds during this time period.
+
+3. Summarizing data in Pandas
+01:10 - 01:33
+The output of Pandas operations mix perfectly well with the rest of Python. For example, if we divide this sum by 91 days (the number of days from October 1 to December 31), we see that the bike was out about 4.3% of the time, meaning about 96% of the time the bike was in the dock.
+
+4. Summarizing data in Pandas
+01:33 - 02:18
+For non-numeric columns, we have other ways of making summaries. The dot-value_counts() method tells us how many times a given value appears. In this case, we want to know how often the Member type is Member or Casual. 236 rides were from Members, and 54 were from Casual riders, who bought a ride at the bike kiosk without a membership. We can also divide by the total number of rides, using len(rides), and Pandas handles the division for us across our result. 81-point-4% of rides were from members, whereas 18-point-6% of rides were from casual riders.
+
+5. Summarizing datetime in Pandas
+02:18 - 02:58
+To make this next section easy, let's make a column called 'Duration seconds', which will be the original column 'Duration' converted to seconds. Pandas has powerful ways to group rows together. First, we can group by values in any column, using the dot-groupby() method. dot-groupby() takes a column name and does all subsequent operations on each group. For example, we can groupby Member type, and ask for the mean duration in seconds for each member type. Rides from casual members last nearly twice as long on average.
+
+6. Summarizing datetime in Pandas
+02:58 - 03:34
+Second, we can also group by time, using the dot-resample() method. dot-resample() takes a unit of time (for example, 'ME' for month), and a datetime column to group on, in this case 'Start date'. From this we can see that, in the month ending on October 31st, average rides were 1886 seconds, or about 30 minutes, whereas for the month ending December 31, average rides were 635 seconds, or closer to ten minutes.
+
+7. Summarizing datetime in Pandas
+03:34 - 03:49
+There are also others methods which operate on groups. For example, we can call dot-size() to get the size of each group. Or we can call dot-first() to get the first row of each group.
+
+8. Summarizing datetime in Pandas
+03:49 - 04:06
+Pandas also makes it easy to plot results. Just add the dot-plot() method at the end of your call and it will pass the results to the Python plotting library Matplotlib. It will usually have sensible defaults, though if you want to change things further you can.
+
+9. Summarizing datetime in Pandas
+04:06 - 04:48
+We can also change the resampling rate from 'ME' for months to 'D' for days, and plot again. Now we can see that there is at least one big outlier skewing our data: some ride in the middle of October was 25000 seconds long, or nearly 7 hours. We identified this ride in an earlier chapter as possibly a bike repair. Now we can see that it happened after many days with zero rides, which lends strength to that idea. If the bike was broken and sitting in the dock for awhile, eventually it would have been removed for repairs, then returned.
+
+10. Summarizing datetime data in Pandas
+04:48 - 05:06
+In this lesson, we discussed how to use basic Pandas operations, such as dot-mean(), dot-median() and dot-sum(), and also dot-groupby() and dot-resample() to combine our rows into different groups. Time to practice what you've learned!
+
+
+1. Additional datetime methods in Pandas
+00:00 - 00:17
+In this final lesson, we will cover some additional Pandas methods for working with dates and times. By the end of this lesson, you will understand how to handle timezones in Pandas, as well as other common datetime operations.
+
+2. Timezones in Pandas
+00:17 - 00:45
+First, a reminder of the importance of timezones. If we ask Pandas to tell us the smallest ride duration in seconds, using the dt-dot-total_seconds() method and then the dot-min() method, we get -3346 seconds, or -55 minutes. Yikes! Something is wrong, since our ride durations shouldn't ever be negative.
+
+3. Timezones in Pandas
+00:45 - 01:36
+The answer, as it was when we looked at this data set in standard Python, is Daylight Saving. Just like with standard Python, these datetime objects start off as timezone-naive. They're not tied to any absolute time with a UTC offset. Let's see the first three Start dates so we can see how they're displayed and check that there is no UTC offset. To start, we want those same three datetimes to be put into a timezone. The method for this in Pandas is dt-dot-tz_localize(). Now when we look at the localized datetimes, we can see that they have a UTC offset.
+
+4. Timezones in Pandas
+01:36 - 02:24
+However, if we try to convert our entire Start date column to the America/New_York timezone, Pandas will throw an AmbiguousTimeError. As expected, we have one datetime that occurs during the Daylight Saving shift. Following the advice of the error message, we can set the ambiguous argument in the dt-dot-tz_localize() method. By default, it raises an error, as we saw before. We also can pass the string 'NaT', which says that if the converter gets confused, it should set the bad result as Not a Time. Pandas is smart enough to skip over NaTs when it sees them, so our dot-min() and other methods will just ignore this one row.
+
+5. Timezones in Pandas
+02:24 - 02:45
+Now that we've fixed the timezones, we should recalculate our durations, in case any rides had been across Daylight Saving boundaries. This time, when we take Durations, convert it to seconds, and take the minimum, we get a much more sensible 116-point-0 seconds, or about two minutes.
+
+6. Timezones in Pandas
+02:45 - 03:03
+Just to know what we're looking at, let's pull up our problematic row. Here, both the start and end time were ambiguous, so they've been set to NaT. As a result, our Duration, since it's the difference of two undefined times, is also NaT.
+
+7. Other datetime operations in Pandas
+03:03 - 04:00
+There are other datetime operations you should know about too. The simplest are ones you're already familiar with: .year, .month, and so on. In Pandas, these are accessed with dt-dot-year, dt-dot-month, etc. For example, here is the year of the first three rows. There are other useful things that Pandas gives you, some of which are not available in standard Python. For example, the method dt-dot-day_name() gives you the day of the week for each element in a datetime Series. You can even specify if you want weekday names in a language other than English. These results can be aggregated with dot-groupby() call, to summarize data by year, month, day of the week, and so on.
+
+8. Other parts of Pandas
+04:00 - 04:35
+Pandas also lets you shift rows up or down with the dot-shift() method. Here we've shifted the rides one row forward so that our zeroth row is now NaT, and our first row has the same value that our zeroth row had before. This is useful if you want to, for example, line up the end times of each row with the start time of the next one. Now you can answer questions about how each ride compares to the previous one! You'll cover this in an exercise shortly.
+
+
+1. Wrap-up
+00:00 - 00:08
+In this course, you learned many things about working with dates and times in Python. Let's recap what we've covered.
+
+2. Recap: Dates and Calendars
+00:08 - 00:46
+In the first chapter of this course, we covered dates in Python. The date() class takes a year, month, and day as arguments. A date object has accessors like year, and also methods like weekday(). date objects can be compared like numbers, using min(), max(), and sort(). You can subtract one date from another to get a timedelta. To turn date objects into strings, use the isoformat() or strftime() methods.
+
+3. Recap: Combining Dates and Times
+00:46 - 01:29
+In the second chapter of this course, we covered datetimes. The datetime() class takes all the arguments of date(), plus an hour, minute, second, and microsecond. All of the additional arguments are optional; otherwise, they're set to zero by default. You can replace any value in a datetime with the replace() method. Convert a timedelta into an integer with its total_seconds() method. Turn strings into dates with strptime() and dates into strings with strftime().
+
+4. Recap: Timezones and Daylight Saving
+01:29 - 02:16
+In the third chapter of this course, we covered timezones and daylight saving. A datetime is "timezone aware" when it has its tzinfo set. Otherwise it is "timezone naive". Setting a timezone tells a datetime how to align itself to UTC, the universal time standard. Use the replace() method to change the timezone of a datetime, leaving the date and time the same. Use the astimezone() method to shift the date and time to match the new timezone. dateutil-dot-tz provides a comprehensive, updated timezone database.
+
+5. Recap: Easy and Powerful Timestamps in Pandas
+02:16 - 03:13
+In the fourth and final chapter of this course, we covered using Pandas for handling dates and times. When reading a csv, set the parse_dates argument to be the list of columns which should be parsed as datetimes. If setting parse_dates doesn't work, use the pd-dot-to_datetime() function. Grouping rows with groupby() lets you calculate aggregates per group. For example, first(), min() or mean(). resample() groups rows on the basis of a datetime column, by year, month, day, and so on. Use tz_localize() to set a timezone, keeping the date and time the same. Use tz_convert() to change the date and time to match a new timezone.
+
+6. Congratulations!
+03:13 - 03:35
+At this point, you have all of the knowledge you need to effectively use dates and times in Python. Even better, you've had a chance to practice! If you want to get really good with dates, why not get some more practice? Google for "interesting data sets", find one you like that has dates in it, pull it down, and get going!
+

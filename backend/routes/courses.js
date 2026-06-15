@@ -12,8 +12,8 @@ const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
 function getCourseFolder(contentFolder, courseSlug, trackSlug) {
   // First try the primary track slug
-  const primaryPath = path.join(contentFolder, 'tracks', trackSlug, courseSlug)
-  if (fs.existsSync(primaryPath)) {
+  const primaryPath = trackSlug ? path.join(contentFolder, 'tracks', trackSlug, courseSlug) : ''
+  if (primaryPath && fs.existsSync(primaryPath)) {
     return primaryPath
   }
   // Search other track folders
@@ -160,7 +160,7 @@ router.get('/courses', (req, res, next) => {
         c.order_in_track = c.tracks[0].order_in_track
       }
 
-      if (c.quiz_question_count === 0) {
+      if (c.quiz_question_count === 0 && c.track_slug) {
         const courseFolder = getCourseFolder(contentFolder, c.slug, c.track_slug);
         const mcqPath = path.join(courseFolder, 'exercises', 'mcq.json');
         if (fs.existsSync(mcqPath)) {

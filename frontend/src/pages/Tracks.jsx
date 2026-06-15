@@ -280,7 +280,11 @@ export default function Tracks() {
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
     const matchesReviewed = selectedReviewed === 'all' || course.reviewed === selectedReviewed
     const matchesDifficulty = selectedDifficulty === 'all' || (course.difficulty || 'Unknown') === selectedDifficulty
-    const matchesHasExercises = selectedHasExercises === 'all' || (course.quiz_question_count && course.quiz_question_count > 0)
+    const hasEx = course.quiz_question_count && course.quiz_question_count > 0
+    const matchesHasExercises =
+      selectedHasExercises === 'all' ||
+      (selectedHasExercises === 'present' && hasEx) ||
+      (selectedHasExercises === 'absent' && !hasEx)
 
     return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty && matchesHasExercises
   })

@@ -21,6 +21,7 @@ import TrackTest from './pages/TrackTest'
 import WranglingSpeedrun from './pages/WranglingSpeedrun'
 import CapstoneBattleSelection from './pages/CapstoneBattleSelection'
 import ManageCourseDetail from './pages/ManageCourseDetail'
+import IncorrectReview from './exercises/IncorrectReview'
 
 const routeTitles = [
   { pattern: /^\/$/, title: 'Dashboard' },
@@ -157,6 +158,7 @@ export default function App() {
           <Route path="/exercise/dataset/:courseSlug" element={<DatasetChallenge />} />
           <Route path="/exercise/matching/:courseSlug" element={<MatchingGame />} />
           <Route path="/exercise/boss/:courseSlug" element={<BossBattle />} />
+          <Route path="/exercise/review/:courseSlug" element={<IncorrectReview />} />
           <Route path="/track-test/:trackSlug" element={<TrackTest />} />
         </Routes>
       </main>

@@ -99,6 +99,7 @@ const coursesByTrack = {
     ['introduction-to-sql', 'Completed', 'Easy', 'Completed', 'Yes'],
     ['intermediate-sql', 'Completed', 'Easy', 'Completed', 'Yes'],
     ['joining-data-in-sql', 'Completed', 'Medium', 'Completed', 'Yes'],
+    ['introduction-to-relational-databases', 'Completed', 'Easy', 'Completed', 'No'],
     ['data-manipulation-in-sql', 'In Progress', 'Unknown', '-', 'No'],
     ['postgresql-summary-stats-and-window-functions', 'Not Started', 'Unknown', '-', 'No'],
     ['functions-for-manipulating-data-in-postgresql', 'Not Started', 'Unknown', '-', 'No'],

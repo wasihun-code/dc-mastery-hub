@@ -74,13 +74,22 @@ export function recalculateMastery(courseId, userId) {
     : DEFAULT_CONTENT_FOLDER;
 
   const conceptIdsSet = new Set()
+  const conceptIdMap = new Map()
   const exercisesDir = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises')
 
   // Try loading concepts from DB first to align with autoincremented database IDs
-  const dbConcepts = db.prepare('SELECT id FROM concepts WHERE course_id = ?').all(courseId)
-  for (const c of dbConcepts) {
-    conceptIdsSet.add(`concept_${String(c.id).padStart(3, '0')}`)
-  }
+  const dbConcepts = db.prepare('SELECT id FROM concepts WHERE course_id = ? ORDER BY id ASC').all(courseId)
+  dbConcepts.forEach((c, index) => {
+    const dbId = c.id
+    conceptIdsSet.add(`concept_${String(dbId).padStart(3, '0')}`)
+    
+    // Support database IDs, relative IDs, and fractional formats from historical imports
+    conceptIdMap.set(String(dbId), dbId)
+    const relNum = index + 1
+    conceptIdMap.set(String(relNum), dbId)
+    conceptIdMap.set(String(relNum) + '.0', dbId)
+    conceptIdMap.set(`concept_${String(relNum).padStart(3, '0')}`, dbId)
+  })
 
   // Fallback to reading JSON files if no concepts are found in the DB
   if (conceptIdsSet.size === 0) {
@@ -135,22 +144,71 @@ export function recalculateMastery(courseId, userId) {
     }
   }
 
+  if (conceptIdMap.size === 0 && conceptIdsSet.size > 0) {
+    for (const key of conceptIdsSet) {
+      conceptIdMap.set(key, key)
+    }
+  }
+
   const totalConcepts = conceptIdsSet.size
   if (totalConcepts === 0) return null
 
   // Step 2 — Get all exercise_attempts for this course for this user
   const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ? AND user_id = ?').all(courseId, userId)
 
+  // Load question-to-concept mapping from JSON files
+  const jsonQuestionConceptMap = new Map()
+  const loadJsonMapping = (fileName, type, questionsKey) => {
+    const filePath = path.join(exercisesDir, fileName)
+    if (fs.existsSync(filePath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+        const items = Array.isArray(data) ? data : (data[questionsKey] || [])
+        for (const item of items) {
+          const itemId = parseInt(String(item.id).replace(/\D/g, ''), 10) || null
+          if (itemId && item.concept_id) {
+            jsonQuestionConceptMap.set(`${type}_${itemId}`, item.concept_id)
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
+  loadJsonMapping('mcq.json', 'quiz', 'questions')
+  loadJsonMapping('bossbattle.json', 'bossbattle', 'questions')
+  loadJsonMapping('flashcards.json', 'flashcard', 'cards')
+
   // Step 3 — Calculate per-concept mastery
   const conceptMastery = {}
   const conceptByType = {}
 
   for (const attempt of attempts) {
-    if (!attempt.concept_id) continue
-    let key = String(attempt.concept_id)
-    if (/^\d+$/.test(key)) {
-      key = `concept_${key.padStart(3, '0')}`
+    let conceptId = attempt.concept_id
+    if (!conceptId && attempt.question_id) {
+      // Try resolving from JSON mapping first
+      conceptId = jsonQuestionConceptMap.get(`${attempt.exercise_type}_${attempt.question_id}`)
+      if (!conceptId) {
+        // Fallback to database lookup
+        if (attempt.exercise_type === 'quiz' || attempt.exercise_type === 'bossbattle') {
+          const q = db.prepare('SELECT concept_id FROM quiz_questions WHERE id = ?').get(attempt.question_id)
+          if (q) conceptId = q.concept_id
+        } else if (attempt.exercise_type === 'flashcard') {
+          const f = db.prepare('SELECT concept_id FROM flashcards WHERE id = ?').get(attempt.question_id)
+          if (f) conceptId = f.concept_id
+        }
+      }
     }
+
+    if (!conceptId) continue
+    const rawId = String(conceptId).trim()
+    const resolvedDbId = conceptIdMap.get(rawId)
+    if (!resolvedDbId) continue
+
+    let key = resolvedDbId
+    if (typeof resolvedDbId === 'number' || /^\d+$/.test(String(resolvedDbId))) {
+      key = `concept_${String(resolvedDbId).padStart(3, '0')}`
+    }
+
     if (!conceptByType[key]) {
       conceptByType[key] = {}
     }
@@ -951,16 +1009,74 @@ router.post('/progress/reset', (req, res, next) => {
 router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
   try {
     const courseId = Number(req.params.courseId)
-    const concepts = db.prepare('SELECT id, name, definition, category, difficulty FROM concepts WHERE course_id = ?').all(courseId)
+    const course = db.prepare('SELECT slug, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id FROM courses c WHERE id = ?').get(courseId)
+    if (!course) return res.status(404).json({ error: 'Course not found' })
+
+    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const trackSlug = track ? track.slug : ''
+
+    const contentFolder = process.env.CONTENT_FOLDER 
+      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
+      : DEFAULT_CONTENT_FOLDER;
+    const exercisesDir = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises')
+
+    const concepts = db.prepare('SELECT id, name, definition, category, difficulty FROM concepts WHERE course_id = ? ORDER BY id ASC').all(courseId)
     const attempts = db.prepare('SELECT * FROM exercise_attempts WHERE course_id = ? AND user_id = ?').all(courseId, req.user.id)
     
+    const conceptIdMap = new Map()
+    concepts.forEach((c, index) => {
+      const dbId = c.id
+      conceptIdMap.set(String(dbId), dbId)
+      const relNum = index + 1
+      conceptIdMap.set(String(relNum), dbId)
+      conceptIdMap.set(String(relNum) + '.0', dbId)
+      conceptIdMap.set(`concept_${String(relNum).padStart(3, '0')}`, dbId)
+    })
+
+    // Load JSON question mappings
+    const jsonQuestionConceptMap = new Map()
+    const loadJsonMapping = (fileName, type, questionsKey) => {
+      const filePath = path.join(exercisesDir, fileName)
+      if (fs.existsSync(filePath)) {
+        try {
+          const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+          const items = Array.isArray(data) ? data : (data[questionsKey] || [])
+          for (const item of items) {
+            const itemId = parseInt(String(item.id).replace(/\D/g, ''), 10) || null
+            if (itemId && item.concept_id) {
+              jsonQuestionConceptMap.set(`${type}_${itemId}`, item.concept_id)
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    loadJsonMapping('mcq.json', 'quiz', 'questions')
+    loadJsonMapping('bossbattle.json', 'bossbattle', 'questions')
+    loadJsonMapping('flashcards.json', 'flashcard', 'cards')
+
     const attemptsByConceptAndType = {}
     for (const a of attempts) {
-      if (!a.concept_id) continue
-      let key = String(a.concept_id)
-      if (/^\d+$/.test(key)) {
-        key = `concept_${key.padStart(3, '0')}`
+      let conceptId = a.concept_id
+      if (!conceptId && a.question_id) {
+        conceptId = jsonQuestionConceptMap.get(`${a.exercise_type}_${a.question_id}`)
+        if (!conceptId) {
+          if (a.exercise_type === 'quiz' || a.exercise_type === 'bossbattle') {
+            const q = db.prepare('SELECT concept_id FROM quiz_questions WHERE id = ?').get(a.question_id)
+            if (q) conceptId = q.concept_id
+          } else if (a.exercise_type === 'flashcard') {
+            const f = db.prepare('SELECT concept_id FROM flashcards WHERE id = ?').get(a.question_id)
+            if (f) conceptId = f.concept_id
+          }
+        }
       }
+
+      if (!conceptId) continue
+      const rawId = String(conceptId).trim()
+      const resolvedDbId = conceptIdMap.get(rawId)
+      if (!resolvedDbId) continue
+
+      const key = `concept_${String(resolvedDbId).padStart(3, '0')}`
       
       if (!attemptsByConceptAndType[key]) {
         attemptsByConceptAndType[key] = {}
