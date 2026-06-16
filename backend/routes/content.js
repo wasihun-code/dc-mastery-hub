@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
-import { runCode, runShellCommand } from '../services/codeSandbox.js'
+import { runCode, runShellCommand, runSql } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
 import { recalculateMastery } from './progress.js'
 
@@ -592,8 +592,14 @@ router.post('/run-code', (req, res, next) => {
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    // Handle SQL courses
+    if (track.language === 'SQL' || courseSlug.includes('sql')) {
+      const result = runSql(code)
+      return res.json(result)
+    }
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
@@ -630,8 +636,17 @@ router.post('/run-shell', (req, res, next) => {
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    // Handle SQL courses (shell not yet supported, return informative error)
+    if (track.language === 'SQL' || courseSlug.includes('sql')) {
+      return res.json({
+        success: false,
+        output: '',
+        error: 'Interactive shell is not yet supported for SQL courses.'
+      })
+    }
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
@@ -667,8 +682,46 @@ router.post('/submit-challenge', (req, res, next) => {
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
+
+    function normalizeOutput(output) {
+      if (!output) return ''
+      return output
+        .trim()
+        .split('\n')
+        .map(line => line.trimEnd())
+        .filter(line => line !== 'None')
+        .filter(line => line !== '')
+        .join('\n')
+    }
+
+    // Handle SQL courses
+    if (track.language === 'SQL' || courseSlug.includes('sql')) {
+      const userResult = runSql(code)
+      const expectedResult = runSql(expectedCode)
+
+      if (!expectedResult.success) {
+        return res.status(500).json({ error: 'Expected solution failed to run: ' + expectedResult.error })
+      }
+
+      if (!userResult.success) {
+        return res.status(400).json({ error: userResult.error })
+      }
+
+      const passed = normalizeOutput(userResult.output) === normalizeOutput(expectedResult.output)
+      const score = passed ? 100 : 0
+
+      return res.json({
+        passed,
+        score,
+        user_output: normalizeOutput(userResult.output),
+        expected_output: normalizeOutput(expectedResult.output),
+        feedback: passed 
+          ? 'Correct! Your SQL output matches perfectly.'
+          : 'Not quite. Compare your result set with the expected output below.'
+      })
+    }
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
@@ -699,16 +752,6 @@ router.post('/submit-challenge', (req, res, next) => {
 
     if (!userResult.success) {
       return res.status(400).json({ error: userResult.error })
-    }
-
-    function normalizeOutput(output) {
-      return output
-        .trim()
-        .split('\n')
-        .map(line => line.trimEnd())
-        .filter(line => line !== 'None')
-        .filter(line => line !== '')
-        .join('\n')
     }
 
     const passed = normalizeOutput(userResult.output) === normalizeOutput(expectedResult.output)

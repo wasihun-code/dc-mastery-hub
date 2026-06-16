@@ -18,19 +18,6 @@ import {
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
 
-function masteryColor(value) {
-  if (value >= 70) return 'var(--accent-green)'
-  if (value >= 40) return 'var(--accent-yellow)'
-  return 'var(--accent-red)'
-}
-
-function masteryTier(value) {
-  if (value >= 90) return 'Mastered ⭐'
-  if (value >= 70) return 'Proficient'
-  if (value >= 40) return 'Learning'
-  return 'Beginner'
-}
-
 function difficultyBadgeClass(difficulty) {
   switch (difficulty?.toLowerCase()) {
     case 'easy': return 'border-[var(--accent-green)] text-[var(--accent-green)]'
@@ -71,90 +58,76 @@ function SkeletonHeader() {
   )
 }
 
-function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonText, onClick, disabled, warning, isBoss, stats }) {
-  let itemLabel = "questions"
-  let availableLabel = "questions available"
-  let unattemptedLabel = "unattempted"
-
-  if (title === "Flashcards") {
-    itemLabel = "cards reviewed"
-    availableLabel = "cards available"
-    unattemptedLabel = "unattempted"
-  } else if (title === "Fill in the Blank") {
-    itemLabel = "concepts practiced"
-    availableLabel = "concepts available"
-    unattemptedLabel = "unattempted"
-  } else if (title === "Dataset Challenge") {
-    itemLabel = "challenges attempted"
-    availableLabel = "challenges available"
-    unattemptedLabel = "unattempted"
-  } else if (title === "Matching Game") {
-    itemLabel = "pairs matched"
-    availableLabel = "pairs available"
-    unattemptedLabel = "unattempted"
-  } else if (title === "Boss Battle 🔥") {
-    itemLabel = "questions faced"
-    availableLabel = "questions available"
-    unattemptedLabel = "unattempted"
+function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, disabled, isBoss, stats }) {
+  const getStatus = () => {
+    if (disabled) return { label: 'Locked', color: 'var(--accent-red)' }
+    if (!stats || stats.sessions === 0) return { label: 'Not Started', color: 'var(--text-muted)' }
+    if (stats.unattempted > 0) return { label: 'In Progress', color: 'var(--accent-yellow)' }
+    return { label: 'Ready', color: 'var(--accent-green)' }
   }
 
+  const status = getStatus()
+  const successRate = stats && (stats.correct + stats.wrong > 0) 
+    ? (stats.correct / (stats.correct + stats.wrong)) * 100 
+    : 0
+
   return (
-    <div className={`flex flex-col justify-between rounded border p-5 transition-all ${
+    <div className={`group relative flex flex-col rounded-[12px] border p-5 transition-all duration-200 hover:shadow-[0_0_12px_rgba(3,239,98,0.15)] ${
       isBoss 
-        ? 'border-transparent bg-gradient-to-br from-[#1e2130] to-[#2d2130] ring-1 ring-[var(--accent-red)]/50' 
-        : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--text-muted)]'
+        ? 'border-[var(--accent-red)] bg-gradient-to-br from-[#1e2130] to-[#2d2130]' 
+        : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]'
     }`}>
-      <div>
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className={`rounded-lg p-2 ${isBoss ? 'bg-[var(--accent-red)]/20 text-[var(--accent-red)]' : 'bg-[var(--bg-primary)] text-[var(--accent-blue)]'}`}>
             <Icon size={20} />
           </div>
-          <h3 className="font-bold text-[var(--text-primary)]">{title}</h3>
+          <h3 className="text-[18px] font-bold text-[var(--text-primary)]">{title}</h3>
         </div>
-        <p className="mt-3 text-sm text-[var(--text-muted)]">{description}</p>
-        
-        {stats && (
-          <div className="mt-3 space-y-2 select-none">
-            {stats.sessions > 0 ? (
-              <>
-                <div className="flex flex-wrap gap-[6px] text-[11px] font-bold">
-                  <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
-                    {stats.sessions} attempted
-                  </span>
-                  <span className="rounded px-2 py-0.5 border border-[var(--border)] text-[var(--text-muted)] bg-[var(--bg-primary)]">
-                    {stats.attempted} {itemLabel}
-                  </span>
-                  <span className="rounded px-2 py-0.5 border border-[var(--accent-green)]/30 text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]">
-                    {stats.correct} correct
-                  </span>
-                  <span className="rounded px-2 py-0.5 border border-[var(--accent-red)]/30 text-[var(--accent-red)] bg-[rgba(239,68,68,0.05)]">
-                    {stats.wrong} wrong
-                  </span>
-                </div>
-                <div className="flex justify-between text-[10px] text-[var(--text-muted)] border-t border-[var(--border)]/20 pt-1.5 mt-1 font-medium">
-                  <span>{stats.available} {availableLabel}</span>
-                  <span>{stats.unattempted} {unattemptedLabel}</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="text-[11px] italic text-[var(--text-muted)]">No attempts yet</div>
-                <div className="flex justify-between text-[10px] text-[var(--text-muted)] border-t border-[var(--border)]/20 pt-1.5 mt-1 font-medium">
-                  <span>{stats.available} {availableLabel}</span>
-                  <span>{stats.available} {unattemptedLabel}</span>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        <p className={`mt-4 text-xs font-medium ${statColor || 'text-[var(--text-muted)]'}`}>{stat}</p>
-        {warning && <p className="mt-1 text-[10px] text-[var(--accent-red)]">{warning}</p>}
+        <span 
+          className="rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider" 
+          style={{ borderColor: status.color, color: status.color }}
+        >
+          {status.label}
+        </span>
       </div>
+      
+      <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">{description}</p>
+      
+      <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <span className="text-[20px] font-bold text-[var(--text-primary)]">{stats?.sessions || 0}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Attempted</span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[20px] font-bold text-[var(--accent-green)]">{stats?.correct || 0}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Correct</span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[20px] font-bold text-[var(--accent-red)]">{stats?.wrong || 0}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Wrong</span>
+        </div>
+        <div className="flex flex-col">
+          <span className="text-[20px] font-bold text-[var(--text-primary)]">{stats?.available || 0}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Available</span>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <div className="h-[4px] w-full rounded-full bg-[var(--border)]">
+          <div 
+            className="h-full rounded-full bg-[var(--accent-green)] transition-all duration-500"
+            style={{ width: `${successRate}%` }}
+          />
+        </div>
+      </div>
+
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`mt-6 w-full rounded py-2 text-sm font-bold transition-all ${
+        className={`mt-6 w-full rounded-lg py-3 text-sm font-bold transition-all ${
           disabled
             ? 'cursor-not-allowed bg-[var(--border)] text-[var(--text-muted)]'
             : isBoss
@@ -162,22 +135,166 @@ function ExerciseCard({ icon: Icon, title, description, stat, statColor, buttonT
             : 'bg-[var(--accent-green)] text-[var(--bg-primary)] hover:brightness-110'
         }`}
       >
-        {buttonText}
+        {disabled ? '🔒 Locked' : isBoss ? 'Enter Battle' : buttonText}
       </button>
     </div>
   )
 }
 
-export default function CourseDetail() {
-  const { courseSlug } = useParams()
+function IncorrectReviewCard({ status, onCheckUnlock, checking, message, onStart }) {
+  if (!status) return null
+
+  const { isUnlocked, attempted, total, attemptRatio, incorrectCount } = status
+  
+  if (!isUnlocked) {
+    return (
+      <div 
+        className="group relative flex flex-col rounded-[12px] border border-[var(--accent-red)] p-5 transition-all duration-200 bg-[var(--bg-card)] overflow-hidden shadow-lg shadow-red-950/10"
+        style={{ backgroundColor: 'rgba(255, 0, 0, 0.03)' }}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg p-2 bg-[var(--bg-primary)] text-[var(--accent-red)]">
+              <AlertTriangle size={20} />
+            </div>
+            <h3 className="text-[18px] font-bold text-[var(--text-primary)] flex items-center gap-2">
+              Incorrect Review <span className="text-sm">🔒</span>
+            </h3>
+          </div>
+          <span className="rounded-full border border-[var(--accent-red)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-red)]">
+            Locked
+          </span>
+        </div>
+        
+        <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">
+          Complete 70% of questions across Quiz, Fill in the Blank, and Boss Battle to unlock.
+        </p>
+        
+        <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
+
+        <div className="space-y-2">
+          <div className="flex justify-between text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">
+            <span>Progress to Unlock</span>
+            <span>{attempted} / {total} ({Math.round(attemptRatio * 100)}%)</span>
+          </div>
+          <div className="h-[8px] w-full rounded-full bg-[var(--bg-primary)] overflow-hidden border border-[var(--border)]">
+            <div 
+              className="h-full rounded-full bg-[var(--accent-yellow)] transition-all duration-500"
+              style={{ width: `${Math.min(100, attemptRatio * 100)}%` }}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-2">
+          <button
+            onClick={onCheckUnlock}
+            disabled={checking}
+            className="w-full rounded-lg py-2 text-xs font-bold transition-all bg-[var(--accent-blue)] text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {checking ? 'Checking...' : 'Check Unlock Status'}
+          </button>
+          {message && (
+            <p className={`text-center text-[11px] font-medium ${message.includes('🎉') ? 'text-[var(--accent-green)] animate-pulse' : 'text-[var(--accent-red)]'}`}>
+              {message}
+            </p>
+          )}
+        </div>
+
+        <button
+          disabled={true}
+          className="mt-4 w-full rounded-lg py-3 text-sm font-bold transition-all cursor-not-allowed bg-[var(--border)] text-[var(--text-muted)]"
+        >
+          🔒 Locked
+        </button>
+      </div>
+    )
+  }
+
+  // Unlocked State
+  return (
+    <div className="group relative flex flex-col rounded-[12px] border border-[var(--border)] p-5 transition-all duration-200 hover:shadow-[0_0_12px_rgba(3,239,98,0.15)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="rounded-lg p-2 bg-[var(--bg-primary)] text-[var(--accent-red)]">
+            <AlertTriangle size={20} />
+          </div>
+          <h3 className="text-[18px] font-bold text-[var(--text-primary)]">Incorrect Review</h3>
+        </div>
+        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${incorrectCount > 0 ? 'border-[var(--accent-yellow)] text-[var(--accent-yellow)]' : 'border-[var(--accent-green)] text-[var(--accent-green)]'}`}>
+          {incorrectCount > 0 ? 'In Progress' : 'Ready'}
+        </span>
+      </div>
+      
+      <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">
+        Re-attempt questions you answered incorrectly in other categories.
+      </p>
+      
+      <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
+
+      <div className="flex flex-col">
+        <span className="text-[20px] font-bold text-[var(--text-primary)]">{incorrectCount}</span>
+        <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Items in your review queue</span>
+      </div>
+
+      <div className="mt-auto pt-10">
+        <button
+          onClick={onStart}
+          disabled={incorrectCount === 0}
+          className={`w-full rounded-lg py-3 text-sm font-bold transition-all ${
+            incorrectCount === 0
+              ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] cursor-default border border-[var(--accent-green)]/30'
+              : 'bg-[var(--accent-red)] text-white hover:brightness-110'
+          }`}
+        >
+          {incorrectCount === 0 ? 'Queue Empty — Great Work! ✓' : 'Start Incorrect Review'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default function CourseDetail({ overrideCourseSlug, isInline }) {
+  const { courseSlug: paramSlug } = useParams()
+  const courseSlug = overrideCourseSlug || paramSlug
   const navigate = useNavigate()
   const location = useLocation()
   
   const [course, setCourse] = useState(null)
   const [stats, setStats] = useState(null)
+  const [incorrectStatus, setIncorrectStatus] = useState(null)
+  const [checkingUnlock, setCheckingUnlock] = useState(false)
+  const [unlockMessage, setUnlockMessage] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  
+
+  const fetchIncorrectStatus = async () => {
+    try {
+      const res = await fetch(`/api/courses/${courseSlug}/incorrect-review-status`)
+      if (res.ok) {
+        const data = await res.json()
+        setIncorrectStatus(data)
+        return data
+      }
+    } catch (err) {
+      console.error('Failed to fetch incorrect status:', err)
+    }
+    return null
+  }
+
+  const handleCheckUnlock = async () => {
+    setCheckingUnlock(true)
+    setUnlockMessage('')
+    const data = await fetchIncorrectStatus()
+    setCheckingUnlock(false)
+    if (data) {
+      if (data.isUnlocked) {
+        setUnlockMessage('🎉 Incorrect Review unlocked!')
+      } else {
+        setUnlockMessage(`Not yet — you've attempted ${Math.round(data.attemptRatio * 100)}% of required questions.`)
+      }
+    }
+  }
+
   // PDF Viewer states
   const [showPdf, setShowPdf] = useState(false)
   const [pdfType, setPdfType] = useState('slides')
@@ -205,9 +322,10 @@ export default function CourseDetail() {
 
     const fetchData = async () => {
       try {
-        const [courseRes, statsRes] = await Promise.all([
+        const [courseRes, statsRes, incorrectRes] = await Promise.all([
           fetch(`/api/courses/${courseSlug}`),
-          fetch(`/api/progress/exercise-stats/${courseSlug}`)
+          fetch(`/api/progress/exercise-stats/${courseSlug}`),
+          fetch(`/api/courses/${courseSlug}/incorrect-review-status`)
         ])
 
         if (!courseRes.ok) throw new Error(courseRes.status === 404 ? 'Course not found' : 'Failed to fetch course')
@@ -215,10 +333,12 @@ export default function CourseDetail() {
         
         const courseData = await courseRes.json()
         const statsData = await statsRes.json()
+        const incorrectData = incorrectRes.ok ? await incorrectRes.json() : null
 
         if (isMounted) {
           setCourse(courseData)
           setStats(statsData)
+          setIncorrectStatus(incorrectData)
           setLoading(false)
         }
       } catch (err) {
@@ -263,16 +383,40 @@ export default function CourseDetail() {
 
   // Calculate completion percentage across all categories
   const categoryKeys = ['mcq', 'flashcard', 'ftb', 'matching', 'boss_battle', 'dataset']
-  let totalAvailable = 0
-  let totalAttempted = 0
-  categoryKeys.forEach(k => {
-    if (stats?.[k]) {
-      totalAvailable += stats[k].available || 0
-      totalAttempted += (stats[k].available || 0) - (stats[k].unattempted || 0)
-    }
-  })
-  const completionPercentage = totalAvailable > 0 ? (totalAttempted / totalAvailable) * 100 : 0
-  const isReviewUnlocked = completionPercentage >= 75
+
+  // Calculate aggregate stats for header and mastery bar
+  const aggregateStats = {
+    totalSessions: 0,
+    totalCorrect: 0,
+    totalAvailable: 0,
+    totalPracticed: 0,
+    exerciseTypes: 0,
+    totalXP: 0 // Placeholder or calculated if possible
+  }
+
+  if (stats) {
+    categoryKeys.forEach(k => {
+      if (stats[k] && stats[k].available > 0) {
+        aggregateStats.totalSessions += stats[k].sessions || 0
+        aggregateStats.totalCorrect += stats[k].correct || 0
+        aggregateStats.totalAvailable += stats[k].available || 0
+        aggregateStats.totalPracticed += (stats[k].available || 0) - (stats[k].unattempted || 0)
+        aggregateStats.exerciseTypes++
+      }
+    })
+    // Simple XP estimation: 10 XP per correct answer
+    aggregateStats.totalXP = aggregateStats.totalCorrect * 10
+  }
+
+  const getMasteryLevel = (value) => {
+    if (value >= 91) return { label: 'Mastered', color: 'var(--accent-green)' }
+    if (value >= 71) return { label: 'Proficient', color: 'var(--accent-blue)' }
+    if (value >= 41) return { label: 'Learning', color: 'var(--accent-yellow)' }
+    return { label: 'Needs Work', color: 'var(--accent-red)' }
+  }
+
+  const completionPercentage = aggregateStats.totalAvailable > 0 ? (aggregateStats.totalPracticed / aggregateStats.totalAvailable) * 100 : 0
+  const mastery = getMasteryLevel(course.overall_mastery || 0)
 
   if (course.reviewed !== 'Yes') {
     return (
@@ -352,69 +496,103 @@ export default function CourseDetail() {
       )}
 
       {/* SECTION 1 - COURSE HEADER */}
-      <header className="overflow-hidden rounded border border-[var(--border)] bg-[var(--bg-card)]" style={{ borderLeft: `6px solid ${course.track.color}` }}>
-        <div className="flex flex-col gap-8 p-6 lg:flex-row lg:items-center lg:justify-between">
+      <header className="space-y-6">
+        <div className="flex justify-between items-start gap-4">
           <div className="flex-1">
-            <Link to="/courses" className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)]">
-              <ArrowLeft size={16} /> Back to My Courses
-            </Link>
-            <h1 className="mt-4 text-[26px] font-bold text-[var(--text-primary)]">{course.name}</h1>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className={`rounded-full border px-3 py-0.5 text-xs font-bold uppercase ${difficultyBadgeClass(course.difficulty)}`}>
-                {course.difficulty}
-              </span>
-              <span className={`rounded-full border px-3 py-0.5 text-xs font-bold ${statusBadgeClass(course.status)}`}>
-                {course.status}
-              </span>
-              <span className={`rounded-full px-3 py-1 text-xs font-bold ${course.track.language === 'SQL' ? 'bg-[rgba(52,211,153,0.16)] text-[#34d399]' : 'bg-[rgba(167,139,250,0.16)] text-[#a78bfa]'}`}>
-                {course.track.language}
-              </span>
-              
-              {/* Slides Badge */}
-              <button 
-                onClick={() => { if (course.has_pdf) { setPdfType('slides'); setShowPdf(true); } }}
-                disabled={!course.has_pdf}
-                className={`flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-bold transition-all ${
-                  course.has_pdf 
-                    ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] hover:scale-105 active:scale-95' 
-                    : 'bg-[rgba(148,163,184,0.1)] text-[var(--text-muted)] cursor-default'
-                }`}
-              >
-                <FileText size={12} /> {course.has_pdf ? 'Slides' : 'No Slides'}
-              </button>
-
-              {/* Glossary Badge */}
-              {course.has_glossary === 1 && (
-                <button 
-                  onClick={() => { setPdfType('glossary'); setShowPdf(true); }}
-                  className="flex items-center gap-1 rounded-full bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-3 py-0.5 text-xs font-bold transition-all hover:scale-105 active:scale-95"
-                >
-                  <Book size={12} /> Glossary
-                </button>
-              )}
-            </div>
+            {!isInline && (
+              <Link to="/courses" className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)]">
+                <ArrowLeft size={16} /> Back to My Courses
+              </Link>
+            )}
+            <h1 className={`${isInline ? 'mt-0' : 'mt-4'} text-[32px] font-bold text-[var(--text-primary)]`}>{course.name}</h1>
           </div>
+
+          {isInline && (
+            <button
+              onClick={() => navigate(`/courses/${courseSlug}`)}
+              className="mt-1 shrink-0 rounded-lg border border-[var(--accent-green)] px-3 py-1.5 text-[12px] font-bold text-[var(--accent-green)] transition-all hover:bg-[var(--accent-green)]/5"
+            >
+              Open Full Page →
+            </button>
+          )}
         </div>
+        
+        <div className="flex flex-wrap gap-2">
+          <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${difficultyBadgeClass(course.difficulty)}`}>
+            {course.difficulty}
+          </span>
+          <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${statusBadgeClass(course.status)}`}>
+            {course.status}
+          </span>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${course.track.language === 'SQL' ? 'bg-[rgba(52,211,153,0.16)] text-[#34d399]' : 'bg-[rgba(167,139,250,0.16)] text-[#a78bfa]'}`}>
+            {course.track.language}
+          </span>
+          {course.has_pdf === 1 && (
+            <span className="rounded-full bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+              Slides Available
+            </span>
+          )}
+          {course.has_glossary === 1 && (
+            <span className="rounded-full bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+              Glossary Ready
+            </span>
+          )}
+        </div>
+        
+        <div className="h-[1px] w-full bg-[var(--border)]" />
       </header>
 
       {/* SECTION 2 - OVERALL MASTERY BAR */}
-      <section className="rounded border border-[var(--border)] bg-[var(--bg-card)] p-6">
-        <div className="flex items-end justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-[var(--text-primary)]">Course Mastery</h2>
+      <section className="relative py-8">
+        <div className="relative h-4 w-full rounded-full bg-[var(--bg-card)] border border-[var(--border)] overflow-visible">
+          {/* Percentage Indicator */}
+          <div 
+            className="absolute -top-8 flex flex-col items-center transition-all duration-1000"
+            style={{ left: `${Math.round(course.overall_mastery || 0)}%`, transform: 'translateX(-50%)' }}
+          >
+            <span className="text-sm font-bold text-[var(--text-primary)] bg-[var(--bg-card)] border border-[var(--border)] px-2 py-0.5 rounded shadow-sm">
+              {Math.round(course.overall_mastery || 0)}%
+            </span>
+            <div className="w-[1px] h-2 bg-[var(--border)]" />
           </div>
-          <span className="text-sm font-bold" style={{ color: masteryColor(course.overall_mastery) }}>
-            {masteryTier(course.overall_mastery)} ({Math.round(course.overall_mastery || 0)}%)
-          </span>
-        </div>
-        <div className="mt-3 h-4 overflow-hidden rounded-full bg-[var(--bg-primary)]">
+
+          {/* Progress Fill */}
           <div 
             className="h-full rounded-full transition-all duration-1000"
             style={{ 
               width: `${Math.round(course.overall_mastery || 0)}%`,
-              backgroundColor: masteryColor(course.overall_mastery)
+              backgroundColor: mastery.color,
+              boxShadow: `0 0 10px ${mastery.color}44`
             }}
           />
+          
+          {/* Labels below the bar */}
+          <div className="absolute -bottom-6 w-full flex justify-between px-1">
+            <span className="text-[9px] font-bold uppercase text-[var(--text-muted)]">Needs Work</span>
+            <span className="text-[9px] font-bold uppercase text-[var(--text-muted)]">Learning</span>
+            <span className="text-[9px] font-bold uppercase text-[var(--text-muted)]">Proficient</span>
+            <span className="text-[9px] font-bold uppercase text-[var(--text-muted)]">Mastered</span>
+          </div>
+        </div>
+        
+        <p className="mt-10 text-center text-xs text-[var(--text-muted)] italic">
+          {aggregateStats.totalPracticed} concepts practiced across {aggregateStats.exerciseTypes} exercise types
+        </p>
+
+        {/* Stats Row Below Bar */}
+        <div className="mt-8 grid grid-cols-3 gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 shadow-sm">
+          <div className="text-center">
+            <div className="text-lg font-bold text-[var(--text-primary)]">{aggregateStats.totalXP}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Total XP</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-[var(--text-primary)]">{aggregateStats.totalSessions}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Attempts</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-[var(--text-primary)]">+{aggregateStats.totalCorrect}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Streak Contribution</div>
+          </div>
         </div>
       </section>
 
@@ -445,113 +623,98 @@ export default function CourseDetail() {
           </div>
         </header>
 
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`mt-6 grid gap-6 ${isInline ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+          {/* Row 1/2/3: Standard Exercises in Requested Order */}
+          
+          {/* 1. Flashcards */}
           {stats?.flashcard?.available > 0 && (
             <ExerciseCard 
               icon={Brain}
               title="Flashcards"
               description="Spaced repetition to lock in concepts"
-              stat={`${course.flashcards_due_today || 0} cards due today`}
-              statColor={course.flashcards_due_today > 0 ? 'text-[var(--accent-yellow)]' : 'text-[var(--text-muted)]'}
               buttonText="Start Flashcards"
               onClick={() => navigate(`/exercise/flashcards/${courseSlug}`)}
               disabled={stats.flashcard.available === 0}
               stats={stats.flashcard}
             />
           )}
+
+          {/* 2. Multiple Choice Quiz */}
           {stats?.mcq?.available > 0 && (
             <ExerciseCard 
               icon={HelpCircle}
               title="Multiple Choice Quiz"
               description="Test your knowledge with timed questions"
-              stat={`${stats.mcq.available} questions available`}
               buttonText="Start Quiz"
               onClick={() => navigate(`/exercise/quiz/${courseSlug}`)}
               disabled={stats.mcq.available === 0}
               stats={stats.mcq}
             />
           )}
+
+          {/* 3. Fill in the Blank */}
           {stats?.ftb?.available > 0 && (
             <ExerciseCard 
               icon={PenLine}
               title="Fill in the Blank"
               description="Complete code snippets from memory"
-              stat={`${stats.ftb.available} concepts available`}
               buttonText="Start Coding"
               onClick={() => navigate(`/exercise/fillblank/${courseSlug}`)}
               disabled={stats.ftb.available === 0}
               stats={stats.ftb}
             />
           )}
+
+          {/* 4. Dataset Challenge */}
           {stats?.dataset?.available > 0 && (
             <ExerciseCard 
               icon={Database}
               title="Dataset Challenge"
               description="Write real code against real datasets"
-              stat={`${stats.dataset.available} challenges available`}
               buttonText="Start Challenge"
               onClick={() => navigate(`/exercise/dataset/${courseSlug}`)}
               disabled={stats.dataset.available === 0}
               stats={stats.dataset}
             />
           )}
+
+          {/* 5. Matching Game */}
           {stats?.matching?.available > 0 && (
             <ExerciseCard 
               icon={Shuffle}
               title="Matching Game"
               description="Match concepts to definitions — timed"
-              stat={`${stats.matching.available} pairs available`}
               buttonText="Start Matching"
               onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
               disabled={stats.matching.available === 0}
               stats={stats.matching}
             />
           )}
-          {stats?.wrong_review && (
-            <ExerciseCard 
-              icon={AlertTriangle}
-              title="Incorrect Review"
-              description="Re-attempt questions you answered incorrectly in other categories"
-              stat={
-                !isReviewUnlocked
-                  ? `Locked: Reach 75% course completion (Current: ${Math.round(completionPercentage)}%)`
-                  : stats.wrong_review.available > 0 
-                  ? `${stats.wrong_review.available} questions to review` 
-                  : 'All corrected! Great job.'
-              }
-              statColor={
-                !isReviewUnlocked 
-                  ? 'text-[var(--text-muted)] font-semibold'
-                  : stats.wrong_review.available > 0 
-                  ? 'text-amber-500 font-bold animate-pulse' 
-                  : 'text-[var(--accent-green)] font-bold'
-              }
-              buttonText={
-                !isReviewUnlocked
-                  ? 'Locked (Needs 75%)'
-                  : stats.wrong_review.available > 0 
-                  ? 'Start Review' 
-                  : 'Queue Clear'
-              }
-              onClick={() => navigate(`/exercise/review/${courseSlug}`)}
-              disabled={!isReviewUnlocked || stats.wrong_review.available === 0}
-              stats={stats.wrong_review}
-            />
-          )}
+
+          {/* 6. Boss Battle */}
           {stats?.boss_battle?.available > 0 && (
             <ExerciseCard 
               icon={Swords}
               isBoss={true}
               title="Boss Battle 🔥"
               description="Mixed challenge — prove your mastery"
-              stat={`${stats.boss_battle.available} questions available`}
-              statColor="text-[var(--accent-green)]"
               buttonText="Enter Battle"
               onClick={() => navigate(`/exercise/boss/${courseSlug}`)}
               disabled={stats.boss_battle.available === 0}
               stats={stats.boss_battle}
             />
           )}
+
+          {/* Row 4: Incorrect Review (Full Width) */}
+          <div className={isInline ? 'md:col-span-2' : 'md:col-span-2 lg:col-span-3'}>
+            <IncorrectReviewCard 
+              status={incorrectStatus}
+              onCheckUnlock={handleCheckUnlock}
+              checking={checkingUnlock}
+              message={unlockMessage}
+              onStart={() => navigate(`/exercise/review/${courseSlug}`)}
+            />
+          </div>
         </div>
       </section>
     </div>

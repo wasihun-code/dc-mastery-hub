@@ -28,6 +28,53 @@ function checkSecurity(code) {
   return null
 }
 
+import Database from 'better-sqlite3'
+
+export function runSql(code) {
+  // SQL Sandbox using an in-memory SQLite database
+  const db = new Database(':memory:')
+  try {
+    // Split statements by semicolon and run them
+    const statements = code.split(';').map(s => s.trim()).filter(s => s.length > 0)
+    let lastOutput = ''
+    let lastResult = null
+
+    for (const stmt of statements) {
+      if (stmt.toLowerCase().startsWith('select')) {
+        const rows = db.prepare(stmt).all()
+        lastResult = rows
+        if (rows.length > 0) {
+          const keys = Object.keys(rows[0])
+          const header = keys.join(' | ')
+          const data = rows.map(r => keys.map(k => r[k]).join(' | ')).join('\n')
+          lastOutput = header + '\n' + data
+        } else {
+          lastOutput = '(no results)'
+        }
+      } else {
+        db.prepare(stmt).run()
+        lastOutput = 'Statement executed successfully.'
+      }
+    }
+
+    return {
+      success: true,
+      output: lastOutput.trim(),
+      error: null,
+      vars: {} // SQL variables not yet supported in side-panel
+    }
+  } catch (err) {
+    return {
+      success: false,
+      output: '',
+      error: 'SQL Error: ' + err.message,
+      vars: {}
+    }
+  } finally {
+    db.close()
+  }
+}
+
 export function runCode(code, datasetPaths) {
   const securityViolation = checkSecurity(code)
   if (securityViolation) return securityViolation

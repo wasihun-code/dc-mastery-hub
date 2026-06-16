@@ -458,4 +458,54 @@ router.get('/courses/:slug/quiz-questions', (req, res, next) => {
   }
 })
 
+router.get('/courses/:courseSlug/incorrect-review-status', (req, res, next) => {
+  try {
+    const { courseSlug } = req.params
+    const userId = req.user.id
+
+    const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' })
+    }
+    const courseId = course.id
+
+    // a) Query exercise_attempts for attempted count
+    const attemptedRow = db.prepare(`
+      SELECT COUNT(DISTINCT question_id) as attempted 
+      FROM exercise_attempts 
+      WHERE user_id = ? AND course_id = ? AND exercise_type IN ('quiz','fillblank','bossbattle')
+    `).get(userId, courseId)
+    const attempted = attemptedRow.attempted || 0
+
+    // b) Query total available questions
+    const quizCount = db.prepare('SELECT COUNT(*) as count FROM quiz_questions WHERE course_id = ?').get(courseId).count
+    const conceptCount = db.prepare('SELECT COUNT(*) as count FROM concepts WHERE course_id = ?').get(courseId).count
+    const total = quizCount + (conceptCount * 2)
+
+    // c) Compute attemptRatio
+    const attemptRatio = total > 0 ? attempted / total : 0
+    const isUnlocked = attemptRatio >= 0.70
+
+    // d) Query unresolved incorrect count dynamically
+    const countStmt = db.prepare(`
+      SELECT COUNT(DISTINCT question_id || '-' || exercise_type) as cnt
+      FROM exercise_attempts
+      WHERE user_id = ? AND course_id = ? AND was_correct = 0
+      AND exercise_type IN ('quiz','fillblank','bossbattle','flashcard','matching')
+    `);
+    const { cnt } = countStmt.get(userId, courseId);
+    const incorrectCount = cnt || 0
+
+    res.json({
+      attemptRatio,
+      attempted,
+      total,
+      isUnlocked,
+      incorrectCount
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 export default router

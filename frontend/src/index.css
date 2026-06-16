@@ -198,3 +198,12 @@ button.text-left span {
 .fixed.inset-0.z-\[100\] .backface-hidden .text-lg span {
   font-size: 1.25rem !important;
 }
+
+/* Scrollbar Utilities */
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

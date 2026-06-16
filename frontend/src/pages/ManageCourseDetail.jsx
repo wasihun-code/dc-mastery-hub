@@ -11,6 +11,7 @@ import {
   FolderOpen
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
+import QuestionManager from '../components/QuestionManager'
 
 function masteryColor(value) {
   if (value >= 70) return 'var(--accent-green)'
@@ -182,9 +183,9 @@ export default function ManageCourseDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        {/* Left Column: Properties Controls */}
-        <div className="lg:col-span-7 space-y-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Left Column: Properties Controls, Slides, Danger Zone */}
+        <div className="space-y-6">
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 space-y-6 shadow-sm">
             <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--accent-blue)] border-b border-[var(--border)] pb-3">
               Course Properties
@@ -287,10 +288,7 @@ export default function ManageCourseDetail() {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Column: PDF Controls & Danger Zone */}
-        <div className="lg:col-span-5 space-y-6">
           {/* PDF & Content Controls */}
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 space-y-4 shadow-sm">
             <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] border-b border-[var(--border)] pb-3">
@@ -384,6 +382,11 @@ export default function ManageCourseDetail() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Right Column: Question Manager */}
+        <div className="space-y-6 flex flex-col h-full max-h-[80vh]">
+          <QuestionManager courseSlug={courseSlug} />
         </div>
       </div>
     </div>

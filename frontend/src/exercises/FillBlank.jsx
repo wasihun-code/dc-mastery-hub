@@ -2,29 +2,89 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
-  ChevronLeft, 
-  Check, 
-  X, 
-  RotateCcw, 
+  ChevronLeft,
+  Check,
+  X,
+  RotateCcw,
   Code2,
   ArrowRight,
   Zap,
-  Trash2
-} from 'lucide-react';
-import { getSessionLimit } from '../services/settingsService';
+  Trash2,
+  Edit2
+  } from 'lucide-react';
+  import { getSessionLimit } from '../services/settingsService';
+  import EditQuestionModal from '../components/EditQuestionModal';
+
+const AutoResizingInput = React.forwardRef(({ slotIndex, value, isChecked, isCorrect, activeSlot, onFocus, onChange }, ref) => {
+  const spanRef = useRef(null);
+  const [inputWidth, setInputWidth] = useState(60);
+
+  useEffect(() => {
+    if (spanRef.current) {
+      const calculatedWidth = Math.max(60, spanRef.current.offsetWidth + 24);
+      setInputWidth(Math.min(calculatedWidth, 320));
+    }
+  }, [value]);
+
+  const inputClass = `inline-flex h-[38px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-lg font-bold bg-[var(--bg-primary)] focus:outline-none align-middle ${
+    isChecked
+      ? isCorrect
+        ? "!bg-[var(--accent-green)] !border-[var(--accent-green)] !text-black opacity-100"
+        : "!bg-[var(--accent-red)] !border-[var(--accent-red)] !text-white opacity-100"
+      : activeSlot === slotIndex
+      ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]"
+      : "border-[var(--border)] text-[var(--text-primary)] focus:border-[var(--accent-blue)]"
+  }`;
+
+  return (
+    <span className="relative inline-flex items-center align-middle">
+      <span
+        ref={spanRef}
+        style={{
+          position: 'absolute',
+          visibility: 'hidden',
+          whiteSpace: 'pre',
+          fontFamily: 'monospace',
+          fontSize: '1.125rem',
+          fontWeight: 'bold',
+          padding: '0 8px'
+        }}
+      >
+        {value || "_____"}
+      </span>
+      <input
+        ref={ref}
+        type="text"
+        value={value || ""}
+        readOnly={isChecked}
+        onChange={onChange}
+        onFocus={onFocus}
+        placeholder="_____"
+        className={inputClass}
+        style={{
+          width: `${inputWidth}px`,
+          minWidth: '60px',
+          maxWidth: '320px',
+          overflowX: 'auto',
+          textOverflow: 'clip'
+        }}
+      />
+    </span>
+  );
+});
 
 export default function FillBlank() {
   const { courseSlug } = useParams();
   const navigate = useNavigate();
   const inputRef = useRef(null);
-  
+
   const [step, setStep] = useState(1); // 1: Greeting, 2: Exercise, 3: Summary
   const [course, setCourse] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isReplaying, setIsReplaying] = useState(false);
-  
+  const [editingQuestion, setEditingQuestion] = useState(null);
   // Exercise state
   const [userAnswers, setUserAnswers] = useState({}); // { slotIndex: word }
   const [isChecked, setIsChecked] = useState(false);
@@ -452,27 +512,17 @@ export default function FillBlank() {
           
           if (!choicesEnabled) {
             return (
-              <input
+              <AutoResizingInput
                 key={i}
                 ref={slotIndex === activeSlot ? inputRef : null}
-                autoFocus={slotIndex === activeSlot}
-                type="text"
+                slotIndex={slotIndex}
                 value={userAnswers[slotIndex] || ""}
-                readOnly={isChecked}
+                isChecked={isChecked}
+                isCorrect={isCorrect}
+                activeSlot={activeSlot}
                 onChange={(e) => {
                   setUserAnswers({ ...userAnswers, [slotIndex]: e.target.value });
                 }}
-                placeholder="_____"
-                className={`inline-flex min-w-[120px] h-[38px] text-center px-2 mx-1.5 rounded-lg border-2 transition-all font-mono text-lg font-bold bg-[var(--bg-primary)] focus:outline-none vertical-middle ${
-                  isChecked
-                    ? isCorrect
-                      ? "!bg-[var(--accent-green)] !border-[var(--accent-green)] !text-black opacity-100"
-                      : "!bg-[var(--accent-red)] !border-[var(--accent-red)] !text-white opacity-100"
-                    : activeSlot === slotIndex
-                    ? "border-[var(--accent-blue)] bg-[rgba(96,165,250,0.15)] text-[var(--accent-blue)]"
-                    : "border-[var(--border)] text-[var(--text-primary)] focus:border-[var(--accent-blue)]"
-                }`}
-                style={{ width: `${Math.max(120, (userAnswers[slotIndex] || "").length * 11 + 24)}px` }}
                 onFocus={() => setActiveSlot(slotIndex)}
               />
             );
@@ -531,28 +581,28 @@ export default function FillBlank() {
         </header>
 
         {/* Main Content (Fullscreen Two Column Layout) */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-start justify-center pt-16">
-          <div className="w-full max-w-[1280px]">
-            <div className="exercise-layout">
+        <main className="flex-1 overflow-y-auto pt-16">
+          <div className="w-full" style={{ maxWidth: '90vw', margin: '0 auto', padding: '32px 40px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '24px' }}>
               
               {/* LEFT COLUMN: Task Description & Code Block */}
-              <div className="flex flex-col gap-3 text-left">
-                <h2 className="text-xl font-bold max-w-[640px] leading-relaxed text-[var(--text-primary)]">
+              <div className="flex flex-col gap-3 text-left" style={{ flex: 1, minWidth: 0 }}>
+                <h2 className="text-xl font-bold leading-relaxed text-[var(--text-primary)]">
                   {currentEx?.description}
                 </h2>
                 
-                <div className={isMultiLine 
+                <div style={{ width: '100%' }} className={isMultiLine 
                   ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
-                  : "inline-flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
+                  : "flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
                 }>
                   {renderCodeWithSlots()}
                 </div>
               </div>
 
               {/* RIGHT COLUMN: Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4" style={{ flexShrink: 0, width: '420px' }}>
                 {/* Mode toggle / Choices Remaining info */}
-                <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2">
+                <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2 w-full">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-sm font-bold text-[var(--text-primary)]">
@@ -668,14 +718,24 @@ export default function FillBlank() {
         </main>
         {/* Left Sidebar Controls Container */}
         <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-          {/* Delete Exercise Button */}
-          <button
-            type="button"
-            onClick={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
-            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
-          >
-            <Trash2 size={14} /> Delete Exercise
-          </button>
+          <div className="flex gap-2">
+            {/* Edit Exercise Button */}
+            <button
+              type="button"
+              onClick={() => setEditingQuestion(exercises[currentIndex])}
+              className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
+            >
+              <Edit2 size={12} /> Edit
+            </button>
+            {/* Delete Exercise Button */}
+            <button
+              type="button"
+              onClick={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
+              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
+            >
+              <Trash2 size={12} /> Delete
+            </button>
+          </div>
 
           {/* Keyboard Shortcuts Helper */}
           <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
@@ -747,6 +807,19 @@ export default function FillBlank() {
               </div>
             </div>
           </div>
+        )}
+
+        {editingQuestion && (
+          <EditQuestionModal
+            courseSlug={courseSlug}
+            exerciseType="ftb"
+            questionData={editingQuestion}
+            onClose={() => setEditingQuestion(null)}
+            onSave={(updatedQ) => {
+              setExercises(prev => prev.map(q => q.id === updatedQ.id ? updatedQ : q));
+              setEditingQuestion(null);
+            }}
+          />
         )}
       </div>
     );

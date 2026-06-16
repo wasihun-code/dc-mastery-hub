@@ -189,7 +189,8 @@ export default function CourseFilter({
   showArchiveFilter = false,
   selectedHasExercises = 'present',
   onHasExercisesChange,
-  onReset
+  onReset,
+  compact = false
 }) {
   // Collect unique tracks from loaded courses
   const uniqueTracks = []
@@ -336,6 +337,76 @@ export default function CourseFilter({
     }))
   ]
 
+  const statusOptions = [
+    { value: 'all', label: 'All Statuses', count: totalStatusCount },
+    { value: 'Completed', label: 'Completed', count: getStatusCount('Completed') },
+    { value: 'In Progress', label: 'In Progress', count: getStatusCount('In Progress') },
+    { value: 'Not Started', label: 'Not Started', count: getStatusCount('Not Started') }
+  ]
+
+  const reviewedOptions = [
+    { value: 'all', label: 'All Reviewed Statuses', count: totalReviewedCount },
+    { value: 'Yes', label: 'Reviewed', count: getReviewedCount('Yes') },
+    { value: 'No', label: 'Not Reviewed', count: getReviewedCount('No') }
+  ]
+
+  const selectedTrackColor = uniqueTracks.find(t => t.name === selectedTrack)?.color
+  const trackIcon = selectedTrackColor ? (
+    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: selectedTrackColor }} />
+  ) : null
+
+  if (compact) {
+    return (
+      <div className="space-y-3">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
+          <input
+            type="text"
+            placeholder="Search courses..."
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] py-1.5 pl-8 pr-2.5 text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <FilterDropdown
+            label="Track"
+            value={selectedTrack}
+            options={trackOptions}
+            onChange={onTrackChange}
+            icon={trackIcon}
+          />
+          <FilterDropdown
+            label="Status"
+            value={selectedStatus}
+            options={statusOptions}
+            onChange={onStatusChange}
+          />
+          <FilterDropdown
+            label="Practice Available"
+            value={selectedHasExercises}
+            options={exercisesOptions}
+            onChange={onHasExercisesChange}
+          />
+          <FilterDropdown
+            label="Reviewed Status"
+            value={selectedReviewed}
+            options={reviewedOptions}
+            onChange={onReviewedChange}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onReset}
+          className="w-full text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] font-bold transition-colors py-1 border border-dashed border-[var(--border)] rounded"
+        >
+          Reset Filters
+        </button>
+      </div>
+    )
+  }
+
+  // Define full options for full view
   const categoryOptions = [
     { value: 'all', label: 'All Categories', count: totalCategoryCount },
     ...CATEGORIES.map(cat => ({
@@ -346,13 +417,6 @@ export default function CourseFilter({
     }))
   ]
 
-  const statusOptions = [
-    { value: 'all', label: 'All Statuses', count: totalStatusCount },
-    { value: 'Completed', label: 'Completed', count: getStatusCount('Completed') },
-    { value: 'In Progress', label: 'In Progress', count: getStatusCount('In Progress') },
-    { value: 'Not Started', label: 'Not Started', count: getStatusCount('Not Started') }
-  ]
-
   const difficultyOptions = [
     { value: 'all', label: 'All Difficulties', count: totalDifficultyCount },
     { value: 'Easy', label: 'Easy', count: getDifficultyCount('Easy') },
@@ -361,23 +425,11 @@ export default function CourseFilter({
     { value: 'Unknown', label: 'Unknown', count: getDifficultyCount('Unknown') }
   ]
 
-  const reviewedOptions = [
-    { value: 'all', label: 'All Reviewed Statuses', count: totalReviewedCount },
-    { value: 'Yes', label: 'Reviewed', count: getReviewedCount('Yes') },
-    { value: 'No', label: 'Not Reviewed', count: getReviewedCount('No') }
-  ]
-
   const archiveOptions = [
     { value: 'active', label: 'Active Only', count: getArchiveCount('active') },
     { value: 'archived', label: 'Archived Only', count: getArchiveCount('archived') },
     { value: 'all', label: 'All', count: getArchiveCount('all') }
   ]
-
-  // Find track color indicator for track dropdown button
-  const selectedTrackColor = uniqueTracks.find(t => t.name === selectedTrack)?.color
-  const trackIcon = selectedTrackColor ? (
-    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: selectedTrackColor }} />
-  ) : null
 
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 space-y-4 shadow-sm">
@@ -417,7 +469,7 @@ export default function CourseFilter({
         {/* Exercises Status Dropdown */}
         {onHasExercisesChange && (
           <FilterDropdown
-            label="Practice Status"
+            label="Practice Available"
             value={selectedHasExercises}
             options={exercisesOptions}
             onChange={onHasExercisesChange}
@@ -435,7 +487,7 @@ export default function CourseFilter({
 
         {/* Completion Status Dropdown */}
         <FilterDropdown
-          label="Completion Status"
+          label="Status"
           value={selectedStatus}
           options={statusOptions}
           onChange={onStatusChange}

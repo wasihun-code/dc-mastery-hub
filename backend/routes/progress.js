@@ -1186,18 +1186,17 @@ router.get('/progress/incorrect-questions/:courseSlug', (req, res, next) => {
     }
 
     const attempts = db.prepare(`
-      SELECT a.exercise_type, a.question_id, a.concept_id
-      FROM exercise_attempts a
-      JOIN (
-        SELECT exercise_type, question_id, MAX(attempted_at) as max_attempted_at
-        FROM exercise_attempts
-        WHERE course_id = ? AND user_id = ? AND question_id IS NOT NULL
-        GROUP BY exercise_type, question_id
-      ) sub ON a.exercise_type = sub.exercise_type 
-            AND a.question_id = sub.question_id 
-            AND a.attempted_at = sub.max_attempted_at
-      WHERE a.was_correct = 0
-    `).all(course.id, userId)
+      SELECT 
+        question_id,
+        exercise_type,
+        course_id,
+        concept_id,
+        COUNT(*) as wrong_count
+      FROM exercise_attempts
+      WHERE user_id = ? AND course_id = ? AND was_correct = 0
+        AND exercise_type IN ('quiz', 'fillblank', 'bossbattle', 'flashcard', 'matching')
+      GROUP BY question_id, exercise_type
+    `).all(userId, course.id)
 
     const contentFolder = process.env.CONTENT_FOLDER 
       ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
