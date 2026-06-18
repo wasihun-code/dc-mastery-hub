@@ -625,6 +625,60 @@ router.post('/admin/system/reimport-all', (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// ─── TRACKS REORDER ALIAS (frontend legacy call) ───
+
+router.post('/admin/tracks/reorder', (req, res, next) => {
+  try {
+    const { trackId, courseIds } = req.body
+    if (!trackId || !Array.isArray(courseIds)) return res.status(400).json({ error: 'trackId and courseIds array required' })
+    const reorder = db.transaction((tId, ids) => {
+      ids.forEach((courseId, index) => {
+        db.prepare('UPDATE track_courses SET order_in_track = ? WHERE track_id = ? AND course_id = ?').run(index + 1, tId, courseId)
+      })
+    })
+    reorder(trackId, courseIds)
+    log('reorder_courses_in_track', { track_id: trackId })
+    res.json({ success: true })
+  } catch (err) { next(err) }
+})
+
+// ─── COURSE FILE STATUS ───
+
+router.get('/admin/courses/:id/file-status', (req, res, next) => {
+  try {
+    const courseId = Number(req.params.id)
+    const course = db.prepare(`
+      SELECT c.slug, (SELECT tc.track_id FROM track_courses tc WHERE tc.course_id = c.id LIMIT 1) AS track_id
+      FROM courses c WHERE id = ?
+    `).get(courseId)
+    if (!course) return res.status(404).json({ error: 'Course not found' })
+    const files = {}
+    if (course.track_id) {
+      const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+      if (track) {
+        const exPath = path.join(config.CONTENT_PATH, 'tracks', track.slug, course.slug, 'exercises')
+        for (const fname of ['mcq.json', 'flashcards.json', 'ftb.json', 'matching.json', 'bossbattle.json', 'challenge.json']) {
+          files[fname] = fs.existsSync(path.join(exPath, fname))
+        }
+      }
+    }
+    res.json({ files, exercisesPath: course.track_id ? `content/tracks/.../exercises` : null })
+  } catch (err) { next(err) }
+})
+
+// ─── SYSTEM VERIFY CHALLENGES ───
+
+router.post('/admin/system/verify-challenges', (req, res, next) => {
+  try {
+    const reportPath = path.join(__dirname, '../../project/challenge_verification_report.md')
+    if (fs.existsSync(reportPath)) {
+      const content = fs.readFileSync(reportPath, 'utf-8')
+      return res.json({ success: true, report: content })
+    }
+    res.json({ success: false, message: 'No challenge verification report found. Run verify_challenges.js first.' })
+  } catch (err) { next(err) }
+})
+
 // ─── LEGACY ───
 
 router.post('/admin/exercises/reimport', (req, res, next) => {
