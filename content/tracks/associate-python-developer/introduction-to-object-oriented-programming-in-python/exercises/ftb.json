@@ -1,902 +1,914 @@
 [
   {
     "id": "fitb_001",
-    "concept_id": "concept_004",
-    "concept_name": "pwd",
-    "chapter": 1,
-    "difficulty": "medium",
-    "task_description": "Print the full path of the current working directory.",
-    "code_template": "$ _____",
+    "concept_id": "concept_013",
+    "concept_name": "pass statement",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Complete the class body with a placeholder that does nothing.",
+    "code_template": "class Customer:\n    _____",
     "blanks": [
       {
         "position": 1,
-        "answer": "pwd",
-        "answer_alternatives": []
+        "answer": "pass",
+        "answer_alternatives": ["Pass"]
       }
     ],
-    "word_bank": ["pwd", "ls", "cd", "git --version"],
+    "word_bank": ["pass", "break", "continue", "return"],
     "per_tile_feedback": {
-      "pwd": "Correct! `pwd` prints the current working directory.",
-      "ls": "`ls` lists files and directories, not the path.",
-      "cd": "`cd` changes the directory, it does not print the path.",
-      "git --version": "`git --version` shows the installed Git version."
+      "pass": "Correct: `pass` is a null operation used as a placeholder for an empty class body.",
+      "break": "`break` is used inside loops to exit early, not as a placeholder.",
+      "continue": "`continue` skips the rest of a loop iteration; not a placeholder.",
+      "return": "`return` is used to send a value from a function, not for an empty class."
     },
     "hints": [
-      "Remember that `pwd` stands for 'Print Working Directory'.",
-      "It's a shell command that outputs a path like `/home/repl/Documents`."
+      "Think about the Python keyword that tells the interpreter to do nothing.",
+      "In an empty class or function, what single word follows the colon?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`pwd` outputs the absolute path of the directory you are currently in.",
-    "common_mistake_warning": null
+    "explanation": "The `pass` statement is a placeholder that does nothing. It satisfies the requirement for an indented block when no code is needed.",
+    "common_mistake_warning": "⚠️ Using `break` or `continue` outside a loop will cause a SyntaxError; `return` is for functions."
   },
   {
     "id": "fitb_002",
-    "concept_id": "concept_005",
-    "concept_name": "ls",
-    "chapter": 1,
-    "difficulty": "medium",
-    "task_description": "List the non-hidden files and directories in the current directory.",
-    "code_template": "$ _____",
+    "concept_id": "concept_024",
+    "concept_name": "Docstrings for classes",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Add a docstring that describes the class as 'This class does nothing' to `MyClass`.",
+    "code_template": "class MyClass:\n    _____\n    pass",
     "blanks": [
       {
         "position": 1,
-        "answer": "ls",
-        "answer_alternatives": []
+        "answer": "\"\"\"This class does nothing\"\"\"",
+        "answer_alternatives": ["'''This class does nothing'''"]
       }
     ],
-    "word_bank": ["ls", "pwd", "cd", "git status"],
+    "word_bank": [
+      "\"\"\"This class does nothing\"\"\"",
+      "'''This class does nothing'''",
+      "# This class does nothing",
+      "pass"
+    ],
     "per_tile_feedback": {
-      "ls": "Correct! `ls` lists files and directories.",
-      "pwd": "`pwd` shows the directory path, not its contents.",
-      "cd": "`cd` is for changing directories, not listing them.",
-      "git status": "`git status` shows Git repository status, not a general file listing."
+      "\"\"\"This class does nothing\"\"\"": "Correct: triple double quotes enclose the docstring, placed immediately after the class definition.",
+      "'''This class does nothing'''": "Triple single quotes also create a string, but the course uses double quotes for docstrings.",
+      "# This class does nothing": "A comment is ignored by Python and does not serve as a docstring.",
+      "pass": "`pass` is a placeholder statement, not a docstring."
     },
     "hints": [
-      "Remember that `ls` is the 'list' command in the shell.",
-      "It shows names like `archive`, `finance.csv`, etc."
+      "A docstring must be a string literal placed right after the class header.",
+      "Use triple quotes to span multiple lines even if the docstring is short."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`ls` lists the visible (non-hidden) contents of the current working directory.",
+    "explanation": "Docstrings are string literals placed directly after the class (or function) definition. They are accessed via `help()` and document the class.",
     "common_mistake_warning": null
   },
   {
     "id": "fitb_003",
-    "concept_id": "concept_006",
-    "concept_name": "cd",
+    "concept_id": "concept_010",
+    "concept_name": "type() function",
     "chapter": 1,
     "difficulty": "medium",
-    "task_description": "Move into the directory named `archive`.",
-    "code_template": "$ _____ archive",
+    "task_description": "Use the built‑in function that returns the class of a list `[1,2,3,4,5]`.",
+    "code_template": "print(_____([1, 2, 3, 4, 5]))",
     "blanks": [
       {
         "position": 1,
-        "answer": "cd",
+        "answer": "type",
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["cd", "ls", "pwd", "git init"],
+    "word_bank": ["type", "dir", "list", "print"],
     "per_tile_feedback": {
-      "cd": "Correct! `cd archive` changes the current directory to `archive`.",
-      "ls": "`ls archive` would list the contents of `archive`, not navigate into it.",
-      "pwd": "`pwd archive` is invalid; `pwd` does not take arguments.",
-      "git init": "`git init archive` would create a new Git repo named `archive`, not navigate."
+      "type": "Correct: `type()` returns the type (class) of an object.",
+      "dir": "`dir()` lists attributes and methods, not the class name.",
+      "list": "`list` is a class itself; passing it would return `<class 'type'>`, not the list's type.",
+      "print": "`print()` prints its argument and returns `None`."
     },
     "hints": [
-      "The command changes the working directory.",
-      "Remember the space after the command is mandatory."
+      "This function's name reflects what it returns – the object's type.",
+      "It is not `dir()`; that shows attributes."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`cd` (change directory) followed by a directory name moves you into that folder.",
-    "common_mistake_warning": "⚠️ Forgetting the space (e.g., `cdarchive`) causes a 'command not found' error."
-  },
-  {
-    "id": "fitb_004",
-    "concept_id": "concept_007",
-    "concept_name": "git --version",
-    "chapter": 1,
-    "difficulty": "medium",
-    "task_description": "Display the installed Git version.",
-    "code_template": "$ _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "git --version",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["git --version", "git -version", "git version", "git --help"],
-    "per_tile_feedback": {
-      "git --version": "Correct! The double dash `--` is required for the long option `version`.",
-      "git -version": "Incorrect. Git options with full words need two dashes (`--`), not one.",
-      "git version": "Incorrect. `version` is not a valid Git subcommand.",
-      "git --help": "`git --help` opens the help page, it does not display the version."
-    },
-    "hints": [
-      "The command uses two dashes before the word 'version'.",
-      "Output looks like `git version 2.46.0`."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git --version` correctly prints the installed Git version. A single dash is a common mistake.",
-    "common_mistake_warning": "⚠️ Using a single dash (`git -version`) is a syntax error."
-  },
-  {
-    "id": "fitb_005",
-    "concept_id": "concept_010",
-    "concept_name": "git init",
-    "chapter": 2,
-    "difficulty": "medium",
-    "task_description": "Initialize a new Git repository in the current directory.",
-    "code_template": "$ _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "git init",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["git init", "git start", "git create", "git new"],
-    "per_tile_feedback": {
-      "git init": "Correct! `git init` initializes the current directory as a Git repository.",
-      "git start": "`git start` is not a valid Git command.",
-      "git create": "`git create` is not a recognized Git command.",
-      "git new": "`git new` does not exist."
-    },
-    "hints": [
-      "This command creates a hidden `.git` directory.",
-      "It stands for 'initialize'."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git init` turns the current directory into a Git repository, adding a `.git` folder.",
-    "common_mistake_warning": "⚠️ Running `git init` inside an existing repo creates a nested repository."
-  },
-  {
-    "id": "fitb_006",
-    "concept_id": "concept_014",
-    "concept_name": "git add",
-    "chapter": 3,
-    "difficulty": "medium",
-    "task_description": "Stage `README.md` to be included in the next commit.",
-    "code_template": "git _____ README.md",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "add",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["add", "commit", "log", "status"],
-    "per_tile_feedback": {
-      "add": "Correct! `git add` stages the file.",
-      "commit": "`git commit` creates a commit, it does not stage files.",
-      "log": "`git log` shows commit history, unrelated to staging.",
-      "status": "`git status` shows the state of files, not stage them."
-    },
-    "hints": [
-      "This command moves the file to the staging area.",
-      "The workflow is edit, ____, commit."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git add <file>` stages the current version of the file for the next commit.",
-    "common_mistake_warning": "⚠️ Forgetting to `git add` before committing means changes are not recorded."
-  },
-  {
-    "id": "fitb_007",
-    "concept_id": "concept_015",
-    "concept_name": "git commit",
-    "chapter": 3,
-    "difficulty": "medium",
-    "task_description": "Create a commit with the message 'Adding a README.' from the staged changes.",
-    "code_template": "git _____ -m \"Adding a README.\"",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "commit",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["commit", "add", "log", "status"],
-    "per_tile_feedback": {
-      "commit": "Correct! `git commit` creates a snapshot of the staged files.",
-      "add": "`git add` stages files, it does not create a commit.",
-      "log": "`git log` views history, it does not create commits.",
-      "status": "`git status` inspects the repository state."
-    },
-    "hints": [
-      "This command uses the `-m` flag to provide a message.",
-      "It creates a permanent snapshot of the staged area."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git commit -m \"message\"` records the staged changes with a descriptive log message.",
-    "common_mistake_warning": "⚠️ Without `git add` first, the commit may be empty or miss changes."
-  },
-  {
-    "id": "fitb_008",
-    "concept_id": "concept_010",
-    "concept_name": "git init",
-    "chapter": 2,
-    "difficulty": "hard",
-    "task_description": "Create a new Git repository in a new directory called `mental-health-workspace`.",
-    "code_template": "git _____ mental-health-workspace",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "init",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["init", "start", "create", "clone"],
-    "per_tile_feedback": {
-      "init": "Correct! `git init <directory>` initializes a new repo in the specified directory.",
-      "start": "`git start` is not a valid Git command.",
-      "create": "`git create` does not exist.",
-      "clone": "`git clone` copies an existing repository, not create a new one."
-    },
-    "hints": [
-      "The command used for initialization is the same as without a directory, followed by the folder name.",
-      "The output says `Initialized empty Git repository in ...`."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git init mental-health-workspace` creates the folder and initializes a Git repository inside it.",
-    "common_mistake_warning": "⚠️ If the directory already exists and is a repo, you'd create a nested repo by mistake."
-  },
-  {
-    "id": "fitb_009",
-    "concept_id": "concept_011",
-    "concept_name": "git status",
-    "chapter": 2,
-    "difficulty": "hard",
-    "task_description": "Check which files are untracked and not yet staged in the current repository.",
-    "code_template": "$ git _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "status",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["status", "log", "diff", "show"],
-    "per_tile_feedback": {
-      "status": "Correct! `git status` displays the state of the working directory and staging area.",
-      "log": "`git log` shows commit history, not the current file states.",
-      "diff": "`git diff` shows changes between versions, not the overall status.",
-      "show": "`git show` displays details of a specific commit."
-    },
-    "hints": [
-      "This command reports 'Untracked files:' and staging information.",
-      "It is often the first command you run after initializing a repo."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git status` tells you which files are modified, staged, or untracked.",
-    "common_mistake_warning": "⚠️ Not running `git status` frequently can lead to committing unexpected changes."
-  },
-  {
-    "id": "fitb_010",
-    "concept_id": "concept_011",
-    "concept_name": "git status",
-    "chapter": 2,
-    "difficulty": "hard",
-    "task_description": "After editing `report.md`, see what Git tracks as the current state of the project.",
-    "code_template": "$ _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "git status",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["git status", "git log", "git diff", "git show"],
-    "per_tile_feedback": {
-      "git status": "Correct! `git status` shows the working tree and staging area status.",
-      "git log": "`git log` displays commit history, not the current working state.",
-      "git diff": "`git diff` shows detailed line differences, not a summary of tracked/untracked files.",
-      "git show": "`git show` inspects a specific commit, not the overall state."
-    },
-    "hints": [
-      "Look for a command that describes the working directory's condition.",
-      "The output includes 'Untracked files' and 'Changes not staged'."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git status` is the go-to command to understand what has changed and what will be committed.",
-    "common_mistake_warning": "⚠️ Misinterpreting 'untracked' vs 'modified' is a common confusion."
-  },
-  {
-    "id": "fitb_011",
-    "concept_id": "concept_014",
-    "concept_name": "git add",
-    "chapter": 3,
-    "difficulty": "hard",
-    "task_description": "Stage all modified and new files in the current directory and subdirectories.",
-    "code_template": "git add _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": ".",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": [".", "*", "-a", "--all"],
-    "per_tile_feedback": {
-      ".": "Correct! `git add .` stages everything in the current directory and below.",
-      "*": "`*` is a shell wildcard, but `git add *` may miss hidden files and is not idiomatic; `git add .` is preferred.",
-      "-a": "`-a` is a flag for `git commit` to auto-stage modified tracked files, not for `git add`.",
-      "--all": "`--all` is not a valid flag for `git add`; use `git add .` or `git add -A` (though `-A` is not taught)."
-    },
-    "hints": [
-      "It's a single character that represents the current directory.",
-      "The course uses a period for this common operation."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "The `.` in `git add .` means 'the current directory and all its contents', recursively staging everything.",
-    "common_mistake_warning": "⚠️ Using `.` from the wrong directory can stage unintended files, including large binaries."
-  },
-  {
-    "id": "fitb_012",
-    "concept_id": "concept_015",
-    "concept_name": "git commit",
-    "chapter": 3,
-    "difficulty": "hard",
-    "task_description": "Provide the commit message 'Adding a README.' directly on the command line.",
-    "code_template": "git commit _____ \"Adding a README.\"",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "-m",
-        "answer_alternatives": ["--message"]
-      }
-    ],
-    "word_bank": ["-m", "-message", "--msg", "-c"],
-    "per_tile_feedback": {
-      "-m": "Correct! `-m` allows you to supply the commit message inline.",
-      "-message": "`-message` is incorrect; the correct short flag is `-m`, long is `--message`.",
-      "--msg": "`--msg` is not a valid flag; Git expects `-m` or `--message`.",
-      "-c": "`-c` is used to reuse the message from an existing commit, not to provide a new one."
-    },
-    "hints": [
-      "It's a single-letter flag that avoids opening a text editor.",
-      "You can also use `--message` with the same effect."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`-m` (short for `--message`) lets you write the commit message directly in the command.",
-    "common_mistake_warning": "⚠️ Forgetting `-m` opens your default editor, which may confuse beginners."
-  },
-  {
-    "id": "fitb_013",
-    "concept_id": "concept_017",
-    "concept_name": "Commit hash",
-    "chapter": 3,
-    "difficulty": "hard",
-    "task_description": "Use `git show` to inspect a commit given its partial hash.",
-    "code_template": "git show _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "c27fa856",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["c27fa856", "main", "HEAD", "1234567"],
-    "per_tile_feedback": {
-      "c27fa856": "Correct! This is a valid 8-character commit hash from the course examples.",
-      "main": "`main` is a branch name, not a commit hash.",
-      "HEAD": "`HEAD` is a reference to the current commit, but the task asks for a hash.",
-      "1234567": "This is not a valid hex string and unlikely to match any commit."
-    },
-    "hints": [
-      "A commit hash is a 40-character hexadecimal string; you can use the first 8-10 characters.",
-      "Look for a 8-character hex sequence that appears in the course examples."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git show c27fa856` displays the metadata and diff for the commit identified by that hash.",
-    "common_mistake_warning": "⚠️ If the prefix is too short and ambiguous, Git will ask for more characters."
-  },
-  {
-    "id": "fitb_014",
-    "concept_id": "concept_021",
-    "concept_name": "git log",
-    "chapter": 4,
-    "difficulty": "hard",
-    "task_description": "View the commit history of the repository.",
-    "code_template": "$ _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "git log",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["git log", "git show", "git diff", "git status"],
-    "per_tile_feedback": {
-      "git log": "Correct! `git log` displays the commit history.",
-      "git show": "`git show` shows details of one commit, not the full history.",
-      "git diff": "`git diff` shows changes between versions, not the log.",
-      "git status": "`git status` reports the current state of files, not history."
-    },
-    "hints": [
-      "This command lists commits with their hashes, authors, and dates.",
-      "It outputs in reverse chronological order."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git log` shows the project's commit history. Press `q` to exit the pager.",
-    "common_mistake_warning": "⚠️ Getting stuck in the pager? Press `q` (not `:q`)."
-  },
-  {
-    "id": "fitb_015",
-    "concept_id": "concept_021",
-    "concept_name": "git log",
-    "chapter": 4,
-    "difficulty": "hard",
-    "task_description": "After a series of commits, you want to browse the full history. Which command do you type?",
-    "code_template": "$ _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "git log",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["git log", "git show", "git diff", "git status"],
-    "per_tile_feedback": {
-      "git log": "Correct! `git log` is the command for viewing history.",
-      "git show": "`git show` requires a commit reference; it doesn't list all commits.",
-      "git diff": "`git diff` compares two states, not listing history.",
-      "git status": "`git status` only shows the current working state."
-    },
-    "hints": [
-      "It's the same command used to list past snapshots.",
-      "You may need to press `q` to exit the long output."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git log` is essential for inspecting what has been committed and when.",
-    "common_mistake_warning": "⚠️ If the output is large, Git uses a pager; `q` quits."
-  },
-  {
-    "id": "fitb_016",
-    "concept_id": "concept_022",
-    "concept_name": "git log -n",
-    "chapter": 5,
-    "difficulty": "hard",
-    "task_description": "Show only the three most recent commits.",
-    "code_template": "git log _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "-3",
-        "answer_alternatives": ["-n 3"]
-      }
-    ],
-    "word_bank": ["-3", "- 3", "--3", "-n3"],
-    "per_tile_feedback": {
-      "-3": "Correct! `-3` (or `-n 3`) limits output to the last 3 commits.",
-      "- 3": "Incorrect. No space between `-` and the number.",
-      "--3": "`--3` is not a recognized flag.",
-      "-n3": "`-n3` is a valid shorthand, but `-3` is the exact form shown in the course."
-    },
-    "hints": [
-      "The flag is a dash followed directly by the number.",
-      "The number indicates how many commits to show."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git log -3` displays only the most recent 3 commits. No space is allowed between `-` and the number.",
-    "common_mistake_warning": "⚠️ Putting a space (`- 3`) causes a syntax error."
-  },
-  {
-    "id": "fitb_017",
-    "concept_id": "concept_023",
-    "concept_name": "git log --since",
-    "chapter": 5,
-    "difficulty": "hard",
-    "task_description": "List all commits made on or after April 2, 2024.",
-    "code_template": "git log _____='Apr 2 2024'",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "--since",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["--since", "--after", "--from", "--start"],
-    "per_tile_feedback": {
-      "--since": "Correct! `--since` filters commits starting from the given date.",
-      "--after": "`--after` is not a valid Git log flag.",
-      "--from": "`--from` is not recognized.",
-      "--start": "`--start` does not exist."
-    },
-    "hints": [
-      "The flag indicates the beginning of a time range.",
-      "It's used with `--until` to define a window."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git log --since='Apr 2 2024'` shows commits made on or after that date.",
-    "common_mistake_warning": "⚠️ The date must be quoted if it contains spaces; otherwise the shell splits it."
-  },
-  {
-    "id": "fitb_018",
-    "concept_id": "concept_024",
-    "concept_name": "git log --until",
-    "chapter": 5,
-    "difficulty": "very_hard",
-    "task_description": "Show commits up to but not including April 11, 2024, after the start date April 2, 2024.",
-    "code_template": "git log --since='Apr 2 2024' _____='Apr 11 2024'",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "--until",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["--until", "--before", "--end", "--to"],
-    "per_tile_feedback": {
-      "--until": "Correct! `--until` defines the exclusive end of the date range.",
-      "--before": "`--before` is a valid synonym for `--until`, but it is not taught in the course; the expected answer is `--until`.",
-      "--end": "`--end` is not a Git log flag.",
-      "--to": "`--to` is not recognized."
-    },
-    "hints": [
-      "The flag pairs with `--since` to bracket a time window.",
-      "It means 'up to' that date but not including commits made on that day."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git log --until='Apr 11 2024'` stops just before that date, so the range includes April 2 to April 10.",
-    "common_mistake_warning": "⚠️ If `--until` is earlier than `--since`, no commits are shown."
-  },
-  {
-    "id": "fitb_019",
-    "concept_id": "concept_025",
-    "concept_name": "git show",
-    "chapter": 5,
-    "difficulty": "very_hard",
-    "task_description": "Inspect the commit with partial hash `c27fa856`, showing its metadata and diff.",
-    "code_template": "git _____ c27fa856",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "show",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["show", "log", "diff", "status"],
-    "per_tile_feedback": {
-      "show": "Correct! `git show` displays one commit's details and changes.",
-      "log": "`git log` would show the entire history, not the details of a specific commit.",
-      "diff": "`git diff c27fa856` compares that commit with the working directory, not showing its metadata.",
-      "status": "`git status` does not accept a commit hash."
-    },
-    "hints": [
-      "The command displays the commit author, date, and the patch of changes.",
-      "It's like a combination of `git log` for one commit and `git diff`."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git show <hash>` outputs the commit's metadata and the diff it introduced.",
-    "common_mistake_warning": "⚠️ The hash must uniquely identify the commit; a prefix that is too short will result in an error."
-  },
-  {
-    "id": "fitb_020",
-    "concept_id": "concept_026",
-    "concept_name": "git diff",
-    "chapter": 6,
-    "difficulty": "hard",
-    "task_description": "Compare the working directory version of `report.md` with the last committed version.",
-    "code_template": "git _____ report.md",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "diff",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["diff", "log", "show", "status"],
-    "per_tile_feedback": {
-      "diff": "Correct! `git diff` shows the unstaged changes against the last commit.",
-      "log": "`git log` shows history, not file differences.",
-      "show": "`git show` needs a commit reference to display its diff.",
-      "status": "`git status` reports that a file is modified, not the detailed changes."
-    },
-    "hints": [
-      "The command highlights lines removed with `-` and added with `+`.",
-      "Without `--staged`, it compares the working tree to the last commit."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git diff <file>` shows the difference between the working file and the HEAD commit.",
-    "common_mistake_warning": "⚠️ If you stage the file, `git diff` shows nothing; use `git diff --staged` then."
-  },
-  {
-    "id": "fitb_021",
-    "concept_id": "concept_026",
-    "concept_name": "git diff",
-    "chapter": 6,
-    "difficulty": "hard",
-    "task_description": "Show what changed between the commit `35f4b4d` and commit `186398f`.",
-    "code_template": "git diff 35f4b4d _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "186398f",
-        "answer_alternatives": []
-      }
-    ],
-    "word_bank": ["186398f", "c27fa856", "HEAD", "35f4b4d"],
-    "per_tile_feedback": {
-      "186398f": "Correct! This hash is the second commit in the example from the course.",
-      "c27fa856": "This hash is not the one used in the example for the second commit.",
-      "HEAD": "`HEAD` would compare against the current commit, not the specific one requested.",
-      "35f4b4d": "Comparing a commit with itself would show no differences."
-    },
-    "hints": [
-      "The second hash must be different from the first.",
-      "Look for the exact hash that appears after `35f4b4d` in the course example."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git diff <hash1> <hash2>` compares the two snapshots. The course uses `35f4b4d` and `186398f`.",
+    "explanation": "`type(obj)` returns the class of `obj`. The example from the course is `type([1,2,3,4,5])` outputting `<class 'list'>`.",
     "common_mistake_warning": null
   },
   {
-    "id": "fitb_022",
-    "concept_id": "concept_027",
-    "concept_name": "git diff --staged",
-    "chapter": 6,
-    "difficulty": "hard",
-    "task_description": "See the changes you have staged for the next commit in `report.md`.",
-    "code_template": "git diff _____ report.md",
+    "id": "fitb_004",
+    "concept_id": "concept_011",
+    "concept_name": "dir() function",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Display all attributes and methods of the list `[1,2,3,4]`.",
+    "code_template": "print(_____([1, 2, 3, 4]))",
     "blanks": [
       {
         "position": 1,
-        "answer": "--staged",
-        "answer_alternatives": ["--cached"]
+        "answer": "dir",
+        "answer_alternatives": []
       }
     ],
-    "word_bank": ["--staged", "--unstaged", "-s", "--index"],
+    "word_bank": ["dir", "type", "list", "help"],
     "per_tile_feedback": {
-      "--staged": "Correct! `--staged` compares the staging area with the last commit.",
-      "--unstaged": "`--unstaged` is not a valid flag.",
-      "-s": "`-s` is not a recognized option for `git diff`.",
-      "--index": "`--index` is not the flag used for this purpose; `--cached` or `--staged` are correct."
+      "dir": "Correct: `dir()` returns a list of attributes and methods of an object.",
+      "type": "`type()` returns the class, not the list of attributes.",
+      "list": "`list` creates a list; not a function for introspection.",
+      "help": "`help()` opens interactive help, not a list of attributes."
     },
     "hints": [
-      "The flag targets changes that have been added with `git add`.",
-      "It starts with `--st`."
+      "Think of a function that lists everything an object can do.",
+      "The course example uses `dir([1, 2, 3, 4])`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git diff --staged` shows what will be committed next. `--cached` is a synonym.",
-    "common_mistake_warning": "⚠️ `git diff` without `--staged` shows unstaged changes, which may be empty if you already staged everything."
+    "explanation": "`dir(obj)` returns a sorted list of attribute names, including dunder methods. The course output included `__add__`, `pop`, etc.",
+    "common_mistake_warning": "⚠️ `dir()` includes special methods, not only user‑defined ones."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_014",
+    "concept_name": "Object creation",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create an instance of the `Customer` class and assign it to `c_one`.",
+    "code_template": "class Customer:\n    pass\n\nc_one = Customer_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "()",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["()", "(self)", "[]", "{}"],
+    "per_tile_feedback": {
+      "()": "Correct: parentheses call the class constructor, creating a new instance.",
+      "(self)": "`self` is never passed explicitly; Python provides it automatically.",
+      "[]": "Square brackets are for indexing or lists, not instantiation.",
+      "{}": "Curly braces are for dictionaries or sets."
+    },
+    "hints": [
+      "To create an object, you must call the class like a function.",
+      "What punctuation follows a class name to invoke its constructor?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`Customer()` calls the class, which invokes `__init__` (if defined) and returns a new instance. Forgetting the parentheses gives the class object itself.",
+    "common_mistake_warning": "⚠️ Writing `Customer` without parentheses assigns the class, not an instance."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_015",
+    "concept_name": "Method definition",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Complete the method signature so it can access the instance and print the customer's name.",
+    "code_template": "class Customer:\n    def identify(_____, name):\n        print('I am Customer ' + name)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "self",
+        "answer_alternatives": ["this"]
+      }
+    ],
+    "word_bank": ["self", "cls", "this", "obj"],
+    "per_tile_feedback": {
+      "self": "Correct: `self` is the conventional first parameter of an instance method.",
+      "cls": "`cls` is used for class methods, not instance methods.",
+      "this": "`this` is not a keyword in Python; Java/C++ use it but not Python.",
+      "obj": "No standard meaning; Python automatically passes the instance."
+    },
+    "hints": [
+      "An instance method always needs a first parameter that refers to the calling object.",
+      "By convention, what is that parameter called?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Every instance method must have at least one parameter, conventionally named `self`. It receives the instance automatically when the method is called.",
+    "common_mistake_warning": "⚠️ Omitting `self` causes a `TypeError` when the method is called."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_017",
+    "concept_name": "Attribute creation (assignment)",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Inside `set_name`, create an instance attribute called `name` with the provided value.",
+    "code_template": "class Customer:\n    def set_name(self, new_name):\n        _____ = new_name",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "self.name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["self.name", "name", "self[name]", "self->name"],
+    "per_tile_feedback": {
+      "self.name": "Correct: `self.name` attaches the attribute to the instance using dot notation.",
+      "name": "A bare `name` creates a local variable inside the method, not an instance attribute.",
+      "self[name]": "Square brackets are for item access, not attribute creation.",
+      "self->name": "The `->` operator is not valid Python syntax."
+    },
+    "hints": [
+      "How do you assign a value to an attribute of the current object?",
+      "Remember to prefix with the reference to the instance."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Inside a method, `self.attribute = value` creates or updates an instance attribute. Forgetting `self.` creates a local variable that disappears after the method ends.",
+    "common_mistake_warning": "⚠️ Without `self.`, the attribute is not stored on the instance, leading to an `AttributeError` later."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_018",
+    "concept_name": "Using attributes in methods",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Print the customer's name stored in the instance attribute `name`.",
+    "code_template": "class Customer:\n    def identify(self):\n        print('I am Customer ' + _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "self.name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["self.name", "name", "self[name]", "self->name"],
+    "per_tile_feedback": {
+      "self.name": "Correct: accesses the `name` attribute of the current instance.",
+      "name": "A bare `name` would look for a local variable, which doesn't exist, causing a `NameError`.",
+      "self[name]": "Not valid attribute access; that's for indexing.",
+      "self->name": "Invalid syntax in Python."
+    },
+    "hints": [
+      "To read an attribute inside a method, you need the same prefix as when you set it.",
+      "What prefix gives you the current object?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Attributes are accessed with `self.attribute_name`. Using `name` alone would raise a `NameError` because no local variable exists.",
+    "common_mistake_warning": "⚠️ Omitting `self.` when accessing attributes is a frequent beginner error."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_012",
+    "concept_name": "Class definition syntax",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Fix the class header so the class is correctly defined.",
+    "code_template": "class Customer_____\n    pass",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [":", ";", "()", "->"],
+    "per_tile_feedback": {
+      ":": "Correct: every class header must end with a colon.",
+      ";": "Semicolons are optional statement separators, not used in class headers.",
+      "()": "Parentheses are used only when specifying a parent class, not required.",
+      "->": "`->` is used for function return type hints, not class definitions."
+    },
+    "hints": [
+      "What symbol does Python expect after `class ClassName`?",
+      "Check the example in Chapter 2: `class Customer:`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The class definition requires a colon after the class name. Without it, Python raises a `SyntaxError`.",
+    "common_mistake_warning": "⚠️ Forgetting the colon is a common syntax error."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_019",
+    "concept_name": "__init__ method (constructor)",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Define the constructor method that initialises the `name` attribute.",
+    "code_template": "class Customer:\n    def _____(_____, name):\n        self.name = name",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "__init__",
+        "answer_alternatives": ["__int__"]
+      },
+      {
+        "position": 2,
+        "answer": "self",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["__init__", "__int__", "self", "cls", "Customer"],
+    "per_tile_feedback": {
+      "__init__": "Correct: `__init__` is the special method automatically called on object creation.",
+      "__int__": "A misspelling; it will never be called automatically.",
+      "self": "Correct: the first parameter of an instance method is the instance reference.",
+      "cls": "`cls` is used for class methods, not for `__init__`.",
+      "Customer": "The class name is not a valid first parameter."
+    },
+    "hints": [
+      "This special method has double underscores before and after.",
+      "The first parameter receives the new instance."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`__init__` is the initialiser. Python calls it after creating the object, passing the arguments provided in `Customer(...)`. The first parameter is always `self`.",
+    "common_mistake_warning": "⚠️ Typing `__int__` instead of `__init__` is a classic mistake."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_020",
+    "concept_name": "Default arguments in __init__",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Add a default balance of 0 to the constructor, using the parameter `balance`.",
+    "code_template": "class Customer:\n    def __init__(self, name, _____=_____):\n        self.name = name\n        self.balance = balance",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "balance",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "0",
+        "answer_alternatives": ["0.0"]
+      }
+    ],
+    "word_bank": ["balance", "0", "[]", "None", "amount"],
+    "per_tile_feedback": {
+      "balance": "Correct: the parameter name matches the attribute name, a common convention.",
+      "0": "Correct: an integer 0 is a safe immutable default.",
+      "[]": "An empty list would be a mutable default, shared across all instances – a dangerous pitfall.",
+      "None": "`None` would be acceptable, but the requirement is a default balance of 0.",
+      "amount": "The parameter name `amount` is not consistent with the code using `balance`."
+    },
+    "hints": [
+      "The parameter name must match the variable used inside the method.",
+      "What value represents zero balance?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The parameter `balance` is given a default value of `0`. This allows creating a `Customer` with just a name, as in `Customer('Lara de Silva')`.",
+    "common_mistake_warning": "⚠️ Never use a mutable default like `[]` – it is evaluated only once at definition time."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_026",
+    "concept_name": "Class attributes",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Define the class attribute `MIN_SALARY` with value 30000 for the `Employee` class.",
+    "code_template": "class Employee:\n    _____ = 30000\n    def __init__(self, name, salary):\n        self.name = name\n        if salary >= Employee.MIN_SALARY:\n            self.salary = salary\n        else:\n            self.salary = Employee.MIN_SALARY",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "MIN_SALARY",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["MIN_SALARY", "self.MIN_SALARY", "salary", "Employee.MIN_SALARY"],
+    "per_tile_feedback": {
+      "MIN_SALARY": "Correct: a class attribute is defined directly in the class body without `self.`.",
+      "self.MIN_SALARY": "`self.` is not available at the class level and would define an instance attribute in a method.",
+      "salary": "That would shadow the parameter name, not create a class‑wide constant.",
+      "Employee.MIN_SALARY": "This is how you access the attribute, not define it."
+    },
+    "hints": [
+      "Class attributes are defined outside methods, at the top of the class.",
+      "No prefix like `self.` is used."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Class attributes belong to the class, not instances. They are defined as plain variables inside the class body. `MIN_SALARY = 30000` sets this shared value.",
+    "common_mistake_warning": "⚠️ Using `self.MIN_SALARY` in the class body is invalid; `self` does not exist there."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_030",
+    "concept_name": "Modifying class attribute via instance",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Predict what each print statement will show after the assignment.\n\nFill in the blanks so the code illustrates the shadowing effect.",
+    "code_template": "class Employee:\n    MIN_SALARY = 30000\n\nemp1 = Employee()\nemp2 = Employee()\nemp1.MIN_SALARY = 50000\nprint(emp1.MIN_SALARY)   # prints _____\nprint(emp2.MIN_SALARY)   # prints _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "50000",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "30000",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["50000", "30000", "50000 30000", "Error"],
+    "per_tile_feedback": {
+      "50000": "Correct for the first blank: `emp1.MIN_SALARY = 50000` created an instance attribute that shadows the class attribute.",
+      "30000": "Correct for the second blank: `emp2` still sees the original class attribute.",
+      "50000 30000": "This tile shows both values; it's not a valid single answer.",
+      "Error": "No error occurs; the code runs successfully."
+    },
+    "hints": [
+      "What happens to the class attribute when you assign via an instance?",
+      "Check the example in the course: `emp1.MIN_SALARY = 50000` followed by printing both."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`emp1.MIN_SALARY = 50000` creates a new instance attribute on `emp1`, leaving the class attribute unchanged. Hence `emp1` sees 50000, `emp2` sees 30000.",
+    "common_mistake_warning": "⚠️ Many expect the class attribute to change for all instances; it does not."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_031",
+    "concept_name": "Class methods (@classmethod)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Turn this method into a class method that receives the class as `cls`.",
+    "code_template": "class Employee:\n    @_____\n    def from_file(_____, filename):\n        with open(filename) as f:\n            name = f.readline().strip()\n            salary = int(f.readline().strip())\n        return Employee(name, salary)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "classmethod",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "cls",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["classmethod", "cls", "self", "staticmethod"],
+    "per_tile_feedback": {
+      "classmethod": "Correct: the `@classmethod` decorator marks this as a class method.",
+      "cls": "Correct: the first parameter of a class method is the class, conventionally named `cls`.",
+      "self": "`self` would be inappropriate because this method is called on the class, not an instance.",
+      "staticmethod": "`@staticmethod` would not pass the class as the first argument."
+    },
+    "hints": [
+      "What decorator is used above the `def` line?",
+      "The first parameter should be a reference to the class, not an instance."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Class methods are defined with `@classmethod` and take `cls` as the first parameter. They can be called on the class (e.g., `Employee.from_file(...)`) without an instance.",
+    "common_mistake_warning": "⚠️ Forgetting `@classmethod` results in a regular instance method that expects `self`."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_033",
+    "concept_name": "Alternative constructors",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Complete the alternative constructor so it returns a new `Employee` instance.",
+    "code_template": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n    @classmethod\n    def from_file(cls, filename):\n        with open(filename) as f:\n            name = f.readline().strip()\n            salary = int(f.readline().strip())\n        return _____(name, salary)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "cls",
+        "answer_alternatives": ["Employee"]
+      }
+    ],
+    "word_bank": ["cls", "Employee", "self", "object"],
+    "per_tile_feedback": {
+      "cls": "Correct: `cls(name, salary)` calls the constructor, creating an instance of the current class.",
+      "Employee": "Using the class name directly works but is less flexible if the class is subclassed.",
+      "self": "`self` is undefined in a class method; `cls` is the class itself.",
+      "object": "`object` is the base class; you cannot instantiate it like that."
+    },
+    "hints": [
+      "Inside a class method, what variable holds the class?",
+      "To create a new instance of the class, call that variable with parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Alternative constructors return `cls(...)`, which creates an instance of whatever class the method is called on (e.g., `Employee` or a subclass).",
+    "common_mistake_warning": "⚠️ Forgetting to return the instance causes `from_file` to return `None`."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_035",
+    "concept_name": "Inheritance syntax",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Make `SavingsAccount` inherit from `BankAccount`.",
+    "code_template": "class BankAccount:\n    pass\n\nclass SavingsAccount(_____):\n    pass",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "BankAccount",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["BankAccount", "BankAccount()", "object", "super"],
+    "per_tile_feedback": {
+      "BankAccount": "Correct: the parent class name is placed inside parentheses.",
+      "BankAccount()": "The parentheses call the constructor; here you need the class name, not an instance.",
+      "object": "`object` is the ultimate base class, but not the intended parent here.",
+      "super": "`super()` is a function used inside methods, not in the class header."
+    },
+    "hints": [
+      "The class you want to inherit from goes between the parentheses.",
+      "It is the name of the existing class, not a string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To create a subclass, place the parent class name in parentheses after the child class name. Example: `class SavingsAccount(BankAccount):`.",
+    "common_mistake_warning": "⚠️ Forgetting the parentheses after the child class name results in a syntax error."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_039",
+    "concept_name": "isinstance() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Check if `savings_acct` is an instance of `BankAccount`.",
+    "code_template": "print(_____(savings_acct, BankAccount))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "isinstance",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["isinstance", "type", "is", "issubclass"],
+    "per_tile_feedback": {
+      "isinstance": "Correct: `isinstance(obj, Class)` returns `True` if `obj` is an instance of `Class` or a subclass.",
+      "type": "`type()` returns the class, but comparing with `==` does not handle inheritance.",
+      "is": "`is` checks identity, not class membership.",
+      "issubclass": "`issubclass()` checks class inheritance, not object instances."
+    },
+    "hints": [
+      "Use the built‑in function that returns `True` for both direct and indirect instances.",
+      "It's not `type()`; that would fail for subclass instances."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`isinstance(savings_acct, BankAccount)` returns `True` because a `SavingsAccount` is a `BankAccount` due to inheritance.",
+    "common_mistake_warning": "⚠️ Using `type(savings_acct) == BankAccount` would return `False`."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_040",
+    "concept_name": "Customizing constructor in child class",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "In the child's `__init__`, call the parent's `__init__` to set the `balance` attribute.",
+    "code_template": "class SavingsAccount(BankAccount):\n    def __init__(self, balance, interest_rate):\n        _____ .__init__(self, balance)\n        self.interest_rate = interest_rate",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "BankAccount",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["BankAccount", "super", "self", "parent"],
+    "per_tile_feedback": {
+      "BankAccount": "Correct: the parent class name is used to call its `__init__` directly.",
+      "super": "`super()` would work as `super().__init__(balance)` but doesn't fit this blank (needs argument format).",
+      "self": "`self.__init__` would call the child's own `__init__`, causing recursion.",
+      "parent": "`parent` is not a built‑in name."
+    },
+    "hints": [
+      "You need to use the name of the parent class, then a dot, then the method.",
+      "Look at the example in Chapter 7: `BankAccount.__init__(self, balance)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When overriding `__init__`, you must explicitly call the parent's `__init__` to initialise inherited attributes. The syntax is `ParentClass.__init__(self, ...)`.",
+    "common_mistake_warning": "⚠️ Forgetting to call the parent's `__init__` leaves inherited attributes uninitialised."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_041",
+    "concept_name": "Adding methods in child class",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Define a new method `compute_interest` that takes an optional `n_periods` (default 1) and returns the compound interest.",
+    "code_template": "class SavingsAccount(BankAccount):\n    def compute_interest(self, n_periods_____):\n        return self.balance * ((1 + self.interest_rate) ** n_periods - 1)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=1", "=0", "=None", ""],
+    "per_tile_feedback": {
+      "=1": "Correct: the default value for `n_periods` is 1, matching the course example.",
+      "=0": "0 would cause the computation to return 0, not a meaningful interest.",
+      "=None": "`None` is not appropriate for a numeric default here.",
+      "": "No default would make `n_periods` required, not matching the specification."
+    },
+    "hints": [
+      "The default value should represent one period.",
+      "Look at the course code: `def compute_interest(self, n_periods=1):`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The method signature includes a default parameter `n_periods=1`, allowing callers to omit it and get a single‑period interest calculation.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_042",
+    "concept_name": "Overriding methods",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Override the `withdraw` method to call the parent's `withdraw` after adding a fee.",
+    "code_template": "class CheckingAccount(BankAccount):\n    def withdraw(self, amount, fee=0):\n        if amount <= self.limit:\n            _____ .withdraw(self, amount + fee)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "BankAccount",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["BankAccount", "super", "self", "CheckingAccount"],
+    "per_tile_feedback": {
+      "BankAccount": "Correct: calling the parent method by name ensures the parent's logic executes.",
+      "super": "`super()` could be used but would require a different syntax (`super().withdraw(amount + fee)`).",
+      "self": "`self.withdraw` would call the child's own method again, causing infinite recursion.",
+      "CheckingAccount": "That would call the same method recursively."
+    },
+    "hints": [
+      "To extend a parent method, call it explicitly using the parent class name.",
+      "The course uses `BankAccount.withdraw(self, amount + fee)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Overriding allows the child to replace or extend parent behavior. Calling `ParentClass.method(self, ...)` invokes the original implementation.",
+    "common_mistake_warning": "⚠️ Forgetting to call the parent method means the parent's functionality is lost."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_045",
+    "concept_name": "__eq__ method",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Define the special method that customises equality comparison for `Customer` objects based on `acc_id` and `name`.",
+    "code_template": "class Customer:\n    def __init__(self, acc_id, name):\n        self.acc_id = acc_id\n        self.name = name\n    def _____(self, other):\n        return (self.acc_id == other.acc_id and self.name == other.name)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "__eq__",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["__eq__", "__str__", "__init__", "__ne__"],
+    "per_tile_feedback": {
+      "__eq__": "Correct: `__eq__` is called when using the `==` operator.",
+      "__str__": "`__str__` is for string representation, not equality.",
+      "__init__": "`__init__` is the constructor.",
+      "__ne__": "`__ne__` implements `!=`, not equality."
+    },
+    "hints": [
+      "Which dunder method does Python call for `==`?",
+      "It starts and ends with double underscores, and has 'eq' in the name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`__eq__` lets you define what it means for two objects to be equal. The default compares object identity, not attributes.",
+    "common_mistake_warning": "⚠️ The method must return a Boolean; forgetting `return` results in `None`, which is falsy."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_046",
+    "concept_name": "Type checking in __eq__",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Add a strict type check to prevent equality between objects of different classes.",
+    "code_template": "def __eq__(self, other):\n    return (self.acc_id == other.acc_id and self.name == other.name and _____(self) == _____(other))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "type",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "type",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["type", "isinstance", "class", "id"],
+    "per_tile_feedback": {
+      "type": "Correct: `type(self) == type(other)` ensures both objects are of the exact same class.",
+      "isinstance": "`isinstance` checks inheritance, which would still allow subclasses to match.",
+      "class": "`self.class` is not a valid attribute; use `type(self)`.",
+      "id": "`id()` returns memory address, not the class."
+    },
+    "hints": [
+      "You need to compare the classes of the two objects, not their instances.",
+      "The built‑in function that returns an object's class starts with `t`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding `type(self) == type(other)` guarantees that only objects of exactly the same class are considered equal, not subclasses or unrelated types.",
+    "common_mistake_warning": "⚠️ Without the type check, a `Customer` might be equal to a different class that happens to have `acc_id` and `name`."
   },
   {
     "id": "fitb_023",
-    "concept_id": "concept_029",
-    "concept_name": "HEAD~ syntax",
-    "chapter": 6,
+    "concept_id": "concept_048",
+    "concept_name": "__eq__ in inheritance",
+    "chapter": 9,
     "difficulty": "very_hard",
-    "task_description": "Compare the second most recent commit (parent of HEAD) with the current commit using the tilde syntax.",
-    "code_template": "git diff HEAD_____ HEAD",
+    "task_description": "Complete the child class so it overrides the `__eq__` method. Which method will be called when comparing a `SavingsAccount` with a `BankAccount`?",
+    "code_template": "class BankAccount:\n    def __eq__(self, other):\n        print('BankAccount __eq__() called')\n        return self.number == other.number\n\nclass SavingsAccount(BankAccount):\n    def _____(self, other):\n        print('SavingsAccount __eq__() called')\n        return self.number == other.number\n\nsa = SavingsAccount(1, 0.05)\nba = BankAccount(1)\nprint(sa == ba)  # Will print ________ first",
     "blanks": [
       {
         "position": 1,
-        "answer": "~1",
-        "answer_alternatives": ["~1"]
+        "answer": "__eq__",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "SavingsAccount __eq__() called",
+        "answer_alternatives": []
       }
     ],
-    "word_bank": ["~1", "^1", "@~1", " -1"],
+    "word_bank": [
+      "__eq__",
+      "__init__",
+      "BankAccount __eq__() called",
+      "SavingsAccount __eq__() called"
+    ],
     "per_tile_feedback": {
-      "~1": "Correct! `HEAD~1` means one commit before HEAD.",
-      "^1": "`^1` also refers to the first parent in merge commits, but `~1` is the standard relative reference used in the course.",
-      "@~1": "`@` is a synonym for HEAD, so `@~1` works, but the course uses `HEAD~1`.",
-      " -1": "A space and minus sign is not valid syntax."
+      "__eq__": "Correct: the child defines its own `__eq__`, overriding the parent's.",
+      "__init__": "`__init__` is the constructor, not the equality method.",
+      "BankAccount __eq__() called": "Incorrect: Python will look up the method from the left operand's class (SavingsAccount).",
+      "SavingsAccount __eq__() called": "Correct: because the left operand is a `SavingsAccount`, its `__eq__` is called first."
     },
     "hints": [
-      "The tilde `~` is used to walk back commit ancestry.",
-      "The number indicates how many generations to go back."
+      "Python always starts method lookup from the class of the left operand.",
+      "Which message corresponds to that class?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`HEAD~1` means the first parent of HEAD. This syntax allows relative navigation through history.",
-    "common_mistake_warning": "⚠️ `HEAD~1` is the parent, not HEAD itself (off-by-one error)."
+    "explanation": "When comparing `sa == ba`, Python calls `SavingsAccount.__eq__(sa, ba)`. The child's method is invoked, printing its message before returning the result.",
+    "common_mistake_warning": "⚠️ The parent's `__eq__` is not automatically called; the child's overrides it completely."
   },
   {
     "id": "fitb_024",
-    "concept_id": "concept_030",
-    "concept_name": "git revert",
-    "chapter": 7,
-    "difficulty": "hard",
-    "task_description": "Undo the most recent commit by creating a new commit that reverses its changes.",
-    "code_template": "git _____ HEAD",
+    "concept_id": "concept_049",
+    "concept_name": "__str__ method",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Implement the user‑friendly string representation for `Customer`.",
+    "code_template": "class Customer:\n    def __init__(self, name, balance):\n        self.name = name\n        self.balance = balance\n    def _____(self):\n        return f\"Customer:\\nname: {self.name}\\nbalance: {self.balance}\"",
     "blanks": [
       {
         "position": 1,
-        "answer": "revert",
+        "answer": "__str__",
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["revert", "reset", "restore", "checkout"],
+    "word_bank": ["__str__", "__repr__", "__print__", "str"],
     "per_tile_feedback": {
-      "revert": "Correct! `git revert` generates a new commit that undoes the specified commit's changes.",
-      "reset": "`git reset` alters history by moving the branch pointer, which is not taught in this course and is more destructive.",
-      "restore": "`git restore` recovers files or unstages, but doesn't create an inverse commit.",
-      "checkout": "`git checkout` can restore files or switch branches, not create an inverse commit."
+      "__str__": "Correct: `__str__` is called by `print()` and `str()` for an informal, readable output.",
+      "__repr__": "`__repr__` is for developer‑focused representation.",
+      "__print__": "There is no special method named `__print__`.",
+      "str": "`str` is the built‑in function, not the special method name."
     },
     "hints": [
-      "The command is safe because it does not delete any history.",
-      "It creates a new commit with the opposite changes."
+      "`print(obj)` calls a dunder method whose name starts with `__str`.",
+      "It is not `__repr__`; that's for debugging."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git revert HEAD` creates a new commit that cancels the changes of the HEAD commit, preserving all history.",
-    "common_mistake_warning": "⚠️ `git revert` does NOT remove the commit; it adds a new one."
+    "explanation": "`__str__` should return a human‑readable string. If not defined, Python falls back to `__repr__`.",
+    "common_mistake_warning": null
   },
   {
     "id": "fitb_025",
-    "concept_id": "concept_030",
-    "concept_name": "git revert",
-    "chapter": 7,
-    "difficulty": "hard",
-    "task_description": "Revert the changes made in the commit with hash `c27fa856`.",
-    "code_template": "git revert _____",
+    "concept_id": "concept_050",
+    "concept_name": "__repr__ method",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Provide the formal string representation that could recreate the `Customer` object.",
+    "code_template": "class Customer:\n    def __init__(self, name, balance):\n        self.name = name\n        self.balance = balance\n    def _____(self):\n        return f\"Customer('{self.name}', {self.balance})\"",
     "blanks": [
       {
         "position": 1,
-        "answer": "c27fa856",
+        "answer": "__repr__",
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["c27fa856", "HEAD", "186398f", "main"],
+    "word_bank": ["__repr__", "__str__", "__init__", "__call__"],
     "per_tile_feedback": {
-      "c27fa856": "Correct! This is a commit hash from the course; reverting it will undo that specific commit.",
-      "HEAD": "`HEAD` would revert the latest commit, not the one requested.",
-      "186398f": "That is a different commit hash, not the one indicated.",
-      "main": "You cannot revert a branch name; you must revert a commit."
+      "__repr__": "Correct: `__repr__` returns an unambiguous, developer‑oriented string.",
+      "__str__": "`__str__` is for user‑friendly output; the course uses `__repr__` for this pattern.",
+      "__init__": "Constructor, not for string representation.",
+      "__call__": "Makes an instance callable, unrelated."
     },
     "hints": [
-      "You need to provide a commit identifier that is a hash.",
-      "The hash used in the `git show` examples is a candidate."
+      "This method's output should ideally be executable to recreate the object.",
+      "It starts with `__r`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git revert <commit-hash>` undoes the changes of that specific commit by creating a new commit.",
-    "common_mistake_warning": "⚠️ Reverting a commit that introduced a file deletes that file in the new commit."
+    "explanation": "`__repr__` is intended for developers. The course example returns `Customer('Maryam Azar', 3000)`. If `__str__` is missing, `print()` uses `__repr__`.",
+    "common_mistake_warning": null
   },
   {
     "id": "fitb_026",
-    "concept_id": "concept_031",
-    "concept_name": "git revert --no-edit",
-    "chapter": 7,
+    "concept_id": "concept_052",
+    "concept_name": "Exception handling (try-except)",
+    "chapter": 10,
     "difficulty": "very_hard",
-    "task_description": "Revert the most recent commit without opening a text editor for the commit message.",
-    "code_template": "git revert HEAD _____",
+    "task_description": "Catch a `TypeError` that may occur when adding an integer and a string.",
+    "code_template": "try:\n    print(5 + 'a')\n_____ TypeError:\n    print(\"You can't add an integer to a string\")",
     "blanks": [
       {
         "position": 1,
-        "answer": "--no-edit",
+        "answer": "except",
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["--no-edit", "--no-commit", "-n", "--edit"],
+    "word_bank": ["except", "catch", "if", "raise"],
     "per_tile_feedback": {
-      "--no-edit": "Correct! `--no-edit` uses the automatically generated revert message.",
-      "--no-commit": "`--no-commit` (or `-n`) prevents the revert from being committed, but it will still open the editor by default.",
-      "-n": "`-n` prevents committing; it does not suppress the editor.",
-      "--edit": "`--edit` forces the editor to open, which is the opposite of what's wanted."
+      "except": "Correct: `except` specifies the block that runs when a named exception occurs.",
+      "catch": "`catch` is not a Python keyword.",
+      "if": "`if` is for conditional logic, not exception handling.",
+      "raise": "`raise` is used to throw an exception, not catch it."
     },
     "hints": [
-      "The flag indicates you do not want to edit something.",
-      "Look for a flag that contains 'no-edit'."
+      "What keyword do you use after `try` to handle a specific exception?",
+      "It's not `if`; exception handling uses `try` and what else?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`--no-edit` tells Git to skip the editor and commit the revert with the default message.",
-    "common_mistake_warning": "⚠️ Don't confuse `--no-edit` with `-n`; the latter only stops the commit, not the editor."
+    "explanation": "`try‑except` blocks catch exceptions. Here, `except TypeError` handles the specific error when trying to add incompatible types.",
+    "common_mistake_warning": "⚠️ A bare `except:` catches all exceptions, which can hide bugs."
   },
   {
     "id": "fitb_027",
-    "concept_id": "concept_032",
-    "concept_name": "git revert -n",
-    "chapter": 7,
+    "concept_id": "concept_054",
+    "concept_name": "Raising exceptions (raise)",
+    "chapter": 10,
     "difficulty": "very_hard",
-    "task_description": "Revert the HEAD commit but keep the changes staged without committing.",
-    "code_template": "git revert _____ HEAD",
+    "task_description": "Manually raise a `ValueError` if the length is invalid.",
+    "code_template": "def make_list_of_ones(length):\n    if length <= 0:\n        _____ ValueError('Invalid length!')\n    return [1] * length",
     "blanks": [
       {
         "position": 1,
-        "answer": "-n",
-        "answer_alternatives": ["--no-commit"]
-      }
-    ],
-    "word_bank": ["-n", "--no-edit", "-e", "--stage"],
-    "per_tile_feedback": {
-      "-n": "Correct! `-n` (or `--no-commit`) reverts the changes and stages them without creating a commit.",
-      "--no-edit": "`--no-edit` suppresses the editor but still creates a commit, not what's requested.",
-      "-e": "`-e` is not a valid revert flag.",
-      "--stage": "`--stage` does not exist."
-    },
-    "hints": [
-      "The flag is a single letter, short for 'no commit'.",
-      "It leaves the reverted changes in the staging area."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git revert -n HEAD` applies the inverse changes to the staging area, allowing you to modify them before committing.",
-    "common_mistake_warning": "⚠️ Forgetting to commit after using `-n` means the revert is incomplete."
-  },
-  {
-    "id": "fitb_028",
-    "concept_id": "concept_033",
-    "concept_name": "git checkout (restore file)",
-    "chapter": 7,
-    "difficulty": "hard",
-    "task_description": "Restore `report.md` from the commit just before HEAD into the working directory.",
-    "code_template": "git checkout HEAD~1 _____ report.md",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "--",
+        "answer": "raise",
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["--", "-", "..", "--file"],
+    "word_bank": ["raise", "throw", "except", "return"],
     "per_tile_feedback": {
-      "--": "Correct! The double dash separates the commit reference from the file path.",
-      "-": "A single dash is not sufficient; Git needs the `--` separator.",
-      "..": "`..` is not used in this context.",
-      "--file": "`--file` is not a recognized flag."
+      "raise": "Correct: `raise` is used to trigger an exception manually.",
+      "throw": "`throw` is not a Python keyword; it's used in other languages.",
+      "except": "`except` catches exceptions, not raises them.",
+      "return": "`return` would exit the function, not signal an error."
     },
     "hints": [
-      "The separator prevents Git from misinterpreting the filename as a branch name.",
-      "It's two hyphens with a space on both sides."
+      "To signal an error, you 'raise' an exception.",
+      "It's the keyword that starts with `r` and is not `return`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git checkout <commit> -- <file>` restores the file. The `--` is mandatory to disambiguate the file name from a branch.",
-    "common_mistake_warning": "⚠️ Forgetting the `--` can result in an error if a branch with the same name exists."
+    "explanation": "`raise ValueError('Invalid length!')` creates a `ValueError` with a descriptive message. This stops execution and can be caught by a caller.",
+    "common_mistake_warning": "⚠️ Raising the wrong exception type can make it harder for callers to handle the error appropriately."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_055",
+    "concept_name": "Custom exceptions",
+    "chapter": 10,
+    "difficulty": "very_hard",
+    "task_description": "Define a custom exception class `BalanceError` that inherits from `Exception`.",
+    "code_template": "class BalanceError(_____):\n    pass",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Exception",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["Exception", "BaseException", "Error", "object"],
+    "per_tile_feedback": {
+      "Exception": "Correct: custom exceptions should inherit from `Exception` (or a subclass) to be caught by normal `except Exception` blocks.",
+      "BaseException": "Inheriting directly from `BaseException` is technically allowed but unusual for application errors.",
+      "Error": "`Error` is not a built‑in base class; Python has `Exception`.",
+      "object": "`object` is the ultimate base class, but cannot be raised as an exception."
+    },
+    "hints": [
+      "The course defines `class BalanceError(Exception):`.",
+      "Most user‑defined exceptions inherit from the built‑in `Exception` class."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Custom exceptions are created by subclassing `Exception`. This makes them compatible with existing exception handling patterns.",
+    "common_mistake_warning": "⚠️ If you don't inherit from `Exception`, `raise YourClass()` will cause a `TypeError`."
   },
   {
     "id": "fitb_029",
-    "concept_id": "concept_034",
-    "concept_name": "git restore --staged",
-    "chapter": 7,
-    "difficulty": "hard",
-    "task_description": "Unstage `summary_statistics.csv` while keeping the changes in the working directory.",
-    "code_template": "git restore _____ summary_statistics.csv",
+    "concept_id": "concept_056",
+    "concept_name": "Using custom exceptions in class",
+    "chapter": 10,
+    "difficulty": "very_hard",
+    "task_description": "Raise `BalanceError` if the initial balance is negative.",
+    "code_template": "class Customer:\n    def __init__(self, name, balance):\n        if balance < 0:\n            raise _____('Balance has to be non-negative!')\n        self.name = name\n        self.balance = balance",
     "blanks": [
       {
         "position": 1,
-        "answer": "--staged",
-        "answer_alternatives": ["--staged"]
+        "answer": "BalanceError",
+        "answer_alternatives": []
       }
     ],
-    "word_bank": ["--staged", "--unstaged", "--source", "--worktree"],
+    "word_bank": ["BalanceError", "ValueError", "Exception", "Error"],
     "per_tile_feedback": {
-      "--staged": "Correct! `--staged` unstages the file.",
-      "--unstaged": "`--unstaged` is not a valid flag for `git restore`.",
-      "--source": "`--source` specifies a source tree, not unstaging.",
-      "--worktree": "`--worktree` is not a standard flag for `git restore`."
+      "BalanceError": "Correct: `BalanceError` is the custom exception defined for this purpose.",
+      "ValueError": "A generic `ValueError` could work, but the course uses a custom exception for clarity.",
+      "Exception": "Raising `Exception` directly is too generic and not informative.",
+      "Error": "`Error` is not a specific exception class."
     },
     "hints": [
-      "The flag indicates you want to affect the staging area.",
-      "It starts with `--st`."
+      "Look at the exception class defined earlier in the course.",
+      "It is named after the type of problem: 'Balance' + 'Error'."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git restore --staged <file>` removes the file from the staging area, but the modifications stay in the working directory.",
-    "common_mistake_warning": "⚠️ This command does not discard changes; it only unstages."
-  },
-  {
-    "id": "fitb_030",
-    "concept_id": "concept_034",
-    "concept_name": "git restore --staged",
-    "chapter": 7,
-    "difficulty": "hard",
-    "task_description": "Unstage all files at once, returning them to modified state.",
-    "code_template": "git restore _____",
-    "blanks": [
-      {
-        "position": 1,
-        "answer": "--staged",
-        "answer_alternatives": ["--staged"]
-      }
-    ],
-    "word_bank": ["--staged", "--unstaged", "--all", "."],
-    "per_tile_feedback": {
-      "--staged": "Correct! Without a filename, it unstages everything.",
-      "--unstaged": "Not a valid flag.",
-      "--all": "`--all` is not the flag for unstaging.",
-      ".": "Using `.` would restore working tree files, not unstage."
-    },
-    "hints": [
-      "The same flag is used as when unstaging a single file.",
-      "Omit the filename to apply to all staged changes."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git restore --staged` (without a file) unstages all currently staged changes.",
-    "common_mistake_warning": "⚠️ This does not discard working directory changes; it only unstages."
+    "explanation": "The custom `BalanceError` is raised to signal a specific application error. This allows callers to handle it separately from built‑in exceptions.",
+    "common_mistake_warning": "⚠️ Raising a generic exception like `Exception` makes it harder to distinguish error types."
   }
 ]

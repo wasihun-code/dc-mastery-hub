@@ -1,1240 +1,1242 @@
 [
   {
     "id": "boss_001",
-    "concept_id": "concept_004",
-    "concept_name": "pwd",
+    "concept_id": "concept_010",
+    "concept_name": "type() function",
     "chapter": 1,
     "wave": 1,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "question_type": "output",
-    "question_text": "What does the following command print?\n\n```bash\npwd\n```",
+    "question_text": "What is printed by the following code?\n\n```python\nprint(type(\"hello\"))\n```",
     "options": {
-      "a": "The contents of the current directory",
-      "b": "The path of the current working directory",
-      "c": "The name of the current user",
-      "d": "The current Git branch"
+      "a": "<class 'str'>",
+      "b": "str",
+      "c": "'hello'",
+      "d": "<type 'str'>"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "That's the output of `ls`, not `pwd`.",
-      "b": "Correct! `pwd` prints the full path.",
-      "c": "`whoami` shows the user name, not `pwd`.",
-      "d": "`git branch` shows branches, not `pwd`."
+      "a": "Correct: `type()` returns the class object, displayed as `<class 'str'>`.",
+      "b": "`type()` does not return a bare name; it returns a class object.",
+      "c": "It does not return the value itself.",
+      "d": "The format changed in Python 3; it is `<class '...'>`, not `<type '...'>`."
     },
     "hints": [
-      "pwd stands for Print Working Directory.",
-      "It always outputs an absolute path."
+      "`type()` returns the class of the argument.",
+      "The output format includes angle brackets and the word 'class'."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`pwd` prints the absolute path of the current directory, e.g., `/home/repl/Documents`.",
-    "time_pressure_note": "Under pressure, beginners may confuse `pwd` with `ls` because both deal with directories.",
-    "common_mistake_tested": true
+    "explanation": "`type(\"hello\")` returns `<class 'str'>` because `\"hello\"` is a string object.",
+    "time_pressure_note": "Under time pressure, people confuse the output format and may select the bare class name.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_002",
-    "concept_id": "concept_005",
-    "concept_name": "ls",
+    "concept_id": "concept_011",
+    "concept_name": "dir() function",
     "chapter": 1,
     "wave": 1,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "question_type": "output",
-    "question_text": "You are in `/home/repl` and run:\n\n```bash\nls\n```\n\nWhich of the following could appear in the output?",
+    "question_text": "Which of the following is guaranteed to appear in the list returned by `dir([\"a\", \"b\"])`?",
     "options": {
-      "a": "The hidden file `.bashrc`",
-      "b": "The path `/home/repl/Documents`",
-      "c": "The directory name `Documents`",
-      "d": "The full disk usage of each file"
+      "a": "append",
+      "b": "Customer",
+      "c": "balance",
+      "d": "type"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "`ls` without `-a` does not show hidden files (names starting with `.`).",
-      "b": "`ls` shows file names, not full paths.",
-      "c": "Correct! `ls` lists visible subdirectories like `Documents`.",
-      "d": "That requires `-l` or `-s` flags; plain `ls` only lists names."
+      "a": "Correct: `append` is a method of list objects, so `dir()` will include it.",
+      "b": "`Customer` is a user‑defined class, not a built‑in list attribute.",
+      "c": "`balance` is not a list method; it's an attribute you might define yourself.",
+      "d": "`type` is a built‑in function, not an attribute of a list."
     },
     "hints": [
-      "What does plain `ls` show by default?",
-      "Think about files that start with a dot."
+      "`dir()` lists all attributes and methods of the given object.",
+      "Think about what methods are available on a list."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Plain `ls` lists the names of non-hidden files and folders, not paths or hidden files.",
-    "time_pressure_note": "Hidden files are a common gotcha when rushing.",
-    "common_mistake_tested": true
+    "explanation": "`dir()` returns a list of all attributes and methods, including user‑facing ones like `append`. The course example shows `'pop', 'remove', 'reverse', 'sort'`.",
+    "time_pressure_note": "Under time pressure, learners may choose a dunder method or a built‑in function instead of a regular method.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_003",
-    "concept_id": "concept_001",
-    "concept_name": "Version control",
-    "chapter": 1,
+    "concept_id": "concept_014",
+    "concept_name": "Object creation",
+    "chapter": 2,
     "wave": 1,
-    "difficulty": "medium",
-    "question_type": "odd_one_out",
-    "question_text": "Which of the following is NOT a benefit of using a version control system?",
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What will be printed when the following code executes?\n\n```python\nclass Book:\n    def __init__(self):\n        print('Book created')\n\nb = Book()\n```",
     "options": {
-      "a": "Comparing different versions of a file",
-      "b": "Rolling back to a previous state",
-      "c": "Automatic real-time backup of unsaved changes",
-      "d": "Tracking who made a change and why"
+      "a": "Book created",
+      "b": "Nothing",
+      "c": "An error because __init__ returns None",
+      "d": "Book"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Version control allows you to diff versions.",
-      "b": "You can revert to an earlier commit.",
-      "c": "Correct! Version control does not auto-save working changes; you must commit intentionally.",
-      "d": "Commit logs record author and message."
+      "a": "Correct: `Book()` calls `__init__`, which prints 'Book created'.",
+      "b": "The `__init__` method prints a message, so something appears.",
+      "c": "`__init__` may return None, but the print still happens.",
+      "d": "The class name is not printed automatically."
     },
     "hints": [
-      "Version control requires you to take action to save history.",
-      "Think about the difference between saving a file and committing."
+      "What happens inside the `__init__` method when an instance is created?",
+      "Look for any `print()` call inside the constructor."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Version control does not back up unsaved edits; it records committed snapshots.",
-    "time_pressure_note": "Many people think version control works like auto-save, but it doesn't.",
-    "common_mistake_tested": true
+    "explanation": "When an object is created, Python calls `__init__`. The `print` statement inside the constructor outputs 'Book created'.",
+    "time_pressure_note": "Some might think the constructor cannot contain a print statement, but it can.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_004",
-    "concept_id": "concept_002",
-    "concept_name": "Git",
-    "chapter": 1,
+    "concept_id": "concept_015",
+    "concept_name": "Method definition",
+    "chapter": 2,
     "wave": 1,
-    "difficulty": "medium",
-    "question_type": "what_changed",
-    "question_text": "Before: A regular folder `project/` with no version control.\nAfter: `project/` is a Git repository.\n\nWhich command caused this change?",
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does the following code print?\n\n```python\nclass Dog:\n    def bark(self):\n        return \"Woof\"\n\nd = Dog()\nprint(d.bark())\n```",
     "options": {
-      "a": "git start",
-      "b": "git init",
-      "c": "git create",
-      "d": "git new"
+      "a": "Woof",
+      "b": "bark",
+      "c": "None",
+      "d": "An error because bark is not defined correctly"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "`git start` is not a valid Git command.",
-      "b": "Correct! `git init` initializes a Git repository.",
-      "c": "`git create` does not exist.",
-      "d": "`git new` is not a real command."
+      "a": "Correct: `d.bark()` calls the method, which returns the string \"Woof\".",
+      "b": "The method name `bark` is not printed; it is called.",
+      "c": "The method returns a string, not `None`.",
+      "d": "The method is correctly defined."
     },
     "hints": [
-      "The command creates a hidden `.git` directory.",
-      "Think of the word that means 'initialize'."
+      "Look at what the method returns.",
+      "The `print` function outputs the return value of the method."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git init` turns a directory into a Git repository.",
-    "time_pressure_note": "People under pressure might pick a made-up command that sounds right.",
+    "explanation": "The instance method `bark` returns `\"Woof\"`, so `print(d.bark())` displays that string.",
+    "time_pressure_note": "Under pressure, some might confuse the method name with its return value.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_005",
-    "concept_id": "concept_003",
-    "concept_name": "Shell",
-    "chapter": 1,
+    "concept_id": "concept_016",
+    "concept_name": "self parameter",
+    "chapter": 2,
     "wave": 1,
     "difficulty": "medium",
-    "question_type": "complete_output",
-    "question_text": "You need to run `git log` to view history. In which environment do you type this command?",
+    "question_type": "output",
+    "question_text": "What does this code output?\n\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n    def greet(self):\n        return \"Hello, \" + self.name\n\np = Person(\"Alex\")\nprint(p.greet())\n```",
     "options": {
-      "a": "Web browser",
-      "b": "Code editor's file tree",
-      "c": "Shell / terminal",
-      "d": "GitHub website"
+      "a": "Hello, Alex",
+      "b": "Hello, self.name",
+      "c": "An error because self is missing",
+      "d": "Hello, Person"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Browsers cannot execute Git commands directly.",
-      "b": "A file tree only navigates files.",
-      "c": "Correct! The shell interprets commands like `git log`.",
-      "d": "GitHub provides a web interface but is not where you type Git CLI commands."
+      "a": "Correct: `self.name` retrieves the name attribute of the instance.",
+      "b": "The string `\"self.name\"` is not returned; the value of the attribute is.",
+      "c": "`self` is correctly passed implicitly.",
+      "d": "The class name is not accessed."
     },
     "hints": [
-      "Also called the command line.",
-      "Where do you type `pwd`?"
+      "What does `self.name` evaluate to inside the method?",
+      "Recall that `self` is a reference to the instance."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Git commands are executed in the shell (terminal).",
-    "time_pressure_note": "Under time, one may confuse the tool with the platform (GitHub).",
+    "explanation": "`p.greet()` concatenates \"Hello, \" with `self.name`, which is \"Alex\", producing \"Hello, Alex\".",
+    "time_pressure_note": "Rushing, one might forget that `self.name` holds the actual name, not the string 'self.name'.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_006",
-    "concept_id": "concept_006",
-    "concept_name": "cd",
-    "chapter": 1,
-    "wave": 1,
-    "difficulty": "medium",
-    "question_type": "spot_the_bug",
-    "question_text": "A learner wants to move into the `data` folder. They type:\n\n```bash\ncddata\n```\n\nWhat is wrong?",
-    "options": {
-      "a": "`cd` cannot be used with a folder name",
-      "b": "Missing space between `cd` and `data`",
-      "c": "The folder `data` does not exist",
-      "d": "`cd` must be uppercase"
-    },
-    "correct_option": "b",
-    "per_option_feedback": {
-      "a": "`cd` does accept a folder name.",
-      "b": "Correct! The shell treats `cddata` as one word, not a command with argument.",
-      "c": "The error would say 'command not found', not 'No such file'.",
-      "d": "Commands are case-sensitive, and it's `cd`, not `CD`."
-    },
-    "hints": [
-      "What happens if you stick a command and argument together?",
-      "Recall the importance of spaces in shell commands."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "A space is required between the command and its argument; `cddata` is interpreted as a single command name.",
-    "time_pressure_note": "Fingers might omit the space when typing fast.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_007",
-    "concept_id": "concept_007",
-    "concept_name": "git --version",
-    "chapter": 1,
-    "wave": 1,
-    "difficulty": "medium",
-    "question_type": "complete_output",
-    "question_text": "A colleague asks you to check the installed Git version. Which command do you run?",
-    "options": {
-      "a": "git version",
-      "b": "git -v",
-      "c": "git --version",
-      "d": "git -version"
-    },
-    "correct_option": "c",
-    "per_option_feedback": {
-      "a": "`git version` is not a valid subcommand.",
-      "b": "`-v` is often verbose, not version.",
-      "c": "Correct! Two dashes are required for the long option `version`.",
-      "d": "Single dash is incorrect; long options use `--`."
-    },
-    "hints": [
-      "The course always uses two dashes for this flag.",
-      "Think of the correct syntax you saw in the lesson."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git --version` displays the installed Git version.",
-    "time_pressure_note": "A single dash is a common slip when typing quickly.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_008",
-    "concept_id": "concept_008",
-    "concept_name": "Repository (repo)",
+    "concept_id": "concept_017",
+    "concept_name": "Attribute creation (assignment)",
     "chapter": 2,
     "wave": 1,
     "difficulty": "medium",
-    "question_type": "what_changed",
-    "question_text": "Before: `~/project/` is a plain folder.\nAfter: `~/project/` now contains a hidden `.git` folder.\n\nWhat happened?",
+    "question_type": "output",
+    "question_text": "What will `print(car.color)` display after executing this code?\n\n```python\nclass Car:\n    def set_color(self, color):\n        self.color = color\n\nc = Car()\nc.set_color(\"red\")\nprint(c.color)\n```",
     "options": {
-      "a": "`git init` was run inside `project`",
-      "b": "`git clone` was run to copy the folder",
-      "c": "`git status` was executed",
-      "d": "`git add .` was used"
+      "a": "red",
+      "b": "color",
+      "c": "None",
+      "d": "An AttributeError"
     },
     "correct_option": "a",
     "per_option_feedback": {
-      "a": "Correct! `git init` creates the `.git` directory.",
-      "b": "`git clone` copies an existing repo, not initialize a new one.",
-      "c": "`git status` does not create the `.git` folder.",
-      "d": "`git add .` stages files, doesn't create the repo."
+      "a": "Correct: `self.color = color` attaches the string to the instance.",
+      "b": "The method parameter name is not stored; the value is.",
+      "c": "The attribute is set, not left as `None`.",
+      "d": "The attribute exists, so no error."
     },
     "hints": [
-      "What command turns a folder into a repository?",
-      "The hidden `.git` folder is created only once at initialization."
+      "Check what value is assigned to `self.color`.",
+      "The argument passed to `set_color` is \"red\"."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git init` creates the hidden `.git` directory that stores all version control data.",
-    "time_pressure_note": "Under time, you might confuse init with other commands that don't create the `.git` directory.",
+    "explanation": "The method creates an instance attribute `color` and assigns it the value `\"red\"`. Later, `c.color` returns that value.",
+    "time_pressure_note": "Rapid readers might think the parameter name `color` is confusing, but the assignment is clear.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_018",
+    "concept_name": "Using attributes in methods",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed by the following code?\n\n```python\nclass Circle:\n    def set_radius(self, r):\n        self.radius = r\n    def area(self):\n        return 3.14 * self.radius ** 2\n\nc = Circle()\nc.set_radius(5)\nprint(c.area())\n```",
+    "options": {
+      "a": "78.5",
+      "b": "None",
+      "c": "An error because radius is not defined",
+      "d": "3.14"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: `self.radius` is 5, so the area is 3.14 * 25 = 78.5.",
+      "b": "The method returns a number, not `None`.",
+      "c": "`radius` was set via `set_radius`, so it exists.",
+      "d": "3.14 is the constant, but the full expression is evaluated."
+    },
+    "hints": [
+      "The `area` method uses `self.radius`, which was set in another method.",
+      "Calculate the numeric result."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`c.area()` computes `3.14 * self.radius ** 2` = `3.14 * 25` = `78.5`. The attribute set in one method is available in another.",
+    "time_pressure_note": "Time pressure might lead to a miscalculation, but the answer is 78.5.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_025",
+    "concept_name": "Instance attributes",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the value of `p2.age` after running this code?\n\n```python\nclass Person:\n    def __init__(self, age):\n        self.age = age\n\np1 = Person(25)\np2 = Person(30)\np1.age = 26\nprint(p2.age)\n```",
+    "options": {
+      "a": "30",
+      "b": "25",
+      "c": "26",
+      "d": "An error because age is not shared"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: each instance has its own `age`; changing `p1.age` does not affect `p2.age`.",
+      "b": "`p2` was initialized with 30, not 25.",
+      "c": "Only `p1.age` was changed to 26.",
+      "d": "No error occurs; both instances exist."
+    },
+    "hints": [
+      "Instance attributes belong to the individual object.",
+      "Modifying one instance does not modify another."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`p2` was created with age 30 and never modified. `p1.age = 26` only changes `p1`'s own attribute.",
+    "time_pressure_note": "At speed, some might think the second print still reflects the original value of the first instance.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_009",
-    "concept_id": "concept_010",
-    "concept_name": "git init",
-    "chapter": 2,
-    "wave": 1,
-    "difficulty": "hard",
-    "question_type": "predict_error",
-    "question_text": "You are inside `/home/repl/git-project` (already a Git repo). You accidentally run:\n\n```bash\ngit init\n```\n\nWhat happens?",
-    "options": {
-      "a": "Git throws an error: already a repository.",
-      "b": "Git reinitializes the existing repository without harm.",
-      "c": "The repository is destroyed and recreated.",
-      "d": "A nested repository is created inside the current one."
-    },
-    "correct_option": "b",
-    "per_option_feedback": {
-      "a": "Git does not error; it reinitializes.",
-      "b": "Correct! `git init` in an existing repo reinitializes it, which is usually harmless.",
-      "c": "It does not destroy history.",
-      "d": "Running `git init` in the root does not create a nested repo; only if you run it in a subdirectory."
-    },
-    "hints": [
-      "Think about what 'reinitialized' means in the Git output.",
-      "The command does not delete the `.git` folder."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git init` inside an existing repository simply reinitializes it, which is safe but unnecessary.",
-    "time_pressure_note": "The fear of destroying the repo might lead to choosing an error.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_010",
-    "concept_id": "concept_011",
-    "concept_name": "git status",
-    "chapter": 2,
-    "wave": 1,
-    "difficulty": "hard",
-    "question_type": "output",
-    "question_text": "After making your first commit, you add a new file `todo.txt` but do not stage it. What does `git status` show?",
-    "options": {
-      "a": "`todo.txt` under 'Changes to be committed'",
-      "b": "`todo.txt` under 'Untracked files'",
-      "c": "`nothing to commit, working tree clean`",
-      "d": "An error: file not found"
-    },
-    "correct_option": "b",
-    "per_option_feedback": {
-      "a": "Only staged files appear under 'Changes to be committed'.",
-      "b": "Correct! New files that have never been committed are untracked.",
-      "c": "That message appears only if nothing is modified/untracked.",
-      "d": "The file exists, so no error."
-    },
-    "hints": [
-      "What is the state of a file that was never added?",
-      "Look for the keyword 'Untracked'."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "New files not yet staged are shown as 'Untracked files' by `git status`.",
-    "time_pressure_note": "Beginners often expect untracked files to show as 'Changes not staged'.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_011",
-    "concept_id": "concept_014",
-    "concept_name": "git add",
-    "chapter": 3,
+    "concept_id": "concept_027",
+    "concept_name": "Encapsulation",
+    "chapter": 4,
     "wave": 1,
     "difficulty": "medium",
     "question_type": "complete_output",
-    "question_text": "You have modified `notes.md` and `summary.csv`. You only want to include `notes.md` in the next commit. After editing the files, which single command do you run?",
+    "question_text": "Complete the blank to explain the OOP principle demonstrated:\n\n```python\nclass Account:\n    def __init__(self, balance):\n        self.balance = balance\n    def deposit(self, amount):\n        self.balance += amount\n```\n\nThis class demonstrates ________ by grouping data (balance) and methods (deposit) together.",
     "options": {
-      "a": "git add .",
-      "b": "git commit notes.md",
-      "c": "git add notes.md",
-      "d": "git stage notes.md"
+      "a": "encapsulation",
+      "b": "inheritance",
+      "c": "polymorphism",
+      "d": "abstraction"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "`git add .` would stage both files, which is not what you want.",
-      "b": "`git commit` does not take a filename; you must stage first.",
-      "c": "Correct! `git add notes.md` stages only that file.",
-      "d": "`git stage` is not a Git command."
+      "a": "Correct: encapsulation means bundling data and methods inside a class.",
+      "b": "Inheritance involves parent‑child class relationships.",
+      "c": "Polymorphism is about using a common interface.",
+      "d": "Abstraction is a broader concept, but the given code illustrates encapsulation."
     },
     "hints": [
-      "The workflow is edit, add, commit.",
-      "You need a command that targets a specific file."
+      "Which OOP principle is about keeping data and methods together?",
+      "The class wraps `balance` and `deposit` in one unit."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git add <file>` stages only the specified file, leaving the other unstaged.",
-    "time_pressure_note": "Under time pressure, some might use `git add .` by reflex, accidentally staging the other file.",
+    "explanation": "Encapsulation bundles attributes (like `balance`) and methods (like `deposit`) inside a class, hiding internal details.",
+    "time_pressure_note": "Some might confuse encapsulation with abstraction or data hiding.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_028",
+    "concept_name": "Inheritance (core principle)",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nclass Vehicle:\n    def move(self):\n        return \"Moving\"\n\nclass Car(Vehicle):\n    pass\n\nc = Car()\nprint(c.move())\n```",
+    "options": {
+      "a": "Moving",
+      "b": "None",
+      "c": "An AttributeError because Car has no move",
+      "d": "Car"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: `Car` inherits `move` from `Vehicle`, so `c.move()` returns \"Moving\".",
+      "b": "The inherited method returns a string, not `None`.",
+      "c": "`Car` inherits all attributes and methods from `Vehicle`.",
+      "d": "The class name is not printed."
+    },
+    "hints": [
+      "When a class inherits from another, what does it gain?",
+      "Look at the parent class's `move` method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`Car(Vehicle)` means `Car` is a subclass of `Vehicle`. Even though `Car` defines no methods, it inherits `move`.",
+    "time_pressure_note": "Some might think an empty child class cannot do anything.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_029",
+    "concept_name": "Polymorphism (core principle)",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank to describe the principle shown:\n\n```python\ndef process(account):\n    account.withdraw(10)\n```\n\nThis function works with both `BankAccount` and `CheckingAccount` because of ________.",
+    "options": {
+      "a": "polymorphism",
+      "b": "inheritance",
+      "c": "encapsulation",
+      "d": "overloading"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: different object types respond to the same method call through a common interface.",
+      "b": "Inheritance enables it, but the principle is polymorphism.",
+      "c": "Encapsulation is about bundling data, not interchangeable objects.",
+      "d": "Method overloading is not a Python feature in the same way."
+    },
+    "hints": [
+      "Which OOP principle allows objects of different classes to be used interchangeably?",
+      "The function does not care about the exact class, only that it has a `withdraw` method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Polymorphism means the same method call (`withdraw(10)`) can behave differently depending on the object's class, allowing generic code.",
+    "time_pressure_note": "Under pressure, inheritance might be chosen because the objects are related, but the principle is polymorphism.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_012",
-    "concept_id": "concept_015",
-    "concept_name": "git commit",
-    "chapter": 3,
+    "concept_id": "concept_038",
+    "concept_name": "is-a relationship",
+    "chapter": 6,
     "wave": 1,
     "difficulty": "medium",
-    "question_type": "what_changed",
-    "question_text": "Before: Staging area contains changes to `script.py`.\nAfter: A new snapshot is recorded in the history.\n\nWhich command caused this?",
+    "question_type": "complete_output",
+    "question_text": "Complete the statement using the `isinstance` result shown:\n\n```python\nclass Animal: pass\nclass Dog(Animal): pass\n\npuppy = Dog()\nprint(isinstance(puppy, Animal))  # True\n```\n\nA `Dog` ________ an `Animal`.",
     "options": {
-      "a": "git add script.py",
-      "b": "git commit -m \"Add script\"",
-      "c": "git status",
-      "d": "git log"
+      "a": "is-a",
+      "b": "has-a",
+      "c": "contains",
+      "d": "creates"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "`git add` only stages; it doesn't create a snapshot.",
-      "b": "Correct! `git commit` creates a new commit from the staged changes.",
-      "c": "`git status` only inspects, doesn't change history.",
-      "d": "`git log` displays history; it doesn't create commits."
+      "a": "Correct: the `isinstance` check confirms the 'is-a' relationship.",
+      "b": "'has-a' would imply composition, not inheritance.",
+      "c": "'contains' is not the standard term for this relationship.",
+      "d": "A class does not 'create' its parent."
     },
     "hints": [
-      "What command turns staged changes into a permanent record?",
-      "It requires a message."
+      "What term describes the relationship between a subclass and its superclass?",
+      "A `Dog` is a specific type of `Animal`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git commit -m \"message\"` saves the staged changes as a commit.",
-    "time_pressure_note": "Under pressure, you might confuse add and commit roles.",
-    "common_mistake_tested": true
+    "explanation": "The `isinstance` function returns `True` because a `Dog` instance is also an instance of `Animal` — this is the 'is-a' relationship.",
+    "time_pressure_note": "The phrase 'is-a' is a standard OOP term, but under speed one might overthink it.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_013",
-    "concept_id": "concept_021",
-    "concept_name": "git log",
-    "chapter": 4,
-    "wave": 1,
-    "difficulty": "medium",
-    "question_type": "output",
-    "question_text": "What information is NOT shown by default in `git log`?",
+    "concept_id": "concept_012",
+    "concept_name": "Class definition syntax",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with the following code?\n\n```python\nclass Dog\n    pass\n```",
     "options": {
-      "a": "Commit hash",
-      "b": "Author name and email",
-      "c": "The diff of changes introduced",
-      "d": "Commit date"
+      "a": "Missing colon after class name",
+      "b": "pass is not allowed in class bodies",
+      "c": "The class body must contain at least one attribute",
+      "d": "The class keyword should be uppercase"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "The commit hash is always shown.",
-      "b": "Author information is displayed.",
-      "c": "Correct! `git log` does not show file diffs; use `git show` or `git diff` for that.",
-      "d": "The date is part of each log entry."
+      "a": "Correct: `class Dog:` must end with a colon.",
+      "b": "`pass` is perfectly valid as a placeholder.",
+      "c": "An empty class is allowed.",
+      "d": "`class` must be lowercase."
     },
     "hints": [
-      "`git log` lists commits, not the content of changes.",
-      "Think of a command that shows the actual code differences."
+      "Compare with a valid class header.",
+      "Every compound statement header ends with a colon."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git log` displays metadata about commits; to see the actual changes, you need `git show` or `git diff`.",
-    "time_pressure_note": "People often expect `git log` to show everything, including diffs.",
+    "explanation": "The class definition is missing the colon after the class name. Without it, Python raises a `SyntaxError`.",
+    "time_pressure_note": "The omission of a single character can be easy to miss under time pressure.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_014",
-    "concept_id": "concept_022",
-    "concept_name": "git log -n",
-    "chapter": 5,
-    "wave": 1,
-    "difficulty": "medium",
-    "question_type": "complete_output",
-    "question_text": "You want to see only the last 5 commits. You type:\n\n```bash\ngit log ___\n```\n\nWhat fills the blank?",
+    "concept_id": "concept_019",
+    "concept_name": "__init__ method (constructor)",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error will occur when executing the last line?\n\n```python\nclass Fruit:\n    def __int__(self, name):\n        self.name = name\n\napple = Fruit(\"apple\")\nprint(apple.name)\n```",
     "options": {
-      "a": "-5",
-      "b": "--5",
-      "c": "-n 5",
-      "d": "last 5"
+      "a": "TypeError",
+      "b": "AttributeError",
+      "c": "SyntaxError",
+      "d": "NameError"
     },
-    "correct_option": "a",
+    "correct_option": "b",
     "per_option_feedback": {
-      "a": "Correct! `-5` is shorthand for `-n 5`.",
-      "b": "Double dash is for long options, not for numbers.",
-      "c": "`-n 5` is correct too, but the blank here expects the shorthand without space.",
-      "d": "`last` is not a valid flag."
+      "a": "No type error; the object is created successfully.",
+      "b": "Correct: `__int__` is not the constructor, so `name` is never set, causing an `AttributeError`.",
+      "c": "No syntax error; `__int__` is a valid method name.",
+      "d": "The variable `apple` exists; the error is about the attribute."
     },
     "hints": [
-      "The flag is a dash followed directly by the number.",
-      "No space between the dash and digit."
+      "Is `__int__` the same as `__init__`?",
+      "What happens if the constructor is misspelled?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git log -5` limits output to the 5 most recent commits.",
-    "time_pressure_note": "Remember: no space after the dash.",
+    "explanation": "The misspelled `__int__` is never automatically called, so `self.name` is never created. Accessing `apple.name` raises an `AttributeError`.",
+    "time_pressure_note": "The misspelling is subtle and easily overlooked in a rush.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_015",
-    "concept_id": "concept_009",
-    "concept_name": "git directory",
-    "chapter": 2,
+    "concept_id": "concept_020",
+    "concept_name": "Default arguments in __init__",
+    "chapter": 3,
     "wave": 2,
     "difficulty": "hard",
     "question_type": "spot_the_bug",
-    "question_text": "A developer accidentally deletes the `.git` folder. They still have the project files. What is the consequence?",
+    "question_text": "What is the hidden danger in this `__init__` method?\n\n```python\nclass Order:\n    def __init__(self, items=[]):\n        self.items = items\n```",
     "options": {
-      "a": "The repository can be recovered by running `git init` again.",
-      "b": "The commit history is lost, but the working files remain.",
-      "c": "Git automatically recreates the `.git` folder from the working files.",
-      "d": "Only the most recent commit is lost."
+      "a": "The default list is shared across all instances",
+      "b": "items must be a keyword argument",
+      "c": "self.items should be self._items",
+      "d": "A list cannot be a default argument"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Reinitializing only creates a new empty repo; history is gone.",
-      "b": "Correct! Without `.git`, the history is gone; only the current file versions survive.",
-      "c": "Git cannot deduce history from files alone.",
-      "d": "All history is lost, not just the latest commit."
+      "a": "Correct: the same list object is reused for every instance, so modifications affect all.",
+      "b": "Positional arguments with defaults are allowed.",
+      "c": "There is no requirement for a leading underscore.",
+      "d": "Lists can be default arguments, but it is dangerous."
     },
     "hints": [
-      "Where does Git store all its metadata and history?",
-      "Think about what the `.git` folder contains."
+      "When are default argument values evaluated?",
+      "What happens if one instance appends to the list?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "The `.git` directory holds the entire object database; deleting it erases all version history.",
-    "time_pressure_note": "Under pressure, one might underestimate the criticality of the `.git` folder.",
+    "explanation": "Default arguments are evaluated once at definition time. Using a mutable default (like an empty list) causes all instances to share the same list object.",
+    "time_pressure_note": "Under time pressure, one might not think about the shared state across instances.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_016",
-    "concept_id": "concept_009",
-    "concept_name": "git directory",
-    "chapter": 2,
+    "concept_id": "concept_026",
+    "concept_name": "Class attributes",
+    "chapter": 4,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "odd_one_out",
-    "question_text": "Which of the following is NOT stored inside the `.git` directory?",
+    "question_type": "predict_error",
+    "question_text": "What will `print(Company.TYPE)` output after the following code?\n\n```python\nclass Company:\n    TYPE = \"Corp\"\n\nc = Company()\nc.TYPE = \"LLC\"\nprint(Company.TYPE)\n```",
     "options": {
-      "a": "Commit objects",
-      "b": "The staging area index file",
-      "c": "The uncompressed working copies of files",
-      "d": "Configuration settings"
+      "a": "LLC",
+      "b": "Corp",
+      "c": "An AttributeError",
+      "d": "None"
     },
-    "correct_option": "c",
+    "correct_option": "b",
     "per_option_feedback": {
-      "a": "Commits are stored as objects in `.git/objects`.",
-      "b": "The index (staging area) is a file inside `.git`.",
-      "c": "Correct! The working copies are the files you see outside `.git`.",
-      "d": "Configuration is in `.git/config`."
+      "a": "The class attribute remains unchanged; `c.TYPE = \"LLC\"` only creates an instance attribute.",
+      "b": "Correct: `Company.TYPE` still refers to the original class attribute.",
+      "c": "The attribute exists at the class level.",
+      "d": "The value is the original string."
     },
     "hints": [
-      "Think about what the working directory is versus the repository database.",
-      "The `.git` folder is like a database, not a mirror of your current files."
+      "Does assigning to an instance attribute change the class attribute?",
+      "Check where the assignment `c.TYPE = \"LLC\"` actually stores the value."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Working copies of files exist in the working tree, not inside the `.git` folder (which stores compressed objects).",
-    "time_pressure_note": "It's easy to assume everything related to Git lives in `.git`.",
+    "explanation": "`c.TYPE = \"LLC\"` creates an instance attribute that shadows the class attribute for that instance only. `Company.TYPE` remains \"Corp\".",
+    "time_pressure_note": "Many assume the class attribute is updated when assigning through an instance.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_017",
-    "concept_id": "concept_012",
-    "concept_name": "Nested repositories",
-    "chapter": 2,
+    "concept_id": "concept_030",
+    "concept_name": "Modifying class attribute via instance",
+    "chapter": 4,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "predict_error",
-    "question_text": "Inside a Git repo, you create a subfolder `docs/` and run `git init` inside it. Later, you add a file `docs/readme.txt` from the parent repo's root. What happens when you commit from the parent?",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the mistake in this code?\n\n```python\nclass Config:\n    DEBUG = True\n\nc1 = Config()\nc2 = Config()\nc1.DEBUG = False   # intended to turn off debugging for all\n\nif c2.DEBUG:\n    print(\"Debug mode\")\n```",
     "options": {
-      "a": "The file is tracked normally.",
-      "b": "Git shows a warning about a nested repository.",
-      "c": "The parent repository sees `docs/` as a single entry (gitlink), not the files inside.",
-      "d": "The commit fails with a nested repository error."
+      "a": "Assigning to c1.DEBUG only creates an instance attribute, leaving c2.DEBUG as True.",
+      "b": "You cannot assign to DEBUG on an instance.",
+      "c": "The if condition will always be True.",
+      "d": "DEBUG must be in uppercase."
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Because `docs/` has its own `.git`, the parent won't track its inner files.",
-      "b": "Git does not emit a warning by default.",
-      "c": "Correct! The nested repo appears as a gitlink in the staging area.",
-      "d": "Git does not prevent committing; it just tracks the gitlink."
+      "a": "Correct: the assignment shadows the class attribute, it does not modify it globally.",
+      "b": "Assignment is allowed, but it creates an instance attribute.",
+      "c": "The condition depends on `c2.DEBUG`, which is still True.",
+      "d": "Naming convention is not the issue."
     },
     "hints": [
-      "Think about which `.git` Git pays attention to inside the subfolder.",
-      "A nested repo causes the parent to treat the directory as a submodule reference."
+      "How can you change a class attribute for all instances?",
+      "Recall the shadowing effect when assigning via an instance."
     ],
     "answer_reveal_after": 5,
-    "explanation": "The parent repository will record only the hash of the nested repo's HEAD, not the files inside it.",
-    "time_pressure_note": "Under time, you might think Git automatically ignores nested repos.",
+    "explanation": "`c1.DEBUG = False` does not change `Config.DEBUG`; it creates a separate instance attribute. Other instances still see the class value (True).",
+    "time_pressure_note": "This is a classic gotcha; many developers mistakenly think they are changing the class attribute.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_018",
-    "concept_id": "concept_012",
-    "concept_name": "Nested repositories",
-    "chapter": 2,
+    "concept_id": "concept_031",
+    "concept_name": "Class methods (@classmethod)",
+    "chapter": 5,
     "wave": 2,
     "difficulty": "hard",
     "question_type": "spot_the_bug",
-    "question_text": "A colleague reports that changes to files in `project/logs/` are never staged when they run `git add .` from the project root. What is the most likely cause?",
+    "question_text": "What happens when you run the following code?\n\n```python\nclass MathUtils:\n    def add(a, b):\n        return a + b\n\nprint(MathUtils.add(3, 4))\n```",
     "options": {
-      "a": "The `logs/` folder is empty.",
-      "b": "There is a nested `.git` directory inside `logs/`.",
-      "c": "The files are binary and ignored by default.",
-      "d": "The `logs/` folder is listed in `.gitignore`."
+      "a": "TypeError: add() takes 2 positional arguments but 3 were given",
+      "b": "Prints 7",
+      "c": "NameError: self is not defined",
+      "d": "AttributeError: add is not callable"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "If the folder were empty, there would be no files to stage anyway.",
-      "b": "Correct! A nested repository makes the inner files invisible to the outer repo.",
-      "c": "Git does not automatically ignore binary files.",
-      "d": "That would be shown in `git status` as ignored files."
+      "a": "Correct: calling an unbound instance method on the class passes the class as the first argument implicitly, causing a mismatch.",
+      "b": "The extra argument prevents the addition.",
+      "c": "The error is about argument count, not undefined name.",
+      "d": "The method exists, but the call signature is wrong."
     },
     "hints": [
-      "What causes files inside a directory to be treated as a single entity?",
-      "Check for a hidden `.git` folder inside the subdirectory."
+      "How is a method defined without a decorator treated when called on the class?",
+      "Python automatically passes an extra argument to instance methods."
     ],
     "answer_reveal_after": 5,
-    "explanation": "A nested `.git` directory turns `logs/` into a separate repo; the outer repo only sees a gitlink.",
-    "time_pressure_note": "It's easy to forget to check for nested repos when staging behaves oddly.",
+    "explanation": "`add` is a regular instance method because it lacks `@classmethod`. Calling it on the class sends the class as the first argument (`a` becomes the class, `b` becomes 3, and `4` becomes an extra argument), resulting in a `TypeError`.",
+    "time_pressure_note": "In a hurry, one might assume the method is called like a static function.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_019",
-    "concept_id": "concept_013",
-    "concept_name": "Staging area (index)",
-    "chapter": 3,
+    "concept_id": "concept_033",
+    "concept_name": "Alternative constructors",
+    "chapter": 5,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "predict_error",
-    "question_text": "A learner modifies `app.py`, then runs `git commit -m \"update\"` without any `git add`. What happens?",
+    "question_type": "spot_the_bug",
+    "question_text": "Why does `emp` end up as `None`?\n\n```python\nclass Employee:\n    def __init__(self, name):\n        self.name = name\n\n    @classmethod\n    def from_string(cls, data):\n        name = data.split(\",\")[0]\n        cls(name)          # intended to return new instance\n\nemp = Employee.from_string(\"Alice,Engineering\")\nprint(emp)\n```",
     "options": {
-      "a": "The commit includes the modifications to `app.py`.",
-      "b": "Git prompts to stage the file.",
-      "c": "The commit is created but contains no changes from `app.py`.",
-      "d": "Git refuses to commit because there are unstaged changes."
+      "a": "The method does not return the new instance",
+      "b": "cls(name) cannot be called inside a classmethod",
+      "c": "The split method returns a wrong name",
+      "d": "from_string must be a static method"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Only staged changes are included; the working modifications are ignored.",
-      "b": "No prompt appears; `git commit` only uses the staging area.",
-      "c": "Correct! The unstaged modifications are left out, so the commit might be empty.",
-      "d": "Git allows commits even if there are unstaged modifications."
+      "a": "Correct: the method creates an instance with `cls(name)` but does not `return` it, so it returns `None` by default.",
+      "b": "`cls(name)` is perfectly valid inside a classmethod.",
+      "c": "The string splitting is correct, but the result is discarded.",
+      "d": "A classmethod is appropriate here, but the return is missing."
     },
     "hints": [
-      "What must happen between editing a file and committing it?",
-      "The staging area is the key."
+      "Look at the last line of the method; what does it return?",
+      "If a function doesn't have a return statement, what does it return?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "Changes must be staged via `git add` before they are included in the commit.",
-    "time_pressure_note": "Missing the staging step is a classic beginner error.",
+    "explanation": "The alternative constructor must `return` the newly created object. The line `cls(name)` creates the instance but does nothing with it. Without an explicit return, `None` is returned.",
+    "time_pressure_note": "Missing `return` is a common oversight when writing factory methods.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_020",
-    "concept_id": "concept_013",
-    "concept_name": "Staging area (index)",
-    "chapter": 3,
+    "concept_id": "concept_035",
+    "concept_name": "Inheritance syntax",
+    "chapter": 6,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "complete_output",
-    "question_text": "You want to include only some of your changes in the next commit. Which Git feature allows this?",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with the following class definition?\n\n```python\nclass SavingsAccount(BankAccount)\n    pass\n```",
     "options": {
-      "a": "Branching",
-      "b": "The staging area",
-      "c": "Commit messages",
-      "d": "The `.gitignore` file"
+      "a": "Missing colon after the parent class name",
+      "b": "SavingsAccount cannot inherit from BankAccount",
+      "c": "pass should be replaced with __init__",
+      "d": "The class must be instantiated"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Branches are for diverging lines of development, not selecting changes.",
-      "b": "Correct! The staging area lets you pick which modifications to commit.",
-      "c": "Messages describe the commit, not select changes.",
-      "d": "`.gitignore` prevents tracking of certain files, not partial staging."
+      "a": "Correct: `class SavingsAccount(BankAccount):` requires a colon.",
+      "b": "Inheritance is syntactically allowed; the parent class name is valid.",
+      "c": "An empty subclass is allowed; `pass` is fine.",
+      "d": "Instantiation is not required during definition."
     },
     "hints": [
-      "Think of the intermediate step between editing and committing.",
-      "It's where you 'stage' changes."
+      "Compare with a correctly defined child class.",
+      "Every compound statement header in Python ends with a colon."
     ],
     "answer_reveal_after": 5,
-    "explanation": "The staging area (index) is where you curate what goes into the next commit.",
-    "time_pressure_note": "Under time pressure, you might confuse the staging area with branching.",
-    "common_mistake_tested": false
-  },
-  {
-    "id": "boss_021",
-    "concept_id": "concept_016",
-    "concept_name": "Commit",
-    "chapter": 3,
-    "wave": 2,
-    "difficulty": "hard",
-    "question_type": "what_changed",
-    "question_text": "Before: The repository has two commits. After: The project is back to the state of the first commit, but the second commit still exists in history.\n\nWhich operation occurred?",
-    "options": {
-      "a": "git reset --hard HEAD~1",
-      "b": "git revert HEAD",
-      "c": "git checkout HEAD~1",
-      "d": "git commit --amend"
-    },
-    "correct_option": "b",
-    "per_option_feedback": {
-      "a": "`git reset` would move the branch pointer and potentially lose history (not covered in this course).",
-      "b": "Correct! `git revert` creates a new commit that undoes the changes, preserving both commits.",
-      "c": "Checking out an old commit only changes the working directory, not the project state permanently.",
-      "d": "Amending alters the last commit, which would change history."
-    },
-    "hints": [
-      "The description says the second commit 'still exists in history'.",
-      "Which safe undo operation keeps the original commit?"
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git revert HEAD` adds a new commit that inverses the last commit, so history is preserved.",
-    "time_pressure_note": "Many people think revert means delete, but in Git it's a safe addition.",
+    "explanation": "The class header must end with a colon, just like any other block statement. The corrected line is `class SavingsAccount(BankAccount):`.",
+    "time_pressure_note": "Forgetting a colon is a common syntax mistake, especially when focusing on the inheritance logic.",
     "common_mistake_tested": true
   },
   {
-    "id": "boss_022",
-    "concept_id": "concept_017",
-    "concept_name": "Commit hash",
-    "chapter": 3,
+    "id": "boss_021",
+    "concept_id": "concept_039",
+    "concept_name": "isinstance() function",
+    "chapter": 6,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "odd_one_out",
-    "question_text": "Which of the following is NOT true about a Git commit hash?",
+    "question_type": "predict_error",
+    "question_text": "What will `isinstance(chk, BankAccount)` return after running this code?\n\n```python\nclass BankAccount: pass\nclass CheckingAccount(BankAccount): pass\n\nchk = CheckingAccount()\n```",
     "options": {
-      "a": "It is deterministic based on the commit's content.",
-      "b": "It is a 40-character hexadecimal string.",
-      "c": "It can be used to uniquely identify a commit.",
-      "d": "It changes if you amend the commit."
+      "a": "True",
+      "b": "False",
+      "c": "TypeError",
+      "d": "None"
     },
-    "correct_option": "d",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "True: the hash is computed from the commit data.",
-      "b": "True: standard SHA-1 hash length is 40 hex digits.",
-      "c": "True: it uniquely identifies the commit.",
-      "d": "Correct! If you amend a commit, you get a new commit with a different hash; the original hash is not changed, but the old commit is replaced by a new one."
+      "a": "Correct: `CheckingAccount` inherits from `BankAccount`, so `chk` is an instance of `BankAccount`.",
+      "b": "Due to inheritance, it returns `True`.",
+      "c": "No type error; the function works correctly.",
+      "d": "`isinstance` returns a Boolean, not `None`."
     },
     "hints": [
-      "Think about what amending really does: it creates a new commit.",
-      "The hash is tied to the exact content; altering content produces a new hash."
+      "Remember the 'is‑a' relationship.",
+      "An instance of a subclass is also an instance of the parent."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Amending doesn't modify the original commit; it creates a new commit with a different hash, leaving the old one orphaned (though it may still exist).",
-    "time_pressure_note": "Under pressure, one might think amending changes the existing commit's hash, but it actually replaces it.",
+    "explanation": "`isinstance(obj, Class)` returns `True` if the object is an instance of the class or any of its subclasses.",
+    "time_pressure_note": "Some might think `isinstance` only checks the direct class, forgetting about inheritance.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_040",
+    "concept_name": "Customizing constructor in child class",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is missing in the `SavingAccount` constructor?\n\n```python\nclass BankAccount:\n    def __init__(self, balance):\n        self.balance = balance\n\nclass SavingAccount(BankAccount):\n    def __init__(self, balance, interest):\n        self.interest = interest\n\nacc = SavingAccount(1000, 0.03)\nprint(acc.balance)\n```",
+    "options": {
+      "a": "The call to the parent's __init__",
+      "b": "The self parameter in __init__",
+      "c": "A return statement",
+      "d": "A docstring"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: the parent's `__init__` is not called, so `self.balance` is never created.",
+      "b": "`self` is correctly included.",
+      "c": "`__init__` should not return anything.",
+      "d": "A docstring is not required."
+    },
+    "hints": [
+      "How does the child ensure the parent's initialisation runs?",
+      "Check if `balance` is ever assigned in the child."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The child must explicitly call `BankAccount.__init__(self, balance)` to set up the inherited attribute. Without it, `self.balance` does not exist, causing an `AttributeError`.",
+    "time_pressure_note": "Forgetting to call the parent constructor is a frequent oversight in inheritance.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_023",
-    "concept_id": "concept_018",
-    "concept_name": "Tree",
-    "chapter": 4,
+    "concept_id": "concept_041",
+    "concept_name": "Adding methods in child class",
+    "chapter": 7,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "output",
-    "question_text": "A tree object in Git contains references to:",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\nclass Account:\n    def __init__(self, number):\n        self.number = number\n\nclass CreditAccount(Account):\n    def __init__(self, number, limit):\n        self.limit = limit\n    def show_number(self):\n        return self.number\n\nc = CreditAccount(123, 5000)\nprint(c.show_number())\n```",
     "options": {
-      "a": "Only blobs (file contents)",
-      "b": "Only other trees (subdirectories)",
-      "c": "Both blobs and other trees",
-      "d": "Commit messages and authors"
+      "a": "AttributeError: 'CreditAccount' object has no attribute 'number'",
+      "b": "TypeError: show_number() missing argument",
+      "c": "None",
+      "d": "123"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Trees can also reference other trees for subdirectories.",
-      "b": "Trees also reference blobs for files.",
-      "c": "Correct! A tree maps names to blobs (files) or other trees (directories).",
-      "d": "That's in the commit object, not the tree."
+      "a": "Correct: because the parent `__init__` is not called, `self.number` is never assigned.",
+      "b": "The method signature is correct.",
+      "c": "An error occurs, so no value is returned.",
+      "d": "`self.number` does not exist."
     },
     "hints": [
-      "A tree represents a directory snapshot.",
-      "What does a directory contain? Files and subdirectories."
+      "Is `self.number` ever assigned?",
+      "Look at the child's `__init__`: does it call the parent's constructor?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "Trees store the structure: each entry is either a blob (file) or another tree (subdirectory).",
-    "time_pressure_note": "It's easy to confuse trees with blobs or commits.",
+    "explanation": "The child `CreditAccount.__init__` overrides the parent's but doesn't call it. Therefore, `self.number` is never created. Accessing `self.number` in `show_number` raises an `AttributeError`.",
+    "time_pressure_note": "It's easy to assume the parent's attributes are automatically inherited, but initialisation requires an explicit call.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_024",
-    "concept_id": "concept_019",
-    "concept_name": "Blob",
-    "chapter": 4,
+    "concept_id": "concept_042",
+    "concept_name": "Overriding methods",
+    "chapter": 7,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "complete_output",
-    "question_text": "In Git's object model, which object type stores the actual content of a file?",
+    "question_type": "spot_the_bug",
+    "question_text": "What will be the balance after this code runs?\n\n```python\nclass BankAccount:\n    def __init__(self, balance):\n        self.balance = balance\n    def withdraw(self, amount):\n        self.balance -= amount\n\nclass SavingsAccount(BankAccount):\n    def withdraw(self, amount):\n        print(\"Logging withdrawal\")\n        # forgot to call parent's withdraw\n\nacc = SavingsAccount(500)\nacc.withdraw(100)\nprint(acc.balance)\n```",
     "options": {
-      "a": "Tree",
-      "b": "Commit",
-      "c": "Blob",
-      "d": "Tag"
+      "a": "500",
+      "b": "400",
+      "c": "An error because withdraw is not defined",
+      "d": "Logging withdrawal"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Trees store directory structure, not file content.",
-      "b": "Commits store metadata and a reference to a tree.",
-      "c": "Correct! A blob (binary large object) holds the file's compressed data.",
-      "d": "Tags are references to specific commits, usually for releases."
+      "a": "Correct: the child's `withdraw` does not call `BankAccount.withdraw`, so the balance is never reduced.",
+      "b": "That would be correct if the parent method was called, but it was not.",
+      "c": "The method exists (overridden), so no error.",
+      "d": "The string is printed, but the balance is printed afterwards."
     },
     "hints": [
-      "It stands for 'binary large object'.",
-      "It's the raw file content, without filename or permissions."
+      "What does the child's `withdraw` actually do?",
+      "Does it modify `self.balance`?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "Blobs are the most fundamental objects, storing the file contents.",
-    "time_pressure_note": "The term 'blob' might be unfamiliar, but it's key to Git's storage.",
+    "explanation": "Overriding a method replaces the parent's version. Here, the child's `withdraw` only prints, without calling the parent. The balance remains 500.",
+    "time_pressure_note": "It's easy to assume the parent method runs automatically when overridden.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_025",
-    "concept_id": "concept_020",
-    "concept_name": "Hash function",
-    "chapter": 4,
+    "concept_id": "concept_044",
+    "concept_name": "Object equality default behavior",
+    "chapter": 8,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "output",
-    "question_text": "Two files with identical content will have the same blob hash in Git. Why?",
+    "question_type": "spot_the_bug",
+    "question_text": "A developer expects `c1 == c2` to be `True` because both have the same `id` and `name`. Why is it `False`?\n\n```python\nclass Customer:\n    def __init__(self, id, name):\n        self.id = id\n        self.name = name\n\nc1 = Customer(1, \"Alice\")\nc2 = Customer(1, \"Alice\")\nprint(c1 == c2)   # False\n```",
     "options": {
-      "a": "Git assigns random hashes that can collide.",
-      "b": "Git's hash function is content-based, so identical input yields identical output.",
-      "c": "Git normalizes files before hashing to ensure uniqueness.",
-      "d": "The blob hash includes the file path, so different paths produce different hashes."
+      "a": "No __eq__ method is defined; Python compares object identity.",
+      "b": "The id attribute conflicts with the built‑in id() function.",
+      "c": "Strings are compared by reference, not value.",
+      "d": "Python requires __ne__ to be defined as well."
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Hashes are not random; they are deterministic.",
-      "b": "Correct! The hash is computed from the file contents alone, so identical content gives the same hash.",
-      "c": "Normalization does not guarantee uniqueness; it's the hash of the raw content.",
-      "d": "File names and paths are stored in tree objects, not in the blob hash."
+      "a": "Correct: without a custom `__eq__`, `==` compares memory addresses.",
+      "b": "The attribute name `id` is allowed; it does not affect equality.",
+      "c": "Even strings are compared by value, but the objects themselves are not the same.",
+      "d": "`__ne__` is not required; Python falls back to the negation of `__eq__`."
     },
     "hints": [
-      "What does 'content-addressable' mean?",
-      "Think about how Git detects duplicate files."
+      "What does `==` do when the class does not define `__eq__`?",
+      "Recall the default behavior from Chapter 8."
     ],
     "answer_reveal_after": 5,
-    "explanation": "Git uses SHA-1 hash of the file content; same content = same blob, saving space.",
-    "time_pressure_note": "Under time pressure, you might think the path is included, but it's not.",
+    "explanation": "By default, `==` calls `object.__eq__`, which returns `True` only if the two references point to the same object in memory. Two distinct objects, even with identical attributes, are not equal.",
+    "time_pressure_note": "Beginners often assume `==` compares contents automatically.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_026",
-    "concept_id": "concept_023",
-    "concept_name": "git log --since",
-    "chapter": 5,
+    "concept_id": "concept_045",
+    "concept_name": "__eq__ method",
+    "chapter": 8,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "complete_output",
-    "question_text": "You need to see commits from the last two weeks. Which command works?",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the problem with this `__eq__` implementation?\n\n```python\nclass Product:\n    def __init__(self, code):\n        self.code = code\n    def __eq__(self, other):\n        return (self.code = other.code)\n```",
     "options": {
-      "a": "git log --since='2 weeks ago'",
-      "b": "git log --since=2.weeks",
-      "c": "git log --since 2 weeks",
-      "d": "git log --since=\"2 weeks\""
+      "a": "It uses an assignment (=) instead of equality (==)",
+      "b": "It should return True by default",
+      "c": "The method name is misspelled",
+      "d": "other.code must be converted to string"
     },
     "correct_option": "a",
     "per_option_feedback": {
-      "a": "Correct! Git accepts natural language dates like '2 weeks ago' when quoted.",
-      "b": "Dots are not a recognized date syntax.",
-      "c": "Spaces require quoting; without quotes, the shell splits arguments.",
-      "d": "Double quotes are acceptable if the shell interprets them correctly, but the syntax in the course uses single quotes; however '2 weeks ago' is the standard example."
+      "a": "Correct: `self.code = other.code` is an assignment, not a comparison. This is a syntax error.",
+      "b": "The logic can return True or False, but the assignment is the error.",
+      "c": "`__eq__` is correctly named.",
+      "d": "No conversion is required; `code` can be any type."
     },
     "hints": [
-      "Git supports relative dates like '2 weeks ago'.",
-      "Remember to quote the entire date string."
+      "Look closely at the operator inside the return statement.",
+      "Assignment inside a return is invalid syntax."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git log --since='2 weeks ago'` is a valid way to filter by relative time.",
-    "time_pressure_note": "The quoting requirement often trips people up when they're typing fast.",
+    "explanation": "The expression `(self.code = other.code)` attempts to assign to `self.code`, which is not allowed in an expression. It should be `self.code == other.code`.",
+    "time_pressure_note": "Mixing `=` and `==` is a classic mistake, especially under time pressure.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_027",
-    "concept_id": "concept_026",
-    "concept_name": "git diff",
-    "chapter": 6,
+    "concept_id": "concept_046",
+    "concept_name": "Type checking in __eq__",
+    "chapter": 8,
     "wave": 2,
     "difficulty": "hard",
-    "question_type": "output",
-    "question_text": "You run `git diff` and see lines prefixed with `-` and `+`. What do these symbols indicate?",
+    "question_type": "spot_the_bug",
+    "question_text": "What can go wrong with this equality check?\n\n```python\nclass Book:\n    def __init__(self, isbn):\n        self.isbn = isbn\n    def __eq__(self, other):\n        return self.isbn == other.isbn\n\nclass Magazine:\n    def __init__(self, isbn):\n        self.isbn = isbn\n\nb = Book(\"123\")\nm = Magazine(\"123\")\nprint(b == m)   # Returns True, but they are different types.\n```",
     "options": {
-      "a": "`-` for ignored files, `+` for tracked files",
-      "b": "`-` lines were removed, `+` lines were added",
-      "c": "`-` for errors, `+` for warnings",
-      "d": "`-` for old commits, `+` for new commits"
+      "a": "No type check; objects of different classes can be considered equal.",
+      "b": "ISBNs should be integers, not strings.",
+      "c": "The __eq__ method must be static.",
+      "d": "Python does not allow comparing different classes."
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "That's not related to diff output.",
-      "b": "Correct! Diff shows removed lines in red (prefixed `-`) and added lines in green (`+`).",
-      "c": "Diff does not show error messages.",
-      "d": "It compares specific versions, not all old vs new commits."
+      "a": "Correct: the method doesn't verify that `other` is also a `Book`, so a `Magazine` with the same `isbn` matches.",
+      "b": "String ISBNs are common; the type of the attribute is not the issue.",
+      "c": "`__eq__` is an instance method, not static.",
+      "d": "Python allows any comparison; the method's logic determines the result."
     },
     "hints": [
-      "Think of a patch: what does a minus sign usually mean?",
-      "`-` is deletion, `+` is insertion."
+      "Does the `__eq__` check the class of the `other` object?",
+      "What if a different class happens to have an `isbn` attribute?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git diff` shows a unified diff: lines starting with `-` were removed, `+` were added.",
-    "time_pressure_note": "Under time pressure, you might mix up the meaning.",
+    "explanation": "Without a type guard like `type(self) == type(other)`, two objects of unrelated classes can be considered equal if they share the same attribute names and values.",
+    "time_pressure_note": "Forgetting to check the type is a subtle bug that can slip through testing.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_028",
-    "concept_id": "concept_026",
-    "concept_name": "git diff",
-    "chapter": 6,
-    "wave": 2,
-    "difficulty": "hard",
+    "concept_id": "concept_043",
+    "concept_name": "Method overriding with additional arguments",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "very_hard",
     "question_type": "predict_error",
-    "question_text": "You stage a modified `data.csv`, then immediately run `git diff data.csv`. What output do you get?",
+    "question_text": "What error occurs when calling `process(chk)`?\n\n```python\nclass BankAccount:\n    def withdraw(self, amount):\n        self.balance -= amount\n\nclass CheckingAccount(BankAccount):\n    def withdraw(self, amount, fee):\n        if amount + fee <= self.limit:\n            BankAccount.withdraw(self, amount + fee)\n\ndef process(acct):\n    acct.withdraw(50)\n\nchk = CheckingAccount()\nchk.balance = 200\nchk.limit = 100\nprocess(chk)\n```",
     "options": {
-      "a": "A diff showing staged changes compared to the last commit",
-      "b": "No output, because the working directory matches the staging area",
-      "c": "A diff showing working directory changes compared to the staging area",
-      "d": "An error because the file is staged"
+      "a": "TypeError: withdraw() missing 1 required positional argument: 'fee'",
+      "b": "AttributeError: 'CheckingAccount' object has no attribute 'balance'",
+      "c": "The withdrawal succeeds with a default fee of 0",
+      "d": "SyntaxError"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "That's `git diff --staged`.",
-      "b": "Correct! After staging, the working directory and staging area are the same, so `git diff` shows nothing.",
-      "c": "`git diff` without flags compares working directory to the last commit, not to the staging area.",
-      "d": "No error occurs."
+      "a": "Correct: the child's `withdraw` expects a `fee` argument, but `process` only passes `amount`.",
+      "b": "`balance` is properly set before the call.",
+      "c": "No default fee is provided; the method requires both arguments.",
+      "d": "No syntax error."
     },
     "hints": [
-      "What does `git diff` without `--staged` compare?",
-      "After staging, what is the difference between the working file and the last commit? The working file now matches the staged version."
+      "Compare the signature of `withdraw` in the parent and child.",
+      "What happens when the interface expected by `process` doesn't match?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "git diff without --staged shows changes between the working directory and the index. After staging, the working directory matches the index, so git diff will produce no output."
-  },
-  {
-    "id": "boss_029",
-    "concept_id": "concept_027",
-    "concept_name": "git diff --staged",
-    "chapter": 6,
-    "wave": 2,
-    "difficulty": "hard",
-    "question_type": "what_changed",
-    "question_text": "Before: `git diff` shows nothing.\nAfter: running `git diff --staged`, you see the changes you just staged.\n\nWhat caused this?",
-    "options": {
-      "a": "You edited a file after staging it.",
-      "b": "You forgot to run `git add`.",
-      "c": "You ran `git diff --staged` instead of `git diff`.",
-      "d": "You committed the changes."
-    },
-    "correct_option": "c",
-    "per_option_feedback": {
-      "a": "If you edited after staging, `git diff` would show those new unstaged changes.",
-      "b": "If you didn't stage, `git diff` would show unstaged changes, not nothing.",
-      "c": "Correct! `git diff` shows unstaged changes; `git diff --staged` shows what's staged.",
-      "d": "After a commit, both diffs would be empty."
-    },
-    "hints": [
-      "Which diff command targets the staging area?",
-      "The flag `--staged` is the key."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "`git diff` compares working directory to staging area; `git diff --staged` compares staging area to the last commit.",
-    "time_pressure_note": "Mixing up the two diff variants is a common pressure mistake.",
+    "explanation": "The child class adds a required parameter `fee`, breaking the polymorphic interface. `process` calls `acct.withdraw(50)` with only one argument, causing a `TypeError` because the child expects two.",
+    "time_pressure_note": "Adding arguments to an overridden method seems harmless but can break existing code.",
     "common_mistake_tested": true
   },
   {
-    "id": "boss_030",
-    "concept_id": "concept_034",
-    "concept_name": "git restore --staged",
-    "chapter": 7,
-    "wave": 2,
-    "difficulty": "hard",
-    "question_type": "spot_the_bug",
-    "question_text": "A learner wants to unstage `draft.txt` but keep the working copy. They type:\n\n```bash\ngit restore draft.txt\n```\n\nWhat is wrong?",
+    "id": "boss_029",
+    "concept_id": "concept_047",
+    "concept_name": "Other comparison operators",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a comparison operator dunder method?",
     "options": {
-      "a": "The command will unstage the file but also discard working changes.",
-      "b": "They forgot the `--staged` flag; this command will restore the working file from the index, potentially overwriting changes.",
-      "c": "`git restore` cannot target a single file.",
-      "d": "`git restore` is not a real Git command."
+      "a": "__add__",
+      "b": "__lt__",
+      "c": "__gt__",
+      "d": "__ne__"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Actually, `git restore` without `--staged` restores the working tree, not unstaging.",
-      "b": "Correct! `git restore --staged draft.txt` is needed to unstage. The given command would replace the working file with the staged version.",
-      "c": "It can take a file name.",
-      "d": "`git restore` is a real command."
+      "a": "Correct: `__add__` implements the `+` operator, not a comparison.",
+      "b": "`__lt__` corresponds to `<`.",
+      "c": "`__gt__` corresponds to `>`.",
+      "d": "`__ne__` corresponds to `!=`."
     },
     "hints": [
-      "To unstage, you need the `--staged` flag.",
-      "Omitting `--staged` restores the file in the working directory."
+      "Which one is for arithmetic?",
+      "Look for the operator that isn't about comparing values."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git restore <file>` discards unstaged changes by default. `--staged` is required to unstage.",
-    "time_pressure_note": "Under pressure, one might forget the crucial flag and lose work.",
+    "explanation": "`__add__` is used for addition (`+`). The others (`__lt__`, `__gt__`, `__ne__`) are comparison methods.",
+    "time_pressure_note": "Under speed, one might misread `__ne__` or `__lt__` as non‑comparison.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_048",
+    "concept_name": "__eq__ in inheritance",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is printed first when executing this code?\n\n```python\nclass Account:\n    def __eq__(self, other):\n        print(\"Account eq\")\n        return True\n\nclass CreditAccount(Account):\n    def __eq__(self, other):\n        print(\"CreditAccount eq\")\n        return True\n\nc = CreditAccount()\na = Account()\nprint(c == a)\n```",
+    "options": {
+      "a": "CreditAccount eq",
+      "b": "Account eq",
+      "c": "True",
+      "d": "Both messages simultaneously"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: Python looks up `__eq__` starting from the left operand's class, so `CreditAccount.__eq__` runs first.",
+      "b": "The parent's method is only used if the child doesn't override it.",
+      "c": "The boolean result is printed after the messages.",
+      "d": "Only one `__eq__` is called for the comparison."
+    },
+    "hints": [
+      "Which object is on the left side of `==`?",
+      "Method resolution always starts from the left operand's class."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "For `c == a`, Python calls `c.__eq__(a)`. Because `c` is a `CreditAccount`, the child's `__eq__` is invoked first, printing \"CreditAccount eq\" before returning `True`.",
+    "time_pressure_note": "Many expect the parent's `__eq__` to be called first when comparing a child to a parent.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_031",
-    "concept_id": "concept_024",
-    "concept_name": "git log --until",
-    "chapter": 5,
-    "wave": 3,
-    "difficulty": "very_hard",
-    "question_type": "predict_error",
-    "question_text": "You run:\n\n```bash\ngit log --since='2024-04-02' --until='2024-04-01'\n```\n\nWhat happens?",
-    "options": {
-      "a": "Git shows all commits between those dates.",
-      "b": "Git interprets the range as reversed and still shows commits.",
-      "c": "No commits are shown because the start date is after the end date.",
-      "d": "An error: invalid date format."
-    },
-    "correct_option": "c",
-    "per_option_feedback": {
-      "a": "Since the start date is after the end date, there are no matching commits.",
-      "b": "Git does not automatically swap the dates.",
-      "c": "Correct! The range is empty, so no output.",
-      "d": "The date format 'YYYY-MM-DD' is valid."
-    },
-    "hints": [
-      "What does `--since` mean relative to `--until`?",
-      "Think about the direction of time."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "When `--since` is later than `--until`, the window is empty, so no commits match.",
-    "time_pressure_note": "Swapping dates by mistake is easy when typing quickly.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_032",
-    "concept_id": "concept_025",
-    "concept_name": "git show",
-    "chapter": 5,
+    "concept_id": "concept_049",
+    "concept_name": "__str__ method",
+    "chapter": 9,
     "wave": 3,
     "difficulty": "very_hard",
     "question_type": "output",
-    "question_text": "You run `git show` without any arguments. What does it display?",
+    "question_text": "What is the output of this code?\n\n```python\nclass Item:\n    def __init__(self, sku):\n        self.sku = sku\n    def __str__(self):\n        return f\"SKU: {self.sku}\"\n\ni = Item(\"AB12\")\nprint(i)\n```",
     "options": {
-      "a": "The most recent commit's details and diff.",
-      "b": "The commit history.",
-      "c": "An error: requires a commit reference.",
-      "d": "The working tree changes."
+      "a": "SKU: AB12",
+      "b": "<__main__.Item object at 0x...>",
+      "c": "Item(AB12)",
+      "d": "AB12"
     },
     "correct_option": "a",
     "per_option_feedback": {
-      "a": "Correct! `git show` defaults to HEAD, showing the latest commit.",
-      "b": "That's `git log`.",
-      "c": "No error; it defaults to HEAD.",
-      "d": "That's `git diff`."
+      "a": "Correct: `print()` calls `__str__`, which returns the formatted string.",
+      "b": "This is the default `__repr__` output, not used because `__str__` is defined.",
+      "c": "That would be a `__repr__` representation, not the user‑friendly one.",
+      "d": "Only the SKU value, not the full formatted string."
     },
     "hints": [
-      "What does `git show` do with no argument? It has a default.",
-      "Think about what HEAD refers to."
+      "Which special method does `print()` call?",
+      "Look at the `__str__` method and the f‑string inside it."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git show` with no arguments shows the HEAD commit, a shortcut for `git show HEAD`.",
-    "time_pressure_note": "Under pressure, one might expect it to require an explicit argument.",
+    "explanation": "`print(i)` invokes `i.__str__()`, which returns `'SKU: AB12'`. That string is printed.",
+    "time_pressure_note": "The presence of a custom `__str__` changes the output from the default memory address.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_050",
+    "concept_name": "__repr__ method",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What will `print(p)` output?\n\n```python\nclass Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n    def __repr__(self):\n        return f\"Product('{self.name}', {self.price})\"\n\np = Product(\"Laptop\", 999)\nprint(p)\n```",
+    "options": {
+      "a": "Product('Laptop', 999)",
+      "b": "Laptop: 999",
+      "c": "<__main__.Product object at 0x...>",
+      "d": "An error because __str__ is missing"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: without `__str__`, `print` falls back to `__repr__`.",
+      "b": "That would require a custom `__str__`.",
+      "c": "This is the default, but `__repr__` is defined, so it's used.",
+      "d": "No error occurs; the fallback works."
+    },
+    "hints": [
+      "When `__str__` is not defined, what method does `print()` use?",
+      "Recall the example in the course: `Customer('Maryam Azar', 3000)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Python first looks for `__str__`. Since it's missing, it falls back to `__repr__`. The output is the formal string representation.",
+    "time_pressure_note": "In a rush, one might expect the default memory address output.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_033",
-    "concept_id": "concept_028",
-    "concept_name": "HEAD",
-    "chapter": 6,
+    "concept_id": "concept_051",
+    "concept_name": "Difference between __str__ and __repr__",
+    "chapter": 9,
     "wave": 3,
     "difficulty": "very_hard",
-    "question_type": "predict_error",
-    "question_text": "You are in a detached HEAD state. What happens if you make a new commit and then switch back to the `main` branch?",
+    "question_type": "odd_one_out",
+    "question_text": "Which statement about `__str__` and `__repr__` is FALSE?",
     "options": {
-      "a": "The new commit is automatically merged into `main`.",
-      "b": "Git warns you that the commit will be lost.",
-      "c": "The commit becomes dangling and can be garbage collected unless you save its hash.",
-      "d": "The commit is attached to `main` automatically."
-    },
-    "correct_option": "c",
-    "per_option_feedback": {
-      "a": "No automatic merge occurs.",
-      "b": "Git may warn, but the commit is not immediately lost; it exists as a dangling object.",
-      "c": "Correct! The commit exists but isn't reachable from any branch; it may eventually be cleaned up.",
-      "d": "It doesn't become attached to any branch."
-    },
-    "hints": [
-      "In detached HEAD, HEAD points directly to a commit, not a branch.",
-      "Think about what happens to an orphaned commit."
-    ],
-    "answer_reveal_after": 5,
-    "explanation": "Commits made in detached HEAD are not part of any branch and become unreachable when you switch, though they remain in the object database temporarily.",
-    "time_pressure_note": "Detached HEAD can cause panic under time pressure; knowing it's not immediately lost is crucial.",
-    "common_mistake_tested": true
-  },
-  {
-    "id": "boss_034",
-    "concept_id": "concept_028",
-    "concept_name": "HEAD",
-    "chapter": 6,
-    "wave": 3,
-    "difficulty": "hard",
-    "question_type": "complete_output",
-    "question_text": "You want to compare the current commit with its immediate parent. Which reference can you use for the parent?",
-    "options": {
-      "a": "HEAD^",
-      "b": "HEAD~1",
-      "c": "HEAD@1",
-      "d": "Both a and b are correct."
+      "a": "__str__ is for end‑users; __repr__ is for developers.",
+      "b": "If __str__ is missing, __repr__ is used as a fallback.",
+      "c": "__repr__ should ideally return a string that recreates the object.",
+      "d": "Both methods are called by print() simultaneously."
     },
     "correct_option": "d",
     "per_option_feedback": {
-      "a": "`HEAD^` is a valid way to refer to the parent, but it's not the only one.",
-      "b": "`HEAD~1` is the tilde syntax for the parent.",
-      "c": "`@` is a synonym for HEAD, but `HEAD@1` is not valid syntax.",
-      "d": "Correct! Both `HEAD^` and `HEAD~1` mean the first parent."
+      "a": "True: that is exactly the difference.",
+      "b": "True: Python falls back to __repr__.",
+      "c": "True: that is a recommended guideline.",
+      "d": "Correct: FALSE — print() calls __str__ first; if missing, it calls __repr__. They are not both called."
     },
     "hints": [
-      "`^` and `~1` are both ways to reach the parent.",
-      "Git offers multiple notations for the same thing."
+      "Think about how `print()` decides which method to use.",
+      "Only one string representation is produced for a single `print()` call."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`HEAD^` and `HEAD~1` both refer to the parent commit. `HEAD~1` is more common for linear history.",
-    "time_pressure_note": "Multiple correct options could confuse under time; recognizing both as correct requires clarity.",
+    "explanation": "`print()` calls `str(obj)`, which tries `obj.__str__()`. If that is not defined, it calls `obj.__repr__()`. They are never both invoked for the same `print()` call.",
+    "time_pressure_note": "The subtle distinction between the two methods can cause confusion about which one gets called.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_052",
+    "concept_name": "Exception handling (try-except)",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the problem with this exception handling?\n\n```python\ntry:\n    dangerous_call()\nexcept Exception:\n    log(\"Error\")\nexcept ValueError:\n    fix_value()\n```",
+    "options": {
+      "a": "ValueError will never be caught because Exception comes first.",
+      "b": "You cannot have two except blocks.",
+      "c": "The try block must contain a raise statement.",
+      "d": "Exception is not a valid exception class."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct: `ValueError` is a subclass of `Exception`, so the first block catches it, making the second unreachable.",
+      "b": "Multiple `except` blocks are allowed.",
+      "c": "`try` blocks can call any code that might raise an exception.",
+      "d": "`Exception` is the base class for most built‑in exceptions."
+    },
+    "hints": [
+      "How does Python decide which `except` clause to execute?",
+      "Consider the exception class hierarchy."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Exceptions are matched from top to bottom. Since `ValueError` is a subclass of `Exception`, the first `except` catches it, and the `ValueError` block is never executed.",
+    "time_pressure_note": "Ordering of except blocks is critical and easy to get wrong under pressure.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_035",
-    "concept_id": "concept_029",
-    "concept_name": "HEAD~ syntax",
-    "chapter": 6,
+    "concept_id": "concept_053",
+    "concept_name": "finally block",
+    "chapter": 10,
     "wave": 3,
     "difficulty": "very_hard",
     "question_type": "predict_error",
-    "question_text": "You have a branch with 10 commits. You want to see the diff between the current commit and the commit three steps back. You run:\n\n```bash\ngit diff HEAD~3 HEAD\n```\n\nWhat will this show?",
+    "question_text": "What will be printed before the program terminates?\n\n```python\ntry:\n    f = open(\"missing.txt\")\nexcept FileNotFoundError:\n    print(\"File missing\")\nfinally:\n    print(\"Done\")\n```",
     "options": {
-      "a": "The diff between the 4th last commit and the latest.",
-      "b": "The diff between the 3rd last commit and the latest.",
-      "c": "An error because `HEAD~3` goes beyond the branch.",
-      "d": "The diff between the parent and the current commit."
+      "a": "File missing then Done",
+      "b": "Only Done",
+      "c": "Only File missing",
+      "d": "Nothing, the program crashes"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "`HEAD~3` is three commits back, which is the 4th last? Actually, if you have 10 commits, HEAD is the 10th. HEAD~1 is 9th, HEAD~2 is 8th, HEAD~3 is 7th. So it's the 3rd last (7th) vs latest (10th). So b is correct.",
-      "b": "Correct! `HEAD~3` skips three commits back from HEAD.",
-      "c": "No error; `HEAD~3` is valid as long as the history is deep enough.",
-      "d": "That's `HEAD~1`."
+      "a": "Correct: the `except` block handles the error, then `finally` executes.",
+      "b": "The `except` block also runs.",
+      "c": "The `finally` block always runs.",
+      "d": "The exception is caught, so the program does not crash."
     },
     "hints": [
-      "Count: HEAD is 0, HEAD~1 is 1 back, HEAD~3 is 3 back.",
-      "Think about the tilde number as 'number of ancestors to go up'."
+      "Does the `finally` block execute even after a caught exception?",
+      "Order: try → except (if error) → finally."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`HEAD~3` means three commits before HEAD, so it compares the commit at that position with the current HEAD.",
-    "time_pressure_note": "Off-by-one errors are common under pressure.",
-    "common_mistake_tested": true
+    "explanation": "When `FileNotFoundError` is raised, the matching `except` prints \"File missing\". Then the `finally` block runs, printing \"Done\".",
+    "time_pressure_note": "Some might think `finally` only runs when an exception is NOT caught, but it always runs.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_036",
-    "concept_id": "concept_030",
-    "concept_name": "git revert",
-    "chapter": 7,
+    "concept_id": "concept_054",
+    "concept_name": "Raising exceptions (raise)",
+    "chapter": 10,
     "wave": 3,
     "difficulty": "very_hard",
     "question_type": "spot_the_bug",
-    "question_text": "You want to undo a commit that added a line to `script.py`. After running `git revert HEAD`, you see a new commit that deleted that line. Later, you realize you actually wanted to keep that line and revert another file from the same commit. What went wrong?",
+    "question_text": "What is wrong with the following `raise` statement?\n\n```python\ndef check_age(age):\n    if age < 0:\n        raise \"Invalid age\"\n```",
     "options": {
-      "a": "`git revert` cannot be undone.",
-      "b": "`git revert` reverts all files in the commit, not individual ones.",
-      "c": "You should have used `git reset` instead.",
-      "d": "The revert deleted the file by mistake."
+      "a": "You cannot raise a string; you must raise an Exception instance.",
+      "b": "The if condition should be age <= 0.",
+      "c": "The function must return a value.",
+      "d": "raise is not a valid keyword."
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "You can revert the revert commit to restore the line.",
-      "b": "Correct! `git revert` affects all files changed in that commit; it's not per-file.",
-      "c": "`git reset` would alter history, which is not the safer approach taught.",
-      "d": "The line was deleted as expected, not the file."
+      "a": "Correct: `raise` requires an exception instance or class, not a bare string.",
+      "b": "The condition logic is fine; the syntax is the issue.",
+      "c": "A function doesn't need to return a value if it raises.",
+      "d": "`raise` is a valid Python keyword."
     },
     "hints": [
-      "Does `git revert` allow you to choose which files to undo?",
-      "Think about the scope of a revert operation."
+      "What type of object can you raise?",
+      "Look at the course example: `raise ValueError('Invalid length!')`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git revert` applies the inverse of an entire commit, affecting all files changed in that commit. To undo only one file, you'd need other methods like `git checkout`.",
-    "time_pressure_note": "Under pressure, one might expect revert to be granular.",
+    "explanation": "In Python, you must raise an instance of `BaseException` (or a subclass). Raising a string results in a `TypeError`.",
+    "time_pressure_note": "This is a common mistake when coming from languages that allow raising strings.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_037",
-    "concept_id": "concept_030",
-    "concept_name": "git revert",
-    "chapter": 7,
+    "concept_id": "concept_055",
+    "concept_name": "Custom exceptions",
+    "chapter": 10,
     "wave": 3,
-    "difficulty": "hard",
-    "question_type": "what_changed",
-    "question_text": "Before: history is A → B → C, with C being the latest.\nAfter: history becomes A → B → C → D, where D undoes changes of C.\n\nWhich command created D?",
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Why does `raise MyError()` fail here?\n\n```python\nclass MyError:\n    pass\n\ndef check(value):\n    if value < 0:\n        raise MyError(\"Negative\")\n\ncheck(-1)\n```",
     "options": {
-      "a": "git revert HEAD",
-      "b": "git reset --hard HEAD~1",
-      "c": "git checkout HEAD~1",
-      "d": "git revert -n HEAD"
+      "a": "MyError does not inherit from Exception.",
+      "b": "MyError() is missing parentheses.",
+      "c": "check does not return anything.",
+      "d": "The if condition is not strict enough."
     },
     "correct_option": "a",
     "per_option_feedback": {
-      "a": "Correct! `git revert HEAD` adds a new commit D that reverses C.",
-      "b": "Reset would move the branch pointer back, removing C from history.",
-      "c": "Checkout only changes the working directory, not history.",
-      "d": "`-n` would revert without committing, leaving changes staged."
+      "a": "Correct: only classes that inherit from `BaseException` can be raised.",
+      "b": "Parentheses are present.",
+      "c": "Raising an exception does not require a return.",
+      "d": "The condition is valid; the error is about the exception class."
     },
     "hints": [
-      "Look at the history: C still exists and a new commit appears.",
-      "That's the signature of a safe undo."
+      "What must a custom exception class inherit from?",
+      "Compare with the course's `class BalanceError(Exception):`."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git revert HEAD` creates a new commit that undoes the previous one, preserving all history.",
-    "time_pressure_note": "Under pressure, you might confuse revert with reset.",
+    "explanation": "`MyError` is a plain class, not an exception subclass. `raise` requires an instance of a class derived from `BaseException`.",
+    "time_pressure_note": "Forgetting the `Exception` parent class is a common slip.",
     "common_mistake_tested": true
   },
   {
     "id": "boss_038",
-    "concept_id": "concept_031",
-    "concept_name": "git revert --no-edit",
-    "chapter": 7,
+    "concept_id": "concept_056",
+    "concept_name": "Using custom exceptions in class",
+    "chapter": 10,
     "wave": 3,
     "difficulty": "very_hard",
-    "question_type": "complete_output",
-    "question_text": "You run `git revert HEAD --no-edit`. What is the commit message of the new commit?",
+    "question_type": "output",
+    "question_text": "What is printed by the following?\n\n```python\nclass NegativeError(Exception):\n    pass\n\nclass Counter:\n    def __init__(self, start):\n        if start < 0:\n            raise NegativeError(\"Must be >= 0\")\n        self.value = start\n\ntry:\n    c = Counter(-5)\nexcept NegativeError:\n    c = Counter(0)\nprint(c.value)\n```",
     "options": {
-      "a": "A blank message",
-      "b": "The original commit message with 'Revert' prefixed",
-      "c": "A default message provided by Git, e.g., \"Revert '<original message>'\"",
-      "d": "The same as the original commit message"
+      "a": "0",
+      "b": "-5",
+      "c": "None",
+      "d": "An error occurs"
     },
-    "correct_option": "c",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "The message is not blank.",
-      "b": "It's not exactly that; Git constructs a specific revert message.",
-      "c": "Correct! Git generates a message like \"Revert 'original subject'\".",
-      "d": "The message is different, indicating it's a revert."
+      "a": "Correct: the custom exception is caught, and a new `Counter` with value 0 is created.",
+      "b": "The first attempt fails, so -5 is not used.",
+      "c": "The second creation succeeds, giving 0.",
+      "d": "No error because the exception is handled."
     },
     "hints": [
-      "What does `--no-edit` do? It uses the automatically generated message.",
-      "Look at the course output example for revert."
+      "What happens inside the `except` block?",
+      "What value is assigned to the new `Counter`?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "With `--no-edit`, Git uses the default revert message, which is a standardized format.",
-    "time_pressure_note": "The exact wording might surprise you under time.",
+    "explanation": "`Counter(-5)` raises `NegativeError`. The `except` block creates a new `Counter(0)`, so `c.value` is 0.",
+    "time_pressure_note": "Tracing exception handling quickly requires keeping track of which object is finally assigned.",
     "common_mistake_tested": false
   },
   {
     "id": "boss_039",
-    "concept_id": "concept_032",
-    "concept_name": "git revert -n",
-    "chapter": 7,
+    "concept_id": "concept_034",
+    "concept_name": "Use cases for class methods",
+    "chapter": 5,
     "wave": 3,
-    "difficulty": "hard",
-    "question_type": "spot_the_bug",
-    "question_text": "You need to revert the last commit but want to combine that revert with other changes in a single new commit. You run:\n\n```bash\ngit revert HEAD\n```\n\nAfter committing, you realize you have two new commits. What should you have used?",
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a good use case for a class method?",
     "options": {
-      "a": "git revert --no-commit HEAD",
-      "b": "git reset HEAD~1",
-      "c": "git checkout HEAD~1",
-      "d": "git revert -n HEAD"
+      "a": "An alternative constructor like from_csv()",
+      "b": "A method that accesses only class‑level data",
+      "c": "A method that modifies an instance's attribute",
+      "d": "A factory method that returns a new instance"
     },
-    "correct_option": "d",
+    "correct_option": "c",
     "per_option_feedback": {
-      "a": "`--no-commit` is the long form of `-n`, so that would work, but the question asks for a flag; `-n` is the short flag.",
-      "b": "Reset would discard history, not combine changes.",
-      "c": "Checkout doesn't create a commit.",
-      "d": "Correct! `-n` (or `--no-commit`) stages the revert without committing, allowing you to amend or combine."
+      "a": "This is a classic use of @classmethod (alternative constructor).",
+      "b": "Class methods are ideal when no instance data is needed.",
+      "c": "Correct: modifying instance attributes requires `self`, so an instance method is appropriate.",
+      "d": "Factory methods are often implemented as class methods."
     },
     "hints": [
-      "You want to revert without automatically committing.",
-      "The flag that suppresses the commit is `-n`."
+      "What does a class method have access to? (cls, not self)",
+      "If a method needs to change a specific object's state, should it be a class method?"
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git revert -n HEAD` applies the inverse changes to the staging area but does not commit, letting you add more changes before committing.",
-    "time_pressure_note": "Forgetting `-n` leads to an extra commit, complicating history.",
-    "common_mistake_tested": true
+    "explanation": "Class methods operate on the class, not on individual instances. To modify instance attributes, you need `self`, so an instance method is required.",
+    "time_pressure_note": "The distinction between class‑level and instance‑level operations can blur under time pressure.",
+    "common_mistake_tested": false
   },
   {
     "id": "boss_040",
-    "concept_id": "concept_033",
-    "concept_name": "git checkout (restore file)",
-    "chapter": 7,
+    "concept_id": "concept_032",
+    "concept_name": "cls argument",
+    "chapter": 5,
     "wave": 3,
-    "difficulty": "hard",
-    "question_type": "predict_error",
-    "question_text": "You accidentally modified `app.config` and want to restore it from the previous commit. You type:\n\n```bash\ngit checkout HEAD~1 app.config\n```\n\nWhat happens?",
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the error in this class method?\n\n```python\nclass Utility:\n    VERSION = 1\n\n    @classmethod\n    def get_version(self):\n        return self.VERSION\n\nprint(Utility.get_version())\n```",
     "options": {
-      "a": "The file is restored correctly.",
-      "b": "Git complains that 'app.config' is not a branch.",
-      "c": "Git restores the file from the commit before HEAD.",
-      "d": "Git creates a new branch named app.config."
+      "a": "No error; it works but uses self instead of cls by convention.",
+      "b": "self is undefined in a class method.",
+      "c": "VERSION must be accessed via cls.VERSION.",
+      "d": "get_version should be a static method."
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
-      "a": "Without the `--` separator, Git interprets the file name as a branch.",
-      "b": "Correct! Missing `--` causes Git to treat 'app.config' as a branch name, leading to an error or unexpected behavior.",
-      "c": "That would happen with `git checkout HEAD~1 -- app.config`.",
-      "d": "If no branch exists, it might not create one automatically; it would likely error."
+      "a": "Correct: using `self` as the parameter name in a class method is unconventional but not an error. It still receives the class.",
+      "b": "`self` is just a parameter name; the class is passed in.",
+      "c": "Inside the method, `self` (the class) can access `self.VERSION`.",
+      "d": "A class method is acceptable here."
     },
     "hints": [
-      "When you use `git checkout <commit> <file>`, Git needs a way to tell the commit and file apart.",
-      "The double dash `--` is the separator."
+      "Does the parameter name matter in Python?",
+      "Even if named `self`, inside a @classmethod it still refers to the class."
     ],
     "answer_reveal_after": 5,
-    "explanation": "`git checkout` uses the double dash to disambiguate: `git checkout HEAD~1 -- app.config`. Without it, the filename may be misinterpreted as a branch name.",
-    "time_pressure_note": "Under time pressure, forgetting the `--` is a common slip with dangerous consequences.",
-    "common_mistake_tested": true
+    "explanation": "The `@classmethod` decorator ensures the class is passed as the first argument, regardless of its name. Using `self` works but is confusing; `cls` is the convention.",
+    "time_pressure_note": "Seeing `self` in a class method can be distracting, but it does not cause an error.",
+    "common_mistake_tested": false
   }
 ]

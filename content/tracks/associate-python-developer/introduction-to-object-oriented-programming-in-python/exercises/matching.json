@@ -1,316 +1,419 @@
 {
-  "course_slug": "introduction-to-git",
+  "course_slug": "introduction-to-object-oriented-programming-in-python",
   "exercise_type": "matching",
-  "generated_at": "2026-06-15",
+  "generated_at": "2026-06-18",
   "version": 1,
-  "total_pairs": 24,
+  "total_pairs": 32,
   "rounds": [
     {
       "round_number": 1,
-      "theme": "Basic Terminal and Git Commands",
-      "difficulty": "easy",
+      "theme": "OOP Core Concepts",
+      "difficulty": "medium",
       "pairs": [
         {
           "id": "match_001",
-          "concept_id": "concept_004",
-          "term": "pwd",
-          "match": "Prints the full path of the current working directory",
+          "concept_id": "concept_001",
+          "term": "Procedural programming",
+          "match": "Code written as a sequence of steps; no bundling of data and behavior.",
           "wrong_matches": [
-            "Lists files and directories in the current directory",
-            "Changes the current working directory"
+            "Paradigm organizing code as interacting objects with state and behavior.",
+            "Instance of a class; combines data (attributes) and functionality (methods)."
           ],
-          "feedback_correct": "Yes! pwd stands for Print Working Directory.",
-          "feedback_wrong": "That's another terminal command — pwd only shows the path."
+          "feedback_correct": "Correct! Procedural programming is a step‑by‑step paradigm, unlike OOP.",
+          "feedback_wrong": "That definition describes object‑oriented programming or objects, not procedural programming."
         },
         {
           "id": "match_002",
-          "concept_id": "concept_005",
-          "term": "ls",
-          "match": "Lists all non-hidden files and directories in the current working directory",
+          "concept_id": "concept_002",
+          "term": "Object-oriented programming",
+          "match": "Paradigm organizing code as interacting objects with state and behavior.",
           "wrong_matches": [
-            "Prints the full path of the current working directory",
-            "Displays the installed Git version"
+            "Code written as a sequence of steps; no bundling of data and behavior.",
+            "Blueprint or template for creating objects, defining possible attributes and methods."
           ],
-          "feedback_correct": "Correct! ls shows the contents of your current location.",
-          "feedback_wrong": "ls is for listing, not for showing paths or Git versions."
+          "feedback_correct": "Yes! OOP bundles data and methods into objects.",
+          "feedback_wrong": "That describes procedural programming or the class blueprint, not OOP itself."
         },
         {
           "id": "match_003",
-          "concept_id": "concept_006",
-          "term": "cd archive",
-          "match": "Changes the current directory to 'archive'",
+          "concept_id": "concept_003",
+          "term": "Object",
+          "match": "Instance of a class; combines data (attributes) and functionality (methods).",
           "wrong_matches": [
-            "Initializes a new Git repository named 'archive'",
-            "Shows the state of the working directory and staging area"
+            "Data associated with an object, represented by attributes.",
+            "The functionality of an object, defined by its methods."
           ],
-          "feedback_correct": "Right! cd moves you into the specified folder.",
-          "feedback_wrong": "This is a navigation command, not a Git command or status checker."
+          "feedback_correct": "Correct: an object is a concrete instance with state and behavior.",
+          "feedback_wrong": "That describes state or behavior, not the object itself."
         },
         {
           "id": "match_004",
-          "concept_id": "concept_007",
-          "term": "git --version",
-          "match": "Displays the installed Git version",
+          "concept_id": "concept_004",
+          "term": "State",
+          "match": "Data associated with an object, represented by attributes.",
           "wrong_matches": [
-            "Initializes a new Git repository",
-            "Lists files and directories"
+            "The functionality of an object, defined by its methods.",
+            "Instance of a class; combines data (attributes) and functionality (methods)."
           ],
-          "feedback_correct": "Exactly! It shows the version, e.g., 'git version 2.46.0'.",
-          "feedback_wrong": "git --version doesn't list files or create a repo."
+          "feedback_correct": "Right! State is the data an object holds.",
+          "feedback_wrong": "That describes behavior or the object itself."
         },
         {
           "id": "match_005",
-          "concept_id": "concept_010",
-          "term": "git init mental-health-workspace",
-          "match": "Creates a new Git repository in the directory 'mental-health-workspace'",
+          "concept_id": "concept_005",
+          "term": "Behavior: The functionality of an object, defined by its _____.",
+          "match": "methods",
           "wrong_matches": [
-            "Shows the state of the working directory and staging area",
-            "Displays the installed Git version"
+            "attributes",
+            "classes"
           ],
-          "feedback_correct": "Yes! The command initializes a repo in the given folder.",
-          "feedback_wrong": "This is a repository creation command, not status or version."
+          "feedback_correct": "Exactly! Methods define what an object can do.",
+          "feedback_wrong": "No – behavior is implemented through methods, not attributes or classes."
         },
         {
           "id": "match_006",
-          "concept_id": "concept_011",
-          "term": "git status",
-          "match": "Displays the current state of the working directory and staging area",
+          "concept_id": "concept_006",
+          "term": "Class",
+          "match": "Blueprint or template for creating objects, defining possible attributes and methods.",
           "wrong_matches": [
-            "Lists all non-hidden files",
-            "Changes the current working directory"
+            "A specific realization of a class blueprint; an object created from a class.",
+            "A variable bound to an object, storing its state; accessed via obj.attr."
           ],
-          "feedback_correct": "Correct! git status tells you what's modified, staged, or untracked.",
-          "feedback_wrong": "git status doesn't list files like ls, nor change directory."
+          "feedback_correct": "Yes! A class is the template, not the object itself.",
+          "feedback_wrong": "That defines instance or attribute, not a class."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "Instance",
+          "match": "A specific realization of a class blueprint; an object created from a class.",
+          "wrong_matches": [
+            "Blueprint or template for creating objects, defining possible attributes and methods.",
+            "A variable bound to an object, storing its state; accessed via obj.attr."
+          ],
+          "feedback_correct": "Correct: every object is an instance of its class.",
+          "feedback_wrong": "That describes the class itself or an attribute."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "Attribute",
+          "match": "A variable bound to an object, storing its state; accessed via obj.attr.",
+          "wrong_matches": [
+            "The functionality of an object, defined by its methods.",
+            "A specific realization of a class blueprint; an object created from a class."
+          ],
+          "feedback_correct": "Right! Attributes hold the object's data.",
+          "feedback_wrong": "That defines behavior or instance, not an attribute."
         }
       ]
     },
     {
       "round_number": 2,
-      "theme": "Git Staging and Committing",
-      "difficulty": "medium",
+      "theme": "Class and Instance Mechanics",
+      "difficulty": "hard",
       "pairs": [
         {
-          "id": "match_007",
-          "concept_id": "concept_013",
-          "term": "Staging area (index)",
-          "match": "Intermediate area where changes are placed via git add before being committed",
-          "wrong_matches": [
-            "Records a snapshot of the repository at a point in time",
-            "Restores a file from a previous commit"
-          ],
-          "feedback_correct": "Exactly! It's the preparation zone for the next commit.",
-          "feedback_wrong": "The staging area holds changes before committing; it's not the commit itself."
-        },
-        {
-          "id": "match_008",
-          "concept_id": "concept_014",
-          "term": "git add README.md",
-          "match": "Stages the file README.md to be included in the next commit",
-          "wrong_matches": [
-            "Creates a new commit with the message 'README.md'",
-            "Unstages README.md while keeping changes"
-          ],
-          "feedback_correct": "Right! git add moves the file to the staging area.",
-          "feedback_wrong": "This adds a file to the staging area, it doesn't commit or unstage."
-        },
-        {
           "id": "match_009",
-          "concept_id": "concept_015",
-          "term": "git commit -m \"message\"",
-          "match": "Creates a new commit from staged changes with the given log message",
+          "concept_id": "concept_009",
+          "term": "Method",
+          "match": "A function defined inside a class; defines object behavior, first parameter is self.",
           "wrong_matches": [
-            "Stages all changes in the current directory",
-            "Unstages a file but keeps changes in working directory"
+            "Built‑in function that returns the class (type) of an object.",
+            "Built‑in function that displays all attributes and methods of an object."
           ],
-          "feedback_correct": "Correct! The -m flag supplies the commit message directly.",
-          "feedback_wrong": "This command commits, not stage or unstage."
+          "feedback_correct": "Exactly! Methods are functions bound to an object.",
+          "feedback_wrong": "That describes type() or dir(), not a method."
         },
         {
           "id": "match_010",
-          "concept_id": "concept_016",
-          "term": "Commit",
-          "match": "A recorded, immutable snapshot of the repository at a point in time",
+          "concept_id": "concept_010",
+          "term": "type() function",
+          "match": "Built‑in function that returns the class (type) of an object.",
           "wrong_matches": [
-            "A Git object that stores a file's compressed contents",
-            "A unique 40-character identifier"
+            "Built‑in function that displays all attributes and methods of an object.",
+            "A function defined inside a class; defines object behavior, first parameter is self."
           ],
-          "feedback_correct": "Yes! A commit captures the entire project state and is immutable.",
-          "feedback_wrong": "A commit is not the content blob nor the hash itself."
+          "feedback_correct": "Yes, type(obj) returns the object's class.",
+          "feedback_wrong": "That is dir() or a method definition, not type()."
         },
         {
           "id": "match_011",
-          "concept_id": "concept_034",
-          "term": "git restore --staged summary_statistics.csv",
-          "match": "Unstages summary_statistics.csv while keeping modifications in the working directory",
+          "concept_id": "concept_011",
+          "term": "dir() function",
+          "match": "Built‑in function that displays all attributes and methods of an object.",
           "wrong_matches": [
-            "Restores the file from the previous commit",
-            "Creates a new commit that reverts the file's changes"
+            "Built‑in function that returns the class (type) of an object.",
+            "A keyword that creates a new class in Python."
           ],
-          "feedback_correct": "Exactly! The --staged flag removes the file from the staging area.",
-          "feedback_wrong": "This unstages, not restores an old version or creates a revert commit."
+          "feedback_correct": "Right! dir(obj) lists everything the object can do.",
+          "feedback_wrong": "That is type() or the class keyword, not dir()."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_012",
+          "term": "Class definition syntax",
+          "match": "Uses the `class` keyword, class name, colon, and indented body.",
+          "wrong_matches": [
+            "Creating an object by calling the class name with parentheses.",
+            "A placeholder statement that does nothing."
+          ],
+          "feedback_correct": "Correct! class ClassName: ...",
+          "feedback_wrong": "That describes object creation or pass, not the class header."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_013",
+          "term": "pass statement",
+          "match": "A placeholder statement that does nothing; used in empty class bodies.",
+          "wrong_matches": [
+            "Creating an object by calling the class name with parentheses.",
+            "A function defined inside a class; defines object behavior, first parameter is self."
+          ],
+          "feedback_correct": "Yes, pass satisfies the indentation requirement.",
+          "feedback_wrong": "That is object creation or method definition, not pass."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_014",
+          "term": "Object creation",
+          "match": "Creating an instance by calling the class name with parentheses.",
+          "wrong_matches": [
+            "Uses the `class` keyword, class name, colon, and indented body.",
+            "A placeholder statement that does nothing."
+          ],
+          "feedback_correct": "Correct! Customer() creates a new Customer object.",
+          "feedback_wrong": "That is class definition or pass."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_015",
+          "term": "Method definition",
+          "match": "Defined with def inside a class; first parameter must be self.",
+          "wrong_matches": [
+            "A reference to the instance, used as the first argument of any instance method.",
+            "Creating an instance by calling the class name with parentheses."
+          ],
+          "feedback_correct": "Yes, methods always take self as the first parameter.",
+          "feedback_wrong": "That describes the self parameter or object creation."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_016",
+          "term": "self parameter",
+          "match": "A reference to the instance of the class, used to access attributes and other methods.",
+          "wrong_matches": [
+            "Defined with def inside a class; first parameter must be self.",
+            "A function defined inside a class; defines object behavior, first parameter is self."
+          ],
+          "feedback_correct": "Exactly: self is the conventional name for the instance reference.",
+          "feedback_wrong": "That describes method definition or method in general."
         }
       ]
     },
     {
       "round_number": 3,
-      "theme": "Inspecting and Reverting History",
+      "theme": "Naming and Attribute Patterns",
       "difficulty": "hard",
       "pairs": [
         {
-          "id": "match_012",
-          "concept_id": "concept_021",
-          "term": "git log",
-          "match": "Shows the commit history in reverse chronological order",
-          "wrong_matches": [
-            "Displays changes between two commits",
-            "Restores a file from a specific commit"
-          ],
-          "feedback_correct": "Yes! git log lists all past commits.",
-          "feedback_wrong": "git log shows history, not diffs or file restoration."
-        },
-        {
-          "id": "match_013",
-          "concept_id": "concept_022",
-          "term": "git log -3",
-          "match": "Limits the log output to the 3 most recent commits",
-          "wrong_matches": [
-            "Shows commits since a specific date",
-            "Displays details and diff of a specific commit"
-          ],
-          "feedback_correct": "Correct! The -n flag restricts the number of commits shown.",
-          "feedback_wrong": "This limits by count, not by date or a single commit's details."
-        },
-        {
-          "id": "match_014",
-          "concept_id": "concept_023",
-          "term": "git log --since='Apr 2 2024'",
-          "match": "Displays only commits made on or after April 2, 2024",
-          "wrong_matches": [
-            "Shows only commits before a given date",
-            "Restricts output to a specific file"
-          ],
-          "feedback_correct": "Right! --since filters by a start date.",
-          "feedback_wrong": "This filter uses a start date, not an end date or file path."
-        },
-        {
-          "id": "match_015",
-          "concept_id": "concept_024",
-          "term": "git log --until='Apr 11 2024'",
-          "match": "Displays commits made before April 11, 2024 (exclusive)",
-          "wrong_matches": [
-            "Shows commits after the given date",
-            "Limits the log to a specific number of commits"
-          ],
-          "feedback_correct": "Exactly! --until defines an exclusive end date for the log.",
-          "feedback_wrong": "--until stops before the date, not after, and not by count."
-        },
-        {
-          "id": "match_016",
-          "concept_id": "concept_025",
-          "term": "git show c27fa856",
-          "match": "Displays the metadata and diff for the commit identified by hash c27fa856",
-          "wrong_matches": [
-            "Shows the difference between two commits",
-            "Lists the commit history"
-          ],
-          "feedback_correct": "Yes! git show inspects a single commit in detail.",
-          "feedback_wrong": "git show is for one commit, not a comparison or the full history."
-        },
-        {
           "id": "match_017",
-          "concept_id": "concept_026",
-          "term": "git diff report.md",
-          "match": "Shows unstaged changes in report.md compared to the last commit",
+          "concept_id": "concept_017",
+          "term": "Attribute creation (assignment)",
+          "match": "self.name = new_name   (inside a method)",
           "wrong_matches": [
-            "Shows staged changes that will be included in the next commit",
-            "Restores report.md from the previous commit"
+            "print('I am Customer ' + self.name)",
+            "CamelCase for classes; snake_case for methods and attributes."
           ],
-          "feedback_correct": "Right! git diff without --staged compares working directory to last commit.",
-          "feedback_wrong": "This shows unstaged differences, not staged or restoration."
+          "feedback_correct": "Right! self.attr = value creates an instance attribute.",
+          "feedback_wrong": "That is using an attribute in a method, not creating it."
         },
         {
           "id": "match_018",
-          "concept_id": "concept_027",
-          "term": "git diff --staged report.md",
-          "match": "Shows the changes in report.md that are staged and ready to be committed",
+          "concept_id": "concept_018",
+          "term": "Using attributes in methods",
+          "match": "print('I am Customer ' + self.name)",
           "wrong_matches": [
-            "Shows unstaged changes in the working directory",
-            "Creates a revert commit for the file"
+            "self.name = new_name",
+            "class Customer:\n    pass"
           ],
-          "feedback_correct": "Correct! --staged compares the staging area to the last commit.",
-          "feedback_wrong": "This shows staged changes, not unstaged or a revert."
+          "feedback_correct": "Yes, self.name accesses the attribute inside a method.",
+          "feedback_wrong": "That is attribute assignment or an empty class."
         },
         {
           "id": "match_019",
-          "concept_id": "concept_028",
-          "term": "HEAD",
-          "match": "Symbolic reference pointing to the current commit (usually the latest on the current branch)",
+          "concept_id": "concept_019",
+          "term": "__init__ method (constructor)",
+          "match": "def __init__(self, name):\n    self.name = name",
           "wrong_matches": [
-            "A unique identifier for a commit",
-            "The parent of the current commit"
+            "def identify(self, name):\n    print('I am Customer ' + name)",
+            "class Customer:\n    pass"
           ],
-          "feedback_correct": "Exactly! HEAD is a pointer to where you are in the commit timeline.",
-          "feedback_wrong": "HEAD is a pointer, not a hash or specifically the parent."
+          "feedback_correct": "Correct! The constructor sets up initial attributes.",
+          "feedback_wrong": "That is a regular method or an empty class, not __init__."
         },
         {
           "id": "match_020",
-          "concept_id": "concept_029",
-          "term": "git diff HEAD~1 HEAD",
-          "match": "Compares the parent of the current commit with the current commit",
+          "concept_id": "concept_025",
+          "term": "Instance attributes",
+          "match": "Belong to a specific object; each instance can have different values.",
           "wrong_matches": [
-            "Shows the differences for the most recent commit",
-            "Restores a file from two commits ago"
+            "Defined in the class body outside methods; shared by all instances.",
+            "A blueprint or template for creating objects."
           ],
-          "feedback_correct": "Yes! HEAD~1 is one commit before HEAD, so this shows the latest change.",
-          "feedback_wrong": "This command compares two commits, not a single commit or file restore."
+          "feedback_correct": "Exactly – instance attributes are per‑object data.",
+          "feedback_wrong": "That describes class attributes or a class."
         },
         {
           "id": "match_021",
-          "concept_id": "concept_030",
-          "term": "git revert HEAD",
-          "match": "Creates a new commit that undoes the changes of the most recent commit",
+          "concept_id": "concept_026",
+          "term": "Class attributes",
+          "match": "Defined in the class body outside methods; shared by all instances.",
           "wrong_matches": [
-            "Removes the most recent commit from history",
-            "Stages the inverse of the most recent commit without committing"
+            "Belong to a specific object; each instance can have different values.",
+            "CamelCase for classes; snake_case for methods and attributes."
           ],
-          "feedback_correct": "Right! git revert is a safe undo that preserves history.",
-          "feedback_wrong": "git revert adds a new commit; it doesn't delete or only stage."
+          "feedback_correct": "Yes! Class attributes are shared across every instance.",
+          "feedback_wrong": "That describes instance attributes or naming conventions."
         },
         {
           "id": "match_022",
-          "concept_id": "concept_031",
-          "term": "git revert HEAD --no-edit",
-          "match": "Reverts the most recent commit using the default revert message without opening an editor",
+          "concept_id": "concept_021",
+          "term": "CamelCase naming for classes",
+          "match": "Customer, BankAccount – each word starts uppercase, no underscores.",
           "wrong_matches": [
-            "Reverts without creating a commit, leaving changes staged",
-            "Restores a file from the parent commit"
+            "set_name, balance – lowercase with underscores.",
+            "self – the conventional first parameter of instance methods."
           ],
-          "feedback_correct": "Yes! --no-edit suppresses the text editor and commits immediately.",
-          "feedback_wrong": "--no-edit still commits; it's different from -n or checkout."
+          "feedback_correct": "Correct: class names use CamelCase (PascalCase).",
+          "feedback_wrong": "That describes snake_case or the self convention."
         },
         {
           "id": "match_023",
-          "concept_id": "concept_032",
-          "term": "git revert -n HEAD",
-          "match": "Reverts the most recent commit's changes and stages them, but does not commit",
+          "concept_id": "concept_022",
+          "term": "snake_case for methods and attributes",
+          "match": "set_name, balance – lowercase with underscores.",
           "wrong_matches": [
-            "Creates a new commit that undoes the changes",
-            "Shows the diff that would be reverted"
+            "Customer, BankAccount – each word starts uppercase, no underscores.",
+            "A placeholder statement that does nothing."
           ],
-          "feedback_correct": "Correct! -n stands for --no-commit, so the changes are staged but not committed.",
-          "feedback_wrong": "-n prevents the commit, so it only stages the revert."
+          "feedback_correct": "Yes, methods and attributes use snake_case.",
+          "feedback_wrong": "That is CamelCase or the pass statement."
         },
         {
           "id": "match_024",
-          "concept_id": "concept_033",
-          "term": "git checkout HEAD~1 -- report.md",
-          "match": "Restores report.md from the parent commit into the working directory",
+          "concept_id": "concept_023",
+          "term": "self convention",
+          "match": "The standard name for the first parameter of instance methods.",
           "wrong_matches": [
-            "Restores report.md from the most recent commit",
-            "Unstages report.md while keeping changes"
+            "The reference to the class passed to class methods.",
+            "A built‑in function that returns the class of an object."
           ],
-          "feedback_correct": "Exactly! The command retrieves the file as it was one commit before HEAD.",
-          "feedback_wrong": "The ~1 fetches the parent, not HEAD itself, and it's not an unstage operation."
+          "feedback_correct": "Exactly: self is the conventional instance reference.",
+          "feedback_wrong": "That describes cls or type()."
+        }
+      ]
+    },
+    {
+      "round_number": 4,
+      "theme": "Inheritance, Polymorphism & Special Methods",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_025",
+          "concept_id": "concept_027",
+          "term": "Encapsulation",
+          "match": "Bundling data (attributes) and behavior (methods) inside a class, hiding internal details.",
+          "wrong_matches": [
+            "A child class extending functionality from a parent class.",
+            "Objects of different classes accessed through a common interface."
+          ],
+          "feedback_correct": "Yes! Encapsulation wraps data and methods together.",
+          "feedback_wrong": "That describes inheritance or polymorphism."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_028",
+          "term": "Inheritance (core principle)",
+          "match": "A child class extends a parent class, acquiring its attributes and methods.",
+          "wrong_matches": [
+            "Bundling data and behavior inside a class.",
+            "Assigning to a class attribute via an instance creates a shadow instance attribute."
+          ],
+          "feedback_correct": "Correct: inheritance creates an 'is‑a' relationship.",
+          "feedback_wrong": "That is encapsulation or the shadowing effect."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_029",
+          "term": "Polymorphism (core principle)",
+          "match": "Different objects respond to the same method call each in their own way.",
+          "wrong_matches": [
+            "A child class extends a parent class, acquiring its attributes and methods.",
+            "The default behavior of == compares memory addresses, not attribute values."
+          ],
+          "feedback_correct": "Exactly – same interface, different behaviors.",
+          "feedback_wrong": "That describes inheritance or default equality."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_030",
+          "term": "Modifying class attribute via instance",
+          "match": "emp1.MIN_SALARY = 50000 creates an instance attribute, leaving the class attribute unchanged.",
+          "wrong_matches": [
+            "Defined in the class body outside methods; shared by all instances.",
+            "A class method that returns a new instance, e.g., from_file()."
+          ],
+          "feedback_correct": "Correct! It shadows the class attribute only for that instance.",
+          "feedback_wrong": "That describes class attribute definition or an alternative constructor."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_031",
+          "term": "Class methods (@classmethod)",
+          "match": "@classmethod\ndef from_file(cls, filename):",
+          "wrong_matches": [
+            "def __init__(self, name):\n    self.name = name",
+            "class BalanceError(Exception):\n    pass"
+          ],
+          "feedback_correct": "Yes, the @classmethod decorator marks a method bound to the class.",
+          "feedback_wrong": "That is a constructor or a custom exception."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_032",
+          "term": "cls argument",
+          "match": "The first parameter of a class method, referencing the class itself.",
+          "wrong_matches": [
+            "The first parameter of an instance method, referencing the object.",
+            "A built‑in function that returns the type of an object."
+          ],
+          "feedback_correct": "Right! cls is the class‑level equivalent of self.",
+          "feedback_wrong": "That describes self or type()."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_033",
+          "term": "Alternative constructors",
+          "match": "return cls(name, salary)  # creates an instance from custom data.",
+          "wrong_matches": [
+            "def __init__(self, name):\n    self.name = name",
+            "class SavingsAccount(BankAccount):\n    pass"
+          ],
+          "feedback_correct": "Yes, alternative constructors are class methods that return a new instance.",
+          "feedback_wrong": "That is a standard constructor or inheritance syntax."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_034",
+          "term": "Use cases for class methods",
+          "match": "Alternative constructors, methods that don't need instance data, Singleton pattern.",
+          "wrong_matches": [
+            "Creating a placeholder that does nothing.",
+            "Bundling data and methods inside a class."
+          ],
+          "feedback_correct": "Exactly: class methods are useful when instance data isn't required.",
+          "feedback_wrong": "That describes the pass statement or encapsulation."
         }
       ]
     }
