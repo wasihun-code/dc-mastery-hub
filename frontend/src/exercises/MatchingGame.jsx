@@ -9,9 +9,11 @@ import {
   Clock,
   Zap,
   ArrowRight,
-  Trash2
+  Trash2,
+  Edit2
 } from 'lucide-react';
 import { getSessionLimit } from '../services/settingsService';
+import EditQuestionModal from '../components/EditQuestionModal';
 
 export default function MatchingGame() {
   const { courseSlug } = useParams();
@@ -22,6 +24,7 @@ export default function MatchingGame() {
   const [allRounds, setAllRounds] = useState([]);
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [editingQuestion, setEditingQuestion] = useState(null);
   
   // Round state
   const [terms, setTerms] = useState([]);
@@ -685,14 +688,25 @@ export default function MatchingGame() {
           </div>
         {/* Left Sidebar Controls Container */}
         <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-          {/* Delete Pair Button */}
-          <button
-            type="button"
-            onClick={handleDeletePair}
-            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
-          >
-            <Trash2 size={14} /> Delete Pair
-          </button>
+          <div className="flex gap-2">
+            {/* Edit Pair Button */}
+            <button
+              type="button"
+              disabled={!selectedTerm}
+              onClick={() => setEditingQuestion(selectedTerm)}
+              className={`flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20 ${!selectedTerm ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              <Edit2 size={12} /> Edit
+            </button>
+            {/* Delete Pair Button */}
+            <button
+              type="button"
+              onClick={handleDeletePair}
+              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
+            >
+              <Trash2 size={12} /> Delete
+            </button>
+          </div>
 
           {/* Keyboard Shortcuts Helper */}
           <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
@@ -759,6 +773,19 @@ export default function MatchingGame() {
               </div>
             </div>
           </div>
+        )}
+
+        {editingQuestion && (
+          <EditQuestionModal
+            courseSlug={courseSlug}
+            exerciseType="matching"
+            questionData={editingQuestion}
+            onClose={() => setEditingQuestion(null)}
+            onSave={() => {
+              fetchCourseAndMatching();
+              setEditingQuestion(null);
+            }}
+          />
         )}
       </div>
     );

@@ -1,3 +1,4 @@
+import config from '../config.js'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
@@ -5,7 +6,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
-import { runCode, runShellCommand, runSql } from '../services/codeSandbox.js'
+import { runCode, runShellCommand, runSql, runDatasetChallenge } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
 import { recalculateMastery } from './progress.js'
 
@@ -62,11 +63,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
       WHERE user_id = ? AND course_slug = ? AND (exercise_type = ? OR (exercise_type = 'flashcard' AND ? = 'flashcards') OR (exercise_type = 'flashcards' AND ? = 'flashcard'))
     `).all(userId, courseSlug, exerciseType, exerciseType, exerciseType).map(row => String(row.question_id));
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
     const exercisePath = path.join(courseFolder, 'exercises', `${exerciseType}.json`);
@@ -435,11 +432,7 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER
+    const contentFolder = config.CONTENT_PATH
       
     const fileName = type === 'slides' ? `${courseSlug}.pdf` : `${courseSlug}-glossary.pdf`
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
@@ -468,11 +461,7 @@ router.get('/datasets/:courseSlug', (req, res, next) => {
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER
+    const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
     const datasetsPath = path.join(courseFolder, 'datasets')
@@ -520,11 +509,7 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
     let challenges = [];
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (track) {
-      const contentFolder = process.env.CONTENT_FOLDER 
-        ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-            ? process.env.CONTENT_FOLDER 
-            : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-        : DEFAULT_CONTENT_FOLDER;
+      const contentFolder = config.CONTENT_PATH
 
       const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
       const exercisePath = path.join(courseFolder, 'exercises', 'challenge.json');
@@ -584,10 +569,10 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
 
 router.post('/run-code', (req, res, next) => {
   try {
-    const { code, courseSlug, datasetFile } = req.body
+    const { code, courseSlug, challengeId } = req.body
     
     const course = db.prepare(`
-      SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
@@ -601,23 +586,28 @@ router.post('/run-code', (req, res, next) => {
       return res.json(result)
     }
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER
+    const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
-    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
+    const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
     
-    if (!fs.existsSync(datasetPath)) {
-      return res.status(404).json({ error: 'Dataset file not found' })
+    // Load challenge
+    const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
+    if (!fs.existsSync(challengePath)) {
+      return res.status(404).json({ error: 'Challenge file not found' })
     }
+    
+    let challengeData = {}
+    try {
+      const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+      const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
+      challengeData = challenges.find(c => String(c.id) === String(challengeId)) || {}
+    } catch(e) {}
 
-    const result = runCode(code, [datasetPath])
+    const result = runDatasetChallenge(code, challengeData.pre_loaded_data, null, datasetsAbsolutePath, req.user ? req.user.id : 'anon', challengeId)
     
     if (result.error && result.error.includes('ETIMEDOUT')) {
-      result.error = "Code timed out after 10 seconds. Check for infinite loops."
+      result.error = "Code timed out after 15 seconds. Check for infinite loops."
     }
 
     res.json(result)
@@ -628,7 +618,7 @@ router.post('/run-code', (req, res, next) => {
 
 router.post('/run-shell', (req, res, next) => {
   try {
-    const { courseSlug, datasetFile, history, command } = req.body
+    const { courseSlug, challengeId, history, command } = req.body
     
     const course = db.prepare(`
       SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
@@ -648,21 +638,26 @@ router.post('/run-shell', (req, res, next) => {
       })
     }
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER
+    const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
-    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
+    const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
     
-    if (!fs.existsSync(datasetPath)) {
-      return res.status(404).json({ error: 'Dataset file not found' })
+    // Load challenge
+    const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
+    if (!fs.existsSync(challengePath)) {
+      return res.status(404).json({ error: 'Challenge file not found' })
     }
+    
+    let challengeData = {}
+    try {
+      const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+      const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
+      challengeData = challenges.find(c => String(c.id) === String(challengeId)) || {}
+    } catch(e) {}
 
     const historyCode = (history || []).join('\n')
-    const result = runShellCommand(historyCode, command, [datasetPath])
+    const result = runShellCommand(historyCode, command, challengeData.pre_loaded_data, datasetsAbsolutePath, req.user ? req.user.id : 'anon', challengeId)
     
     res.json(result)
   } catch (err) {
@@ -672,9 +667,8 @@ router.post('/run-shell', (req, res, next) => {
 
 router.post('/submit-challenge', (req, res, next) => {
   try {
-    const { code, courseSlug, challengeId, datasetFile, expectedOutputCode, solutionCode, solution_code } = req.body
-    const expectedCode = expectedOutputCode || solutionCode || solution_code
-    console.log(`[submit-challenge] Request received for ${courseSlug} - ${datasetFile}`)
+    const { code, courseSlug, challengeId } = req.body
+    console.log(`[submit-challenge] Request received for ${courseSlug} - ${challengeId}`)
     
     const course = db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
@@ -696,8 +690,31 @@ router.post('/submit-challenge', (req, res, next) => {
         .join('\n')
     }
 
-    // Handle SQL courses
-    if (track.language === 'SQL' || courseSlug.includes('sql')) {
+    const contentFolder = config.CONTENT_PATH
+
+    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
+    
+    // Load challenge.json
+    const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
+    if (!fs.existsSync(challengePath)) {
+      return res.status(404).json({ error: 'Challenge file not found' })
+    }
+
+    let challengeData = null
+    try {
+      const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+      const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
+      challengeData = challenges.find(c => String(c.id) === String(challengeId))
+    } catch(e) {}
+
+    if (!challengeData) {
+      return res.status(404).json({ error: 'Challenge not found' })
+    }
+
+    // Handle SQL courses specifically if validation_rules are not provided (legacy comparison)
+    if ((track.language === 'SQL' || courseSlug.includes('sql')) && (!challengeData.validation_rules || challengeData.validation_rules.length === 0)) {
+      const expectedCode = challengeData.solution_code || challengeData.expected_output_code || ''
       const userResult = runSql(code)
       const expectedResult = runSql(expectedCode)
 
@@ -713,7 +730,10 @@ router.post('/submit-challenge', (req, res, next) => {
       const score = passed ? 100 : 0
 
       return res.json({
-        passed,
+        success: true,
+        passed: passed ? 1 : 0,
+        total: 1,
+        results: [{ rule: "Outputs match", passed: passed, message: passed ? "Outputs match" : "Outputs differ" }],
         score,
         user_output: normalizeOutput(userResult.output),
         expected_output: normalizeOutput(expectedResult.output),
@@ -723,57 +743,30 @@ router.post('/submit-challenge', (req, res, next) => {
       })
     }
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-          ? process.env.CONTENT_FOLDER 
-          : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER
+    console.log(`[submit-challenge] Running user code through sandbox...`)
+    const result = runDatasetChallenge(
+      code, 
+      challengeData.pre_loaded_data, 
+      challengeData.validation_rules, 
+      datasetsAbsolutePath, 
+      req.user ? req.user.id : 'anon', 
+      challengeId
+    )
 
-    const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
-    const datasetPath = path.join(courseFolder, 'datasets', datasetFile)
-    console.log(`[submit-challenge] datasetPath: ${datasetPath}`)
-    
-    if (!fs.existsSync(datasetPath)) {
-      console.log(`[submit-challenge] datasetPath does NOT exist!`)
-      return res.status(404).json({ error: 'Dataset file not found' })
+    if (!result.success && result.error && !result.results) {
+      return res.status(400).json({ error: result.error })
     }
 
-    console.log(`[submit-challenge] Running user code...`)
-    const userResult = runCode(code, [datasetPath])
-    console.log(`[submit-challenge] User result:`, userResult)
-    
-    console.log(`[submit-challenge] Running expected code...`)
-    const expectedResult = runCode(expectedCode, [datasetPath])
-    console.log(`[submit-challenge] Expected result:`, expectedResult)
-    
-    if (!expectedResult.success) {
-      return res.status(500).json({ error: 'Expected solution failed to run: ' + expectedResult.error })
-    }
-
-    if (!userResult.success) {
-      return res.status(400).json({ error: userResult.error })
-    }
-
-    const passed = normalizeOutput(userResult.output) === normalizeOutput(expectedResult.output)
-    const score = passed ? 100 : 0
-    
-    let qId = null
-    if (challengeId && typeof challengeId === 'string') {
-      const match = challengeId.match(/\d+/)
-      if (match) {
-        qId = parseInt(match[0], 10)
-      }
-    }
-
-    // Attempt will be recorded by frontend calling /api/progress/attempt
     res.json({
-      passed,
-      score,
-      user_output: normalizeOutput(userResult.output),
-      expected_output: normalizeOutput(expectedResult.output),
-      feedback: passed 
-        ? 'Correct! Your output matches perfectly.'
-        : 'Not quite. Compare your output with the expected output below.'
+      success: true,
+      passed: result.passed,
+      total: result.total,
+      results: result.results,
+      stdout: result.stdout,
+      stderr: result.stderr,
+      executionTime: result.executionTime,
+      score: result.success ? 100 : 0,
+      feedback: result.success ? 'Correct! Your output matches perfectly.' : 'Not quite. Check the validation rules below.'
     })
   } catch (err) {
     next(err)

@@ -1,0 +1,250 @@
+{
+  "course_slug": "joining-data-in-sql",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 5,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Official Languages of Afghanistan",
+      "dataset_file": "countries.csv, languages.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001"
+      ],
+      "context": "As a language researcher, you need to list all official languages spoken in Afghanistan. The data is spread across two tables: countries (country information) and languages (language details per country).",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Start by selecting the country_code from the countries table where the country_name is 'Afghanistan'.",
+          "variable_name": "afg_code",
+          "hint": "Use SELECT code FROM countries WHERE country_name = 'Afghanistan'."
+        },
+        {
+          "step": 2,
+          "description": "Inner join the languages table with the countries table on the country code. Use the alias 'c' for countries and 'l' for languages.",
+          "variable_name": "joined",
+          "hint": "INNER JOIN languages l ON c.code = l.code"
+        },
+        {
+          "step": 3,
+          "description": "Filter the result to only show official languages (official = true). Select the country_name and language name.",
+          "variable_name": "final",
+          "hint": "WHERE l.official = true"
+        }
+      ],
+      "starter_code": "-- Tables available: countries, languages\n-- Write your query below",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT c.country_name, l.name\nFROM countries c\nINNER JOIN languages l ON c.code = l.code\nWHERE c.code = 'AFG' AND l.official = true;",
+      "expected_output": "Afghanistan\tDari\nAfghanistan\tPashto",
+      "output_description": "Two rows showing the official languages of Afghanistan: Dari and Pashto.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "You need to combine both tables on the country code column.",
+        "Look for the official column in the languages table to filter."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates ability to perform an INNER JOIN between two tables and filter results."
+    },
+    {
+      "id": "dc_002",
+      "title": "Countries Without Currency Data",
+      "dataset_file": "countries.csv, currencies.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_009"
+      ],
+      "context": "A financial analyst wants to identify all countries that have no currency information in the database. This might indicate missing data.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Perform a LEFT JOIN between countries (c) and currencies (cur) on the country code.",
+          "variable_name": "joined",
+          "hint": "LEFT JOIN currencies cur ON c.code = cur.code"
+        },
+        {
+          "step": 2,
+          "description": "Filter the joined result to find rows where the currencies table has no entry (i.e., the join column from currencies is NULL).",
+          "variable_name": "missing",
+          "hint": "WHERE cur.code IS NULL"
+        },
+        {
+          "step": 3,
+          "description": "Select only the country_name from countries to list the countries without currency data.",
+          "variable_name": "final",
+          "hint": "SELECT c.country_name"
+        }
+      ],
+      "starter_code": "-- Tables: countries, currencies\n-- Write a query to find countries missing currency info.",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT c.country_name\nFROM countries c\nLEFT JOIN currencies cur ON c.code = cur.code\nWHERE cur.code IS NULL;",
+      "expected_output": "Netherlands",
+      "output_description": "List of countries that do not have a matching row in the currencies table. In the sample data, Netherlands (NLD) is missing.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember that a LEFT JOIN keeps all rows from the left table; unmatched rows from the right table have NULLs.",
+        "Use IS NULL on a column that comes from the right table to find missing rows."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student learns to use LEFT JOIN with IS NULL to implement an anti‑join pattern and identify missing relationships."
+    },
+    {
+      "id": "dc_003",
+      "title": "Countries with Economic Data in 2015 or 2019",
+      "dataset_file": "economies2015.csv, economies2019.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_014"
+      ],
+      "context": "You need a unified list of all country codes that appear in either the 2015 or the 2019 economic dataset, without duplicates.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Select the distinct country code from the 2015 economic data.",
+          "variable_name": "codes_2015",
+          "hint": "SELECT code FROM economies2015"
+        },
+        {
+          "step": 2,
+          "description": "Select the distinct country code from the 2019 economic data.",
+          "variable_name": "codes_2019",
+          "hint": "SELECT code FROM economies2019"
+        },
+        {
+          "step": 3,
+          "description": "Combine the two result sets using UNION to remove duplicates.",
+          "variable_name": "all_codes",
+          "hint": "UNION"
+        }
+      ],
+      "starter_code": "-- Tables: economies2015, economies2019\n-- Write a query that returns distinct country codes present in either table.",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT code FROM economies2015\nUNION\nSELECT code FROM economies2019;",
+      "expected_output": "AFG\nAGO\nALB",
+      "output_description": "Distinct country codes present in either dataset. Sample includes AFG (2015), AGO and ALB (2019).",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "UNION automatically removes duplicate rows.",
+        "Both queries must return the same number of columns (here just one)."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates the use of UNION to combine two result sets and eliminate duplicates."
+    },
+    {
+      "id": "dc_004",
+      "title": "Continent with Highest Average GDP per Capita in 2015",
+      "dataset_file": "countries.csv, economies2015.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_020",
+        "concept_023"
+      ],
+      "context": "Management wants to identify which continent had the highest average GDP per capita in 2015 to focus investment. You'll need to compute the average per continent using a subquery in the FROM clause.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a subquery that joins countries and economies2015 on code, groups by continent, and calculates the average gdp_percapita. Alias the subquery as 'continent_avg'.",
+          "variable_name": "continent_avg",
+          "hint": "FROM (SELECT c.continent, AVG(e.gdp_percapita) AS avg_gdp FROM countries c INNER JOIN economies2015 e ON c.code = e.code GROUP BY c.continent) AS continent_avg"
+        },
+        {
+          "step": 2,
+          "description": "In the outer query, select continent and the average (rounded to two decimal places) from the subquery.",
+          "variable_name": "final",
+          "hint": "SELECT continent, ROUND(avg_gdp, 2) FROM continent_avg"
+        },
+        {
+          "step": 3,
+          "description": "Order the result by the average descending and limit to 1 to get the continent with the highest average.",
+          "variable_name": "top_continent",
+          "hint": "ORDER BY avg_gdp DESC LIMIT 1"
+        }
+      ],
+      "starter_code": "-- Tables: countries, economies2015\n-- Write a query that finds the continent with the highest average GDP per capita in 2015.",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT continent, ROUND(avg_gdp, 2) AS avg_gdp\nFROM (\n    SELECT c.continent, AVG(e.gdp_percapita) AS avg_gdp\n    FROM countries c\n    INNER JOIN economies2015 e ON c.code = e.code\n    GROUP BY c.continent\n) AS continent_avg\nORDER BY avg_gdp DESC\nLIMIT 1;",
+      "expected_output": "Asia\t615.09",
+      "output_description": "The continent with the highest average GDP per capita and the rounded average value. In the sample data, only Asia has 2015 data, so it appears as the top.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "You need a derived table (subquery in FROM) to compute the averages per continent.",
+        "The outer query should sort and limit to pick the top continent."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to use a subquery in the FROM clause, aliased, and perform aggregation and sorting outside it."
+    },
+    {
+      "id": "dc_005",
+      "title": "Countries with Both Currency and 2015 Economic Data",
+      "dataset_file": "countries.csv, currencies.csv, economies2015.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_025"
+      ],
+      "context": "An integration check requires finding all countries that have both currency information and 2015 economic data in the database. You'll need to chain two inner joins across three tables.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Start with the countries table (alias c). Inner join it with the currencies table (cur) on the country code.",
+          "variable_name": "step1",
+          "hint": "INNER JOIN currencies cur ON c.code = cur.code"
+        },
+        {
+          "step": 2,
+          "description": "Chain another inner join with the economies2015 table (e) on the same country code.",
+          "variable_name": "step2",
+          "hint": "INNER JOIN economies2015 e ON c.code = e.code"
+        },
+        {
+          "step": 3,
+          "description": "Select the country name from countries. The result will contain only countries that exist in all three tables.",
+          "variable_name": "result",
+          "hint": "SELECT c.country_name"
+        }
+      ],
+      "starter_code": "-- Tables: countries, currencies, economies2015\n-- Write a query that returns country names that appear in all three tables.",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT c.country_name\nFROM countries c\nINNER JOIN currencies cur ON c.code = cur.code\nINNER JOIN economies2015 e ON c.code = e.code;",
+      "expected_output": "Afghanistan",
+      "output_description": "List of country names that have records in all three tables. Sample data shows Afghanistan (AFG) in all three.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Chain INNER JOINs: the ON clause of the second join refers to a column from the first table.",
+        "Each join filters out rows that don't match, so only countries present in all tables survive."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates chaining multiple INNER JOINs to combine data from three related tables."
+    }
+  ]
+}

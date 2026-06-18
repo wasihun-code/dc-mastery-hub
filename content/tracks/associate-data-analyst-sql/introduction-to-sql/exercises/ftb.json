@@ -1,0 +1,935 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_008",
+    "concept_name": "Query",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Write a query to retrieve the 'name' column from the 'patrons' table.",
+    "code_template": "_____ name FROM patrons;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SELECT",
+        "answer_alternatives": ["select"]
+      }
+    ],
+    "word_bank": ["SELECT", "FROM", "WHERE", "DISTINCT", "AS", "*"],
+    "per_tile_feedback": {
+      "SELECT": "Correct. SELECT is the keyword that begins every query to retrieve data.",
+      "FROM": "FROM specifies the table, but the blank is before the column name – you need the keyword that starts a query.",
+      "WHERE": "WHERE filters rows, but it cannot be the first keyword of a query.",
+      "DISTINCT": "DISTINCT removes duplicates, but it is placed after SELECT, not as the first word.",
+      "AS": "AS is used for aliasing, not to start a query.",
+      "*": "* selects all columns, but it would go after SELECT, not as the first keyword."
+    },
+    "hints": [
+      "Remember the keyword that every SQL query starts with.",
+      "It's the word used to request columns."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A SQL query that retrieves data must begin with the SELECT keyword, followed by the column(s) and then FROM.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_009",
+    "concept_name": "Keyword",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Complete the query to filter rows where 'name' equals 'Izzy'.",
+    "code_template": "SELECT * FROM patrons _____ name = 'Izzy';",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "WHERE",
+        "answer_alternatives": ["where"]
+      }
+    ],
+    "word_bank": ["WHERE", "FROM", "LIMIT", "HAVING", "AS", "SELECT"],
+    "per_tile_feedback": {
+      "WHERE": "Correct. WHERE is the keyword used to filter rows based on a condition.",
+      "FROM": "FROM indicates the source table; a second FROM would be invalid here.",
+      "LIMIT": "LIMIT restricts row count, not filtering by condition.",
+      "HAVING": "HAVING filters after aggregation, not for simple row conditions.",
+      "AS": "AS is for aliasing, not filtering.",
+      "SELECT": "SELECT would start a new statement; this blank is after the table name."
+    },
+    "hints": [
+      "Think of the keyword that introduces a condition.",
+      "It's used right after the table name in a SELECT statement."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The WHERE clause filters records that satisfy a condition, such as `name = 'Izzy'`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_010",
+    "concept_name": "SELECT statement",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Retrieve both the 'card_num' and 'name' columns from the 'patrons' table.",
+    "code_template": "SELECT card_num _____ name FROM patrons;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ",",
+        "answer_alternatives": [", "]
+      }
+    ],
+    "word_bank": [",", "AS", "AND", "&", "WITH"],
+    "per_tile_feedback": {
+      ",": "Correct. Multiple columns must be separated by commas.",
+      "AS": "AS renames a column, not separate them.",
+      "AND": "AND is a logical operator, not a separator in SELECT.",
+      "&": "& is a bitwise operator, not a column separator.",
+      "WITH": "WITH is used for CTEs, not column lists."
+    },
+    "hints": [
+      "Think about how you list multiple items in a SELECT clause.",
+      "A tiny punctuation mark is missing between the column names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In SQL, multiple column names are separated by commas. Omitting the comma can cause unexpected aliasing.",
+    "common_mistake_warning": "⚠️ Forgetting a comma between columns can turn the second column into an alias."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_010",
+    "concept_name": "SELECT statement",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Retrieve all columns from the 'patrons' table, but only show the first 2 rows in PostgreSQL.",
+    "code_template": "SELECT * FROM patrons _____ 2;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LIMIT",
+        "answer_alternatives": ["limit"]
+      }
+    ],
+    "word_bank": ["LIMIT", "TOP", "WHERE", "ROWS", "ONLY"],
+    "per_tile_feedback": {
+      "LIMIT": "Correct. In PostgreSQL, LIMIT restricts the number of returned rows.",
+      "TOP": "TOP is used in SQL Server, not PostgreSQL.",
+      "WHERE": "WHERE filters by condition, not by row count.",
+      "ROWS": "ROWS is not a standalone keyword for limiting; it appears in FETCH syntax.",
+      "ONLY": "ONLY cannot be used alone to limit rows."
+    },
+    "hints": [
+      "Which keyword does PostgreSQL use to cap the result set?",
+      "It's placed at the very end of the query."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LIMIT n returns at most n rows in PostgreSQL. It should be combined with ORDER BY for predictable results.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_010",
+    "concept_name": "SELECT statement",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Select the 'name' and 'total_fine' columns from 'patrons', but the column order should be name first, then total_fine.",
+    "code_template": "SELECT name _____ total_fine FROM patrons;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ",",
+        "answer_alternatives": [", "]
+      }
+    ],
+    "word_bank": [",", "AS", "AND", "THEN", "&"],
+    "per_tile_feedback": {
+      ",": "Correct. The comma separates the two column names correctly.",
+      "AS": "AS would rename one column, leaving the other without a separator, causing a syntax error.",
+      "AND": "AND is a logical operator, not a valid separator in SELECT.",
+      "THEN": "THEN is not a SQL keyword for column lists.",
+      "&": "& is not used to separate columns."
+    },
+    "hints": [
+      "How do you list more than one column after SELECT?",
+      "A missing separator can make the second name an alias."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The comma is essential between column names. Without it, 'name total_fine' would interpret total_fine as an alias for name.",
+    "common_mistake_warning": "⚠️ Without a comma, the second identifier becomes an alias – a classic subtle bug."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_011",
+    "concept_name": "FROM statement",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Complete the query to select the 'name' column from the 'patrons' table.",
+    "code_template": "SELECT name _____ patrons;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "FROM",
+        "answer_alternatives": ["from"]
+      }
+    ],
+    "word_bank": ["FROM", "WHERE", "TABLE", "IN", "ON"],
+    "per_tile_feedback": {
+      "FROM": "Correct. FROM specifies the source table for the columns.",
+      "WHERE": "WHERE is for filtering, not identifying the table.",
+      "TABLE": "TABLE is not a clause used after SELECT.",
+      "IN": "IN is used for membership tests, not table specification.",
+      "ON": "ON is used in JOIN conditions, not alone after column list."
+    },
+    "hints": [
+      "Which keyword always follows the column list to point to a table?",
+      "It tells the database which table to look in."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The FROM keyword is mandatory in a SELECT query to indicate the table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_013",
+    "concept_name": "Asterisk (*) wildcard",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Write a query that retrieves every column from the 'books' table.",
+    "code_template": "SELECT _____ FROM books;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*",
+        "answer_alternatives": ["*"]
+      }
+    ],
+    "word_bank": ["*", "ALL", "columns", "EVERY", "DISTINCT"],
+    "per_tile_feedback": {
+      "*": "Correct. The asterisk is the wildcard that selects all columns.",
+      "ALL": "ALL is used with DISTINCT or UNION, not alone after SELECT.",
+      "columns": "Columns is not a valid keyword; SQL uses *.",
+      "EVERY": "EVERY is not a SQL keyword for column selection.",
+      "DISTINCT": "DISTINCT removes duplicates but doesn't select all columns."
+    },
+    "hints": [
+      "Think of the symbol that means 'everything' in many contexts.",
+      "It's a single character, not a word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`SELECT *` is the standard way to retrieve all columns. Use it sparingly in production.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_013",
+    "concept_name": "Asterisk (*) wildcard",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Retrieve all columns from the 'employees' table, but only the first 5 rows in SQL Server.",
+    "code_template": "SELECT TOP(5) _____ FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*",
+        "answer_alternatives": ["*"]
+      }
+    ],
+    "word_bank": ["*", "ALL", "COLUMNS", "EVERY", "1"],
+    "per_tile_feedback": {
+      "*": "Correct. Even with TOP, you still use * to request all columns.",
+      "ALL": "ALL is not a valid replacement for * in this context.",
+      "COLUMNS": "COLUMNS is not a SQL keyword for selection.",
+      "EVERY": "EVERY does not work in SELECT.",
+      "1": "A number would be interpreted as a column literal, not all columns."
+    },
+    "hints": [
+      "What symbol do you use to ask for all columns?",
+      "The wildcard works the same way with or without TOP."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`SELECT TOP(n) *` limits the rows while still returning all columns.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_014",
+    "concept_name": "Aliasing (AS)",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Rename the 'name' column to 'first_name' in the output.",
+    "code_template": "SELECT name _____ first_name FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS",
+        "answer_alternatives": ["as"]
+      }
+    ],
+    "word_bank": ["AS", "TO", "=", "ALIAS", ":"],
+    "per_tile_feedback": {
+      "AS": "Correct. The AS keyword introduces a column alias.",
+      "TO": "TO is not used for aliasing in SQL.",
+      "=": "The equals sign does not create an alias.",
+      "ALIAS": "ALIAS is not a keyword; you use AS.",
+      ":": "Colon is not the alias operator."
+    },
+    "hints": [
+      "Which keyword do you place between the original name and the new name?",
+      "It's a two-letter word meaning 'also known as'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The AS keyword renames a column in the result set without altering the table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": "Aliasing (AS)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Rename the 'name' column to 'first name' (with a space) in the result set.",
+    "code_template": "SELECT name AS _____ FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"first name\"",
+        "answer_alternatives": ["'first name'"]
+      }
+    ],
+    "word_bank": ["\"first name\"", "'first name'", "first name", "[first name]", "first_name"],
+    "per_tile_feedback": {
+      "\"first name\"": "Correct. Double quotes enclose an alias containing a space.",
+      "'first name'": "Single quotes denote a string literal, not an alias name. This may cause an error or return the literal.",
+      "first name": "Without quotes the space breaks the identifier.",
+      "[first name]": "Square brackets are specific to SQL Server, not standard SQL.",
+      "first_name": "This is a valid alias but does not contain the required space."
+    },
+    "hints": [
+      "What kind of quotes are used for identifiers with special characters?",
+      "Standard SQL uses double quotes, not single quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aliases with spaces must be enclosed in double quotes. Single quotes are for string literals.",
+    "common_mistake_warning": "⚠️ Using single quotes for an alias can lead to it being treated as a string literal."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_015",
+    "concept_name": "DISTINCT",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Return a list of unique hiring years from the 'employees' table.",
+    "code_template": "SELECT _____ year_hired FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": ["distinct"]
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "DIFFERENT", "ONLY", "GROUP BY"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. DISTINCT eliminates duplicate values from the result.",
+      "UNIQUE": "UNIQUE is a constraint keyword, not for eliminating duplicates in SELECT.",
+      "DIFFERENT": "DIFFERENT is not a SQL keyword.",
+      "ONLY": "ONLY does not remove duplicates.",
+      "GROUP BY": "GROUP BY also groups rows but changes the query structure and output."
+    },
+    "hints": [
+      "Think of the keyword that means 'no duplicates'.",
+      "It's placed right after SELECT."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT DISTINCT returns only distinct values. If multiple columns are listed, distinct combinations are returned.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_015",
+    "concept_name": "DISTINCT",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Return unique combinations of department id and year hired from the 'employees' table.",
+    "code_template": "SELECT _____ dept_id, year_hired FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": ["distinct"]
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "DIFFERENT", "ONLY", "GROUP BY", "DISTINCTROW"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. DISTINCT applies to the whole row, giving unique (dept_id, year_hired) pairs.",
+      "UNIQUE": "UNIQUE is not a SELECT keyword for duplicates.",
+      "DIFFERENT": "Not a valid keyword.",
+      "ONLY": "Only does not remove duplicates.",
+      "GROUP BY": "GROUP BY would require aggregation and change the output format.",
+      "DISTINCTROW": "DISTINCTROW is an Access-specific keyword, not standard SQL."
+    },
+    "hints": [
+      "Which keyword removes duplicate rows, considering all selected columns?",
+      "It's the same as when you use it on a single column."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "DISTINCT works on the combination of all listed columns, returning unique pairs.",
+    "common_mistake_warning": "⚠️ A common mistake is thinking DISTINCT only affects the first column."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_017",
+    "concept_name": "CREATE VIEW",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Create a view named 'employee_hire_years' that shows department id and year hired from the 'employees' table.",
+    "code_template": "CREATE VIEW employee_hire_years _____ SELECT dept_id, year_hired FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS",
+        "answer_alternatives": ["as"]
+      }
+    ],
+    "word_bank": ["AS", "FROM", "WITH", "USING", "BY"],
+    "per_tile_feedback": {
+      "AS": "Correct. The AS keyword is required to link the view name with its defining query.",
+      "FROM": "FROM would duplicate the table specification; the correct syntax uses AS.",
+      "WITH": "WITH is used for CTEs, not view creation.",
+      "USING": "USING is used in joins, not here.",
+      "BY": "BY is part of ORDER BY or GROUP BY, not view syntax."
+    },
+    "hints": [
+      "Look at the example: `CREATE VIEW employee_hire_years AS SELECT ...`",
+      "A two-letter keyword connects the view name and the SELECT statement."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct syntax is `CREATE VIEW view_name AS select_statement`. Forgetting AS is a common mistake.",
+    "common_mistake_warning": "⚠️ Missing the AS keyword causes a syntax error."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_020",
+    "concept_name": "VARCHAR",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Define a column for a patron's name that can hold up to 250 characters.",
+    "code_template": "name _____ (250)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "VARCHAR",
+        "answer_alternatives": ["varchar"]
+      }
+    ],
+    "word_bank": ["VARCHAR", "STRING", "TEXT", "CHAR", "INT"],
+    "per_tile_feedback": {
+      "VARCHAR": "Correct. VARCHAR stores variable-length text and requires a maximum length.",
+      "STRING": "STRING is not a standard SQL data type (though some databases have it).",
+      "TEXT": "TEXT is for longer texts but doesn't typically take a length parameter.",
+      "CHAR": "CHAR is fixed-length, not variable, and would need a different syntax.",
+      "INT": "INT is for integers, not text."
+    },
+    "hints": [
+      "Think of the data type that stores variable-length text.",
+      "It's an abbreviation for 'variable character'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`VARCHAR(250)` defines a string column with a maximum of 250 characters.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_022",
+    "concept_name": "INT",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Define a column named 'card_num' that stores whole numbers.",
+    "code_template": "card_num _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INT",
+        "answer_alternatives": ["int"]
+      }
+    ],
+    "word_bank": ["INT", "INTEGER", "NUMBER", "FLOAT", "VARCHAR"],
+    "per_tile_feedback": {
+      "INT": "Correct. INT is the standard SQL type for whole numbers.",
+      "INTEGER": "INTEGER is synonymous but the exact course code uses INT.",
+      "NUMBER": "NUMBER is used in Oracle, but the course uses INT.",
+      "FLOAT": "FLOAT stores decimals, not whole numbers exclusively.",
+      "VARCHAR": "VARCHAR is for text."
+    },
+    "hints": [
+      "What data type stores integers?",
+      "The course uses the three-letter abbreviation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`card_num INT` creates a column that holds integer values.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_024",
+    "concept_name": "NUMERIC",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "Define a column named 'total_fine' that can store monetary values with exactly two decimal places and up to five total digits.",
+    "code_template": "total_fine NUMERIC(5, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": ["2"]
+      }
+    ],
+    "word_bank": ["2", "5", "3", "0", "5,2"],
+    "per_tile_feedback": {
+      "2": "Correct. The scale (second parameter) specifies decimal places, here 2.",
+      "5": "5 is the precision, not the scale.",
+      "3": "3 would allow three decimals, not matching the requirement.",
+      "0": "0 would mean no decimal places, contradicting the need for two.",
+      "5,2": "5,2 is not valid as a single parameter; it must be two separate numbers."
+    },
+    "hints": [
+      "The second number in NUMERIC(p,s) is the scale – the number of digits after the decimal point.",
+      "You need two decimal places for cents."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NUMERIC(5,2) allows up to 5 total digits, with 2 after the decimal, suitable for values like 999.99.",
+    "common_mistake_warning": "⚠️ Mixing up precision and scale order is a common mistake."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_030",
+    "concept_name": "LIMIT (PostgreSQL)",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Write a PostgreSQL query to retrieve only the first 3 rows from the 'books' table.",
+    "code_template": "SELECT * FROM books _____ 3;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LIMIT",
+        "answer_alternatives": ["limit"]
+      }
+    ],
+    "word_bank": ["LIMIT", "TOP", "WHERE", "ROWS", "FETCH"],
+    "per_tile_feedback": {
+      "LIMIT": "Correct. PostgreSQL uses LIMIT to restrict row count.",
+      "TOP": "TOP is for SQL Server, not PostgreSQL.",
+      "WHERE": "WHERE filters by condition, not row count.",
+      "ROWS": "ROWS appears in FETCH FIRST syntax, but not as a standalone keyword.",
+      "FETCH": "FETCH requires additional syntax like FETCH FIRST."
+    },
+    "hints": [
+      "Which keyword does PostgreSQL place at the end of a query to cap rows?",
+      "It's a five-letter word starting with L."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LIMIT n returns the first n rows (in no guaranteed order unless combined with ORDER BY).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_030",
+    "concept_name": "LIMIT (PostgreSQL)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Retrieve the 'id' and 'name' columns from 'employees', but restrict the output to 2 rows in PostgreSQL.",
+    "code_template": "SELECT id, name FROM employees _____ 2;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LIMIT",
+        "answer_alternatives": ["limit"]
+      }
+    ],
+    "word_bank": ["LIMIT", "TOP", "ROWS", "ONLY", "WHERE"],
+    "per_tile_feedback": {
+      "LIMIT": "Correct. LIMIT works regardless of selected columns.",
+      "TOP": "TOP is not available in PostgreSQL.",
+      "ROWS": "ROWS by itself is incomplete.",
+      "ONLY": "ONLY is not a row-limiting keyword.",
+      "WHERE": "WHERE is for filtering, not row count."
+    },
+    "hints": [
+      "The keyword is the same as in the previous exercise, just positioned at the end.",
+      "It follows the table name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The LIMIT clause goes at the end of the SELECT statement in PostgreSQL.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_031",
+    "concept_name": "TOP (SQL Server)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Write a SQL Server query to retrieve the top 2 rows, showing all columns from 'employees'.",
+    "code_template": "SELECT _____(2) * FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "TOP",
+        "answer_alternatives": ["top"]
+      }
+    ],
+    "word_bank": ["TOP", "LIMIT", "FIRST", "ONLY", "BEST"],
+    "per_tile_feedback": {
+      "TOP": "Correct. SQL Server uses TOP to limit rows.",
+      "LIMIT": "LIMIT is for PostgreSQL.",
+      "FIRST": "FIRST is not a standalone row-limiting keyword.",
+      "ONLY": "ONLY is not valid for limiting.",
+      "BEST": "BEST is not a SQL keyword."
+    },
+    "hints": [
+      "Which SQL Server keyword goes right after SELECT?",
+      "It's a three-letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`SELECT TOP(n)` is SQL Server's syntax for row limiting.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_031",
+    "concept_name": "TOP (SQL Server)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Select the top 5 rows, showing only 'id' and 'name' from the 'employees' table in SQL Server.",
+    "code_template": "SELECT TOP(_____) id, name FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "5",
+        "answer_alternatives": ["5"]
+      }
+    ],
+    "word_bank": ["5", "TOP", "LIMIT", "2", "*"],
+    "per_tile_feedback": {
+      "5": "Correct. The number specifies how many rows to return.",
+      "TOP": "TOP is already present; the blank is the count.",
+      "LIMIT": "LIMIT does not belong here.",
+      "2": "2 would give only 2 rows, not the required 5.",
+      "*": "* is not a valid count value."
+    },
+    "hints": [
+      "Inside the parentheses, you put the desired row count.",
+      "The number should match the task requirement."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "TOP(5) limits the result to the first 5 rows.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_035",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Count the number of checkouts made by a patron named 'Izzy'.",
+    "code_template": "SELECT COUNT(*) FROM checkouts _____ patron_name = 'Izzy';",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "WHERE",
+        "answer_alternatives": ["where"]
+      }
+    ],
+    "word_bank": ["WHERE", "HAVING", "IF", "WHEN", "LIMIT"],
+    "per_tile_feedback": {
+      "WHERE": "Correct. WHERE filters rows before aggregation.",
+      "HAVING": "HAVING filters after aggregation; here you need to filter individual rows.",
+      "IF": "IF is not a standard SQL clause for filtering.",
+      "WHEN": "WHEN is part of CASE expressions, not filtering.",
+      "LIMIT": "LIMIT restricts row count, not filtering."
+    },
+    "hints": [
+      "Which keyword introduces a condition to filter rows?",
+      "It comes after the table name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The WHERE clause filters rows meeting the condition before they are counted.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_035",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Select all columns from 'patrons' where the 'name' is exactly 'Jasmin'.",
+    "code_template": "SELECT * FROM patrons WHERE name = _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'Jasmin'",
+        "answer_alternatives": ["'jasmin'"]
+      }
+    ],
+    "word_bank": ["'Jasmin'", "Jasmin", "\"Jasmin\"", "Jasmin*", "'Jasmin"],
+    "per_tile_feedback": {
+      "'Jasmin'": "Correct. String values must be enclosed in single quotes.",
+      "Jasmin": "Without quotes, Jasmin is treated as a column name.",
+      "\"Jasmin\"": "Double quotes denote identifiers, not string literals.",
+      "Jasmin*": "The asterisk is not needed for exact match.",
+      "'Jasmin": "Missing closing quote causes a syntax error."
+    },
+    "hints": [
+      "How do you delimit a text value in SQL?",
+      "It needs opening and closing single quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "String literals must be wrapped in single quotes. Missing quotes leads to an error or unexpected results.",
+    "common_mistake_warning": "⚠️ Forgetting quotes around strings is a frequent mistake."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_035",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Create a view that includes only employees with a known (non-null) year of hire.",
+    "code_template": "CREATE VIEW employee_hire_years AS\nSELECT dept_id, year_hired\nFROM employees\nWHERE year_hired IS _____ NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "NOT",
+        "answer_alternatives": ["not"]
+      }
+    ],
+    "word_bank": ["NOT", "!=", "<>", "IS", "NO"],
+    "per_tile_feedback": {
+      "NOT": "Correct. IS NOT NULL tests for non-null values.",
+      "!=": "!= cannot be used with NULL; use IS NOT NULL.",
+      "<>": "<> also cannot compare with NULL.",
+      "IS": "IS NULL would find the missing years, opposite of what's needed.",
+      "NO": "NO is not valid SQL syntax."
+    },
+    "hints": [
+      "How do you exclude rows where a column is NULL?",
+      "The keyword is the opposite of IS NULL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "IS NOT NULL filters out rows where the column value is missing.",
+    "common_mistake_warning": "⚠️ Using = NULL or != NULL will not work correctly."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_036",
+    "concept_name": "COUNT function",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Count the number of distinct hiring years in the 'employees' table.",
+    "code_template": "SELECT COUNT(_____ year_hired) FROM employees;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": ["distinct"]
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "DIFFERENT", "ALL", "ONLY"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. COUNT(DISTINCT column) counts unique non-null values.",
+      "UNIQUE": "UNIQUE is not the correct syntax inside COUNT.",
+      "DIFFERENT": "Not a valid keyword.",
+      "ALL": "COUNT(ALL column) counts all non-null values, not distinct.",
+      "ONLY": "ONLY is not used with COUNT."
+    },
+    "hints": [
+      "How do you count only unique values of a column?",
+      "You use a keyword before the column name inside COUNT."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(DISTINCT year_hired) returns the number of unique hiring years.",
+    "common_mistake_warning": "⚠️ Forgetting DISTINCT inside COUNT counts all non-null values, not distinct ones."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_036",
+    "concept_name": "COUNT function",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Count the total number of rows in the 'checkouts' table.",
+    "code_template": "SELECT _____(*) FROM checkouts;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "COUNT",
+        "answer_alternatives": ["count"]
+      }
+    ],
+    "word_bank": ["COUNT", "SUM", "TOTAL", "NUMBER", "ROWS"],
+    "per_tile_feedback": {
+      "COUNT": "Correct. COUNT(*) returns the total number of rows.",
+      "SUM": "SUM adds numerical values, not row count.",
+      "TOTAL": "TOTAL is not a standard aggregate function.",
+      "NUMBER": "NUMBER is not a function in SQL.",
+      "ROWS": "ROWS is not a function."
+    },
+    "hints": [
+      "Which aggregate function counts rows?",
+      "It's a five-letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(*) is the standard way to count all rows in a table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_037",
+    "concept_name": "CREATE TABLE statement",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Define a table named 'patrons' with a column for integer id, a name column, and a member year column.",
+    "code_template": "CREATE TABLE patrons (\n  id INT,\n  name _____(250),\n  member_year INT\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "VARCHAR",
+        "answer_alternatives": ["varchar"]
+      }
+    ],
+    "word_bank": ["VARCHAR", "STRING", "TEXT", "CHAR", "INT"],
+    "per_tile_feedback": {
+      "VARCHAR": "Correct. VARCHAR is the variable-length string type.",
+      "STRING": "STRING is not a standard SQL type.",
+      "TEXT": "TEXT does not typically accept a length parameter.",
+      "CHAR": "CHAR is fixed-length, but the length syntax differs (CHAR(250) could work, but VARCHAR is more typical for names).",
+      "INT": "INT is for integers, not text."
+    },
+    "hints": [
+      "The course defines name as VARCHAR(250).",
+      "It's the data type for variable-length text."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`name VARCHAR(250)` stores a string of up to 250 characters.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_037",
+    "concept_name": "CREATE TABLE statement",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Begin the statement to create a new table called 'books'.",
+    "code_template": "_____ TABLE books (\n  ...\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "CREATE",
+        "answer_alternatives": ["create"]
+      }
+    ],
+    "word_bank": ["CREATE", "MAKE", "NEW", "DEFINE", "ALTER"],
+    "per_tile_feedback": {
+      "CREATE": "Correct. CREATE TABLE is the SQL command.",
+      "MAKE": "MAKE is not a SQL keyword.",
+      "NEW": "NEW is not used for table creation.",
+      "DEFINE": "DEFINE is not a SQL DDL command.",
+      "ALTER": "ALTER modifies existing objects, not creating new ones."
+    },
+    "hints": [
+      "The command is two words, and the first one starts with C.",
+      "It's the same verb used to create views."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`CREATE TABLE` is the Data Definition Language command to make a new table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_038",
+    "concept_name": "IS NOT NULL",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Filter the 'employees' table to show only rows where 'year_hired' has a known value.",
+    "code_template": "SELECT * FROM employees WHERE year_hired _____ NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IS NOT",
+        "answer_alternatives": ["is not"]
+      }
+    ],
+    "word_bank": ["IS NOT", "!= ", "<> ", "= ", "NOT ="],
+    "per_tile_feedback": {
+      "IS NOT": "Correct. IS NOT NULL is the proper way to test for non-null.",
+      "!= ": "!= NULL evaluates to unknown, so no rows are returned.",
+      "<> ": "Same issue; comparison with NULL yields unknown.",
+      "= ": "= NULL never matches.",
+      "NOT =": "NOT = is not valid syntax."
+    },
+    "hints": [
+      "What special syntax must you use to compare with NULL?",
+      "The condition requires two words before NULL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL is not a value; you must use IS NULL or IS NOT NULL to test for it.",
+    "common_mistake_warning": "⚠️ Using `= NULL` or `!= NULL` is a classic mistake."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_038",
+    "concept_name": "IS NOT NULL",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Create a view that excludes any employee with an unknown hire year.",
+    "code_template": "CREATE VIEW known_hires AS\nSELECT id, name\nFROM employees\n_____ year_hired IS NOT NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "WHERE",
+        "answer_alternatives": ["where"]
+      }
+    ],
+    "word_bank": ["WHERE", "HAVING", "IF", "FILTER", "WHEN"],
+    "per_tile_feedback": {
+      "WHERE": "Correct. WHERE filters rows before the view's result set is defined.",
+      "HAVING": "HAVING is for aggregated conditions, not for simple row filtering.",
+      "IF": "IF is not a standard SQL clause.",
+      "FILTER": "FILTER is not a clause in basic SQL.",
+      "WHEN": "WHEN is part of CASE, not filtering."
+    },
+    "hints": [
+      "The clause to filter rows comes after the table name.",
+      "It's the same keyword used in SELECT statements to add conditions."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A view can include a WHERE clause to restrict which rows are part of the virtual table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_032",
+    "concept_name": "Semicolon",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Terminate the SQL statement correctly.",
+    "code_template": "SELECT name FROM patrons_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ";",
+        "answer_alternatives": [";"]
+      }
+    ],
+    "word_bank": [";", ":", ".", "!", "--"],
+    "per_tile_feedback": {
+      ";": "Correct. The semicolon ends a SQL statement.",
+      ":": "Colon is not a statement terminator.",
+      ".": "A period is not used to end statements.",
+      "!": "Exclamation mark is not SQL syntax.",
+      "--": "Double dash starts a comment, not ending a statement."
+    },
+    "hints": [
+      "What punctuation mark is the standard SQL terminator?",
+      "It looks like a dot above a comma."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The semicolon indicates the end of a SQL command. Many environments require it.",
+    "common_mistake_warning": null
+  }
+]

@@ -1,0 +1,1276 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_022",
+    "concept_name": "Referencing vs calling a function",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Complete the line so that x refers to the function my_function without calling it, allowing x() later to print 'Hello'.",
+    "code_template": "def my_function():\n    print('Hello')\nx = _____\nx()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "my_function",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["my_function", "my_function()", "print", "Hello"],
+    "per_tile_feedback": {
+      "my_function": "Correct – this assigns the function object itself, not its return value, so x() calls the function.",
+      "my_function()": "Incorrect – this would call the function immediately and assign its return value (None) to x, so x() would cause an error.",
+      "print": "Incorrect – print is a built‑in function, not the one defined here.",
+      "Hello": "Incorrect – this is a string literal, not a function reference."
+    },
+    "hints": [
+      "You need the function name without parentheses.",
+      "Look at the code that calls x() – what object must x be?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, a function name without parentheses is a reference to the function object. The line `x = my_function` makes x a callable. Using parentheses would call the function immediately.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_015",
+    "concept_name": "with statement",
+    "chapter": 4,
+    "difficulty": "easy",
+    "task_description": "Fill in the keyword that creates a context manager to open 'my_file.txt' and read its contents.",
+    "code_template": "_____ open('my_file.txt') as my_file:\n    text = my_file.read()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "with",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["with", "for", "if", "def"],
+    "per_tile_feedback": {
+      "with": "Correct – the with statement enters a context manager.",
+      "for": "Incorrect – for creates a loop, not a context manager.",
+      "if": "Incorrect – if starts a conditional block, not a context manager.",
+      "def": "Incorrect – def defines a function, not a context manager."
+    },
+    "hints": [
+      "This statement ensures the file is closed automatically.",
+      "The keyword is a single, four‑letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`with` is the Python keyword that starts a context manager block. It guarantees that the file is properly closed even if an exception occurs.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_001",
+    "concept_name": "Docstring",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the docstring of the_answer so that it describes what the function returns.",
+    "code_template": "def the_answer():\n    \"\"\"_____\n\n    Returns:\n        int\n    \"\"\"\n    return 42",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Return the answer to life, the universe, and everything.",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "Return the answer to life, the universe, and everything.",
+      "Prints the meaning of life.",
+      "Returns the number 42.",
+      "Computes the ultimate question."
+    ],
+    "per_tile_feedback": {
+      "Return the answer to life, the universe, and everything.": "Correct – this is the exact docstring from the course.",
+      "Prints the meaning of life.": "Incorrect – the function returns a value, not print, and the docstring should use imperative language ('Return'), not 'Prints'.",
+      "Returns the number 42.": "Incorrect – while true, the course uses the exact phrase above. The docstring describes the higher‑level purpose.",
+      "Computes the ultimate question.": "Incorrect – this is not the documented purpose of the_answer."
+    },
+    "hints": [
+      "The docstring should state what the function returns, using an imperative mood.",
+      "Check the original example in the course."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A docstring is the first string literal in a function. It should concisely describe what the function does, using imperative language. Here the course provides a specific well‑known phrase.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_002",
+    "concept_name": "Google-style docstring",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the type annotation for the optional argument delimiter so the Google‑style docstring correctly marks it as optional.",
+    "code_template": "def load_csv(filepath, delimiter=','):\n    \"\"\"Load a CSV file.\n\n    Args:\n        filepath (str): Path to the file.\n        delimiter (_____): Field delimiter.\n\n    Returns:\n        list: Rows read.\n    \"\"\"\n    ...",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "str, optional",
+        "answer_alternatives": ["str, optional"]
+      }
+    ],
+    "word_bank": ["str, optional", "str", "optional, str", "bool, optional"],
+    "per_tile_feedback": {
+      "str, optional": "Correct – Google‑style requires `, optional` after the type when the argument has a default value.",
+      "str": "Incorrect – missing the `, optional` marker; it would incorrectly suggest the argument is required.",
+      "optional, str": "Incorrect – the order must be `type, optional`, not `optional, type`.",
+      "bool, optional": "Incorrect – delimiter is a string (`str`), not a boolean."
+    },
+    "hints": [
+      "Check how the Google style marks optional arguments.",
+      "The type must come first, followed by a comma and the word 'optional'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In a Google‑style docstring, any argument with a default value must be annotated with `, optional` after its type. This makes it clear at a glance which parameters are required.",
+    "common_mistake_warning": "⚠️ Forgetting `, optional` is a common mistake in Google‑style docstrings."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_003",
+    "concept_name": "Numpydoc docstring",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the Numpydoc docstring by adding the missing underline under the Parameters section.",
+    "code_template": "def function(arg_1, arg_2=42):\n    \"\"\"Description of what the function does.\n\n    Parameters\n    _____\n    arg_1 : expected type of arg_1\n        Description of arg_1.\n    arg_2 : int, optional\n        Write optional when an argument has a default value. Default=42.\n\n    Returns\n    -------\n    The type of the return value\n        Can include a description of the return value.\n    \"\"\"\n    ...",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "----------",
+        "answer_alternatives": ["----------"]
+      }
+    ],
+    "word_bank": ["----------", "==========", "~~~~~~~~~~", "__________"],
+    "per_tile_feedback": {
+      "----------": "Correct – the Numpydoc standard uses dashes of at least the length of the header.",
+      "==========": "Incorrect – equals signs are not used for underlining in Numpydoc.",
+      "~~~~~~~~~~": "Incorrect – tildes are not the standard underline character.",
+      "__________": "Incorrect – underscores are not used for section underlines in Numpydoc."
+    },
+    "hints": [
+      "Look at the underline under the Returns section for a clue.",
+      "Numpydoc uses dashes (-) under headers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In the Numpydoc format, every section header (like Parameters, Returns) must be followed by a line of dashes that is at least as long as the header text. Forgetting this underline breaks automated parsing.",
+    "common_mistake_warning": "⚠️ The underline must be exactly dashes and long enough; otherwise documentation tools misparse the sections."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_004",
+    "concept_name": "__doc__ attribute",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Print the docstring of the function the_answer using its special attribute.",
+    "code_template": "def the_answer():\n    \"\"\"Return the answer to life, the universe, and everything.\n\n    Returns:\n        int\n    \"\"\"\n    return 42\nprint(the_answer._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "__doc__",
+        "answer_alternatives": ["__doc__"]
+      }
+    ],
+    "word_bank": ["__doc__", "__name__", "__str__", "__repr__"],
+    "per_tile_feedback": {
+      "__doc__": "Correct – every function has a __doc__ attribute that holds its docstring.",
+      "__name__": "Incorrect – __name__ gives the function's name as a string, not its documentation.",
+      "__str__": "Incorrect – __str__ is not a standard attribute of a function.",
+      "__repr__": "Incorrect – __repr__ is not a standard attribute of a function for this purpose."
+    },
+    "hints": [
+      "It's a dunder (double underscore) attribute.",
+      "Think about what attribute a docstring is stored in."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The __doc__ attribute is automatically set to the string literal that appears as the first statement in a function body. If there is no docstring, __doc__ is None.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_005",
+    "concept_name": "inspect.getdoc()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Use the inspect module to retrieve the cleaned docstring of the function the_answer.",
+    "code_template": "import inspect\nprint(inspect._____(the_answer))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "getdoc",
+        "answer_alternatives": ["getdoc"]
+      }
+    ],
+    "word_bank": ["getdoc", "get_doc", "doc", "getdocstring"],
+    "per_tile_feedback": {
+      "getdoc": "Correct – inspect.getdoc() returns the docstring with leading whitespace stripped.",
+      "get_doc": "Incorrect – the function name is getdoc, without an underscore.",
+      "doc": "Incorrect – doc is not a function in inspect.",
+      "getdocstring": "Incorrect – the function is named getdoc, not getdocstring."
+    },
+    "hints": [
+      "The function name starts with 'get' and ends with 'doc'.",
+      "It is not get_* – it's one word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "inspect.getdoc(func) returns a cleaned version of the function's docstring, stripping common leading indentation. It's part of the standard library's inspect module.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_006",
+    "concept_name": "DRY (Don't Repeat Yourself)",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Refactor the repeated calls by using a function named load_and_plot. Fill in the missing function name in the calls below.",
+    "code_template": "train = load_and_plot('train.csv')\nval = _____('validation.csv')\ntest = _____('test.csv')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "load_and_plot",
+        "answer_alternatives": ["load_and_plot"]
+      },
+      {
+        "position": 2,
+        "answer": "load_and_plot",
+        "answer_alternatives": ["load_and_plot"]
+      }
+    ],
+    "word_bank": ["load_and_plot", "load_data", "plot_data", "process"],
+    "per_tile_feedback": {
+      "load_and_plot": "Correct – this is the function that encapsulates the repeated logic, avoiding duplication.",
+      "load_data": "Incorrect – load_data would only load, not plot; the original repeated code did both.",
+      "plot_data": "Incorrect – plot_data would only plot, not load the data.",
+      "process": "Incorrect – there is no function named process defined here."
+    },
+    "hints": [
+      "The same function should be used for all three files.",
+      "The name is the same as the first call."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The DRY principle says avoid code repetition. By defining a single function load_and_plot and calling it with different file paths, we eliminate the duplicate blocks.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_007",
+    "concept_name": "Do One Thing principle",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "The function load_and_plot does too many things. Split it into two functions: one to load data and one to plot. Fill in the name of the plotting function in the call below.",
+    "code_template": "def load_data(path):\n    ...\n\ndef plot_data(X):\n    ...\n\ndata = load_data('train.csv')\n_____(data)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plot_data",
+        "answer_alternatives": ["plot_data"]
+      }
+    ],
+    "word_bank": ["plot_data", "load_data", "show_data", "visualize"],
+    "per_tile_feedback": {
+      "plot_data": "Correct – this is the function that handles plotting, separating concerns.",
+      "load_data": "Incorrect – load_data would load again, not plot.",
+      "show_data": "Incorrect – there is no show_data function defined.",
+      "visualize": "Incorrect – no visualize function is defined."
+    },
+    "hints": [
+      "Which function is responsible for visualization?",
+      "Look at the function definitions above."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The 'Do One Thing' principle says each function should have a single responsibility. Here, load_data handles I/O, while plot_data handles visualization.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": "Context manager",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Open the file 'data.txt' using a context manager so that it is automatically closed after reading.",
+    "code_template": "with _____('data.txt') as f:\n    text = f.read()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "open",
+        "answer_alternatives": ["open"]
+      }
+    ],
+    "word_bank": ["open", "file", "read", "close"],
+    "per_tile_feedback": {
+      "open": "Correct – open() returns a context manager that closes the file on exit.",
+      "file": "Incorrect – file is not a built‑in function that works as a context manager.",
+      "read": "Incorrect – read is a method of file objects, not a function to open files.",
+      "close": "Incorrect – close is a method, not a way to open a file."
+    },
+    "hints": [
+      "Which built‑in function creates a file object?",
+      "It's the same function you'd use to open a file manually."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The built‑in open() function returns a file object that is also a context manager. The `with` statement ensures that the file is closed even if an exception occurs inside the block.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_021",
+    "concept_name": "Functions as first-class objects",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Assign the function my_function to the variable x so that calling x() prints 'Hello'.",
+    "code_template": "def my_function():\n    print('Hello')\nx = _____\nx()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "my_function",
+        "answer_alternatives": ["my_function"]
+      }
+    ],
+    "word_bank": ["my_function", "my_function()", "print", "Hello"],
+    "per_tile_feedback": {
+      "my_function": "Correct – this stores the function object in x.",
+      "my_function()": "Incorrect – this calls the function immediately and assigns None to x.",
+      "print": "Incorrect – print is a different function.",
+      "Hello": "Incorrect – this is a string, not a function."
+    },
+    "hints": [
+      "Parentheses call a function; you want the function itself.",
+      "Without parentheses, you get the function object."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because functions are objects, they can be assigned to variables without calling them. The correct syntax is the function name without parentheses.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_028",
+    "concept_name": "Built‑in scope",
+    "chapter": 8,
+    "difficulty": "medium",
+    "task_description": "Use the built‑in function that returns the maximum of a list. Fill in the blank.",
+    "code_template": "numbers = [4, 5, 2, 9]\nresult = _____(numbers)\nprint(result)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "max",
+        "answer_alternatives": ["max"]
+      }
+    ],
+    "word_bank": ["max", "min", "len", "sum"],
+    "per_tile_feedback": {
+      "max": "Correct – max() is a built‑in function that returns the largest item.",
+      "min": "Incorrect – min returns the smallest item, not the maximum.",
+      "len": "Incorrect – len returns the number of items, not the maximum value.",
+      "sum": "Incorrect – sum adds all items, not returns the maximum."
+    },
+    "hints": [
+      "Which built‑in function returns the largest value?",
+      "It's a three‑letter word starting with 'm'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Python's built‑in scope includes many useful functions like max, min, len, etc. Shadowing these names (e.g., max = 5) can break code later.",
+    "common_mistake_warning": "⚠️ Avoid using built‑in names as variable names to prevent shadowing."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_010",
+    "concept_name": "Pass by assignment",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Complete the function bar so that after calling bar(my_var), the value of my_var remains 3 (unchanged), demonstrating that reassignment does not affect the original integer.",
+    "code_template": "def bar(x):\n    _____ = x + 90\n\nmy_var = 3\nbar(my_var)\nprint(my_var)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      }
+    ],
+    "word_bank": ["x", "my_var", "y", "var"],
+    "per_tile_feedback": {
+      "x": "Correct – x is the local parameter; reassigning it creates a new integer and does not affect the global my_var.",
+      "my_var": "Incorrect – my_var is not in scope inside bar, and using it would cause a NameError.",
+      "y": "Incorrect – y is not defined and would cause an error.",
+      "var": "Incorrect – var is not defined."
+    },
+    "hints": [
+      "The function parameter is named x – where do you assign the new value?",
+      "Reassigning a parameter does not change the object the original variable points to."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, arguments are passed by assignment. Inside the function, the local name x points to the same integer object. When you assign x = x + 90, you make x refer to a new integer, leaving the original my_var untouched.",
+    "common_mistake_warning": "⚠️ Reassigning a parameter does not affect the original variable for immutable types."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_018",
+    "concept_name": "Nested contexts",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Complete the inner context manager that opens the destination file for writing, ensuring both files are closed properly.",
+    "code_template": "def copy(src, dst):\n    with open(src) as f_src:\n        _____\n            for line in f_src:\n                f_dst.write(line)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "with open(dst, 'w') as f_dst:",
+        "answer_alternatives": ["with open(dst, 'w') as f_dst:"]
+      }
+    ],
+    "word_bank": [
+      "with open(dst, 'w') as f_dst:",
+      "with open(dst, 'r') as f_dst:",
+      "f_dst = open(dst, 'w')",
+      "open(dst, 'w')"
+    ],
+    "per_tile_feedback": {
+      "with open(dst, 'w') as f_dst:": "Correct – this nests another context manager, guaranteeing the destination file is closed after the block.",
+      "with open(dst, 'r') as f_dst:": "Incorrect – 'r' opens for reading, but we need to write.",
+      "f_dst = open(dst, 'w')": "Incorrect – manually opening the file does not guarantee automatic closure on error.",
+      "open(dst, 'w')": "Incorrect – this expression alone is not a complete statement and does not assign a file object."
+    },
+    "hints": [
+      "Use another `with` statement, just like the outer one.",
+      "The mode should be 'w' for writing."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Nested `with` statements ensure that each resource is properly closed, with the innermost closing first. This pattern is common for copying files.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_019",
+    "concept_name": "try/finally for context managers",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Complete the context manager so that the printer is disconnected even if an exception occurs in the with block.",
+    "code_template": "import contextlib\n\n@contextlib.contextmanager\ndef get_printer(ip):\n    p = connect_to_printer(ip)\n    _____\n        yield p\n    _____\n        p.disconnect()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "try:",
+        "answer_alternatives": ["try:"]
+      },
+      {
+        "position": 2,
+        "answer": "finally:",
+        "answer_alternatives": ["finally:"]
+      }
+    ],
+    "word_bank": ["try:", "finally:", "except:", "else:"],
+    "per_tile_feedback": {
+      "try:": "Correct – the yield is placed inside a try block.",
+      "finally:": "Correct – the finally clause guarantees cleanup.",
+      "except:": "Incorrect – except alone would catch exceptions but not guarantee cleanup unless re‑raised, and the teardown might be skipped.",
+      "else:": "Incorrect – else runs only if no exception occurred, so it would not run on error."
+    },
+    "hints": [
+      "Which block ensures execution no matter what?",
+      "The yield must be inside a try block, and the cleanup in finally."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using try/finally ensures that the teardown code (disconnect) runs even if an exception occurs in the user's with block. Without finally, an exception could skip the cleanup.",
+    "common_mistake_warning": "⚠️ Without finally, an exception in the with block will bypass the teardown."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_020",
+    "concept_name": "Exception handling in context managers",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "The following context manager catches exceptions but swallows them. Fill in the missing statement to re‑raise the exception so it propagates correctly.",
+    "code_template": "import contextlib\n\n@contextlib.contextmanager\ndef get_printer(ip):\n    p = connect_to_printer(ip)\n    try:\n        yield p\n    except Exception:\n        _____\n    finally:\n        p.disconnect()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "raise",
+        "answer_alternatives": ["raise"]
+      }
+    ],
+    "word_bank": ["raise", "pass", "return", "print('error')"],
+    "per_tile_feedback": {
+      "raise": "Correct – this re‑raises the caught exception so it is not hidden.",
+      "pass": "Incorrect – pass would silently ignore the exception, which is usually wrong.",
+      "return": "Incorrect – return would exit the function without propagating the error.",
+      "print('error')": "Incorrect – printing a message does not re‑raise the exception."
+    },
+    "hints": [
+      "To let the exception continue after handling, use a single keyword.",
+      "What Python keyword re‑raises the current exception?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When writing context managers, if you catch exceptions, you generally must re‑raise them to avoid silently masking errors. The `raise` statement without an argument re‑raises the last exception.",
+    "common_mistake_warning": "⚠️ Catching exceptions and forgetting to re‑raise hides errors from the caller."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_023",
+    "concept_name": "Functions as arguments",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Complete the calls to has_docstring by passing the correct functions so the output is False then True.",
+    "code_template": "def has_docstring(func):\n    return func.__doc__ is not None\n\ndef no(): pass\ndef yes(): \"\"\"doc\"\"\"\n\nprint(has_docstring(_____))\nprint(has_docstring(_____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "no",
+        "answer_alternatives": ["no"]
+      },
+      {
+        "position": 2,
+        "answer": "yes",
+        "answer_alternatives": ["yes"]
+      }
+    ],
+    "word_bank": ["no", "yes", "pass", "doc"],
+    "per_tile_feedback": {
+      "no": "Correct – no has no docstring, so has_docstring returns False.",
+      "yes": "Correct – yes has a docstring, so has_docstring returns True.",
+      "pass": "Incorrect – pass is a statement, not a function.",
+      "doc": "Incorrect – doc is not a defined function."
+    },
+    "hints": [
+      "One function has a docstring, the other does not.",
+      "The first call should print False, so pass the function without a docstring."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Functions can be passed as arguments by using their name without parentheses. Here, no and yes are passed to has_docstring, which inspects their __doc__ attribute.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_024",
+    "concept_name": "Nested function",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Define a nested function named in_range that checks if a value is between 4 and 10 (exclusive). Fill in the function name.",
+    "code_template": "def foo(x, y):\n    def _____(v):\n        return v > 4 and v < 10\n    if in_range(x) and in_range(y):\n        print(x * y)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "in_range",
+        "answer_alternatives": ["in_range"]
+      }
+    ],
+    "word_bank": ["in_range", "range_check", "check", "validate"],
+    "per_tile_feedback": {
+      "in_range": "Correct – this matches the function name used in the if condition.",
+      "range_check": "Incorrect – the condition calls in_range, not range_check.",
+      "check": "Incorrect – the condition calls in_range, not check.",
+      "validate": "Incorrect – the condition calls in_range, not validate."
+    },
+    "hints": [
+      "The nested function is later called by the name in_range.",
+      "Make sure the function name matches the calls inside foo."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A nested function is defined inside another function. It can access variables from the outer function's scope. Here, in_range is used to check both x and y.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_025",
+    "concept_name": "Functions as return values",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Complete the return statement so that get_function returns the inner function print_me.",
+    "code_template": "def get_function():\n    def print_me(s):\n        print(s)\n    return _____\n\nnew_func = get_function()\nnew_func('Hello')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "print_me",
+        "answer_alternatives": ["print_me"]
+      }
+    ],
+    "word_bank": ["print_me", "print", "get_function", "new_func"],
+    "per_tile_feedback": {
+      "print_me": "Correct – this returns the inner function object.",
+      "print": "Incorrect – print is a different function.",
+      "get_function": "Incorrect – returning get_function would cause recursion.",
+      "new_func": "Incorrect – new_func is not defined in this scope."
+    },
+    "hints": [
+      "The function to return is defined just above.",
+      "Return the function name without parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Functions can return other functions. Here, get_function returns the nested print_me, which is then assigned to new_func and called.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_026",
+    "concept_name": "Local scope",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Fill in the blanks with the correct variable name so that inside foo the local variable is printed, but outside foo a NameError occurs because x is not defined globally.",
+    "code_template": "def foo():\n    _____ = 42\n    print(_____)\n\nfoo()\nprint(_____)  # This line will raise a NameError",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      },
+      {
+        "position": 2,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      },
+      {
+        "position": 3,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      }
+    ],
+    "word_bank": ["x", "y", "z", "a"],
+    "per_tile_feedback": {
+      "x": "Correct – all blanks must be 'x' to demonstrate local scope. The last print(x) will fail because no global x exists.",
+      "y": "Incorrect – using a different name would break the consistency; the code expects the same variable name.",
+      "z": "Incorrect – same as above, the variable must be named x.",
+      "a": "Incorrect – the variable is x, not a."
+    },
+    "hints": [
+      "The variable must have the same name throughout.",
+      "After the function returns, the local variable no longer exists."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Variables assigned inside a function are local to that function. They cannot be accessed from outside. The final print(x) fails because x is not defined in the global scope.",
+    "common_mistake_warning": "⚠️ Accessing a local variable from outside its function results in a NameError."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_027",
+    "concept_name": "Global scope",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Inside foo, create a local variable x that shadows the global x. Complete the assignment so that the output is 42 and then 7.",
+    "code_template": "x = 7\n\ndef foo():\n    _____ = 42\n    print(x)\n    print(y)\n\ny = 200\nfoo()\nprint(x)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      }
+    ],
+    "word_bank": ["x", "global x", "y", "nonlocal x"],
+    "per_tile_feedback": {
+      "x": "Correct – this creates a new local variable named x, shadowing the global one.",
+      "global x": "Incorrect – that would modify the global x, causing the final print to show 42, not 7.",
+      "y": "Incorrect – we need to shadow x, not y.",
+      "nonlocal x": "Incorrect – nonlocal only applies to enclosing function scopes, not the global scope."
+    },
+    "hints": [
+      "You want to create a local variable, not modify the global one.",
+      "Just use the variable name without any keyword."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without the global or nonlocal keywords, an assignment inside a function creates a new local variable. This local x shadows the global x inside foo, but the global x remains 7.",
+    "common_mistake_warning": "⚠️ Using global would permanently change the global variable."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_029",
+    "concept_name": "Nonlocal scope (enclosing scope)",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Complete the inner function so that it creates its own local x (printing 200) without affecting the outer x, which then prints 10.",
+    "code_template": "def outer():\n    x = 10\n    def inner():\n        _____ = 200\n        print(x)\n    inner()\n    print(x)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x",
+        "answer_alternatives": ["x"]
+      }
+    ],
+    "word_bank": ["x", "nonlocal x", "global x", "y"],
+    "per_tile_feedback": {
+      "x": "Correct – this creates a local x inside inner, leaving outer's x unchanged. The print inside inner will output 200, and outer prints 10.",
+      "nonlocal x": "Incorrect – that would modify the outer x, so both prints would show 200.",
+      "global x": "Incorrect – x is not global, and this would cause an error.",
+      "y": "Incorrect – then the print(x) would refer to the outer x, printing 10 twice."
+    },
+    "hints": [
+      "Without any special keyword, an assignment creates a local variable.",
+      "Which keyword would cause the outer variable to change? (Hint: not that one.)"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When a nested function assigns to a variable without declaring it nonlocal, it creates a new local variable, shadowing the enclosing one. This demonstrates the default behavior.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_030",
+    "concept_name": "global keyword",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Modify the global variable x inside foo so that the final print outputs 42.",
+    "code_template": "x = 7\n\ndef foo():\n    _____\n    x = 42\n    print(x)\n\nfoo()\nprint(x)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "global x",
+        "answer_alternatives": ["global x"]
+      }
+    ],
+    "word_bank": ["global x", "nonlocal x", "x =", "from x import"],
+    "per_tile_feedback": {
+      "global x": "Correct – the global statement indicates that x refers to the global variable, so assignment modifies it.",
+      "nonlocal x": "Incorrect – nonlocal applies to enclosing scopes, not the global scope.",
+      "x =": "Incorrect – this would create a local x, not modify the global.",
+      "from x import": "Incorrect – invalid syntax."
+    },
+    "hints": [
+      "You need a keyword that tells Python to use the module‑level variable.",
+      "The keyword is a single word that starts with 'g'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `global` keyword declares that a variable inside a function refers to a global variable. Without it, assignment creates a local variable.",
+    "common_mistake_warning": "⚠️ Forgetting the global keyword will create a local variable instead of modifying the global one."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_034",
+    "concept_name": "Decorator",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Apply the double_args decorator to the multiply function by filling in the decorator name.",
+    "code_template": "@_____\ndef multiply(a, b):\n    return a * b",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "double_args",
+        "answer_alternatives": ["double_args"]
+      }
+    ],
+    "word_bank": ["double_args", "double_args()", "timer", "wrapper"],
+    "per_tile_feedback": {
+      "double_args": "Correct – the decorator is applied by its name without parentheses.",
+      "double_args()": "Incorrect – this would call the decorator, returning another decorator, which is not what we want here (unless it's a factory).",
+      "timer": "Incorrect – timer is a different decorator.",
+      "wrapper": "Incorrect – wrapper is typically the inner function inside a decorator, not the decorator itself."
+    },
+    "hints": [
+      "The decorator name is the same as the function that will modify multiply.",
+      "It should match the name used in the decorator definition."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The @decorator syntax is syntactic sugar. `@double_args` is equivalent to `multiply = double_args(multiply)`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_035",
+    "concept_name": "Decorator syntax (@)",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Apply the timer decorator to the wait function using the correct syntax.",
+    "code_template": "_____\ndef wait(n):\n    time.sleep(n)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "@timer",
+        "answer_alternatives": ["@timer"]
+      }
+    ],
+    "word_bank": ["@timer", "timer", "@timer()", "def timer:"],
+    "per_tile_feedback": {
+      "@timer": "Correct – the @ symbol followed by the decorator name is the correct syntax.",
+      "timer": "Incorrect – missing the @ symbol.",
+      "@timer()": "Incorrect – this would be used for a decorator factory that takes no arguments.",
+      "def timer:": "Incorrect – that would start a new function definition."
+    },
+    "hints": [
+      "The line must start with @.",
+      "It should be exactly the decorator name after the @."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The decorator syntax is `@decorator_name` placed on the line immediately before the function definition.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_036",
+    "concept_name": "Wrapper function in decorators",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Complete the double_args decorator by returning the wrapper function.",
+    "code_template": "def double_args(func):\n    def wrapper(a, b):\n        return func(a * 2, b * 2)\n    _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "return wrapper",
+        "answer_alternatives": ["return wrapper"]
+      }
+    ],
+    "word_bank": ["return wrapper", "return func", "return None", "return"],
+    "per_tile_feedback": {
+      "return wrapper": "Correct – the decorator must return the inner wrapper function to replace the original.",
+      "return func": "Incorrect – this would return the original function unchanged, not the wrapper.",
+      "return None": "Incorrect – then the decorated function would become None, causing a TypeError when called.",
+      "return": "Incorrect – this returns None implicitly."
+    },
+    "hints": [
+      "The decorator must return the function that will replace the original.",
+      "Look at the function defined inside – that's what you need to return."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A decorator is a function that takes a function and returns a new function. Forgetting to return the wrapper is a common mistake that results in a NoneType error.",
+    "common_mistake_warning": "⚠️ Forgetting to return the wrapper from the decorator makes the decorated function None."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_037",
+    "concept_name": "*args and **kwargs in decorators",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Complete the wrapper signature so that it can accept any positional and keyword arguments, making the decorator generic.",
+    "code_template": "def timer(func):\n    def wrapper(_____):\n        import time\n        start = time.time()\n        result = func(*args, **kwargs)\n        print(time.time() - start)\n        return result\n    return wrapper",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*args, **kwargs",
+        "answer_alternatives": ["*args, **kwargs"]
+      }
+    ],
+    "word_bank": ["*args, **kwargs", "a, b", "args, kwargs", "**kwargs, *args"],
+    "per_tile_feedback": {
+      "*args, **kwargs": "Correct – this captures all positional and keyword arguments.",
+      "a, b": "Incorrect – this would only work for functions accepting exactly two arguments.",
+      "args, kwargs": "Incorrect – missing the * and ** unpacking operators; they would be treated as regular parameters.",
+      "**kwargs, *args": "Incorrect – the order must be *args then **kwargs."
+    },
+    "hints": [
+      "Use the special syntax that captures any number of arguments.",
+      "Positional arguments come first, then keyword arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To make a decorator work with any function signature, its wrapper must accept *args and **kwargs and pass them through to the original function.",
+    "common_mistake_warning": "⚠️ Forgetting *args and **kwargs limits the decorator to only certain function signatures."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_039",
+    "concept_name": "functools.wraps",
+    "chapter": 12,
+    "difficulty": "hard",
+    "task_description": "Preserve the metadata of the original function by applying the appropriate decorator to the wrapper.",
+    "code_template": "from functools import wraps\n\ndef timer(func):\n    _____\n    def wrapper(*args, **kwargs):\n        ...\n    return wrapper",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "@wraps(func)",
+        "answer_alternatives": ["@wraps(func)"]
+      }
+    ],
+    "word_bank": ["@wraps(func)", "@wraps", "wraps(func)", "@functools.wraps(func)"],
+    "per_tile_feedback": {
+      "@wraps(func)": "Correct – this decorator copies the original function's metadata to the wrapper.",
+      "@wraps": "Incorrect – @wraps must be called with func as an argument.",
+      "wraps(func)": "Incorrect – missing the @ symbol; it's a decorator, not a regular function call here.",
+      "@functools.wraps(func)": "Incorrect – functools is not imported as a module here; we imported wraps directly."
+    },
+    "hints": [
+      "You need to apply a decorator to the wrapper function.",
+      "The decorator must be passed the original function as an argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "functools.wraps is a decorator that updates wrapper.__name__ and wrapper.__doc__ to match func, making the decorated function look like the original.",
+    "common_mistake_warning": "⚠️ Without @wraps, help() will show the wrapper's metadata instead of the original function's."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_040",
+    "concept_name": "__wrapped__ attribute",
+    "chapter": 12,
+    "difficulty": "hard",
+    "task_description": "Access the original undecorated function from a decorated one using its special attribute.",
+    "code_template": "@timer\ndef sleep_n_seconds(n=10):\n    time.sleep(n)\n\noriginal = sleep_n_seconds._____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "__wrapped__",
+        "answer_alternatives": ["__wrapped__"]
+      }
+    ],
+    "word_bank": ["__wrapped__", "__wraps__", "__func__", "__original__"],
+    "per_tile_feedback": {
+      "__wrapped__": "Correct – functools.wraps adds this attribute, pointing to the original function.",
+      "__wraps__": "Incorrect – no such standard attribute exists.",
+      "__func__": "Incorrect – this is not added by wraps.",
+      "__original__": "Incorrect – not a standard attribute."
+    },
+    "hints": [
+      "functools.wraps adds an attribute that stores the original function.",
+      "It's a dunder attribute with the word 'wrapped'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When you use @wraps(func), the wrapper gains a __wrapped__ attribute that references the original function, allowing you to access it if needed.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_041",
+    "concept_name": "timer decorator",
+    "chapter": 11,
+    "difficulty": "hard",
+    "task_description": "Complete the timer decorator by filling in the calculation of elapsed time.",
+    "code_template": "import time\nfrom functools import wraps\n\ndef timer(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        t_start = time.time()\n        result = func(*args, **kwargs)\n        t_total = _____\n        print('{} took {:.2f} seconds'.format(func.__name__, t_total))\n        return result\n    return wrapper",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "time.time() - t_start",
+        "answer_alternatives": ["time.time() - t_start"]
+      }
+    ],
+    "word_bank": [
+      "time.time() - t_start",
+      "time.clock() - t_start",
+      "time.time()",
+      "t_start - time.time()"
+    ],
+    "per_tile_feedback": {
+      "time.time() - t_start": "Correct – this computes the elapsed time since t_start.",
+      "time.clock() - t_start": "Incorrect – time.clock() is deprecated; we use time.time().",
+      "time.time()": "Incorrect – this gives the current time, not the difference.",
+      "t_start - time.time()": "Incorrect – that would give a negative number."
+    },
+    "hints": [
+      "Elapsed time is current time minus start time.",
+      "Use time.time() again to get the current time."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The timer decorator measures the execution time by recording the start, calling the function, and computing the difference after it returns.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_042",
+    "concept_name": "memoize decorator",
+    "chapter": 11,
+    "difficulty": "hard",
+    "task_description": "Build the cache key from the arguments so that the memoize decorator can store and retrieve results correctly.",
+    "code_template": "def memoize(func):\n    cache = {}\n    def wrapper(*args, **kwargs):\n        _____\n        if key not in cache:\n            cache[key] = func(*args, **kwargs)\n        return cache[key]\n    return wrapper",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "key = (args, tuple(sorted(kwargs.items())))",
+        "answer_alternatives": ["key = (args, tuple(sorted(kwargs.items())))"]
+      }
+    ],
+    "word_bank": [
+      "key = (args, tuple(sorted(kwargs.items())))",
+      "key = args + kwargs",
+      "key = (args, kwargs)",
+      "key = str(args) + str(kwargs)"
+    ],
+    "per_tile_feedback": {
+      "key = (args, tuple(sorted(kwargs.items())))": "Correct – this creates a hashable tuple that uniquely identifies the call.",
+      "key = args + kwargs": "Incorrect – args and kwargs are different types; you can't add them.",
+      "key = (args, kwargs)": "Incorrect – kwargs is a dict, which is not hashable and cannot be used as a key directly.",
+      "key = str(args) + str(kwargs)": "Incorrect – while this works for simple cases, it can produce collisions and is not robust."
+    },
+    "hints": [
+      "You need a hashable, immutable key that uniquely captures all arguments.",
+      "Convert kwargs into a sorted tuple of items."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The memoize decorator uses a dictionary to cache results. The key must be hashable, so kwargs is converted to a sorted tuple of (key, value) pairs.",
+    "common_mistake_warning": "⚠️ Using a mutable or unhashable key will cause a TypeError."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_043",
+    "concept_name": "signal module",
+    "chapter": 14,
+    "difficulty": "hard",
+    "task_description": "Set the handler for the alarm signal so that a TimeoutError is raised after 2 seconds.",
+    "code_template": "import signal\n\ndef raise_timeout(*args):\n    raise TimeoutError()\n\nsignal.signal(_____, raise_timeout)\nsignal.alarm(2)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "signal.SIGALRM",
+        "answer_alternatives": ["signal.SIGALRM"]
+      }
+    ],
+    "word_bank": ["signal.SIGALRM", "signal.SIGALRM()", "SIGALRM", "alarm"],
+    "per_tile_feedback": {
+      "signal.SIGALRM": "Correct – this is the constant representing the alarm signal.",
+      "signal.SIGALRM()": "Incorrect – SIGALRM is not callable.",
+      "SIGALRM": "Incorrect – without the signal module prefix, it would be a NameError.",
+      "alarm": "Incorrect – alarm is a function, not a signal number."
+    },
+    "hints": [
+      "It's the signal that corresponds to alarm().",
+      "Use the fully qualified name from the signal module."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The signal.signal() function registers a handler for a specific signal. signal.SIGALRM is the alarm signal, which will be raised after signal.alarm(n) seconds.",
+    "common_mistake_warning": "⚠️ signal.alarm works only on Unix systems."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_013",
+    "concept_name": "Mutable default arguments danger",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Fix the function so that each call starts with a new empty list. Use the safe pattern with None as the default.",
+    "code_template": "def foo(var=_____):\n    if var is _____:\n        var = []\n    var.append(1)\n    return var",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "None",
+        "answer_alternatives": ["None"]
+      },
+      {
+        "position": 2,
+        "answer": "None",
+        "answer_alternatives": ["None"]
+      }
+    ],
+    "word_bank": ["None", "[]", "[1]", "0"],
+    "per_tile_feedback": {
+      "None": "Correct – both blanks must be None. The default is None, and we check if var is None to create a new list.",
+      "[]": "Incorrect – using [] as the default would reuse the same list object across calls, causing persistence.",
+      "[1]": "Incorrect – the default should be a sentinel, not a list.",
+      "0": "Incorrect – 0 would not trigger the condition to create a list."
+    },
+    "hints": [
+      "The default must be an immutable sentinel value.",
+      "Then check if the argument is that sentinel and create a new mutable object."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To avoid the mutable default argument pitfall, use None as the default and create a new list inside the function only when the argument is None.",
+    "common_mistake_warning": "⚠️ Never use a mutable object (like a list) as a default argument value."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_016",
+    "concept_name": "@contextlib.contextmanager decorator",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Turn this generator function into a context manager by adding the required decorator and the yield keyword.",
+    "code_template": "_____\ndef my_context():\n    print('hello')\n    _____ 42\n    print('goodbye')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "@contextlib.contextmanager",
+        "answer_alternatives": ["@contextlib.contextmanager"]
+      },
+      {
+        "position": 2,
+        "answer": "yield",
+        "answer_alternatives": ["yield"]
+      }
+    ],
+    "word_bank": [
+      "@contextlib.contextmanager",
+      "@contextmanager",
+      "import contextlib",
+      "yield",
+      "return",
+      "pass"
+    ],
+    "per_tile_feedback": {
+      "@contextlib.contextmanager": "Correct – this decorator transforms the generator into a context manager.",
+      "@contextmanager": "Incorrect – you need the full module path if contextlib is not imported separately.",
+      "import contextlib": "Incorrect – that's an import statement, not a decorator.",
+      "yield": "Correct – yield pauses the generator and yields the value to the with block.",
+      "return": "Incorrect – return would end the function; yield is needed to create a generator.",
+      "pass": "Incorrect – pass does nothing and would not yield a value."
+    },
+    "hints": [
+      "The decorator is from the contextlib module.",
+      "Inside a generator‑based context manager, you must use yield, not return."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The @contextlib.contextmanager decorator converts a generator function into a context manager. The code before yield is setup, after yield is teardown.",
+    "common_mistake_warning": "⚠️ Forgetting to import contextlib will cause a NameError."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_017",
+    "concept_name": "yield keyword",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Place the yield statement so that the context manager returns 42 and the teardown runs after the with block.",
+    "code_template": "@contextlib.contextmanager\ndef my_context():\n    print('hello')\n    _____\n    print('goodbye')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "yield 42",
+        "answer_alternatives": ["yield 42"]
+      }
+    ],
+    "word_bank": ["yield 42", "return 42", "yield", "pass"],
+    "per_tile_feedback": {
+      "yield 42": "Correct – this pauses the generator, yields 42 to the as variable, and the teardown runs after the with block finishes.",
+      "return 42": "Incorrect – return would end the function immediately without setup/teardown semantics.",
+      "yield": "Incorrect – without a value, the with block would not receive a useful object.",
+      "pass": "Incorrect – no value is yielded, and the context manager would be empty."
+    },
+    "hints": [
+      "The value after yield becomes the variable bound in 'as'.",
+      "yield must give the printer object (or in this case 42)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Inside a context manager generator, yield provides the value that will be assigned to the variable in the 'as' clause. The generator is paused at yield, and resumed after the with block.",
+    "common_mistake_warning": "⚠️ The code after yield runs even if an exception occurs (unless protected by try/finally)."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_031",
+    "concept_name": "nonlocal keyword",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Modify the enclosing variable x from the nested function so that both prints show 200.",
+    "code_template": "def outer():\n    x = 10\n    def inner():\n        _____\n        x = 200\n        print(x)\n    inner()\n    print(x)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "nonlocal x",
+        "answer_alternatives": ["nonlocal x"]
+      }
+    ],
+    "word_bank": ["nonlocal x", "global x", "x =", "pass"],
+    "per_tile_feedback": {
+      "nonlocal x": "Correct – declares that x refers to the variable in the enclosing scope, so assignment modifies it.",
+      "global x": "Incorrect – x is not a global variable; this would cause an error.",
+      "x =": "Incorrect – without nonlocal, this would create a new local x, leaving outer x unchanged.",
+      "pass": "Incorrect – does nothing."
+    },
+    "hints": [
+      "You need to tell Python that x is not a new local variable.",
+      "The keyword starts with 'non'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The nonlocal keyword allows a nested function to assign to a variable defined in an enclosing (but not global) scope.",
+    "common_mistake_warning": "⚠️ Forgetting nonlocal results in a new local variable, leaving the outer variable unchanged."
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_032",
+    "concept_name": "Closure",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Create a closure: complete the outer function so that bar captures the variable a, and later calling func() prints 5.",
+    "code_template": "def foo():\n    _____ = 5\n    def bar():\n        print(_____)\n    return bar\n\nfunc = foo()\nfunc()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "a",
+        "answer_alternatives": ["a"]
+      },
+      {
+        "position": 2,
+        "answer": "a",
+        "answer_alternatives": ["a"]
+      }
+    ],
+    "word_bank": ["a", "b", "x", "5"],
+    "per_tile_feedback": {
+      "a": "Correct – the variable a is defined in the outer scope and captured by the inner function.",
+      "b": "Incorrect – b is not defined anywhere.",
+      "x": "Incorrect – x is not defined; the code would raise a NameError.",
+      "5": "Incorrect – 5 is a literal, not a variable name."
+    },
+    "hints": [
+      "The inner function must refer to a variable from the outer function.",
+      "Make sure the variable name is consistent."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A closure is created when a nested function references a variable from its enclosing scope. The variable a is remembered even after foo returns.",
+    "common_mistake_warning": "⚠️ Closures capture variables by reference, not value."
+  },
+  {
+    "id": "fitb_038",
+    "concept_id": "concept_033",
+    "concept_name": "__closure__ attribute",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Inspect the closure to retrieve the captured value 5 from the function func.",
+    "code_template": "func = foo()\nprint(func._____[0].cell_contents)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "__closure__",
+        "answer_alternatives": ["__closure__"]
+      }
+    ],
+    "word_bank": ["__closure__", "closure", "__func__", "__code__"],
+    "per_tile_feedback": {
+      "__closure__": "Correct – this is the tuple of cell objects that hold captured variables.",
+      "closure": "Incorrect – there is no attribute named closure; it's a dunder attribute.",
+      "__func__": "Incorrect – not a standard attribute.",
+      "__code__": "Incorrect – __code__ stores the code object, not the closure."
+    },
+    "hints": [
+      "It's a dunder attribute that stores nonlocal variable cells.",
+      "The attribute contains a tuple; you access the first element and then .cell_contents."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Every closure function has a __closure__ attribute (or None if no nonlocal variables). Each cell has a cell_contents attribute containing the captured value.",
+    "common_mistake_warning": "⚠️ __closure__ is None if there are no nonlocal variables captured."
+  },
+  {
+    "id": "fitb_039",
+    "concept_id": "concept_038",
+    "concept_name": "Decorator factory",
+    "chapter": 13,
+    "difficulty": "very_hard",
+    "task_description": "Complete the run_n_times decorator factory by adding the missing middle layer that receives the function to decorate.",
+    "code_template": "def run_n_times(n):\n    _____\n        def wrapper(*args, **kwargs):\n            for i in range(n):\n                func(*args, **kwargs)\n        return wrapper\n    return decorator",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "def decorator(func):",
+        "answer_alternatives": ["def decorator(func):"]
+      }
+    ],
+    "word_bank": [
+      "def decorator(func):",
+      "def wrapper(func):",
+      "def inner(func):",
+      "def func():"
+    ],
+    "per_tile_feedback": {
+      "def decorator(func):": "Correct – this is the decorator function that takes func and returns the wrapper.",
+      "def wrapper(func):": "Incorrect – wrapper is the innermost function; it should not accept func directly.",
+      "def inner(func):": "Incorrect – while a valid name, the standard name for the middle layer is decorator.",
+      "def func():": "Incorrect – that would shadow the function parameter."
+    },
+    "hints": [
+      "A decorator factory returns a decorator. That decorator must take a function argument.",
+      "The missing function should be named decorator and accept one parameter."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A decorator factory is a function that returns a decorator. The outer function takes factory arguments; the returned decorator takes the function; the decorator then returns the wrapper.",
+    "common_mistake_warning": "⚠️ The middle layer (decorator) is often forgotten, causing the wrapper to have no access to the original function."
+  },
+  {
+    "id": "fitb_040",
+    "concept_id": "concept_044",
+    "concept_name": "timeout decorator (using signals)",
+    "chapter": 14,
+    "difficulty": "very_hard",
+    "task_description": "Complete the timeout decorator by adding the line that cancels the pending alarm in the finally block.",
+    "code_template": "def timeout(n_seconds):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            signal.alarm(n_seconds)\n            try:\n                return func(*args, **kwargs)\n            finally:\n                _____\n        return wrapper\n    return decorator",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "signal.alarm(0)",
+        "answer_alternatives": ["signal.alarm(0)"]
+      }
+    ],
+    "word_bank": ["signal.alarm(0)", "pass", "return", "signal.alarm(0)  # cancels"],
+    "per_tile_feedback": {
+      "signal.alarm(0)": "Correct – this cancels any pending alarm, preventing a leftover signal from raising an unexpected error later.",
+      "pass": "Incorrect – pass does nothing; the alarm would still be scheduled.",
+      "return": "Incorrect – return would exit the wrapper without canceling the alarm.",
+      "signal.alarm(0)  # cancels": "Incorrect – the tile includes a comment, but the answer should be exactly the code line."
+    },
+    "hints": [
+      "To cancel a pending alarm, call alarm with zero.",
+      "This must be inside the finally block to run even if an error occurs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The timeout decorator sets an alarm before calling the function. In the finally block, it must call signal.alarm(0) to cancel the alarm, regardless of whether the function succeeded or raised an exception.",
+    "common_mistake_warning": "⚠️ Forgetting to cancel the alarm can cause spurious TimeoutErrors later in the program."
+  }
+]

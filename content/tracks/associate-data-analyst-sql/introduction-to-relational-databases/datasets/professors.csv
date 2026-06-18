@@ -1,0 +1,7 @@
+id,firstname,lastname,email,university_shortname
+1,Karl,Landsteiner,karl.landsteiner@univie.ac.at,UTA
+2,Albert,Einstein,albert.einstein@ethz.ch,ETH
+3,Richard,Feynman,rfeynman@caltech.edu,MIT
+4,Albert,Einstein,aeinstein@princeton.edu,PRIN
+5,Marie,Curie,marie.curie@sorbonne.fr,SORB
+6,Alan,Turing,turing@cambridge.ac.uk,CAMB

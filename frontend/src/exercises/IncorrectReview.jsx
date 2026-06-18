@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Sparkles,
   Award,
-  Trash2
+  Trash2,
+  Edit2
 } from 'lucide-react'
 import { 
   triggerCorrectFeedback, 
@@ -20,6 +21,7 @@ import {
 } from '../services/feedbackService'
 import CodeBlock from '../components/CodeBlock'
 import { getSessionLimit } from '../services/settingsService'
+import EditQuestionModal from '../components/EditQuestionModal'
 
 export default function IncorrectReview() {
   const { courseSlug } = useParams()
@@ -41,6 +43,7 @@ export default function IncorrectReview() {
   const [wrongReviewOptions, setWrongReviewOptions] = useState([]) // shuffled options for Matching
   const [isLocked, setIsLocked] = useState(false)
   const [lockedPct, setLockedPct] = useState(0)
+  const [editingQuestion, setEditingQuestion] = useState(null)
 
   const renderContentWithCode = (text) => {
     if (!text) return null;
@@ -768,14 +771,37 @@ export default function IncorrectReview() {
 
       {/* Left Sidebar Controls Container */}
       <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-        {/* Delete Question Button */}
-        <button
-          type="button"
-          onClick={() => handleDeleteQuestion(currentItem?.question_id, currentItem?.exercise_type)}
-          className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
-        >
-          <Trash2 size={14} /> Delete Question
-        </button>
+        <div className="flex gap-2">
+          {/* Edit Question Button */}
+          <button
+            type="button"
+            onClick={() => {
+              const typeMapping = {
+                quiz: 'mcq',
+                bossbattle: 'bossbattle',
+                flashcard: 'flashcards',
+                fillblank: 'ftb',
+                matching: 'matching'
+              };
+              setEditingQuestion({
+                ...currentItem.details,
+                id: currentItem.question_id,
+                _exerciseType: typeMapping[currentItem.exercise_type] || currentItem.exercise_type
+              });
+            }}
+            className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
+          >
+            <Edit2 size={12} /> Edit
+          </button>
+          {/* Delete Question Button */}
+          <button
+            type="button"
+            onClick={() => handleDeleteQuestion(currentItem?.question_id, currentItem?.exercise_type)}
+            className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
+          >
+            <Trash2 size={12} /> Delete
+          </button>
+        </div>
 
         {/* Keyboard Shortcuts Helper */}
         {showShortcuts && (
@@ -804,6 +830,19 @@ export default function IncorrectReview() {
           </div>
         )}
       </div>
+
+      {editingQuestion && (
+        <EditQuestionModal
+          courseSlug={courseSlug}
+          exerciseType={editingQuestion._exerciseType}
+          questionData={editingQuestion}
+          onClose={() => setEditingQuestion(null)}
+          onSave={() => {
+            fetchQuestions();
+            setEditingQuestion(null);
+          }}
+        />
+      )}
     </div>
   )
 }

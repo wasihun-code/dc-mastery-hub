@@ -1,0 +1,1062 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_002",
+    "concept_name": "list",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Create a list named cookies containing 'chocolate chip', 'peanut butter', and 'sugar'.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter', _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'sugar'",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["'sugar'", "'butter'", "sugar", "cookies"],
+    "per_tile_feedback": {
+      "'sugar'": "Correct! The string 'sugar' completes the list literal.",
+      "'butter'": "This is not one of the cookie names we want in the list.",
+      "sugar": "Without quotes, Python would look for a variable named sugar, which doesn’t exist.",
+      "cookies": "The list variable is being defined; we need an element, not the variable name."
+    },
+    "hints": [
+      "Remember that string elements in a list need quotes.",
+      "The list should contain three cookie names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Square brackets define a list. The last element must be a quoted string to match the recipe.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_011",
+    "concept_name": "tuple",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Create a single-element tuple named item containing the string 'butter'.",
+    "code_template": "item = ('butter',_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "",
+        "answer_alternatives": [","]
+      }
+    ],
+    "word_bank": [",", ")", "']", "butter"],
+    "per_tile_feedback": {
+      ",": "Correct! The trailing comma inside parentheses makes it a single‑element tuple.",
+      ")": "A closing parenthesis without a comma would just be a string, not a tuple.",
+      "']": "This is invalid syntax for a tuple.",
+      "butter": "The string already exists; duplicating it does not form a tuple correctly."
+    },
+    "hints": [
+      "Remember the syntax for a one‑element tuple.",
+      "What punctuation is required to distinguish a tuple from a plain parenthesised expression?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A single‑element tuple requires a trailing comma: ('butter',). Without it, the parentheses are ignored and item is just a string.",
+    "common_mistake_warning": "⚠️ Forgetting the trailing comma accidentally creates a string instead of a tuple."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "append method",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Add 'Tirggel' to the end of the cookies list.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter']\ncookies._____('Tirggel')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "append",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["append", "extend", "add", "insert"],
+    "per_tile_feedback": {
+      "append": "Correct! append adds a single element to the end.",
+      "extend": "extend is for merging an iterable, not for adding a single string.",
+      "add": "add is a set method, not a list method.",
+      "insert": "insert requires an index; it does not automatically go to the end."
+    },
+    "hints": [
+      "Which list method adds one item to the end?",
+      "Remember that .append() modifies the list in place."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The append method takes one argument and adds it as the new last element of the list.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_005",
+    "concept_name": "extend method",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Merge the list cakes into the cookies list using extend.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ncookies._____(cakes)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "extend",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["extend", "append", "update", "merge"],
+    "per_tile_feedback": {
+      "extend": "Correct! extend adds all elements of the iterable individually.",
+      "append": "append would add the whole list as one element, not its items.",
+      "update": "update is a dict/set method, not a list method.",
+      "merge": "There is no merge method for lists; extend is the right choice."
+    },
+    "hints": [
+      "We want to add each cake as a separate item.",
+      "Which list method takes an iterable and appends its elements?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "extend iterates over cakes and appends 'strawberry' and 'vanilla' individually to cookies.",
+    "common_mistake_warning": "⚠️ Using append instead of extend would insert the list itself as a single element."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_013",
+    "concept_name": "tuple unpacking",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Unpack the first tuple from top_pairs into us_num_1 and in_num_1.",
+    "code_template": "top_pairs = [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')]\nus_num_1, in_num_1 = top_pairs[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "0:1"],
+    "per_tile_feedback": {
+      "0": "Correct! Index 0 accesses the first tuple, which is then unpacked.",
+      "1": "Index 1 would unpack the second tuple, not the first.",
+      "2": "There are only two tuples, so index 2 would raise IndexError.",
+      "0:1": "Slicing returns a list of tuples, not a single tuple, so unpacking would fail."
+    },
+    "hints": [
+      "Remember that list indices start at 0.",
+      "You want the first element of top_pairs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "top_pairs[0] retrieves the tuple ('Chocolate Chip', 'Punjabi'), which is then unpacked into the two variables.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_017",
+    "concept_name": "f-string",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Print the sentence \"Each Anzac cookie costs 1.99\" using the variables cookie_name and cookie_price inside an f-string.",
+    "code_template": "cookie_name = 'Anzac'\ncookie_price = 1.99\nprint(f\"Each {_____} cookie costs {cookie_price}\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "cookie_name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["cookie_name", "name", "'Anzac'", "cookie_name()"],
+    "per_tile_feedback": {
+      "cookie_name": "Correct! The variable is embedded directly inside curly braces.",
+      "name": "The variable is called cookie_name, not name.",
+      "'Anzac'": "This would print the literal string 'Anzac', but the task asks to use the variable.",
+      "cookie_name()": "cookie_name is a string, not a callable; adding () would cause an error."
+    },
+    "hints": [
+      "The f in front of the string activates variable substitution.",
+      "Place the variable inside curly braces where the cookie name should appear."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "f‑strings evaluate expressions inside { }. Here, {cookie_name} inserts the value 'Anzac'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_019",
+    "concept_name": "startswith method (string)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Check if the string name starts with 'A' and store the boolean in result.",
+    "code_template": "name = 'Ahmed'\nresult = name._____('A')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "startswith",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["startswith", "endswith", "begins", "starts"],
+    "per_tile_feedback": {
+      "startswith": "Correct! startswith checks if a string starts with a given prefix.",
+      "endswith": "endswith checks the suffix, not the prefix.",
+      "begins": "There is no 'begins' method for strings.",
+      "starts": "There is no 'starts' method; the correct method is startswith."
+    },
+    "hints": [
+      "Python strings have a method that checks a prefix.",
+      "The method name describes what it does: starts with."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "name.startswith('A') returns True because 'Ahmed' begins with an uppercase 'A'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_020",
+    "concept_name": "endswith method (string)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Test whether the variable filename ends with '.csv' using the appropriate string method.",
+    "code_template": "filename = 'data.csv'\nis_csv = filename._____('.csv')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "endswith",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["endswith", "startswith", "ends", "suffix"],
+    "per_tile_feedback": {
+      "endswith": "Correct! endswith checks the suffix of a string.",
+      "startswith": "startswith checks the beginning, not the end.",
+      "ends": "There is no 'ends' method for strings.",
+      "suffix": "'suffix' is not a string method."
+    },
+    "hints": [
+      "You need the method that examines the end of the string.",
+      "The method name indicates 'ends with'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "filename.endswith('.csv') returns True because the string ends with '.csv'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_021",
+    "concept_name": "in operator (string)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Use the in operator to check if the substring 'long' appears in the quote.",
+    "code_template": "quote = \"Life is a long lesson in humility.\"\nhas_long = 'long' _____ quote",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "in",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["in", "not in", "is", "inside"],
+    "per_tile_feedback": {
+      "in": "Correct! The in operator tests substring membership.",
+      "not in": "We want to check presence, not absence.",
+      "is": "is compares identity, not substring existence.",
+      "inside": "'inside' is not a Python operator."
+    },
+    "hints": [
+      "Which keyword checks membership?",
+      "The same operator works for lists, strings, and other containers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "'long' in quote evaluates to True because the word 'long' is inside the sentence.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_022",
+    "concept_name": "lower method (string)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Perform a case‑insensitive check: see if the lowercase version of quote contains the word 'life'.",
+    "code_template": "quote = \"Life is a long lesson in humility.\"\nhas_life = 'life' in quote._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lower",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["lower", "casefold", "upper", "lowercase"],
+    "per_tile_feedback": {
+      "lower": "Correct! lower() returns a new string in all lowercase, enabling case‑insensitive search.",
+      "casefold": "casefold is a valid method, but the course uses lower for this purpose.",
+      "upper": "upper would make the string all caps, not help with 'life'.",
+      "lowercase": "There is no 'lowercase' method; the correct name is lower."
+    },
+    "hints": [
+      "Which string method returns an all‑lowercase copy?",
+      "The method name is a single word describing the case."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "quote.lower() produces 'life is a long lesson in humility.', and 'life' in that string is True.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_024",
+    "concept_name": "dict assignment",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Add the key 'zip' with value '10021' to the dictionary art_galleries.",
+    "code_template": "art_galleries = {}\nart_galleries[_____] = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'zip'",
+        "answer_alternatives": ["\"zip\""]
+      },
+      {
+        "position": 2,
+        "answer": "'10021'",
+        "answer_alternatives": ["\"10021\""]
+      }
+    ],
+    "word_bank": ["'zip'", "'10021'", "zip", "10021"],
+    "per_tile_feedback": {
+      "'zip'": "Correct! The key must be a string.",
+      "'10021'": "Correct! The value is a string.",
+      "zip": "Without quotes, zip is a variable or built‑in function, not the key we want.",
+      "10021": "Without quotes, 10021 is an integer, but the course uses a string for zip codes."
+    },
+    "hints": [
+      "Dictionary keys and values need to be the correct type; use quotes for strings.",
+      "The assignment uses square brackets for the key."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "art_galleries['zip'] = '10021' creates a key‑value pair. Both are strings.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_004",
+    "concept_name": "list indexing",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Access the third element of the cookies list and print it.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter', 'sugar', 'Tirggel']\nprint(cookies[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "3", "1", "-2"],
+    "per_tile_feedback": {
+      "2": "Correct! Index 2 is the third element (zero‑based indexing).",
+      "3": "Index 3 would give 'Tirggel', the fourth element.",
+      "1": "Index 1 is the second element, 'peanut butter'.",
+      "-2": "Index -2 would give 'sugar' from the end, but the task is to get the third element by positive index."
+    },
+    "hints": [
+      "List indexing starts at 0.",
+      "Count positions: 0, 1, 2, ..."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Zero‑based indexing means cookies[2] returns the third item, 'sugar'.",
+    "common_mistake_warning": "⚠️ Off‑by‑one errors are common; the first element is index 0, not 1."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_006",
+    "concept_name": "list concatenation with + operator",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Create a new list desserts by combining cookies and cakes using the + operator.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ndesserts = cookies _____ cakes",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "extend", "append", "+="],
+    "per_tile_feedback": {
+      "+": "Correct! The + operator creates a new list by joining the two lists.",
+      "extend": "extend is a method, not an operator, and it modifies the list in place.",
+      "append": "append would add cakes as a single element, not its items.",
+      "+=": "+= modifies cookies in place; here we want a new list desserts."
+    },
+    "hints": [
+      "Which operator combines two sequences into a new one?",
+      "We want a new list, not to modify the original."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The + operator between two lists returns a new list that is the concatenation of both.",
+    "common_mistake_warning": "⚠️ Many learners confuse + (returns new list) with extend (modifies in place)."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_007",
+    "concept_name": "index method (list)",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Find the position of 'peanut butter' in the cookies list and store it in pos.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter', 'sugar']\npos = cookies._____('peanut butter')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "index",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["index", "find", "search", "where"],
+    "per_tile_feedback": {
+      "index": "Correct! The index method returns the first occurrence's index.",
+      "find": "find is a string method, not a list method.",
+      "search": "There is no 'search' method for lists.",
+      "where": "This is not a Python list method."
+    },
+    "hints": [
+      "Which list method locates a value and returns its position?",
+      "If the value is missing, this method raises ValueError."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "cookies.index('peanut butter') returns 1 because 'peanut butter' is at index 1.",
+    "common_mistake_warning": "⚠️ If the element isn’t found, .index() raises ValueError – unlike .find() for strings."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_009",
+    "concept_name": "list comprehension",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Create a new list titlecase_cookies where each cookie name is converted to title case using a list comprehension.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter']\ntitlecase_cookies = [cookie._____() for cookie in cookies]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "title",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["title", "upper", "capitalize", "titlecase"],
+    "per_tile_feedback": {
+      "title": "Correct! The .title() method capitalises the first letter of each word.",
+      "upper": "upper() makes all letters uppercase, not title case.",
+      "capitalize": "capitalize() only capitalises the first word, not the whole phrase.",
+      "titlecase": "There is no 'titlecase' string method; use title()."
+    },
+    "hints": [
+      "The method should capitalise each word, like a title.",
+      "Recall the string method that converts 'hello world' to 'Hello World'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A list comprehension applies .title() to each cookie name, producing ['Chocolate Chip', 'Peanut Butter'].",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_010",
+    "concept_name": "sorted function",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Sort the cookies list in descending order using the sorted function with the reverse parameter.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter', 'Tirggel']\nsorted_cookies = sorted(cookies, _____=True)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "reverse",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["reverse", "descending", "order", "reversed"],
+    "per_tile_feedback": {
+      "reverse": "Correct! The reverse parameter, when True, sorts in descending order.",
+      "descending": "There is no 'descending' keyword argument for sorted().",
+      "order": "There is no 'order' parameter; use reverse.",
+      "reversed": "reversed() is a separate function that returns an iterator, not a keyword for sorted()."
+    },
+    "hints": [
+      "Which named argument of sorted() controls the sort direction?",
+      "The parameter is a boolean, often used as reverse=True."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "sorted(cookies, reverse=True) returns a new list sorted from Z to A (or highest to lowest).",
+    "common_mistake_warning": "⚠️ Forgetting that sorted() does not modify the original list – it returns a new one."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_012",
+    "concept_name": "zip function",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Combine us_cookies and in_cookies into a list of tuples using zip and convert the result to a list.",
+    "code_template": "us_cookies = ['Chocolate Chip', 'Brownies']\nin_cookies = ['Punjabi', 'Fruit Cake Rusk']\ntop_pairs = _____(zip(us_cookies, in_cookies))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["list", "tuple", "dict", "set"],
+    "per_tile_feedback": {
+      "list": "Correct! list() converts the zip iterator into a list of tuples.",
+      "tuple": "tuple() would create a tuple of tuples, not a list.",
+      "dict": "dict() would try to interpret each tuple as a key‑value pair, not what we want.",
+      "set": "set() would remove duplicates and lose order."
+    },
+    "hints": [
+      "zip returns an iterator; which built‑in function collects it into a list?",
+      "We want a list of tuples, so we need to wrap zip in list()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list(zip(...)) collects the pairs into a list: [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')].",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_014",
+    "concept_name": "tuple unpacking in loops",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Loop over top_pairs and unpack each tuple into us_cookie and in_cookie in the for statement.",
+    "code_template": "top_pairs = [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')]\nfor _____, _____ in top_pairs:\n    print(us_cookie, in_cookie)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "us_cookie",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "in_cookie",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["us_cookie", "in_cookie", "cookie1", "cookie2"],
+    "per_tile_feedback": {
+      "us_cookie": "Correct! This variable will receive the first element of each tuple.",
+      "in_cookie": "Correct! This variable will receive the second element.",
+      "cookie1": "The names must match the print statement inside the loop.",
+      "cookie2": "Same as above; the variables must be us_cookie and in_cookie."
+    },
+    "hints": [
+      "The loop variables should match the names used in the print statement.",
+      "Unpack each tuple into two variables separated by a comma."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The for loop unpacks each tuple: us_cookie gets 'Chocolate Chip', in_cookie gets 'Punjabi', etc.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_015",
+    "concept_name": "enumerate function",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Loop over top_pairs with enumerate, starting the index at 1. Unpack into idx and item.",
+    "code_template": "top_pairs = [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')]\nfor idx, item in _____(top_pairs, start=1):\n    print(idx, item)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "enumerate",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["enumerate", "zip", "range", "list"],
+    "per_tile_feedback": {
+      "enumerate": "Correct! enumerate yields (index, element) tuples; start=1 begins counting at 1.",
+      "zip": "zip pairs elements from multiple iterables; it doesn’t provide an index.",
+      "range": "range only produces numbers, not the elements from top_pairs.",
+      "list": "list does not produce indexes."
+    },
+    "hints": [
+      "Which built‑in function gives you an index counter alongside the items?",
+      "It starts with 'e' and has a start parameter."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "enumerate(top_pairs, start=1) produces (1, ('Chocolate Chip','Punjabi')), etc. Unpacking gives idx and the tuple.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_023",
+    "concept_name": "dict (dictionary)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create an empty dictionary named art_galleries.",
+    "code_template": "art_galleries = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{}",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["{}", "[]", "set()", "dict()"],
+    "per_tile_feedback": {
+      "{}": "Correct! Empty curly braces create an empty dictionary.",
+      "[]": "Square brackets create an empty list.",
+      "set()": "set() creates an empty set; {} would be a dict.",
+      "dict()": "dict() also creates an empty dictionary, but the course uses {}."
+    },
+    "hints": [
+      "Which pair of brackets defines a dictionary?",
+      "The course initialises empty dicts with art_galleries = {}"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, {} creates an empty dictionary. To make an empty set, use set().",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_027",
+    "concept_name": "update method (dict)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Merge the dictionary galleries_11234 into the dictionary art_galleries using the update method.",
+    "code_template": "art_galleries = {'11234': {}}\ngalleries_11234 = {'Morning Star Gallery Ltd': '(212) 555-1212'}\nart_galleries['11234']._____(galleries_11234)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "update",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["update", "extend", "append", "merge"],
+    "per_tile_feedback": {
+      "update": "Correct! The update method adds key‑value pairs from another dict.",
+      "extend": "extend is a list method; not available on dict.",
+      "append": "append is a list method; not available on dict.",
+      "merge": "There is no merge method for dictionaries; use update."
+    },
+    "hints": [
+      "Which dict method incorporates another dictionary’s entries?",
+      "The course uses art_galleries['11234'].update(...)"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "update(other_dict) adds all key‑value pairs from other_dict into the dictionary, overwriting existing keys.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_028",
+    "concept_name": "del instruction",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Remove the key '11234' and its value from the art_galleries dictionary.",
+    "code_template": "art_galleries = {'11234': {}, '10027': {}}\n_____ art_galleries['11234']",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "del",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["del", "remove", "pop", "delete"],
+    "per_tile_feedback": {
+      "del": "Correct! del is a statement that removes a key‑value pair from a dict.",
+      "remove": "remove is a list/set method, not a dict key deletion.",
+      "pop": "pop is a dict method that returns the removed value; del does not return.",
+      "delete": "'delete' is not a Python keyword; use del."
+    },
+    "hints": [
+      "Which Python keyword deletes a variable or dict entry?",
+      "It’s a statement, not a function, so no parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The del statement removes the specified key and its value from the dictionary.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_030",
+    "concept_name": "items method (dict)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Loop over the key‑value pairs of art_galleries, unpacking each into gallery and phone_num.",
+    "code_template": "art_galleries = {'Miakey Art Gallery': '212-555-1212'}\nfor gallery, phone_num in art_galleries._____():\n    print(gallery)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "items",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["items", "keys", "values", "entries"],
+    "per_tile_feedback": {
+      "items": "Correct! .items() returns a view of (key, value) tuples.",
+      "keys": "keys() only returns the keys; we need both key and value.",
+      "values": "values() only returns the values.",
+      "entries": "There is no 'entries' method for dicts."
+    },
+    "hints": [
+      "Which dict method provides both the key and the value?",
+      "The loop variables are gallery and phone_num."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "art_galleries.items() yields tuples like ('Miakey Art Gallery', '212-555-1212'), which are unpacked.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_031",
+    "concept_name": "in operator (dict)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Check if the key '11234' is present in art_galleries using the in operator.",
+    "code_template": "art_galleries = {'11234': {}, '10027': {}}\nhas_11234 = '11234' _____ art_galleries",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "in",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["in", "not in", "has", "key"],
+    "per_tile_feedback": {
+      "in": "Correct! The in operator checks for key membership.",
+      "not in": "We want True if the key is present; not in would be the opposite.",
+      "has": "There is no 'has' operator; use in.",
+      "key": "'key' is not an operator."
+    },
+    "hints": [
+      "Which keyword tests if a key exists in a dictionary?",
+      "Same operator used for lists and strings."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "'11234' in art_galleries returns True because '11234' is a key in the dictionary.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_033",
+    "concept_name": "keys method (dict)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Retrieve all the keys from art_galleries as a view.",
+    "code_template": "art_galleries = {'Miakey Art Gallery': '212-555-1212'}\nall_keys = art_galleries._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["keys", "items", "values", "all"],
+    "per_tile_feedback": {
+      "keys": "Correct! .keys() returns a dict_keys view of the dictionary's keys.",
+      "items": "items returns key‑value pairs, not just keys.",
+      "values": "values returns the values.",
+      "all": "There is no 'all' method for dicts."
+    },
+    "hints": [
+      "Which dict method returns only the keys?",
+      "The view object will contain 'Miakey Art Gallery'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "art_galleries.keys() gives a view of all keys, e.g., dict_keys(['Miakey Art Gallery']).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_038",
+    "concept_name": "float division (/)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Perform float division of 4 by 2 and store the result in result.",
+    "code_template": "result = 4 _____ 2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "/",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["/", "//", "%", "div"],
+    "per_tile_feedback": {
+      "/": "Correct! The / operator always returns a float.",
+      "//": "// is floor division and would return 2 (an integer).",
+      "%": "% is the modulo operator, returning the remainder.",
+      "div": "There is no 'div' operator."
+    },
+    "hints": [
+      "Which operator gives a floating‑point result?",
+      "Even when both operands are integers, this operator returns a float."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "4 / 2 evaluates to 2.0 because / always performs float division.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_043",
+    "concept_name": "comparison operators",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Check if cookie_qty is equal to 3.",
+    "code_template": "cookie_qty = 3\nresult = cookie_qty _____ 3",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "==",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["==", "=", "!=", "is"],
+    "per_tile_feedback": {
+      "==": "Correct! == tests for equality.",
+      "=": "A single = is assignment, not comparison.",
+      "!=": "!= checks inequality, returning True when values are different.",
+      "is": "is compares object identity, not value equality."
+    },
+    "hints": [
+      "Which operator compares two values for equality?",
+      "It uses two equals signs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "cookie_qty == 3 returns True because the two values are equal.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_046",
+    "concept_name": "set creation",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Create an empty set named types_of_cookies_eaten.",
+    "code_template": "types_of_cookies_eaten = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "set()",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["set()", "{}", "[]", "set"],
+    "per_tile_feedback": {
+      "set()": "Correct! set() creates an empty set.",
+      "{}": "Empty curly braces create a dictionary, not a set.",
+      "[]": "Square brackets create an empty list.",
+      "set": "set is the class name, but you need parentheses to call the constructor."
+    },
+    "hints": [
+      "Which constructor creates an empty set?",
+      "Using {} gives you a dict instead."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "An empty set must be created with set(). {} creates an empty dictionary.",
+    "common_mistake_warning": "⚠️ Using {} creates an empty dict, not a set."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_036",
+    "concept_name": "Decimal",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Create a Decimal object with the exact value 0.1.",
+    "code_template": "from decimal import Decimal\nd = Decimal(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'0.1'",
+        "answer_alternatives": ["\"0.1\""]
+      }
+    ],
+    "word_bank": ["'0.1'", "0.1", "0.1", "str(0.1)"],
+    "per_tile_feedback": {
+      "'0.1'": "Correct! Using a string preserves exact precision.",
+      "0.1": "Passing a float first converts to binary, losing precision.",
+      "0.1": "Same as above; duplicate tile.",
+      "str(0.1)": "str(0.1) gives the float representation, which may not be exact."
+    },
+    "hints": [
+      "To avoid floating‑point errors, construct Decimal from a string.",
+      "Decimal('0.1') is the recommended way."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Decimal('0.1') creates an exact decimal. Decimal(0.1) would carry over the float's imprecision.",
+    "common_mistake_warning": "⚠️ Always use a string to create a precise Decimal value."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_037",
+    "concept_name": "f-string float formatting",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Print 0.0000001 with exactly 7 decimal places using an f‑string format specifier.",
+    "code_template": "print(f\"{0.0000001:_____}\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".7f",
+        "answer_alternatives": [".7f"]
+      }
+    ],
+    "word_bank": [".7f", ".6f", ":7f", "f"],
+    "per_tile_feedback": {
+      ".7f": "Correct! .7f specifies 7 digits after the decimal point in fixed‑point notation.",
+      ".6f": ".6f would show 6 decimal places, not 7.",
+      ":7f": ":7f is invalid; the precision must come right after the colon.",
+      "f": "Just f without a number defaults to 6 decimal places."
+    },
+    "hints": [
+      "The format specifier for fixed‑point with precision is .Nf.",
+      "You need N = 7 to see the full number."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "f\"{0.0000001:.7f}\" prints '0.0000001', avoiding scientific notation.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_039",
+    "concept_name": "floor division (//)",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Perform floor division of 7 by 3, storing the integer result.",
+    "code_template": "result = 7 _____ 3",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "//",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["//", "/", "%", "div"],
+    "per_tile_feedback": {
+      "//": "Correct! // performs floor division, returning 2.",
+      "/": "/ would return 2.333... (a float), not the integer floor.",
+      "%": "% returns the remainder (1).",
+      "div": "There is no 'div' operator."
+    },
+    "hints": [
+      "Which operator discards the fractional part by flooring?",
+      "It uses two slashes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "7 // 3 equals 2 because 3 * 2 = 6, the largest multiple of 3 ≤ 7.",
+    "common_mistake_warning": "⚠️ With negative numbers, // floors toward negative infinity, not zero."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_008",
+    "concept_name": "pop method (list)",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "Remove and return the last element of the cookies list using pop without arguments.",
+    "code_template": "cookies = ['chocolate chip', 'peanut butter', 'sugar']\nlast = cookies._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pop",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pop", "remove", "pop()", "del"],
+    "per_tile_feedback": {
+      "pop": "Correct! pop() with no index removes and returns the last item.",
+      "remove": "remove deletes by value, not by position, and returns None.",
+      "pop()": "The trailing parentheses are part of the call; the blank is for the method name only.",
+      "del": "del is a statement and cannot be called as cookies.del()."
+    },
+    "hints": [
+      "Which method removes and returns an element?",
+      "When called without arguments, it defaults to the last item."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "cookies.pop() removes 'sugar' from the list and returns it.",
+    "common_mistake_warning": "⚠️ Popping from an empty list raises IndexError."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_029",
+    "concept_name": "pop method (dict)",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Safely remove key '11234' from art_galleries, returning None if it doesn’t exist.",
+    "code_template": "art_galleries = {'11234': {'Miakey Art Gallery': '212-555-1212'}}\nremoved = art_galleries.pop('11234', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "None",
+        "answer_alternatives": ["None"]
+      }
+    ],
+    "word_bank": ["None", "0", "False", "default"],
+    "per_tile_feedback": {
+      "None": "Correct! The second argument is the default value returned when the key is missing.",
+      "0": "0 could be a default, but the task specifies returning None.",
+      "False": "False is a valid default, but None better indicates absence.",
+      "default": "'default' is just a placeholder; the actual Python value is None."
+    },
+    "hints": [
+      "What value represents 'nothing' or 'absent'?",
+      "The pop method’s second parameter provides a fallback."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "dict.pop(key, default) returns default if key is missing. None is a common choice to indicate 'no value'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_026",
+    "concept_name": "get method (dict)",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Retrieve the value for key 'Louvre' from art_galleries, defaulting to 'Not Found' if missing.",
+    "code_template": "art_galleries = {}\nvalue = art_galleries._____('Louvre', 'Not Found')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "get",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["get", "pop", "setdefault", "fetch"],
+    "per_tile_feedback": {
+      "get": "Correct! get returns the value or a default without raising KeyError.",
+      "pop": "pop would remove the key, not appropriate here.",
+      "setdefault": "setdefault would set the key if missing, returning the existing or new value.",
+      "fetch": "There is no 'fetch' method for dicts."
+    },
+    "hints": [
+      "Which dict method safely accesses a key with a fallback?",
+      "It starts with 'g'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "art_galleries.get('Louvre', 'Not Found') returns 'Not Found' because the key doesn’t exist.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_018",
+    "concept_name": "join method (string)",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Join the elements of child_ages with ', ' as the separator to create a single string.",
+    "code_template": "child_ages = ['3', '4', '7', '8']\njoined = _____.join(child_ages)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "', '",
+        "answer_alternatives": ["\", \""]
+      }
+    ],
+    "word_bank": ["', '", "child_ages", "' '", "join"],
+    "per_tile_feedback": {
+      "', '": "Correct! The separator string is the one we call .join() on.",
+      "child_ages": "join is called on the separator, not the list.",
+      "' '": "A single space would not include commas.",
+      "join": "'join' is not a string; it’s a method."
+    },
+    "hints": [
+      "Which string do you call .join() on — the separator or the list?",
+      "The pattern is 'separator'.join(iterable)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "', '.join(child_ages) concatenates the strings with a comma‑space between them.",
+    "common_mistake_warning": "⚠️ Calling .join() on the list instead of the separator raises AttributeError."
+  }
+]

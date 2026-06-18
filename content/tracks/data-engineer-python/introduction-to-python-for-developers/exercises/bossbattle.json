@@ -1,0 +1,1242 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_004",
+    "concept_name": "print function",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\nprint(\"Hello,\", \"world!\")\n```",
+    "options": {
+      "a": "Hello, world!",
+      "b": "Hello,world!",
+      "c": "Hello,  world!",
+      "d": "('Hello,', 'world!')"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! print() separates multiple arguments with a space by default.",
+      "b": "Missing the space because print adds a space between arguments.",
+      "c": "No, there is only one space between the words.",
+      "d": "print() does not display parentheses; it outputs the values."
+    },
+    "hints": [
+      "Think about how print handles multiple items.",
+      "By default, print adds a single space between arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The print function automatically inserts a space between multiple arguments.",
+    "time_pressure_note": "Under pressure, learners might forget that print concatenates with a space.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_005",
+    "concept_name": "Code comment",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\n// Display greeting\nprint(\"Hi\")\n```",
+    "options": {
+      "a": "The comment uses // instead of #",
+      "b": "The print function is misspelled",
+      "c": "The string is missing an opening quote",
+      "d": "There is no error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Python comments start with #, not //.",
+      "b": "print is spelled correctly.",
+      "c": "The string is properly quoted.",
+      "d": "There is an error: invalid comment syntax."
+    },
+    "hints": [
+      "Python uses a specific symbol for comments.",
+      "This symbol is also used for hashtags."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, # starts a comment. // is used in languages like Java or C++.",
+    "time_pressure_note": "Under time pressure, cross-language syntax confusion is common.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_006",
+    "concept_name": "Variable",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank in the output comment.\n\n```python\ncolor = \"red\"\nprint(color)\n# Output: ________\n```",
+    "options": {
+      "a": "red",
+      "b": "color",
+      "c": "\"red\"",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! print displays the value of the variable, which is 'red'.",
+      "b": "It would print 'color' only if you passed the string \"color\".",
+      "c": "Quotes are not included unless they are part of the string.",
+      "d": "The variable color is defined, so no error."
+    },
+    "hints": [
+      "When you print a variable, what do you see?",
+      "The variable holds a string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Printing a variable outputs its value, which is 'red'.",
+    "time_pressure_note": "People often confuse the variable name with its value when rushing.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_007",
+    "concept_name": "String data type",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\ncity = \"Paris\"\nprint(city)\n```",
+    "options": {
+      "a": "Paris",
+      "b": "\"Paris\"",
+      "c": "city",
+      "d": "P"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! It prints the string inside the variable.",
+      "b": "Quotes are not printed unless they are part of the string.",
+      "c": "It would print 'city' only if you passed the string \"city\".",
+      "d": "It prints the whole string, not just the first character."
+    },
+    "hints": [
+      "What does a variable store?",
+      "The print function shows the contents."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Printing a variable displays its value, which is 'Paris'.",
+    "time_pressure_note": "Under pressure, one might confuse variable name with value.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_008",
+    "concept_name": "Integer data type",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the output?\n\n```python\nqty = 5\nprint(qty + 1)\n```",
+    "options": {
+      "a": "6",
+      "b": "51",
+      "c": "5 + 1",
+      "d": "\"5+1\""
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 5 + 1 equals 6, as integers.",
+      "b": "Python does not concatenate numbers as strings; it adds them.",
+      "c": "The expression is evaluated, not printed literally.",
+      "d": "No quotes are involved."
+    },
+    "hints": [
+      "What does + do with integers?",
+      "Think arithmetic."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Integer addition yields 6.",
+    "time_pressure_note": "Rushing might make you think string concatenation.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_009",
+    "concept_name": "Variable assignment",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\nscore = 10\nif score = 15:\n    print(\"Win\")\n```",
+    "options": {
+      "a": "Assignment = used instead of comparison ==",
+      "b": "The if statement is missing parentheses",
+      "c": "The variable score is not defined",
+      "d": "The print function is incorrectly indented"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! = is assignment; inside an if condition you need ==.",
+      "b": "Parentheses are not required.",
+      "c": "score is defined above.",
+      "d": "The indentation is fine."
+    },
+    "hints": [
+      "Look at the if condition.",
+      "What operator is used for equality check?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using = in a condition is a SyntaxError because it's assignment, not comparison.",
+    "time_pressure_note": "Under time pressure, this subtle bug is easy to miss.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_010",
+    "concept_name": "Printing variables",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Complete the output line.\n\n```python\nname = \"Alice\"\nprint(name)\n# Output: _______\n```",
+    "options": {
+      "a": "Alice",
+      "b": "name",
+      "c": "\"Alice\"",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Printing the variable shows its string value.",
+      "b": "It would print 'name' only if you printed the string \"name\".",
+      "c": "The quotes are not part of the value.",
+      "d": "No error; name is defined."
+    },
+    "hints": [
+      "The variable holds a string.",
+      "What do you see when you print it?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The variable's value is displayed.",
+    "time_pressure_note": "People often mistakenly put the variable name in quotes inside print.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_011",
+    "concept_name": "Updating variables",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\ncounter = 1\ncounter = counter + 2\nprint(counter)\n```",
+    "options": {
+      "a": "1",
+      "b": "3",
+      "c": "12",
+      "d": "counter + 2"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The variable was updated to 3, so it no longer holds 1.",
+      "b": "Correct! The new value is 1 + 2 = 3.",
+      "c": "Python does not concatenate numbers as strings; addition is performed.",
+      "d": "The expression is evaluated, not printed as text."
+    },
+    "hints": [
+      "The variable is reassigned to a new computed value.",
+      "Arithmetic is performed before assignment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "counter is updated to the result of 1 + 2, which is 3.",
+    "time_pressure_note": "May confuse concatenation with addition if not careful.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_014",
+    "concept_name": "Boolean data type",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a valid Boolean literal in Python?",
+    "options": {
+      "a": "True",
+      "b": "False",
+      "c": "true",
+      "d": "False"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "True is a valid Boolean.",
+      "b": "False is valid.",
+      "c": "Correct! Python is case-sensitive; 'true' (lowercase) is not a Boolean literal.",
+      "d": "False is valid."
+    },
+    "hints": [
+      "Check the capitalization.",
+      "Booleans in Python are capitalized."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Only True and False (capitalized) are Boolean literals.",
+    "time_pressure_note": "Lowercase booleans are a common trap.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_015",
+    "concept_name": "type function",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the result of this code?\n\n```python\nvalue = 3.14\nprint(type(value))\n```",
+    "options": {
+      "a": "<class 'float'>",
+      "b": "float",
+      "c": "<class 'int'>",
+      "d": "3.14"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! type() returns a class representation.",
+      "b": "It returns a class, not just the name as a plain string.",
+      "c": "3.14 is a float, not int.",
+      "d": "It does not print the value."
+    },
+    "hints": [
+      "What does type() output look like?",
+      "It includes angle brackets and 'class'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "type() outputs the class description: <class 'float'>.",
+    "time_pressure_note": "People expect just the word 'float'.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_016",
+    "concept_name": "Arithmetic operators",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does the following code print?\n\n```python\nprint(10 / 3)\n```",
+    "options": {
+      "a": "3.3333333333333335",
+      "b": "3",
+      "c": "3.0",
+      "d": "1"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Division always returns a float.",
+      "b": "Integer division // would give 3, but / gives a float.",
+      "c": "The exact result is a float, but with more precision.",
+      "d": "That's the remainder (%), not division."
+    },
+    "hints": [
+      "What does the / operator do?",
+      "It always produces a decimal result."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The / operator performs true division, yielding a float.",
+    "time_pressure_note": "Under pressure, some may confuse / with //.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_017",
+    "concept_name": "String operators",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What will happen when you run this code?\n\n```python\nprint(\"Hello\" * \"World\")\n```",
+    "options": {
+      "a": "HelloWorld",
+      "b": "HelloHello...",
+      "c": "TypeError",
+      "d": "Hello"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Concatenation uses +, not *.",
+      "b": "String repetition requires an integer multiplier.",
+      "c": "Correct! * between strings causes a TypeError.",
+      "d": "No, this doesn't work."
+    },
+    "hints": [
+      "Can you multiply two strings?",
+      "String repetition only works with int * string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Multiplying two strings is not allowed; the second operand must be an integer.",
+    "time_pressure_note": "Rushing might make you think it concatenates.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_018",
+    "concept_name": "Single and double quotes",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the error in this line?\n\n```python\ntext = 'She said, \"Hello\"'\n```",
+    "options": {
+      "a": "No error; it's valid.",
+      "b": "The single quote inside the string must be escaped.",
+      "c": "Double quotes cannot be inside single quotes.",
+      "d": "Missing closing single quote."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The string uses single quotes outside, double inside, which is fine.",
+      "b": "No escaping needed because the outer quotes are different.",
+      "c": "Double quotes inside single quotes are allowed.",
+      "d": "The single quote is properly closed."
+    },
+    "hints": [
+      "Check the quote pairing.",
+      "When outer quotes differ from inner, no escaping required."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Mixing quote types is legal and often used to avoid escaping.",
+    "time_pressure_note": "People may wrongly think you must escape quotes.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_019",
+    "concept_name": "Multi-line strings",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nmsg = \"\"\"Hello\nWorld\"\"\"\nprint(msg)\n```",
+    "options": {
+      "a": "Hello\nWorld",
+      "b": "HelloWorld",
+      "c": "Hello\n\nWorld",
+      "d": "\"Hello\\nWorld\""
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The triple-quoted string preserves the newline.",
+      "b": "The newline is preserved.",
+      "c": "Only one newline exists.",
+      "d": "The quotes are not printed."
+    },
+    "hints": [
+      "What does a triple-quoted string do with line breaks?",
+      "It keeps them as \\n."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Triple quotes maintain the line break exactly as written.",
+    "time_pressure_note": "May forget that line breaks are preserved.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_021",
+    "concept_name": ".replace() method",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Before: `greeting = \"Hello, Tom\"`\nAfter: `greeting = \"Hello, Tom\"` (unchanged)\nWhich line was executed?",
+    "options": {
+      "a": "greeting.replace(\"Tom\", \"Jerry\")",
+      "b": "greeting = greeting.replace(\"Tom\", \"Jerry\")",
+      "c": "greeting = \"Hello, Jerry\"",
+      "d": "greeting = \"Hello, Tom\""
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! .replace() returns a new string but was not reassigned, so greeting remains unchanged.",
+      "b": "This would have updated the variable.",
+      "c": "This would have changed it.",
+      "d": "This would have reassigned the same value, but still a reassignment."
+    },
+    "hints": [
+      "Does .replace() modify in place?",
+      "Look for reassignment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without reassignment, .replace() does not alter the original string.",
+    "time_pressure_note": "A classic gotcha: forgetting to reassign the method result.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_022",
+    "concept_name": ".lower() method",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when this code runs?\n\n```python\nword = 5\nprint(word.lower())\n```",
+    "options": {
+      "a": "AttributeError",
+      "b": "5",
+      "c": "\"5\"",
+      "d": "TypeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! int objects have no .lower() method.",
+      "b": "No conversion occurs.",
+      "c": "It does not become a string.",
+      "d": "The error is AttributeError, not TypeError."
+    },
+    "hints": [
+      "Is .lower() available for integers?",
+      "Check the data type."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Calling .lower() on an integer causes an AttributeError because int has no such method.",
+    "time_pressure_note": "People may expect automatic string conversion.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_023",
+    "concept_name": ".upper() method",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nname = \"python\"\nname = name.upper()\nprint(name)\n```",
+    "options": {
+      "a": "PYTHON",
+      "b": "python",
+      "c": "\"PYTHON\"",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! .upper() returns uppercase, and reassignment stores it.",
+      "b": "The variable was reassigned.",
+      "c": "Quotes are not printed.",
+      "d": "No error."
+    },
+    "hints": [
+      "Reassignment stores the result.",
+      ".upper() makes letters uppercase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "After reassignment, name holds 'PYTHON'.",
+    "time_pressure_note": "One might forget the reassignment step.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_024",
+    "concept_name": "List",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nitems = [1, 2, 3]\nprint(items)\n```",
+    "options": {
+      "a": "[1, 2, 3]",
+      "b": "1, 2, 3",
+      "c": "(1, 2, 3)",
+      "d": "{1, 2, 3}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Lists print with square brackets.",
+      "b": "Without brackets, it would not be list representation.",
+      "c": "Parentheses are for tuples.",
+      "d": "Curly braces are for sets or dicts."
+    },
+    "hints": [
+      "How does Python display a list?",
+      "Lists are surrounded by square brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Printing a list shows its elements in square brackets.",
+    "time_pressure_note": "Confusing list representation with other data types is easy when rushing.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_025",
+    "concept_name": "List indexing",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Given `fruits = [\"apple\", \"banana\", \"cherry\"]`, what is `fruits[2]`?",
+    "options": {
+      "a": "\"cherry\"",
+      "b": "\"banana\"",
+      "c": "\"apple\"",
+      "d": "IndexError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Index 2 is the third element.",
+      "b": "That's index 1.",
+      "c": "That's index 0.",
+      "d": "Index 2 exists."
+    },
+    "hints": [
+      "Zero-based indexing: 0, 1, 2.",
+      "Count from zero."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Indices start at 0, so index 2 is 'cherry'.",
+    "time_pressure_note": "Off-by-one errors are common under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_026",
+    "concept_name": "Negative indexing",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Complete the output.\n\n```python\ncolors = [\"red\", \"green\", \"blue\"]\nprint(colors[-2])\n# Output: ______\n```",
+    "options": {
+      "a": "green",
+      "b": "blue",
+      "c": "red",
+      "d": "IndexError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! -2 is the second last element.",
+      "b": "That's -1.",
+      "c": "That's -3.",
+      "d": "Index -2 is valid."
+    },
+    "hints": [
+      "Negative indices count from the end.",
+      "-1 is last, -2 is second last."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "colors[-2] retrieves 'green'.",
+    "time_pressure_note": "Under pressure, may miscount from the end.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_043",
+    "concept_name": "Comparison operators",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which code snippet is NOT a valid comparison?",
+    "options": {
+      "a": "5 != 3",
+      "b": "5 <> 3",
+      "c": "5 < 3",
+      "d": "5 >= 3"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "!= is valid.",
+      "b": "Correct! <> is not a valid comparison operator in Python 3.",
+      "c": "< is valid.",
+      "d": ">= is valid."
+    },
+    "hints": [
+      "Which operator is obsolete?",
+      "Python 3 removed <>."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The <> operator was used in Python 2 but is not supported in Python 3.",
+    "time_pressure_note": "People might forget that <> is invalid.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_044",
+    "concept_name": "String comparison",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What does this code do?\n\n```python\nprint(\"apple\" < \"Banana\")\n```",
+    "options": {
+      "a": "Prints True",
+      "b": "Prints False",
+      "c": "TypeError",
+      "d": "Prints \"appleBanana\""
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Lowercase 'a' has a higher code point than uppercase 'B', so 'apple' is greater, not less.",
+      "b": "Correct! 'apple' > 'Banana' is True, so 'apple' < 'Banana' is False.",
+      "c": "Comparison is allowed.",
+      "d": "No concatenation."
+    },
+    "hints": [
+      "Remember Unicode order: uppercase letters have lower codes.",
+      "Compare first characters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In lexicographic order, uppercase 'B' (66) is less than lowercase 'a' (97), so 'apple' > 'Banana', making < False.",
+    "time_pressure_note": "Case sensitivity in string comparison is a common surprise.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_045",
+    "concept_name": "Conditional statement (if)",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the error?\n\n```python\nage = 20\nif age > 18\n    print(\"Adult\")\n```",
+    "options": {
+      "a": "Missing colon after the condition",
+      "b": "Missing parentheses around condition",
+      "c": "print is not indented",
+      "d": "age should be a string"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The if statement requires a colon.",
+      "b": "Parentheses are optional.",
+      "c": "Indentation is fine.",
+      "d": "Integer comparison is valid."
+    },
+    "hints": [
+      "Check the syntax of the if line.",
+      "Each if must end with a colon."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The colon is mandatory after the condition.",
+    "time_pressure_note": "Missing colon is a classic syntax error overlooked under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_046",
+    "concept_name": "Elif statement",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Complete the output.\n\n```python\ntemperature = 25\nif temperature > 30:\n    print(\"Hot\")\nelif temperature > 20:\n    print(\"Warm\")\nelse:\n    print(\"Cool\")\n```\nWhat is printed?",
+    "options": {
+      "a": "Warm",
+      "b": "Hot",
+      "c": "Cool",
+      "d": "Nothing"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 25 is not >30, but is >20, so 'Warm'.",
+      "b": "Not hot.",
+      "c": "Not else; the elif was true.",
+      "d": "Something is printed."
+    },
+    "hints": [
+      "Check each condition in order.",
+      "25 > 20 is True."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The elif condition is met, so 'Warm' prints.",
+    "time_pressure_note": "Order of conditions can be misread in haste.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_047",
+    "concept_name": "Else statement",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nx = 10\nif x < 5:\n    print(\"A\")\nelif x > 20:\n    print(\"B\")\nelse:\n    print(\"C\")\n```",
+    "options": {
+      "a": "C",
+      "b": "A",
+      "c": "B",
+      "d": "Nothing"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Neither if nor elif was true, so else runs.",
+      "b": "x < 5 is False.",
+      "c": "x > 20 is False.",
+      "d": "Else block will execute."
+    },
+    "hints": [
+      "Only the else clause will fire.",
+      "Both if and elif conditions are false."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Since none of the preceding conditions are True, the else block prints 'C'.",
+    "time_pressure_note": "Easy to misjudge which condition triggers.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_027",
+    "concept_name": "List slicing",
+    "chapter": 5,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nnums = [10, 20, 30, 40]\nprint(nums[2:3])\n```",
+    "options": {
+      "a": "[30]",
+      "b": "[30, 40]",
+      "c": "[20, 30]",
+      "d": "[20, 30, 40]"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Slice [2:3] includes only index 2.",
+      "b": "That would be [2:].",
+      "c": "That would be [1:3].",
+      "d": "That would be [1:]."
+    },
+    "hints": [
+      "The end index is exclusive.",
+      "Index 3 is not included."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slicing [2:3] returns [30] because index 3 is excluded.",
+    "time_pressure_note": "Off-by-one in slices is a notorious pitfall.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_028",
+    "concept_name": "Step slicing",
+    "chapter": 5,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "complete_output",
+    "question_text": "Complete the output.\n\n```python\nletters = ['a','b','c','d','e','f']\nprint(letters[1:5:2])\n# Output: ________\n```",
+    "options": {
+      "a": "['b', 'd']",
+      "b": "['a', 'c', 'e']",
+      "c": "['b', 'c']",
+      "d": "['b', 'd', 'f']"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Start at 1, end before 5, step 2 yields indices 1 and 3: 'b','d'.",
+      "b": "That would be [::2].",
+      "c": "Wrong step?",
+      "d": "f would be index 5, but stop is exclusive at 5."
+    },
+    "hints": [
+      "Step 2 picks every other element.",
+      "Stop at index 5 means index 5 is excluded."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The slice [1:5:2] takes indices 1 and 3.",
+    "time_pressure_note": "Step slicing with exclusive end is a common trap.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_029",
+    "concept_name": "Dictionary",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\ninfo = {\"name\": \"Bob\", \"age\": 30}\nprint(info)\n```",
+    "options": {
+      "a": "{'name': 'Bob', 'age': 30}",
+      "b": "['name', 'Bob', 'age', 30]",
+      "c": "('name', 'Bob', 'age', 30)",
+      "d": "{'Bob', 30}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Dictionaries print with curly braces and colons.",
+      "b": "List representation would have brackets.",
+      "c": "Tuple would have parentheses.",
+      "d": "Set syntax would not have keys."
+    },
+    "hints": [
+      "How does Python display a dictionary?",
+      "Colons separate keys and values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Printing a dict shows its key-value pairs in curly braces.",
+    "time_pressure_note": "Under pressure, may confuse dict with set or list output.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_030",
+    "concept_name": "Access dictionary by key",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens?\n\n```python\ndata = {\"x\": 1, \"y\": 2}\nprint(data[\"z\"])\n```",
+    "options": {
+      "a": "KeyError",
+      "b": "None",
+      "c": "0",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Accessing a non-existent key raises KeyError.",
+      "b": "It does not return None.",
+      "c": "Not 0.",
+      "d": "It's not a NameError."
+    },
+    "hints": [
+      "What if the key doesn't exist?",
+      "Python raises a specific error."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "KeyError occurs when the key is not found.",
+    "time_pressure_note": "People sometimes expect None or a default value.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_031",
+    "concept_name": ".values() method (dict)",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which method returns a view of dictionary values?",
+    "options": {
+      "a": ".values()",
+      "b": ".keys()",
+      "c": ".items()",
+      "d": ".get()"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! .values() returns the values.",
+      "b": ".keys() returns keys.",
+      "c": ".items() returns key-value pairs.",
+      "d": ".get() returns a single value by key."
+    },
+    "hints": [
+      "Which method name matches what it returns?",
+      "Think of the plural of 'value'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".values() is the method for retrieving all values.",
+    "time_pressure_note": "Under time pressure, you might confuse .values() with .keys().",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_032",
+    "concept_name": ".keys() method (dict)",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nd = {\"a\":1, \"b\":2}\nprint(d.keys())\n```",
+    "options": {
+      "a": "dict_keys(['a', 'b'])",
+      "b": "['a', 'b']",
+      "c": "('a', 'b')",
+      "d": "{'a', 'b'}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! .keys() returns a dict_keys view.",
+      "b": "It's not a list.",
+      "c": "Not a tuple.",
+      "d": "Not a set."
+    },
+    "hints": [
+      "The output starts with 'dict_keys'.",
+      "It's a special view object."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The .keys() method returns a dict_keys object, printed as shown.",
+    "time_pressure_note": "Many expect a list.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_033",
+    "concept_name": ".items() method (dict)",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Before: `d = {\"x\": 5}`\nAfter: `d = {\"x\": 5, \"y\": 10}`\nWhich line accomplished this?",
+    "options": {
+      "a": "d[\"y\"] = 10",
+      "b": "d.update({\"y\": 10})",
+      "c": "d.setdefault(\"y\", 10)",
+      "d": "All of the above"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "This would add the key, yes.",
+      "b": "update also works.",
+      "c": "setdefault would add it as well.",
+      "d": "Correct! All methods add the new key-value pair."
+    },
+    "hints": [
+      "Multiple ways exist to add a key.",
+      "Check if each option adds the pair."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Each option correctly adds the key 'y' with value 10.",
+    "time_pressure_note": "Under pressure, you might forget that multiple methods can add keys.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_034",
+    "concept_name": "Add key-value pair to dict",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nprices = {\"apple\": 0.5}\nprices[\"banana\"] = 0.3\nprint(prices)\n```",
+    "options": {
+      "a": "{'apple': 0.5, 'banana': 0.3}",
+      "b": "{'apple': 0.5}",
+      "c": "['apple', 0.5, 'banana', 0.3]",
+      "d": "KeyError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A new key-value pair is added.",
+      "b": "Missing the banana.",
+      "c": "That's a list, not a dict.",
+      "d": "No error."
+    },
+    "hints": [
+      "Assignment to a new key adds it.",
+      "The dictionary grows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding a new key with assignment updates the dictionary.",
+    "time_pressure_note": "Sometimes people think you need a special method.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_035",
+    "concept_name": "Update dictionary value",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\ncapitals = {\"France\": \"Paris\"}\ncapitals[\"France\"] = \"Lyon\"\nprint(capitals[\"France\"])\n```",
+    "options": {
+      "a": "Lyon",
+      "b": "Paris",
+      "c": "KeyError",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The value is updated.",
+      "b": "Old value is overwritten.",
+      "c": "Key exists.",
+      "d": "It prints the new value."
+    },
+    "hints": [
+      "What happens when you assign to an existing key?",
+      "It replaces the value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Updating overwrites the previous value.",
+    "time_pressure_note": "Forgetting that assignment overwrites can lead to confusion.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_036",
+    "concept_name": "Duplicate keys in dictionary",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\nages = {\"Ann\": 25, \"Ann\": 30}\nprint(ages[\"Ann\"])\n```",
+    "options": {
+      "a": "No error, prints 30",
+      "b": "SyntaxError",
+      "c": "Prints 25",
+      "d": "KeyError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Duplicate keys are allowed; the last value wins.",
+      "b": "It's valid syntax.",
+      "c": "The second value overwrites the first.",
+      "d": "Key 'Ann' exists."
+    },
+    "hints": [
+      "Does Python allow duplicate keys?",
+      "Which value do you think is kept?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Duplicates silently keep the last value, so 30 is printed.",
+    "time_pressure_note": "People may think duplicates cause an error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_037",
+    "concept_name": "Set",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\ns = {\"cat\", \"dog\", \"cat\"}\nprint(s)\n```",
+    "options": {
+      "a": "{'cat', 'dog'}",
+      "b": "['cat', 'dog']",
+      "c": "('cat', 'dog')",
+      "d": "{'cat', 'dog', 'cat'}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Sets remove duplicates.",
+      "b": "Not a list.",
+      "c": "Not a tuple.",
+      "d": "The duplicate 'cat' is discarded."
+    },
+    "hints": [
+      "What does a set do with duplicates?",
+      "Only unique elements are stored."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Sets automatically eliminate duplicate entries.",
+    "time_pressure_note": "One might forget that sets deduplicate.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_038",
+    "concept_name": "Convert to set",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Complete the output.\n\n```python\nnums = [1, 2, 2, 3]\nunique = set(nums)\nprint(unique)\n# Output: ______\n```",
+    "options": {
+      "a": "{1, 2, 3}",
+      "b": "[1, 2, 3]",
+      "c": "(1, 2, 3)",
+      "d": "{1, 2, 3, 3}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! set() creates a set with unique elements.",
+      "b": "It's a set, not a list.",
+      "c": "Not a tuple.",
+      "d": "No duplicates."
+    },
+    "hints": [
+      "What does set() return?",
+      "Sets use curly braces."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "set() converts the list to a set, removing duplicates.",
+    "time_pressure_note": "May forget to recognize set output syntax.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_040",
+    "concept_name": "sorted() function",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nitems = {\"pear\", \"apple\", \"banana\"}\nprint(sorted(items))\n```",
+    "options": {
+      "a": "['apple', 'banana', 'pear']",
+      "b": "{'apple', 'banana', 'pear'}",
+      "c": "('apple', 'banana', 'pear')",
+      "d": "sorted_set"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! sorted() returns a sorted list.",
+      "b": "Sorted returns a list, not a set.",
+      "c": "Not a tuple.",
+      "d": "Not a keyword."
+    },
+    "hints": [
+      "What type does sorted() return?",
+      "It's a list."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "sorted() always returns a list, even when given a set.",
+    "time_pressure_note": "Under pressure, may think it returns a set or tuple.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_041",
+    "concept_name": "Tuple",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when you run this?\n\n```python\nt = (1, 2, 3)\nt[0] = 4\n```",
+    "options": {
+      "a": "TypeError: 'tuple' object does not support item assignment",
+      "b": "t becomes (4, 2, 3)",
+      "c": "IndexError",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Tuples are immutable; you cannot change elements.",
+      "b": "Tuples cannot be modified.",
+      "c": "Index 0 exists.",
+      "d": "No name error."
+    },
+    "hints": [
+      "Can you modify a tuple after creation?",
+      "Tuples are immutable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assigning to a tuple element raises TypeError because tuples are immutable.",
+    "time_pressure_note": "People often forget tuple immutability under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_042",
+    "concept_name": "Tuple indexing",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the output?\n\n```python\ncoords = (10, 20, 30)\nprint(coords[1])\n```",
+    "options": {
+      "a": "20",
+      "b": "10",
+      "c": "30",
+      "d": "(10, 20, 30)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Index 1 is the second element.",
+      "b": "That's index 0.",
+      "c": "Index 2.",
+      "d": "Printing the tuple would have no index."
+    },
+    "hints": [
+      "Indexing starts at 0.",
+      "What's the second element?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuple indexing works identically to list indexing.",
+    "time_pressure_note": "Index out of range is a common off-by-one error.",
+    "common_mistake_tested": false
+  }
+]

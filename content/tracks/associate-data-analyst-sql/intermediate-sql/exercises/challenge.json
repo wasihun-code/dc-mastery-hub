@@ -1,0 +1,225 @@
+{
+  "course_slug": "intermediate-sql",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Which certification category has the most films?",
+      "dataset_file": "films.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_038"
+      ],
+      "context": "The marketing team wants to know which MPAA certification (like PG, R) appears most often in the films database, so they can target ads to the most popular rating category.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a SELECT statement that retrieves the certification column and a count of films, aliased as film_count.",
+          "variable_name": "step1",
+          "hint": "Use COUNT(*) to count rows per certification."
+        },
+        {
+          "step": 2,
+          "description": "Add a GROUP BY clause to group the films by certification.",
+          "variable_name": "step2",
+          "hint": "Every non-aggregate column in SELECT must appear in GROUP BY."
+        },
+        {
+          "step": 3,
+          "description": "Add an ORDER BY clause to sort the groups by film_count in descending order.",
+          "variable_name": "step3",
+          "hint": "Use DESC for highest first."
+        },
+        {
+          "step": 4,
+          "description": "Add a LIMIT 1 to keep only the top certification.",
+          "variable_name": "final_query",
+          "hint": "Place LIMIT after ORDER BY."
+        }
+      ],
+      "starter_code": "-- Write your SQL query here\n-- Tables available: films, people, reviews, roles\n\nSELECT certification, COUNT(*) AS film_count\nFROM films\n-- Finish the query",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT certification, COUNT(*) AS film_count\nFROM films\nGROUP BY certification\nORDER BY film_count DESC\nLIMIT 1;",
+      "expected_output": "certification | film_count\n--------------|------------\nR             | 2345",
+      "output_description": "The certification 'R' appears most frequently (2345 films) in the database.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Group by certification first, then count.",
+        "Use ORDER BY with DESC to see the highest count at the top."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves ability to use GROUP BY to summarize data and ORDER BY to rank groups."
+    },
+    {
+      "id": "dc_002",
+      "title": "Which release years have more than 50 films?",
+      "dataset_file": "films.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_041"
+      ],
+      "context": "The archive team wants to identify 'boom years' in film production — years where more than 50 films were released in the database.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a query that selects release_year and a count of films, aliased as num_films.",
+          "variable_name": "step1",
+          "hint": "Use COUNT(*) to count films per year."
+        },
+        {
+          "step": 2,
+          "description": "Add a GROUP BY clause to group by release_year.",
+          "variable_name": "step2",
+          "hint": "The column release_year must appear in GROUP BY."
+        },
+        {
+          "step": 3,
+          "description": "Add a HAVING clause to keep only groups where num_films > 50.",
+          "variable_name": "step3",
+          "hint": "HAVING filters after grouping, unlike WHERE."
+        },
+        {
+          "step": 4,
+          "description": "Order the results by release_year ascending to see the chronology.",
+          "variable_name": "final_query",
+          "hint": "Default sort is ascending."
+        }
+      ],
+      "starter_code": "-- Write your SQL query here\n-- Tables available: films, people, reviews, roles\n\nSELECT release_year, COUNT(*) AS num_films\nFROM films\n-- Complete the rest",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT release_year, COUNT(*) AS num_films\nFROM films\nGROUP BY release_year\nHAVING COUNT(*) > 50\nORDER BY release_year;",
+      "expected_output": "release_year | num_films\n-------------|-----------\n2005         | 58\n2006         | 62\n2007         | 54",
+      "output_description": "Three years (2005, 2006, 2007) each had more than 50 films in the database.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Think about the order: GROUP BY then HAVING then ORDER BY.",
+        "You need to use the aggregate COUNT(*) inside the HAVING clause."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves ability to use HAVING to filter grouped results based on aggregate conditions."
+    },
+    {
+      "id": "dc_003",
+      "title": "List big-budget US films released after 2000",
+      "dataset_file": "films.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_010"
+      ],
+      "context": "A producer wants a list of all US films made after the year 2000 with a budget exceeding 100 million dollars, for a potential investment study.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a query that selects title, release_year, and budget from the films table.",
+          "variable_name": "step1",
+          "hint": "Start with SELECT column1, column2, ..."
+        },
+        {
+          "step": 2,
+          "description": "Add a WHERE clause to filter for rows where country equals 'USA'.",
+          "variable_name": "step2",
+          "hint": "String values must be enclosed in single quotes."
+        },
+        {
+          "step": 3,
+          "description": "Extend the WHERE clause with AND to require release_year > 2000.",
+          "variable_name": "step3",
+          "hint": "Use AND to combine conditions."
+        },
+        {
+          "step": 4,
+          "description": "Add another AND condition so that budget > 100000000.",
+          "variable_name": "final_query",
+          "hint": "100 million is 100000000."
+        }
+      ],
+      "starter_code": "-- Write your SQL query here\n-- Tables available: films\n\nSELECT title, release_year, budget\nFROM films\n-- Add filtering",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT title, release_year, budget\nFROM films\nWHERE country = 'USA'\n  AND release_year > 2000\n  AND budget > 100000000;",
+      "expected_output": "title                            | release_year | budget\n--------------------------------|--------------|----------\nAvatar                          | 2009         | 237000000\nThe Dark Knight                 | 2008         | 185000000\nTransformers: Revenge of the Fallen | 2009     | 200000000",
+      "output_description": "Three US films met the criteria: Avatar, The Dark Knight, and Transformers.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use single quotes for the string 'USA'.",
+        "Combine conditions with AND, not commas."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves ability to filter rows using WHERE with multiple AND conditions and proper string quoting."
+    },
+    {
+      "id": "dc_004",
+      "title": "What are the key statistics of all films?",
+      "dataset_file": "films.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_025"
+      ],
+      "context": "The analytics team needs a quick summary of the films database: total number of films, the range of release years, average duration, and total combined budget.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a query that uses COUNT(*) to count all films, aliased as total_films.",
+          "variable_name": "step1",
+          "hint": "COUNT(*) returns the number of rows."
+        },
+        {
+          "step": 2,
+          "description": "Add MIN(release_year) as earliest and MAX(release_year) as latest to find the year range.",
+          "variable_name": "step2",
+          "hint": "MIN and MAX work on numeric and date columns."
+        },
+        {
+          "step": 3,
+          "description": "Add AVG(duration) as avg_duration to get the mean film length.",
+          "variable_name": "step3",
+          "hint": "AVG ignores NULLs; round the result with ROUND(…, 2)."
+        },
+        {
+          "step": 4,
+          "description": "Add SUM(budget) as total_budget to see the combined spending.",
+          "variable_name": "final_query",
+          "hint": "SUM adds all non‑NULL budget values."
+        }
+      ],
+      "starter_code": "-- Write your SQL query here\n-- Tables available: films\n\nSELECT\n  COUNT(*) AS total_films,\n  -- Add more aggregate functions\nFROM films;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT\n  COUNT(*) AS total_films,\n  MIN(release_year) AS earliest,\n  MAX(release_year) AS latest,\n  ROUND(AVG(duration), 2) AS avg_duration,\n  SUM(budget) AS total_budget\nFROM films;",
+      "expected_output": "total_films | earliest | latest | avg_duration | total_budget\n------------|----------|--------|--------------|-------------\n4968        | 1916     | 2016   | 107.32       | 181079025606",
+      "output_description": "The films database spans from 1916 to 2016, contains 4968 films with an average duration of 107.32 minutes, and a total budget of over 181 billion.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Multiple aggregate functions can be used in a single SELECT.",
+        "Use ROUND() to control decimal places in the average."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves ability to apply multiple aggregate functions together to summarize a dataset."
+    }
+  ]
+}

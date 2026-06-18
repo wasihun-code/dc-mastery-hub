@@ -1,0 +1,1242 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_027",
+    "concept_name": "NULL",
+    "chapter": 6,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does this query return?\n\n```sql\nSELECT 'Data' || NULL || 'Camp';\n```",
+    "options": {
+      "a": "NULL",
+      "b": "'DataCamp'",
+      "c": "An empty string",
+      "d": "'DataNULLCamp'"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The `||` operator returns NULL if any operand is NULL (unlike CONCAT in PostgreSQL).",
+      "b": "That would be the result if using the CONCAT function, not the `||` operator.",
+      "c": "NULL concatenation doesn’t produce an empty string; it propagates NULL.",
+      "d": "The literal 'NULL' is not inserted; the entire expression becomes unknown."
+    },
+    "hints": [
+      "Remember the difference between the `||` operator and the `CONCAT` function in PostgreSQL.",
+      "When any operand of `||` is NULL, what value does the whole expression have?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The string concatenation operator `||` returns NULL if any argument is NULL. `CONCAT` would ignore NULLs, but `||` does not.",
+    "time_pressure_note": "Under time pressure, many confuse `||` with `CONCAT` and expect 'DataCamp'.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_015",
+    "concept_name": "char(n)",
+    "chapter": 5,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "A table `t` has a column `code char(4)`. Two rows are inserted:\n`'AB'` and `'AB '` (with two trailing spaces).\nWhat is the result of `SELECT COUNT(*) FROM t WHERE code = 'AB';`?",
+    "options": {
+      "a": "2",
+      "b": "1",
+      "c": "0",
+      "d": "An error because lengths differ"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Both stored values are space‑padded to 'AB  ', and trailing spaces are ignored in comparisons.",
+      "b": "Both are equal after padding, so both match the condition.",
+      "c": "The comparison would succeed, not return zero.",
+      "d": "No error; char comparisons ignore trailing spaces."
+    },
+    "hints": [
+      "Think about how `char(4)` stores a string shorter than 4 characters.",
+      "SQL comparison for `char` ignores trailing spaces."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`char(4)` pads both inputs to 'AB  '. The comparison `= 'AB'` succeeds because trailing spaces in `char` columns are insignificant in comparisons.",
+    "time_pressure_note": "People often forget that char padding makes seemingly different strings equal.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_017",
+    "concept_name": "numeric(p, s)",
+    "chapter": 5,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "predict_error",
+    "question_text": "A column is defined as `price numeric(5,2)`. Which INSERT will fail?",
+    "options": {
+      "a": "INSERT INTO t (price) VALUES (999.99);",
+      "b": "INSERT INTO t (price) VALUES (1234.56);",
+      "c": "INSERT INTO t (price) VALUES (0.01);",
+      "d": "INSERT INTO t (price) VALUES (1);"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "999.99 fits because total digits = 5, scale 2, no overflow.",
+      "b": "Correct. 1234.56 has 6 digits, exceeding precision 5.",
+      "c": "0.01 fits within precision 5, scale 2.",
+      "d": "1 is interpreted as 1.00 and fits perfectly."
+    },
+    "hints": [
+      "Precision is total digits, scale is digits after the decimal.",
+      "Count the total number of digits in 1234.56 (ignore the dot)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With `numeric(5,2)`, the maximum allowed value is 999.99. 1234.56 requires at least `numeric(6,2)`.",
+    "time_pressure_note": "It’s easy to miscount digits under pressure, especially when the scale is 2.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_020",
+    "concept_name": "serial",
+    "chapter": 9,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "A table `items` has `id serial PRIMARY KEY`. After inserting three rows, the IDs are 1,2,3. A transaction begins, inserts a fourth row (getting ID 4), then rolls back. A new insert outside the transaction gets ID ____.\n\n```\nINSERT INTO items (name) VALUES ('A');  -- id 1\nINSERT INTO items (name) VALUES ('B');  -- id 2\nINSERT INTO items (name) VALUES ('C');  -- id 3\nBEGIN;\nINSERT INTO items (name) VALUES ('D');  -- id 4\nROLLBACK;\nINSERT INTO items (name) VALUES ('E');  -- id ?\n```\nWhat is the ID for 'E'?",
+    "options": {
+      "a": "4",
+      "b": "3",
+      "c": "5",
+      "d": "An error because of the rollback"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "4 was consumed by the rolled‑back transaction; it will not be reused.",
+      "b": "3 is already taken; the sequence does not go backwards.",
+      "c": "Correct. The sequence advanced to 4 during the rolled‑back insert, so the next value is 5.",
+      "d": "No error occurs; the sequence is not affected by the rollback."
+    },
+    "hints": [
+      "Remember that `serial` uses a sequence, and `nextval()` is not rolled back.",
+      "Once a sequence number is fetched, it is permanently consumed."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Even though the transaction rolled back, the sequence value was already incremented. Gaps are normal with `serial`.",
+    "time_pressure_note": "Many assume rollback resets the counter, leading to choosing 4.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_026",
+    "concept_name": "NOT NULL constraint",
+    "chapter": 6,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A table `employees` has existing rows where the column `phone` contains NULL in some rows. The following command is run:\n\n```sql\nALTER TABLE employees ALTER COLUMN phone SET NOT NULL;\n```\nWhat happens?",
+    "options": {
+      "a": "The statement fails because existing NULLs violate the constraint.",
+      "b": "The NULLs are automatically converted to empty strings.",
+      "c": "The constraint is added but applies only to future inserts.",
+      "d": "All rows with NULL phone are deleted silently."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. PostgreSQL checks all existing rows immediately; any NULL causes an error.",
+      "b": "NULL is not an empty string; no automatic conversion occurs.",
+      "c": "Constraints apply to all rows, not just future ones; the ALTER would fail.",
+      "d": "PostgreSQL never deletes rows as a side‑effect of adding a constraint."
+    },
+    "hints": [
+      "What does a constraint do the moment it is added?",
+      "Think about whether existing data is validated."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding `NOT NULL` requires that no row violates the constraint at the time of execution; otherwise, the statement is rejected.",
+    "time_pressure_note": "A common mistake is to think that constraints only affect new data.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_028",
+    "concept_name": "UNIQUE constraint",
+    "chapter": 6,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "A table `items` has a column `code` with a `UNIQUE` constraint. Which of the following sets of values can coexist in the `code` column?",
+    "options": {
+      "a": "NULL, NULL, 'A', 'B'",
+      "b": "'A', 'A', NULL, NULL",
+      "c": "NULL, NULL, NULL, NULL",
+      "d": "'A', 'B', 'C', NULL"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Multiple NULLs are allowed because NULL is not equal to any other value.",
+      "b": "'A' appears twice, violating the unique constraint.",
+      "c": "Multiple NULLs are fine; all four NULLs are unique in the NULL sense.",
+      "d": "This is also valid, but option a explicitly tests the NULL case."
+    },
+    "hints": [
+      "Remember that `UNIQUE` treats NULL as distinct from everything, including itself.",
+      "A column with a `UNIQUE` constraint can contain any number of NULLs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In PostgreSQL, multiple NULLs do not violate a `UNIQUE` constraint because NULL = NULL is unknown, not true.",
+    "time_pressure_note": "Beginners often assume that UNIQUE means only one NULL is allowed.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_029",
+    "concept_name": "Superkey",
+    "chapter": 7,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "A table has columns (A, B, C). The combination (A, B) uniquely identifies each row, but A alone does not. Which of the following is NOT necessarily a superkey?",
+    "options": {
+      "a": "(A, B, C)",
+      "b": "(A, B)",
+      "c": "(A)",
+      "d": "(A, B, C, A)"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Adding more columns to a superkey still yields a superkey.",
+      "b": "(A, B) is a superkey because it’s a key.",
+      "c": "Correct. A alone is not a superkey because it does not guarantee uniqueness.",
+      "d": "Even though A is repeated, the set (A, B, C) is a superkey; (A, B, C, A) is the same as (A, B, C)."
+    },
+    "hints": [
+      "A superkey is any set of columns that uniquely identifies each row.",
+      "If A alone is not enough, can (A) be a superkey?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A superkey must guarantee uniqueness. Since A alone does not uniquely identify rows, (A) is not a superkey.",
+    "time_pressure_note": "It’s easy to confuse the set that is minimal (key) with the broader superkey.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_030",
+    "concept_name": "Key (minimal superkey)",
+    "chapter": 7,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "A table has columns (X, Y, Z). Before normalization, the primary key was (X, Y, Z). After analyzing, it was found that (X, Y) alone uniquely identifies rows. What should the primary key become?",
+    "options": {
+      "a": "(X, Y)",
+      "b": "(X, Y, Z)",
+      "c": "(X)",
+      "d": "(Y)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. A key should be minimal; Z is extraneous.",
+      "b": "Keeping Z would result in a superkey, not a minimal key.",
+      "c": "X alone is not guaranteed unique.",
+      "d": "Y alone is not guaranteed unique."
+    },
+    "hints": [
+      "A key must be minimal – removing any column must destroy uniqueness.",
+      "If (X, Y) is enough, can you drop Z and still identify rows?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The minimal set that uniquely identifies rows is (X, Y). A primary key should be a minimal superkey.",
+    "time_pressure_note": "Under pressure, people might keep the old composite key out of habit.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_031",
+    "concept_name": "Candidate key",
+    "chapter": 7,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "A table `employees` has columns: `emp_id` (unique, not null), `email` (unique, not null), `ssn` (unique, not null). Which of the following is NOT a candidate key?",
+    "options": {
+      "a": "email",
+      "b": "emp_id",
+      "c": "ssn",
+      "d": "firstname"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "email is unique and not null, so it is a candidate key.",
+      "b": "emp_id is unique and not null, a candidate key.",
+      "c": "ssn is unique and not null, a candidate key.",
+      "d": "Correct. firstname is not necessarily unique, so it’s not a candidate key."
+    },
+    "hints": [
+      "A candidate key must be unique and minimal.",
+      "Does firstname guarantee uniqueness for all employees?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Only columns that uniquely identify each row (and are minimal) are candidate keys. firstname is not unique.",
+    "time_pressure_note": "It’s easy to assume any attribute could be a key when many columns have unique constraints.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_033",
+    "concept_name": "Composite key",
+    "chapter": 8,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "A junction table `enrollment` has columns `student_id` and `course_id`. No student can enroll in the same course twice. What primary key should the table have?",
+    "options": {
+      "a": "(student_id, course_id)",
+      "b": "A new `id` serial column",
+      "c": "`student_id` alone",
+      "d": "`course_id` alone"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The pair uniquely identifies each enrollment and enforces the business rule.",
+      "b": "A surrogate key would not prevent duplicate (student, course) entries without an additional constraint.",
+      "c": "A student can enroll in many courses, so student_id alone is not unique.",
+      "d": "A course can have many students, so course_id alone is not unique."
+    },
+    "hints": [
+      "The combination of the two foreign keys is naturally unique for each enrollment.",
+      "A composite key can enforce the rule that a student can only enroll once per course."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A composite primary key on (student_id, course_id) ensures that each student‑course pair appears only once, and no separate surrogate is needed.",
+    "time_pressure_note": "Many reach for an auto‑increment ID without considering natural composite keys.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_036",
+    "concept_name": "Foreign key",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "The following table creation statement is executed:\n\n```sql\nCREATE TABLE orders (\n  id serial PRIMARY KEY,\n  customer_id bigint REFERENCES customers(id),\n  amount numeric(10,2)\n);\n```\n\nAssuming `customers.id` is of type `integer`, what is the bug?",
+    "options": {
+      "a": "The foreign key data type `bigint` does not match the referenced `integer` column.",
+      "b": "A foreign key cannot reference a serial column.",
+      "c": "The table `customers` must be listed before `orders` in `CREATE TABLE`.",
+      "d": "`customer_id` must have a NOT NULL constraint."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The data types must match (or be implicitly convertible in a safe direction).",
+      "b": "A serial column is perfectly valid as a referenced primary key.",
+      "c": "Table order in DDL does not matter as long as all referenced tables exist at commit time.",
+      "d": "Foreign keys can be nullable; NOT NULL is not required."
+    },
+    "hints": [
+      "Check the data type of `customer_id` versus `customers.id`.",
+      "Referential integrity requires type compatibility."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Foreign key columns must have the same data type as the referenced primary key. `bigint` and `integer` are not directly compatible without an explicit cast.",
+    "time_pressure_note": "Type mismatches are a common hidden error that only appears at table creation.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_038",
+    "concept_name": "1:N (one-to-many) relationship",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "A university database has tables `universities` and `professors`. Each professor works at one university, but a university employs many professors. Which table should contain the foreign key?",
+    "options": {
+      "a": "`professors` should have a `university_id` column referencing `universities.id`.",
+      "b": "`universities` should have a `professor_id` column referencing `professors.id`.",
+      "c": "A junction table is needed.",
+      "d": "Both tables should have a foreign key to each other."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The foreign key sits on the 'many' side (professors) referencing the 'one' side (universities).",
+      "b": "That would mean each university can have at most one professor, reversing the cardinality.",
+      "c": "Junction tables are for many‑to‑many, not one‑to‑many.",
+      "d": "Mutual foreign keys are unnecessary and would cause circular dependency issues."
+    },
+    "hints": [
+      "Think about which entity 'belongs to' the other.",
+      "A professor belongs to exactly one university."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "For a 1:N relationship, the foreign key is placed in the table on the 'many' side.",
+    "time_pressure_note": "Under time pressure, it’s easy to put the foreign key in the 'one' table by mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_039",
+    "concept_name": "N:M (many-to-many) relationship",
+    "chapter": 11,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A database has `students` and `clubs`. A student can join multiple clubs, and a club can have many students. The designer creates:\n\n```sql\nALTER TABLE students ADD COLUMN club_id integer REFERENCES clubs(id);\n```\n\nWhat is the flaw?",
+    "options": {
+      "a": "A single column cannot represent a many‑to‑many relationship; a junction table is needed.",
+      "b": "The foreign key should be in the `clubs` table, not `students`.",
+      "c": "The column should be an array of integers.",
+      "d": "`club_id` must be part of the primary key."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Each student can only hold one `club_id`, so they can belong to only one club.",
+      "b": "Swapping still allows only one student per club. Both directions fail for N:M.",
+      "c": "Arrays violate normalization and are not a relational solution.",
+      "d": "Making it a primary key would enforce uniqueness, preventing multiple clubs."
+    },
+    "hints": [
+      "How would you record a student who belongs to two clubs?",
+      "N:M relationships require a third table with two foreign keys."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Many‑to‑many relationships cannot be modeled by a single foreign key column; a junction table with two foreign keys is required.",
+    "time_pressure_note": "A common quick‑fix is to add a foreign key on one side, but it fundamentally breaks the cardinality.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_040",
+    "concept_name": "Referential integrity",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "predict_error",
+    "question_text": "Table `A` has a foreign key `b_id` referencing `B(id)`. You try to insert a row into `A` with `b_id = 99`, but no row in `B` has `id = 99`. What happens?",
+    "options": {
+      "a": "The insert fails with a foreign key violation error.",
+      "b": "The row is inserted, but `b_id` is set to NULL.",
+      "c": "The row is inserted with a warning.",
+      "d": "A new row with `id = 99` is automatically created in `B`."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Referential integrity prevents orphaned references.",
+      "b": "No automatic NULL assignment happens unless `ON DELETE SET NULL` is defined.",
+      "c": "PostgreSQL enforces the constraint strictly; no warning, an error.",
+      "d": "Automatic creation of parent rows does not occur."
+    },
+    "hints": [
+      "Foreign keys must point to existing rows.",
+      "The database protects consistency; what if the value doesn't exist?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Referential integrity ensures that every foreign key value exists in the referenced table. Inserting an unknown ID violates the constraint.",
+    "time_pressure_note": "People sometimes think the database will be lenient or auto‑create parent rows – it won’t.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_041",
+    "concept_name": "ON DELETE NO ACTION",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A foreign key is defined with `ON DELETE NO ACTION`. You execute `DELETE FROM B WHERE id = 1;`, but there are rows in `A` referencing that `B.id`. What happens?",
+    "options": {
+      "a": "The delete is blocked and an error is raised.",
+      "b": "The rows in `A` are also deleted.",
+      "c": "The foreign key in `A` is set to NULL.",
+      "d": "The delete succeeds and the referencing rows become orphaned."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `NO ACTION` prevents deletion of a parent row while child rows exist.",
+      "b": "That would be `ON DELETE CASCADE`.",
+      "c": "That would be `ON DELETE SET NULL`.",
+      "d": "Referential integrity is maintained; orphaned rows are not allowed."
+    },
+    "hints": [
+      "`NO ACTION` is the default behavior; it ensures that you cannot leave dangling references.",
+      "Think about the purpose of referential integrity."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ON DELETE NO ACTION` (the default) raises an error to protect integrity. It is the safest behavior.",
+    "time_pressure_note": "The name 'NO ACTION' can be misleading – it means the database takes no action to fix the violation, instead raising an error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_042",
+    "concept_name": "ON DELETE CASCADE",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Table `orders` has a foreign key to `customers` with `ON DELETE CASCADE`. After running `DELETE FROM customers WHERE id = 10;`, what happens to orders that belonged to customer 10?",
+    "options": {
+      "a": "Those orders are automatically deleted.",
+      "b": "The orders remain but their customer_id becomes NULL.",
+      "c": "The deletion is prevented.",
+      "d": "The orders are moved to an archive table."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `ON DELETE CASCADE` propagates the deletion to child rows.",
+      "b": "That would require `ON DELETE SET NULL`.",
+      "c": "That would require `ON DELETE NO ACTION` or `RESTRICT`.",
+      "d": "There is no automatic archiving."
+    },
+    "hints": [
+      "`CASCADE` means the action 'flows' from parent to child.",
+      "If you cut down a tree, the branches fall with it – that’s cascading."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ON DELETE CASCADE` automatically removes all referencing rows, simplifying cleanup but risking unintentional data loss.",
+    "time_pressure_note": "Under pressure, it’s easy to forget that CASCADE works silently and removes child data.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_042",
+    "concept_name": "ON DELETE CASCADE",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A developer writes:\n\n```sql\nALTER TABLE order_items\nADD CONSTRAINT fk_order\nFOREIGN KEY (order_id) REFERENCES orders(id)\nON DELETE CASCADE;\n```\n\nLater, a deletion of an order accidentally removes all its items. The developer expected the items to remain. What is the root cause?",
+    "options": {
+      "a": "`ON DELETE CASCADE` was used when `ON DELETE RESTRICT` was intended.",
+      "b": "The foreign key should be on `orders`, not `order_items`.",
+      "c": "`order_id` should be declared as `serial`.",
+      "d": "A junction table is needed."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `CASCADE` automatically deletes child rows, which was not the desired behavior.",
+      "b": "The foreign key is correctly placed in the child table.",
+      "c": "`order_id` being a serial has nothing to do with deletion behavior.",
+      "d": "A junction table is not needed for a 1:N relationship."
+    },
+    "hints": [
+      "Look at the `ON DELETE` clause – what does `CASCADE` do?",
+      "The developer wanted to keep the items, not delete them."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using `ON DELETE CASCADE` causes dependent rows to be deleted automatically. If preservation was intended, a different action like `RESTRICT` or `SET NULL` should have been chosen.",
+    "time_pressure_note": "Many developers choose `CASCADE` for convenience without considering the consequences.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_043",
+    "concept_name": "ON DELETE SET NULL / SET DEFAULT",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A table `comments` has:\n\n```sql\nuser_id integer NOT NULL REFERENCES users(id) ON DELETE SET NULL,\n```\n\nWhat is wrong?",
+    "options": {
+      "a": "`ON DELETE SET NULL` conflicts with the `NOT NULL` constraint on `user_id`.",
+      "b": "The foreign key must be defined as a separate constraint.",
+      "c": "`user_id` should be of type `serial`.",
+      "d": "`SET NULL` is not a valid action in PostgreSQL."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `SET NULL` would try to set a NOT NULL column to NULL, which is impossible.",
+      "b": "The column‑level foreign key syntax is valid.",
+      "c": "`user_id` references an existing user; serial would be inappropriate.",
+      "d": "`SET NULL` is a valid action, but it requires the column to be nullable."
+    },
+    "hints": [
+      "Check the column constraints: can `user_id` be NULL?",
+      "`SET NULL` needs the column to accept NULL values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A NOT NULL column cannot be set to NULL, so `ON DELETE SET NULL` is incompatible and the table definition will fail.",
+    "time_pressure_note": "It’s easy to overlook the NOT NULL constraint when choosing a delete action.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_047",
+    "concept_name": "ALTER TABLE ALTER COLUMN TYPE",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A column `score numeric(3,1)` contains the value `8.5`. The following is executed:\n\n```sql\nALTER TABLE exam ALTER COLUMN score TYPE integer USING ROUND(score);\n```\n\nWhat will the stored value become?",
+    "options": {
+      "a": "9",
+      "b": "8",
+      "c": "8.5",
+      "d": "An error because numeric cannot be converted to integer"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `ROUND(8.5)` returns 9 (ties round to nearest even, but 8.5 rounds to 9 in PostgreSQL’s default rounding).",
+      "b": "Without `ROUND`, truncation would give 8, but `ROUND` changes the behavior.",
+      "c": "The column type is being changed to integer, so decimals are not stored.",
+      "d": "The conversion succeeds because of the `USING` clause."
+    },
+    "hints": [
+      "What does `ROUND` do to 8.5?",
+      "The `USING` clause is applied before the type change."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ROUND(score)` converts 8.5 to 9 (PostgreSQL rounds half up in recent versions). The column then stores an integer 9.",
+    "time_pressure_note": "People often forget that `ROUND` changes the truncation behavior and may mis‑predict the result.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_049",
+    "concept_name": "Referential integrity violation",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "You attempt to drop a table `departments` that is referenced by a foreign key in `employees` (without `CASCADE`). What happens?",
+    "options": {
+      "a": "The drop fails with a dependency error.",
+      "b": "The table is dropped and the foreign key becomes invalid.",
+      "c": "All referencing rows in `employees` are deleted.",
+      "d": "The foreign key is automatically dropped but the table remains."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. PostgreSQL prevents the drop to maintain referential integrity.",
+      "b": "PostgreSQL never leaves a dangling foreign key; it blocks the drop.",
+      "c": "That would require `DROP TABLE ... CASCADE`.",
+      "d": "The table itself is the target; the foreign key constraint is on the child table."
+    },
+    "hints": [
+      "Referential integrity means no foreign key can point to a nonexistent table.",
+      "Dropping a referenced table would break the existing foreign keys."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Dropping a table that is referenced by foreign keys is not allowed unless you use `CASCADE` to remove the dependent constraints.",
+    "time_pressure_note": "It’s easy to forget that tables can be protected by foreign key dependencies.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_049",
+    "concept_name": "Referential integrity violation",
+    "chapter": 12,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A table `A` has `b_id integer REFERENCES B(id)`. After `DELETE FROM B WHERE id = 5;` succeeds (assuming no rows referenced id=5), what query shows the violation if it existed?",
+    "options": {
+      "a": "SELECT * FROM A WHERE b_id NOT IN (SELECT id FROM B);",
+      "b": "SELECT * FROM A JOIN B ON A.b_id = B.id;",
+      "c": "SELECT * FROM A WHERE b_id IS NULL;",
+      "d": "SELECT COUNT(*) FROM A;"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. This finds rows in `A` with `b_id` that no longer appear in `B`.",
+      "b": "This returns rows that do have a match, the opposite of a violation.",
+      "c": "NULL foreign keys are allowed unless NOT NULL; they aren't violations.",
+      "d": "Row count doesn’t indicate referential integrity."
+    },
+    "hints": [
+      "A referential integrity violation means a foreign key points to a non‑existent primary key.",
+      "You need to compare the foreign key values with the set of existing primary keys."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`NOT IN (SELECT id FROM B)` finds orphaned references – the classic way to detect violations after a deletion that might have been missed.",
+    "time_pressure_note": "Under pressure, people might forget the `NOT IN` pattern.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_050",
+    "concept_name": "Time-invariant (primary key property)",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following would be a poor choice for a primary key because it violates the time‑invariant property?",
+    "options": {
+      "a": "email",
+      "b": "serial id",
+      "c": "UUID",
+      "d": "employee_id assigned by HR"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Email addresses can change over time; they are not guaranteed immutable.",
+      "b": "A serial id is system‑generated and never changes.",
+      "c": "UUIDs are also stable identifiers.",
+      "d": "HR‑assigned IDs are generally designed to be permanent."
+    },
+    "hints": [
+      "Time‑invariant means the value must never change once assigned.",
+      "Which attribute might a user want to update?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Primary keys should be immutable. Emails can change, causing update cascades and breaking references.",
+    "time_pressure_note": "Email seems unique, but it’s a common mistake to use it as a primary key.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_009",
+    "concept_name": "information_schema",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "You run:\n\n```sql\nSELECT table_name\nFROM information_schema.tables\nWHERE table_schema = 'pg_catalog';\n```\n\nWhat kind of tables appear in the result?",
+    "options": {
+      "a": "System catalog tables like `pg_statistic` and `pg_class`.",
+      "b": "Only user‑created tables.",
+      "c": "Only views, not base tables.",
+      "d": "Tables from all schemas, ignoring the WHERE clause."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `pg_catalog` schema holds PostgreSQL’s internal system tables.",
+      "b": "User tables are usually in `public` or custom schemas.",
+      "c": "Views are also stored in `information_schema.views`, but `tables` includes base tables.",
+      "d": "The WHERE clause filters to `pg_catalog` only."
+    },
+    "hints": [
+      "`pg_catalog` is the schema for PostgreSQL’s own internal objects.",
+      "What tables exist in that schema?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`information_schema.tables` lists all tables, including system ones. Filtering by `pg_catalog` returns PostgreSQL’s internal catalog tables.",
+    "time_pressure_note": "Many beginners don’t realize `information_schema` includes system tables and might think it’s only user data.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_010",
+    "concept_name": "information_schema.columns",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "complete_output",
+    "question_text": "To find all columns in the table `employees` that have a `NOT NULL` constraint, you query:\n\n```sql\nSELECT column_name\nFROM information_schema.columns\nWHERE table_name = 'employees'\n  AND ____________________;\n```\n\nWhich condition fills the blank correctly?",
+    "options": {
+      "a": "is_nullable = 'NO'",
+      "b": "column_default IS NOT NULL",
+      "c": "data_type = 'NOT NULL'",
+      "d": "character_maximum_length IS NOT NULL"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `is_nullable` is 'YES' or 'NO' and indicates if the column allows NULLs.",
+      "b": "`column_default` refers to a default value, not the nullability constraint.",
+      "c": "`data_type` stores the type name, not constraint information.",
+      "d": "That column is for character types and unrelated to NOT NULL."
+    },
+    "hints": [
+      "Which column in `information_schema.columns` tells you whether NULLs are allowed?",
+      "The values for that column are 'YES' or 'NO'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `is_nullable` column in `information_schema.columns` indicates `'YES'` if the column allows NULL and `'NO'` if it has a NOT NULL constraint.",
+    "time_pressure_note": "People often guess `column_default IS NOT NULL` under stress, confusing default with nullability.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_011",
+    "concept_name": "INSERT INTO SELECT DISTINCT",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "Table `source` has two columns `a` and `b` with rows (1,'x'), (1,'x'), (2,'y'). After executing:\n\n```sql\nINSERT INTO target (a, b)\nSELECT DISTINCT a, b FROM source;\n```\n\nHow many rows are inserted into `target` (assuming `target` was empty)?",
+    "options": {
+      "a": "2",
+      "b": "3",
+      "c": "1",
+      "d": "0 because DISTINCT is not allowed here"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. (1,'x') appears twice but DISTINCT keeps only one copy, plus (2,'y').",
+      "b": "Three rows would be inserted without DISTINCT.",
+      "c": "Not all rows are duplicates; (2,'y') is unique.",
+      "d": "`DISTINCT` is valid in `INSERT INTO … SELECT`."
+    },
+    "hints": [
+      "DISTINCT removes duplicates based on the combination of all selected columns.",
+      "Count the unique (a,b) pairs in the source."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`DISTINCT` ensures that duplicate combinations are eliminated before insertion. Only two distinct pairs exist.",
+    "time_pressure_note": "Rushing, someone might count the rows (3) and forget DISTINCT.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_021",
+    "concept_name": "CAST",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "A column `raw_value text` contains the value `'abc'`. The query `SELECT CAST(raw_value AS integer) FROM t;` is executed. What happens?",
+    "options": {
+      "a": "An error because `'abc'` cannot be converted to integer.",
+      "b": "0 is returned.",
+      "c": "NULL is returned.",
+      "d": "An empty string is returned."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. PostgreSQL raises an invalid input syntax error for type integer.",
+      "b": "No, the cast fails immediately.",
+      "c": "The error prevents any result.",
+      "d": "An error occurs, not an empty string."
+    },
+    "hints": [
+      "Can `'abc'` be interpreted as an integer?",
+      "`CAST` does not provide a fallback; it throws an error on invalid conversion."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`CAST` requires that the value be convertible to the target type. Non‑numeric strings cause a runtime error.",
+    "time_pressure_note": "Some might think CAST returns NULL or 0 for non‑convertible values – it doesn't; it errors.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_035",
+    "concept_name": "CONCAT",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is the output of this query in PostgreSQL?\n\n```sql\nSELECT CONCAT('Score: ', score, NULL, ' points')\nFROM (SELECT CAST(NULL AS integer) AS score) sub;\n```",
+    "options": {
+      "a": "'Score:  points'",
+      "b": "NULL",
+      "c": "'Score: NULL points'",
+      "d": "An error because NULL cannot be concatenated"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. CONCAT treats NULL as empty string, so it becomes 'Score:  points'.",
+      "b": "CONCAT in PostgreSQL never returns NULL because of NULL arguments.",
+      "c": "The literal 'NULL' is not inserted.",
+      "d": "CONCAT handles NULL gracefully."
+    },
+    "hints": [
+      "How does PostgreSQL’s CONCAT handle NULL arguments?",
+      "The course states that CONCAT ignores NULLs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`CONCAT` in PostgreSQL treats NULL as an empty string, so the result is 'Score:  points' with a double space where NULL was.",
+    "time_pressure_note": "Under pressure, many confuse CONCAT with the `||` operator and expect NULL.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_034",
+    "concept_name": "Surrogate key",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "A table `books` originally had a primary key `isbn` (a natural key). The DBA decides to add a surrogate key `id serial PRIMARY KEY` and keep `isbn` as a unique column. What is the main benefit?",
+    "options": {
+      "a": "Joins become simpler because `id` is a smaller, fixed‑size type.",
+      "b": "The table can now have duplicate ISBNs.",
+      "c": "Surrogate keys are required for foreign keys.",
+      "d": "It automatically enforces referential integrity."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Surrogate integer keys are compact and fast for joins, and they isolate changes.",
+      "b": "ISBN remains unique, preventing duplicates.",
+      "c": "Foreign keys can reference natural keys as well.",
+      "d": "Referential integrity is enforced by foreign keys, not the primary key type."
+    },
+    "hints": [
+      "Think about why an auto‑incrementing integer is often preferred over a long string key.",
+      "Surrogate keys are separate from business attributes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A surrogate key like `serial` is small, fast, and immutable. It decouples the row identity from business data that might change.",
+    "time_pressure_note": "People might think surrogate keys are always required, but the benefit is performance and stability.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_032",
+    "concept_name": "Primary key",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A table `contacts` is created with:\n\n```sql\nCREATE TABLE contacts (\n  email text PRIMARY KEY,\n  name text NOT NULL\n);\n```\n\nWhat potential problem does this design have?",
+    "options": {
+      "a": "If a user changes their email, the primary key must be updated, which can cascade to all foreign keys.",
+      "b": "A primary key cannot be of type `text`.",
+      "c": "The primary key automatically enforces a UNIQUE constraint, but `email` could still be NULL.",
+      "d": "PostgreSQL will reject the table because `text` is not a valid primary key type."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Using a mutable attribute as a primary key leads to update cascades and complexity.",
+      "b": "`text` is perfectly valid as a primary key.",
+      "c": "A primary key enforces NOT NULL, so NULL emails would be rejected.",
+      "d": "`text` is a valid type."
+    },
+    "hints": [
+      "What happens if the owner of `email` changes their email address?",
+      "Primary keys should be time‑invariant."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Email addresses can change, violating the immutability property of primary keys. This design forces updates to all dependent tables.",
+    "time_pressure_note": "People often choose `email` as a primary key because it seems unique, forgetting it can change.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_044",
+    "concept_name": "Database Management System (DBMS)",
+    "chapter": 13,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Which of the following is NOT a role of a DBMS?",
+    "options": {
+      "a": "Storing data in files on disk.",
+      "b": "Enforcing constraints like NOT NULL and UNIQUE.",
+      "c": "Designing ER diagrams.",
+      "d": "Providing a query language like SQL."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "A DBMS manages storage, so this is a role.",
+      "b": "Constraint enforcement is a core DBMS function.",
+      "c": "Correct. ER diagram design is a modeling task done by database designers, not the DBMS itself.",
+      "d": "Providing SQL interface is a key role."
+    },
+    "hints": [
+      "The DBMS is the software that runs the database.",
+      "ER diagrams are created by humans during the design phase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A DBMS manages data and enforces rules; it does not automatically design schemas or draw ER diagrams.",
+    "time_pressure_note": "It’s easy to confuse the tool (DBMS) with the design process.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_045",
+    "concept_name": "Database system",
+    "chapter": 13,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the difference between a DBMS and a database system?",
+    "options": {
+      "a": "A DBMS is the software; a database system is the DBMS plus the databases it manages.",
+      "b": "They are synonyms.",
+      "c": "A database system is a single database; a DBMS can manage many.",
+      "d": "A DBMS is for small databases; a database system is for large ones."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The DBMS is the engine; the system includes the data and the engine.",
+      "b": "There is a distinct difference: DBMS is the software, system is the whole environment.",
+      "c": "A database system can include multiple databases.",
+      "d": "Size is not the defining factor."
+    },
+    "hints": [
+      "Think of a car (DBMS) vs. a car plus all the roads and fuel (database system).",
+      "The course distinguishes between PostgreSQL (DBMS) and the whole setup including the databases."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A DBMS is the software (e.g., PostgreSQL). A database system is the combination of the DBMS and the databases it controls.",
+    "time_pressure_note": "The terms are often used interchangeably, causing confusion.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_046",
+    "concept_name": "Domain",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A column `age` is defined as `integer CHECK (age >= 0 AND age <= 120)`. What constitutes the domain of this column?",
+    "options": {
+      "a": "All integers from 0 to 120 inclusive.",
+      "b": "All integers.",
+      "c": "The set of values currently stored in the column.",
+      "d": "Only the integer data type, ignoring the CHECK constraint."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The domain includes all permissible values as defined by the type and constraints.",
+      "b": "The CHECK constraint restricts the allowed integers.",
+      "c": "The domain is the allowed values, not the current content.",
+      "d": "The constraint is part of the domain definition."
+    },
+    "hints": [
+      "The domain is the set of values a column can possibly hold, not just its type.",
+      "Think of 'domain' as the allowed range."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The domain of a column is the intersection of its data type and any additional constraints (like CHECK).",
+    "time_pressure_note": "People often forget that constraints like CHECK are part of the domain.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_001",
+    "concept_name": "Relational database",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Which feature distinguishes a relational database from a collection of flat CSV files?",
+    "options": {
+      "a": "Enforcement of relationships and constraints between tables.",
+      "b": "Ability to store text data.",
+      "c": "Use of a command‑line interface.",
+      "d": "Support for multiple users."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Relational databases enforce referential integrity and constraints, which flat files do not.",
+      "b": "Flat files also store text data.",
+      "c": "Both can be queried via command line.",
+      "d": "Multi‑user support is a feature of DBMS, not the relational model itself."
+    },
+    "hints": [
+      "What can a relational database do that a CSV file cannot?",
+      "Think of foreign keys and constraints."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The key advantage is the ability to model and enforce relationships and data integrity rules, which is absent in flat files.",
+    "time_pressure_note": "It’s easy to focus on storage rather than integrity.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_002",
+    "concept_name": "Table",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "A properly designed relational database has separate tables for `students` and `courses` instead of one combined table. The main reason is to avoid ____________.",
+    "options": {
+      "a": "Redundancy",
+      "b": "Normalization",
+      "c": "Primary keys",
+      "d": "Foreign keys"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Storing student and course data together would duplicate information.",
+      "b": "Normalization is the process of reducing redundancy, not the thing avoided.",
+      "c": "Primary keys are necessary regardless.",
+      "d": "Foreign keys are used to link tables, not the reason for separation."
+    },
+    "hints": [
+      "What problem occurs when you mix two entity types in one table?",
+      "The course mentions that mixing entity types leads to duplication."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Separating entity types into their own tables reduces redundancy, making the database more efficient and consistent.",
+    "time_pressure_note": "The word 'redundancy' is sometimes confused with 'normalization'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_003",
+    "concept_name": "Column (Attribute)",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A table `books` has columns `title`, `author`, `published_year`. Which of these is an attribute?",
+    "options": {
+      "a": "`published_year`",
+      "b": "The row containing 'The Hobbit'.",
+      "c": "The entire `books` table.",
+      "d": "A foreign key to another table."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `published_year` is a column (attribute).",
+      "b": "A row is a record, not an attribute.",
+      "c": "The table is the collection of rows and columns.",
+      "d": "A foreign key is a column with a constraint, but the column itself is an attribute; however, option a is specifically a plain attribute."
+    },
+    "hints": [
+      "Attributes are the named fields that define the data.",
+      "Think of column headers in a spreadsheet."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Columns (attributes) define the structure; rows hold the values.",
+    "time_pressure_note": "Under pressure, people might confuse attribute (column) with record (row).",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_004",
+    "concept_name": "Row (Record)",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "If a table `employees` has 100 rows, each row represents:",
+    "options": {
+      "a": "One individual employee.",
+      "b": "One attribute of an employee.",
+      "c": "The entire company.",
+      "d": "A list of all employee names."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Each row is a single occurrence of the entity.",
+      "b": "An attribute is a column.",
+      "c": "The table as a whole represents the set of employees.",
+      "d": "A row may contain a name but is not a list of all names."
+    },
+    "hints": [
+      "If a table is a spreadsheet, one row is one complete entry.",
+      "Rows are horizontal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A row is a single record containing the data for one instance of the entity type.",
+    "time_pressure_note": "It’s easy to misread the question and choose 'attribute'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_005",
+    "concept_name": "Redundancy",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A table `sales` stores `customer_name`, `customer_address`, `product_name`, `product_price`. If a customer buys multiple products, their address is repeated in every row. This is an example of:",
+    "options": {
+      "a": "Redundancy",
+      "b": "Normalization",
+      "c": "Referential integrity",
+      "d": "A composite key"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The customer address is duplicated unnecessarily.",
+      "b": "Normalization is the cure, not the problem.",
+      "c": "Referential integrity concerns foreign keys.",
+      "d": "A composite key is a type of primary key."
+    },
+    "hints": [
+      "What do you call it when the same data is stored multiple times?",
+      "The course warns about storing multiple entity types in one table."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Duplicating customer information for each sale is redundancy, leading to update anomalies and wasted space.",
+    "time_pressure_note": "The term 'redundancy' is often mixed up with 'normalization'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_006",
+    "concept_name": "Entity type",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "In a hospital database, which of the following would be a suitable entity type to become a table?",
+    "options": {
+      "a": "Patient",
+      "b": "John Smith",
+      "c": "Admission date",
+      "d": "The hospital building"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. 'Patient' is a category of things with attributes.",
+      "b": "John Smith is an instance of a patient, not an entity type.",
+      "c": "Admission date is an attribute of a stay, not an entity type on its own.",
+      "d": "The building might be an entity type if there are many, but 'hospital building' is too vague; 'Patient' is clearly a core entity."
+    },
+    "hints": [
+      "Entity types are categories like 'Doctor', 'Patient', 'Appointment'.",
+      "A specific person is an instance, not a type."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "An entity type is a class of real‑world objects that share attributes, like Patient, Doctor, or Department.",
+    "time_pressure_note": "It’s tempting to pick an actual person’s name instead of the category.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_007",
+    "concept_name": "Entity-Relationship Diagram (ERD)",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "In an ERD, the symbol for a relationship is a rhombus (diamond). What shape represents an attribute?",
+    "options": {
+      "a": "Circle (ellipse)",
+      "b": "Square (rectangle)",
+      "c": "Line",
+      "d": "Arrow"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Attributes are shown as ellipses attached to entities.",
+      "b": "Squares are entity types.",
+      "c": "Lines connect entities to relationships.",
+      "d": "Arrows indicate cardinality, not the relationship itself."
+    },
+    "hints": [
+      "The course states: circles denote attributes.",
+      "Think of the three basic ERD shapes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In classical ER notation, entities are rectangles, relationships are diamonds, and attributes are ellipses (circles).",
+    "time_pressure_note": "People often mix up entity and attribute shapes.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_022",
+    "concept_name": "DISTINCT",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "A table `inventory` has columns `warehouse` and `product`. The same product can appear in multiple warehouses. What does this query return?\n\n```sql\nSELECT COUNT(DISTINCT product) FROM inventory;\n```",
+    "options": {
+      "a": "The number of different products, regardless of warehouse.",
+      "b": "The total number of rows in inventory.",
+      "c": "The number of distinct combinations of warehouse and product.",
+      "d": "An error because DISTINCT cannot be inside COUNT."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `DISTINCT product` counts each unique product once.",
+      "b": "That would be `COUNT(*)`.",
+      "c": "That would be `COUNT(DISTINCT (warehouse, product))` if allowed, but here only product is distinct.",
+      "d": "`COUNT(DISTINCT …)` is valid."
+    },
+    "hints": [
+      "DISTINCT inside COUNT applies to the column specified.",
+      "If a product appears in three warehouses, how many times is it counted?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`COUNT(DISTINCT product)` returns the number of unique products, ignoring duplicates across different warehouses.",
+    "time_pressure_note": "Under time pressure, people might confuse `COUNT(DISTINCT product)` with `COUNT(*)`.",
+    "common_mistake_tested": false
+  }
+]

@@ -167,6 +167,55 @@ export function initSchema() {
       next_review_date TEXT DEFAULT (date('now')),
       PRIMARY KEY (user_id, flashcard_id)
     );
+
+    CREATE TABLE IF NOT EXISTS user_stats (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER UNIQUE REFERENCES users(id),
+      total_xp INTEGER DEFAULT 0,
+      level TEXT DEFAULT 'Beginner',
+      current_streak INTEGER DEFAULT 0,
+      longest_streak INTEGER DEFAULT 0,
+      last_active_date TEXT,
+      badges_json TEXT DEFAULT '[]'
+    );
+
+    CREATE TABLE IF NOT EXISTS mastery_scores (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER REFERENCES users(id),
+      course_id INTEGER REFERENCES courses(id),
+      flashcard_score REAL DEFAULT 0,
+      quiz_score REAL DEFAULT 0,
+      code_score REAL DEFAULT 0,
+      dataset_score REAL DEFAULT 0,
+      matching_score REAL DEFAULT 0,
+      boss_score REAL DEFAULT 0,
+      incorrect_score REAL DEFAULT 0,
+      overall_mastery REAL DEFAULT 0,
+      updated_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(user_id, course_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS exercise_attempts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER REFERENCES users(id),
+      course_id INTEGER REFERENCES courses(id),
+      concept_id TEXT DEFAULT NULL,
+      exercise_type TEXT NOT NULL,
+      question_id TEXT,
+      was_correct INTEGER,
+      score REAL DEFAULT 0,
+      time_taken_secs INTEGER DEFAULT NULL,
+      attempted_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS spaced_repetition_queue (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      flashcard_id INTEGER NOT NULL REFERENCES flashcards(id),
+      due_date TEXT,
+      priority INTEGER DEFAULT 1,
+      UNIQUE(user_id, flashcard_id)
+    );
   `)
 
   // 5. Run Database migrations to support multi-user state
@@ -204,33 +253,36 @@ export function initSchema() {
     }
 
     // Migrate user_stats table
-    let statsTableInfo = db.prepare("PRAGMA table_info(user_stats)").all()
-    let hasUserIdInStats = statsTableInfo.some(col => col.name === 'user_id')
-    if (!hasUserIdInStats) {
-      console.log('Migrating user_stats table to support user_id...')
-      db.exec(`ALTER TABLE user_stats RENAME TO old_user_stats`)
-      db.exec(`
-        CREATE TABLE IF NOT EXISTS user_stats (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          user_id INTEGER UNIQUE REFERENCES users(id),
-          total_xp INTEGER DEFAULT 0,
-          level TEXT DEFAULT 'Beginner',
-          current_streak INTEGER DEFAULT 0,
-          longest_streak INTEGER DEFAULT 0,
-          last_active_date TEXT,
-          badges_json TEXT DEFAULT '[]'
-        )
-      `)
-      // Copy the existing stats (id = 1) to wasihun's user_stats
-      const oldStats = db.prepare('SELECT * FROM old_user_stats WHERE id = 1').get()
-      if (oldStats && wasihunUserId) {
-        db.prepare(`
-          INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `).run(wasihunUserId, oldStats.total_xp, oldStats.level, oldStats.current_streak, oldStats.longest_streak, oldStats.last_active_date, oldStats.badges_json)
+    let statsTableExists = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='user_stats'").get()
+    if (statsTableExists) {
+      let statsTableInfo = db.prepare("PRAGMA table_info(user_stats)").all()
+      let hasUserIdInStats = statsTableInfo.some(col => col.name === 'user_id')
+      if (!hasUserIdInStats) {
+        console.log('Migrating user_stats table to support user_id...')
+        db.exec(`ALTER TABLE user_stats RENAME TO old_user_stats`)
+        db.exec(`
+          CREATE TABLE IF NOT EXISTS user_stats (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER UNIQUE REFERENCES users(id),
+            total_xp INTEGER DEFAULT 0,
+            level TEXT DEFAULT 'Beginner',
+            current_streak INTEGER DEFAULT 0,
+            longest_streak INTEGER DEFAULT 0,
+            last_active_date TEXT,
+            badges_json TEXT DEFAULT '[]'
+          )
+        `)
+        // Copy the existing stats (id = 1) to wasihun's user_stats
+        const oldStats = db.prepare('SELECT * FROM old_user_stats WHERE id = 1').get()
+        if (oldStats && wasihunUserId) {
+          db.prepare(`
+            INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+          `).run(wasihunUserId, oldStats.total_xp, oldStats.level, oldStats.current_streak, oldStats.longest_streak, oldStats.last_active_date, oldStats.badges_json)
+        }
+        db.exec(`DROP TABLE old_user_stats`)
+        console.log('user_stats table migrated successfully.')
       }
-      db.exec(`DROP TABLE old_user_stats`)
-      console.log('user_stats table migrated successfully.')
     }
 
     // Ensure wasihun user has stats row if not exists
@@ -332,6 +384,13 @@ export function initSchema() {
   // Migration: Add concept_id to exercise_attempts if it doesn't exist
   try {
     db.exec(`ALTER TABLE exercise_attempts ADD COLUMN concept_id TEXT DEFAULT NULL`)
+  } catch (e) {
+    // column already exists, ignore
+  }
+
+  // Migration: Add time_taken_secs to exercise_attempts if it doesn't exist
+  try {
+    db.exec(`ALTER TABLE exercise_attempts ADD COLUMN time_taken_secs INTEGER DEFAULT NULL`)
   } catch (e) {
     // column already exists, ignore
   }

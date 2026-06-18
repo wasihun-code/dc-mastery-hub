@@ -1,0 +1,1209 @@
+{
+  "course_slug": "python-toolbox",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-12",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_027",
+      "concept_name": "for loop",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nemployees = ['Nick', 'Lore', 'Hugo']\nfor employee in employees:\n    print(employee)\n```",
+      "options": {
+        "a": "Nick",
+        "b": "Nick\nLore\nHugo",
+        "c": "Nick Lore Hugo",
+        "d": "['Nick', 'Lore', 'Hugo']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Only the first element would be printed if the loop body used break after the first iteration, but the loop runs over all elements.",
+        "b": "Correct! The for loop prints each employee on a separate line, so the output is three lines: Nick, then Lore, then Hugo.",
+        "c": "The values would appear on one line only if you used print(employee, end=' ') inside the loop, but the default print adds a newline each time.",
+        "d": "This would be the output if you printed the whole list, not iterating element by element."
+      },
+      "hints": [
+        "How many times does the loop body execute?",
+        "Remember that print() automatically adds a newline at the end of each call."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The for loop iterates over each string in the employees list, and print() outputs each string on its own line. Therefore, the output is three lines: Nick, Lore, Hugo.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_024",
+      "concept_name": "Modulo operator (%)",
+      "chapter": 5,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What is the value of `7 % 3`?",
+      "options": {
+        "a": "1",
+        "b": "2",
+        "c": "2.333...",
+        "d": "0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The modulo operator returns the remainder of 7 divided by 3, which is 1.",
+        "b": "2 would be the result of 8 % 3 or 2 % 3, but not 7 % 3.",
+        "c": "This is the result of true division (7 / 3), not the remainder operator.",
+        "d": "The remainder would be 0 only if 7 were a multiple of 3, which it is not."
+      },
+      "hints": [
+        "The modulo operator (%) gives the remainder after division.",
+        "7 divided by 3 gives quotient 2 and remainder ?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The modulo operator `%` computes the remainder of integer division. 7 divided by 3 equals 2 with remainder 1, so 7 % 3 is 1.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_001",
+      "concept_name": "Iterable",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following objects is an iterator?",
+      "options": {
+        "a": "A list [10, 20, 30]",
+        "b": "The string 'hello'",
+        "c": "iter([10, 20, 30])",
+        "d": "range(5)"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "A list is an iterable, not an iterator. You can call iter() on it to obtain an iterator.",
+        "b": "A string is also an iterable, not an iterator.",
+        "c": "Correct! iter() returns an iterator object from the given iterable.",
+        "d": "range(5) is an iterable, but it is not an iterator itself. You can pass it to iter() to get an iterator."
+      },
+      "hints": [
+        "An iterator is created by calling iter() on an iterable.",
+        "All iterators are iterables, but not all iterables are iterators."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The built-in function iter() returns an iterator. Lists, strings, and range objects are iterables, meaning they can produce an iterator when passed to iter(), but they are not iterators themselves.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_001",
+      "concept_name": "Iterable",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have a list `data = [5, 6, 7]` and need to obtain an iterator from it. Which code correctly creates the iterator?",
+      "options": {
+        "a": "data.next()",
+        "b": "iter(data)",
+        "c": "next(data)",
+        "d": "data.iter()"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Lists do not have a .next() method. That is a method of iterators.",
+        "b": "Correct! iter() is the built-in function that creates an iterator from an iterable like a list.",
+        "c": "next() expects an iterator as argument, not an iterable. Calling next(data) without creating an iterator first will raise a TypeError.",
+        "d": "Python lists do not have an .iter() method. The correct built-in function is iter()."
+      },
+      "hints": [
+        "You need the built-in function that converts an iterable to an iterator.",
+        "What function is commonly paired with next()?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To obtain an iterator from an iterable, you use `iter(data)`. `next()` is then used on the iterator to retrieve elements one by one.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_002",
+      "concept_name": "Iterator",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nit = iter([1, 2, 3])\nprint(next(it))\nprint(next(it))\nprint(list(it))\n```",
+      "options": {
+        "a": "1 and 2, then [3]",
+        "b": "1 and 2, then [1, 2, 3]",
+        "c": "1 and 2, then [2, 3]",
+        "d": "1 and 2, then []"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The first two next() calls consume 1 and 2. Then list(it) consumes the remaining element, which is 3, so it returns [3].",
+        "b": "list(it) only collects the values that have not yet been consumed. After two next() calls, only 3 remains.",
+        "c": "[2, 3] would be the remaining if only one next() had been called before list(), but here two values were already taken.",
+        "d": "The iterator is not fully exhausted after two next() calls from a 3‑element sequence; one value remains."
+      },
+      "hints": [
+        "An iterator yields each value only once.",
+        "How many values are left after two next() calls?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Calling next(it) returns the next available element and advances the iterator. After two calls on a 3‑element iterator, only the last element remains. list(it) collects all remaining elements, resulting in [3].",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_002",
+      "concept_name": "Iterator",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What happens when you run this code?\n\n```python\nit = iter([10, 20])\nprint(next(it))\nprint(next(it))\nprint(next(it))\n```",
+      "options": {
+        "a": "It prints 10, then 20, then raises StopIteration.",
+        "b": "It prints 10, then 20, then prints None.",
+        "c": "It prints 10, then 20, then prints 20 again.",
+        "d": "It raises StopIteration before printing anything."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! After exhausting the iterator, the third next(it) call raises the StopIteration exception because no more elements exist.",
+        "b": "next() does not return None when exhausted; it raises StopIteration.",
+        "c": "The iterator does not repeat the last element; once consumed, the value is gone.",
+        "d": "The first next() call succeeds, so 10 is printed before any error occurs."
+      },
+      "hints": [
+        "What does next() do when there are no more items?",
+        "The StopIteration exception signals the end of iteration."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "After the two values have been consumed, the iterator is exhausted. A third call to next(it) raises StopIteration, which will cause the program to stop unless caught.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_003",
+      "concept_name": "iter() function",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is the problem with this code?\n\n```python\nit = iter(5)\n```",
+      "options": {
+        "a": "5 is not iterable; iter() raises TypeError.",
+        "b": "iter() returns an iterator that yields the digit 5 when next() is called.",
+        "c": "iter() returns None because 5 is an integer.",
+        "d": "iter() works but the iterator is immediately empty."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! iter() expects an iterable object, and integers are not iterable. A TypeError is raised.",
+        "b": "Integers are not iterables, so iter() cannot create an iterator from an integer.",
+        "c": "iter() never returns None; it either returns an iterator or raises an exception.",
+        "d": "iter(5) does not succeed; it fails before creating any iterator."
+      },
+      "hints": [
+        "What objects can be passed to iter()?",
+        "Is the integer 5 a sequence or collection?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The iter() function requires an iterable argument. Integers are not iterable, so iter(5) raises a TypeError.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_004",
+      "concept_name": "next() function",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following?\n\n```python\nword = 'Da'\nit = iter(word)\nprint(next(it))\nprint(next(it))\n```",
+      "options": {
+        "a": "'D' then 'a'",
+        "b": "'D' then 'D'",
+        "c": "'Da' then StopIteration",
+        "d": "'D' then 'Da'"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Each next() call returns the next character in the string iterator.",
+        "b": "The iterator advances, so the second call returns the second character, not the first again.",
+        "c": "next(it) returns one character at a time, not the whole string.",
+        "d": "The second next(it) returns the remaining single character, not the full remaining string."
+      },
+      "hints": [
+        "How does iter() behave on a string?",
+        "Each next() call consumes one character."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When iter() is called on a string, it creates an iterator over the characters. The first next(it) returns 'D', the second returns 'a'.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_005",
+      "concept_name": "StopIteration exception",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "When manually calling next() on an iterator, you want to avoid a StopIteration crash without using try/except. What feature of next() can help?",
+      "options": {
+        "a": "Provide a default value as the second argument, e.g. next(it, None).",
+        "b": "Check it.has_next() before calling next().",
+        "c": "Use len(it) to test if elements remain.",
+        "d": "Call iter(it) again to reset the iterator."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! next() accepts an optional second argument that is returned instead of raising StopIteration when the iterator is exhausted.",
+        "b": "Python iterators do not have a .has_next() method.",
+        "c": "Iterators do not support len() because their length is not known ahead of time.",
+        "d": "Calling iter() on an already exhausted iterator returns the same exhausted iterator, not a fresh one."
+      },
+      "hints": [
+        "Look at the parameters of the next() function in the course material.",
+        "Is there a way to give next() a fallback value?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The next() built-in can take an optional default argument. If the iterator is exhausted, next(it, default) returns the default instead of raising StopIteration.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_007",
+      "concept_name": "enumerate() function",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\navengers = ['hawkeye', 'iron man', 'thor', 'quicksilver']\nfor index, value in enumerate(avengers):\n    print(index, value)\n```\nWhat is the first line of output?",
+      "options": {
+        "a": "0 hawkeye",
+        "b": "1 hawkeye",
+        "c": "hawkeye 0",
+        "d": "hawkeye"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! enumerate() starts indexing at 0 by default, so the first pair is (0, 'hawkeye').",
+        "b": "Indexing starts at 0 unless the start parameter is explicitly changed.",
+        "c": "The order of unpacking is index first, then value, not the other way around.",
+        "d": "This would be the output if the loop header did not unpack the tuple: `for item in enumerate(...)`."
+      },
+      "hints": [
+        "What is the default starting index of enumerate()?",
+        "How is the tuple (index, value) unpacked in the for loop header?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "enumerate() yields (index, value) pairs starting at 0. Unpacking them in `for index, value` prints the index first, then the value.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_008",
+      "concept_name": "zip() function",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What will be the value of `z_list` after executing the following?\n\n```python\navengers = ['hawkeye', 'iron man', 'thor']\nnames = ['barton', 'stark', 'odinson', 'maximoff']\nz = zip(avengers, names)\nz_list = list(z)\nprint(z_list)\n```",
+      "options": {
+        "a": "[('hawkeye', 'barton'), ('iron man', 'stark'), ('thor', 'odinson')]",
+        "b": "[('hawkeye', 'barton'), ('iron man', 'stark'), ('thor', 'odinson'), ('maximoff',)]",
+        "c": "[('hawkeye', 'barton'), ('iron man', 'stark'), ('thor', 'odinson'), (None, 'maximoff')]",
+        "d": "[('barton', 'hawkeye'), ('stark', 'iron man'), ('odinson', 'thor')]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! zip() stops at the shortest input iterable (avengers has 3 elements), so only three pairs are formed.",
+        "b": "zip() does not pad missing values; it stops when the shortest iterable is exhausted.",
+        "c": "zip() never fills in None for missing values; it simply stops.",
+        "d": "The tuples preserve the order of the arguments: first element from the first iterable, second from the second."
+      },
+      "hints": [
+        "What happens when iterables of different lengths are zipped?",
+        "Look at the length of the shortest list."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "zip() pairs elements until the shortest iterable is exhausted. Since avengers has only 3 items, only three tuples are produced, each containing the corresponding element from avengers and names.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_009",
+      "concept_name": "Unpacking with zip() in for loop",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You want to iterate over two lists `list1` and `list2` simultaneously, assigning each element to variables `a` and `b`. Which for loop header is correct?",
+      "options": {
+        "a": "for a, b in zip(list1, list2):",
+        "b": "for zip(a, b) in list1, list2:",
+        "c": "for a in list1 and b in list2:",
+        "d": "for *a, b in zip(list1, list2):"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! This unpacks each tuple from zip() directly into a and b.",
+        "b": "zip(a, b) would try to zip the variables, not the lists, and the syntax is invalid.",
+        "c": "This is not valid Python syntax for parallel iteration.",
+        "d": "The starred assignment is not necessary here and would cause an unpacking error because zip produces exactly two values per tuple."
+      },
+      "hints": [
+        "zip() returns tuples of elements from the input iterables.",
+        "How do you unpack a tuple in a for loop?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The syntax `for a, b in zip(list1, list2):` unpacks each pair from zip() into separate loop variables `a` and `b`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_011",
+      "concept_name": "List comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the type of the object returned by this expression?\n\n```python\n(num + 1 for num in [1, 2, 3])\n```",
+      "options": {
+        "a": "list",
+        "b": "generator",
+        "c": "tuple",
+        "d": "set"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Using parentheses instead of square brackets creates a generator expression, not a list.",
+        "b": "Correct! Parentheses around the comprehension create a generator object.",
+        "c": "A tuple would require tuple(...) around a generator expression, or simply using parentheses alone does not make a tuple unless followed by a comma.",
+        "d": "A set comprehension uses curly braces: {expression for ...}."
+      },
+      "hints": [
+        "Is the expression enclosed in square brackets or parentheses?",
+        "What syntax produces a generator expression?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Parentheses around a comprehension form a generator expression, which returns a generator object. Square brackets would create a list comprehension.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_011",
+      "concept_name": "List comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this list comprehension?\n\n```python\n[for num in range(5) num]\n```",
+      "options": {
+        "a": "The output expression is missing; the for clause comes too early.",
+        "b": "The range() call should be outside the comprehension.",
+        "c": "The square brackets are unnecessary.",
+        "d": "num is not defined."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! In a list comprehension, the output expression must appear first, followed by the for clause. This attempt places for before the output, which is a syntax error.",
+        "b": "range() can be used directly inside a comprehension, so this is not the issue.",
+        "c": "Square brackets are required for a list comprehension.",
+        "d": "num would be defined if the for clause were placed correctly."
+      },
+      "hints": [
+        "What is the correct order of parts in a list comprehension?",
+        "Review the syntax: [output_expr for variable in iterable]."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A list comprehension must begin with the output expression, then `for ... in ...`. The given code reverses this order, causing a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_012",
+      "concept_name": "For loop vs list comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "When is a list comprehension preferable over an equivalent for loop?",
+      "options": {
+        "a": "When you need to build a new list with a simple transformation and no side effects.",
+        "b": "When you need to print each transformed value.",
+        "c": "When memory usage must be as low as possible.",
+        "d": "When you need to modify the original list in place."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! List comprehensions are ideal for creating new lists from iterables with a concise, readable syntax.",
+        "b": "Printing is a side effect; list comprehensions are meant for building lists, not performing actions. Using one for printing creates a useless list of None values.",
+        "c": "For minimum memory usage with large data, a generator expression is more appropriate than a list comprehension.",
+        "d": "List comprehensions create a new list and do not modify the original in place."
+      },
+      "hints": [
+        "What is the primary purpose of a list comprehension?",
+        "Think about side effects vs. value generation."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "List comprehensions provide a compact and efficient way to generate a new list by applying an expression to each element of an iterable. They are not designed for side effects or in‑place modifications.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_012",
+      "concept_name": "For loop vs list comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `result` after executing the following?\n\n```python\nresult = [print(num) for num in range(3)]\n```",
+      "options": {
+        "a": "[None, None, None] and the numbers 0, 1, 2 are printed.",
+        "b": "[0, 1, 2] and nothing is printed.",
+        "c": "A SyntaxError occurs.",
+        "d": "[0, 1, 2] and the numbers 0, 1, 2 are printed."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! print() returns None, so the list consists of None values. The side effect (printing) still happens during the construction of the list.",
+        "b": "print() is executed as each element is processed, so the numbers are printed.",
+        "c": "The code is syntactically valid; it just isn't a good use of a list comprehension.",
+        "d": "The list contains the return values of print(), which are None, not the numbers themselves."
+      },
+      "hints": [
+        "What does the print() function return?",
+        "Does the print() call execute during the comprehension?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using a list comprehension with a function like print() that returns None is a common mistake. The list will contain `None` for each element, but the printing still occurs as the list is built.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_013",
+      "concept_name": "List comprehension with range()",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `result`?\n\n```python\nresult = [i for i in range(5, 0)]\n```",
+      "options": {
+        "a": "[5, 4, 3, 2, 1]",
+        "b": "[]",
+        "c": "[0, 1, 2, 3, 4]",
+        "d": "A ValueError is raised."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "range(5, 0) does not count down; it goes from start up to but not including stop, and since start > stop, it yields nothing.",
+        "b": "Correct! range(5, 0) is an empty sequence because the start is greater than the stop. The comprehension produces an empty list.",
+        "c": "This would be the output for range(5), not range(5, 0).",
+        "d": "range() accepts two arguments without error even when start >= stop; it simply yields no values."
+      },
+      "hints": [
+        "How does range(start, stop) behave when start is greater than stop?",
+        "What does list(range(5, 0)) return?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When range() is called with start > stop and no negative step, it produces an empty sequence. Therefore, the list comprehension results in an empty list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_017",
+      "concept_name": "Dictionary comprehension",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this dictionary comprehension produce?\n\n```python\n{num: num**2 for num in range(4) if num % 2 == 0}\n```",
+      "options": {
+        "a": "{0: 0, 2: 4}",
+        "b": "{0: 0, 1: 1, 2: 4, 3: 9}",
+        "c": "[0: 0, 2: 4]",
+        "d": "{num: num**2 for num in range(4)}"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Only even numbers pass the filter, so the dict includes keys 0 and 2 with their squares as values.",
+        "b": "The if clause filters out odd numbers, so 1 and 3 are not included.",
+        "c": "Dictionary comprehensions use curly braces, not square brackets.",
+        "d": "This is the code itself, not the resulting value."
+      },
+      "hints": [
+        "Which numbers pass the condition `if num % 2 == 0`?",
+        "What syntax is used for a dictionary comprehension?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The comprehension iterates over range(4) and only includes numbers where `num % 2 == 0` (i.e., 0 and 2). It builds a dictionary mapping each such number to its square.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_025",
+      "concept_name": "User-defined function syntax",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which line causes an error in the following function definition?\n\n```python\ndef raise_both(value1, value2)\n    \"\"\"Raise value1 to the power of value2 and vice versa.\"\"\"\n    new_value1 = value1 ** value2\n    new_value2 = value2 ** value1\n    new_tuple = (new_value1, new_value2)\n    return new_tuple\n```",
+      "options": {
+        "a": "def raise_both(value1, value2)",
+        "b": "\"\"\"Raise value1 ... \"\"\"",
+        "c": "new_value1 = value1 ** value2",
+        "d": "return new_tuple"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The function header is missing a colon at the end. It should be `def raise_both(value1, value2):`",
+        "b": "The docstring is syntactically correct.",
+        "c": "Exponentiation is perfectly valid Python.",
+        "d": "The return statement is correctly formed."
+      },
+      "hints": [
+        "What punctuation must follow the parameter list in a function definition?",
+        "Check the very first line of the function."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A function definition must end with a colon after the closing parenthesis. The missing colon results in a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_006",
+      "concept_name": "Splat operator (*) for iterators",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nword = 'Data'\nit = iter(word)\nprint(*it)\nprint(*it)\n```",
+      "options": {
+        "a": "D a t a followed by an empty line (the second print outputs nothing).",
+        "b": "D a t a printed twice.",
+        "c": "An error because the iterator cannot be unpacked twice.",
+        "d": "D a t a followed by 'Data'."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The first `print(*it)` exhausts the iterator by unpacking all elements. The second call tries to unpack the now‑empty iterator, printing nothing.",
+        "b": "Once an iterator is exhausted, it cannot produce values again.",
+        "c": "Unpacking an exhausted iterator is allowed; it just yields no arguments.",
+        "d": "The second print would not reproduce the original string; it would attempt to unpack the empty iterator."
+      },
+      "hints": [
+        "What does `*it` do to the iterator?",
+        "Can an iterator be iterated more than once?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The splat operator `*` unpacks all remaining values from an iterator. After the first print, the iterator is exhausted, so the second print receives no arguments and prints a blank line.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_010",
+      "concept_name": "pandas read_csv() chunksize parameter",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What happens when you run this code?\n\n```python\nimport pandas as pd\nreader = pd.read_csv('data.csv', chunksize=1000)\nfirst = next(reader)\nsecond = next(reader)\n# All chunks have now been read (assume file has exactly 2000 rows)\nfor chunk in reader:\n    print('Processing')\n```",
+      "options": {
+        "a": "'Processing' is never printed because the iterator is exhausted.",
+        "b": "'Processing' is printed once for the remaining chunk.",
+        "c": "An error is raised because reader is not iterable.",
+        "d": "The for loop restarts from the beginning and prints twice."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! After both chunks have been consumed by next(), the iterator is exhausted. The for loop iterates over an empty iterator, so the body never executes.",
+        "b": "There is no remaining chunk because both chunks of 1000 rows each have already been taken.",
+        "c": "reader is an iterable (a TextFileReader object) and supports iteration.",
+        "d": "Iterators do not restart automatically; they remain exhausted."
+      },
+      "hints": [
+        "How many chunks exist in a file of 2000 rows with chunksize=1000?",
+        "What is the state of the iterator after two next() calls?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The pd.read_csv(..., chunksize=1000) returns an iterator. After reading all available chunks with next(), the iterator is exhausted, so a subsequent for loop will not execute its body.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_010",
+      "concept_name": "pandas read_csv() chunksize parameter",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You need to compute the total sum of a column 'x' from a huge CSV file without loading the entire file into memory. Which code correctly achieves this?",
+      "options": {
+        "a": "total = 0\nfor chunk in pd.read_csv('data.csv', chunksize=1000):\n    total += sum(chunk['x'])",
+        "b": "total = sum(chunk['x'] for chunk in pd.read_csv('data.csv', chunksize=1000))",
+        "c": "df = pd.read_csv('data.csv')\ntotal = sum(df['x'])",
+        "d": "for chunk in pd.read_csv('data.csv', chunksize=1000):\n    total = 0\n    total += sum(chunk['x'])"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! This loop accumulates the sum chunk by chunk, keeping memory usage low.",
+        "b": "Using a generator expression with sum() could work in principle, but the provided syntax is invalid because sum() does not directly accept a generator over DataFrames without a loop.",
+        "c": "This reads the whole file at once and may cause a MemoryError for very large files.",
+        "d": "Resetting total = 0 inside the loop overwrites the sum of previous chunks, so the final total only reflects the last chunk."
+      },
+      "hints": [
+        "What is the memory advantage of using chunksize?",
+        "Make sure the accumulation variable is not reset inside the loop."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Option A correctly iterates over chunks, adding the sum of column 'x' from each chunk to a running total. Resetting `total` inside the loop would lose the accumulated value.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_014",
+      "concept_name": "Nested list comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Consider the two nested list comprehensions below. What is the correct description of their outputs?\n\n```python\nA = [(i, j) for i in range(2) for j in range(2)]\nB = [(i, j) for j in range(2) for i in range(2)]\n```",
+      "options": {
+        "a": "A and B both produce the same four tuples, but in a different order.",
+        "b": "A produces [(0, 0), (0, 1), (1, 0), (1, 1)] and B produces [(0, 0), (1, 0), (0, 1), (1, 1)].",
+        "c": "Both produce exactly the same list in the same order.",
+        "d": "B is a syntax error because the variable order does not match the for order."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "They have a different order of iteration, but their sets of tuples are the same. The correct order needs to be identified.",
+        "b": "Correct! In A, the outer loop is `i`, inner is `j`, so it goes (0,0), (0,1), (1,0), (1,1). In B, the outer loop is `j`, inner is `i`, so it goes (0,0), (1,0), (0,1), (1,1).",
+        "c": "The order of for clauses changes the nesting, so the tuples appear in a different sequence.",
+        "d": "The variable `i` is defined in the inner loop and is used in the tuple; it is perfectly valid."
+      },
+      "hints": [
+        "Which for clause is the outermost loop?",
+        "Trace the execution order when the for clauses are reversed."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a nested list comprehension, the first `for` is the outer loop, the next is the inner loop. Swapping the `for` clauses changes the nesting order, thus changing the order in which the pairs are generated.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_014",
+      "concept_name": "Nested list comprehension",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this attempt at a nested list comprehension?\n\n```python\nresult = [num1, num2 for num1 in range(2) for num2 in range(3)]\n```",
+      "options": {
+        "a": "The output expression must be a single element; multiple items require parentheses to form a tuple, e.g. (num1, num2).",
+        "b": "You cannot nest two for clauses in one comprehension.",
+        "c": "range(2) and range(3) cannot be used together.",
+        "d": "The variable num2 is not defined."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The output expression `num1, num2` is not a valid single expression; to include both as a tuple, it must be written as `(num1, num2)`.",
+        "b": "Multiple for clauses are allowed and form a nested loop structure.",
+        "c": "Any iterables can be combined in a nested comprehension.",
+        "d": "num2 is defined by the second for clause and is perfectly valid."
+      },
+      "hints": [
+        "In a list comprehension, each element of the resulting list must be a single Python expression.",
+        "How would you create a list of tuples?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Each element of the resulting list is the value of the output expression. `num1, num2` without parentheses attempts to create a tuple implicitly, but that syntax is only allowed in specific contexts like assignment. Inside a list comprehension, you must explicitly write `(num1, num2)`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_015",
+      "concept_name": "Conditional in list comprehension (filtering)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the problem with this list comprehension?\n\n```python\n[x if x % 2 == 0 for x in range(10)]\n```",
+      "options": {
+        "a": "The `if` filter must appear after the `for` clause, not before it.",
+        "b": "The modulo operator cannot be used inside a comprehension.",
+        "c": "The output expression is missing.",
+        "d": "The range must be written as range(0,10)."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! A filter `if` belongs at the end: `[x for x in range(10) if x % 2 == 0]`.",
+        "b": "The modulo operator is perfectly valid inside comprehensions.",
+        "c": "There is an output expression `x`, but the placement of the if clause is wrong.",
+        "d": "range(10) is a valid and correct way to generate 0..9."
+      },
+      "hints": [
+        "Where is the `if` filter allowed in a list comprehension?",
+        "Compare with the syntax: [expr for var in iterable if condition]."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A filtering `if` must be placed after the `for` clause. Placing it before the `for` creates a syntax error unless it is part of a ternary expression in the output.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_015",
+      "concept_name": "Conditional in list comprehension (filtering)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the result of this list comprehension?\n\n```python\n[num * 2 for num in range(1, 6) if num % 2 == 1]\n```",
+      "options": {
+        "a": "[2, 6, 10]",
+        "b": "[1, 3, 5]",
+        "c": "[2, 4, 6, 8, 10]",
+        "d": "[]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Only odd numbers (1, 3, 5) pass the filter, and each is doubled.",
+        "b": "This would be the output without the multiplication, just filtering odd numbers.",
+        "c": "This would be all numbers doubled without a filter.",
+        "d": "Odd numbers exist in range(1,6), so the list is not empty."
+      },
+      "hints": [
+        "Which numbers in range(1,6) satisfy `num % 2 == 1`?",
+        "Then apply the output expression `num * 2`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The filter `if num % 2 == 1` selects odd numbers: 1, 3, 5. Multiplying each by 2 yields [2, 6, 10].",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_016",
+      "concept_name": "Conditional in list comprehension (output expression)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of this list comprehension?\n\n```python\n[num ** 2 if num % 2 == 0 else 0 for num in range(5)]\n```",
+      "options": {
+        "a": "[0, 0, 4, 0, 16]",
+        "b": "[0, 1, 4, 9, 16]",
+        "c": "[0, 4, 16]",
+        "d": "SyntaxError because else cannot appear after for."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The ternary expression squares even numbers and outputs 0 for odd numbers.",
+        "b": "This would be the result of a simple list comprehension without the ternary condition.",
+        "c": "This would be the result if there were a filter `if num % 2 == 0` instead of a ternary.",
+        "d": "The else is part of the ternary expression before the for; the syntax is valid."
+      },
+      "hints": [
+        "Is the if-else part of the output expression or a filter?",
+        "The expression is `num ** 2 if num % 2 == 0 else 0`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The ternary expression `num ** 2 if num % 2 == 0 else 0` is evaluated for each number. Even numbers (0,2,4) become 0,4,16; odd numbers (1,3) become 0, resulting in [0,0,4,0,16].",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_016",
+      "concept_name": "Conditional in list comprehension (output expression)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What causes a SyntaxError in this line?\n\n```python\n[x + 1 if x > 0 for x in range(-2, 3)]\n```",
+      "options": {
+        "a": "A ternary expression in the output requires an `else` clause.",
+        "b": "The `if` filter cannot be combined with `for` on the same line.",
+        "c": "range(-2, 3) is invalid.",
+        "d": "x + 1 is not a valid expression."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! An `if` in the output expression (ternary) must be followed by `else` and a value for the false case.",
+        "b": "An `if` filter after the `for` is allowed, but this `if` is part of the output expression, not a filter.",
+        "c": "range(-2, 3) is perfectly valid and generates numbers from -2 to 2.",
+        "d": "x + 1 is a valid arithmetic expression."
+      },
+      "hints": [
+        "Is the `if` part of a filter or a ternary?",
+        "A ternary expression always has the form: value_if_true if condition else value_if_false."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When an `if` appears in the output expression of a comprehension, it must be part of a ternary operator: `expr_if_true if condition else expr_if_false`. The missing `else` causes a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_018",
+      "concept_name": "Generator expression",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ngen = (2 * num for num in range(3))\nprint(gen)\n```",
+      "options": {
+        "a": "<generator object <genexpr> at 0x...>",
+        "b": "[0, 2, 4]",
+        "c": "(0, 2, 4)",
+        "d": "None"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Printing a generator expression shows the generator object, not its contents.",
+        "b": "This would be the output of a list comprehension, but here parentheses create a generator.",
+        "c": "The parentheses do not produce a tuple; a tuple would require a comma or tuple() conversion.",
+        "d": "The expression evaluates to a generator, not None."
+      },
+      "hints": [
+        "What type of brackets surround the comprehension?",
+        "How do you print the values of a generator?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A generator expression (parentheses) returns a generator object. Printing it directly displays the default representation, not its computed values. To see values, you would iterate over it or convert to a list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_018",
+      "concept_name": "Generator expression",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `second` after executing this code?\n\n```python\ngen = (n for n in range(3))\nfirst = list(gen)\nsecond = list(gen)\n```",
+      "options": {
+        "a": "[]",
+        "b": "[0, 1, 2]",
+        "c": "An error because gen is not iterable",
+        "d": "None"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The generator can only be iterated once. After `list(gen)` consumes all values, the second call sees an empty iterator and returns an empty list.",
+        "b": "Generators do not reset; after the first `list(gen)`, the generator is exhausted.",
+        "c": "gen is iterable, but it has no more values.",
+        "d": "list() always returns a list, not None."
+      },
+      "hints": [
+        "Can a generator be iterated multiple times?",
+        "What does list() return when given an empty iterator?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A generator expression yields values on the fly and can only be consumed once. After the first `list(gen)` extracts all elements, the generator is exhausted, so `second` becomes an empty list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_021",
+      "concept_name": "Conditionals in generator expressions",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does `list(even_nums)` produce?\n\n```python\neven_nums = (num for num in range(10) if num % 2 == 0)\nprint(list(even_nums))\n```",
+      "options": {
+        "a": "[0, 2, 4, 6, 8]",
+        "b": "[0, 2, 4, 6, 8, 10]",
+        "c": "[2, 4, 6, 8]",
+        "d": "A generator object, not a list."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The generator expression filters even numbers from 0 to 9, so list() yields [0, 2, 4, 6, 8].",
+        "b": "10 is not in range(10) which goes up to 9.",
+        "c": "0 is even and would be included.",
+        "d": "list() converts the generator into a list, so the final output is a list."
+      },
+      "hints": [
+        "What numbers does range(10) generate?",
+        "Which of those are even?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The generator expression includes only numbers that are even (num % 2 == 0). list() collects them into a list: [0, 2, 4, 6, 8].",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_021",
+      "concept_name": "Conditionals in generator expressions",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What error will this code produce?\n\n```python\n(num if num % 2 == 0 for num in range(10))\n```",
+      "options": {
+        "a": "SyntaxError because the `if` is a filter and must appear after the `for` clause.",
+        "b": "TypeError because `num` is not iterable.",
+        "c": "It runs correctly but returns only even numbers.",
+        "d": "StopIteration when converted to list."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! In a generator expression, a filtering `if` must be placed after the `for` clause. Placing it before the `for` causes a SyntaxError.",
+        "b": "num is just a variable, not an iterable; the error is syntactic, not type-related.",
+        "c": "The code is invalid and will not run.",
+        "d": "StopIteration is raised when an iterator is exhausted, not due to syntax."
+      },
+      "hints": [
+        "Where does the `if` filter belong in a generator expression?",
+        "Compare with the correct syntax: (expr for var in iterable if condition)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Just like in list comprehensions, the `if` filter in a generator expression must follow the `for` clause. The given code attempts to place it in the output expression without an `else`, which is invalid.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_022",
+      "concept_name": "Generator function",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\ndef num_sequence(n):\n    i = 0\n    while i < n:\n        yield i\n        i += 1\n\nresult = num_sequence(3)\nprint(next(result))\nprint(next(result))\nprint(list(result))\n```",
+      "options": {
+        "a": "0, then 1, then [2]",
+        "b": "0, then 1, then [0, 1, 2]",
+        "c": "0, then 1, then [1, 2]",
+        "d": "0, then 1, then []"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The first two next() calls consume 0 and 1. Then list(result) collects the remaining values, which is only 2.",
+        "b": "list(result) only collects values that haven't been consumed yet; after two next() calls, only 2 remains.",
+        "c": "After two next() calls, the next value to be yielded is 2, so 1 is already gone.",
+        "d": "The iterator still has one value remaining (2) after the two next() calls."
+      },
+      "hints": [
+        "A generator function pauses after each yield and resumes on next().",
+        "How many times has next() been called before list()?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "num_sequence is a generator function. Each next(result) advances its internal state and returns the next yielded value. After two calls, the remaining sequence is just [2], which list() captures.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_022",
+      "concept_name": "Generator function",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What happens when you run this code?\n\n```python\ndef num_sequence(n):\n    i = 0\n    while i < n:\n        yield i\n        i += 1\n\ngen = num_sequence(2)\nfor x in gen:\n    print(x)\nfor x in gen:\n    print(x)\n```",
+      "options": {
+        "a": "The first loop prints 0 and 1. The second loop prints nothing.",
+        "b": "The first loop prints 0 and 1. The second loop prints 0 and 1 again.",
+        "c": "The code raises an error because a generator cannot be used in two for loops.",
+        "d": "Both loops print 0 and 1."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! After the first for loop exhausts the generator, it is empty for the second loop, which therefore runs zero times.",
+        "b": "Generators do not automatically restart; they remain exhausted once consumed.",
+        "c": "Using a generator in multiple for loops is allowed; the second loop simply sees an empty iterator.",
+        "d": "The generator is consumed by the first loop; the second loop has nothing to iterate over."
+      },
+      "hints": [
+        "Can a generator be iterated more than once?",
+        "After a generator yields all its values, what is its state?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A generator object can only be iterated once. Once the first for loop finishes, the generator is exhausted. The second for loop therefore executes zero times, printing nothing.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_023",
+      "concept_name": "yield keyword",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "How does `yield` inside a generator function differ from `return`?",
+      "options": {
+        "a": "yield pauses the function, preserving its local state, and can be resumed; return terminates the function completely.",
+        "b": "yield returns a value and then restarts the function from the beginning; return only returns once.",
+        "c": "There is no difference; both can be used interchangeably.",
+        "d": "yield can only be used inside a for loop; return can be used anywhere."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! yield suspends the function's execution, saving its state, and allows later resumption. return ends the function entirely.",
+        "b": "yield does not restart the function from the beginning; it resumes from the point after the yield.",
+        "c": "They are fundamentally different: yield produces a generator, return gives a single value and stops the function.",
+        "d": "yield is valid in any generator function, not just inside a for loop."
+      },
+      "hints": [
+        "What happens to the local variables between yield calls?",
+        "Does yield let you continue execution from where you left off?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The key difference is that yield pauses the function and retains its state, allowing subsequent next() calls to continue from that point. return permanently exits the function and discards its local state.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_023",
+      "concept_name": "yield keyword",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does `list(gen())` return?\n\n```python\ndef gen():\n    yield 1\n    return\n    yield 2\n```",
+      "options": {
+        "a": "[1]",
+        "b": "[1, 2]",
+        "c": "[]",
+        "d": "[1, None]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The first yield produces 1, then return is encountered, which terminates the generator. The second yield is never reached.",
+        "b": "The return statement ends the generator immediately, so yield 2 never executes.",
+        "c": "The generator does yield one value before hitting the return.",
+        "d": "return does not yield None; it simply stops the generator. No further values are produced."
+      },
+      "hints": [
+        "What does return do inside a generator function?",
+        "Does execution continue after a return statement?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When a generator function encounters a return statement, it raises StopIteration and stops producing values. The second yield is never reached, so the generated sequence is just [1].",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_020",
+      "concept_name": "Generator vs list comprehension memory usage",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "Why might you use a generator expression `(x for x in range(10**9))` instead of a list comprehension `[x for x in range(10**9)]`?",
+      "options": {
+        "a": "The generator expression uses much less memory because it produces values on demand instead of storing them all at once.",
+        "b": "Generators are always faster than list comprehensions.",
+        "c": "List comprehensions cannot handle large integers.",
+        "d": "Generator expressions support indexing, while list comprehensions do not."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! A generator expression does not build the entire list in memory, making it suitable for very large or infinite sequences.",
+        "b": "Generators may have more overhead per element, so for small sequences a list comprehension can be faster.",
+        "c": "Python integers have arbitrary precision; the issue is memory, not size of integers.",
+        "d": "Actually, generator expressions do not support indexing or len(); lists do."
+      },
+      "hints": [
+        "How many values are held in memory simultaneously by a generator expression?",
+        "What is the primary advantage of lazy evaluation?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Generator expressions evaluate lazily, computing each value only when requested. This avoids allocating memory for the entire sequence, which is crucial when dealing with huge ranges.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_020",
+      "concept_name": "Generator vs list comprehension memory usage",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "You have a generator `g = (x for x in range(10**7))`. What is the effect of calling `list(g)`?",
+      "options": {
+        "a": "It creates a full list in memory, which could consume a large amount of memory.",
+        "b": "It returns the generator unchanged.",
+        "c": "It prints the first 10 million numbers without storing them.",
+        "d": "It raises an error because generators cannot be converted to lists."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! list(g) forces immediate evaluation of all values and stores them in a list, defeating the memory efficiency of the generator.",
+        "b": "list() does not return the original object; it builds and returns a new list containing all yielded values.",
+        "c": "list() does not print anything; it constructs the list in memory.",
+        "d": "Generators can be converted to lists using list(), but this may be memory-intensive."
+      },
+      "hints": [
+        "What does the list() constructor do when given an iterable?",
+        "Will the resulting list hold all values in memory at once?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Calling list() on a generator forces all its values to be computed and stored in a list. For a very large generator, this can use a lot of memory and potentially cause a MemoryError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_019",
+      "concept_name": "Lazy evaluation",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement best describes lazy evaluation in generator expressions?",
+      "options": {
+        "a": "Values are computed only at the moment they are requested, not beforehand.",
+        "b": "All values are computed immediately but stored in a compressed format.",
+        "c": "The expression is evaluated at compile time to optimize performance.",
+        "d": "Lazy evaluation means the generator never actually computes any values."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Lazy evaluation delays computation until a value is needed, which saves memory and allows working with infinite sequences.",
+        "b": "Lazy evaluation does not compute values ahead of time; it computes them on demand.",
+        "c": "Evaluation happens at runtime when the generator is iterated over, not at compile time.",
+        "d": "The generator does compute values; it just postpones the work until next() is called."
+      },
+      "hints": [
+        "When does a generator expression actually run its code?",
+        "Think about the phrase 'lazy' — it avoids work until necessary."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Lazy evaluation means that the code inside a generator expression or generator function is not executed until values are explicitly requested via iteration or next(). This on‑demand computation is key to their memory efficiency.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_026",
+      "concept_name": "Reading files line by line with generator",
+      "chapter": 9,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A generator function reads lines from a file object. What is a likely problem if the file is closed before the generator is fully consumed?",
+      "options": {
+        "a": "Further iteration over the generator will raise an error because the file is no longer open.",
+        "b": "The generator will automatically reopen the file.",
+        "c": "The generator will continue to yield empty strings without error.",
+        "d": "The file will remain open until the generator is garbage collected."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! If the file is closed while the generator still holds a reference to it, subsequent attempts to read will fail with a ValueError or similar.",
+        "b": "Generators do not have the ability to reopen closed files.",
+        "c": "Calling readline() on a closed file raises an exception; it does not silently return empty strings.",
+        "d": "Closing the file explicitly will close it regardless of the generator's existence."
+      },
+      "hints": [
+        "What happens when you try to read from a closed file?",
+        "Does a generator keep the file open automatically?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A generator that reads from a file depends on that file being open. If the file is closed prematurely, the generator's next read operation will raise a ValueError (or similar) because the file handle is no longer valid.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    }
+  ]
+}

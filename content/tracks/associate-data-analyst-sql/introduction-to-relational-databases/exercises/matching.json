@@ -1,0 +1,246 @@
+{
+  "course_slug": "introduction-to-relational-databases-in-sql",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 18,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Basic Database Concepts",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Relational database",
+          "match": "Structured collection of data organised into tables that model entities and relationships",
+          "wrong_matches": [
+            "Software that creates and manages databases",
+            "A single horizontal entry in a table"
+          ],
+          "feedback_correct": "Correct! A relational database is built from related tables.",
+          "feedback_wrong": "That definition belongs to a different term. Relational database refers to the overall data structure."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Table",
+          "match": "A database object storing rows about a single entity type, with columns defining attributes",
+          "wrong_matches": [
+            "A named vertical field that defines a data element for every row",
+            "A minimal set of columns that uniquely identifies a row"
+          ],
+          "feedback_correct": "Yes! Each table represents one entity type to avoid redundancy.",
+          "feedback_wrong": "That definition describes a column or a key, not a table."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Column (Attribute)",
+          "match": "A named vertical field in a table that defines a data element and its type for every row",
+          "wrong_matches": [
+            "A database object storing rows about a single entity type",
+            "A single instance of the entity type"
+          ],
+          "feedback_correct": "Correct. Columns define the structure; rows hold the values.",
+          "feedback_wrong": "That describes a table or a row."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "Row (Record)",
+          "match": "A single horizontal entry in a table representing one instance of the entity type",
+          "wrong_matches": [
+            "A named vertical field that defines a data element",
+            "The set of permissible values for a column"
+          ],
+          "feedback_correct": "Exactly. Each row is one occurrence of the entity.",
+          "feedback_wrong": "That is a column or a domain definition."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "Redundancy",
+          "match": "Duplication of data, often from storing multiple entity types in one table, causing update anomalies",
+          "wrong_matches": [
+            "The process of organizing data to reduce duplication",
+            "A description of how many instances can relate"
+          ],
+          "feedback_correct": "Redundancy wastes space and creates inconsistencies.",
+          "feedback_wrong": "That is normalization or cardinality."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "Entity type",
+          "match": "A category of real‑world objects (e.g., professors) that becomes a table in the database",
+          "wrong_matches": [
+            "A graphical representation of the schema",
+            "An auto‑incrementing integer used as a primary key"
+          ],
+          "feedback_correct": "Correct. Entity types are the nouns of your data model.",
+          "feedback_wrong": "That refers to ERD or surrogate key."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Data Types and Constraints",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_007",
+          "concept_id": "concept_012",
+          "term": "Data type",
+          "match": "Defines the kind of values a column can hold, constraining storage and allowed operations",
+          "wrong_matches": [
+            "A constraint that disallows missing values",
+            "A rule that all values must be distinct"
+          ],
+          "feedback_correct": "Data types are fundamental – they determine what can be stored.",
+          "feedback_wrong": "Those are NOT NULL and UNIQUE constraints."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_013",
+          "term": "text",
+          "match": "PostgreSQL type for character strings of any length, no maximum limit",
+          "wrong_matches": [
+            "Variable‑length string type with a maximum of n characters",
+            "Fixed‑length character type that pads with spaces"
+          ],
+          "feedback_correct": "`text` is the unlimited string type.",
+          "feedback_wrong": "That describes varchar(n) or char(n)."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_014",
+          "term": "varchar(n)",
+          "match": "Variable‑length character type with a maximum of n characters",
+          "wrong_matches": [
+            "Fixed‑length type that always stores exactly n characters",
+            "Unlimited string type"
+          ],
+          "feedback_correct": "Yes, `varchar(64)` limits length without padding.",
+          "feedback_wrong": "Fixed‑length is char(n), unlimited is text."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_015",
+          "term": "char(5)",
+          "match": "Fixed‑length type: stores exactly 5 characters, padding with spaces if needed",
+          "wrong_matches": [
+            "Variable‑length with up to 5 characters",
+            "A type for true/false values"
+          ],
+          "feedback_correct": "Exactly. char(n) pads values to the full length.",
+          "feedback_wrong": "Variable‑length is varchar(5); boolean is for logical states."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_026",
+          "term": "NOT NULL constraint",
+          "match": "Ensures every row has a concrete value for the column; disallows NULL",
+          "wrong_matches": [
+            "Guarantees all values in the column are distinct",
+            "References a primary key in another table"
+          ],
+          "feedback_correct": "Correct. NOT NULL makes the column mandatory.",
+          "feedback_wrong": "That is UNIQUE or a foreign key."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_028",
+          "term": "UNIQUE constraint",
+          "match": "Allows multiple NULLs because NULL is not equal to any other value",
+          "wrong_matches": [
+            "Automatically deletes child rows when the parent is deleted",
+            "An artificial column used as a primary key"
+          ],
+          "feedback_correct": "UNIQUE permits any number of NULLs in PostgreSQL.",
+          "feedback_wrong": "That describes ON DELETE CASCADE or a surrogate key."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Keys and Relationships",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_029",
+          "term": "Superkey",
+          "match": "A set of columns that uniquely identifies rows, but may include unnecessary columns",
+          "wrong_matches": [
+            "A minimal set of columns that uniquely identifies rows",
+            "The chosen unique identifier for a table"
+          ],
+          "feedback_correct": "Superkeys guarantee uniqueness but aren't required to be minimal.",
+          "feedback_wrong": "A minimal superkey is a key; the chosen one is the primary key."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_030",
+          "term": "Key (minimal superkey)",
+          "match": "A set of columns uniquely identifying rows; removing any column destroys uniqueness",
+          "wrong_matches": [
+            "A superkey that still works after removing columns",
+            "A foreign key reference to another table"
+          ],
+          "feedback_correct": "Minimality is the defining property of a key.",
+          "feedback_wrong": "That would be a superkey or a foreign key, not a minimal key."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_031",
+          "term": "Candidate key",
+          "match": "A key from which the primary key is selected; a table can have several",
+          "wrong_matches": [
+            "An artificial column added as a primary key",
+            "A foreign key that references itself"
+          ],
+          "feedback_correct": "Correct. All candidate keys are keys, and one becomes the primary.",
+          "feedback_wrong": "That describes a surrogate key, not a candidate key."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_032",
+          "term": "CREATE TABLE … (col integer PRIMARY KEY)",
+          "match": "Defines the column as the unique, non‑null row identifier for the table",
+          "wrong_matches": [
+            "Adds a foreign key pointing to another table",
+            "Sets the column to auto‑increment"
+          ],
+          "feedback_correct": "Primary key combines NOT NULL and UNIQUE.",
+          "feedback_wrong": "Foreign key uses REFERENCES; auto‑increment is a separate serial type."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_033",
+          "term": "Composite key",
+          "match": "A primary or candidate key made of two or more columns",
+          "wrong_matches": [
+            "A key that allows NULL values in some columns",
+            "A key automatically generated by the DBMS"
+          ],
+          "feedback_correct": "Yes, e.g., PRIMARY KEY (a, c).",
+          "feedback_wrong": "Composite keys cannot contain NULLs and are not auto‑generated."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_036",
+          "term": "Foreign key",
+          "match": "Column(s) that reference the primary key of another table, enforcing referential integrity",
+          "wrong_matches": [
+            "A constraint that ensures no duplicate values",
+            "A column that auto‑increments"
+          ],
+          "feedback_correct": "Foreign keys link tables together.",
+          "feedback_wrong": "That describes UNIQUE or serial, not a foreign key."
+        }
+      ]
+    }
+  ]
+}

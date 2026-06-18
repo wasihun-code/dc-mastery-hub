@@ -1,0 +1,981 @@
+{
+  "course_slug": "data-manipulation-with-pandas",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-12",
+  "version": 1,
+  "total_questions": 30,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_005",
+      "concept_name": ".head()",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What is the result of executing the following code?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'name': ['Bella', 'Charlie'], 'weight_kg': [24, 24]})\ndogs.head()\n```",
+      "options": {
+        "a": "It returns a DataFrame containing the first 5 rows (all rows) without modifying `dogs`.",
+        "b": "`dogs` is permanently changed to contain only the first 5 rows.",
+        "c": "It prints a concise summary of the DataFrame and returns `None`.",
+        "d": "It raises an error because `head` is an attribute, not a method."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `head()` returns a view of the first rows as a new DataFrame, leaving the original unchanged.",
+        "b": "`head()` never modifies the original DataFrame in‑place; always assign the result if you need the subset.",
+        "c": "That describes `.info()` – it prints to the console and returns `None`, not `.head()`.",
+        "d": "`head` is a method; `head()` with parentheses works fine. The error is not raised."
+      },
+      "hints": [
+        "Think about whether `head()` changes the DataFrame you call it on.",
+        "`df.head` (without parentheses) would be the method object, but with parentheses it executes."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.head()` returns the first 5 rows (or the number specified) as a new DataFrame. It is a quick inspection tool and does not alter the original DataFrame.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_005"
+      ]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "DataFrame",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What happens when you try to create a DataFrame from a dictionary of lists where the lists have different lengths?\n\n```python\nimport pandas as pd\ndata = {'col1': [1,2,3], 'col2': [4,5]}\ndf = pd.DataFrame(data)\n```",
+      "options": {
+        "a": "The DataFrame is created, and missing values in the shorter column become NaN.",
+        "b": "pandas raises a ValueError because all arrays must be the same length.",
+        "c": "The longer list is automatically truncated to match the shortest length.",
+        "d": "The DataFrame is created but a warning is issued."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "pandas does not automatically fill NaN when column lengths differ; it enforces equal length.",
+        "b": "Correct. A DataFrame requires that every column has the same number of rows.",
+        "c": "pandas never silently truncates data; such behavior would be dangerous.",
+        "d": "No warning – this is a hard error that stops execution."
+      },
+      "hints": [
+        "Think about the fundamental rectangular shape of a DataFrame: each column must have exactly the same number of elements.",
+        "What happens if you pass lists of unequal length to a DataFrame constructor?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The DataFrame constructor requires all columns to have the same length. If they don't, it raises `ValueError: arrays must all be same length`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_002"
+      ]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "Series",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Consider the DataFrame `dogs` shown below. What is the type of the object returned by `dogs['weight_kg']`?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'name': ['Bella', 'Charlie'], 'weight_kg': [24, 24]})\nresult = dogs['weight_kg']\n```",
+      "options": {
+        "a": "DataFrame",
+        "b": "Series",
+        "c": "numpy.ndarray",
+        "d": "scalar (int or float)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Selecting a single column returns a Series, not a DataFrame. Use double brackets `[['weight_kg']]` to get a DataFrame.",
+        "b": "Correct. A single column selection with `df['col']` returns a pandas Series.",
+        "c": "You would get a NumPy array only after calling `.to_numpy()` on the Series.",
+        "d": "A scalar is returned by aggregation methods like `.mean()`, not by column selection."
+      },
+      "hints": [
+        "A DataFrame is a collection of Series; each column is a Series.",
+        "What do you get when you select one column from a DataFrame?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Selecting a single column from a DataFrame returns a pandas Series, a one‑dimensional labelled array.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_003"
+      ]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_006",
+      "concept_name": ".info()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code return?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'name': ['Bella', 'Charlie'], 'weight_kg': [24, 24]})\ninfo_result = dogs.info()\nprint(type(info_result))\n```",
+      "options": {
+        "a": "<class 'NoneType'>",
+        "b": "<class 'str'>",
+        "c": "<class 'pandas.core.frame.DataFrame'>",
+        "d": "<class 'dict'>"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `.info()` prints a summary to the console but returns `None`.",
+        "b": "It does not return a string; the text is printed, not returned.",
+        "c": "`.info()` does not return a DataFrame; it only prints information.",
+        "d": "The method returns `None`, not a dictionary."
+      },
+      "hints": [
+        "What do you see when you call `df.info()`? Is the output the result of a return?",
+        "Does `.info()` return a value, or does it print directly?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.info()` is designed to print a concise summary (column names, types, non-null counts) to the console. It does not return a value; the variable `info_result` will be `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_006"
+      ]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_007",
+      "concept_name": ".shape",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which statement about `df.shape` is correct?",
+      "options": {
+        "a": "`df.shape` is an attribute that returns a tuple (rows, columns) and must be called without parentheses.",
+        "b": "`df.shape` is a method, so you must write `df.shape()`.",
+        "c": "`df.shape` returns a tuple (columns, rows), i.e., first the number of columns.",
+        "d": "`df.shape` prints the shape to the console and returns `None`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `.shape` is an attribute, not a method, so no parentheses; the tuple is (number of rows, number of columns).",
+        "b": "`.shape` is an attribute. Writing `df.shape()` would raise a TypeError.",
+        "c": "The order is always (rows, columns). Remember 'rc' as rows come first.",
+        "d": "It does not print; it returns a tuple. Use `print(df.shape)` to display it."
+      },
+      "hints": [
+        "Is `shape` something that you access with or without parentheses?",
+        "Think about the order: does 'rows by columns' sound familiar?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.shape` is an attribute, so no parentheses. It returns a tuple of (number_of_rows, number_of_columns).",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_007"
+      ]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_008",
+      "concept_name": ".describe()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "A DataFrame has a column `'category'` containing strings. What will `df.describe()` show for this column?",
+      "options": {
+        "a": "Count, unique, top, and freq – the summary statistics for a categorical column.",
+        "b": "By default, it will not include the `'category'` column at all; only numeric columns are summarized.",
+        "c": "It will display the mean and standard deviation of the strings.",
+        "d": "It raises an error because `.describe()` cannot handle strings."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That output would appear only if you force inclusion of object columns with `include='object'` or `include='all'`.",
+        "b": "Correct. By default, `.describe()` only describes numeric columns; non‑numeric columns are skipped.",
+        "c": "Mean and standard deviation are not defined for strings; this would not happen.",
+        "d": "No error occurs; the non‑numeric column is simply ignored in the output."
+      },
+      "hints": [
+        "What does `.describe()` report by default? Count, mean, std, min, quartiles...",
+        "Can you compute mean on text columns?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The default behavior of `.describe()` is to summarize numeric columns only. Non‑numeric columns are silently excluded unless you explicitly request them with parameters like `include='all'`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_008"
+      ]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_017",
+      "concept_name": "adding a new column",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What happens after running the following code?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'height_cm': [56, 43]})\ndogs['height_m'] = dogs['height_cm'] / 100\n```",
+      "options": {
+        "a": "The DataFrame `dogs` now has a new column `'height_m'` with the converted values.",
+        "b": "A new column `'height_m'` is created but only visible when printing; `dogs` is not actually modified.",
+        "c": "The assignment returns a new DataFrame, so `dogs` remains unchanged unless reassigned.",
+        "d": "An error occurs because you cannot add a column after DataFrame creation."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Adding a column with `df['new'] = ...` modifies the DataFrame in place.",
+        "b": "The modification is permanent; it's not just for display.",
+        "c": "Column assignment is an in‑place operation on the existing DataFrame; no copy is made.",
+        "d": "DataFrames can have columns added at any time; no error."
+      },
+      "hints": [
+        "When you assign to a new column like `df['new'] = values`, does the DataFrame change?",
+        "Think about whether pandas operations are in‑place or return new objects."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Column assignment via `df['new_column'] = expression` adds the column directly to the DataFrame `df`; it modifies the original object in place.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_017"
+      ]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_019",
+      "concept_name": ".mean()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given the following DataFrame, what does `dogs.mean()` return?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({\n    'name': ['Bella', 'Charlie', 'Lucy'],\n    'weight_kg': [24, 24, 24],\n    'height_cm': [56, 43, 46]\n})\nresult = dogs.mean()\n```",
+      "options": {
+        "a": "A Series with the means of `'weight_kg'` and `'height_cm'` (numeric columns only).",
+        "b": "A Series with NaN for `'name'` and means for the numeric columns.",
+        "c": "The mean of all numbers across the whole DataFrame (a single scalar).",
+        "d": "An error because `'name'` is not numeric."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `df.mean()` automatically ignores non‑numeric columns and returns the means of numeric ones.",
+        "b": "It does not include the non‑numeric column at all; no NaN row for `'name'`.",
+        "c": "`df.mean()` returns a Series, not a scalar, with the mean of each numeric column.",
+        "d": "Non‑numeric columns are silently skipped; no error."
+      },
+      "hints": [
+        "What happens if you call `.mean()` on a DataFrame that has both text and numeric columns?",
+        "Does `.mean()` process every column or only those it can work with?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When called on a DataFrame, `.mean()` returns a Series with the mean of each numeric column. Non‑numeric columns are excluded without error.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_019"
+      ]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_026",
+      "concept_name": ".value_counts()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Given the Series `dogs['color']` below, which code returns the **proportion** (relative frequency) of each color?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'color': ['Brown', 'Black', 'Brown']})\n# Your code here\n```",
+      "options": {
+        "a": "`dogs['color'].value_counts()`",
+        "b": "`dogs['color'].value_counts(normalize=True)`",
+        "c": "`dogs['color'].value_counts(normalize=False)`",
+        "d": "`dogs['color'].counts().normalize()`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This returns absolute counts, not proportions.",
+        "b": "Correct. Setting `normalize=True` gives proportions instead of raw counts.",
+        "c": "`normalize=False` (the default) returns counts, not proportions.",
+        "d": "There is no `.counts()` method on a Series; you meant `.value_counts()`."
+      },
+      "hints": [
+        "Look for a parameter that turns counts into fractions.",
+        "What argument to `.value_counts()` would change absolute numbers to relative frequencies?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.value_counts(normalize=True)` returns the relative frequencies of each unique value rather than the absolute counts.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_026"
+      ]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_012",
+      "concept_name": ".sort_values()",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "The goal is to sort `dogs` by weight_kg and keep the sorted DataFrame. What is wrong with this code?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'name': ['Stella', 'Bernie'], 'weight_kg': [2, 74]})\ndogs.sort_values('weight_kg')\nprint(dogs)\n```",
+      "options": {
+        "a": "`sort_values` is for Series only, not DataFrames.",
+        "b": "The sorted result is not stored; `sort_values` returns a new DataFrame that must be assigned to a variable.",
+        "c": "The column name must be passed as a list: `['weight_kg']`.",
+        "d": "`sort_values` sorts in place, so the code is correct."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`sort_values` is a DataFrame method; it works on DataFrames.",
+        "b": "Correct. `sort_values` returns a new DataFrame; without assignment the original `dogs` stays unsorted.",
+        "c": "Passing a single column name as a string is allowed; a list is only required for multiple columns.",
+        "d": "`sort_values` does **not** sort in place by default – it returns a new object."
+      },
+      "hints": [
+        "Does `sort_values` modify the original DataFrame or return a new one?",
+        "If you don't assign the result, where does the sorted DataFrame go?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`sort_values()` returns a new sorted DataFrame; the original remains unchanged. You need to assign the result, e.g., `dogs = dogs.sort_values('weight_kg')` or use `inplace=True`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_012"
+      ]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_014",
+      "concept_name": "Boolean indexing",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Why does the following code not behave as intended?\n\n```python\ndogs[dogs['height_cm'] > 50 & dogs['weight_kg'] < 30]\n```",
+      "options": {
+        "a": "The `&` operator cannot be used with pandas Series.",
+        "b": "The expression is evaluated as `dogs['height_cm'] > (50 & dogs['weight_kg']) < 30` due to operator precedence; parentheses are needed around each condition.",
+        "c": "Boolean indexing requires using `and` instead of `&`.",
+        "d": "The code works correctly; it returns dogs taller than 50 cm and lighter than 30 kg."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`&` works on Series, but the precedence causes the problem.",
+        "b": "Correct. Because `&` has higher precedence than `>`, the condition is parsed incorrectly. Use parentheses: `(dogs['height_cm'] > 50) & (dogs['weight_kg'] < 30)`.",
+        "c": "`and` does not work element‑wise on Series; you must use `&` (or `|` for or).",
+        "d": "The current code does not give the intended result; it may raise an error or produce a wrong mask."
+      },
+      "hints": [
+        "Look at the order of operations: what does `50 & dogs['weight_kg']` evaluate to?",
+        "When combining conditions with `&`, what should you wrap in parentheses?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Due to Python's operator precedence, `&` binds tighter than comparison operators, so the condition is effectively `dogs['height_cm'] > (50 & dogs['weight_kg'])`, which is not what you want. Always wrap each condition in parentheses.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_014"
+      ]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_015",
+      "concept_name": "mask",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You create a boolean mask from a different DataFrame with a different index, then use it to filter `dogs`. What happens?\n\n```python\nmask = other_df['col'] > 10   # other_df has index [10, 11, 12]\ndogs[mask]                    # dogs has index [0, 1, 2]\n```",
+      "options": {
+        "a": "pandas aligns the mask by index labels, so the result may contain NaN for rows without matching labels.",
+        "b": "An error is raised because the mask must have exactly the same length as the DataFrame.",
+        "c": "The mask is applied position‑wise (first element masks first row), ignoring index labels.",
+        "d": "pandas automatically resets both indices so the operation succeeds."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Boolean indexing aligns on index; only rows with matching index labels are kept, and missing labels produce NaN.",
+        "b": "pandas does not require the same length if indices align; but mismatched indices can cause unexpected NaN rows.",
+        "c": "pandas never ignores the index for alignment; it always uses label‑based alignment.",
+        "d": "No automatic index reset occurs; the indices are used as is."
+      },
+      "hints": [
+        "When you use a boolean Series to filter a DataFrame, does pandas match by position or by index label?",
+        "What happens when the mask's index labels don't match the DataFrame's index?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Boolean indexing in pandas aligns by index label. If the mask has a different index, rows that don't have matching labels will be filled with NaN. To avoid surprises, ensure the mask comes from the same DataFrame or has the same index.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_015"
+      ]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_016",
+      "concept_name": ".isin()",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between `df.isin(values)` and `df['col'].isin(values)`?",
+      "options": {
+        "a": "`df.isin()` returns a boolean DataFrame of the same shape, while `Series.isin()` returns a boolean Series for that column.",
+        "b": "Both return a Series, but `df.isin()` sums the results across rows.",
+        "c": "`df.isin()` returns a Series, `Series.isin()` returns a DataFrame.",
+        "d": "`df.isin()` filters rows, `Series.isin()` returns counts."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `df.isin()` checks every cell, returning a DataFrame of booleans; `df['col'].isin()` checks a single column, returning a Series.",
+        "b": "`df.isin()` does not sum; it returns a DataFrame of booleans.",
+        "c": "The types are reversed: `df.isin()` returns a DataFrame, not a Series.",
+        "d": "`df.isin()` alone does not filter; it returns a boolean DataFrame that can be used for filtering."
+      },
+      "hints": [
+        "Think about how many values you are testing: the whole DataFrame vs one column.",
+        "If you apply `.isin()` to a DataFrame, what shape should the result have?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.isin(values)` returns a DataFrame of the same shape with `True` where the cell value is in the list. `df['col'].isin(values)` returns a boolean Series for that column, which is then often used for row filtering.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_016"
+      ]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_018",
+      "concept_name": "chaining operations",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You write a long chain of pandas operations and the final result is not what you expected. What is the best way to debug it?",
+      "options": {
+        "a": "Use `print()` inside the chain, e.g., `.print().sort_values()...`.",
+        "b": "Break the chain into multiple steps, assigning intermediate results to variables and inspecting each one.",
+        "c": "Add `.debug()` at the end of the chain.",
+        "d": "Re‑run the chain with a smaller sample and hope the error becomes clear."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "You cannot insert `print()` in the middle of method chaining like that; the methods must return a DataFrame/Series.",
+        "b": "Correct. Saving intermediate steps makes it easy to inspect the data at each stage and isolate the problem.",
+        "c": "pandas does not have a `.debug()` method for DataFrames.",
+        "d": "Sampling may help, but without intermediate inspection you still don't know which step caused the issue."
+      },
+      "hints": [
+        "When a long chain fails, how can you see what each operation produces?",
+        "Is there a method in pandas that allows you to pause and inspect during a chain?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Breaking method chains into separate lines with intermediate variables is the most effective debugging technique. It allows you to examine the result of each operation and spot where the data diverges from expectations.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_018"
+      ]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_021",
+      "concept_name": ".agg()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You want to compute the mean of `'weight_kg'` and the median of `'height_cm'` on the DataFrame `dogs` using a single `.agg()` call. Which syntax is correct?",
+      "options": {
+        "a": "`dogs.agg({'weight_kg': 'mean', 'height_cm': 'median'})`",
+        "b": "`dogs.agg(weight_kg='mean', height_cm='median')`",
+        "c": "`dogs.agg(['mean', 'median'])`",
+        "d": "`dogs.agg({'weight_kg': ['mean'], 'height_cm': ['median']})`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Passing a dictionary maps column names to the aggregation function(s) you want.",
+        "b": "This is not valid; `.agg()` does not accept keyword arguments in that way.",
+        "c": "This applies both `'mean'` and `'median'` to every numeric column, not column‑specific.",
+        "d": "While technically valid, it returns a DataFrame with a MultiIndex (one row for each function); a scalars dict like option A is simpler and matches the intent."
+      },
+      "hints": [
+        "How do you tell `.agg()` to apply different functions to different columns?",
+        "Look at the syntax that uses a dictionary: keys are columns, values are functions."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The dictionary syntax `df.agg({'col1': 'func1', 'col2': 'func2'})` allows column‑specific aggregation in one call. Option A correctly computes mean of weight_kg and median of height_cm.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_021"
+      ]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_022",
+      "concept_name": ".cumsum()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nimport pandas as pd\ndogs = pd.DataFrame({'weight_kg': [24, 24, 17]})\nprint(dogs['weight_kg'].cumsum())\n```",
+      "options": {
+        "a": "A scalar: `65`",
+        "b": "The original column: `0  24\n1  24\n2  17`",
+        "c": "A Series: `0  24\n1  48\n2  65`",
+        "d": "An error because `.cumsum()` doesn't work on integers."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`.cumsum()` returns a Series of cumulative values, not the final sum.",
+        "b": "It does not return the original values; it returns cumulative sums.",
+        "c": "Correct. `cumsum()` returns a Series where each element is the sum of all previous values including itself.",
+        "d": "There is no error; `.cumsum()` works perfectly with numeric data."
+      },
+      "hints": [
+        "Does `.cumsum()` return a single number or a sequence?",
+        "If you sum progressively, the first value stays 24, the next becomes 24+24=48, etc."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`Series.cumsum()` returns a Series of the same length, where each entry is the cumulative sum up to that point. The result is `[24, 48, 65]`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_022"
+      ]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_025",
+      "concept_name": ".drop_duplicates()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the issue with this attempt to remove duplicate colors from `dogs`?\n\n```python\ndogs.drop_duplicates(subset='color')\nprint(dogs.shape)   # still shows original number of rows\n```",
+      "options": {
+        "a": "The `subset` parameter must be a list, not a string.",
+        "b": "`.drop_duplicates()` returns a new DataFrame, but the result is not assigned; `dogs` remains unchanged.",
+        "c": "`.drop_duplicates()` only works with `inplace=True`; otherwise it raises an error.",
+        "d": "The `subset='color'` is ignored; duplicates are dropped across all columns."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`subset` can be a string when only one column is used; a list is also acceptable.",
+        "b": "Correct. By default, `.drop_duplicates()` returns a new DataFrame. Without assignment (or `inplace=True`), the original `dogs` is not modified.",
+        "c": "It does not require `inplace`; it simply returns a new object by default.",
+        "d": "`subset='color'` is correctly recognized and used to determine duplicates."
+      },
+      "hints": [
+        "Does `.drop_duplicates()` change the original DataFrame or return a new one?",
+        "Look at the assignment: is the result stored back into `dogs`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Like many pandas methods, `.drop_duplicates()` returns a new DataFrame by default. To keep the change, you must assign the result back, e.g., `dogs = dogs.drop_duplicates(subset='color')` or use `inplace=True`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_025"
+      ]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_027",
+      "concept_name": ".groupby()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code produce?\n\n```python\ndogs.groupby('color')\n```",
+      "options": {
+        "a": "A DataFrame with rows grouped by color and the mean already computed.",
+        "b": "A GroupBy object that is ready for aggregation but has not yet computed any summary.",
+        "c": "A Series with the count of each color group.",
+        "d": "An error because `.groupby()` requires an aggregation method to be chained."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "No aggregation has been applied; the result is not a DataFrame yet.",
+        "b": "Correct. `.groupby()` returns a GroupBy object, which you then use with an aggregation function like `.mean()` or `.sum()`.",
+        "c": "No count is produced until you call `.size()` or `.count()` on the GroupBy object.",
+        "d": "No error occurs; a GroupBy object is created successfully. You only need to call an aggregation later."
+      },
+      "hints": [
+        "After calling `.groupby()`, what kind of object do you get?",
+        "Is `.groupby()` the final step, or do you need to follow it with something?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.groupby('column')` returns a `DataFrameGroupBy` object, which is an intermediate structure that holds the grouping information. To get actual summarized results, you must apply an aggregation function like `.mean()`, `.sum()`, or `.agg()`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_027"
+      ]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_028",
+      "concept_name": ".pivot_table()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "A learner writes the following code to get the **total** sales per store per department, but the numbers are wrong. Why?\n\n```python\nsales.pivot_table(values='weekly_sales', index='store', columns='department')\n```",
+      "options": {
+        "a": "The `values` parameter is misspelled; it should be `value`.",
+        "b": "The default `aggfunc` in `.pivot_table()` is `'mean'`, not `'sum'`, so it calculates averages instead of totals.",
+        "c": "`.pivot_table()` cannot group by two columns simultaneously.",
+        "d": "The `index` and `columns` arguments are swapped."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`values` is the correct parameter name.",
+        "b": "Correct. Without specifying `aggfunc`, `.pivot_table()` defaults to `numpy.mean`. For totals, you need `aggfunc='sum'`.",
+        "c": "`.pivot_table()` can group by multiple columns, using both `index` and `columns`.",
+        "d": "Swapping them would just change the layout, not the aggregation function."
+      },
+      "hints": [
+        "What is the default aggregation function used by `.pivot_table()`?",
+        "If you want total (sum) not average, what parameter must you set?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `pivot_table` computes the mean of the values. To obtain totals, you must explicitly set `aggfunc='sum'` (or use `numpy.sum`).",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_028"
+      ]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_029",
+      "concept_name": ".set_index()",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the state of `dogs` after running the following code?\n\n```python\ndogs = pd.DataFrame({'name': ['Bella', 'Charlie'], 'weight_kg': [24, 24]})\ndogs.set_index('name')\n```",
+      "options": {
+        "a": "`dogs` now has `'name'` as the index; the `'name'` column is gone.",
+        "b": "`dogs` remains unchanged; a new DataFrame with the new index was returned but not assigned.",
+        "c": "The `'name'` column is moved to the index, but `dogs` is unchanged because `set_index` always raises an error.",
+        "d": "`set_index` modifies `dogs` in place, so now `dogs` has a new index."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`set_index` does not modify in place by default; the original DataFrame stays as before.",
+        "b": "Correct. By default, `set_index()` returns a new DataFrame; without assignment, `dogs` is unchanged.",
+        "c": "No error occurs; the method returns a new object, but `dogs` is not updated.",
+        "d": "`inplace=True` would be needed for an in‑place modification; otherwise it returns a new DataFrame."
+      },
+      "hints": [
+        "Does `.set_index()` change the original DataFrame or return a new one?",
+        "What do you have to do if you want `dogs` to keep the new index?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `.set_index()` returns a new DataFrame with the specified column(s) set as the index. The original DataFrame remains unchanged unless you use `inplace=True` or reassign the result.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_029"
+      ]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_030",
+      "concept_name": ".reset_index()",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You have a DataFrame `df` with a meaningful index that you no longer need. You want to revert to a default integer index and **completely discard** the old index (do not add it as a column). Which code achieves this?",
+      "options": {
+        "a": "`df.reset_index(drop=True)`",
+        "b": "`df.reset_index()`",
+        "c": "`df.index = range(len(df))`",
+        "d": "`df.reset_index(keep=False)`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `reset_index(drop=True)` discards the old index and replaces it with a new integer index.",
+        "b": "Without `drop=True`, the old index is inserted as a new column named `'index'`.",
+        "c": "While this manually reassigns the index, it does not remove the old index name metadata and is less idiomatic.",
+        "d": "There is no `keep` parameter; you meant `drop`."
+      },
+      "hints": [
+        "What parameter of `reset_index` controls whether the old index becomes a column?",
+        "If you want to throw away the old index entirely, what should you set to `True`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.reset_index(drop=True)` returns a new DataFrame with the old index removed completely and a default RangeIndex. Using `reset_index()` without `drop` would move the old index into a new column.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_030"
+      ]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_031",
+      "concept_name": ".loc[]",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given a DataFrame `dogs` with a default integer index (0, 1, 2, …), what is the result of `dogs.loc[0:2]`?",
+      "options": {
+        "a": "Rows with index labels 0, 1, and 2 (inclusive end).",
+        "b": "Rows with index labels 0 and 1 only (end is exclusive).",
+        "c": "A single row with label 2.",
+        "d": "Columns 0 through 2."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Unlike typical Python slicing, `.loc` slicing includes the endpoint when using labels.",
+        "b": "That would be `.iloc[0:2]` behavior; `.loc` is inclusive on both ends.",
+        "c": "The slice `0:2` selects a range of rows, not just one.",
+        "d": "`.loc` accesses rows, not columns; to select columns you would need a second part, e.g., `df.loc[:, 0:2]`."
+      },
+      "hints": [
+        "Does label‑based slicing with `.loc` include the last label in the slice?",
+        "What is the difference between slicing with `.loc` and typical Python slicing?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.loc` uses label‑based slicing and includes both the start and the stop index. So `df.loc[0:2]` returns rows with index 0, 1, and 2.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_031"
+      ]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_032",
+      "concept_name": ".iloc[]",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given the same `dogs` DataFrame with a default integer index, what does `dogs.iloc[0:2]` return?",
+      "options": {
+        "a": "Rows 0, 1, and 2 (inclusive).",
+        "b": "Rows at integer positions 0 and 1 (exclusive of 2).",
+        "c": "The first two columns.",
+        "d": "An error because `.iloc` cannot be used with integer indices."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That's the behavior of `.loc`, not `.iloc`.",
+        "b": "Correct. `.iloc` uses standard Python half‑open interval: start is included, end is excluded.",
+        "c": "The slice `0:2` after `iloc` selects rows unless a second position is provided.",
+        "d": "`.iloc` works perfectly fine with integer indices; it accesses by position."
+      },
+      "hints": [
+        "How does regular Python list slicing work (start, stop)?",
+        "Does `.iloc` slicing include the last position or stop before it?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.iloc` is purely position‑based and follows Python's usual slice semantics: the start index is inclusive, the stop index is exclusive. So `df.iloc[0:2]` returns rows at positions 0 and 1.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_032"
+      ]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_033",
+      "concept_name": "slicing",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is a key difference between slicing with `.loc` and with `.iloc`?",
+      "options": {
+        "a": "`.loc` slicing is inclusive of the end label, while `.iloc` slicing is exclusive of the end position.",
+        "b": "`.loc` slicing is exclusive, `.iloc` slicing is inclusive.",
+        "c": "Both treat the endpoint the same way; the difference is that `.loc` uses labels and `.iloc` uses positions.",
+        "d": "`.loc` can only slice rows, `.iloc` can only slice columns."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. With `.loc`, the stop label is included; with `.iloc`, the stop index is excluded, like standard Python slicing.",
+        "b": "Reversed: `.loc` includes the endpoint, `.iloc` excludes it.",
+        "c": "While it's true that `.loc` uses labels and `.iloc` uses positions, the inclusion/exclusion behavior also differs.",
+        "d": "Both can slice rows and columns; neither is limited to one axis."
+      },
+      "hints": [
+        "If you slice a list `my_list[0:2]`, is the last element included?",
+        "Now think about a slice with `.loc` – does it behave like a list slice?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The most notable behavioral difference is that `.loc` slices include the stop label, while `.iloc` slices exclude the stop position (standard Python slice convention). This often surprises learners.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_031",
+        "concept_032",
+        "concept_033"
+      ]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_044",
+      "concept_name": ".dropna()",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You have a DataFrame with missing values in several columns. You only want to drop rows where the `'weight_kg'` column is `NaN`, keeping rows that have missing values in other columns. Which code does that?",
+      "options": {
+        "a": "`df.dropna(subset=['weight_kg'])`",
+        "b": "`df.dropna(how='all')`",
+        "c": "`df.dropna(axis=1)`",
+        "d": "`df.fillna(0)`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `subset=['weight_kg']` tells `dropna()` to consider only that column when deciding which rows to drop.",
+        "b": "`how='all'` drops rows only if all values are missing, not specific to a column.",
+        "c": "`axis=1` drops columns, not rows.",
+        "d": "`.fillna()` replaces missing values; it does not remove rows."
+      },
+      "hints": [
+        "How can you tell `.dropna()` which column to examine for missing values?",
+        "There is a parameter called `subset` that accepts column names."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`df.dropna(subset=['column_name'])` removes rows where the specified column(s) have missing data, regardless of missingness in other columns.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_044"
+      ]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_034",
+      "concept_name": "multi‑level index (hierarchical index)",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You have a DataFrame with a MultiIndex created by `df.set_index(['color', 'name'])`. You want to select all rows where `name` is `'Bella'`, regardless of the outer `color` level. Which indexing expression is correct?",
+      "options": {
+        "a": "`df.loc[(slice(None), 'Bella'), :]`",
+        "b": "`df.loc['Bella', :]`",
+        "c": "`df.loc[:, 'Bella']`",
+        "d": "`df.loc['Bella']`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. You must use a tuple where the outer level is `slice(None)` (any value) and the inner level is `'Bella'`.",
+        "b": "This would try to match the outer level `'Bella'`, which doesn't exist; you'll get a KeyError.",
+        "c": "This syntax selects a column named `'Bella'`, not rows at an inner index level.",
+        "d": "Similar to B, it accesses the first level of the index only."
+      },
+      "hints": [
+        "When you have a MultiIndex, how do you specify a value for an inner level?",
+        "You need to pass a tuple that includes a placeholder for the outer level(s)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With a MultiIndex, to slice at an inner level you must use a tuple specifying the value for each level from outermost to innermost. `slice(None)` acts as a wildcard for 'any value' at that level.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_034",
+        "concept_031"
+      ]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_036",
+      "concept_name": "slicing by dates",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You have a DataFrame with a string index of dates (like `'2014-08-25'`) that is not sorted. You attempt `df.loc['2014':'2016']` and get a warning or error. What is the likely cause?",
+      "options": {
+        "a": "String slicing only works if the index is sorted; an unsorted index causes a `PerformanceWarning` and may produce an error.",
+        "b": "String slicing is never allowed in pandas; you must convert to `DatetimeIndex` first.",
+        "c": "The slice syntax requires full dates, not just years.",
+        "d": "`df.loc` cannot be used with string slices at all."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. For label‑based slicing with strings, the index must be sorted. Otherwise pandas can't guarantee a contiguous range.",
+        "b": "String slicing is allowed if the index is sorted; converting to datetime is recommended but not always required.",
+        "c": "Partial date strings like `'2014'` are acceptable and match the whole year.",
+        "d": "`.loc` can use string slices as long as the index is properly ordered."
+      },
+      "hints": [
+        "What happens when you try to slice a DataFrame with an unsorted index?",
+        "Does `.loc` require the index to be in a specific order for label slicing?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When using string‑based slicing, pandas requires the index to be sorted; otherwise, it cannot guarantee a deterministic slice and may raise a `KeyError` or `PerformanceWarning`. Sorting the index with `.sort_index()` solves this.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_036",
+        "concept_031"
+      ]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_057",
+      "concept_name": "margins in pivot_table",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "You create a pivot table with `aggfunc='mean'` and set `margins=True`. What do the margin values represent?",
+      "options": {
+        "a": "The mean of the corresponding row/column, computed using the same `aggfunc` (mean).",
+        "b": "The sum of the values in the corresponding row/column.",
+        "c": "The sum of the original data before aggregation.",
+        "d": "The `fill_value` used to replace NaN."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Margins are computed with the same aggregation function (here, `mean`) as the rest of the table.",
+        "b": "Margins use the specified `aggfunc`, which defaults to `mean` but if you pass `aggfunc='sum'` they would be sums. Here they are means.",
+        "c": "Margins are computed on the aggregated data, not on the raw data.",
+        "d": "`fill_value` is unrelated; it only replaces NaN in the output table."
+      },
+      "hints": [
+        "When you set `margins=True`, what operation does pandas apply to compute the totals?",
+        "Does it use the same function you specified in `aggfunc` or something else?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Margins are simply the aggregation (mean, sum, etc.) over the rows/columns, computed with the same `aggfunc`. If you used `aggfunc='mean'`, the margin is the mean; if `aggfunc='sum'`, it would be the sum.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_057",
+        "concept_028"
+      ]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_058",
+      "concept_name": "fill_value in pivot_table",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does `fill_value=0` do when used inside `.pivot_table()`?",
+      "options": {
+        "a": "It replaces any `NaN` cells in the resulting pivot table with 0; the original data is not affected.",
+        "b": "It replaces `NaN` values in the original DataFrame before aggregation.",
+        "c": "It fills missing values in the pivot table with the column mean.",
+        "d": "It sets the default `aggfunc` to `sum`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `fill_value` only affects the displayed pivot table, substituting `NaN` with the given value.",
+        "b": "`fill_value` does not change the underlying data; it only fills the pivot table output.",
+        "c": "It uses the provided constant, not any computed statistic.",
+        "d": "`aggfunc` is a separate parameter; `fill_value` has no effect on the aggregation function."
+      },
+      "hints": [
+        "Is `fill_value` applied before or after the aggregation?",
+        "Does it change the raw data, or only the final pivot table presentation?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`fill_value` is a display‑oriented parameter that replaces `NaN` in the pivot table cells with the specified value. It does not modify the source DataFrame.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_058",
+        "concept_028"
+      ]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_059",
+      "concept_name": "apply()",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "Why is `df['col'].apply(lambda x: x**2)` often less efficient than `df['col'] ** 2`?",
+      "options": {
+        "a": "`apply()` uses a Python loop internally, while `** 2` is a vectorized operation running at C speed.",
+        "b": "`apply()` cannot square numeric values.",
+        "c": "`apply()` modifies the original column in place, causing extra overhead.",
+        "d": "`apply()` returns a Series with `NaN` for missing values, which slows it down."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Vectorized operations are implemented in fast compiled code; `apply()` iterates in Python, which is much slower.",
+        "b": "`apply()` can square numbers, but it's not the best tool for the job.",
+        "c": "`apply()` returns a new Series; it does not modify in place.",
+        "d": "`NaN` handling is not the primary reason for the performance difference."
+      },
+      "hints": [
+        "What does 'vectorized' mean in the context of pandas?",
+        "How does Python loop execution compare to native code execution?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Vectorized operations like `** 2` are executed in optimized C code, avoiding Python loop overhead. `apply()` wraps a Python function call per element, which is significantly slower for large datasets.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_059"
+      ],
+      "_exerciseType": "mcq",
+      "option_a": "`apply()` uses a Python loop internally, while `** 2` is a vectorized operation running at C speed.",
+      "option_b": "`apply()` cannot square numeric values.",
+      "option_c": "`apply()` modifies the original column in place, causing extra overhead.",
+      "option_d": "`apply()` returns a Series with `NaN` for missing values, which slows it down.",
+      "blanksText": ""
+    }
+  ]
+}

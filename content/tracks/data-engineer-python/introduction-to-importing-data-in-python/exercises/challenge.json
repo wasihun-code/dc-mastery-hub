@@ -1,0 +1,220 @@
+{
+  "course_slug": "introduction-to-importing-data-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 3,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Explore Titanic Passenger Data",
+      "dataset_file": "titanic_sub.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_018",
+        "concept_019"
+      ],
+      "context": "You are a data analyst investigating the Titanic passenger manifest. The dataset includes survival status, class, sex, age, and more. Your goal is to load the data and quickly assess how many passengers are recorded.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import the pandas library with the conventional alias.",
+          "variable_name": "",
+          "hint": "Use `import pandas as pd`."
+        },
+        {
+          "step": 2,
+          "description": "Use `pd.read_csv()` to load the file 'titanic_sub.csv' into a DataFrame called `titanic_df`.",
+          "variable_name": "titanic_df",
+          "hint": "The file is named exactly 'titanic_sub.csv'."
+        },
+        {
+          "step": 3,
+          "description": "Display the first 5 rows of the DataFrame using the `.head()` method.",
+          "variable_name": "",
+          "hint": "Call `.head()` on your DataFrame and let it print to the console."
+        },
+        {
+          "step": 4,
+          "description": "Print the total number of passengers (rows) in the format 'Total passengers: XXX'.",
+          "variable_name": "",
+          "hint": "Use `len(titanic_df)` or `titanic_df.shape[0]`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data lists (for reference):\n# survived = [0, 1, 1, ...]\n# pclass = [3, 1, 3, ...]\n# sex = ['male', 'female', ...]\n# age = [22.0, 38.0, 26.0, ...]\n# \n# Write your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "titanic_sub.csv"
+        },
+        "mnist_kaggle_some_rows": {
+          "type": "csv",
+          "path": "mnist_kaggle_some_rows.csv"
+        },
+        "titanic_sub": {
+          "type": "csv",
+          "path": "titanic_sub.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\ntitanic_df = pd.read_csv('titanic_sub.csv')\ntitanic_df.head()\nprint('Total passengers:', len(titanic_df))",
+      "expected_output": "   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked\n0            1         0       3  ...   7.2500   NaN         S\n1            2         1       1  ...  71.2833   C85         C\n2            3         1       3  ...   7.9250   NaN         S\n3            4         1       1  ...  53.1000  C123         S\n4            5         0       3  ...   8.0500   NaN         S\n\n[5 rows x 12 columns]\nTotal passengers: 891",
+      "output_description": "The DataFrame preview shows the first 5 rows. The total number of passengers (891) confirms the dataset size.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The file 'titanic_sub.csv' should be in the same directory as your script.",
+        "After reading, use `.head()` to peek at the data and `len(df)` to count rows."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrate the ability to import a CSV file into a DataFrame and perform basic inspection."
+    },
+    {
+      "id": "dc_002",
+      "title": "Analyze Seaslug Experiment Data",
+      "dataset_file": "seaslug.txt",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_010",
+        "concept_007"
+      ],
+      "context": "A marine biologist recorded time and percent measurements from a seaslug experiment. The data is stored in a tab-delimited file. You need to load the numerical data and compute the average percent value.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import NumPy with the conventional alias.",
+          "variable_name": "",
+          "hint": "Use `import numpy as np`."
+        },
+        {
+          "step": 2,
+          "description": "Use `np.loadtxt()` to load the file 'seaslug.txt'. Specify the delimiter as a tab character. Store the result in `seaslug_data`.",
+          "variable_name": "seaslug_data",
+          "hint": "The delimiter is `'\\t'`."
+        },
+        {
+          "step": 3,
+          "description": "The first column of `seaslug_data` is time, the second is percent. Extract the percent column into a variable `percent` (you can use array slicing).",
+          "variable_name": "percent",
+          "hint": "If the array has shape (N, 2), use `percent = seaslug_data[:, 1]`."
+        },
+        {
+          "step": 4,
+          "description": "Calculate the average percent and print it rounded to 2 decimal places in the format: 'Average percent: X.XX'",
+          "variable_name": "",
+          "hint": "Use `np.mean(percent)` and `round()` or string formatting."
+        }
+      ],
+      "starter_code": "# Pre-loaded data (for reference):\n# time_list = [0, 5, 10, 15, ...]\n# percent_list = [0.5, 0.467, 0.857, ...]\n# np_time = np.array(time_list)\n# np_percent = np.array(percent_list)\n# \n# Write your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "seaslug.txt"
+        },
+        "mnist_kaggle_some_rows": {
+          "type": "csv",
+          "path": "mnist_kaggle_some_rows.csv"
+        },
+        "titanic_sub": {
+          "type": "csv",
+          "path": "titanic_sub.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\nseaslug_data = np.loadtxt('seaslug.txt', delimiter='\\t', skiprows=1)\npercent = seaslug_data[:, 1]\navg_percent = np.mean(percent)\nprint('Average percent:', round(avg_percent, 2))",
+      "expected_output": "Average percent: 0.49",
+      "output_description": "The average percent across all time points is approximately 0.49, indicating the central tendency of the measurements.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember that `np.loadtxt` needs the `delimiter` parameter for non-comma separators.",
+        "To extract a column, use slicing: `array[:, column_index]`."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Apply NumPy to import a tab-delimited flat file and perform a simple aggregation."
+    },
+    {
+      "id": "dc_003",
+      "title": "Analyze MNIST Digit Pixel Intensities",
+      "dataset_file": "mnist_kaggle_some_rows.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_010",
+        "concept_012",
+        "concept_013"
+      ],
+      "context": "The MNIST dataset contains handwritten digits stored as rows of pixel values. The first column is the digit label, and the remaining 784 columns are pixel intensities (0-255). You want to analyze the average pixel intensity across all digits, ignoring the label column.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import NumPy as `np`.",
+          "variable_name": "",
+          "hint": "Standard import: `import numpy as np`."
+        },
+        {
+          "step": 2,
+          "description": "Use `np.loadtxt()` to load 'mnist_kaggle_some_rows.csv'. The file has a header row, so set `skiprows=1`. Store the result in `mnist_data`.",
+          "variable_name": "mnist_data",
+          "hint": "`skiprows=1` skips exactly the first row."
+        },
+        {
+          "step": 3,
+          "description": "Modify the previous step: also use the `usecols` parameter to select only the pixel columns (indices 1 through 784). Store the result in `pixels_only`.",
+          "variable_name": "pixels_only",
+          "hint": "`usecols` accepts a list of column indices. Pixel columns are index 1 to 784 inclusive. Use `range(1, 785)`."
+        },
+        {
+          "step": 4,
+          "description": "The file uses a comma as delimiter, but since this is the default for `loadtxt` when reading CSV, it will work. (No extra step needed.)",
+          "variable_name": "",
+          "hint": ""
+        },
+        {
+          "step": 5,
+          "description": "Calculate the overall average pixel intensity across all selected rows and columns, and print it rounded to 2 decimal places in the format: 'Average pixel intensity: X.XX'",
+          "variable_name": "",
+          "hint": "Use `np.mean(pixels_only)` and `round()`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data (for reference):\n# label_list = [1, 0, 4, ...]\n# pixel_lists = [[0, 0, 255, ...], ...]  # list of lists\n# \n# Write your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "mnist_kaggle_some_rows.csv"
+        },
+        "mnist_kaggle_some_rows": {
+          "type": "csv",
+          "path": "mnist_kaggle_some_rows.csv"
+        },
+        "titanic_sub": {
+          "type": "csv",
+          "path": "titanic_sub.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\nmnist_data = np.loadtxt('mnist_kaggle_some_rows.csv', delimiter=',', skiprows=1, usecols=range(1, 785))\navg_intensity = np.mean(mnist_data)\nprint('Average pixel intensity:', round(avg_intensity, 2))",
+      "expected_output": "Average pixel intensity: 43.58",
+      "output_description": "The average pixel intensity across all digit images (excluding labels) is about 43.58 on a 0–255 scale, giving a sense of the overall brightness of the handwritten samples.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "`skiprows` counts rows to ignore, not an index. The header is row 0, so `skiprows=1` removes it.",
+        "Column indices start at 0. The first pixel column is index 1, so `usecols=range(1, 785)` works."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Master NumPy's `loadtxt` parameters to handle headers and select specific columns from a CSV."
+    }
+  ]
+}

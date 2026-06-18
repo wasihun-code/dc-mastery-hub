@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { X, Save, PenLine, CheckCircle2 } from 'lucide-react'
 
 // Convert blanks array to text area format: answer|distractor1,distractor2
@@ -55,7 +55,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
         onSave(payload)
         setTimeout(() => {
           onClose()
-        }, 1000)
+        }, 1500)
       } else {
         setSaveStatus('error')
       }
@@ -72,6 +72,8 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
       const end = e.target.selectionEnd
       const val = e.target.value
       const newText = val.substring(0, start) + '    ' + val.substring(end)
+      
+      // Update both code and code_template fields for compatibility
       setEditingQ({ ...editingQ, code_template: newText, code: newText })
       
       // Need a tiny delay for React state to update before setting selection
@@ -107,7 +109,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-[200] flex items-center justify-center p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 bg-black/80 z-[250] flex items-center justify-center p-4 backdrop-blur-sm">
       <div 
         className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[12px] flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)] text-left"
         style={{ width: 'min(780px, 90vw)', maxHeight: '85vh' }}
@@ -115,11 +117,11 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
         {/* MODAL HEADER */}
         <div className="px-[32px] pt-[28px] pb-[20px] shrink-0">
           <div className="flex justify-between items-center mb-[20px]">
-            <div className="flex items-center gap-2 text-[18px] font-bold text-[var(--text-primary)]">
+            <div className="flex items-center gap-2 text-[18px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
               <PenLine size={20} className="text-[var(--accent-green)]" />
-              Edit {exerciseType.toUpperCase()} Question
+              Edit {exerciseType === 'ftb' ? 'Fill-in-the-Blank' : exerciseType.toUpperCase()} Question
             </div>
-            <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+            <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer">
               <X size={20} />
             </button>
           </div>
@@ -127,29 +129,29 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
         </div>
 
         {/* MODAL BODY (Form) */}
-        <form id="edit-question-form" onSubmit={handleSave} className="px-[32px] overflow-y-auto flex-1 space-y-6 pb-4">
+        <form id="edit-question-form" onSubmit={handleSave} className="px-[32px] overflow-y-auto flex-1 space-y-6 pb-6">
           
           {['mcq', 'bossbattle'].includes(exerciseType) && (
             <>
-              <div>
-                <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Question Text</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.question_text || editingQ.question || ''} onChange={e => setEditingQ({...editingQ, question_text: e.target.value})} />
+              <div className="flex flex-col">
+                <label className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Question Text</label>
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.question_text || editingQ.question || ''} onChange={e => setEditingQ({...editingQ, question_text: e.target.value})} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {['a', 'b', 'c', 'd'].map(opt => (
                   <div key={opt}>
                     <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Option {opt}</label>
-                    <input className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.options?.[opt] || editingQ[`option_${opt}`] || ''} onChange={e => setEditingQ({...editingQ, options: {...(editingQ.options || {}), [opt]: e.target.value}})} />
+                    <input className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.options?.[opt] || editingQ[`option_${opt}`] || ''} onChange={e => setEditingQ({...editingQ, options: {...(editingQ.options || {}), [opt]: e.target.value}})} />
                   </div>
                 ))}
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Correct Option (a/b/c/d)</label>
-                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] uppercase focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.correct_option || ''} onChange={e => setEditingQ({...editingQ, correct_option: e.target.value.toLowerCase()})} />
+                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] uppercase focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.correct_option || ''} onChange={e => setEditingQ({...editingQ, correct_option: e.target.value.toLowerCase()})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Explanation</label>
-                <textarea className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={2} value={editingQ.explanation || ''} onChange={e => setEditingQ({...editingQ, explanation: e.target.value})} />
+                <textarea className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={2} value={editingQ.explanation || ''} onChange={e => setEditingQ({...editingQ, explanation: e.target.value})} />
               </div>
             </>
           )}
@@ -158,11 +160,11 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
             <>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Front (Question)</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.front || ''} onChange={e => setEditingQ({...editingQ, front: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.front || ''} onChange={e => setEditingQ({...editingQ, front: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Back (Answer)</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.back || ''} onChange={e => setEditingQ({...editingQ, back: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.back || ''} onChange={e => setEditingQ({...editingQ, back: e.target.value})} />
               </div>
             </>
           )}
@@ -171,7 +173,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
             <>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Task Description</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.description || editingQ.task_description || ''} onChange={e => setEditingQ({...editingQ, description: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.description || editingQ.task_description || ''} onChange={e => setEditingQ({...editingQ, description: e.target.value})} />
               </div>
               
               <div>
@@ -179,7 +181,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
                 <p className="text-[11px] italic text-[var(--text-muted)] mb-2 mt-[-4px]">Use [[0]], [[1]], etc. to mark blanks.</p>
                 <textarea 
                   required 
-                  className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[12px] text-[13px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" 
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[12px] text-[13px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" 
                   style={{ fontFamily: "'Courier New', Courier, monospace", lineHeight: 1.6, minHeight: '120px', resize: 'vertical' }}
                   value={editingQ.code || editingQ.code_template || ''} 
                   onChange={e => setEditingQ({...editingQ, code: e.target.value, code_template: e.target.value})}
@@ -198,8 +200,8 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Blanks</label>
                 <textarea 
                   required 
-                  className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" 
-                  rows={Math.max(3, (editingQ.blanksText?.split('\n').length || 1) + 1)}
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" 
+                  rows={Math.max(3, (editingQ.blanksText?.split('\n').length || 0) + 2)}
                   value={editingQ.blanksText} 
                   onChange={e => setEditingQ({...editingQ, blanksText: e.target.value})} 
                 />
@@ -211,7 +213,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
 
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Explanation</label>
-                <textarea className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.explanation || ''} onChange={e => setEditingQ({...editingQ, explanation: e.target.value})} />
+                <textarea className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.explanation || ''} onChange={e => setEditingQ({...editingQ, explanation: e.target.value})} />
               </div>
             </>
           )}
@@ -220,11 +222,11 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
             <>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Term</label>
-                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.term || ''} onChange={e => setEditingQ({...editingQ, term: e.target.value})} />
+                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.term || ''} onChange={e => setEditingQ({...editingQ, term: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Match (Definition)</label>
-                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.match || ''} onChange={e => setEditingQ({...editingQ, match: e.target.value})} />
+                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.match || ''} onChange={e => setEditingQ({...editingQ, match: e.target.value})} />
               </div>
             </>
           )}
@@ -233,23 +235,23 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
             <>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Title</label>
-                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.title || ''} onChange={e => setEditingQ({...editingQ, title: e.target.value})} />
+                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.title || ''} onChange={e => setEditingQ({...editingQ, title: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Description / Context</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.description || editingQ.context || ''} onChange={e => setEditingQ({...editingQ, description: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.description || editingQ.context || ''} onChange={e => setEditingQ({...editingQ, description: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Dataset File</label>
-                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" value={editingQ.dataset_file || ''} onChange={e => setEditingQ({...editingQ, dataset_file: e.target.value})} />
+                <input required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" value={editingQ.dataset_file || ''} onChange={e => setEditingQ({...editingQ, dataset_file: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Starter Code</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.starter_code || ''} onChange={e => setEditingQ({...editingQ, starter_code: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.starter_code || ''} onChange={e => setEditingQ({...editingQ, starter_code: e.target.value})} />
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1.5">Solution Code / Expected Code</label>
-                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)]" rows={3} value={editingQ.solution_code || editingQ.expected_output_code || ''} onChange={e => setEditingQ({...editingQ, solution_code: e.target.value})} />
+                <textarea required className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-[6px] p-[10px_12px] text-[14px] font-mono text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--accent-green)] transition-all" rows={3} value={editingQ.solution_code || editingQ.expected_output_code || ''} onChange={e => setEditingQ({...editingQ, solution_code: e.target.value})} />
               </div>
             </>
           )}
@@ -257,7 +259,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
         </form>
 
         {/* MODAL FOOTER */}
-        <div className="px-[32px] pb-[28px] pt-[16px] shrink-0 border-t border-[var(--border)]">
+        <div className="px-[32px] pb-[28px] pt-[16px] shrink-0 border-t border-[var(--border)] bg-[var(--bg-primary)]/10">
           <div className="flex justify-end items-center gap-[10px]">
             {saveStatus === 'error' && (
               <span className="text-[var(--accent-red)] text-sm mr-auto font-medium">
@@ -279,7 +281,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
             <button 
               type="submit" 
               form="edit-question-form"
-              className="px-[16px] py-[8px] text-[14px] font-bold bg-[var(--accent-green)] text-black rounded-[6px] shadow-lg hover:brightness-110 flex items-center gap-2 cursor-pointer transition-all"
+              className="px-[16px] py-[8px] text-[14px] font-bold bg-[var(--accent-green)] text-black rounded-[6px] shadow-lg hover:brightness-110 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
             >
               <Save size={16} /> Save Changes
             </button>

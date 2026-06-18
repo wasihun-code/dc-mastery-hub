@@ -1,0 +1,1253 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_001",
+    "concept_name": "open()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Open the file 'data.txt' for reading and store the file object in the variable `file`.",
+    "code_template": "file = open('data.txt', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'r'",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["'r'", "'w'", "'rb'", "'read'", "r"],
+    "per_tile_feedback": {
+      "'r'": "Correct: opens the file in text read mode.",
+      "'w'": "Wrong: 'w' is write mode, not read mode.",
+      "'rb'": "Wrong: 'rb' opens in binary read mode; while it would work technically, 'r' is intended for reading text files.",
+      "'read'": "Wrong: 'read' is not a valid mode string; the correct mode is 'r'.",
+      "r": "Wrong: the mode must be passed as a string (with quotes); without quotes, Python looks for a variable named r."
+    },
+    "hints": [
+      "Remember that file modes are short strings like 'r' for reading.",
+      "The mode argument must be inside quotes because it's a string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The mode for reading a text file is 'r', passed as a string. Other valid modes include 'w' for writing and 'rb' for binary reading.",
+    "common_mistake_warning": "⚠️ Forgetting to quote the mode string (e.g., r instead of 'r') is a common mistake."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_002",
+    "concept_name": "file.read()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Read the entire contents of the file object `file` and store the result in the variable `text`.",
+    "code_template": "text = file._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "read",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["read", "readline", "readlines", "print", "write"],
+    "per_tile_feedback": {
+      "read": "Correct: reads the whole file as a single string.",
+      "readline": "Wrong: reads only one line at a time, not the entire file.",
+      "readlines": "Wrong: returns a list of lines, not a single string.",
+      "print": "Wrong: print is a built‑in function, not a file method.",
+      "write": "Wrong: write is used to output data to a file, not read."
+    },
+    "hints": [
+      "Remember that the method that returns the entire file content is read().",
+      "Readline and readlines are for reading the file piece by piece."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "file.read() reads the complete file from the current position to the end and returns it as a single string.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "file.close()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Close the file object `file` to free system resources.",
+    "code_template": "file._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "close",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["close", "shut", "exit", "quit"],
+    "per_tile_feedback": {
+      "close": "Correct: the method that properly closes the file.",
+      "shut": "Wrong: shut is not a file object method.",
+      "exit": "Wrong: exit is not a file method; it's used to terminate the interpreter.",
+      "quit": "Wrong: quit is not a file method."
+    },
+    "hints": [
+      "Think of the action that ends your interaction with the file.",
+      "The method name is the opposite of 'open'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "file.close() closes the connection to the file, ensuring all data is flushed and resources are released.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_004",
+    "concept_name": "with statement",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Use a context manager to open 'huck_finn.txt' for reading, print its contents, and automatically close the file. Store the file object in the variable `file`.",
+    "code_template": "_____ open('huck_finn.txt', 'r') as file:\n    print(file.read())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "with",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["with", "while", "if", "for", "def"],
+    "per_tile_feedback": {
+      "with": "Correct: creates a context manager that ensures the file is closed.",
+      "while": "Wrong: while is for loops, not resource management.",
+      "if": "Wrong: if is for conditional execution.",
+      "for": "Wrong: for is for iteration.",
+      "def": "Wrong: def is for defining functions."
+    },
+    "hints": [
+      "This keyword starts a block that guarantees the file is closed after the indented code runs.",
+      "It is the recommended way to work with files in Python."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The 'with' statement opens a context manager. In this case, it opens the file, runs the indented block (printing), and then automatically closes the file.",
+    "common_mistake_warning": "⚠️ Forgetting to indent the code block inside the 'with' statement is a common error."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_009",
+    "concept_name": "NumPy",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Import the NumPy library with the conventional alias.",
+    "code_template": "import numpy as _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "np",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["np", "num", "numpy", "pd", "nmp"],
+    "per_tile_feedback": {
+      "np": "Correct: the universally accepted alias for NumPy.",
+      "num": "Wrong: num is not the standard alias.",
+      "numpy": "Wrong: you cannot alias a module to its own name with 'as' in the same statement; you'd write 'import numpy'.",
+      "pd": "Wrong: pd is the alias for pandas, not NumPy.",
+      "nmp": "Wrong: not a common alias."
+    },
+    "hints": [
+      "The standard abbreviation for NumPy is two letters.",
+      "You'll see this alias used in all NumPy documentation and examples."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The conventional alias for NumPy is 'np'. Using 'import numpy as np' is almost universal in the Python data science ecosystem.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_016",
+    "concept_name": "pandas",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Import the pandas library with the conventional alias.",
+    "code_template": "import pandas as _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pd",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pd", "pan", "pandas", "np", "pds"],
+    "per_tile_feedback": {
+      "pd": "Correct: the universally accepted alias for pandas.",
+      "pan": "Wrong: pan is not a common alias.",
+      "pandas": "Wrong: you cannot alias a module to its own name with 'as' in the same statement; you'd write 'import pandas'.",
+      "np": "Wrong: np is the alias for NumPy.",
+      "pds": "Wrong: pds is not standard."
+    },
+    "hints": [
+      "The standard alias for pandas is two letters.",
+      "It matches the first and last letter of the library name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The standard import for pandas is 'import pandas as pd'. This alias is used across all examples.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_019",
+    "concept_name": "DataFrame.head()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Display the first 5 rows of the DataFrame `data`.",
+    "code_template": "data._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "head",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["head", "tail", "info", "describe", "first"],
+    "per_tile_feedback": {
+      "head": "Correct: returns the first n rows (default 5).",
+      "tail": "Wrong: tail returns the last rows, not the first.",
+      "info": "Wrong: info prints a summary of the DataFrame, not rows.",
+      "describe": "Wrong: describe generates descriptive statistics.",
+      "first": "Wrong: first is not a DataFrame method."
+    },
+    "hints": [
+      "This method's name is the opposite of 'tail'.",
+      "It is commonly used right after importing data to quickly inspect it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "data.head() returns the first 5 rows by default. It's the standard way to peek at a DataFrame.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_025",
+    "concept_name": "ExcelFile.sheet_names",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Print the list of sheet names from the ExcelFile object `data`.",
+    "code_template": "print(data._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sheet_names",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sheet_names", "sheet_names()", "sheets", "sheet_list", "names"],
+    "per_tile_feedback": {
+      "sheet_names": "Correct: an attribute that returns a list of sheet names.",
+      "sheet_names()": "Wrong: sheet_names is not a method; calling it with parentheses will raise a TypeError.",
+      "sheets": "Wrong: not a valid attribute on ExcelFile.",
+      "sheet_list": "Wrong: the attribute is named sheet_names, not sheet_list.",
+      "names": "Wrong: too generic; the specific attribute is sheet_names."
+    },
+    "hints": [
+      "This is an attribute, so no parentheses.",
+      "The attribute name literally describes what it holds: the names of the sheets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ExcelFile.sheet_names is an attribute (not a method) that returns the list of sheet names in the workbook.",
+    "common_mistake_warning": "⚠️ Writing sheet_names() with parentheses will cause an error because it's an attribute, not a method."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_043",
+    "concept_name": "SELECT * FROM",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Write a SQL query to retrieve all columns from the Orders table.",
+    "code_template": "_____ * FROM Orders",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SELECT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["SELECT", "GET", "SHOW", "QUERY", "READ"],
+    "per_tile_feedback": {
+      "SELECT": "Correct: the standard SQL command for retrieving data.",
+      "GET": "Wrong: GET is used in HTTP, not SQL.",
+      "SHOW": "Wrong: SHOW is used in some SQL dialects for listing, not data retrieval.",
+      "QUERY": "Wrong: QUERY is not a SQL keyword.",
+      "READ": "Wrong: READ is not an SQL command."
+    },
+    "hints": [
+      "The SQL command for fetching data starts with an S.",
+      "It is followed by the column list and the table name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT is the core SQL keyword for querying data. SELECT * means all columns.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_044",
+    "concept_name": "SQLAlchemy",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Import the create_engine function from SQLAlchemy.",
+    "code_template": "from _____ import create_engine",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sqlalchemy",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sqlalchemy", "SQLAlchemy", "sql_alchemy", "sqla", "alchemy"],
+    "per_tile_feedback": {
+      "sqlalchemy": "Correct: the package name is all lowercase, one word.",
+      "SQLAlchemy": "Wrong: the package is case‑sensitive; 'sqlalchemy' must be lowercase.",
+      "sql_alchemy": "Wrong: the package name contains no underscore.",
+      "sqla": "Wrong: not the official package name.",
+      "alchemy": "Wrong: the package is sqlalchemy, not just alchemy."
+    },
+    "hints": [
+      "The package name is all lowercase and contains the word 'sql'.",
+      "It matches the library you use to connect to databases."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct import is 'from sqlalchemy import create_engine'. The module name is case‑sensitive: all lowercase.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_010",
+    "concept_name": "numpy.loadtxt()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Use NumPy to load the file `filename` (already defined) with comma as delimiter into a NumPy array called `data`.",
+    "code_template": "data = np._____(filename, _____=',')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "loadtxt",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "delimiter",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["loadtxt", "genfromtxt", "delimiter", "sep", "dtype", "skiprows"],
+    "per_tile_feedback": {
+      "loadtxt": "Correct for the function name: NumPy's function for loading numerical data from a text file.",
+      "genfromtxt": "Incorrect: genfromtxt is a different function with more flexibility for missing data; here we need the simpler loadtxt.",
+      "delimiter": "Correct for the parameter name: specifies the character that separates fields.",
+      "sep": "Incorrect: 'sep' is the parameter name in pandas read_csv, not in numpy.loadtxt.",
+      "dtype": "Incorrect: dtype specifies the data type, not the field delimiter.",
+      "skiprows": "Incorrect: skiprows skips header rows, not sets the delimiter."
+    },
+    "hints": [
+      "The function name ends with 'txt' because it loads text files.",
+      "The parameter that sets the field separator starts with 'delim'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct call is np.loadtxt(filename, delimiter=','). This loads the comma‑separated values into a NumPy array.",
+    "common_mistake_warning": "⚠️ The parameter is 'delimiter', not 'sep'. Using 'sep' will raise a TypeError."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_018",
+    "concept_name": "pandas.read_csv()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Use pandas to read the CSV file 'winequality-red.csv' into a DataFrame called `data`.",
+    "code_template": "data = _____._____('winequality-red.csv')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pd",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "read_csv",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pd", "np", "read_csv", "read_excel", "read_table"],
+    "per_tile_feedback": {
+      "pd": "Correct: the standard alias for pandas.",
+      "np": "Incorrect: np is the alias for NumPy, not pandas.",
+      "read_csv": "Correct: the function that reads CSV files into a DataFrame.",
+      "read_excel": "Incorrect: read_excel reads Excel files, not CSV.",
+      "read_table": "Incorrect: read_table is a more general reader; read_csv is specifically for CSV files."
+    },
+    "hints": [
+      "The pandas alias is two letters, the first and last of the library name.",
+      "The function name explicitly mentions 'csv'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "data = pd.read_csv('winequality-red.csv') reads the CSV and returns a DataFrame. The alias 'pd' is standard.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_020",
+    "concept_name": "DataFrame.to_numpy()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Convert the DataFrame `data` to a NumPy array and store it in the variable `data_array`.",
+    "code_template": "_____ = data._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "data_array",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "to_numpy",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["data_array", "data_np", "to_numpy", "to_numpy()", "numpy"],
+    "per_tile_feedback": {
+      "data_array": "Correct: the variable name to store the NumPy array.",
+      "data_np": "Incorrect: while possible, the task asks for 'data_array'.",
+      "to_numpy": "Correct: the method that converts the DataFrame to a NumPy array.",
+      "to_numpy()": "Incorrect: the parentheses are already in the template; adding them again would result in a double call.",
+      "numpy": "Incorrect: numpy is not a method of DataFrame; use .to_numpy()."
+    },
+    "hints": [
+      "The method name describes converting 'to' another format.",
+      "The variable name should indicate it's an array version of the data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "data.to_numpy() returns the underlying NumPy array. The assignment data_array = data.to_numpy() stores it.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_024",
+    "concept_name": "pandas.ExcelFile",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Create an ExcelFile object named `data` from the file 'urbanpop.xlsx'.",
+    "code_template": "data = pd._____('_____')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ExcelFile",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "urbanpop.xlsx",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ExcelFile", "read_excel", "ExcelBook", "urbanpop.xlsx", "data.xlsx", "workbook"],
+    "per_tile_feedback": {
+      "ExcelFile": "Correct: the pandas class that encapsulates an entire Excel workbook.",
+      "read_excel": "Incorrect: read_excel is a function that reads a sheet directly, not the class to encapsulate the file.",
+      "ExcelBook": "Wrong: no such class in pandas.",
+      "urbanpop.xlsx": "Correct: the filename as specified.",
+      "data.xlsx": "Incorrect: the file is 'urbanpop.xlsx', not 'data.xlsx'.",
+      "workbook": "Wrong: workbook is not a pandas class."
+    },
+    "hints": [
+      "The class name describes an Excel file.",
+      "The file name is exactly 'urbanpop.xlsx'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "data = pd.ExcelFile('urbanpop.xlsx') opens the workbook and allows you to list and parse sheets.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_026",
+    "concept_name": "ExcelFile.parse()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Parse the sheet named '1960-1966' from the ExcelFile object `data` and store the resulting DataFrame in `df1`.",
+    "code_template": "df1 = data._____('_____')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "parse",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "1960-1966",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["parse", "read", "open", "get_sheet", "1960-1966", "Sheet1"],
+    "per_tile_feedback": {
+      "parse": "Correct: the method to read a sheet from an ExcelFile.",
+      "read": "Incorrect: read is not a method of ExcelFile.",
+      "open": "Incorrect: open is not used to read sheets.",
+      "get_sheet": "Incorrect: the method is parse(), not get_sheet.",
+      "1960-1966": "Correct: the exact sheet name as required.",
+      "Sheet1": "Incorrect: the sheet we want is named '1960-1966'."
+    },
+    "hints": [
+      "The method name means 'read and interpret' the sheet data.",
+      "The sheet name is the year range shown in the example."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The parse() method returns a DataFrame for the given sheet name (or index). Here, '1960-1966' is the sheet name.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_028",
+    "concept_name": "sas7bdat.SAS7BDAT",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Read the SAS file 'urbanpop.sas7bdat' and convert it to a DataFrame `df_sas` using the context manager and the .to_data_frame() method.",
+    "code_template": "with _____('urbanpop.sas7bdat') as file:\n    df_sas = file._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SAS7BDAT",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "to_data_frame",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["SAS7BDAT", "SASReader", "sas7bdat", "to_data_frame", "to_dataframe", "read_sas"],
+    "per_tile_feedback": {
+      "SAS7BDAT": "Correct: the class from the sas7bdat package for reading SAS files.",
+      "SASReader": "Incorrect: the class is named SAS7BDAT, not SASReader.",
+      "sas7bdat": "Incorrect: sas7bdat is the package, not the class; the class is SAS7BDAT.",
+      "to_data_frame": "Correct: the method to convert the SAS data to a DataFrame (note the underscore).",
+      "to_dataframe": "Incorrect: missing the underscore between 'data' and 'frame'.",
+      "read_sas": "Incorrect: read_sas is a different function; here we are using the context manager."
+    },
+    "hints": [
+      "The class name matches the file extension and is all caps.",
+      "The conversion method has an underscore in it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The SAS7BDAT class reads .sas7bdat files, and its to_data_frame() method converts the data to a pandas DataFrame.",
+    "common_mistake_warning": "⚠️ The method is to_data_frame (with underscore), not to_dataframe. Misspelling it will raise an AttributeError."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_029",
+    "concept_name": "SAS7BDAT.to_data_frame()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "After opening a SAS file with the file object `file`, convert it to a DataFrame and store it in the variable `df_sas`.",
+    "code_template": "_____ = file._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "df_sas",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "to_data_frame",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["df_sas", "df", "to_data_frame", "to_dataframe", "read_sas"],
+    "per_tile_feedback": {
+      "df_sas": "Correct: the requested variable name.",
+      "df": "Incorrect: the task specifies 'df_sas'.",
+      "to_data_frame": "Correct: the method to convert to DataFrame.",
+      "to_dataframe": "Incorrect: missing the underscore; the correct method is to_data_frame.",
+      "read_sas": "Incorrect: read_sas is not a method on the file object."
+    },
+    "hints": [
+      "The method name has an underscore between 'data' and 'frame'.",
+      "The variable name should indicate it's a DataFrame from SAS."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "df_sas = file.to_data_frame() converts the SAS dataset into a pandas DataFrame, storing it in df_sas.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_031",
+    "concept_name": "pandas.read_stata()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Use pandas to read the Stata file 'urbanpop.dta' into a DataFrame called `data`.",
+    "code_template": "data = _____._____('urbanpop.dta')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pd",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "read_stata",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pd", "np", "read_stata", "read_dta", "read_sas"],
+    "per_tile_feedback": {
+      "pd": "Correct: the standard alias for pandas.",
+      "np": "Incorrect: np is for NumPy.",
+      "read_stata": "Correct: the function to read Stata files.",
+      "read_dta": "Incorrect: there is no read_dta; the function is read_stata.",
+      "read_sas": "Incorrect: read_sas is for SAS files."
+    },
+    "hints": [
+      "The function name refers to the software that creates .dta files.",
+      "It is named after 'Stata', not the file extension."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pd.read_stata('urbanpop.dta') reads the Stata file directly into a DataFrame.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_033",
+    "concept_name": "h5py",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Import the h5py library for working with HDF5 files.",
+    "code_template": "import _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "h5py",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["h5py", "hdf5", "h5", "pyh5"],
+    "per_tile_feedback": {
+      "h5py": "Correct: the official package name.",
+      "hdf5": "Incorrect: the package is named h5py, not hdf5.",
+      "h5": "Incorrect: h5 is not a valid package.",
+      "pyh5": "Incorrect: the order is h5py, not pyh5."
+    },
+    "hints": [
+      "The library's name reflects the file format HDF5, with 'h5' and 'py' for Python.",
+      "It's often imported simply as 'import h5py'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct import is 'import h5py'. The library provides File() to open HDF5 files.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_034",
+    "concept_name": "h5py.File()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Open the HDF5 file stored in the variable `filename` for reading using h5py, and store the file object in `data`.",
+    "code_template": "data = h5py._____(_____, 'r')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "File",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "filename",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["File", "file", "open", "filename", "file_path", "data_file"],
+    "per_tile_feedback": {
+      "File": "Correct: the constructor to open an HDF5 file (capitalized).",
+      "file": "Incorrect: h5py.file is not a valid call; it's File with a capital F.",
+      "open": "Incorrect: h5py uses File(), not open().",
+      "filename": "Correct: the variable holding the path to the file.",
+      "file_path": "Incorrect: the variable is named 'filename', not 'file_path'.",
+      "data_file": "Incorrect: the given variable is 'filename'."
+    },
+    "hints": [
+      "The function name is capitalized: File.",
+      "The variable containing the file path is named 'filename'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "h5py.File(filename, 'r') opens the file in read mode. The file object is stored in data.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_035",
+    "concept_name": "h5py group keys",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Iterate over the names of the groups and datasets in the HDF5 file object `data` and print each name.",
+    "code_template": "for _____ in data._____():\n    print(key)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "key",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["key", "k", "keys", "items", "values"],
+    "per_tile_feedback": {
+      "key": "Correct: a common loop variable name for dictionary‑like iteration.",
+      "k": "Incorrect: while possible, the print line uses 'key', so the variable must match.",
+      "keys": "Correct: the method that returns an iterator of the group/dataset names.",
+      "items": "Incorrect: items() would return key-value pairs, not just names.",
+      "values": "Incorrect: values() is not applicable here."
+    },
+    "hints": [
+      "The method to get the names is called keys(), like a dictionary.",
+      "The loop variable must match the name used inside the loop (key)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "data.keys() returns an iterator over the names. The loop prints each one. The variable 'key' is used in the print statement.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_037",
+    "concept_name": "scipy.io.loadmat()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Load the MATLAB workspace file 'workspace.mat' using scipy.io, and store the resulting dictionary in the variable `mat`.",
+    "code_template": "mat = _____._____('workspace.mat')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "scipy.io",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "loadmat",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["scipy.io", "scipy", "io", "loadmat", "load_mat", "read_mat"],
+    "per_tile_feedback": {
+      "scipy.io": "Correct: the submodule containing MATLAB file functions.",
+      "scipy": "Incorrect: loadmat is in scipy.io, not directly in scipy.",
+      "io": "Incorrect: io alone is not a module; you need scipy.io.",
+      "loadmat": "Correct: the function that reads .mat files.",
+      "load_mat": "Incorrect: the function name is loadmat, without underscore.",
+      "read_mat": "Incorrect: the function is loadmat, not read_mat."
+    },
+    "hints": [
+      "The module path includes 'scipy.io'.",
+      "The function name begins with 'load' and ends with 'mat'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "scipy.io.loadmat('workspace.mat') returns a dictionary of variables from the MATLAB file.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_045",
+    "concept_name": "create_engine()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create a SQLAlchemy engine for the SQLite database 'Northwind.sqlite' and store it in the variable `engine`.",
+    "code_template": "engine = _____('_____')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "create_engine",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "sqlite:///Northwind.sqlite",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["create_engine", "connect", "engine", "sqlite:///Northwind.sqlite", "Northwind.sqlite", "sqlite:/Northwind.sqlite"],
+    "per_tile_feedback": {
+      "create_engine": "Correct: the function to create a database engine.",
+      "connect": "Incorrect: connect() establishes a connection, but here you need the engine first.",
+      "engine": "Incorrect: the variable name, not the function.",
+      "sqlite:///Northwind.sqlite": "Correct: the exact URL for a SQLite database (three slashes).",
+      "Northwind.sqlite": "Incorrect: missing the sqlite:/// prefix.",
+      "sqlite:/Northwind.sqlite": "Incorrect: SQLite URLs require three slashes (///) after 'sqlite:'."
+    },
+    "hints": [
+      "The function name creates an engine, so it starts with 'create'.",
+      "The SQLite connection string starts with 'sqlite:///' (three slashes)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "engine = create_engine('sqlite:///Northwind.sqlite') sets up the engine. The triple slash is required for relative paths in SQLite.",
+    "common_mistake_warning": "⚠️ Using one or two slashes instead of three will cause a connection error."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_046",
+    "concept_name": "engine.table_names()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Get the list of table names from the database engine `engine` and store it in the variable `tables`.",
+    "code_template": "_____ = engine._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tables",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "table_names",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["tables", "table_list", "table_names", "get_tables", "schema"],
+    "per_tile_feedback": {
+      "tables": "Correct: the requested variable name.",
+      "table_list": "Incorrect: the task asks for 'tables'.",
+      "table_names": "Correct: the method that returns the list of table names.",
+      "get_tables": "Incorrect: no such method; the correct method is table_names.",
+      "schema": "Incorrect: schema is not a method on the engine."
+    },
+    "hints": [
+      "The method name directly says 'table names'.",
+      "The variable should indicate it's a collection of table names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "engine.table_names() returns a list of strings, which we store in `tables`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_047",
+    "concept_name": "engine.connect()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create a connection to the database using the engine `engine` and store it in the variable `con`.",
+    "code_template": "_____ = engine._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "con",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "connect",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["con", "conn", "connection", "connect", "open", "start"],
+    "per_tile_feedback": {
+      "con": "Correct: the variable name used throughout the course.",
+      "conn": "Incorrect: while possible, the task expects 'con'.",
+      "connection": "Incorrect: the task asks for 'con'.",
+      "connect": "Correct: the method that opens a connection.",
+      "open": "Incorrect: open is not a method of the engine.",
+      "start": "Incorrect: start is not a method."
+    },
+    "hints": [
+      "The method name describes establishing a link to the database.",
+      "The conventional abbreviation for 'connection' is 'con'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "con = engine.connect() returns a connection object used to execute queries.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_048",
+    "concept_name": "connection.execute()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Execute the SQL query \"SELECT * FROM Orders\" on the connection `con` and store the result proxy in the variable `rs`.",
+    "code_template": "_____ = con._____(\"SELECT * FROM Orders\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "rs",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "execute",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["rs", "result", "execute", "query", "run"],
+    "per_tile_feedback": {
+      "rs": "Correct: the conventional name for a ResultProxy.",
+      "result": "Incorrect: the course uses 'rs' for the result proxy.",
+      "execute": "Correct: the method that sends the SQL to the database.",
+      "query": "Incorrect: query is not a method on the connection.",
+      "run": "Incorrect: run is not a method."
+    },
+    "hints": [
+      "The method name means 'perform' the SQL command.",
+      "The variable for the result is often called 'rs'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "rs = con.execute(\"SELECT * FROM Orders\") runs the query and returns a ResultProxy.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_049",
+    "concept_name": "ResultProxy.fetchall()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Fetch all remaining rows from the result proxy `rs` and store them in the variable `rows`.",
+    "code_template": "_____ = rs._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "rows",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "fetchall",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["rows", "data", "fetchall", "fetch_all", "get_all"],
+    "per_tile_feedback": {
+      "rows": "Correct: the requested variable name.",
+      "data": "Incorrect: the task specifies 'rows'.",
+      "fetchall": "Correct: fetches all remaining rows as a list of tuples.",
+      "fetch_all": "Incorrect: the method name is fetchall, no underscore.",
+      "get_all": "Incorrect: there is no get_all method."
+    },
+    "hints": [
+      "The method name combines 'fetch' and 'all'.",
+      "It returns a list of tuples."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "rs.fetchall() returns all remaining rows from the query result.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_050",
+    "concept_name": "ResultProxy.fetchmany()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create a DataFrame `df` with the first 5 rows of the query result stored in `rs`.",
+    "code_template": "df = pd.DataFrame(rs._____(_____=5))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "fetchmany",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "size",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["fetchmany", "fetchall", "fetch", "size", "n", "count"],
+    "per_tile_feedback": {
+      "fetchmany": "Correct: the method that fetches a specified number of rows.",
+      "fetchall": "Incorrect: fetchall retrieves all rows, ignoring the size.",
+      "fetch": "Incorrect: fetch is not a valid method.",
+      "size": "Correct: the parameter name to specify the number of rows to fetch.",
+      "n": "Incorrect: the parameter is named 'size', not 'n'.",
+      "count": "Incorrect: the parameter is 'size'."
+    },
+    "hints": [
+      "The method name includes 'many' to indicate a batch of rows.",
+      "The parameter that sets how many rows to fetch is called 'size'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "rs.fetchmany(size=5) returns up to 5 rows. Wrapping it in pd.DataFrame creates a DataFrame.",
+    "common_mistake_warning": "⚠️ The parameter is named 'size', not 'n' or 'count'."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_051",
+    "concept_name": "ResultProxy.keys()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Set the column names of DataFrame `df` using the column names from the result proxy `rs`.",
+    "code_template": "df._____ = rs._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "columns",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["columns", "column_names", "keys", "names", "keys()"],
+    "per_tile_feedback": {
+      "columns": "Correct: the DataFrame attribute that holds the column labels.",
+      "column_names": "Incorrect: the attribute is 'columns', not 'column_names'.",
+      "keys": "Correct: the method that returns the column names from the result proxy.",
+      "names": "Incorrect: the method is keys(), not names().",
+      "keys()": "Incorrect: the parentheses are already in the template; adding them would cause an error."
+    },
+    "hints": [
+      "The DataFrame attribute for column headers is called 'columns'.",
+      "The ResultProxy method that gives column names is called keys()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "df.columns = rs.keys() sets the DataFrame's column names to those returned by the query.",
+    "common_mistake_warning": "⚠️ Always call rs.keys() before fetching all rows; otherwise the result proxy may be exhausted."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_052",
+    "concept_name": "pandas.read_sql_query()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Use pandas to directly execute the SQL query \"SELECT * FROM Orders\" and get the result as a DataFrame `df` using the engine `engine`.",
+    "code_template": "df = pd._____(\"SELECT * FROM Orders\", _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "read_sql_query",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "engine",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["read_sql_query", "read_sql", "query_sql", "engine", "con", "connection"],
+    "per_tile_feedback": {
+      "read_sql_query": "Correct: the pandas function that executes SQL and returns a DataFrame.",
+      "read_sql": "Incorrect: read_sql is more general; read_sql_query is the specific name shown in the course.",
+      "query_sql": "Incorrect: no such function.",
+      "engine": "Correct: the SQLAlchemy engine object.",
+      "con": "Incorrect: the second argument should be the engine, not a connection (though a connection works, the task specifies engine).",
+      "connection": "Incorrect: the variable is named 'engine'."
+    },
+    "hints": [
+      "The function name contains 'read' and 'sql_query'.",
+      "The second argument is the engine created earlier."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pd.read_sql_query(query, engine) executes the SQL and returns the result as a DataFrame. This is the most direct way to get a DataFrame from a database.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_012",
+    "concept_name": "skiprows parameter (loadtxt)",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "Use np.loadtxt to skip the first row (header) of the file `filename` and load the data into `data`.",
+    "code_template": "data = np.loadtxt(filename, delimiter=',', _____=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "skiprows",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["skiprows", "skip_rows", "header", "offset", "1", "0", "2"],
+    "per_tile_feedback": {
+      "skiprows": "Correct: the parameter that specifies how many rows to skip at the beginning.",
+      "skip_rows": "Incorrect: the parameter is 'skiprows' without underscore.",
+      "header": "Incorrect: numpy.loadtxt does not have a 'header' parameter; use skiprows instead.",
+      "offset": "Incorrect: the parameter is named skiprows.",
+      "1": "Correct: skip 1 row (the header).",
+      "0": "Incorrect: skip 0 rows means no rows skipped; the header would be read as data.",
+      "2": "Incorrect: skipping 2 rows would also skip the first data row."
+    },
+    "hints": [
+      "The parameter name describes the action of skipping rows.",
+      "The value is the number of rows to ignore, not the index to start from."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "skiprows=1 tells loadtxt to ignore the first line (the header). The value is a count, not a zero‑based index.",
+    "common_mistake_warning": "⚠️ skiprows is a count, not an index. skiprows=1 skips exactly 1 row."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_013",
+    "concept_name": "usecols parameter (loadtxt)",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "Use np.loadtxt to import only the first and third columns (0‑based indices) from the file `filename` into `data`.",
+    "code_template": "data = np.loadtxt(filename, delimiter=',', _____=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "usecols",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "[0, 2]",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["usecols", "columns", "use_cols", "indices", "[0, 2]", "[1, 2]", "[0, 2]"],
+    "per_tile_feedback": {
+      "usecols": "Correct: the parameter that selects which columns to read.",
+      "columns": "Incorrect: the parameter is named 'usecols', not 'columns'.",
+      "use_cols": "Incorrect: there is no underscore in the parameter name.",
+      "indices": "Incorrect: the parameter is 'usecols'.",
+      "[0, 2]": "Correct: specifies column indices 0 and 2 (first and third columns).",
+      "[1, 2]": "Incorrect: that would select the second and third columns, not the first and third."
+    },
+    "hints": [
+      "The parameter name combines 'use' and 'cols'.",
+      "Column indices start at 0, so the first column is 0, the third is 2."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "usecols=[0, 2] reads only columns with indices 0 and 2. Zero‑based indexing is a common source of off‑by‑one mistakes.",
+    "common_mistake_warning": "⚠️ Column indices start at 0. The first column is 0, the third is 2."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_014",
+    "concept_name": "dtype parameter (loadtxt)",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "Read the file `filename` using np.loadtxt, treating all values as strings.",
+    "code_template": "data = np.loadtxt(filename, delimiter=',', _____=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dtype",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "str",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["dtype", "type", "datatype", "str", "int", "float"],
+    "per_tile_feedback": {
+      "dtype": "Correct: the parameter that sets the data type of the resulting array.",
+      "type": "Incorrect: the parameter is called 'dtype'.",
+      "datatype": "Incorrect: it's 'dtype'.",
+      "str": "Correct: the Python type object for strings (not quoted).",
+      "int": "Incorrect: that would treat data as integers, not strings.",
+      "float": "Incorrect: that would treat data as floating‑point numbers."
+    },
+    "hints": [
+      "The parameter that controls data type is abbreviated 'dtype'.",
+      "To get strings, pass the built‑in type 'str' without quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "dtype=str sets the array to have string elements. Note that 'str' is the type object, not the string 'str'.",
+    "common_mistake_warning": "⚠️ Using dtype='str' (with quotes) passes a string, not the type, which may cause an error."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_022",
+    "concept_name": "pickle.load()",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Open the pickled file 'pickled_fruit.pkl' for reading and load its contents using the pickle module. Store the result in `data`.",
+    "code_template": "with open('pickled_fruit.pkl', _____) as file:\n    data = _____.load(file)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'rb'",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "pickle",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["'rb'", "'r'", "'wb'", "'rb+'", "pickle", "json", "cpickle"],
+    "per_tile_feedback": {
+      "'rb'": "Correct: binary read mode, required for pickle files.",
+      "'r'": "Incorrect: pickle files are binary, so text mode 'r' will fail.",
+      "'wb'": "Incorrect: 'wb' is write mode, not read.",
+      "'rb+'": "Incorrect: 'rb+' is for reading and writing; simple reading only needs 'rb'.",
+      "pickle": "Correct: the module containing load().",
+      "json": "Incorrect: json is not used for pickle files.",
+      "cpickle": "Incorrect: cpickle is an older module; use pickle."
+    },
+    "hints": [
+      "Pickle files store bytes, so the mode must include 'b' for binary.",
+      "The module name is the same as the serialization method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Opening a pickle file requires binary mode ('rb'). pickle.load(file) reconstructs the original object.",
+    "common_mistake_warning": "⚠️ Never open a pickle file in text mode ('r') — it will raise an error."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_053",
+    "concept_name": "INNER JOIN",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Write a SQL query that joins Orders and Customers on CustomerID, returning only the rows where there is a match in both tables.",
+    "code_template": "SELECT OrderID, CompanyName FROM Orders\n_____ JOIN Customers _____ Orders.CustomerID = Customers.CustomerID",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INNER",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "ON",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["INNER", "LEFT", "RIGHT", "OUTER", "ON", "WHERE", "USING"],
+    "per_tile_feedback": {
+      "INNER": "Correct: the join type that returns only matching rows.",
+      "LEFT": "Incorrect: LEFT JOIN would return all rows from Orders even if no match.",
+      "RIGHT": "Incorrect: RIGHT JOIN returns all rows from Customers.",
+      "OUTER": "Incorrect: FULL OUTER JOIN returns all rows from both, not just matches.",
+      "ON": "Correct: the keyword that introduces the join condition.",
+      "WHERE": "Incorrect: WHERE filters after the join, but the condition must be in the ON clause.",
+      "USING": "Incorrect: USING is not used here because the column names might not be identical, and it's not standard for this scenario."
+    },
+    "hints": [
+      "The join type that keeps only matching rows begins with 'I'.",
+      "The join condition must be preceded by the keyword 'ON'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "INNER JOIN ... ON ... combines rows where the condition is true. Without the ON clause, the query would be invalid.",
+    "common_mistake_warning": "⚠️ Forgetting the ON clause will result in an SQL syntax error."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_054",
+    "concept_name": "ON clause (SQL JOIN)",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Complete the ON clause to match CustomerID between the Orders and Customers tables.",
+    "code_template": "ON Orders.CustomerID _____ Customers.CustomerID",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=", "==", "IS", "EQUALS"],
+    "per_tile_feedback": {
+      "=": "Correct: SQL uses single = for equality comparisons.",
+      "==": "Incorrect: == is the Python equality operator, not valid in SQL.",
+      "IS": "Incorrect: IS is used for NULL comparisons (e.g., IS NULL), not for general equality.",
+      "EQUALS": "Incorrect: EQUALS is not a SQL operator."
+    },
+    "hints": [
+      "SQL uses a single character for equality, unlike many programming languages.",
+      "It's the same symbol used for assignment in Python, but in SQL it means comparison."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In SQL, the equality operator is a single =, not ==. This is a common pitfall for Python programmers.",
+    "common_mistake_warning": "⚠️ Using == in SQL will cause a syntax error; always use = for equality."
+  }
+]

@@ -1,0 +1,189 @@
+{
+  "course_slug": "introduction-to-object-oriented-programming-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 3,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Engineering Average Salary",
+      "dataset_file": "employees.csv",
+      "difficulty": "easy",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_001",
+        "concept_002"
+      ],
+      "context": "You are auditing department payrolls. Compute the average salary of employees working in the 'Engineering' department.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'employees.csv' into a DataFrame named 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('employees.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Filter 'df' for rows where 'department' is 'Engineering', select the 'salary' column, and calculate the mean. Store the result in 'avg_eng_salary'.",
+          "variable_name": "avg_eng_salary",
+          "hint": "Use `df[df['department'] == 'Engineering']['salary'].mean()`."
+        },
+        {
+          "step": 3,
+          "description": "Print 'avg_eng_salary'.",
+          "variable_name": "",
+          "hint": "Use `print(avg_eng_salary)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load CSV\ndf = None\n\n# Step 2: Calculate average engineering salary\navg_eng_salary = None\n\n# Step 3: Print result\nprint(avg_eng_salary)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "employees.csv"
+        },
+        "employees": {
+          "type": "csv",
+          "path": "employees.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('employees.csv')\navg_eng_salary = df[df['department'] == 'Engineering']['salary'].mean()\nprint(avg_eng_salary)",
+      "expected_output": "125000.0",
+      "output_description": "The average salary of the Engineering department.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Filter using `df['department'] == 'Engineering'`.",
+        "Call `.mean()` on the filtered salary column."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Filter a DataFrame on a column value, extract a numeric series, and calculate its average."
+    },
+    {
+      "id": "dc_002",
+      "title": "Most Experienced Employee",
+      "dataset_file": "employees.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_002",
+        "concept_003"
+      ],
+      "context": "Identify the name of the employee who has the highest number of years of service.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'employees.csv' into 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('employees.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Find the row index of the maximum value in the 'years_of_service' column using `.idxmax()`, and retrieve the 'name' from that row. Store it in a variable named 'top_employee'.",
+          "variable_name": "top_employee",
+          "hint": "Use `df.loc[df['years_of_service'].idxmax(), 'name']`."
+        },
+        {
+          "step": 3,
+          "description": "Print 'top_employee'.",
+          "variable_name": "",
+          "hint": "Use `print(top_employee)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load CSV\ndf = None\n\n# Step 2: Find the most experienced employee name\ntop_employee = None\n\n# Step 3: Print result\nprint(top_employee)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "employees.csv"
+        },
+        "employees": {
+          "type": "csv",
+          "path": "employees.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('employees.csv')\ntop_employee = df.loc[df['years_of_service'].idxmax(), 'name']\nprint(top_employee)",
+      "expected_output": "Charlie",
+      "output_description": "The name of the employee with the most years of service.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `df['years_of_service'].idxmax()` to get the row index.",
+        "Pass the index and the 'name' column label to `df.loc`."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Use idxmax to find row index of max value and extract corresponding label."
+    },
+    {
+      "id": "dc_003",
+      "title": "Calculate Employee Bonus",
+      "dataset_file": "employees.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_002",
+        "concept_004"
+      ],
+      "context": "Add a new column 'bonus' (10% of salary). Find the highest paid employee, and print their name and bonus.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'employees.csv' into 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('employees.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Create a new column 'bonus' in 'df' equal to 10% of the 'salary' column.",
+          "variable_name": "df['bonus']",
+          "hint": "Use `df['bonus'] = df['salary'] * 0.10`."
+        },
+        {
+          "step": 3,
+          "description": "Locate the row of the highest paid employee using `df['salary'].idxmax()`. Retrieve their name and bonus, and store the formatted space-separated string (e.g., 'Charlie 13000.0') in a variable named 'highest_bonus'.",
+          "variable_name": "highest_bonus",
+          "hint": "You can do: `row = df.loc[df['salary'].idxmax()]` then `highest_bonus = f\"{row['name']} {row['bonus']}\"`."
+        },
+        {
+          "step": 4,
+          "description": "Print 'highest_bonus'.",
+          "variable_name": "",
+          "hint": "Use `print(highest_bonus)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load CSV\ndf = None\n\n# Step 2: Add bonus column\n# df['bonus'] = ...\n\n# Step 3: Find name and bonus of highest paid employee\nhighest_bonus = None\n\n# Step 4: Print result\nprint(highest_bonus)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "employees.csv"
+        },
+        "employees": {
+          "type": "csv",
+          "path": "employees.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('employees.csv')\ndf['bonus'] = df['salary'] * 0.10\nrow = df.loc[df['salary'].idxmax()]\nhighest_bonus = f\"{row['name']} {row['bonus']}\"\nprint(highest_bonus)",
+      "expected_output": "Charlie 13000.0",
+      "output_description": "Name and bonus of the highest paid employee.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Multiply the salary column by 0.10 to calculate the bonus.",
+        "Format the output using f-strings with a space delimiter."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Add dynamic columns to a DataFrame and extract multiple attributes from a selected row."
+    }
+  ]
+}

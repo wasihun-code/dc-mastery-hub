@@ -1,0 +1,443 @@
+{
+  "course_slug": "intermediate-sql",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 35,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Query Basics & Filtering",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_002",
+          "term": "COUNT(*)",
+          "match": "Returns the total number of rows, including rows with NULLs",
+          "wrong_matches": [
+            "Returns only unique values",
+            "Counts non‑null values in a column"
+          ],
+          "feedback_correct": "Correct! COUNT(*) counts every row, ignoring NULLs.",
+          "feedback_wrong": "Not quite — COUNT(*) is the only aggregate that includes NULLs."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_005",
+          "term": "LIMIT 10",
+          "match": "Restricts the result set to at most 10 rows",
+          "wrong_matches": [
+            "Sorts results in groups of 10",
+            "Returns the 10 most frequent values"
+          ],
+          "feedback_correct": "Exactly! LIMIT cuts off rows after the specified number.",
+          "feedback_wrong": "Think row count restriction, not sorting or filtering."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_001",
+          "term": "COUNT(birthdate)",
+          "match": "Counts only non‑null birthdates",
+          "wrong_matches": [
+            "Counts all rows including NULLs",
+            "Returns unique birthdate values"
+          ],
+          "feedback_correct": "Right! COUNT(column) ignores NULLs in that column.",
+          "feedback_wrong": "It excludes missing values — unlike COUNT(*)."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_003",
+          "term": "SELECT DISTINCT language FROM films;",
+          "match": "Returns each language without duplicates",
+          "wrong_matches": [
+            "Counts the number of distinct languages",
+            "Filters rows where language is not repeated"
+          ],
+          "feedback_correct": "Yes! DISTINCT removes duplicate rows from the output.",
+          "feedback_wrong": "It operates on the selected column(s), not on a condition."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_004",
+          "term": "COUNT(DISTINCT birthdate)",
+          "match": "Counts unique non‑null birthdates",
+          "wrong_matches": [
+            "Counts all birthdates including duplicates",
+            "Counts only NULL birthdates"
+          ],
+          "feedback_correct": "Correct! It counts each distinct date once.",
+          "feedback_wrong": "Remember, DISTINCT inside COUNT removes duplicates before counting."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_010",
+          "term": "WHERE release_year > 2000",
+          "match": "Filters rows to only those with release year after 2000",
+          "wrong_matches": [
+            "Groups rows by year",
+            "Sorts the result set"
+          ],
+          "feedback_correct": "Yes! WHERE filters individual rows before aggregation.",
+          "feedback_wrong": "It’s a filter, not a grouping or sorting clause."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_011",
+          "term": "<>",
+          "match": "The standard 'not equal to' operator",
+          "wrong_matches": [
+            "Checks if two values are equal",
+            "Used to test for NULL"
+          ],
+          "feedback_correct": "Exactly! <> means 'not equal' in SQL.",
+          "feedback_wrong": "It’s the opposite of =; not for NULL checks."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_012",
+          "term": "WHERE country = 'Japan'",
+          "match": "String values must be in single quotes",
+          "wrong_matches": [
+            "Double quotes are required for strings",
+            "Country names are case‑insensitive"
+          ],
+          "feedback_correct": "Right! Single quotes denote string literals.",
+          "feedback_wrong": "Double quotes are for identifiers, not strings."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_013",
+          "term": "WHERE release_year = 1994 OR release_year = 2000",
+          "match": "Rows with release year equal to 1994 or 2000 are included",
+          "wrong_matches": [
+            "Rows from both years simultaneously",
+            "All years between 1994 and 2000"
+          ],
+          "feedback_correct": "Correct! OR means at least one condition must be true.",
+          "feedback_wrong": "OR doesn’t require both conditions; each row only needs one."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_014",
+          "term": "WHERE release_year > 1994 AND release_year < 2000",
+          "match": "Rows with release year strictly between 1994 and 2000",
+          "wrong_matches": [
+            "All rows from 1994 to 2000 inclusive",
+            "Rows from 1994 or 2000 only"
+          ],
+          "feedback_correct": "Yes! AND requires both conditions to be true.",
+          "feedback_wrong": "The exclusive range excludes the endpoints."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_015",
+          "term": "(release_year = 1994 OR release_year = 1995) AND certification = 'PG'",
+          "match": "Movies from 1994 or 1995 that are rated PG",
+          "wrong_matches": [
+            "Movies from 1994 or 1995, regardless of rating",
+            "All PG movies released in 1994 or 1995, but also 1996"
+          ],
+          "feedback_correct": "Perfect! Parentheses group the OR condition before AND.",
+          "feedback_wrong": "Without parentheses, AND binds tighter, changing the logic."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_016",
+          "term": "release_year BETWEEN 1994 AND 2000",
+          "match": "Includes both 1994 and 2000",
+          "wrong_matches": [
+            "Includes only 1995‑1999",
+            "Returns the total count of years"
+          ],
+          "feedback_correct": "Right! BETWEEN is inclusive of the boundaries.",
+          "feedback_wrong": "It’s not exclusive; the endpoints are included."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_017",
+          "term": "release_year IN (1920, 1930, 1940)",
+          "match": "Equivalent to release_year = 1920 OR release_year = 1930 OR release_year = 1940",
+          "wrong_matches": [
+            "Returns all years except those three",
+            "Sorts the years in ascending order"
+          ],
+          "feedback_correct": "Exactly! IN is shorthand for multiple ORs.",
+          "feedback_wrong": "It’s a membership test, not an exclusion or sort."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_018",
+          "term": "name LIKE 'Ade%'",
+          "match": "Matches names that begin with 'Ade' (case‑sensitive)",
+          "wrong_matches": [
+            "Matches names that contain 'Ade' anywhere",
+            "Matches only the exact name 'Ade'"
+          ],
+          "feedback_correct": "Yes! % wildcard matches any characters after 'Ade'.",
+          "feedback_wrong": "The % after 'Ade' means starts with, not contains."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_021",
+          "term": "name NOT LIKE 'A.%'",
+          "match": "Excludes names that start with 'A.'",
+          "wrong_matches": [
+            "Includes names that start with 'A.'",
+            "Excludes NULL names as well"
+          ],
+          "feedback_correct": "Correct! NOT LIKE reverses the pattern match.",
+          "feedback_wrong": "It specifically excludes the pattern, not NULLs."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_022",
+          "term": "NULL",
+          "match": "Represents missing or unknown data; cannot be compared with =",
+          "wrong_matches": [
+            "An empty string",
+            "The number zero"
+          ],
+          "feedback_correct": "Yes! NULL is a special marker, not a value.",
+          "feedback_wrong": "NULL is distinct from empty strings and zero."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_023",
+          "term": "birthdate IS NULL",
+          "match": "Returns rows where birthdate is missing",
+          "wrong_matches": [
+            "Returns rows where birthdate is known",
+            "Returns an error if birthdate is NULL"
+          ],
+          "feedback_correct": "Exactly! IS NULL is the proper way to check for absence.",
+          "feedback_wrong": "It’s the check for missing values, not an error."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_024",
+          "term": "birthdate IS NOT NULL",
+          "match": "Filters out rows with NULL birthdate",
+          "wrong_matches": [
+            "Returns all rows including NULLs",
+            "Counts only distinct birthdates"
+          ],
+          "feedback_correct": "Right! IS NOT NULL keeps only rows where the column has a value.",
+          "feedback_wrong": "It excludes missing data, unlike IS NULL."
+        },
+        {
+          "id": "match_006_exec",
+          "concept_id": "concept_006",
+          "term": "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT",
+          "match": "The logical execution order of SQL clauses",
+          "wrong_matches": [
+            "The written order of a SQL query",
+            "The order of processing column aliases"
+          ],
+          "feedback_correct": "Perfect! This order explains why aliases can't be used in WHERE.",
+          "feedback_wrong": "It’s not the same as the written sequence; aliases come later."
+        },
+        {
+          "id": "match_007_error",
+          "concept_id": "concept_007",
+          "term": "SQL error handling",
+          "match": "Reading error messages: the actual mistake may be earlier than the caret indicates",
+          "wrong_matches": [
+            "Fixing only the line the error points to",
+            "Errors always occur on the line with a misspelled keyword"
+          ],
+          "feedback_correct": "Yes! Error messages often point to where the parser got stuck.",
+          "feedback_wrong": "Check earlier lines for missing commas or misspellings."
+        },
+        {
+          "id": "match_008_style",
+          "concept_id": "concept_008",
+          "term": "Holywell's style guide",
+          "match": "Conventions for formatting SQL: line breaks, indentation, and capitalization",
+          "wrong_matches": [
+            "A set of rules for database normalization",
+            "A SQL syntax reference"
+          ],
+          "feedback_correct": "Correct! It's about readability and consistency.",
+          "feedback_wrong": "It’s a style guide, not a technical specification."
+        },
+        {
+          "id": "match_009_semicolon",
+          "concept_id": "concept_009",
+          "term": "; (semicolon)",
+          "match": "Signals the end of a SQL statement; optional in PostgreSQL but best practice",
+          "wrong_matches": [
+            "Used inside WHERE clauses to separate conditions",
+            "Required at the end of every line"
+          ],
+          "feedback_correct": "Exactly! A semicolon marks the end of a query.",
+          "feedback_wrong": "It’s a terminator for the whole statement, not per line."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Aggregation, Sorting & Grouping",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_023_agg",
+          "concept_id": "concept_025",
+          "term": "Aggregate functions",
+          "match": "Summarize multiple rows: COUNT, SUM, AVG, MIN, MAX",
+          "wrong_matches": [
+            "Return a table of grouped rows",
+            "Filter rows after grouping"
+          ],
+          "feedback_correct": "Yes! They collapse many rows into one value.",
+          "feedback_wrong": "They produce a single value, not a set of rows."
+        },
+        {
+          "id": "match_024_avg",
+          "concept_id": "concept_026",
+          "term": "AVG(budget)",
+          "match": "Returns the arithmetic mean of non‑null budgets",
+          "wrong_matches": [
+            "Returns the total sum of budgets",
+            "Returns the most common budget"
+          ],
+          "feedback_correct": "Correct! AVG ignores NULL values.",
+          "feedback_wrong": "It’s the average, not the total."
+        },
+        {
+          "id": "match_025_sum",
+          "concept_id": "concept_027",
+          "term": "SUM(budget)",
+          "match": "Adds all non‑null budget values",
+          "wrong_matches": [
+            "Counts the number of budgets",
+            "Finds the maximum budget"
+          ],
+          "feedback_correct": "Right! SUM calculates the total.",
+          "feedback_wrong": "It’s an addition, not a count or maximum."
+        },
+        {
+          "id": "match_026_min",
+          "concept_id": "concept_028",
+          "term": "MIN(country)",
+          "match": "The alphabetically first country name",
+          "wrong_matches": [
+            "The country with the fewest characters",
+            "The latest release year"
+          ],
+          "feedback_correct": "Exactly! MIN on text sorts alphabetically.",
+          "feedback_wrong": "It’s not about string length; alphabetical order."
+        },
+        {
+          "id": "match_027_max",
+          "concept_id": "concept_029",
+          "term": "MAX(release_year)",
+          "match": "The most recent release year in the table",
+          "wrong_matches": [
+            "The earliest release year",
+            "The total number of years"
+          ],
+          "feedback_correct": "Yes! MAX finds the largest value.",
+          "feedback_wrong": "It’s the maximum, not the minimum or count."
+        },
+        {
+          "id": "match_028_round",
+          "concept_id": "concept_030",
+          "term": "ROUND(AVG(budget), -2)",
+          "match": "Rounds the average to the nearest hundred",
+          "wrong_matches": [
+            "Rounds to two decimal places",
+            "Truncates the decimal part"
+          ],
+          "feedback_correct": "Correct! Negative parameter rounds to left of decimal.",
+          "feedback_wrong": "Negative means hundreds, tens, etc. Positive means decimal places."
+        },
+        {
+          "id": "match_029_arith",
+          "concept_id": "concept_031",
+          "term": "gross - budget AS profit",
+          "match": "Uses arithmetic subtraction to calculate profit",
+          "wrong_matches": [
+            "Adds gross and budget",
+            "Multiplies gross by budget"
+          ],
+          "feedback_correct": "Exactly! The minus operator subtracts values.",
+          "feedback_wrong": "It's subtraction, not addition or multiplication."
+        },
+        {
+          "id": "match_030_intdiv",
+          "concept_id": "concept_032",
+          "term": "4 / 3",
+          "match": "Returns 1 because of integer division",
+          "wrong_matches": [
+            "Returns 1.3333",
+            "Throws an error"
+          ],
+          "feedback_correct": "Yes! Integer division truncates the fractional part.",
+          "feedback_wrong": "Without decimals, it truncates to integer."
+        },
+        {
+          "id": "match_031_alias",
+          "concept_id": "concept_033",
+          "term": "MAX(budget) AS max_budget",
+          "match": "Alias 'max_budget' can be used in ORDER BY but not WHERE",
+          "wrong_matches": [
+            "Alias can be used in WHERE clause",
+            "AS is required for all column names"
+          ],
+          "feedback_correct": "Correct! Aliases are assigned in SELECT, visible after WHERE.",
+          "feedback_wrong": "Remember execution order: WHERE sees only original names."
+        },
+        {
+          "id": "match_032_orderby",
+          "concept_id": "concept_034",
+          "term": "ORDER BY budget",
+          "match": "Sorts result rows by budget in ascending order",
+          "wrong_matches": [
+            "Filters rows with high budget",
+            "Groups rows by budget"
+          ],
+          "feedback_correct": "Right! ORDER BY sorts, default is ASC.",
+          "feedback_wrong": "It’s sorting, not filtering or grouping."
+        },
+        {
+          "id": "match_033_asc",
+          "concept_id": "concept_035",
+          "term": "ORDER BY budget ASC",
+          "match": "Explicitly sorts smallest budget first",
+          "wrong_matches": [
+            "Sorts from largest to smallest",
+            "Returns random order"
+          ],
+          "feedback_correct": "Yes! ASC is the default but makes intent clear.",
+          "feedback_wrong": "ASC means ascending, DESC means descending."
+        },
+        {
+          "id": "match_034_desc",
+          "concept_id": "concept_036",
+          "term": "ORDER BY budget DESC",
+          "match": "Largest budget appears first; NULLs appear first as well",
+          "wrong_matches": [
+            "NULLs appear last in descending order",
+            "Excludes NULL budgets"
+          ],
+          "feedback_correct": "Exactly! DESC puts highest values first; NULLs are treated as highest.",
+          "feedback_wrong": "In descending order, NULLs come first by default."
+        },
+        {
+          "id": "match_035_multisort",
+          "concept_id": "concept_037",
+          "term": "ORDER BY wins DESC, imdb_score DESC",
+          "match": "Sorts first by wins descending, then by imdb_score descending for ties",
+          "wrong_matches": [
+            "Sorts both columns simultaneously",
+            "Only sorts by wins"
+          ],
+          "feedback_correct": "Correct! The second column breaks ties.",
+          "feedback_wrong": "It's sequential: first by wins, then by score only when wins are equal."
+        }
+      ]
+    }
+  ]
+}

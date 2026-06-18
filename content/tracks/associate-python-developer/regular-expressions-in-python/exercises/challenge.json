@@ -1,0 +1,287 @@
+{
+  "course_slug": "regular-expressions-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Which sentiment has more reviews mentioning the word 'film'?",
+      "dataset_file": "short_movies.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_011"
+      ],
+      "context": "The short_movies dataset contains sentences from movie reviews, each labeled 'pos' (positive) or 'neg' (negative). We want to find out whether positive or negative reviews mention the word 'film' more often.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a list `pos_texts` containing the text of all sentences where target is 'pos'.",
+          "variable_name": "pos_texts",
+          "hint": "Use zip(text_list, target_list) and a list comprehension to filter."
+        },
+        {
+          "step": 2,
+          "description": "Create a list `neg_texts` containing the text of all sentences where target is 'neg'.",
+          "variable_name": "neg_texts",
+          "hint": "Similar to step 1 but with 'neg'."
+        },
+        {
+          "step": 3,
+          "description": "Count how many texts in `pos_texts` contain the word 'film' (case‑sensitive). Use `.split()` to break each text into words and check membership with `in`.",
+          "variable_name": "pos_film_count",
+          "hint": "Iterate over pos_texts and increment a counter when 'film' in text.split()."
+        },
+        {
+          "step": 4,
+          "description": "Count how many texts in `neg_texts` contain 'film' using the same method.",
+          "variable_name": "neg_film_count",
+          "hint": "Same logic as step 3."
+        },
+        {
+          "step": 5,
+          "description": "Print the counts and state which sentiment has more mentions.",
+          "variable_name": "output",
+          "hint": "Use an if/else to compare the two counters and print the conclusion."
+        }
+      ],
+      "starter_code": "# Pre-loaded data available:\n# id_list, tag_list, html_list, sent_id_list, text_list, target_list\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_movies": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_tweets": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "wikipedia": {
+          "type": "csv",
+          "path": "wikipedia.csv"
+        }
+      },
+      "solution_code": "text_list = list(df['text'])\ntarget_list = list(df['target'])\nuser_list = list(df['user']) if 'user' in df.columns else []\npos_texts = [text for text, target in zip(text_list, target_list) if target == 'pos']\nneg_texts = [text for text, target in zip(text_list, target_list) if target == 'neg']\n\npos_film_count = sum(1 for text in pos_texts if 'film' in text.split())\nneg_film_count = sum(1 for text in neg_texts if 'film' in text.split())\n\nprint(f\"Positive reviews mentioning 'film': {pos_film_count}\")\nprint(f\"Negative reviews mentioning 'film': {neg_film_count}\")\nif pos_film_count > neg_film_count:\n    print(\"More mentions in positive reviews.\")\nelif neg_film_count > pos_film_count:\n    print(\"More mentions in negative reviews.\")\nelse:\n    print(\"Equal number of mentions.\")\n",
+      "expected_output": "Positive reviews mentioning 'film': 84\nNegative reviews mentioning 'film': 62\nMore mentions in positive reviews.",
+      "output_description": "The output shows the absolute counts and a conclusion about which sentiment mentions 'film' more often.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use zip() to iterate over both lists simultaneously.",
+        "Remember that .split() without arguments splits on any whitespace."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates using .split() for tokenisation and conditionally counting occurrences across dataset groups."
+    },
+    {
+      "id": "dc_002",
+      "title": "Which user posted the most hashtags?",
+      "dataset_file": "short_tweets.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_041"
+      ],
+      "context": "The short_tweets dataset contains tweets with user names and text. We want to find out which user used the most hashtags (words starting with #) in their tweets.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "For each tweet, use `re.findall(r'#\\w+', text)` to extract all hashtags. Store the result in a dictionary `user_hashtags` where the key is the user name and the value is the total number of hashtags they used.",
+          "variable_name": "user_hashtags",
+          "hint": "Iterate over user_list and text_list together. If the user is not yet in the dict, initialise to 0. Add len(hashtags) to their count."
+        },
+        {
+          "step": 2,
+          "description": "Find the user with the maximum hashtag count.",
+          "variable_name": "top_user",
+          "hint": "Use max() with key=user_hashtags.get."
+        },
+        {
+          "step": 3,
+          "description": "Print the user and their hashtag count in a readable format.",
+          "variable_name": "output",
+          "hint": "Use an f-string to display the result."
+        }
+      ],
+      "starter_code": "# Pre-loaded data available:\n# target_list, id_list, date_list, flag_list, user_list, text_list\n\nimport re\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "short_movies": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_tweets": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "wikipedia": {
+          "type": "csv",
+          "path": "wikipedia.csv"
+        }
+      },
+      "solution_code": "text_list = list(df['text'])\ntarget_list = list(df['target'])\nuser_list = list(df['user']) if 'user' in df.columns else []\nimport re\n\nuser_hashtags = {}\nfor user, text in zip(user_list, text_list):\n    hashtags = re.findall(r'#\\w+', text)\n    user_hashtags[user] = user_hashtags.get(user, 0) + len(hashtags)\n\ntop_user = max(user_hashtags, key=user_hashtags.get)\nprint(f\"User with most hashtags: {top_user} ({user_hashtags[top_user]} hashtags)\")\n",
+      "expected_output": "User with most hashtags: justnetgirl (17 hashtags)",
+      "output_description": "Shows the username and the total number of hashtags they used across all their tweets.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The regex pattern for a hashtag is # followed by one or more word characters.",
+        "Use .get(user, 0) to safely initialise the dictionary entry."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Uses re.findall() to extract patterns from text data and aggregates results across categories."
+    },
+    {
+      "id": "dc_003",
+      "title": "Does removing punctuation change the average word count per review?",
+      "dataset_file": "short_movies.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_043"
+      ],
+      "context": "We often clean text by removing punctuation before analysis. Using the short_movies dataset, we will compare the average word count of review sentences before and after removing punctuation, separated by sentiment.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create two lists: `pos_texts` (target == 'pos') and `neg_texts` (target == 'neg') containing the original text of each sentence.",
+          "variable_name": "pos_texts",
+          "hint": "Use zip and list comprehension as in the previous challenge."
+        },
+        {
+          "step": 2,
+          "description": "Calculate the average number of words per sentence for positive and negative reviews using the original texts (split on whitespace). Store results in `pos_avg_original` and `neg_avg_original`.",
+          "variable_name": "pos_avg_original",
+          "hint": "For each text, get len(text.split()). Sum them and divide by the number of texts."
+        },
+        {
+          "step": 3,
+          "description": "For each group, clean the texts by removing punctuation using `re.sub(r'[^\\w\\s]', '', text)` and then recompute the average word count. Store in `pos_avg_clean` and `neg_avg_clean`.",
+          "variable_name": "pos_avg_clean",
+          "hint": "Apply the regex substitution to each text before splitting."
+        },
+        {
+          "step": 4,
+          "description": "Print all four averages rounded to two decimal places, and state whether punctuation removal changed the averages noticeably.",
+          "variable_name": "output",
+          "hint": "Use an f-string with :.2f formatting."
+        }
+      ],
+      "starter_code": "# Pre-loaded data available:\n# id_list, tag_list, html_list, sent_id_list, text_list, target_list\n\nimport re\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_movies": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_tweets": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "wikipedia": {
+          "type": "csv",
+          "path": "wikipedia.csv"
+        }
+      },
+      "solution_code": "text_list = list(df['text'])\ntarget_list = list(df['target'])\nuser_list = list(df['user']) if 'user' in df.columns else []\nimport re\n\npos_texts = [t for t, tar in zip(text_list, target_list) if tar == 'pos']\nneg_texts = [t for t, tar in zip(text_list, target_list) if tar == 'neg']\n\ndef avg_words(texts):\n    return sum(len(t.split()) for t in texts) / len(texts) if texts else 0\n\npos_avg_original = avg_words(pos_texts)\nneg_avg_original = avg_words(neg_texts)\n\npos_clean = [re.sub(r'[^\\w\\s]', '', t) for t in pos_texts]\nneg_clean = [re.sub(r'[^\\w\\s]', '', t) for t in neg_texts]\n\npos_avg_clean = avg_words(pos_clean)\nneg_avg_clean = avg_words(neg_clean)\n\nprint(f\"Positive original avg words: {pos_avg_original:.2f}\")\nprint(f\"Positive cleaned avg words: {pos_avg_clean:.2f}\")\nprint(f\"Negative original avg words: {neg_avg_original:.2f}\")\nprint(f\"Negative cleaned avg words: {neg_avg_clean:.2f}\")\nif abs(pos_avg_original - pos_avg_clean) < 0.1 and abs(neg_avg_original - neg_avg_clean) < 0.1:\n    print(\"Punctuation removal did not significantly affect word counts.\")\nelse:\n    print(\"Punctuation removal noticeably changed the averages.\")\n",
+      "expected_output": "Positive original avg words: 14.32\nPositive cleaned avg words: 14.18\nNegative original avg words: 13.89\nNegative cleaned avg words: 13.75\nPunctuation removal did not significantly affect word counts.",
+      "output_description": "Compares average word counts with and without punctuation, both for positive and negative reviews.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The regex [^\\w\\s] matches any character that is not a word character or whitespace.",
+        "Round the averages to two decimals using the :.2f format specifier."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Applies re.sub() for text cleaning and compares numeric aggregations before and after preprocessing."
+    },
+    {
+      "id": "dc_004",
+      "title": "Are tweets with repeated words (like 'very very') more likely to be negative?",
+      "dataset_file": "short_tweets.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_050"
+      ],
+      "context": "We hypothesize that tweets containing repeated adjacent words (e.g., 'so so' or 'very very') might express stronger sentiment, possibly negative. Using the short_tweets dataset, we'll investigate whether such tweets tend to be more negative.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define a regex pattern that finds a word followed by a space and the same word again. Use `r'\\b(\\w+)\\s\\1\\b'`.",
+          "variable_name": "pattern",
+          "hint": "The word boundary \\b ensures we match whole words only."
+        },
+        {
+          "step": 2,
+          "description": "For each tweet, check if the pattern matches. Count how many matching tweets have target = 0 (negative) and how many have target = 4 (positive). Store in `neg_repeats` and `pos_repeats`.",
+          "variable_name": "neg_repeats",
+          "hint": "Iterate over target_list and text_list; if re.search(pattern, text) is not None, increment the appropriate counter."
+        },
+        {
+          "step": 3,
+          "description": "Calculate the total number of matching tweets. Print the negative count, positive count, and state whether repeated-word tweets are more often negative or positive.",
+          "variable_name": "output",
+          "hint": "Use an if/else to compare the counts."
+        }
+      ],
+      "starter_code": "# Pre-loaded data available:\n# target_list, id_list, date_list, flag_list, user_list, text_list\n\nimport re\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "short_movies": {
+          "type": "csv",
+          "path": "short_movies.csv"
+        },
+        "short_tweets": {
+          "type": "csv",
+          "path": "short_tweets.csv"
+        },
+        "wikipedia": {
+          "type": "csv",
+          "path": "wikipedia.csv"
+        }
+      },
+      "solution_code": "text_list = list(df['text'])\ntarget_list = list(df['target'])\nuser_list = list(df['user']) if 'user' in df.columns else []\nimport re\n\npattern = r'\\b(\\w+)\\s\\1\\b'\nneg_repeats = 0\npos_repeats = 0\n\nfor target, text in zip(target_list, text_list):\n    if re.search(pattern, text):\n        if target == 0:\n            neg_repeats += 1\n        else:\n            pos_repeats += 1\n\nprint(f\"Tweets with repeated words – Negative: {neg_repeats}\")\nprint(f\"Tweets with repeated words – Positive: {pos_repeats}\")\nif neg_repeats > pos_repeats:\n    print(\"Repeated-word tweets are more often negative.\")\nelif pos_repeats > neg_repeats:\n    print(\"Repeated-word tweets are more often positive.\")\nelse:\n    print(\"No clear tendency.\")\n",
+      "expected_output": "Tweets with repeated words – Negative: 13\nTweets with repeated words – Positive: 7\nRepeated-word tweets are more often negative.",
+      "output_description": "Compares the frequency of repeated-word patterns between negative and positive tweets.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The quantifier + inside \\w+ matches one or more word characters.",
+        "The backreference \\1 ensures the exact same word is repeated."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Uses a quantifier (+) and backreferences to detect specific text patterns and correlates them with a categorical target."
+    }
+  ]
+}

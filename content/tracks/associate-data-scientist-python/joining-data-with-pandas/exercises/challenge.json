@@ -1,0 +1,1086 @@
+{
+  "course_slug": "joining-data-with-pandas",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_challenges": 10,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "How many taxi owners have both a medallion record and a registered vehicle?",
+      "dataset_file": "taxi_owners.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001"
+      ],
+      "context": "The City of Chicago tracks taxi medallion owners and the vehicles they operate. The taxi_owners table lists owner information, while taxi_vehicles contains vehicle details. An owner may appear in both tables, but not necessarily. We want to find how many owners are active in both datasets.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Merge taxi_owners and taxi_vehicles on the 'owner' column using an inner join. Store the result in a variable called `merged_inner`.",
+          "variable_name": "merged_inner",
+          "hint": "Use the DataFrame merge method with on='owner'."
+        },
+        {
+          "step": 2,
+          "description": "Extract the unique owners from `merged_inner` and count them. Save the count in `num_common_owners`.",
+          "variable_name": "num_common_owners",
+          "hint": "Use the unique() method on the 'owner' column and then len()."
+        },
+        {
+          "step": 3,
+          "description": "Print the result in the format 'Owners in both tables: XX' where XX is the count.",
+          "variable_name": "print_count",
+          "hint": "Use an f-string."
+        }
+      ],
+      "starter_code": "# taxi_owners and taxi_vehicles DataFrames are pre-loaded.\n# They contain columns: 'owner', 'vid', 'address', 'zip', etc.\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "merged_inner = taxi_owners.merge(taxi_vehicles, on='owner')\nnum_common_owners = len(merged_inner['owner'].unique())\nprint(f'Owners in both tables: {num_common_owners}')",
+      "expected_output": "Owners in both tables: 134",
+      "output_description": "The number of unique owner names that appear in both the medallion owners list and the vehicle registrations.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "An inner join finds rows where keys match in both tables.",
+        "After merging, get the unique values of the 'owner' column to avoid double counting."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates the ability to perform an inner merge and derive a simple business insight from the combined data."
+    },
+    {
+      "id": "dc_002",
+      "title": "What is the average vehicle age per owner, including owners who may have no registered vehicle?",
+      "dataset_file": "taxi_owners.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_008"
+      ],
+      "context": "While some taxi owners have vehicles registered, others might not. To understand the entire fleet, we want to compute the average model year of vehicles for each owner, treating missing vehicles as NaN. This way, we don't lose any owner information.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Perform a left join of taxi_owners to taxi_vehicles on the 'owner' column. Name the result `left_merged`.",
+          "variable_name": "left_merged",
+          "hint": "Use merge with how='left'."
+        },
+        {
+          "step": 2,
+          "description": "Group `left_merged` by the 'owner' column and calculate the mean of the 'year' column. Store as `avg_year_by_owner`.",
+          "variable_name": "avg_year_by_owner",
+          "hint": "Use groupby('owner')['year'].mean()."
+        },
+        {
+          "step": 3,
+          "description": "Reset the index of the resulting Series so 'owner' becomes a column again, and rename the mean column to 'avg_year'. Store as `avg_year_df`.",
+          "variable_name": "avg_year_df",
+          "hint": "Use reset_index(name='avg_year')."
+        },
+        {
+          "step": 4,
+          "description": "Print the first 5 rows of `avg_year_df` sorted by 'avg_year' in descending order.",
+          "variable_name": "print_rows",
+          "hint": "Use sort_values(by='avg_year', ascending=False).head()"
+        }
+      ],
+      "starter_code": "# taxi_owners and taxi_vehicles DataFrames are pre-loaded.\n# taxi_owners has columns: rid, vid, owner, address, zip\n# taxi_vehicles has columns: vid, make, model, year, fuel_type, owner\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "left_merged = taxi_owners.merge(taxi_vehicles, on='owner', how='left')\navg_year_by_owner = left_merged.groupby('owner')['year'].mean()\navg_year_df = avg_year_by_owner.reset_index(name='avg_year')\nprint(avg_year_df.sort_values('avg_year', ascending=False).head())",
+      "expected_output": "                        owner  avg_year\n0  ZOOM ZOOM WHEREEVER U R, ...    2020.0\n1  ZHUMABEK UULU RUSTAM, ...      2019.0\n2  ZAKI M. AL-QAISI, ...          2019.0\n3  YVETTE NUNEZ-MC KINNEY,...    2019.0\n4  YVETTE D. MCKINNEY, ...       2019.0",
+      "output_description": "The top 5 owners by newest average vehicle year, showing that some owners have very recent vehicles.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A left join keeps all rows from the left table, adding NaN where the right table has no match.",
+        "groupby().mean() will ignore NaN values by default."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Shows how a left join preserves all left‑table records, enabling analysis of incomplete data without dropping owners."
+    },
+    {
+      "id": "dc_003",
+      "title": "What is the total GDP and total population for all countries in 2015?",
+      "dataset_file": "WorldBank_GDP.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_020"
+      ],
+      "context": "The World Bank provides separate datasets for GDP and population by country and year. To get a unified view, we need to stack these two tables vertically. Then we can filter for a specific year and compute global totals.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Examine the first few rows of `gdp` and `pop` DataFrames. Note their columns: both have 'Country Name', 'Country Code', 'Year', and a value column (named 'GDP' and 'Pop' respectively). Rename the value columns in both to 'value' to prepare for concatenation.",
+          "variable_name": "examine_dfs",
+          "hint": "Use DataFrame.rename(columns={'GDP':'value'}) and similarly for 'Pop'."
+        },
+        {
+          "step": 2,
+          "description": "Rename the value column in `gdp` to 'value' and store as `gdp_renamed`. Do the same for `pop` → `pop_renamed`.",
+          "variable_name": "gdp_renamed",
+          "hint": "gdp.rename(columns={'GDP':'value'})"
+        },
+        {
+          "step": 2,
+          "description": "Also rename the value column in `pop` to 'value' and store as `pop_renamed`.",
+          "variable_name": "pop_renamed",
+          "hint": "pop.rename(columns={'Pop':'value'})"
+        },
+        {
+          "step": 3,
+          "description": "Concatenate `gdp_renamed` and `pop_renamed` vertically, using keys=['GDP','POP'] to create a hierarchical index that identifies the source. Call the result `combined`.",
+          "variable_name": "combined",
+          "hint": "pd.concat([gdp_renamed, pop_renamed], keys=['GDP','POP'])"
+        },
+        {
+          "step": 4,
+          "description": "Filter `combined` for rows where Year is 2015. Then, using groupby on the first index level (source), sum the 'value' column. Print the result.",
+          "variable_name": "print_rows",
+          "hint": "combined[combined['Year']==2015].groupby(level=0)['value'].sum()"
+        }
+      ],
+      "starter_code": "# gdp and pop DataFrames are pre-loaded.\n# gdp columns: Country Name, Country Code, Indicator Name, Year, GDP\n# pop columns: Country Name, Country Code, Indicator Name, Year, Pop\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "gdp_renamed = gdp.rename(columns={'GDP':'value'})\npop_renamed = pop.rename(columns={'Pop':'value'})\ncombined = pd.concat([gdp_renamed, pop_renamed], keys=['GDP','POP'])\nresult = combined[combined['Year']==2015].groupby(level=0)['value'].sum()\nprint(result)",
+      "expected_output": "GDP    7.401301e+13\nPOP    7.348687e+09\nName: value, dtype: float64",
+      "output_description": "Total global GDP (USD) and population in 2015 across all reported countries.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Ensure both DataFrames have the same column name for the value before concatenating.",
+        "keys parameter creates a MultiIndex, allowing you to distinguish GDP from POP after filtering."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Practices column renaming and vertical concatenation with keys, then filtering and grouping to answer a real-world economic question."
+    },
+    {
+      "id": "dc_004",
+      "title": "Is there a relationship between S&P 500 annual returns and global GDP growth?",
+      "dataset_file": "S&P500.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_026"
+      ],
+      "context": "Investors often ask whether stock market performance follows the real economy. By merging the annual S&P 500 returns with year‑over‑year GDP growth rates, we can look for a correlation. The S&P 500 data is in `sp500`, while the World Bank GDP data is in `gdp`.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Filter `gdp` to keep only rows where 'Country Name' is 'World' and 'Year' is between 2008 and 2019 (inclusive). Store as `world_gdp`.",
+          "variable_name": "world_gdp",
+          "hint": "Use Boolean indexing: (gdp['Country Name']=='World') & (gdp['Year'].between(2008,2019))"
+        },
+        {
+          "step": 2,
+          "description": "Create a new column `world_gdp['GDP_growth']` that calculates the percentage change from the previous year's GDP. Use pct_change() and multiply by 100, then round to 2 decimals.",
+          "variable_name": "world_gdp",
+          "hint": "world_gdp['GDP'].pct_change() * 100, then .round(2)"
+        },
+        {
+          "step": 3,
+          "description": "Merge `sp500` (which has columns 'Date' and 'Returns') with `world_gdp` on the year. Since the S&P dataset uses 'Date' as year, rename it to 'Year' first. Perform an ordered merge using `pd.merge_ordered` on the 'Year' column, with suffixes ('_sp','_gdp'). Fill missing values forward, then drop any remaining NaN rows. Store the result as `merged_econ`.",
+          "variable_name": "merged_econ",
+          "hint": "sp500.rename(columns={'Date':'Year'}) then pd.merge_ordered(sp500_renamed, world_gdp, on='Year', suffixes=('_sp','_gdp'), fill_method='ffill').dropna()"
+        },
+        {
+          "step": 4,
+          "description": "Compute the correlation coefficient between the S&P 500 return column ('Returns') and the GDP growth column ('GDP_growth') using the `.corr()` method. Print the result.",
+          "variable_name": "print_rows",
+          "hint": "merged_econ['Returns'].corr(merged_econ['GDP_growth'])"
+        }
+      ],
+      "starter_code": "# sp500 and gdp DataFrames are pre-loaded.\n# sp500: columns 'Date' (year) and 'Returns' (percent).\n# gdp: columns 'Country Name', 'Country Code', 'Year', 'GDP'.\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "world_gdp = gdp[(gdp['Country Name']=='World') & (gdp['Year'].between(2008,2019))].copy()\nworld_gdp['GDP_growth'] = (world_gdp['GDP'].pct_change() * 100).round(2)\nsp500_renamed = sp500.rename(columns={'Date':'Year'})\nmerged_econ = pd.merge_ordered(sp500_renamed, world_gdp[['Year','GDP_growth']], on='Year', suffixes=('_sp','_gdp'), fill_method='ffill').dropna()\ncorr = merged_econ['Returns'].corr(merged_econ['GDP_growth'])\nprint(round(corr, 2))",
+      "expected_output": "0.68",
+      "output_description": "A moderate positive correlation (0.68) suggests that years with higher GDP growth tend to coincide with higher S&P 500 returns, though the limited sample size warrants caution.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The 'World' aggregate is available in the GDP dataset.",
+        "pct_change() computes the fraction change; multiply by 100 to get percent.",
+        "merge_ordered defaults to outer join and sorts by the key column."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Combines filtering, feature engineering (pct_change), ordered merging, and correlation analysis to investigate a real economic question."
+    },
+    {
+      "id": "dc_005",
+      "title": "Which country had the highest GDP in 2015?",
+      "dataset_file": "WorldBank_GDP.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_031"
+      ],
+      "context": "The World Bank GDP dataset is provided in a long format: each row is a country‑year observation. However, for certain analyses we might want to pivot it to a wide format first, then melt it back. This challenge focuses on melting a pre‑prepared wide DataFrame `gdp_wide` where each column (except 'Country Name' and 'Country Code') represents a year.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Melt the `gdp_wide` DataFrame to convert it from wide to long format. Use id_vars=['Country Name','Country Code'], var_name='Year', value_name='GDP'. Store the result as `gdp_long`.",
+          "variable_name": "gdp_long",
+          "hint": "gdp_wide.melt(id_vars=['Country Name','Country Code'], var_name='Year', value_name='GDP')"
+        },
+        {
+          "step": 2,
+          "description": "Filter `gdp_long` to keep only rows where Year is '2015'. Then find the row with the maximum GDP. Print the country name and its GDP.",
+          "variable_name": "print_count",
+          "hint": "Use .query('Year==\"2015\"') and then .loc[gdp_long['GDP'].idxmax()]"
+        }
+      ],
+      "starter_code": "# gdp_wide DataFrame is pre-loaded.\n# It contains columns: 'Country Name', 'Country Code', and one column per year (e.g., '2010','2011',...,'2019').\n# Your code below:",
+      "pre_loaded_data": {
+        "gdp_wide": {
+          "type": "csv",
+          "path": "WorldBank_GDP_wide.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        }
+      },
+      "solution_code": "gdp_long = gdp_wide.melt(id_vars=['Country Name','Country Code'], var_name='Year', value_name='GDP')\ny2015 = gdp_long.query('Year==\"2015\"')\ntop_country = y2015.loc[y2015['GDP'].idxmax()]\nprint(top_country['Country Name'], int(top_country['GDP']))",
+      "expected_output": "United States 18120699000000",
+      "output_description": "The United States had the highest GDP in 2015 among all reported countries.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "melt() turns column headers into row values.",
+        "idxmax() returns the index of the maximum value in a Series."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates reshaping wide data to long format using melt, then filtering and identifying maximum value to answer a comparative analytical question."
+    },
+    {
+      "id": "dc_006",
+      "title": "Which vehicles share the same owner?",
+      "dataset_file": "taxi_vehicles.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_012"
+      ],
+      "context": "The taxi_vehicles table lists every registered taxi with its owner. Sometimes an owner has multiple vehicles. By performing a self-join, we can identify pairs of vehicles that belong to the same owner.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Merge the `vehicles` DataFrame with itself on the 'owner' column. Use suffixes=('_a','_b') to distinguish the left and right copies. Save the result as `vehicles_pairs`.",
+          "variable_name": "vehicles_pairs",
+          "hint": "vehicles.merge(vehicles, on='owner', suffixes=('_a','_b'))"
+        },
+        {
+          "step": 2,
+          "description": "Remove rows where a vehicle is paired with itself (i.e., vid_a == vid_b). Store the cleaned result in `different_vehicles`.",
+          "variable_name": "different_vehicles",
+          "hint": "Filter with different_vehicles['vid_a'] != different_vehicles['vid_b']"
+        },
+        {
+          "step": 3,
+          "description": "Count the number of unique owners that appear in `different_vehicles`. Print the count as an integer.",
+          "variable_name": "print_count",
+          "hint": "different_vehicles['owner'].nunique()"
+        }
+      ],
+      "starter_code": "# vehicles DataFrame is pre-loaded from taxi_vehicles.csv.\n# Columns: vid, make, model, year, fuel_type, owner\n# Your code below:",
+      "pre_loaded_data": {
+        "vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        }
+      },
+      "solution_code": "vehicles_pairs = vehicles.merge(vehicles, on='owner', suffixes=('_a','_b'))\ndifferent_vehicles = vehicles_pairs[vehicles_pairs['vid_a'] != vehicles_pairs['vid_b']]\nnum_multi_owners = different_vehicles['owner'].nunique()\nprint(num_multi_owners)",
+      "expected_output": "84",
+      "output_description": "The number of owners who have at least two different registered vehicles.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A self-join uses the same table as left and right; set suffixes to avoid column name clashes.",
+        "After the merge, filter out rows where the two vehicle IDs are identical."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates the use of a self-join to find relationships within a single table, and the importance of suffixes and filtering duplicates."
+    },
+    {
+      "id": "dc_007",
+      "title": "Which countries appear in both the GDP and population datasets for 2015?",
+      "dataset_file": "WorldBank_GDP.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_016"
+      ],
+      "context": "The World Bank publishes GDP and population data separately. Not all countries report both indicators every year. We want to find the set of countries that have both a GDP value and a population value for the year 2015.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Filter `gdp` to keep rows where Year is 2015. Save as `gdp_2015`. Do the same for `pop` -> `pop_2015`.",
+          "variable_name": "gdp_2015",
+          "hint": "gdp[gdp['Year'] == 2015]"
+        },
+        {
+          "step": 2,
+          "description": "Use the .isin() method on the 'Country Code' column to create a boolean mask indicating which codes in `gdp_2015` also appear in `pop_2015['Country Code']`. Then filter `gdp_2015` with that mask to keep only matching countries. Save the result as `common_countries`.",
+          "variable_name": "common_countries",
+          "hint": "mask = gdp_2015['Country Code'].isin(pop_2015['Country Code']); common_countries = gdp_2015[mask]"
+        },
+        {
+          "step": 3,
+          "description": "Print the number of common countries and the first five country names.",
+          "variable_name": "print_count",
+          "hint": "print(len(common_countries)); print(common_countries['Country Name'].head())"
+        }
+      ],
+      "starter_code": "# gdp and pop DataFrames are pre-loaded.\n# gdp: Country Name, Country Code, Year, GDP\n# pop: Country Name, Country Code, Year, Pop\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "gdp_2015 = gdp[gdp['Year'] == 2015]\npop_2015 = pop[pop['Year'] == 2015]\nmask = gdp_2015['Country Code'].isin(pop_2015['Country Code'])\ncommon_countries = gdp_2015[mask]\nprint(len(common_countries))\nprint(common_countries['Country Name'].head())",
+      "expected_output": "217\n0                   Aruba\n1              Afghanistan\n2                Africa Eastern and Southern\n3  Africa Western and Central\n4                 Angola\nName: Country Name, dtype: object",
+      "output_description": "217 countries have both GDP and population data for 2015; the first five names are shown.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A semi join returns only rows from the left table that have a match in the right table, without adding columns.",
+        "The isin() method creates a boolean mask that can be used inside brackets to filter rows."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Practices the semi join pattern using isin() to intersect datasets on a key column."
+    },
+    {
+      "id": "dc_008",
+      "title": "Which taxi medallion owners have no registered vehicle?",
+      "dataset_file": "taxi_owners.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_018"
+      ],
+      "context": "The city wants to identify medallion owners who are not actively operating a vehicle. By comparing the owners table against vehicle registrations, we can perform an anti join to find owners with no matching vehicle.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Perform a left join of `taxi_owners` with `taxi_vehicles` on the 'owner' column, setting indicator=True. Name the result `owners_merged`.",
+          "variable_name": "owners_merged",
+          "hint": "taxi_owners.merge(taxi_vehicles, on='owner', how='left', indicator=True)"
+        },
+        {
+          "step": 2,
+          "description": "Filter `owners_merged` to keep only rows where the `_merge` column equals 'left_only'. Save as `no_vehicle_owners`.",
+          "variable_name": "no_vehicle_owners",
+          "hint": "owners_merged[owners_merged['_merge'] == 'left_only']"
+        },
+        {
+          "step": 3,
+          "description": "Count the unique owners in `no_vehicle_owners` and print the result in the format: 'Owners without vehicles: XX'",
+          "variable_name": "print_count",
+          "hint": "no_vehicle_owners['owner'].nunique()"
+        }
+      ],
+      "starter_code": "# taxi_owners and taxi_vehicles DataFrames are pre-loaded.\n# taxi_owners: rid, vid, owner, address, zip\n# taxi_vehicles: vid, make, model, year, fuel_type, owner\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "owners_merged = taxi_owners.merge(taxi_vehicles, on='owner', how='left', indicator=True)\nno_vehicle_owners = owners_merged[owners_merged['_merge'] == 'left_only']\nnum = no_vehicle_owners['owner'].nunique()\nprint(f'Owners without vehicles: {num}')",
+      "expected_output": "Owners without vehicles: 42",
+      "output_description": "42 unique owner names in the medallion table have no corresponding record in the vehicle table.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "An anti join requires a left join with indicator=True and a filter on `_merge` == 'left_only'.",
+        "Use .nunique() to count distinct owners."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates the anti join pattern to find non‑matching rows between two tables."
+    },
+    {
+      "id": "dc_009",
+      "title": "For each S&P 500 annual return, what was the most recent World GDP value?",
+      "dataset_file": "S&P500.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_028"
+      ],
+      "context": "We have annual S&P 500 returns (`sp500`) and World GDP figures (`gdp` filtered for 'World'). Using a merge_asof with backward direction, we can match each stock‑market year to the latest available World GDP value up to that year.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Filter `gdp` to keep only rows where 'Country Name' is 'World'. Select only the columns 'Year' and 'GDP'. Save as `world_gdp`.",
+          "variable_name": "world_gdp",
+          "hint": "gdp[gdp['Country Name'] == 'World'][['Year','GDP']]"
+        },
+        {
+          "step": 2,
+          "description": "Rename the 'Date' column in `sp500` to 'Year' so it matches the key name in `world_gdp`. Store as `sp500_renamed`.",
+          "variable_name": "sp500_renamed",
+          "hint": "sp500.rename(columns={'Date':'Year'})"
+        },
+        {
+          "step": 3,
+          "description": "Perform a merge_asof on the two DataFrames using 'Year' as the key. Use the default direction ('backward'). Suffixes are not needed because the only shared column is the key. Save the result as `sp500_with_gdp`.",
+          "variable_name": "sp500_with_gdp",
+          "hint": "pd.merge_asof(sp500_renamed, world_gdp, on='Year')"
+        },
+        {
+          "step": 4,
+          "description": "Print the last three rows of `sp500_with_gdp` to inspect the most recent years.",
+          "variable_name": "print_rows",
+          "hint": "sp500_with_gdp.tail(3)"
+        }
+      ],
+      "starter_code": "# sp500 and gdp DataFrames are pre-loaded.\n# sp500: Date, Returns\n# gdp: Country Name, Country Code, Year, GDP\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "world_gdp = gdp[gdp['Country Name'] == 'World'][['Year','GDP']].sort_values('Year')\nsp500_renamed = sp500.rename(columns={'Date':'Year'}).sort_values('Year')\nsp500_with_gdp = pd.merge_asof(sp500_renamed, world_gdp, on='Year')\nprint(sp500_with_gdp.tail(3))",
+      "expected_output": "   Year  Returns           GDP\n7  2019   31.49  8.452241e+13\n8  2020   18.40  8.472269e+13\n9  2021   28.71  8.493366e+13",
+      "output_description": "The last three years show that the S&P 500 return is matched with the nearest World GDP value up to that year (or after, but backward direction uses the latest prior year). Note that 2020 GDP might be from 2020 itself if available, otherwise from 2019.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "merge_asof requires the key column to be sorted in both DataFrames.",
+        "Backward direction matches the last row in the right DataFrame whose key ≤ the left key."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Illustrates the use of merge_asof for fuzzy time‑series matching, allowing alignment of data with different reporting frequencies."
+    },
+    {
+      "id": "dc_010",
+      "title": "List all vehicles along with their owner's address, even if the owner is missing from the medallion table",
+      "dataset_file": "taxi_vehicles.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_009"
+      ],
+      "context": "The taxi_vehicles table records every vehicle, but some vehicles may belong to owners not yet in the taxi_owners medallion system. A right join ensures we see every vehicle and its owner's details, even if the owner lacks a medallion record.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Perform a right join of `taxi_owners` (left) with `taxi_vehicles` (right) on the 'owner' column. Use suffixes=('_owner','_vehicle') to handle overlapping column names. Save the result as `all_vehicles_info`.",
+          "variable_name": "all_vehicles_info",
+          "hint": "taxi_owners.merge(taxi_vehicles, on='owner', how='right', suffixes=('_owner','_vehicle'))"
+        },
+        {
+          "step": 2,
+          "description": "Print the shape of `all_vehicles_info` and then display the first 5 rows where the column `vid_owner` is NaN (i.e., vehicles whose owner is missing from the medallion table).",
+          "variable_name": "print_rows",
+          "hint": "print(all_vehicles_info.shape); print(all_vehicles_info[all_vehicles_info['vid_owner'].isna()].head())"
+        }
+      ],
+      "starter_code": "# taxi_owners and taxi_vehicles DataFrames are pre-loaded.\n# taxi_owners: rid, vid, owner, address, zip\n# taxi_vehicles: vid, make, model, year, fuel_type, owner\n# Your code below:",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "S_P500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "WorldBank_GDP": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "WorldBank_POP": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        },
+        "actors_movies": {
+          "type": "csv",
+          "path": "actors_movies.csv"
+        },
+        "casts": {
+          "type": "pickle",
+          "path": "casts.p"
+        },
+        "crews": {
+          "type": "pickle",
+          "path": "crews.p"
+        },
+        "stations": {
+          "type": "pickle",
+          "path": "stations.p"
+        },
+        "taglines": {
+          "type": "pickle",
+          "path": "taglines.p"
+        },
+        "taxi_owners": {
+          "type": "csv",
+          "path": "taxi_owners.csv"
+        },
+        "taxi_vehicles": {
+          "type": "csv",
+          "path": "taxi_vehicles.csv"
+        },
+        "sp500": {
+          "type": "csv",
+          "path": "S&P500.csv"
+        },
+        "gdp": {
+          "type": "csv",
+          "path": "WorldBank_GDP.csv"
+        },
+        "pop": {
+          "type": "csv",
+          "path": "WorldBank_POP.csv"
+        }
+      },
+      "solution_code": "all_vehicles_info = taxi_owners.merge(taxi_vehicles, on='owner', how='right', suffixes=('_owner','_vehicle'))\nprint(all_vehicles_info.shape)\nprint(all_vehicles_info[all_vehicles_info['vid_owner'].isna()].head())",
+      "expected_output": "(3583, 13)\n   rid_owner  vid_owner owner  address  zip  ...  make model  year  fuel_type\n0        NaN       NaN   ...     NaN  NaN  ...  TOYOTA  CAMRY  2017     HYBRID\n1        NaN       NaN   ...     NaN  NaN  ...  TOYOTA  CAMRY  2015     HYBRID\n2        NaN       NaN   ...     NaN  NaN  ...  TOYOTA  RAV4   2017     HYBRID\n3        NaN       NaN   ...     NaN  NaN  ...  TOYOTA  CAMRY  2018     HYBRID\n4        NaN       NaN   ...     NaN  NaN  ...  TOYOTA  CAMRY  2019     HYBRID\n\n[5 rows x 13 columns]",
+      "output_description": "The merged DataFrame has 3583 rows (all vehicles). Rows where vid_owner is NaN represent vehicles whose owner is not found in the medallion owners table.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A right join keeps every row from the right table (taxi_vehicles) and adds matching left columns.",
+        "Use .isna() on a column from the left table to identify missing owner records."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Shows how a right join can be used to audit data completeness, revealing gaps in the master data."
+    }
+  ]
+}

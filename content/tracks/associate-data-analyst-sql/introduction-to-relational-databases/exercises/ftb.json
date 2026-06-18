@@ -1,0 +1,903 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_008",
+    "concept_name": "CREATE TABLE",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a table named weather with columns: clouds of type text, temperature of type numeric, and weather_station of type char(5). Complete the missing parts.",
+    "code_template": "CREATE TABLE weather (\n  clouds text,\n  temperature _____ ,\n  weather_station char(5)\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "numeric",
+        "answer_alternatives": ["numeric()", "numeric "]
+      }
+    ],
+    "word_bank": ["numeric", "number", "decimal", "float", "integer"],
+    "per_tile_feedback": {
+      "numeric": "Correct. `numeric` is an arbitrary precision number type suitable for temperature.",
+      "number": "`number` is not a valid SQL data type in PostgreSQL.",
+      "decimal": "`decimal` is a synonym for `numeric`, but the exact word used in the course is `numeric`.",
+      "float": "`float` is an approximate‑precision type, not needed here and not the course example.",
+      "integer": "`integer` stores whole numbers only; temperature might need decimals."
+    },
+    "hints": [
+      "Remember that `numeric` can store numbers with a fractional part.",
+      "The course example uses exactly `temperature numeric`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct type for a temperature value that may include decimals is `numeric`. The course creates this column with `temperature numeric`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_009",
+    "concept_name": "information_schema",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Query the built‑in schema to list all tables along with their schemas. Fill in the missing table name.",
+    "code_template": "SELECT table_schema, table_name FROM _______________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "information_schema.tables",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["information_schema.tables", "pg_catalog.tables", "sys.tables", "public.tables"],
+    "per_tile_feedback": {
+      "information_schema.tables": "Correct. `information_schema.tables` contains metadata about every table in the database.",
+      "pg_catalog.tables": "`pg_catalog` is another system schema, but the portable way to access table metadata is through `information_schema.tables`.",
+      "sys.tables": "`sys.tables` is a SQL Server view, not available in PostgreSQL.",
+      "public.tables": "`public` is the default schema for user tables; there is no view called `public.tables`."
+    },
+    "hints": [
+      "Remember the database's own metadata is stored in a schema called `information_schema`.",
+      "The course query uses exactly `FROM information_schema.tables`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`information_schema.tables` is the standard, read‑only view that returns table names and their schemas.",
+    "common_mistake_warning": "⚠️ Table names can be case‑sensitive in some DBMS; `information_schema.tables` returns them exactly as stored."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_010",
+    "concept_name": "information_schema.columns",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Retrieve column names and data types for the table named 'pg_config'. Complete the WHERE clause.",
+    "code_template": "SELECT table_name, column_name, data_type\nFROM information_schema.columns\nWHERE _______________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "table_name = 'pg_config'",
+        "answer_alternatives": ["table_name = 'pg_config'", "table_name='pg_config'"]
+      }
+    ],
+    "word_bank": ["table_name = 'pg_config'", "column_name = 'pg_config'", "table_schema = 'pg_config'", "table_name IS 'pg_config'"],
+    "per_tile_feedback": {
+      "table_name = 'pg_config'": "Correct. Filters the columns metadata to only those belonging to the `pg_config` table.",
+      "column_name = 'pg_config'": "This would look for a column named `pg_config`, not a table.",
+      "table_schema = 'pg_config'": "`pg_config` is a table name, not a schema name.",
+      "table_name IS 'pg_config'": "`IS` is used for NULL comparisons, not for equality with a string."
+    },
+    "hints": [
+      "You need to restrict the result to rows where the table name equals the literal string 'pg_config'.",
+      "The course example uses `WHERE table_name = 'pg_config'`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`table_name = 'pg_config'` correctly filters the `information_schema.columns` view to show only the columns of that specific table.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_011",
+    "concept_name": "INSERT INTO SELECT DISTINCT",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Insert unique rows into the organizations table, taking organization and organization_sector from university_professors. Fill in the keyword that avoids duplicates.",
+    "code_template": "INSERT INTO organizations\nSELECT _______________ organization, organization_sector\nFROM university_professors;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "DISTINCT ON", "ALL"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. `DISTINCT` removes duplicate combinations of the selected columns before inserting.",
+      "UNIQUE": "`UNIQUE` is a constraint, not a keyword usable in a SELECT clause.",
+      "DISTINCT ON": "`DISTINCT ON` is a PostgreSQL extension that requires an ORDER BY; it is not standard for simple duplicate removal.",
+      "ALL": "`ALL` returns all rows including duplicates, the opposite of what is needed."
+    },
+    "hints": [
+      "The goal is to prevent duplicate rows in the target table.",
+      "The course pattern uses `SELECT DISTINCT` to achieve that."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`DISTINCT` ensures that only unique (organization, organization_sector) pairs are inserted, keeping the organizations table free of duplicates.",
+    "common_mistake_warning": "⚠️ Forgetting DISTINCT would copy all source rows, potentially adding many duplicates."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_014",
+    "concept_name": "varchar(n)",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Define a column named `name` that can hold character strings up to 64 characters. Write the correct data type.",
+    "code_template": "CREATE TABLE products (\n  name ________________ ,\n  price numeric\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "varchar(64)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["varchar(64)", "char(64)", "text(64)", "string(64)"],
+    "per_tile_feedback": {
+      "varchar(64)": "Correct. `varchar(n)` is the variable‑length type with a maximum of 64 characters.",
+      "char(64)": "`char(64)` is fixed‑length and pads values with spaces, which is wasteful.",
+      "text(64)": "`text` does not accept a length parameter; you cannot enforce a 64‑character limit this way.",
+      "string(64)": "`string` is not a standard SQL data type."
+    },
+    "hints": [
+      "Remember you want a variable‑length type with a length limit.",
+      "The course uses `varchar(64)` for names like lastname."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`varchar(64)` is the appropriate type when you want to store character strings with a maximum length of 64 characters.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_015",
+    "concept_name": "char(n)",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Create a column `weather_station` that always stores exactly 5 characters (padding with spaces if needed). Provide the exact type.",
+    "code_template": "CREATE TABLE weather (\n  clouds text,\n  temperature numeric,\n  weather_station _____________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "char(5)",
+        "answer_alternatives": ["char (5)"]
+      }
+    ],
+    "word_bank": ["char(5)", "varchar(5)", "text", "character varying(5)"],
+    "per_tile_feedback": {
+      "char(5)": "Correct. `char(5)` is fixed‑length and pads shorter strings with spaces.",
+      "varchar(5)": "`varchar(5)` allows strings up to 5 characters but does not pad; it is not fixed‑length.",
+      "text": "`text` stores unlimited length and does not enforce a 5‑character width.",
+      "character varying(5)": "This is a synonym for `varchar(5)`, not a fixed‑length type."
+    },
+    "hints": [
+      "You need a fixed‑length type, not variable‑length.",
+      "Think of the keyword `char` without any mention of 'varying'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`char(5)` guarantees exactly 5 characters are stored, padding with spaces if the input is shorter. This is useful for codes that always have the same length.",
+    "common_mistake_warning": "⚠️ Using `char` for data that varies in length wastes storage and can cause unexpected comparison results due to trailing spaces."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_017",
+    "concept_name": "numeric(p, s)",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Define a column `average_grade` that can store numbers with up to 3 total digits, 2 of which are after the decimal point. Write the correct type including precision and scale.",
+    "code_template": "CREATE TABLE students (\n  average_grade _____________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "numeric(3,2)",
+        "answer_alternatives": ["numeric (3,2)"]
+      }
+    ],
+    "word_bank": ["numeric(3,2)", "numeric(2,3)", "decimal(2,3)", "float(3)"],
+    "per_tile_feedback": {
+      "numeric(3,2)": "Correct. Precision 3 (total digits) and scale 2 (digits after decimal) matches the requirement.",
+      "numeric(2,3)": "This would allow 2 total digits with 3 after decimal – impossible and the other way round.",
+      "decimal(2,3)": "`decimal` is a synonym for `numeric`, but the numbers are swapped; precision and scale are reversed.",
+      "float(3)": "`float(3)` gives approximate precision, not an exact number of decimal places."
+    },
+    "hints": [
+      "Precision is the total number of digits; scale is the number to the right of the decimal point.",
+      "The course example uses `numeric(3,2)` for average_grade."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`numeric(3,2)` allows values like 9.99; any value with more than 3 total digits (e.g., 10.00) would cause an error.",
+    "common_mistake_warning": "⚠️ Reversing precision and scale is a common mistake that leads to unexpected errors or data truncation."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_020",
+    "concept_name": "serial",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Add an auto‑incrementing integer primary key column named `id` to the `cars` table. Fill in the data type.",
+    "code_template": "ALTER TABLE cars\nADD COLUMN id _____ PRIMARY KEY;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "serial",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["serial", "integer", "autoincrement", "sequence"],
+    "per_tile_feedback": {
+      "serial": "Correct. `serial` creates an auto‑incrementing integer using a sequence.",
+      "integer": "`integer` alone does not auto‑increment; you would need an additional default from a sequence.",
+      "autoincrement": "`autoincrement` is not a PostgreSQL keyword (it is used in MySQL).",
+      "sequence": "`sequence` is an object type, not a column data type."
+    },
+    "hints": [
+      "PostgreSQL's shortcut for an auto‑incrementing integer is a specific data type.",
+      "The course uses `id serial PRIMARY KEY` when adding a surrogate key."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`serial` is a convenient pseudo‑type that creates an integer column and a sequence, automatically assigning the next value on insert.",
+    "common_mistake_warning": "⚠️ `serial` does not guarantee gap‑free numbers; gaps can occur after rollbacks."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_021",
+    "concept_name": "CAST",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Calculate wind_chill by multiplying temperature by wind_speed, which is stored as text. Write the function to convert wind_speed to integer on the fly.",
+    "code_template": "SELECT temperature * _____________ AS wind_chill\nFROM weather;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "CAST(wind_speed AS integer)",
+        "answer_alternatives": ["CAST(wind_speed as integer)"]
+      }
+    ],
+    "word_bank": ["CAST(wind_speed AS integer)", "CONVERT(wind_speed, integer)", "TO_INTEGER(wind_speed)", "wind_speed::integer"],
+    "per_tile_feedback": {
+      "CAST(wind_speed AS integer)": "Correct. The `CAST` function explicitly converts `wind_speed` to integer for the multiplication.",
+      "CONVERT(wind_speed, integer)": "`CONVERT` is a function in some databases (like SQL Server) but not standard PostgreSQL syntax.",
+      "TO_INTEGER(wind_speed)": "There is no built‑in function named `TO_INTEGER` in PostgreSQL.",
+      "wind_speed::integer": "This is the PostgreSQL shorthand cast `::integer`, which would also work, but the exercise asks for the `CAST` function as shown in the course."
+    },
+    "hints": [
+      "The course uses the explicit `CAST` function to convert data types.",
+      "Look at the syntax: `CAST(expression AS target_type)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`CAST(wind_speed AS integer)` tells PostgreSQL to treat the text value as an integer during the expression evaluation.",
+    "common_mistake_warning": "⚠️ If `wind_speed` contains non‑numeric strings, `CAST` will raise an error."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_022",
+    "concept_name": "DISTINCT",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Count the number of unique organizations in the university_professors table. Fill in the keyword that removes duplicate entries before counting.",
+    "code_template": "SELECT COUNT(____________________)\nFROM university_professors;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT organization",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DISTINCT organization", "UNIQUE organization", "organization", "ALL organization"],
+    "per_tile_feedback": {
+      "DISTINCT organization": "Correct. `COUNT(DISTINCT column)` counts only the unique values of that column.",
+      "UNIQUE organization": "`UNIQUE` is a constraint, not a keyword that can be used inside `COUNT()`.",
+      "organization": "This would count all rows, including duplicate organization names.",
+      "ALL organization": "`ALL` is the default and would count every row, not just distinct ones."
+    },
+    "hints": [
+      "The goal is to count each organization only once.",
+      "The standard SQL function for that is `COUNT(DISTINCT …)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`COUNT(DISTINCT organization)` returns the number of different organization names, ignoring duplicates.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_023",
+    "concept_name": "INSERT INTO VALUES",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Insert a row into `table_name` with value 'value_a' for column_a and 'value_b' for column_b. Complete the missing part.",
+    "code_template": "INSERT INTO table_name (column_a, column_b)\n__________ ('value_a', 'value_b');",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "VALUES",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["VALUES", "VALUE", "SET", "INSERT"],
+    "per_tile_feedback": {
+      "VALUES": "Correct. The `VALUES` clause specifies the data to insert.",
+      "VALUE": "The keyword must be `VALUES`, not the singular `VALUE`.",
+      "SET": "`SET` is used in `UPDATE`, not `INSERT INTO`.",
+      "INSERT": "`INSERT` is already at the start; repeating it is invalid."
+    },
+    "hints": [
+      "The standard INSERT syntax uses a keyword before the parentheses with the data.",
+      "Remember the template: `INSERT INTO … VALUES … ;`"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`INSERT INTO … VALUES` is the correct way to add a row with explicit column values.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_024",
+    "concept_name": "ALTER TABLE RENAME COLUMN",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Rename the column `old_name` to `new_name` in the table `table_name`. Complete the command.",
+    "code_template": "ALTER TABLE table_name\nRENAME COLUMN _______________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "old_name TO new_name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["old_name TO new_name", "old_name AS new_name", "old_name new_name", "TO new_name"],
+    "per_tile_feedback": {
+      "old_name TO new_name": "Correct. The syntax is `RENAME COLUMN old_name TO new_name`.",
+      "old_name AS new_name": "`AS` is used for aliases, not for renaming columns.",
+      "old_name new_name": "Missing the keyword `TO`; the statement would be invalid.",
+      "TO new_name": "The old column name must be specified before `TO`."
+    },
+    "hints": [
+      "The course example uses `RENAME COLUMN old_name TO new_name`.",
+      "The word `TO` is required between the old and new names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "PostgreSQL's `ALTER TABLE … RENAME COLUMN` requires the `TO` keyword to separate the old and new names.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_025",
+    "concept_name": "ALTER TABLE DROP COLUMN",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Remove the column named `column_name` from `table_name`. Fill in the column to be dropped.",
+    "code_template": "ALTER TABLE table_name\nDROP COLUMN ______________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "column_name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["column_name", "COLUMN column_name", "table_name.column_name", "column_name CASCADE"],
+    "per_tile_feedback": {
+      "column_name": "Correct. The column name alone follows `DROP COLUMN`.",
+      "COLUMN column_name": "The word `COLUMN` is already before the blank; repeating it would be invalid.",
+      "table_name.column_name": "You cannot qualify the column with the table name here; just the column name is needed.",
+      "column_name CASCADE": "While `CASCADE` may be needed for dependencies, the task asks for the basic column name without it."
+    },
+    "hints": [
+      "The syntax is `DROP COLUMN column_name`.",
+      "Just the column name is required after `DROP COLUMN`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ALTER TABLE … DROP COLUMN column_name` permanently deletes that column. Use `CASCADE` only if dependencies exist.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_026",
+    "concept_name": "NOT NULL constraint",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Set the `home_phone` column in the `students` table so that NULL values are not allowed. Complete the ALTER command.",
+    "code_template": "ALTER TABLE students\nALTER COLUMN home_phone _____________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SET NOT NULL",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["SET NOT NULL", "ADD NOT NULL", "NOT NULL", "DROP NOT NULL"],
+    "per_tile_feedback": {
+      "SET NOT NULL": "Correct. `ALTER COLUMN … SET NOT NULL` adds the constraint.",
+      "ADD NOT NULL": "`ADD` is used for table‑level constraints with `ADD CONSTRAINT`, not with `ALTER COLUMN`.",
+      "NOT NULL": "Missing the `SET` keyword; the syntax is incomplete.",
+      "DROP NOT NULL": "This would remove a NOT NULL constraint, the opposite of what is needed."
+    },
+    "hints": [
+      "The command modifies an existing column to disallow NULLs.",
+      "The course uses `ALTER COLUMN … SET NOT NULL`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ALTER COLUMN … SET NOT NULL` is the correct way to add a NOT NULL constraint to an existing column, provided no NULL values exist.",
+    "common_mistake_warning": "⚠️ If the column already contains NULL, this command will fail."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_028",
+    "concept_name": "UNIQUE constraint",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Add a unique constraint named `some_name` to the column `column_name` in `table_name`. Complete the command.",
+    "code_template": "ALTER TABLE table_name\nADD CONSTRAINT some_name _____________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "UNIQUE(column_name)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["UNIQUE(column_name)", "UNIQUE column_name", "ADD UNIQUE column_name", "UNIQUE"],
+    "per_tile_feedback": {
+      "UNIQUE(column_name)": "Correct. `ADD CONSTRAINT` requires the constraint type and column in parentheses.",
+      "UNIQUE column_name": "The column must be enclosed in parentheses: `UNIQUE(column_name)`.",
+      "ADD UNIQUE column_name": "`ADD` is not used again; the type `UNIQUE` is already part of `ADD CONSTRAINT`.",
+      "UNIQUE": "The column name is missing; you must specify which column receives the constraint."
+    },
+    "hints": [
+      "The syntax is `ADD CONSTRAINT name UNIQUE(column)`.",
+      "Enclose the column name in parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ADD CONSTRAINT some_name UNIQUE(column_name)` adds a named unique constraint, which allows multiple NULLs in PostgreSQL.",
+    "common_mistake_warning": "⚠️ A UNIQUE column can still contain multiple NULLs because NULL is not considered equal to anything."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_032",
+    "concept_name": "Primary key",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Create a table `products` with a column `product_no` that will be the primary key. Fill in the constraint.",
+    "code_template": "CREATE TABLE products (\n  product_no integer _______________ ,\n  name text,\n  price numeric\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "PRIMARY KEY",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["PRIMARY KEY", "PRIMARY", "KEY", "UNIQUE NOT NULL"],
+    "per_tile_feedback": {
+      "PRIMARY KEY": "Correct. `PRIMARY KEY` sets the column as the unique, non‑null row identifier.",
+      "PRIMARY": "The keyword `KEY` must follow `PRIMARY`.",
+      "KEY": "`KEY` alone is not a full constraint; it's `PRIMARY KEY`.",
+      "UNIQUE NOT NULL": "While functionally similar, `PRIMARY KEY` is the single standard syntax."
+    },
+    "hints": [
+      "The course uses `product_no integer PRIMARY KEY`.",
+      "A primary key implicitly includes NOT NULL and UNIQUE."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`PRIMARY KEY` is the constraint that uniquely identifies each row and disallows NULLs.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_033",
+    "concept_name": "Composite key",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Create a table `example` with a composite primary key made of columns `a` and `c`. Complete the primary key definition.",
+    "code_template": "CREATE TABLE example (\n  a integer,\n  b integer,\n  c integer,\n  ____________________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "PRIMARY KEY (a, c)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["PRIMARY KEY (a, c)", "KEY (a, c)", "PRIMARY (a, c)", "UNIQUE (a, c)"],
+    "per_tile_feedback": {
+      "PRIMARY KEY (a, c)": "Correct. This defines a composite primary key on columns a and c.",
+      "KEY (a, c)": "Missing the word `PRIMARY`; `KEY` alone is not a constraint.",
+      "PRIMARY (a, c)": "The keyword `KEY` must follow `PRIMARY`.",
+      "UNIQUE (a, c)": "`UNIQUE` would allow NULLs and does not define a primary key."
+    },
+    "hints": [
+      "The syntax is `PRIMARY KEY (column1, column2)`.",
+      "A composite key uses more than one column in the PRIMARY KEY clause."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`PRIMARY KEY (a, c)` makes the combination of a and c the unique row identifier; both columns together must be unique and not NULL.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_034",
+    "concept_name": "Surrogate key",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Add an auto‑incrementing surrogate primary key named `id` to the `cars` table. Complete the column definition.",
+    "code_template": "ALTER TABLE cars\nADD COLUMN id ________________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "serial PRIMARY KEY",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["serial PRIMARY KEY", "integer PRIMARY KEY", "serial UNIQUE", "id serial"],
+    "per_tile_feedback": {
+      "serial PRIMARY KEY": "Correct. `serial` provides auto‑increment and `PRIMARY KEY` makes it the unique identifier.",
+      "integer PRIMARY KEY": "`integer` alone does not auto‑increment; a default from a sequence would be needed.",
+      "serial UNIQUE": "`UNIQUE` allows NULLs; a primary key should be `PRIMARY KEY`.",
+      "id serial": "The column name `id` is already specified; you cannot repeat it."
+    },
+    "hints": [
+      "The course uses `ALTER TABLE cars ADD COLUMN id serial PRIMARY KEY`.",
+      "A surrogate key is often a `serial` column with a primary key constraint."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`serial PRIMARY KEY` creates an auto‑incrementing integer that serves as the table's primary key.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_035",
+    "concept_name": "CONCAT",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Update `table_name` so that `column_c` becomes the concatenation of `column_a` and `column_b`. Fill in the function name.",
+    "code_template": "UPDATE table_name\nSET column_c = _______________(column_a, column_b);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "CONCAT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["CONCAT", "CONCATENATE", "JOIN", "||"],
+    "per_tile_feedback": {
+      "CONCAT": "Correct. `CONCAT` is the PostgreSQL function to join strings, ignoring NULL arguments.",
+      "CONCATENATE": "There is no built‑in function named `CONCATENATE` in PostgreSQL.",
+      "JOIN": "`JOIN` is used to combine tables, not strings.",
+      "||": "`||` is the string concatenation operator, but the task asks for a function."
+    },
+    "hints": [
+      "The course uses `CONCAT(column_a, column_b)` to merge strings.",
+      "The function name starts with 'C' and has 6 letters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`CONCAT` safely concatenates strings; in PostgreSQL it treats NULL as an empty string.",
+    "common_mistake_warning": "⚠️ In some other DBMS, `CONCAT` returns NULL if any argument is NULL; PostgreSQL behaves differently."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_036",
+    "concept_name": "Foreign key",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Create a `cars` table with a column `manufacturer_name` that references the `name` column in the `manufacturers` table. Complete the foreign key definition.",
+    "code_template": "CREATE TABLE cars (\n  model varchar(255) PRIMARY KEY,\n  manufacturer_name varchar(255) ______________________________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "REFERENCES manufacturers (name)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["REFERENCES manufacturers (name)", "REFERENCES manufacturers name", "REFERENCES name", "FOREIGN KEY (name)"],
+    "per_tile_feedback": {
+      "REFERENCES manufacturers (name)": "Correct. This defines a foreign key pointing to the `name` column of `manufacturers`.",
+      "REFERENCES manufacturers name": "The referenced column must be in parentheses: `(name)`.",
+      "REFERENCES name": "The table name `manufacturers` is missing; the reference would be ambiguous.",
+      "FOREIGN KEY (name)": "`FOREIGN KEY` is a table‑level constraint; the column‑level shortcut is `REFERENCES`."
+    },
+    "hints": [
+      "The short foreign key syntax is `column type REFERENCES other_table(other_column)`.",
+      "The course uses `manufacturer_name varchar(255) REFERENCES manufacturers (name)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`REFERENCES manufacturers (name)` creates a foreign key from `cars.manufacturer_name` to `manufacturers.name`, enforcing referential integrity.",
+    "common_mistake_warning": "⚠️ Data types must match exactly between the foreign key column and the referenced primary key."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_039",
+    "concept_name": "N:M (many-to-many) relationship",
+    "chapter": 11,
+    "difficulty": "hard",
+    "task_description": "Create a junction table `affiliations` that links professors and organizations. Complete the two foreign keys.",
+    "code_template": "CREATE TABLE affiliations (\n  professor_id integer REFERENCES professors(id),\n  organization_id varchar(256) REFERENCES organizations(id),\n  function varchar(256)\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "organization_id varchar(256) REFERENCES organizations(id)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["organization_id varchar(256) REFERENCES organizations(id)", "organization_id varchar(256)", "FOREIGN KEY (organization_id) REFERENCES organizations(id)", "organization REFERENCES organizations(id)"],
+    "per_tile_feedback": {
+      "organization_id varchar(256) REFERENCES organizations(id)": "Correct. This adds a foreign key to the organizations table while defining the column.",
+      "organization_id varchar(256)": "This defines the column but without the foreign key constraint.",
+      "FOREIGN KEY (organization_id) REFERENCES organizations(id)": "This is a table‑level constraint that would be separate; the task expects the column‑level syntax.",
+      "organization REFERENCES organizations(id)": "Column name is missing; `organization` alone is not the correct name."
+    },
+    "hints": [
+      "The junction table needs two foreign keys, one for each entity.",
+      "Look at the pattern of the first column `professor_id integer REFERENCES professors(id)`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A junction table for an N:M relationship contains foreign keys to both related tables. Each key is defined with `REFERENCES` to enforce integrity.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_041",
+    "concept_name": "ON DELETE NO ACTION",
+    "chapter": 12,
+    "difficulty": "very_hard",
+    "task_description": "Create table `a` with a foreign key `b_id` referencing `b(id)`. Prevent deletion of the referenced row if any referencing rows exist, using the default behavior. Fill in the action.",
+    "code_template": "CREATE TABLE a (\n  id integer PRIMARY KEY,\n  column_a varchar(64),\n  b_id integer REFERENCES b(id) ____________________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ON DELETE NO ACTION",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ON DELETE NO ACTION", "ON DELETE CASCADE", "ON DELETE SET NULL", "ON UPDATE NO ACTION"],
+    "per_tile_feedback": {
+      "ON DELETE NO ACTION": "Correct. `NO ACTION` prevents deletion of the parent row if children exist.",
+      "ON DELETE CASCADE": "`CASCADE` would automatically delete child rows, which is not the intended restrictive behavior.",
+      "ON DELETE SET NULL": "`SET NULL` would set the foreign key to NULL, not block the deletion.",
+      "ON UPDATE NO ACTION": "This clause affects updates, not deletes."
+    },
+    "hints": [
+      "The default behavior of a foreign key is to forbid the deletion when referenced rows exist.",
+      "The explicit clause for that is `ON DELETE NO ACTION`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ON DELETE NO ACTION` (the default) ensures referential integrity by raising an error if someone tries to delete a parent that still has child records.",
+    "common_mistake_warning": "⚠️ `NO ACTION` can be deferred to the end of a transaction, unlike `RESTRICT` which checks immediately."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_042",
+    "concept_name": "ON DELETE CASCADE",
+    "chapter": 12,
+    "difficulty": "hard",
+    "task_description": "Create table `a` with a foreign key that automatically deletes child rows when the parent row is deleted. Write the clause.",
+    "code_template": "CREATE TABLE a (\n  id integer PRIMARY KEY,\n  column_a varchar(64),\n  b_id integer REFERENCES b(id) ____________________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ON DELETE CASCADE",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ON DELETE CASCADE", "ON DELETE SET NULL", "ON DELETE RESTRICT", "CASCADE DELETE"],
+    "per_tile_feedback": {
+      "ON DELETE CASCADE": "Correct. `CASCADE` propagates the delete to referencing rows.",
+      "ON DELETE SET NULL": "This would set the foreign key to NULL, not delete the child rows.",
+      "ON DELETE RESTRICT": "`RESTRICT` would prevent the deletion, similar to `NO ACTION`.",
+      "CASCADE DELETE": "The correct syntax is `ON DELETE CASCADE`, not `CASCADE DELETE`."
+    },
+    "hints": [
+      "The keyword `CASCADE` is used after `ON DELETE`.",
+      "The course example: `b_id integer REFERENCES b(id) ON DELETE CASCADE`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ON DELETE CASCADE` automatically removes all child rows when the parent is deleted, simplifying cleanup but risking accidental mass deletion.",
+    "common_mistake_warning": "⚠️ Unintended cascading deletes can remove large amounts of data without warning."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_043",
+    "concept_name": "ON DELETE SET NULL / SET DEFAULT",
+    "chapter": 12,
+    "difficulty": "very_hard",
+    "task_description": "Create table `a` with a foreign key that becomes NULL when the referenced row is deleted. Fill in the action, assuming the column allows NULL.",
+    "code_template": "CREATE TABLE a (\n  id integer PRIMARY KEY,\n  column_a varchar(64),\n  b_id integer REFERENCES b(id) ____________________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ON DELETE SET NULL",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ON DELETE SET NULL", "ON DELETE CASCADE", "ON DELETE SET DEFAULT", "ON DELETE NO ACTION"],
+    "per_tile_feedback": {
+      "ON DELETE SET NULL": "Correct. `SET NULL` sets the foreign key to NULL when the parent is deleted, preserving the child row.",
+      "ON DELETE CASCADE": "This would delete the child row entirely.",
+      "ON DELETE SET DEFAULT": "This would set the column to its default value, not NULL.",
+      "ON DELETE NO ACTION": "This would block the deletion."
+    },
+    "hints": [
+      "The action that puts the column into the unknown/missing state is `SET NULL`.",
+      "The column must not have a NOT NULL constraint for this to work."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ON DELETE SET NULL` maintains the child row but removes the reference, requiring that the column is nullable.",
+    "common_mistake_warning": "⚠️ Using `SET NULL` on a NOT NULL column will cause an error when creating the table."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_047",
+    "concept_name": "ALTER TABLE ALTER COLUMN TYPE",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Change the `average_grade` column in `students` from numeric to integer, rounding the existing values. Complete the USING clause.",
+    "code_template": "ALTER TABLE students\nALTER COLUMN average_grade TYPE integer\nUSING _______________ ;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ROUND(average_grade)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ROUND(average_grade)", "CAST(average_grade AS integer)", "average_grade::integer", "TRUNC(average_grade)"],
+    "per_tile_feedback": {
+      "ROUND(average_grade)": "Correct. `ROUND` converts each value to the nearest integer before the type change.",
+      "CAST(average_grade AS integer)": "`CAST` would truncate, not round, leading to data loss for decimal values.",
+      "average_grade::integer": "The `::` cast also truncates, not rounds.",
+      "TRUNC(average_grade)": "`TRUNC` discards the fractional part, the same as truncation."
+    },
+    "hints": [
+      "The course uses `ROUND(average_grade)` to safely convert numeric to integer.",
+      "Without a USING clause that rounds, PostgreSQL would truncate (lose precision)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`USING ROUND(average_grade)` ensures that each value is rounded to the nearest integer before the column type is altered, avoiding silent truncation.",
+    "common_mistake_warning": "⚠️ If you omit the USING clause or use a cast without rounding, decimal values will be truncated (e.g., 8.9 becomes 8)."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_048",
+    "concept_name": "ALTER TABLE ADD CONSTRAINT",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Add a primary key constraint named `pk` to the column `column_c` of `table_name`. Fill in the constraint name.",
+    "code_template": "ALTER TABLE table_name\nADD CONSTRAINT _______ PRIMARY KEY (column_c);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pk",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pk", "primary_key", "PK_column_c", "constraint"],
+    "per_tile_feedback": {
+      "pk": "Correct. `pk` is the name given to the constraint as shown in the course example.",
+      "primary_key": "The course uses the simple name `pk`.",
+      "PK_column_c": "While descriptive, the specific name in the course snippet is `pk`.",
+      "constraint": "`constraint` is a keyword, not a name."
+    },
+    "hints": [
+      "Look at the course example that creates a primary key after concatenating columns: `ADD CONSTRAINT pk`.",
+      "The name is short, just two letters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Naming a constraint like `pk` allows you to easily reference it later, for example to drop it.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_013",
+    "concept_name": "text (data type)",
+    "chapter": 5,
+    "difficulty": "easy",
+    "task_description": "Define the column `clouds` so that it can store text of any length. Write the correct data type.",
+    "code_template": "CREATE TABLE weather (\n  clouds ______ ,\n  temperature numeric,\n  weather_station char(5)\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "text",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["text", "varchar", "char", "string"],
+    "per_tile_feedback": {
+      "text": "Correct. `text` is the PostgreSQL type for unlimited‑length character data.",
+      "varchar": "`varchar` without a length is equivalent to `text`, but the course explicitly uses `text`.",
+      "char": "`char` is fixed‑length and would require a length specification.",
+      "string": "`string` is not a valid SQL data type."
+    },
+    "hints": [
+      "The course creates the `weather` table with `clouds text`.",
+      "A column that should accept any string without a limit uses the `text` type."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`text` is the simplest way to store character strings when no maximum length needs to be enforced.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_016",
+    "concept_name": "boolean",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Create a column `tuition_paid` that can store true or false values. Write the appropriate data type.",
+    "code_template": "CREATE TABLE students (\n  ssn integer NOT NULL,\n  lastname varchar(64) NOT NULL,\n  tuition_paid __________\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "boolean",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["boolean", "bool", "bit", "integer"],
+    "per_tile_feedback": {
+      "boolean": "Correct. `boolean` is the standard SQL type for true/false values.",
+      "bool": "`bool` is a valid shorthand, but the course uses `boolean`.",
+      "bit": "`bit` is used for binary strings, not logical values.",
+      "integer": "Storing 0/1 as integer is a common anti‑pattern; `boolean` is the correct semantic type."
+    },
+    "hints": [
+      "The course example uses `tuition_paid boolean`.",
+      "The type that represents truth values is named after the logic system."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`boolean` is the appropriate type for columns that track on/off, yes/no, or true/false conditions.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_018",
+    "concept_name": "integer",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Define a column `temperature` that will hold whole‑number values. Write the data type.",
+    "code_template": "CREATE TABLE weather (\n  clouds text,\n  temperature __________ ,\n  weather_station char(5)\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "integer",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["integer", "int", "number", "smallint"],
+    "per_tile_feedback": {
+      "integer": "Correct. `integer` is the 4‑byte whole number type.",
+      "int": "`int` is a synonym, but the course consistently uses `integer`.",
+      "number": "`number` is not a PostgreSQL type.",
+      "smallint": "`smallint` holds a smaller range and may be insufficient for temperature."
+    },
+    "hints": [
+      "The course originally had `temperature integer`.",
+      "Use the full keyword, not the abbreviation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`integer` is the right choice for whole numbers when the range -2.1 billion to 2.1 billion is sufficient.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_019",
+    "concept_name": "date, time, timestamp",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Create a column `dob` to store a person's date of birth (without time). Write the data type.",
+    "code_template": "CREATE TABLE persons (\n  firstname text,\n  lastname text,\n  dob ______\n);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "date",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["date", "timestamp", "time", "varchar"],
+    "per_tile_feedback": {
+      "date": "Correct. `date` stores only the calendar date, no time component.",
+      "timestamp": "`timestamp` stores date and time, which is overkill and may cause confusion.",
+      "time": "`time` stores only the time of day, not the date.",
+      "varchar": "Storing dates as text loses all date functions and invites formatting errors."
+    },
+    "hints": [
+      "You need a type that holds year, month, and day, not hours or minutes.",
+      "The course mentions `dob date` as a typical use."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`date` is the dedicated type for calendar dates, supporting arithmetic like age calculation and extraction of year/month/day.",
+    "common_mistake_warning": "⚠️ Storing dates as text prevents the database from validating them and using date functions."
+  }
+]

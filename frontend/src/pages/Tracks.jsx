@@ -150,8 +150,44 @@ export default function Tracks() {
   const [selectedCourseId, setSelectedCourseId] = useState(null)
   const [scrolledDown, setScrolledDown] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+
+  const [leftPanelWidth, setLeftPanelWidth] = useState(() => {
+    return parseInt(localStorage.getItem('tracksLeftPanelWidth')) || 400
+  })
+  const [isResizing, setIsResizing] = useState(false)
   
   const listRef = useRef(null)
+
+  useEffect(() => {
+    localStorage.setItem('tracksLeftPanelWidth', leftPanelWidth)
+  }, [leftPanelWidth])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizing) return
+      const sidebarWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')) || 0
+      const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, 600))
+      setLeftPanelWidth(newWidth)
+    }
+
+    const handleMouseUp = () => {
+      setIsResizing(false)
+    }
+
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove)
+      window.addEventListener('mouseup', handleMouseUp)
+      document.body.style.cursor = 'col-resize'
+      document.body.style.userSelect = 'none'
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+    }
+  }, [isResizing])
 
   useEffect(() => {
     let isMounted = true
@@ -215,9 +251,21 @@ export default function Tracks() {
   const selectedCourse = courses.find(c => c.id === selectedCourseId)
 
   return (
-    <div className="fixed top-[56px] left-16 md:left-[240px] right-0 bottom-0 grid grid-cols-[1fr_1.4fr] overflow-hidden bg-[var(--border)] gap-[1px] z-0">
+    <div 
+      className="fixed top-[56px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0"
+      style={{ left: 'var(--sidebar-width)' }}
+    >
       {/* LEFT PANEL - COURSE LIST */}
-      <aside className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden">
+      <aside 
+        className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 border-r border-[var(--border)]"
+        style={{ width: `${leftPanelWidth}px` }}
+      >
+        {/* Resize Handle */}
+        <div
+          onMouseDown={() => setIsResizing(true)}
+          className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
+        />
+
         <div className="p-4 border-b border-[var(--border)] bg-[var(--bg-primary)] z-10 shrink-0">
           <div className="flex justify-between items-center mb-3">
             <button

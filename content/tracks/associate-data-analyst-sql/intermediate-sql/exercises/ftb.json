@@ -1,0 +1,1122 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_002",
+    "concept_name": "COUNT(*)",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Count all rows in the people table and alias the result as total_records.",
+    "code_template": "SELECT _____ AS total_records FROM people;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "COUNT(*)",
+        "answer_alternatives": ["COUNT(1)"]
+      }
+    ],
+    "word_bank": ["COUNT(*)", "COUNT(birthdate)", "SUM(*)", "AVG(*)"],
+    "per_tile_feedback": {
+      "COUNT(*)": "Correct. COUNT(*) returns the total number of rows, including those with NULLs.",
+      "COUNT(birthdate)": "This would count only non‑null birthdates, not all rows.",
+      "SUM(*)": "SUM does not accept *; it requires a numeric column name.",
+      "AVG(*)": "AVG does not accept *; it must be used with a numeric column."
+    },
+    "hints": [
+      "Use the aggregate function that counts rows.",
+      "The function that includes NULLs uses an asterisk inside the parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(*) returns the total number of rows in the table. It is the only aggregate that can use an asterisk to indicate all rows, and it includes NULLs.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_005",
+    "concept_name": "LIMIT keyword",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Retrieve only the first 10 names from the people table.",
+    "code_template": "SELECT name FROM people _____ 10;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LIMIT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["LIMIT", "TOP", "FIRST", "ONLY"],
+    "per_tile_feedback": {
+      "LIMIT": "Correct. LIMIT restricts the number of rows returned in PostgreSQL.",
+      "TOP": "TOP is used in SQL Server, not PostgreSQL.",
+      "FIRST": "FIRST is not a SQL keyword for limiting rows.",
+      "ONLY": "ONLY is not a valid keyword for row restriction."
+    },
+    "hints": [
+      "Use the PostgreSQL keyword that restricts the number of returned rows.",
+      "It is placed at the end of the query."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LIMIT n tells PostgreSQL to return at most n rows. It is the standard way in PostgreSQL; other databases use TOP or FETCH FIRST.",
+    "common_mistake_warning": "⚠️ Placing LIMIT before ORDER BY when both are used; ORDER BY must come before LIMIT."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_001",
+    "concept_name": "COUNT() function",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Count the number of non‑null birthdates in the people table and alias the result as count_birthdates.",
+    "code_template": "SELECT _____(birthdate) AS count_birthdates FROM people;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "COUNT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["COUNT", "SUM", "AVG", "MAX"],
+    "per_tile_feedback": {
+      "COUNT": "Correct. COUNT(column) returns the number of rows where the column is not NULL.",
+      "SUM": "SUM adds numeric values and doesn't work on dates.",
+      "AVG": "AVG calculates an average of numeric values, not appropriate for counting.",
+      "MAX": "MAX returns the maximum value, not a count."
+    },
+    "hints": [
+      "Use the aggregate function that counts rows with a condition.",
+      "Which function name is short for 'count'?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(column) counts rows where the column is NOT NULL. For birthdate, this yields 6152, the number of people with a known birthdate.",
+    "common_mistake_warning": "⚠️ Using COUNT(field) when you want all rows including NULLs — COUNT(*) would be needed."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_003",
+    "concept_name": "DISTINCT keyword",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Select all unique languages from the films table.",
+    "code_template": "SELECT _____ language FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "DIFFERENT", "SEPARATE"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. DISTINCT removes duplicate rows from the result set.",
+      "UNIQUE": "UNIQUE is a constraint, not a keyword for selecting distinct values.",
+      "DIFFERENT": "DIFFERENT is not a SQL keyword.",
+      "SEPARATE": "SEPARATE is not a SQL keyword."
+    },
+    "hints": [
+      "Which keyword follows SELECT to eliminate duplicate values?",
+      "It starts with 'D' and is used to get unique results."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "DISTINCT placed immediately after SELECT ensures that the returned rows are unique. Here it returns each language only once.",
+    "common_mistake_warning": "⚠️ Placing DISTINCT after the column name; it must come right after SELECT."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_004",
+    "concept_name": "COUNT(DISTINCT)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Count the number of distinct birthdates in the people table. Alias the result as count_distinct_birthdates.",
+    "code_template": "SELECT _____(DISTINCT birthdate) AS count_distinct_birthdates FROM people;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "COUNT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["COUNT", "SUM", "AVG", "MIN"],
+    "per_tile_feedback": {
+      "COUNT": "Correct. COUNT(DISTINCT column) returns the number of distinct non‑null values.",
+      "SUM": "SUM(DISTINCT column) would sum distinct values, not count them.",
+      "AVG": "AVG(DISTINCT column) would average distinct values, not count them.",
+      "MIN": "MIN(DISTINCT column) would return the minimum distinct value, not a count."
+    },
+    "hints": [
+      "Which aggregate function can be used with DISTINCT to count unique values?",
+      "It’s the same function used for counting rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(DISTINCT birthdate) returns the number of unique, non‑null birthdates. The course output is 5398.",
+    "common_mistake_warning": "⚠️ Forgetting parentheses: COUNT(DISTINCT field) is correct, not COUNT DISTINCT field."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_010",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Select all films released after the year 2010.",
+    "code_template": "SELECT title FROM films _____ release_year > 2010;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "WHERE",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["WHERE", "HAVING", "WHEN", "FILTER"],
+    "per_tile_feedback": {
+      "WHERE": "Correct. WHERE filters rows before grouping or aggregation.",
+      "HAVING": "HAVING filters groups after aggregation, not individual rows.",
+      "WHEN": "WHEN is used in CASE expressions, not as a row filter.",
+      "FILTER": "FILTER is not a standalone clause for row filtering in SQL."
+    },
+    "hints": [
+      "Use the clause that restricts rows based on a condition.",
+      "It comes after FROM in a query."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The WHERE clause specifies which rows to keep. release_year > 2010 keeps only films released after 2010.",
+    "common_mistake_warning": "⚠️ Using a column alias defined in SELECT inside the WHERE clause is not allowed."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_011",
+    "concept_name": "Comparison operators",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Select all films whose release year is not 1960.",
+    "code_template": "SELECT title FROM films WHERE release_year _____ 1960;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "<>",
+        "answer_alternatives": ["!="]
+      }
+    ],
+    "word_bank": ["<>", "=", "==", "<="],
+    "per_tile_feedback": {
+      "<>": "Correct. <> is the standard SQL operator for 'not equal to'.",
+      "=": "= checks equality, not inequality.",
+      "==": "== is not a SQL operator.",
+      "<=": "<= checks 'less than or equal to', not 'not equal to'."
+    },
+    "hints": [
+      "What is the standard SQL symbol for 'not equal to'?",
+      "It uses angle brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "<> means 'not equal to'. While some databases accept !=, <> is the standard and portable choice.",
+    "common_mistake_warning": "⚠️ Using != when <> is standard, though != also works in PostgreSQL."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_012",
+    "concept_name": "Filtering strings with single quotes",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Select films from Japan. Use the correct quoting for the string.",
+    "code_template": "SELECT title FROM films WHERE country = _____Japan_____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'",
+        "answer_alternatives": ["'"]
+      }
+    ],
+    "word_bank": ["'", "\"", "`", "("],
+    "per_tile_feedback": {
+      "'": "Correct. Single quotes enclose string literals in SQL.",
+      "\"": "Double quotes are for identifiers, not strings.",
+      "`": "Backticks are used in some databases like MySQL but not PostgreSQL.",
+      "(": "Parentheses are not used to quote strings."
+    },
+    "hints": [
+      "String values in SQL are enclosed in which kind of quote?",
+      "Single quotes are used, while double quotes are for column aliases."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In PostgreSQL, string literals must be surrounded by single quotes. Double quotes denote identifiers like column names.",
+    "common_mistake_warning": "⚠️ Using double quotes for strings causes an error or unexpected results."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_013",
+    "concept_name": "OR operator",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Select films released in 1994 or 2000.",
+    "code_template": "SELECT title FROM films WHERE release_year = 1994 _____ release_year = 2000;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "OR",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["OR", "AND", "IN", "BETWEEN"],
+    "per_tile_feedback": {
+      "OR": "Correct. OR returns rows that satisfy at least one of the conditions.",
+      "AND": "AND would require both years simultaneously, which is impossible.",
+      "IN": "IN is a shorthand for multiple ORs, but the blank requires the word OR.",
+      "BETWEEN": "BETWEEN would include the whole range, not just 1994 and 2000."
+    },
+    "hints": [
+      "Which logical operator means 'at least one condition true'?",
+      "It is the opposite of AND."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The OR operator combines conditions so that if either is true, the row is included.",
+    "common_mistake_warning": "⚠️ Writing 'release_year = 1994 OR 2000' without repeating the column name."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": "AND operator",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Select films released strictly between 1994 and 2000 (exclusive).",
+    "code_template": "SELECT title FROM films WHERE release_year > 1994 _____ release_year < 2000;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AND",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["AND", "OR", "BUT", "WITH"],
+    "per_tile_feedback": {
+      "AND": "Correct. AND requires both conditions to be true.",
+      "OR": "OR would allow films that satisfy either condition, not both.",
+      "BUT": "BUT is not a SQL operator.",
+      "WITH": "WITH is used for CTEs, not logical conjunction."
+    },
+    "hints": [
+      "Both conditions must be true; which operator ensures that?",
+      "The operator that combines conditions with 'both' logic."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AND ensures that only rows where release_year is greater than 1994 and less than 2000 are selected.",
+    "common_mistake_warning": "⚠️ Omitting the column in the second condition: release_year > 1994 AND < 2000."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_015",
+    "concept_name": "Parentheses in WHERE conditions",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Select films from 1994 or 1995 that are rated PG or R. Use parentheses to ensure correct grouping.",
+    "code_template": "SELECT title FROM films WHERE (release_year = 1994 _____ release_year = 1995) AND (certification = 'PG' OR certification = 'R');",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "OR",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["OR", "AND", "IN", "BETWEEN"],
+    "per_tile_feedback": {
+      "OR": "Correct. Inside the parentheses, OR allows either year.",
+      "AND": "AND inside the parentheses would require a film to be released in both 1994 and 1995, which is impossible.",
+      "IN": "IN is a list operator; you could use release_year IN (1994,1995) but the blank expects a logical operator.",
+      "BETWEEN": "BETWEEN would include all years 1994‑1995, not just those two."
+    },
+    "hints": [
+      "Inside the parentheses, we want films from either of two years; which logical operator connects alternatives?",
+      "The parentheses group the year conditions together."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Parentheses control evaluation order. Here, (year = 1994 OR year = 1995) is evaluated first, then AND with the certification condition.",
+    "common_mistake_warning": "⚠️ Forgetting parentheses would change the logic: AND has higher precedence, so without parentheses the meaning changes."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_016",
+    "concept_name": "BETWEEN operator",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Select films released from 1994 through 2000 inclusive.",
+    "code_template": "SELECT title FROM films WHERE release_year _____ 1994 AND 2000;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "BETWEEN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["BETWEEN", "IN", "RANGE", "FROM"],
+    "per_tile_feedback": {
+      "BETWEEN": "Correct. BETWEEN low AND high checks if a value is within the inclusive range.",
+      "IN": "IN checks for specific values, not a continuous range.",
+      "RANGE": "RANGE is not a valid SQL keyword for filtering.",
+      "FROM": "FROM specifies the table source, not a range filter."
+    },
+    "hints": [
+      "Which keyword checks if a value falls within a range?",
+      "It is used with AND to specify the low and high bounds."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "BETWEEN includes the endpoints. release_year BETWEEN 1994 AND 2000 is equivalent to >= 1994 AND <= 2000.",
+    "common_mistake_warning": "⚠️ Assuming BETWEEN is exclusive; it includes the boundary values."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_017",
+    "concept_name": "IN operator",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Select films released in 1920, 1930, or 1940.",
+    "code_template": "SELECT title FROM films WHERE release_year _____ (1920, 1930, 1940);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["IN", "OR", "BETWEEN", "LIST"],
+    "per_tile_feedback": {
+      "IN": "Correct. IN checks if a value matches any value in the list.",
+      "OR": "OR would work but requires writing release_year = 1920 OR release_year = 1930 OR release_year = 1940.",
+      "BETWEEN": "BETWEEN is for ranges, not a discrete set.",
+      "LIST": "LIST is not a SQL keyword."
+    },
+    "hints": [
+      "Which operator tests membership in a list of values?",
+      "It is the shorthand for multiple OR conditions."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "IN (list) is equivalent to release_year = 1920 OR release_year = 1930 OR release_year = 1940.",
+    "common_mistake_warning": "⚠️ Forgetting parentheses around the list: IN (1920, 1930, 1940) is correct."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_018",
+    "concept_name": "LIKE operator",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Find people whose name starts with 'Ade' using pattern matching.",
+    "code_template": "SELECT name FROM people WHERE name _____ 'Ade%';",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LIKE",
+        "answer_alternatives": ["ILIKE"]
+      }
+    ],
+    "word_bank": ["LIKE", "ILIKE", "MATCH", "CONTAINS"],
+    "per_tile_feedback": {
+      "LIKE": "Correct. LIKE performs case‑sensitive pattern matching with wildcards % and _.",
+      "ILIKE": "ILIKE would also work but is case‑insensitive. The course example uses LIKE for case‑sensitive matching.",
+      "MATCH": "MATCH is not a standard SQL pattern‑matching operator.",
+      "CONTAINS": "CONTAINS is not a standard SQL operator."
+    },
+    "hints": [
+      "Use the operator that supports wildcard patterns.",
+      "PostgreSQL has both case‑sensitive and case‑insensitive versions; the case‑sensitive one is _____."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LIKE with % wildcard matches any sequence of characters. 'Ade%' finds names beginning with 'Ade'.",
+    "common_mistake_warning": "⚠️ Forgetting that LIKE is case‑sensitive in PostgreSQL; 'ade%' would not match 'Ade'."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_021",
+    "concept_name": "NOT LIKE operator",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Exclude names that start with 'A.' (like initials).",
+    "code_template": "SELECT name FROM people WHERE name _____ 'A.%';",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "NOT LIKE",
+        "answer_alternatives": ["NOT ILIKE"]
+      }
+    ],
+    "word_bank": ["NOT LIKE", "NOT ILIKE", "EXCEPT", "AVOID"],
+    "per_tile_feedback": {
+      "NOT LIKE": "Correct. NOT LIKE returns rows that do not match the pattern.",
+      "NOT ILIKE": "NOT ILIKE is the case‑insensitive negation; it would also work but the course uses NOT LIKE.",
+      "EXCEPT": "EXCEPT is a set operation, not a pattern negation.",
+      "AVOID": "AVOID is not a SQL keyword."
+    },
+    "hints": [
+      "Use the negation of the pattern‑matching operator.",
+      "It's LIKE preceded by a logical NOT."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NOT LIKE 'A.%' excludes all names that start with 'A.'.",
+    "common_mistake_warning": "⚠️ NOT LIKE does not match NULLs — rows with NULL name will be excluded."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_023",
+    "concept_name": "IS NULL operator",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Select people whose birthdate is missing.",
+    "code_template": "SELECT name FROM people WHERE birthdate _____ NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IS",
+        "answer_alternatives": ["IS"]
+      }
+    ],
+    "word_bank": ["IS", "=", "EQUALS", "LIKE"],
+    "per_tile_feedback": {
+      "IS": "Correct. IS NULL is the proper way to check for NULL values.",
+      "=": "= NULL never returns true because NULL is unknown.",
+      "EQUALS": "EQUALS is not a SQL operator.",
+      "LIKE": "LIKE cannot be used to test for NULL."
+    },
+    "hints": [
+      "Which keyword is used together with NULL to check for missing values?",
+      "It's not = because NULL is not equal to anything."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL comparisons must use IS NULL or IS NOT NULL. = NULL always evaluates to UNKNOWN and thus excludes all rows.",
+    "common_mistake_warning": "⚠️ Writing birthdate = NULL returns no rows, which is a common error."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_024",
+    "concept_name": "IS NOT NULL operator",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Count the number of people who have a known birthdate.",
+    "code_template": "SELECT COUNT(name) AS count_birthdates FROM people WHERE birthdate _____ NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IS NOT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["IS NOT", "!=", "<>", "NOT"],
+    "per_tile_feedback": {
+      "IS NOT": "Correct. IS NOT NULL tests for the presence of a value.",
+      "!=": "!= cannot be used with NULL.",
+      "<>": "<> cannot be used with NULL.",
+      "NOT": "NOT alone is not a valid operator for NULL checks."
+    },
+    "hints": [
+      "Which operator checks that a column has a value?",
+      "It's the opposite of IS NULL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "birthdate IS NOT NULL filters to only rows where birthdate is not missing. The query then counts the names.",
+    "common_mistake_warning": "⚠️ Writing birthdate != NULL does not work; always use IS NOT NULL."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_025",
+    "concept_name": "Aggregate functions",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Select the total sum of budgets and the maximum duration from the films table. Use the correct aggregate functions.",
+    "code_template": "SELECT _____(budget) AS total_budget, _____(duration) AS max_duration FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SUM",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "MAX",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["SUM", "MAX", "MIN", "AVG"],
+    "per_tile_feedback": {
+      "SUM": "Correct for first blank: SUM calculates the total of a numeric column.",
+      "MAX": "Correct for second blank: MAX returns the maximum value.",
+      "MIN": "MIN returns the minimum, not the maximum.",
+      "AVG": "AVG calculates an average, not a sum or maximum."
+    },
+    "hints": [
+      "Use the aggregate that adds up numbers for total_budget.",
+      "Use the aggregate that finds the largest value for max_duration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aggregate functions compute a single result from multiple rows. SUM adds values, MAX finds the largest value.",
+    "common_mistake_warning": "⚠️ Using aggregate functions without GROUP BY when non‑aggregated columns are also selected."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_026",
+    "concept_name": "AVG() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Calculate the average budget of all films.",
+    "code_template": "SELECT _____(budget) FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AVG",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["AVG", "SUM", "MEAN", "AVERAGE"],
+    "per_tile_feedback": {
+      "AVG": "Correct. AVG returns the arithmetic mean of non‑null values.",
+      "SUM": "SUM returns the total, not the average.",
+      "MEAN": "MEAN is not a SQL function; AVG is the standard.",
+      "AVERAGE": "AVERAGE is not a built‑in SQL function."
+    },
+    "hints": [
+      "Use the aggregate function that computes the arithmetic mean.",
+      "Its name is three letters, short for 'average'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AVG(budget) sums all non‑null budgets and divides by their count, giving the average.",
+    "common_mistake_warning": "⚠️ Applying AVG to a non‑numeric column will cause an error."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_027",
+    "concept_name": "SUM() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Compute the total sum of all film budgets.",
+    "code_template": "SELECT _____(budget) FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "SUM",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["SUM", "AVG", "ADD", "TOTAL"],
+    "per_tile_feedback": {
+      "SUM": "Correct. SUM adds all non‑null values in the column.",
+      "AVG": "AVG computes the average, not the total.",
+      "ADD": "ADD is not an aggregate function.",
+      "TOTAL": "TOTAL is not a standard SQL aggregate function."
+    },
+    "hints": [
+      "Use the aggregate function that adds numbers together.",
+      "It’s a three‑letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SUM(budget) returns the total of all budgets, ignoring NULLs. In the course, it returns 181079025606.",
+    "common_mistake_warning": "⚠️ Using SUM on a column with large numbers without considering data type overflow."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_028",
+    "concept_name": "MIN() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Find the smallest budget in the films table.",
+    "code_template": "SELECT _____(budget) FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "MIN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["MIN", "MAX", "LOWEST", "SMALL"],
+    "per_tile_feedback": {
+      "MIN": "Correct. MIN returns the minimum value of a column.",
+      "MAX": "MAX returns the maximum, not the minimum.",
+      "LOWEST": "LOWEST is not a SQL function.",
+      "SMALL": "SMALL is not a valid SQL aggregate."
+    },
+    "hints": [
+      "Use the aggregate function that finds the minimum.",
+      "It’s the opposite of MAX."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "MIN(budget) returns the smallest non‑null budget value. The course example shows 218.",
+    "common_mistake_warning": "⚠️ MIN on text returns the alphabetically first string, not the shortest."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_029",
+    "concept_name": "MAX() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Find the largest budget in the films table.",
+    "code_template": "SELECT _____(budget) FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "MAX",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["MAX", "MIN", "HIGHEST", "LARGEST"],
+    "per_tile_feedback": {
+      "MAX": "Correct. MAX returns the maximum value.",
+      "MIN": "MIN returns the minimum, not the maximum.",
+      "HIGHEST": "HIGHEST is not a SQL function.",
+      "LARGEST": "LARGEST is not a SQL function."
+    },
+    "hints": [
+      "Use the aggregate function that finds the maximum.",
+      "It’s the opposite of MIN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "MAX(budget) returns the largest budget. The course shows 12215500000.",
+    "common_mistake_warning": "⚠️ MAX on text returns the alphabetically last string, not the longest."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_030",
+    "concept_name": "ROUND() function",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Calculate the average budget since 2010, rounded to two decimal places.",
+    "code_template": "SELECT ROUND(AVG(budget), _____) AS avg_budget FROM films WHERE release_year >= 2010;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": ["2.0"]
+      }
+    ],
+    "word_bank": ["2", "0", "-2", "2.0"],
+    "per_tile_feedback": {
+      "2": "Correct. ROUND with 2 rounds to two decimal places.",
+      "0": "0 would round to an integer.",
+      "-2": "-2 would round to the nearest hundred.",
+      "2.0": "2.0 would also work but 2 is the integer parameter from the course."
+    },
+    "hints": [
+      "You want two digits after the decimal point.",
+      "Positive decimal places give that many digits after the decimal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ROUND(value, 2) rounds to two decimal places. The course output is 41072235.18.",
+    "common_mistake_warning": "⚠️ A negative second parameter rounds to the left of the decimal point."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_031",
+    "concept_name": "Arithmetic operators (+, -, *, /)",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Calculate the profit for each film by subtracting budget from gross.",
+    "code_template": "SELECT (gross _____ budget) AS profit FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["-", "+", "*", "/"],
+    "per_tile_feedback": {
+      "-": "Correct. The minus operator subtracts budget from gross.",
+      "+": "Addition would give the sum, not profit.",
+      "*": "Multiplication is not profit calculation.",
+      "/": "Division is not appropriate for profit."
+    },
+    "hints": [
+      "Profit is revenue minus cost; which arithmetic symbol subtracts?",
+      "Use the minus sign."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The expression (gross - budget) computes profit. Arithmetic operators in SQL work as expected.",
+    "common_mistake_warning": "⚠️ Integer division truncates; ensure at least one operand is decimal if fractional result is needed."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_032",
+    "concept_name": "Integer division behavior",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Write a division that returns a fractional result instead of an integer.",
+    "code_template": "SELECT 4.0 / 3.0;  -- returns 1.3333\n\nTo avoid integer truncation, you need at least one _____ operand.",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "decimal",
+        "answer_alternatives": ["numeric"]
+      }
+    ],
+    "word_bank": ["decimal", "integer", "float", "text"],
+    "per_tile_feedback": {
+      "decimal": "Correct. A decimal or numeric operand forces fractional division.",
+      "integer": "Integer operands cause integer division (4/3 = 1).",
+      "float": "Float also works, but the course teaches decimal.",
+      "text": "Text cannot be used in arithmetic division."
+    },
+    "hints": [
+      "What type of number includes a fractional part?",
+      "In PostgreSQL, use DECIMAL or NUMERIC to avoid truncation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Integer division truncates the fractional part. Using a decimal literal like 4.0 or CAST(4 AS DECIMAL) ensures fractional results.",
+    "common_mistake_warning": "⚠️ Expecting 4/3 to return 1.33; it returns 1."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_033",
+    "concept_name": "Aliasing with AS",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Alias the maximum budget as max_budget and maximum duration as max_duration.",
+    "code_template": "SELECT MAX(budget) AS max_budget, MAX(duration) _____ max_duration FROM films;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["AS", "LIKE", "IS", "TO"],
+    "per_tile_feedback": {
+      "AS": "Correct. AS introduces a column alias.",
+      "LIKE": "LIKE is for pattern matching, not aliasing.",
+      "IS": "IS is used for NULL checks.",
+      "TO": "TO is not used for aliases."
+    },
+    "hints": [
+      "Which keyword renames a column in the output?",
+      "It's a two‑letter word between the column and the alias."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AS assigns a temporary name to a column. Aliases make output more readable and are required for expressions.",
+    "common_mistake_warning": "⚠️ The alias cannot be used in the WHERE clause because of execution order."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_034",
+    "concept_name": "ORDER BY clause",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Sort films by budget in ascending order.",
+    "code_template": "SELECT title, budget FROM films ORDER BY budget;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ORDER BY",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ORDER BY", "SORT BY", "GROUP BY", "ARRANGE BY"],
+    "per_tile_feedback": {
+      "ORDER BY": "Correct. ORDER BY sorts the result set.",
+      "SORT BY": "SORT BY is not standard SQL; ORDER BY is the correct clause.",
+      "GROUP BY": "GROUP BY groups rows for aggregation, not sorting.",
+      "ARRANGE BY": "ARRANGE BY is not a SQL clause."
+    },
+    "hints": [
+      "Which clause sorts the output?",
+      "It comes after FROM and WHERE."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ORDER BY sorts rows by the specified column(s) in ascending order by default.",
+    "common_mistake_warning": "⚠️ Putting ORDER BY before WHERE is a syntax error."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_035",
+    "concept_name": "ASC keyword",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Explicitly sort films by budget from smallest to largest.",
+    "code_template": "SELECT title, budget FROM films ORDER BY budget _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ASC",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ASC", "DESC", "ASCENDING", "UP"],
+    "per_tile_feedback": {
+      "ASC": "Correct. ASC specifies ascending order.",
+      "DESC": "DESC is for descending order.",
+      "ASCENDING": "ASCENDING is not the SQL keyword; use ASC.",
+      "UP": "UP is not a valid sorting direction."
+    },
+    "hints": [
+      "Which keyword means 'ascending'?",
+      "It’s the three‑letter abbreviation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ASC sorts from smallest to largest (or A to Z). It is the default, but can be written explicitly.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_036",
+    "concept_name": "DESC keyword",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Sort films by budget from largest to smallest, ignoring NULLs.",
+    "code_template": "SELECT title, budget FROM films WHERE budget IS NOT NULL ORDER BY budget _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DESC",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DESC", "ASC", "DESCENDING", "DOWN"],
+    "per_tile_feedback": {
+      "DESC": "Correct. DESC sorts in descending order.",
+      "ASC": "ASC is ascending, not descending.",
+      "DESCENDING": "The SQL keyword is DESC, not DESCENDING.",
+      "DOWN": "DOWN is not a valid SQL keyword."
+    },
+    "hints": [
+      "Which keyword means 'descending'?",
+      "It’s the four‑letter abbreviation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "DESC sorts from largest to smallest. NULLs are excluded by the WHERE clause; if present, they would appear first in descending order by default.",
+    "common_mistake_warning": "⚠️ NULLs appear first in descending order in PostgreSQL."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_037",
+    "concept_name": "Sorting by multiple columns",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Sort movies by wins descending, then by imdb_score descending.",
+    "code_template": "SELECT title, wins, imdb_score FROM best_movies ORDER BY wins DESC, imdb_score _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DESC",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DESC", "ASC", "UP", "DOWN"],
+    "per_tile_feedback": {
+      "DESC": "Correct. The second column should also be sorted descending.",
+      "ASC": "ASC would sort imdb_score ascending, not matching the pattern.",
+      "UP": "UP is not a SQL keyword.",
+      "DOWN": "DOWN is not a SQL keyword."
+    },
+    "hints": [
+      "Both columns are sorted in the same direction; which keyword ensures descending?",
+      "Use DESC for each column that should go from highest to lowest."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Each column in ORDER BY can have its own direction. Here, both wins and imdb_score are sorted highest first.",
+    "common_mistake_warning": "⚠️ The direction applies only to the preceding column; every column that needs descending must have its own DESC."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_038",
+    "concept_name": "GROUP BY clause",
+    "chapter": 10,
+    "difficulty": "very_hard",
+    "task_description": "Count the number of films per certification.",
+    "code_template": "SELECT certification, COUNT(title) AS title_count FROM films GROUP BY _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "certification",
+        "answer_alternatives": ["1"]
+      }
+    ],
+    "word_bank": ["certification", "title", "COUNT(*)", "release_year"],
+    "per_tile_feedback": {
+      "certification": "Correct. The non‑aggregated column in SELECT must appear in GROUP BY.",
+      "title": "title is not in the SELECT list; it's being counted.",
+      "COUNT(*)": "GROUP BY cannot contain aggregate functions.",
+      "release_year": "release_year is not in the SELECT list; grouping by it would produce a different result."
+    },
+    "hints": [
+      "Which column are you grouping by? It’s the same column that isn't aggregated in SELECT.",
+      "Any non‑aggregate column in SELECT must be in GROUP BY."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "GROUP BY certification divides the rows into groups with the same certification, then COUNT(title) is computed per group.",
+    "common_mistake_warning": "⚠️ Selecting a non‑aggregated, non‑grouped column causes an error."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_039",
+    "concept_name": "GROUP BY multiple columns",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Count films by both certification and language.",
+    "code_template": "SELECT certification, language, COUNT(title) AS title_count FROM films GROUP BY certification, _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "language",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["language", "certification", "title", "COUNT"],
+    "per_tile_feedback": {
+      "language": "Correct. Both non‑aggregated columns must appear in GROUP BY.",
+      "certification": "certification is already listed; it cannot be duplicated.",
+      "title": "title is aggregated, not grouped.",
+      "COUNT": "COUNT is a function, not a column."
+    },
+    "hints": [
+      "The second column that is not aggregated needs to be in GROUP BY.",
+      "It's the other column in the SELECT list that isn't inside an aggregate."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When grouping by multiple columns, the combination determines the groups. Every unique pair of (certification, language) gets its own count.",
+    "common_mistake_warning": "⚠️ The order of columns in GROUP BY can affect readability but not the result logically."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_040",
+    "concept_name": "GROUP BY with ORDER BY",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Count films per certification and sort the result by the count in descending order.",
+    "code_template": "SELECT certification, COUNT(title) AS title_count FROM films GROUP BY certification ORDER BY title_count _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DESC",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DESC", "ASC", "DOWN", "SORT"],
+    "per_tile_feedback": {
+      "DESC": "Correct. DESC sorts the aggregated count from highest to lowest.",
+      "ASC": "ASC would sort from lowest to highest.",
+      "DOWN": "DOWN is not a SQL keyword.",
+      "SORT": "SORT is not a direction keyword."
+    },
+    "hints": [
+      "Which keyword sorts from highest to lowest?",
+      "It's the same as used for single‑column descending sorts."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ORDER BY title_count DESC sorts the grouped results so certifications with the most films appear first.",
+    "common_mistake_warning": "⚠️ GROUP BY does not guarantee sorted output; always use ORDER BY explicitly."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_041",
+    "concept_name": "HAVING clause",
+    "chapter": 11,
+    "difficulty": "very_hard",
+    "task_description": "Find release years that have more than 10 films.",
+    "code_template": "SELECT release_year, COUNT(title) AS title_count FROM films GROUP BY release_year _____ COUNT(title) > 10;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "HAVING",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["HAVING", "WHERE", "WHEN", "FILTER"],
+    "per_tile_feedback": {
+      "HAVING": "Correct. HAVING filters groups based on aggregate results.",
+      "WHERE": "WHERE cannot contain aggregate functions; it filters before grouping.",
+      "WHEN": "WHEN is part of CASE expressions.",
+      "FILTER": "FILTER is not a clause for post‑aggregation filtering."
+    },
+    "hints": [
+      "Which clause filters after grouping?",
+      "It's like WHERE but for groups."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "HAVING is used to filter groups created by GROUP BY. Here, only years with a count greater than 10 are returned.",
+    "common_mistake_warning": "⚠️ Using WHERE to filter on an aggregate will cause an error."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_042",
+    "concept_name": "HAVING vs WHERE",
+    "chapter": 11,
+    "difficulty": "very_hard",
+    "task_description": "Filter films released after 2000, then show average duration per release year only for years with an average duration above 120 minutes.",
+    "code_template": "SELECT release_year, AVG(duration) AS avg_duration FROM films WHERE release_year > 2000 GROUP BY release_year _____ AVG(duration) > 120;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "HAVING",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["HAVING", "WHERE", "AND", "FILTER"],
+    "per_tile_feedback": {
+      "HAVING": "Correct. HAVING filters on the aggregated average after grouping.",
+      "WHERE": "A second WHERE is invalid; the WHERE clause must come before GROUP BY.",
+      "AND": "AND is a logical operator, not a clause.",
+      "FILTER": "FILTER is not a clause for post‑aggregation filtering."
+    },
+    "hints": [
+      "Use the clause that filters groups based on aggregate values.",
+      "WHERE can't be used again here because aggregation has already occurred."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "WHERE filters individual rows before grouping; HAVING filters groups after aggregation. The query first limits to recent films, then keeps only years where the average duration exceeds 120.",
+    "common_mistake_warning": "⚠️ Mixing up WHERE and HAVING: WHERE works on rows, HAVING works on groups."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_006",
+    "concept_name": "Query execution order",
+    "chapter": 1,
+    "difficulty": "very_hard",
+    "task_description": "The logical processing order determines when aliases are available. Write the clause that comes after WHERE in the execution sequence.",
+    "code_template": "FROM → WHERE → _____ → HAVING → SELECT → ORDER BY → LIMIT",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "GROUP BY",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["GROUP BY", "ORDER BY", "SELECT", "FROM"],
+    "per_tile_feedback": {
+      "GROUP BY": "Correct. GROUP BY is processed after WHERE and before HAVING.",
+      "ORDER BY": "ORDER BY comes after SELECT.",
+      "SELECT": "SELECT is after HAVING.",
+      "FROM": "FROM is first, not after WHERE."
+    },
+    "hints": [
+      "Think of the clause that groups rows, which happens after filtering and before selecting.",
+      "It's the clause that works with aggregate functions."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The logical order is FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT. This explains why aliases from SELECT can't be used in WHERE.",
+    "common_mistake_warning": "⚠️ Assuming the written order is the execution order; it is not."
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_022",
+    "concept_name": "NULL value",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Select people whose birthdate is missing, using the correct NULL comparison.",
+    "code_template": "SELECT name FROM people WHERE birthdate _____ _____;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IS",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "NULL",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["IS", "NULL", "=", "NOT"],
+    "per_tile_feedback": {
+      "IS": "Correct. IS is required for NULL comparisons.",
+      "NULL": "Correct. NULL is the SQL marker for missing data.",
+      "=": "= does not work with NULL.",
+      "NOT": "NOT alone is incomplete; the full phrase is IS NOT NULL for non‑missing checks."
+    },
+    "hints": [
+      "Use the special syntax for checking missing values.",
+      "The two words are 'IS' and 'NULL'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL comparisons must use IS NULL or IS NOT NULL. = NULL evaluates to UNKNOWN and returns no rows.",
+    "common_mistake_warning": "⚠️ Writing birthdate = NULL is a frequent mistake that silently returns an empty result."
+  }
+]

@@ -1,0 +1,450 @@
+{
+  "course_slug": "introduction-to-importing-data-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 35,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Flat Files and Basic File Operations",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_005",
+          "term": "Flat file",
+          "match": "A plain‑text file storing tabular data as rows/columns",
+          "wrong_matches": [
+            "First row describing column names",
+            "Character separating fields"
+          ],
+          "feedback_correct": "Correct – a flat file is a basic plain‑text data file.",
+          "feedback_wrong": "That definition is for a different flat‑file feature, not the file itself."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_006",
+          "term": "Header (flat file)",
+          "match": "First row describing column names",
+          "wrong_matches": [
+            "A plain‑text file storing tabular data as rows/columns",
+            "Character separating fields"
+          ],
+          "feedback_correct": "Yes – the header row labels the columns.",
+          "feedback_wrong": "No – that describes the whole file or the delimiter."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_007",
+          "term": "Delimiter",
+          "match": "Character separating fields within each row",
+          "wrong_matches": [
+            "First row describing column names",
+            "Comma‑Separated Values flat‑file format"
+          ],
+          "feedback_correct": "Correct – the delimiter splits fields.",
+          "feedback_wrong": "That's the header or the CSV format name, not the separator character."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_008",
+          "term": "CSV",
+          "match": "Comma‑Separated Values flat‑file format",
+          "wrong_matches": [
+            "Character separating fields",
+            "A plain‑text file storing tabular data as rows/columns"
+          ],
+          "feedback_correct": "Right – CSV is a common flat‑file format.",
+          "feedback_wrong": "That's the delimiter or the general flat‑file concept, not CSV."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_015",
+          "term": "Mixed datatypes",
+          "match": "Columns contain different types (strings, floats, etc.)",
+          "wrong_matches": [
+            "First row describing column names",
+            "Character separating fields"
+          ],
+          "feedback_correct": "Yes – mixed datatypes refer to varied column types.",
+          "feedback_wrong": "That's a header or delimiter, not mixed datatypes."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_001",
+          "term": "file = open('data.txt', 'r')",
+          "match": "Opens a file for reading, returns a file object",
+          "wrong_matches": [
+            "Uses context manager to auto‑close file",
+            "Loads a pickled object from a binary file"
+          ],
+          "feedback_correct": "Exactly – open() with 'r' mode opens a file.",
+          "feedback_wrong": "That's the with statement or pickle.load, not plain open()."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_004",
+          "term": "with open('huck_finn.txt', 'r') as file:\n    print(file.read())",
+          "match": "Uses context manager to auto‑close file",
+          "wrong_matches": [
+            "Opens a file for reading, returns a file object",
+            "Loads a pickled object from a binary file"
+          ],
+          "feedback_correct": "Right – the with statement automatically closes the file.",
+          "feedback_wrong": "That's the basic open() or pickle.load, not the context manager."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_009",
+          "term": "import numpy as np",
+          "match": "Core library for numerical computing",
+          "wrong_matches": [
+            "Library for data manipulation, providing DataFrames",
+            "Loads numerical data from text file into array"
+          ],
+          "feedback_correct": "Yes – NumPy provides ndarrays and efficient operations.",
+          "feedback_wrong": "That describes pandas or loadtxt(), not NumPy itself."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_010",
+          "term": "data = np.loadtxt('MNIST.txt', delimiter=',')",
+          "match": "Loads numerical data from text file into a NumPy array",
+          "wrong_matches": [
+            "Core library for numerical computing",
+            "Reads a CSV file directly into a DataFrame"
+          ],
+          "feedback_correct": "Correct – loadtxt imports numeric data into an ndarray.",
+          "feedback_wrong": "That's NumPy the library or pandas read_csv."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_016",
+          "term": "import pandas as pd",
+          "match": "Library for data manipulation, providing DataFrames",
+          "wrong_matches": [
+            "Core library for numerical computing",
+            "Reads a CSV file directly into a DataFrame"
+          ],
+          "feedback_correct": "Yes – pandas offers DataFrame and many I/O tools.",
+          "feedback_wrong": "That's NumPy or the read_csv function."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_018",
+          "term": "data = pd.read_csv('winequality-red.csv')",
+          "match": "Reads a CSV file directly into a DataFrame",
+          "wrong_matches": [
+            "Loads numerical data from text file into a NumPy array",
+            "Loads a pickled object from a binary file"
+          ],
+          "feedback_correct": "Right – read_csv is the primary CSV importer for DataFrames.",
+          "feedback_wrong": "That's numpy.loadtxt or pickle.load."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_022",
+          "term": "with open('pickled_fruit.pkl', 'rb') as file:\n    data = pickle.load(file)",
+          "match": "Loads a pickled object from a binary file",
+          "wrong_matches": [
+            "Uses context manager to auto‑close file",
+            "Reads a CSV file directly into a DataFrame"
+          ],
+          "feedback_correct": "Yes – pickle.load() reconstructs the original object.",
+          "feedback_wrong": "That's the with statement or pd.read_csv, not unpickling."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Other File Types (Pickle, Excel, SAS, Stata, HDF5, MATLAB)",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_021",
+          "term": "Pickle / serialization",
+          "match": "Process of converting a Python object to/from a byte stream",
+          "wrong_matches": [
+            "Spreadsheet files that can contain multiple sheets",
+            "Native file format from SAS statistical software"
+          ],
+          "feedback_correct": "Correct – pickle serializes Python objects.",
+          "feedback_wrong": "That's an Excel or SAS file feature."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_023",
+          "term": "Excel files",
+          "match": "Spreadsheet files that can contain multiple sheets",
+          "wrong_matches": [
+            "Process of converting a Python object to/from a byte stream",
+            "Native file format from Stata software"
+          ],
+          "feedback_correct": "Right – .xlsx/.xls files are Excel spreadsheets.",
+          "feedback_wrong": "That's pickle serialization or a Stata file."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_024",
+          "term": "xls = pd.ExcelFile('urbanpop.xlsx')",
+          "match": "Encapsulates an Excel workbook for sheet access",
+          "wrong_matches": [
+            "Reads a Stata .dta file into a DataFrame",
+            "Opens an HDF5 file for reading"
+          ],
+          "feedback_correct": "Yes – ExcelFile lets you list and parse sheets.",
+          "feedback_wrong": "That's read_stata or h5py.File."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_027",
+          "term": "SAS files (.sas7bdat)",
+          "match": "Native dataset format from SAS statistical software",
+          "wrong_matches": [
+            "Native dataset format from Stata statistical software",
+            "MATLAB workspace file format"
+          ],
+          "feedback_correct": "Correct – SAS uses .sas7bdat extension.",
+          "feedback_wrong": "That's Stata .dta or MATLAB .mat."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_028",
+          "term": "with SAS7BDAT('urbanpop.sas7bdat') as file:\n    df = file.to_data_frame()",
+          "match": "Reads a SAS dataset and converts to a DataFrame",
+          "wrong_matches": [
+            "Reads a Stata .dta file into a DataFrame",
+            "Loads a MATLAB .mat file into a dictionary"
+          ],
+          "feedback_correct": "Yes – SAS7BDAT provides to_data_frame().",
+          "feedback_wrong": "That's read_stata or scipy.io.loadmat."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_030",
+          "term": "Stata files (.dta)",
+          "match": "Native dataset format from Stata statistical software",
+          "wrong_matches": [
+            "Native dataset format from SAS statistical software",
+            "Spreadsheet files that can contain multiple sheets"
+          ],
+          "feedback_correct": "Correct – Stata uses .dta extension.",
+          "feedback_wrong": "That's SAS .sas7bdat or Excel spreadsheets."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_031",
+          "term": "data = pd.read_stata('urbanpop.dta')",
+          "match": "Reads a Stata .dta file into a DataFrame",
+          "wrong_matches": [
+            "Reads a SAS dataset and converts to a DataFrame",
+            "Opens an HDF5 file for reading"
+          ],
+          "feedback_correct": "Right – pd.read_stata() handles Stata files.",
+          "feedback_wrong": "That's SAS7BDAT or h5py.File."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_032",
+          "term": "HDF5 files",
+          "match": "Binary format for large hierarchical numerical datasets",
+          "wrong_matches": [
+            "Process of converting a Python object to/from a byte stream",
+            "MATLAB workspace file format"
+          ],
+          "feedback_correct": "Yes – HDF5 stores complex data efficiently.",
+          "feedback_wrong": "That's pickle or MATLAB .mat."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_033",
+          "term": "import h5py",
+          "match": "Library for interacting with HDF5 files",
+          "wrong_matches": [
+            "Library for data manipulation and analysis",
+            "Loads a MATLAB .mat file into a dictionary"
+          ],
+          "feedback_correct": "Correct – h5py is the HDF5 Python package.",
+          "feedback_wrong": "That's pandas or scipy.io.loadmat."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_036",
+          "term": "MATLAB .mat files",
+          "match": "MATLAB workspace file containing variables and arrays",
+          "wrong_matches": [
+            "Binary format for large hierarchical numerical datasets",
+            "Native dataset format from SAS statistical software"
+          ],
+          "feedback_correct": "Yes – .mat files store MATLAB workspace data.",
+          "feedback_wrong": "That's HDF5 or SAS .sas7bdat."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_037",
+          "term": "mat = scipy.io.loadmat('workspace.mat')",
+          "match": "Loads a MATLAB .mat file into a Python dictionary",
+          "wrong_matches": [
+            "Reads a Stata .dta file into a DataFrame",
+            "Opens an HDF5 file for reading"
+          ],
+          "feedback_correct": "Right – the result is a dict of variable names to arrays.",
+          "feedback_wrong": "That's read_stata or h5py.File."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Relational Databases and SQL in Python",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_024",
+          "concept_id": "concept_038",
+          "term": "Relational database",
+          "match": "Database with tables linked by keys, queried with SQL",
+          "wrong_matches": [
+            "A collection of related data in rows and columns",
+            "Column that uniquely identifies each row"
+          ],
+          "feedback_correct": "Correct – a relational database uses keys to relate tables.",
+          "feedback_wrong": "That's a table or a primary key."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_039",
+          "term": "Table (database)",
+          "match": "A collection of related data in rows and columns",
+          "wrong_matches": [
+            "Database with tables linked by keys, queried with SQL",
+            "Column that references the primary key of another table"
+          ],
+          "feedback_correct": "Yes – a table represents one entity type.",
+          "feedback_wrong": "That's the whole database or a foreign key."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_040",
+          "term": "Primary key",
+          "match": "Column that uniquely identifies each row, cannot be null",
+          "wrong_matches": [
+            "Column that references the primary key of another table",
+            "A collection of related data in rows and columns"
+          ],
+          "feedback_correct": "Right – the primary key enforces uniqueness.",
+          "feedback_wrong": "That's a foreign key or a table definition."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_041",
+          "term": "Foreign key",
+          "match": "Column that references the primary key of another table",
+          "wrong_matches": [
+            "Column that uniquely identifies each row, cannot be null",
+            "Language for querying relational databases"
+          ],
+          "feedback_correct": "Yes – a foreign key establishes a relationship.",
+          "feedback_wrong": "That's a primary key or SQL."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_042",
+          "term": "SQL (Structured Query Language)",
+          "match": "Declarative language for querying relational databases",
+          "wrong_matches": [
+            "Database with tables linked by keys, queried with SQL",
+            "Function to create a database engine in Python"
+          ],
+          "feedback_correct": "Correct – SQL uses SELECT, JOIN, etc.",
+          "feedback_wrong": "That's a relational database or create_engine."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_043",
+          "term": "SELECT * FROM Orders",
+          "match": "Returns all columns of every row from the Orders table",
+          "wrong_matches": [
+            "Returns only rows where a join condition is true",
+            "Function that directly returns a DataFrame from a query"
+          ],
+          "feedback_correct": "Yes – * means all columns, no filtering.",
+          "feedback_wrong": "That's an INNER JOIN result or read_sql_query."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_044",
+          "term": "from sqlalchemy import create_engine",
+          "match": "SQLAlchemy is a Python SQL toolkit and ORM",
+          "wrong_matches": [
+            "Function that creates a database engine",
+            "Executes a SQL query and returns a ResultProxy"
+          ],
+          "feedback_correct": "Correct – SQLAlchemy provides the engine and ORM.",
+          "feedback_wrong": "That's create_engine itself or execute()."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_045",
+          "term": "engine = create_engine('sqlite:///Northwind.sqlite')",
+          "match": "Creates a database engine for the given SQLite file",
+          "wrong_matches": [
+            "Returns a list of table names in the database",
+            "Opens a connection to the database"
+          ],
+          "feedback_correct": "Yes – create_engine() manages the connection details.",
+          "feedback_wrong": "That's engine.table_names() or engine.connect()."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_048",
+          "term": "rs = con.execute(\"SELECT * FROM Orders\")",
+          "match": "Executes a SQL query and returns a ResultProxy",
+          "wrong_matches": [
+            "Creates a database engine for the given SQLite file",
+            "Fetches all remaining rows as a list of tuples"
+          ],
+          "feedback_correct": "Right – execute() sends SQL and returns a proxy.",
+          "feedback_wrong": "That's create_engine or fetchall()."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_052",
+          "term": "df = pd.read_sql_query(\"SELECT * FROM Orders\", engine)",
+          "match": "Function that directly returns a DataFrame from a query",
+          "wrong_matches": [
+            "Executes a SQL query and returns a ResultProxy",
+            "Returns only rows where a join condition is true"
+          ],
+          "feedback_correct": "Yes – read_sql_query is a pandas shortcut.",
+          "feedback_wrong": "That's execute() or an INNER JOIN result."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_053",
+          "term": "SELECT OrderID, CompanyName FROM Orders\nINNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID",
+          "match": "Combines rows from two tables where the ON condition is true",
+          "wrong_matches": [
+            "Returns all columns of every row from the Orders table",
+            "Function that directly returns a DataFrame from a query"
+          ],
+          "feedback_correct": "Correct – INNER JOIN only keeps matching rows.",
+          "feedback_wrong": "That's SELECT * FROM or read_sql_query."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_054",
+          "term": "ON Orders.CustomerID = Customers.CustomerID",
+          "match": "Specifies the equality condition for a SQL JOIN",
+          "wrong_matches": [
+            "Column that references the primary key of another table",
+            "Language for querying relational databases"
+          ],
+          "feedback_correct": "Yes – the ON clause defines the join condition.",
+          "feedback_wrong": "That's a foreign key definition or SQL itself."
+        }
+      ]
+    }
+  ]
+}

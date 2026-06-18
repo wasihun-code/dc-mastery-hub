@@ -1,0 +1,303 @@
+{
+  "course_slug": "data-types-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "How many baby girls were named ISABELLA across all years?",
+      "dataset_file": "baby_names.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_009"
+      ],
+      "context": "The city health department wants to know the total number of girls named ISABELLA over the entire 2011‑2014 period. You have the baby names dataset with counts per year, gender, and ethnicity. Use list comprehension and the pre‑loaded data to answer.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a list `isabella_counts` containing the COUNT values for every row where NAME is 'ISABELLA' and GENDER is 'FEMALE'. Use a list comprehension that iterates through the dataset indices and checks the conditions with `name[i]` and `gender[i]`.",
+          "variable_name": "isabella_counts",
+          "hint": "Remember that you can use `range(len(name))` to get indices, then filter inside the comprehension."
+        },
+        {
+          "step": 2,
+          "description": "Sum the values in `isabella_counts` using the built‑in `sum()` function. Store the result in a variable `total_isabella`.",
+          "variable_name": "total_isabella",
+          "hint": "`sum()` works on any iterable of numbers."
+        },
+        {
+          "step": 3,
+          "description": "Print a sentence showing the total count, e.g., 'Total ISABELLA count: X'.",
+          "variable_name": "output_line",
+          "hint": "Use an f‑string to embed `total_isabella`."
+        }
+      ],
+      "starter_code": "# The following lists are already loaded for you:\n# name, gender, count, birth_year, ethnicity, rank\n# They correspond to the columns of baby_names.csv.\n# Each list has the same length.\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "baby_names": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "crime_sampler": {
+          "type": "csv",
+          "path": "crime_sampler.csv"
+        },
+        "cta_daily_station_totals": {
+          "type": "csv",
+          "path": "cta_daily_station_totals.csv"
+        },
+        "cta_daily_summary_totals": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        }
+      },
+      "solution_code": "name = list(df['NAME']) if 'NAME' in df.columns else []\ngender = list(df['GENDER']) if 'GENDER' in df.columns else []\nrank = list(df['RANK']) if 'RANK' in df.columns else []\nbirth_year = list(df['BRITH_YEAR']) if 'BRITH_YEAR' in df.columns else []\ncount = list(df['COUNT']) if 'COUNT' in df.columns else []\nday_type = list(df['daytype']) if 'daytype' in df.columns else (list(df['day_type']) if 'day_type' in df.columns else [])\ntotal_rides = list(df['rides']) if 'rides' in df.columns else (list(df['total_rides']) if 'total_rides' in df.columns else [])\n# Step 1: list comprehension to get counts for female ISABELLA\nisabella_counts = [count[i] for i in range(len(name)) if name[i] == 'ISABELLA' and gender[i] == 'FEMALE']\n\n# Step 2: sum them\ntotal_isabella = sum(isabella_counts)\n\n# Step 3: print result\nprint(f\"Total ISABELLA count: {total_isabella}\")",
+      "expected_output": "Total ISABELLA count: [some number]",
+      "output_description": "The total count of baby girls named ISABELLA between 2011 and 2014.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The list comprehension should iterate over indices and filter by both name and gender.",
+        "Use `for i in range(len(name))` and then `if name[i] == 'ISABELLA' and gender[i] == 'FEMALE'`."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Apply list comprehension to filter and aggregate a real-world dataset without loops."
+    },
+    {
+      "id": "dc_002",
+      "title": "What are the top 10 male baby names by rank in 2011?",
+      "dataset_file": "baby_names.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_010"
+      ],
+      "context": "A baby magazine wants to feature the 10 most popular male names of 2011. The rank column indicates popularity (1 = most popular). Use the sorted function and the pre‑loaded data to find and print these names.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a list of (name, rank) tuples called `male_ranks_2011` for all entries where GENDER is 'MALE' and BIRTH_YEAR equals 2011. Use a list comprehension that iterates through indices.",
+          "variable_name": "male_ranks_2011",
+          "hint": "Inside the comprehension, return a tuple `(name[i], rank[i])` and add the conditions."
+        },
+        {
+          "step": 2,
+          "description": "Sort `male_ranks_2011` by rank ascending using the `sorted()` function with a key that picks the second element of each tuple. Save the sorted list as `sorted_male_ranks`.",
+          "variable_name": "sorted_male_ranks",
+          "hint": "The key parameter can be `lambda x: x[1]`."
+        },
+        {
+          "step": 3,
+          "description": "Slice the first 10 entries from `sorted_male_ranks` and extract just the names into a list `top_male_names`. Print this list.",
+          "variable_name": "top_male_names",
+          "hint": "A list comprehension over the slice can pull out `tup[0]` for each tuple."
+        }
+      ],
+      "starter_code": "# Pre‑loaded lists from baby_names.csv:\n# name, gender, count, birth_year, ethnicity, rank\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "baby_names": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "crime_sampler": {
+          "type": "csv",
+          "path": "crime_sampler.csv"
+        },
+        "cta_daily_station_totals": {
+          "type": "csv",
+          "path": "cta_daily_station_totals.csv"
+        },
+        "cta_daily_summary_totals": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        }
+      },
+      "solution_code": "name = list(df['NAME']) if 'NAME' in df.columns else []\ngender = list(df['GENDER']) if 'GENDER' in df.columns else []\nrank = list(df['RANK']) if 'RANK' in df.columns else []\nbirth_year = list(df['BRITH_YEAR']) if 'BRITH_YEAR' in df.columns else []\ncount = list(df['COUNT']) if 'COUNT' in df.columns else []\nday_type = list(df['daytype']) if 'daytype' in df.columns else (list(df['day_type']) if 'day_type' in df.columns else [])\ntotal_rides = list(df['rides']) if 'rides' in df.columns else (list(df['total_rides']) if 'total_rides' in df.columns else [])\n# Step 1: list of (name, rank) for male babies in 2011\nmale_ranks_2011 = [(name[i], rank[i]) for i in range(len(name)) if gender[i] == 'MALE' and birth_year[i] == 2011]\n\n# Step 2: sort by rank\nsorted_male_ranks = sorted(male_ranks_2011, key=lambda x: x[1])\n\n# Step 3: top 10 names\ntop_male_names = [tup[0] for tup in sorted_male_ranks[:10]]\nprint(top_male_names)",
+      "expected_output": "['ETHAN', 'JACOB', 'MICHAEL', 'DAVID', 'DANIEL', 'JAYDEN', 'CHRISTOPHER', 'JOSEPH', 'JUSTIN', 'RYAN']",
+      "output_description": "A list of the 10 male names with the lowest rank numbers in 2011, i.e. the most popular.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The list comprehension must check both gender == 'MALE' and birth_year == 2011.",
+        "The lambda for key extracts the second element of each tuple, which is the rank."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Use sorted() with a custom key to order data and apply list comprehension to slice and reshape the result."
+    },
+    {
+      "id": "dc_003",
+      "title": "Which day type (Weekday, Saturday, Sunday/Holiday) appears most often in the CTA ridership data?",
+      "dataset_file": "cta_daily_summary_totals.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_054"
+      ],
+      "context": "The CTA operations team wants to know the most frequent day type in their historical ridership data. Use the Counter class to tally the `day_type` values and find the most common one.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import the Counter class from the collections module.",
+          "variable_name": "import_statement",
+          "hint": "Remember: `from collections import Counter`"
+        },
+        {
+          "step": 2,
+          "description": "Create a Counter object `day_counter` from the `day_type` list.",
+          "variable_name": "day_counter",
+          "hint": "Just pass `day_type` to Counter()."
+        },
+        {
+          "step": 3,
+          "description": "Use the `.most_common(1)` method to retrieve the most frequent day type and its count. Unpack the result into variables `most_common_type` and `most_common_count`.",
+          "variable_name": "most_common_type, most_common_count",
+          "hint": "`.most_common(1)` returns a list with one tuple; you can extract with `[(mc_type, mc_count)] = ...` or just index."
+        },
+        {
+          "step": 4,
+          "description": "Print the result as 'Most common day type: X (count: Y)'.",
+          "variable_name": "output_line",
+          "hint": "Use an f‑string with the variables."
+        }
+      ],
+      "starter_code": "# Pre‑loaded lists from cta_daily_summary_totals.csv:\n# service_date (str), day_type (str), bus (int), rail_boardings (int), total_rides (int)\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        },
+        "baby_names": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "crime_sampler": {
+          "type": "csv",
+          "path": "crime_sampler.csv"
+        },
+        "cta_daily_station_totals": {
+          "type": "csv",
+          "path": "cta_daily_station_totals.csv"
+        },
+        "cta_daily_summary_totals": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        }
+      },
+      "solution_code": "name = list(df['NAME']) if 'NAME' in df.columns else []\ngender = list(df['GENDER']) if 'GENDER' in df.columns else []\nrank = list(df['RANK']) if 'RANK' in df.columns else []\nbirth_year = list(df['BRITH_YEAR']) if 'BRITH_YEAR' in df.columns else []\ncount = list(df['COUNT']) if 'COUNT' in df.columns else []\nday_type = list(df['daytype']) if 'daytype' in df.columns else (list(df['day_type']) if 'day_type' in df.columns else [])\ntotal_rides = list(df['rides']) if 'rides' in df.columns else (list(df['total_rides']) if 'total_rides' in df.columns else [])\nday_type = list(df['day_type'])\ntotal_rides = list(df['total_rides'])\n# Step 1: import\nfrom collections import Counter\n\n# Step 2: create Counter from day_type list\nday_counter = Counter(day_type)\n\n# Step 3: most common day type\nmost_common_type, most_common_count = day_counter.most_common(1)[0]\n\n# Step 4: print\nprint(f\"Most common day type: {most_common_type} (count: {most_common_count})\")",
+      "expected_output": "Most common day type: W (count: [a number])",
+      "output_description": "The most frequent day type in the dataset, with its count.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Counter automatically tallies each element in the list.",
+        "The result of .most_common(1) is a list like [('W', 2000)]; access the first element."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Use Counter to quickly summarise categorical data from a real dataset."
+    },
+    {
+      "id": "dc_004",
+      "title": "What is the average total ridership per day type?",
+      "dataset_file": "cta_daily_summary_totals.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_057"
+      ],
+      "context": "The transit authority needs to understand ridership patterns by day type. Using a defaultdict(list), group all `total_rides` values by `day_type`, then compute the average for each group. Present the results sorted by day type.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import defaultdict from collections.",
+          "variable_name": "import_statement",
+          "hint": "`from collections import defaultdict`"
+        },
+        {
+          "step": 2,
+          "description": "Create a defaultdict `rides_by_type` where the default factory is `list`.",
+          "variable_name": "rides_by_type",
+          "hint": "`defaultdict(list)` initialises missing keys with an empty list."
+        },
+        {
+          "step": 3,
+          "description": "Loop through the dataset indices and append `total_rides[i]` to the list for key `day_type[i]`. Use a for loop over `range(len(day_type))`.",
+          "variable_name": "loop_body",
+          "hint": "Inside the loop: `rides_by_type[day_type[i]].append(total_rides[i])`"
+        },
+        {
+          "step": 4,
+          "description": "Calculate the average rides for each day type. Use a dictionary comprehension or a list comprehension that computes averages. Store the result as a dict `avg_rides` where keys are day_type codes and values are the means rounded to 2 decimals.",
+          "variable_name": "avg_rides",
+          "hint": "`avg = sum(vals)/len(vals)`; use `round()` to 2 decimals."
+        },
+        {
+          "step": 5,
+          "description": "Print the averages sorted by day type code. Use `sorted(avg_rides.items())` and print each line as 'Day type X: Y average rides'.",
+          "variable_name": "output_lines",
+          "hint": "Loop over the sorted items and print with an f‑string."
+        }
+      ],
+      "starter_code": "# Pre‑loaded lists from cta_daily_summary_totals.csv:\n# service_date, day_type, bus, rail_boardings, total_rides\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        },
+        "baby_names": {
+          "type": "csv",
+          "path": "baby_names.csv"
+        },
+        "crime_sampler": {
+          "type": "csv",
+          "path": "crime_sampler.csv"
+        },
+        "cta_daily_station_totals": {
+          "type": "csv",
+          "path": "cta_daily_station_totals.csv"
+        },
+        "cta_daily_summary_totals": {
+          "type": "csv",
+          "path": "cta_daily_summary_totals.csv"
+        }
+      },
+      "solution_code": "name = list(df['NAME']) if 'NAME' in df.columns else []\ngender = list(df['GENDER']) if 'GENDER' in df.columns else []\nrank = list(df['RANK']) if 'RANK' in df.columns else []\nbirth_year = list(df['BRITH_YEAR']) if 'BRITH_YEAR' in df.columns else []\ncount = list(df['COUNT']) if 'COUNT' in df.columns else []\nday_type = list(df['daytype']) if 'daytype' in df.columns else (list(df['day_type']) if 'day_type' in df.columns else [])\ntotal_rides = list(df['rides']) if 'rides' in df.columns else (list(df['total_rides']) if 'total_rides' in df.columns else [])\nday_type = list(df['day_type'])\ntotal_rides = list(df['total_rides'])\nfrom collections import defaultdict\n\nrides_by_type = defaultdict(list)\nfor i in range(len(day_type)):\n    rides_by_type[day_type[i]].append(total_rides[i])\n\navg_rides = {dt: round(sum(vals)/len(vals), 2) for dt, vals in rides_by_type.items()}\n\nfor dt in sorted(avg_rides):\n    print(f\"Day type {dt}: {avg_rides[dt]} average rides\")",
+      "expected_output": "Day type A: [number] average rides\nDay type U: [number] average rides\nDay type W: [number] average rides",
+      "output_description": "Three lines showing the average total rides for each day type, sorted alphabetically.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "defaultdict(list) avoids KeyError when you first append to a new day_type.",
+        "The dictionary comprehension can compute the average for each key in rides_by_type."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Group data with defaultdict(list) and compute aggregates without external libraries, demonstrating a practical data analysis pattern."
+    }
+  ]
+}

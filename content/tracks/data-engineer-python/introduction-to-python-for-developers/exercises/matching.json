@@ -1,0 +1,510 @@
+{
+  "course_slug": "introduction-to-python-for-developers",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 40,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Python Basics & Data Types",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Python",
+          "match": "A popular, general-purpose programming language known for its clear syntax.",
+          "wrong_matches": [
+            "A file with .py extension containing Python code.",
+            "A named container that stores a value for reuse."
+          ],
+          "feedback_correct": "Correct! Python is the language itself, defined by readability and open-source community.",
+          "feedback_wrong": "Not quite. Think about the overall language, not a file or variable."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Python script",
+          "match": "A file with .py extension containing Python code.",
+          "wrong_matches": [
+            "A popular, general-purpose programming language known for its clear syntax.",
+            "Built-in function that displays output to the console."
+          ],
+          "feedback_correct": "Exactly! A Python script is the .py file we run.",
+          "feedback_wrong": "That's not right. A script is a file, not the language or a function."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Development practices",
+          "match": "Start small, iterate, test, and document your code.",
+          "wrong_matches": [
+            "A file with .py extension containing Python code.",
+            "Built-in function that displays output to the console."
+          ],
+          "feedback_correct": "Yes! Good development practices include incremental progress and documentation.",
+          "feedback_wrong": "That's incorrect. This term refers to how we write software, not a file or function."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "print()",
+          "match": "Built-in function that displays output to the console.",
+          "wrong_matches": [
+            "A named container that stores a value for reuse.",
+            "Returns the data type of the argument (e.g., <class 'str'>)."
+          ],
+          "feedback_correct": "Correct! print() sends text to the screen.",
+          "feedback_wrong": "Not quite. print() is for output, not storing values or checking types."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "# This is a comment",
+          "match": "Text after # that Python ignores; used for explanations.",
+          "wrong_matches": [
+            "Built-in function that displays output to the console.",
+            "Uses the assignment operator = to store 10 in count."
+          ],
+          "feedback_correct": "Right! Comments start with # and are completely ignored by Python.",
+          "feedback_wrong": "That doesn't describe a comment. Comments are not functions or assignments."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "Variable",
+          "match": "A named container that stores a value for reuse.",
+          "wrong_matches": [
+            "A file with .py extension containing Python code.",
+            "Built-in function that displays output to the console."
+          ],
+          "feedback_correct": "Yes! Variables give names to values for easy reference.",
+          "feedback_wrong": "That's not a variable. Think of a labeled box that holds data."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "ingredient_name = \"pasta\"",
+          "match": "Assigns a string to a variable using double quotes.",
+          "wrong_matches": [
+            "Assigns an integer (whole number) to a variable.",
+            "Displays the value stored in the variable ingredient_name."
+          ],
+          "feedback_correct": "Correct! Double quotes create a string literal.",
+          "feedback_wrong": "Not quite. This line creates a string, not an integer or a print statement."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "ingredient_quantity = 2",
+          "match": "Assigns an integer (whole number) to a variable.",
+          "wrong_matches": [
+            "Assigns a string to a variable using double quotes.",
+            "Assigns the Boolean value True to a variable."
+          ],
+          "feedback_correct": "Correct! No quotes means it's an integer.",
+          "feedback_wrong": "That's wrong. An integer is a whole number, not a string or Boolean."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_009",
+          "term": "count = 10",
+          "match": "Uses the assignment operator = to store 10 in count.",
+          "wrong_matches": [
+            "Assigns a string to a variable using double quotes.",
+            "Displays the value stored in the variable ingredient_name."
+          ],
+          "feedback_correct": "Exactly! A single equals sign is the assignment operator.",
+          "feedback_wrong": "That's not correct. Assignment stores a value, not displaying it."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_010",
+          "term": "print(ingredient_name)",
+          "match": "Displays the value stored in the variable ingredient_name.",
+          "wrong_matches": [
+            "Assigns a string to a variable using double quotes.",
+            "Returns the data type of the argument (e.g., <class 'str'>)."
+          ],
+          "feedback_correct": "Right! print() with a variable shows its current value.",
+          "feedback_wrong": "Not that. This line outputs a value, it doesn't assign or inspect types."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_011",
+          "term": "ingredient_quantity = 1 then ingredient_quantity = 3",
+          "match": "Reassigns the variable to a new value, overwriting the old one.",
+          "wrong_matches": [
+            "Assigns an integer (whole number) to a variable.",
+            "Returns a new string with replacements; original unchanged unless reassigned."
+          ],
+          "feedback_correct": "Correct! Updating a variable means replacing its stored value.",
+          "feedback_wrong": "That's not it. This is about changing a variable's value, not a method or initial assignment."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_012",
+          "term": "ingredient_name",
+          "match": "snake_case: lowercase with underscores, standard Python style.",
+          "wrong_matches": [
+            "A named container that stores a value for reuse.",
+            "Assigns a string to a variable using double quotes."
+          ],
+          "feedback_correct": "Yes! Variable names should be snake_case for readability.",
+          "feedback_wrong": "Not quite. This is about the naming convention, not the variable definition."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_013",
+          "term": "new_ingredient_quantity = 1.5",
+          "match": "Assigns a decimal number (float) to a variable.",
+          "wrong_matches": [
+            "Assigns an integer (whole number) to a variable.",
+            "Assigns the Boolean value True to a variable."
+          ],
+          "feedback_correct": "Correct! A number with a decimal point is a float.",
+          "feedback_wrong": "That's not right. A float has a decimal, unlike an integer or Boolean."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_014",
+          "term": "is_in_stock = True",
+          "match": "Assigns the Boolean value True to a variable.",
+          "wrong_matches": [
+            "Assigns a string to a variable using double quotes.",
+            "Assigns a decimal number (float) to a variable."
+          ],
+          "feedback_correct": "Exactly! True (capitalized, no quotes) is a Boolean.",
+          "feedback_wrong": "That's incorrect. True is a Boolean, not a string or float."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_015",
+          "term": "type(ingredient_name)",
+          "match": "Returns the data type of the argument (e.g., <class 'str'>).",
+          "wrong_matches": [
+            "Built-in function that displays output to the console.",
+            "Displays the value stored in the variable ingredient_name."
+          ],
+          "feedback_correct": "Correct! type() tells you what kind of object a variable holds.",
+          "feedback_wrong": "No, type() inspects types, it doesn't print values directly."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_016",
+          "term": "print(2 + 1.5)",
+          "match": "Adds an integer and a float, printing 3.5.",
+          "wrong_matches": [
+            "Raises TypeError because you can't concatenate string and int.",
+            "Returns a new string with replacements; original unchanged unless reassigned."
+          ],
+          "feedback_correct": "Yes! Arithmetic operators work with both ints and floats.",
+          "feedback_wrong": "That's not arithmetic. This line adds numbers, not strings or method calls."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_017",
+          "term": "print(\"Hi\" + 3)",
+          "match": "Raises TypeError because you can't concatenate string and int.",
+          "wrong_matches": [
+            "Adds an integer and a float, printing 3.5.",
+            "Escapes the apostrophe inside single-quoted string."
+          ],
+          "feedback_correct": "Exactly! String concatenation with a non-string causes a TypeError.",
+          "feedback_wrong": "That's not it. The issue is type mismatch, not arithmetic or quotes."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_018",
+          "term": "print('It\\'s a great day')",
+          "match": "Escapes the apostrophe inside single-quoted string.",
+          "wrong_matches": [
+            "Creates a multi-line string that preserves line breaks.",
+            "Raises TypeError because you can't concatenate string and int."
+          ],
+          "feedback_correct": "Correct! The backslash before the quote prevents a SyntaxError.",
+          "feedback_wrong": "Not that. This line demonstrates escaping, not multi-line or type errors."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_019",
+          "term": "recipe_instructions = \"\"\"Step1\nStep2\"\"\"",
+          "match": "Creates a multi-line string that preserves line breaks.",
+          "wrong_matches": [
+            "Escapes the apostrophe inside single-quoted string.",
+            "Returns a new string with replacements; original unchanged unless reassigned."
+          ],
+          "feedback_correct": "Yes! Triple quotes allow strings to span multiple lines.",
+          "feedback_wrong": "That's wrong. This is about preserving line breaks, not escaping or replacing."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_020",
+          "term": "Method",
+          "match": "A function that belongs to a specific data type, called with dot notation.",
+          "wrong_matches": [
+            "A named container that stores a value for reuse.",
+            "Built-in function that displays output to the console."
+          ],
+          "feedback_correct": "Correct! Methods are type-specific functions invoked with variable.method().",
+          "feedback_wrong": "That's not a method. Think of a function attached to an object."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Strings, Lists, and Dictionaries",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_021",
+          "term": "welcome_message.replace(\"George\", \"John\")",
+          "match": "Returns a new string with replacements; original unchanged unless reassigned.",
+          "wrong_matches": [
+            "Returns a lowercase copy of the string; does not modify original.",
+            "Returns an uppercase copy of the string; must be reassigned to update variable."
+          ],
+          "feedback_correct": "Correct! .replace() returns a modified copy; reassignment is needed.",
+          "feedback_wrong": "Not quite. This method swaps substrings, not changing case."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_022",
+          "term": "ingredient_name.lower()",
+          "match": "Returns a lowercase copy of the string; does not modify original.",
+          "wrong_matches": [
+            "Returns a new string with replacements; original unchanged unless reassigned.",
+            "Returns an uppercase copy of the string; must be reassigned to update variable."
+          ],
+          "feedback_correct": "Exactly! .lower() gives a lowercase version; strings are immutable.",
+          "feedback_wrong": "That's not right. .lower() deals with case, not replacement or upper case."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_023",
+          "term": "ingredient_name.upper()",
+          "match": "Returns an uppercase copy of the string; must be reassigned to update variable.",
+          "wrong_matches": [
+            "Returns a lowercase copy of the string; does not modify original.",
+            "Returns a view of all keys in the dictionary."
+          ],
+          "feedback_correct": "Yes! .upper() produces an all-caps string; reassignment saves it.",
+          "feedback_wrong": "No. .upper() makes text uppercase, not lowercase or dictionary keys."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_024",
+          "term": "ingredients = [\"pasta\", \"tomatoes\"]",
+          "match": "Creates a list, a mutable ordered collection.",
+          "wrong_matches": [
+            "Creates a dictionary with key 'pasta' and value 500.",
+            "Returns every second element from the whole list."
+          ],
+          "feedback_correct": "Correct! Square brackets define a list.",
+          "feedback_wrong": "That's not a list. This syntax makes a list, not a dict or slice."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_025",
+          "term": "ingredients[0]",
+          "match": "Accesses the first element of the list (zero-based indexing).",
+          "wrong_matches": [
+            "Accesses the last element of the list.",
+            "Returns a sublist from index 1 up to but not including index 3."
+          ],
+          "feedback_correct": "Right! Indexing starts at 0, so [0] gives the first item.",
+          "feedback_wrong": "Not that. This single index fetches one element, not the last or a slice."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_026",
+          "term": "ingredients[-1]",
+          "match": "Accesses the last element of the list.",
+          "wrong_matches": [
+            "Accesses the first element of the list (zero-based indexing).",
+            "Returns the value associated with the key 'pasta'."
+          ],
+          "feedback_correct": "Correct! Negative indices count from the end; -1 is the last item.",
+          "feedback_wrong": "That's incorrect. -1 gives the last, not the first or a dictionary value."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_027",
+          "term": "ingredients[1:3]",
+          "match": "Returns a sublist from index 1 up to but not including index 3.",
+          "wrong_matches": [
+            "Returns every second element from the whole list.",
+            "Accesses the first element of the list (zero-based indexing)."
+          ],
+          "feedback_correct": "Exactly! Slicing [1:3] includes index 1 and 2, excludes 3.",
+          "feedback_wrong": "No. This is a slice with a start and stop, not a step or single index."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_028",
+          "term": "ingredients[::2]",
+          "match": "Returns every second element from the whole list.",
+          "wrong_matches": [
+            "Returns a sublist from index 1 up to but not including index 3.",
+            "Accesses the first element of the list (zero-based indexing)."
+          ],
+          "feedback_correct": "Yes! The step of 2 picks alternate elements from start to end.",
+          "feedback_wrong": "Not that. This slice uses a step, not a simple index or stop-based slice."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_029",
+          "term": "recipe = {\"pasta\": 500}",
+          "match": "Creates a dictionary with key 'pasta' and value 500.",
+          "wrong_matches": [
+            "Creates a list, a mutable ordered collection.",
+            "Returns a view of all values in the dictionary."
+          ],
+          "feedback_correct": "Correct! Curly braces with a colon indicate a dictionary.",
+          "feedback_wrong": "No, this syntax makes a dictionary, not a list or method call."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_030",
+          "term": "recipe[\"pasta\"]",
+          "match": "Returns the value associated with the key 'pasta'.",
+          "wrong_matches": [
+            "Returns a view of all keys in the dictionary.",
+            "Updates the value for key 'pasta' to 1000."
+          ],
+          "feedback_correct": "Right! Square brackets with a key access its value.",
+          "feedback_wrong": "Not quite. This retrieves a value, it doesn't list all keys or update."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_031",
+          "term": "recipe.values()",
+          "match": "Returns a view of all values in the dictionary.",
+          "wrong_matches": [
+            "Returns a view of all keys in the dictionary.",
+            "Returns a view of key-value pairs as tuples."
+          ],
+          "feedback_correct": "Exactly! .values() focuses on the stored data, not the keys.",
+          "feedback_wrong": "That's not correct. .values() gives values, not keys or pairs."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_032",
+          "term": "recipe.keys()",
+          "match": "Returns a view of all keys in the dictionary.",
+          "wrong_matches": [
+            "Returns a view of all values in the dictionary.",
+            "Returns a view of key-value pairs as tuples."
+          ],
+          "feedback_correct": "Correct! .keys() provides the dictionary's key set.",
+          "feedback_wrong": "No. .keys() returns keys, not values or pairs."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_033",
+          "term": "recipe.items()",
+          "match": "Returns a view of key-value pairs as tuples.",
+          "wrong_matches": [
+            "Returns a view of all keys in the dictionary.",
+            "Returns a view of all values in the dictionary."
+          ],
+          "feedback_correct": "Yes! .items() is ideal for looping over both keys and values.",
+          "feedback_wrong": "That's wrong. .items() gives pairs, not just keys or values."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_034",
+          "term": "recipe[\"parmesan\"] = 50",
+          "match": "Adds a new key 'parmesan' with value 50 to the dictionary.",
+          "wrong_matches": [
+            "Updates the value for key 'pasta' to 1000.",
+            "Returns the value associated with the key 'pasta'."
+          ],
+          "feedback_correct": "Correct! Assignment to a new key inserts the key-value pair.",
+          "feedback_wrong": "Not that. This is about adding a new entry, not updating an existing one."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_035",
+          "term": "recipe[\"pasta\"] = 1000",
+          "match": "Updates the value for key 'pasta' to 1000.",
+          "wrong_matches": [
+            "Adds a new key 'parmesan' with value 50 to the dictionary.",
+            "Returns the value associated with the key 'pasta'."
+          ],
+          "feedback_correct": "Exactly! Reassigning to an existing key overwrites its value.",
+          "feedback_wrong": "No. This modifies an existing entry, not adding a new one."
+        },
+        {
+          "id": "match_036",
+          "concept_id": "concept_036",
+          "term": "{\"garlic\": 5, \"garlic\": 15}[\"garlic\"]",
+          "match": "Prints 15 because the last duplicate key overwrites earlier ones.",
+          "wrong_matches": [
+            "Returns a sublist from index 1 up to but not including index 3.",
+            "Raises TypeError because sets are unordered and not subscriptable."
+          ],
+          "feedback_correct": "Correct! Duplicate keys silently keep the last assigned value.",
+          "feedback_wrong": "That's not it. This is about dictionary duplicate keys, not slicing or sets."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Sets, Tuples, and Comparisons",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_037",
+          "concept_id": "concept_037",
+          "term": "ingredients = {\"pasta\", \"tomatoes\", \"pasta\"}",
+          "match": "Creates a set, which automatically removes duplicate elements.",
+          "wrong_matches": [
+            "Converts a list to a set, eliminating duplicates.",
+            "Raises TypeError because sets are unordered and not subscriptable."
+          ],
+          "feedback_correct": "Yes! A set literal with curly braces discards duplicates.",
+          "feedback_wrong": "Not quite. This is about creating a set directly, not converting or indexing."
+        },
+        {
+          "id": "match_038",
+          "concept_id": "concept_038",
+          "term": "set(ingredients_list)",
+          "match": "Converts a list to a set, eliminating duplicates.",
+          "wrong_matches": [
+            "Creates a set, which automatically removes duplicate elements.",
+            "Returns a new sorted list from the elements of the set."
+          ],
+          "feedback_correct": "Correct! set() turns an iterable into a set of unique items.",
+          "feedback_wrong": "That's not right. This uses the set() function, not a literal or sorted()."
+        },
+        {
+          "id": "match_039",
+          "concept_id": "concept_039",
+          "term": "ingredients[0] on a set",
+          "match": "Raises TypeError because sets are unordered and not subscriptable.",
+          "wrong_matches": [
+            "Returns a new sorted list from the elements of the set.",
+            "Creates a set, which automatically removes duplicate elements."
+          ],
+          "feedback_correct": "Exactly! Indexing a set is not allowed; they have no order.",
+          "feedback_wrong": "No. The error is about indexing a set, not sorting or creating."
+        },
+        {
+          "id": "match_040",
+          "concept_id": "concept_040",
+          "term": "sorted(ingredients)",
+          "match": "Returns a new sorted list from the elements of the set.",
+          "wrong_matches": [
+            "Converts a list to a set, eliminating duplicates.",
+            "Raises TypeError because sets are unordered and not subscriptable."
+          ],
+          "feedback_correct": "Correct! sorted() always returns a list, even from a set.",
+          "feedback_wrong": "That's not right. This function sorts, not converts to set or causes an error."
+        }
+      ]
+    }
+  ]
+}

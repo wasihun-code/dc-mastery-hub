@@ -1,0 +1,141 @@
+{
+  "course_slug": "introduction-to-python-for-developers",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 2,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Manipulate and Analyze Product Inventory",
+      "dataset_file": "cars.csv",
+      "difficulty": "easy",
+      "estimated_minutes": 4,
+      "concepts_tested": [
+        "concept_507",
+        "concept_511"
+      ],
+      "context": "You are a junior developer tasked with calculating inventory status. Given the countries and their cars per capita from 'cars.csv', create a Python list of countries and slice it.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV file 'cars.csv' into a DataFrame named 'cars', using the first column as the index.",
+          "variable_name": "cars"
+        },
+        {
+          "step": 2,
+          "description": "Convert the 'country' column of the DataFrame to a list named 'country_list'.",
+          "variable_name": "country_list"
+        },
+        {
+          "step": 3,
+          "description": "Slice country_list to get the first three countries, storing the result in 'top_three'.",
+          "variable_name": "top_three"
+        },
+        {
+          "step": 4,
+          "description": "Print the top_three list.",
+          "variable_name": ""
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load cars.csv with index_col=0\ncars = None\n\n# Step 2: Convert the 'country' column to a list\ncountry_list = None\n\n# Step 3: Slice to get the first three countries\ntop_three = None\n\n# Step 4: Print top_three\nprint(top_three)\n",
+      "solution_code": "import pandas as pd\n\ncars = pd.read_csv('cars.csv', index_col=0)\ncountry_list = list(cars['country'])\ntop_three = country_list[:3]\nprint(top_three)",
+      "expected_output": "['United States', 'Australia', 'Japan']",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use list(cars['country']) to perform list conversion.",
+        "Slice lists using [:3] to get the first 3 elements."
+      ],
+      "learning_outcome": "Convert a DataFrame column into a list and perform basic list slicing.",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "brics": {
+          "type": "csv",
+          "path": "brics.csv"
+        },
+        "cars": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "gapminder": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        }
+      }
+    },
+    {
+      "id": "dc_002",
+      "title": "Calculate Basic GDP and filter by threshold",
+      "dataset_file": "gapminder.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_524",
+        "concept_527"
+      ],
+      "context": "Your company is compiling population metrics. You need to read the first 5 rows of the 'gapminder.csv' dataset, compute each country's population in millions, and use a loop to identify countries with populations exceeding 30 million.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV file 'gapminder.csv' into a DataFrame named 'gapminder', using the index_col=0.",
+          "variable_name": "gapminder"
+        },
+        {
+          "step": 2,
+          "description": "Extract the first 5 rows of the DataFrame using .head() and store in 'first_five'.",
+          "variable_name": "first_five"
+        },
+        {
+          "step": 3,
+          "description": "Loop over the rows of first_five using .iterrows() and check if population is greater than 30,000,000.",
+          "variable_name": ""
+        },
+        {
+          "step": 4,
+          "description": "Print: f\"{row['country']} is populous\" for matching rows.",
+          "variable_name": ""
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load gapminder.csv\ngapminder = None\n\n# Step 2: Get first 5 rows\nfirst_five = None\n\n# Step 3 & 4: Loop and print if population > 30M\n",
+      "solution_code": "import pandas as pd\n\ngapminder = pd.read_csv('gapminder.csv', index_col=0)\nfirst_five = gapminder.head()\nfor idx, row in first_five.iterrows():\n    if row['population'] > 30000000:\n        print(f\"{row['country']} is populous\")",
+      "expected_output": "Afghanistan is populous\nAlgeria is populous\nArgentina is populous",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use head() to get first 5 rows.",
+        "Loop over rows using iterrows() and compare the 'population' key to 30000000."
+      ],
+      "learning_outcome": "Using .head(), loop over pandas rows, perform conditional check against a numeric threshold, and print output.",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        },
+        "brics": {
+          "type": "csv",
+          "path": "brics.csv"
+        },
+        "cars": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "gapminder": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        }
+      }
+    }
+  ]
+}

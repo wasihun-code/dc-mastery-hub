@@ -1,0 +1,849 @@
+{
+  "course_slug": "introduction-to-functions-in-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-12",
+  "version": 1,
+  "total_questions": 28,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_002",
+      "concept_name": "Function definition using def",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "error",
+      "question_text": "Which line in the following code will cause a SyntaxError?\n\n```python\ndef greet()\n    print(\"Hello\")\n```",
+      "options": {
+        "a": "Line 1, because the colon is missing",
+        "b": "Line 1, because the parentheses are empty",
+        "c": "Line 2, because print should be indented",
+        "d": "Line 2, because the parentheses around \"Hello\" are unnecessary"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The def header must end with a colon. Without it, Python does not know where the function body begins.",
+        "b": "Empty parentheses are perfectly valid and indicate no parameters. This is not an error.",
+        "c": "The line is indeed incorrectly indented, but the SyntaxError occurs first at line 1 due to the missing colon.",
+        "d": "The parentheses around the string are required by the print function; removing them would cause a different error."
+      },
+      "hints": [
+        "Look closely at the first line of the function definition — it is a very common beginner mistake to forget a punctuation mark.",
+        "The function header needs a special character after the closing parenthesis to separate the header from the body."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A function definition using `def` requires a colon at the end of the header. In the code, `def greet()` is missing the colon, so Python raises a SyntaxError immediately. Even if the colon were present, the body would also need to be indented.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_003",
+      "concept_name": "Function parameters",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which statement correctly describes the difference between a function parameter and a function argument?",
+      "options": {
+        "a": "Parameters are the values passed during a function call, and arguments are the variables listed in the function definition.",
+        "b": "Parameters appear in the function definition, while arguments are the actual values supplied when calling the function.",
+        "c": "Parameters and arguments are different words for the same thing.",
+        "d": "Parameters are only used in built‑in functions, while arguments are used in user‑defined functions."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This reverses the correct relationship. Parameters are in the definition, not the call.",
+        "b": "Correct. Parameters are placeholders in the function header; arguments are the concrete data provided at call time.",
+        "c": "Although often used interchangeably in casual conversation, they have distinct technical meanings in Python.",
+        "d": "This is completely false. Both parameters and arguments apply to user‑defined functions as well."
+      },
+      "hints": [
+        "Think about where each term appears: the definition line or the call line.",
+        "A parameter is like a variable waiting for a value; an argument is the value that fills it."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A parameter is a variable in the function signature (e.g., `value` in `def square(value)`). An argument is the actual data passed during the call (e.g., `4` in `square(4)`). Mixing them up is a common mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_003"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_004",
+      "concept_name": "Return statement",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What is printed when the following code is executed?\n\n```python\ndef add(a, b):\n    return a + b\n    print(\"Calculation done\")\nadd(2, 3)\n```",
+      "options": {
+        "a": "\"Calculation done\"",
+        "b": "5",
+        "c": "Nothing is printed",
+        "d": "None"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The print statement is placed after the return statement, so it is unreachable and never executes.",
+        "b": "The return value 5 is not assigned or printed; it is simply discarded.",
+        "c": "Correct. The print statement is after return, so the function exits before reaching it. The return value is unused and no output appears.",
+        "d": "None would be printed only if the function had no return or returned None and that result was printed. Here nothing is printed."
+      },
+      "hints": [
+        "Once a return statement runs, the function stops immediately.",
+        "Look at the order of the statements inside the function body."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A function exits as soon as a `return` statement executes. Any code after the `return` is never run. In this example, `print(\"Calculation done\")` is unreachable. The call `add(2, 3)` returns 5, but that value is not captured or printed, so the script produces no visible output.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_005",
+      "concept_name": "Docstrings",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with the following function definition?\n\n```python\ndef square(value):\n\"\"\"Return the square of a value.\"\"\"\n    new_value = value ** 2\n    return new_value\n```",
+      "options": {
+        "a": "The docstring should use single quotes, not triple double quotes.",
+        "b": "The docstring is not properly indented.",
+        "c": "The function is missing a return value type annotation.",
+        "d": "The docstring must be placed after the first expression, not before."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Triple double quotes are the conventional way to write docstrings in Python. They are perfectly acceptable.",
+        "b": "Correct. The docstring must be indented at the same level as the function body. Here it is at column 0.",
+        "c": "Type annotations are optional and not required for a valid function definition.",
+        "d": "The docstring must be the very first statement in the function body; placing it after other code would violate the convention."
+      },
+      "hints": [
+        "Python uses indentation to define blocks of code.",
+        "Think about where the docstring line starts relative to the indented body."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A docstring must be the first line inside the function, indented to match the body. In this snippet, `\"\"\"Return the square of a value.\"\"\"` is not indented, so it is not considered part of the function body, which would cause an IndentationError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_006",
+      "concept_name": "Multiple function parameters",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ndef calculate(a, b):\n    return a * b - a\nprint(calculate(5, 3))\nprint(calculate(3, 5))\n```",
+      "options": {
+        "a": "10 and 12",
+        "b": "12 and 10",
+        "c": "10 and 10",
+        "d": "12 and 12"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. calculate(5,3) gives 5*3 - 5 = 10; calculate(3,5) gives 3*5 - 3 = 12.",
+        "b": "This would be the result if the arguments were swapped, but the order matters because the expression uses the first parameter `a` twice.",
+        "c": "This would only be true if both calls produced the same result, which they don't because the parameters are not symmetric.",
+        "d": "The calls produce different outputs; both cannot be 12."
+      },
+      "hints": [
+        "Remember that parameters are matched by position: the first argument goes to the first parameter.",
+        "Trace the two calls separately using the formula `a * b - a`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The function uses its two parameters in the expression `a * b - a`. When called as `calculate(5, 3)`, `a=5, b=3` yields `15 - 5 = 10`. With `calculate(3, 5)`, `a=3, b=5` gives `15 - 3 = 12`. The order of arguments changes the result, illustrating that positional matching matters.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_007",
+      "concept_name": "Tuples",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run the following code?\n\n```python\nt = (5)\nt[0] = 6\n```",
+      "options": {
+        "a": "The value 5 is replaced by 6, and t becomes (6).",
+        "b": "A TypeError occurs because tuples are immutable.",
+        "c": "A TypeError occurs because an integer is not subscriptable.",
+        "d": "A ValueError occurs because a single‑element tuple requires a trailing comma."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The variable `t` is not a tuple; it is an integer. Assigning to an index is impossible.",
+        "b": "Although tuples are immutable, the variable `t` is not actually a tuple — it's an integer because a single‑element tuple needs a trailing comma: `(5,)`.",
+        "c": "Correct. Parentheses alone do not create a tuple; `t = (5)` assigns the integer 5 to `t`. Attempting `t[0]` then raises TypeError: 'int' object is not subscriptable.",
+        "d": "While it's true that a single‑element tuple requires a trailing comma, the error is a TypeError, not a ValueError."
+      },
+      "hints": [
+        "Does `(5)` really create a tuple? There's a common gotcha about single‑element tuples.",
+        "Try using `type(t)` to see what `t` actually is."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, parentheses are used for grouping as well as for tuples. `(5)` is just the integer 5, not a tuple. To create a tuple with one element you need a trailing comma: `(5,)`. Because `t` is an integer, `t[0]` raises a TypeError since integers do not support indexing.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_008",
+      "concept_name": "Tuple unpacking",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What error does the following code produce?\n\n```python\neven_nums = (2, 4, 6)\na, b, c, d = even_nums\n```",
+      "options": {
+        "a": "TypeError: cannot unpack non‑iterable tuple object",
+        "b": "ValueError: too many values to unpack (expected 4)",
+        "c": "IndexError: tuple index out of range",
+        "d": "ValueError: not enough values to unpack (expected 4, got 3)"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Tuples are iterable, so this error is not raised.",
+        "b": "The error message would say 'not enough values' because there are fewer values than variables, not too many.",
+        "c": "An IndexError would occur if you tried to access an element beyond the tuple's length using indexing, but unpacking raises a ValueError instead.",
+        "d": "Correct. The tuple has 3 elements, but four variables (`a,b,c,d`) are declared. Unpacking requires the exact same number, so Python raises 'ValueError: not enough values to unpack (expected 4, got 3)'."
+      },
+      "hints": [
+        "Count how many elements are in the tuple and how many variables are on the left side.",
+        "The error message will mention that the number of values does not match the number of variables."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Tuple unpacking demands that the number of variables on the left matches the number of elements in the tuple exactly. Here, `even_nums` has three elements but four variables are provided, resulting in a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_008"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_009",
+      "concept_name": "Tuple indexing",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the value of `second_num` after the following code runs?\n\n```python\neven_nums = (2, 4, 6)\nsecond_num = even_nums[1]\n```",
+      "options": {
+        "a": "2",
+        "b": "4",
+        "c": "6",
+        "d": "This raises an IndexError."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Index 1 refers to the second element, not the first. Index 0 would give 2.",
+        "b": "Correct. Zero‑based indexing means element at index 1 is 4.",
+        "c": "Index 2 would give the third element, 6.",
+        "d": "The tuple has three elements, so indices 0, 1, and 2 are valid; no error occurs."
+      },
+      "hints": [
+        "Python uses zero‑based indexing: the first element is at index 0.",
+        "The second element is not at index 2."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Like lists, tuples use zero‑based indexing. `even_nums[1]` accesses the element at position 1, which is the second item, 4.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_010",
+      "concept_name": "Returning multiple values",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\ndef raise_both(value1, value2):\n    \"\"\"Raise value1 to the power of value2 and vice versa.\"\"\"\n    new_value1 = value1 ** value2\n    new_value2 = value2 ** value1\n    new_tuple = (new_value1, new_value2)\n    return new_tuple\nresult = raise_both(2, 3)\nprint(result)\n```",
+      "options": {
+        "a": "8",
+        "b": "(8, 9)",
+        "c": "9",
+        "d": "(8, 9, None)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The function returns a tuple containing both results, not just the first value.",
+        "b": "Correct. The function computes 2**3 = 8 and 3**2 = 9, packs them into a tuple, and returns it. The tuple (8, 9) is printed.",
+        "c": "The function returns both values as a tuple, not just the second value.",
+        "d": "The tuple contains exactly the two computed values; there is no extra None."
+      },
+      "hints": [
+        "Look carefully at what the function returns — is it a single value or a container?",
+        "A function that returns multiple comma‑separated values actually returns a tuple."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When a function returns multiple values using a tuple (or implicitly by returning comma‑separated values), the caller receives that tuple. Here, `raise_both(2, 3)` returns the tuple `(8, 9)`, which is then printed as is.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_012",
+      "concept_name": "NameError from local scope",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What happens when you execute the following script?\n\n```python\ndef square(value):\n    new_val = value ** 2\n    return new_val\nsquare(3)\nprint(new_val)\n```",
+      "options": {
+        "a": "It prints 9.",
+        "b": "It prints None.",
+        "c": "A NameError is raised.",
+        "d": "A TypeError is raised."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The variable `new_val` exists only inside the function and is not accessible outside. It cannot be printed.",
+        "b": "None would be printed only if `new_val` existed with the value None; here the name does not exist globally.",
+        "c": "Correct. `new_val` is a local variable of `square`. After the function call, the name `new_val` is not defined in the global scope, so attempting to print it raises a NameError.",
+        "d": "A TypeError would be raised for operations on incompatible types, not for using an undefined variable."
+      },
+      "hints": [
+        "Think about where the variable `new_val` is created — is it inside or outside the function?",
+        "What happens to local variables after the function finishes?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Variables defined inside a function have local scope. They are created when the function runs and destroyed when it finishes. Attempting to access `new_val` outside the function causes a NameError because that name does not exist in the global scope.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_012"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_013",
+      "concept_name": "Shadowing global variables",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\nnew_val = 10\ndef square(value):\n    new_val = value ** 2\n    return new_val\nprint(square(3))\nprint(new_val)\n```",
+      "options": {
+        "a": "9 then 10",
+        "b": "9 then 9",
+        "c": "10 then 10",
+        "d": "9 then NameError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The local `new_val` shadows the global one inside the function, so `square(3)` returns 9. The global `new_val` remains 10 and is printed second.",
+        "b": "This would imply the global variable was changed, but without the `global` keyword, assignment inside the function creates a new local variable.",
+        "c": "The function does not return the global value; it returns the squared value of its argument.",
+        "d": "The global `new_val` still exists; no NameError occurs."
+      },
+      "hints": [
+        "Inside `square`, is `new_val` the same variable as the one defined outside?",
+        "What does Python do when it sees an assignment to a variable that exists globally but is also assigned locally?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Inside the function, `new_val = value ** 2` creates a new local variable that shadows the global one. The global `new_val` is not modified. The function returns 9, and the global `new_val` remains 10, so the output is 9 followed by 10.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_014",
+      "concept_name": "Accessing global variables inside a function",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nnew_val = 10\ndef square(value):\n    new_value2 = new_val ** 2\n    return new_value2\nprint(square(3))\n```",
+      "options": {
+        "a": "100",
+        "b": "9",
+        "c": "NameError",
+        "d": "10"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The function reads the global `new_val` (10), squares it to get 100, and returns that value.",
+        "b": "9 would be the result if the function squared its own parameter `value` (3), but it squares the global `new_val` instead.",
+        "c": "No NameError occurs because `new_val` is found in the global scope.",
+        "d": "The function returns the result of the squaring operation (100), not the global value itself."
+      },
+      "hints": [
+        "Does the function use its own parameter `value` or the global variable `new_val`?",
+        "If a name is not assigned inside a function, Python looks for it in the enclosing (global) scope."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When a function reads a variable without assigning to it, Python searches the local scope first, then the global scope. Here, `new_val` is not assigned inside `square`, so the global `new_val` (10) is used. The function returns 10**2 = 100.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_015",
+      "concept_name": "global keyword",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What error does the following code produce?\n\n```python\ncount = 0\ndef increment():\n    count = count + 1\n    return count\nprint(increment())\nprint(count)\n```",
+      "options": {
+        "a": "It prints 1 and 0.",
+        "b": "It prints 1 and 1.",
+        "c": "UnboundLocalError: local variable 'count' referenced before assignment",
+        "d": "NameError: name 'count' is not defined"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "This would be the result only if `count` had been declared global inside the function; it is not.",
+        "b": "The function cannot modify the global `count` without the `global` statement; additionally, the assignment would raise an error before any output.",
+        "c": "Correct. Because `count = count + 1` includes an assignment, Python treats `count` as a local variable. But the right‑hand side tries to read that local variable before it has been assigned, causing an UnboundLocalError.",
+        "d": "A NameError would occur if `count` were completely undefined, but it exists globally; the issue is a local variable being used before assignment."
+      },
+      "hints": [
+        "When you assign to a variable inside a function, Python treats it as local unless declared otherwise.",
+        "Examine the expression `count = count + 1` carefully — is the `count` on the right the global one or a local one?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Assignment inside a function makes a variable local, even if a global variable with the same name exists. `count = count + 1` tries to read the local `count` before it has a value, resulting in UnboundLocalError. To modify the global, you must first use `global count`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_016",
+      "concept_name": "Nested functions",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ndef mod2plus5(x1, x2, x3):\n    def inner(x):\n        return x % 2 + 5\n    return (inner(x1), inner(x2), inner(x3))\nprint(mod2plus5(1, 2, 3))\n```",
+      "options": {
+        "a": "(1, 2, 3)",
+        "b": "(6, 7, 6)",
+        "c": "(6, 5, 6)",
+        "d": "(5, 5, 5)"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The function applies the inner function, not just returning the original values.",
+        "b": "7 would mean 2 % 2 + 5 = 0 + 5 = 5, not 7. So this is incorrect.",
+        "c": "Correct. 1 % 2 + 5 = 1 + 5 = 6; 2 % 2 + 5 = 0 + 5 = 5; 3 % 2 + 5 = 1 + 5 = 6. The tuple (6, 5, 6) is returned.",
+        "d": "This would be the result only if `x % 2` always yielded 0, which it does not."
+      },
+      "hints": [
+        "Calculate `inner` for each argument: what is 1 % 2? 2 % 2? 3 % 2?",
+        "The `inner` function adds 5 after computing the modulo."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The outer function `mod2plus5` defines a nested `inner` that computes `x % 2 + 5`. It then applies `inner` to each argument and returns a tuple of the results. The modulo operation yields 1%2=1, 2%2=0, 3%2=1, so adding 5 gives 6, 5, 6.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_016"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_017",
+      "concept_name": "Returning functions (closures)",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ndef outer():\n    funcs = []\n    for i in range(3):\n        def inner():\n            return i\n        funcs.append(inner)\n    return funcs\nf1, f2, f3 = outer()\nprint(f1(), f2(), f3())\n```",
+      "options": {
+        "a": "0 1 2",
+        "b": "2 2 2",
+        "c": "1 1 1",
+        "d": "0 0 0"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is a common misconception; the closures capture the variable `i`, not its value at creation time. By the time the functions are called, `i` is 2.",
+        "b": "Correct. Each inner function closes over the same variable `i`. When `outer` finishes, `i` is 2. Calling any of the returned functions returns 2.",
+        "c": "`i` is 1 only during the second iteration; after the loop it is 2.",
+        "d": "`i` is 0 only during the first iteration; after the loop it is 2."
+      },
+      "hints": [
+        "Think about when `i` is evaluated — when the inner function is defined, or when it is called?",
+        "Closures capture variables, not values. What is the final value of `i` after the loop?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The inner functions all reference the same variable `i` from the enclosing scope. The loop updates `i`; after the loop, `i = 2`. When the functions are later called, they each return the current value of `i`, which is 2. This is a classic closure pitfall.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_018",
+      "concept_name": "nonlocal keyword",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed when this code runs?\n\n```python\ndef outer():\n    n = 1\n    def inner():\n        n = 2\n    inner()\n    print(n)\nouter()\n```",
+      "options": {
+        "a": "1",
+        "b": "2",
+        "c": "UnboundLocalError",
+        "d": "NameError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Without `nonlocal n`, the assignment `n = 2` inside `inner` creates a new local variable, leaving the enclosing `n` unchanged. The outer `print(n)` therefore outputs 1.",
+        "b": "This would happen only if `inner` used `nonlocal n` to modify the enclosing variable. Without it, the outer `n` is unaffected.",
+        "c": "UnboundLocalError occurs when a local variable is used before assignment. That does not happen here.",
+        "d": "NameError would mean `n` is not defined, but it is defined in both outer and inner scopes."
+      },
+      "hints": [
+        "Does assigning to `n` inside `inner` change the `n` in `outer`, or create a new variable?",
+        "Remember the LEGB rule and the behavior of assignment without `nonlocal`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Inside `inner`, `n = 2` creates a new local variable because there is no `nonlocal` declaration. The enclosing `n` remains 1. Therefore, the outer `print(n)` outputs 1. To modify the enclosing variable, you need `nonlocal n`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_020",
+      "concept_name": "Default arguments",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ndef add_item(item, lst=[]):\n    lst.append(item)\n    return lst\nprint(add_item(1))\nprint(add_item(2))\nprint(add_item(3))\n```",
+      "options": {
+        "a": "[1], [2], [3]",
+        "b": "[1], [1, 2], [1, 2, 3]",
+        "c": "[1, 2, 3] printed three times",
+        "d": "TypeError: can't use mutable default argument"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would happen if a new list were created each time the function was called, but default arguments are evaluated only once at definition.",
+        "b": "Correct. The default list is created once. Each call appends to the same list object, so the list accumulates items across calls.",
+        "c": "Each call prints the list at that moment, not the final list three times.",
+        "d": "Python allows mutable default arguments; it is a common source of bugs but not a syntax error."
+      },
+      "hints": [
+        "When is the default value `[]` created — at definition time or each time the function is called?",
+        "What happens to the same list object when you call `add_item` multiple times?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Default argument values are evaluated once when the function is defined, not each time it is called. So `lst=[]` creates a single list object. Each call to `add_item` appends to that same list, resulting in the cumulative output `[1]`, `[1, 2]`, `[1, 2, 3]`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_021",
+      "concept_name": "*args (variable positional arguments)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You want to write a function that can accept any number of numbers and return their sum. Which of the following implementations correctly does this?",
+      "options": {
+        "a": "def sum_all(*args):\n    total = 0\n    for num in args:\n        total += num\n    return total",
+        "b": "def sum_all(args*):\n    total = 0\n    for num in args:\n        total += num\n    return total",
+        "c": "def sum_all(*args, *kwargs):\n    return sum(args)",
+        "d": "def sum_all(args: list):\n    return sum(args)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The `*args` parameter collects extra positional arguments into a tuple, which can be iterated over and summed.",
+        "b": "The syntax `args*` is invalid in Python; the asterisk must be placed before the parameter name.",
+        "c": "Using `*kwargs` is invalid; the double‑asterisk form is `**kwargs` for keyword arguments. Moreover, you cannot have both `*args` and `*kwargs` in the same signature that way.",
+        "d": "This function expects a single list argument, not an arbitrary number of separate numbers. Calling `sum_all(1,2,3)` would raise a TypeError."
+      },
+      "hints": [
+        "To accept an arbitrary number of positional arguments, you need a special syntax with a single asterisk.",
+        "Inside the function, the collected arguments are a tuple — not a list or dict."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `*args` parameter collects all extra positional arguments into a tuple named `args`. The loop then adds each element. This is the standard idiom for variadic functions in Python.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_022",
+      "concept_name": "**kwargs (variable keyword arguments)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\ndef print_all(**kwargs):\n    for key, value in kwargs.items():\n        print(key + \": \" + value)\nprint_all(name=\"Hugo Bowne-Anderson\", employer=\"DataCamp\")\n```",
+      "options": {
+        "a": "name: Hugo Bowne-Anderson\nemployer: DataCamp",
+        "b": "Hugo Bowne-Anderson\nDataCamp",
+        "c": "TypeError: print_all() got unexpected keyword arguments",
+        "d": "name: Hugo Bowne-Anderson\\nemployer: DataCamp (as a single line)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The function iterates over the `kwargs` dictionary, printing each key‑value pair on a separate line with the format 'key: value'.",
+        "b": "This would be printed if only the values were output, but the format string includes the key and a colon.",
+        "c": "No TypeError occurs because `**kwargs` is designed to accept arbitrary keyword arguments.",
+        "d": "The `print()` inside the loop is called twice, producing two separate lines; they are not concatenated into a single line."
+      },
+      "hints": [
+        "What does `kwargs.items()` return?",
+        "The format string includes the key followed by \": \" and then the value."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `**kwargs` parameter collects keyword arguments into a dictionary. The loop prints each key‑value pair in the specified format. The output is two separate lines: 'name: Hugo Bowne-Anderson' and 'employer: DataCamp'.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_023",
+      "concept_name": "Lambda functions",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which of the following lambda expressions is invalid in Python?",
+      "options": {
+        "a": "lambda x: x + 1",
+        "b": "lambda x, y: x * y",
+        "c": "lambda x: x = 5",
+        "d": "lambda: 42"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "This is a valid lambda that adds 1 to its argument.",
+        "b": "This is a valid lambda that multiplies two arguments.",
+        "c": "Correct. Lambda functions can only contain a single expression. Assignment statements (`x = 5`) are not allowed.",
+        "d": "This is a valid lambda that takes no arguments and always returns 42."
+      },
+      "hints": [
+        "Lambda functions are limited to a single expression after the colon.",
+        "Try to think whether the body contains an expression or a statement."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Lambdas are restricted to a single expression that is implicitly returned. Statements like assignments, loops, or conditionals are not allowed. `lambda x: x = 5` is illegal because it attempts to use an assignment.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_024",
+      "concept_name": "map() function",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nsquares = map(lambda x: x**2, [1, 2, 3])\nprint(squares)\n```",
+      "options": {
+        "a": "[1, 4, 9]",
+        "b": "<map object at 0x...>",
+        "c": "None",
+        "d": "TypeError: 'map' object is not iterable"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`map()` does not return a list; it returns an iterator (map object). You need to convert it with `list()` to get a list.",
+        "b": "Correct. `map()` returns a map object, which is an iterator. Printing it directly shows a representation like `<map object at 0x...>`.",
+        "c": "`map()` never returns None unless the function itself returns None for every element, but the map object is still returned.",
+        "d": "A map object is perfectly iterable. You can loop over it or pass it to `list()`. The code prints the object representation, not an error."
+      },
+      "hints": [
+        "What type does `map()` return — is it a list or something else?",
+        "Try to recall from the course: after calling `map()`, what do you usually do to see the results as a list?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `map()` function returns an iterator (a map object) that lazily applies the function. It does not produce a list until explicitly converted, e.g., `list(map(...))`. Printing it directly shows its string representation.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_024"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_025",
+      "concept_name": "try-except clause",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\ndef sqrt(x):\n    try:\n        return x ** 0.5\n    except:\n        print('x must be an int or float')\nprint(sqrt(4))\nprint(sqrt('hi'))\n```",
+      "options": {
+        "a": "2.0\nx must be an int or float\nNone",
+        "b": "2.0\nx must be an int or float",
+        "c": "2.0\nNone",
+        "d": "2.0\nx must be an int or float\n2.0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `sqrt(4)` returns 2.0, which is printed. `sqrt('hi')` causes a TypeError, so the except block prints 'x must be...' and the function returns None (no explicit return), which is then printed by the outer print.",
+        "b": "The outer `print(sqrt('hi'))` prints the return value of the function, which is None after the exception is caught. That None is also printed.",
+        "c": "The error message is indeed printed from inside the except block; you can't skip it.",
+        "d": "The function does not return 2.0 the second time; it returns None."
+      },
+      "hints": [
+        "When the except block runs, does the function return anything?",
+        "Look at what the outer `print` is printing — the return value of `sqrt('hi')`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The first call `sqrt(4)` runs normally and prints 2.0. The second call `sqrt('hi')` raises a TypeError, caught by the bare `except`, which prints the warning. Since the except block has no return, the function implicitly returns None, which is then printed by the outer `print`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_026",
+      "concept_name": "Catching specific exceptions",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is printed when this code runs?\n\n```python\ntry:\n    x = 5 / 0\nexcept Exception:\n    print(\"Exception caught\")\nexcept ZeroDivisionError:\n    print(\"Division by zero\")\n```",
+      "options": {
+        "a": "Exception caught",
+        "b": "Division by zero",
+        "c": "Exception caught\nDivision by zero",
+        "d": "ZeroDivisionError: division by zero"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Because `ZeroDivisionError` is a subclass of `Exception`, the first matching except block (`except Exception`) catches the error. The second block is never reached.",
+        "b": "The second except block would catch the error only if the first one did not match. Since `Exception` matches `ZeroDivisionError`, the first block executes.",
+        "c": "Only one except block can execute for a given error. After the first block runs, the exception is handled.",
+        "d": "The code catches the exception and prints a custom message; it does not propagate the original error."
+      },
+      "hints": [
+        "Python checks except blocks from top to bottom and executes the first one that matches.",
+        "What is the relationship between `Exception` and `ZeroDivisionError` in the exception hierarchy?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Exception handling checks except clauses in order. `ZeroDivisionError` is a subclass of `Exception`, so the first `except Exception` catches it. The second except block is unreachable for this error. To handle `ZeroDivisionError` separately, you must place it before the broader `except Exception`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_027",
+      "concept_name": "raise statement",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What happens when the following code is executed?\n\n```python\ndef sqrt(x):\n    if x < 0:\n        raise ValueError('x must be non-negative')\n    try:\n        return x ** 0.5\n    except TypeError:\n        print('x must be an int or float')\nprint(sqrt(-2))\n```",
+      "options": {
+        "a": "It prints 'x must be non-negative' and returns None.",
+        "b": "It prints 'x must be an int or float'.",
+        "c": "A ValueError is raised with the message 'x must be non-negative'.",
+        "d": "It prints -1.4142135623730951."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The raise statement immediately raises an exception; it does not print the message and continue execution.",
+        "b": "The function checks for negative input before the try-except block. The TypeError handler is not reached for negative numbers.",
+        "c": "Correct. Calling `sqrt(-2)` triggers the `if x < 0` condition, which raises a `ValueError`. The exception is not caught, so it propagates and the program stops with a traceback.",
+        "d": "The square root of a negative number would produce a complex number, but Python's `** 0.5` on a negative integer raises a ValueError (or returns a complex if using `cmath`). However, the custom raise triggers first."
+      },
+      "hints": [
+        "What does the `raise` keyword do?",
+        "Is there any `except` that would catch the `ValueError`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The function explicitly checks for negative input and raises a `ValueError` with a message. Since there is no `except ValueError` block, the exception goes unhandled and the program terminates with a traceback.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_011",
+      "concept_name": "Scope (global, local, built-in)",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Where is the variable `new_val` accessible in the following code?\n\n```python\ndef square(value):\n    new_val = value ** 2\n    return new_val\nprint(square(3))\nprint(new_val)  # Error\n```",
+      "options": {
+        "a": "Only inside the function `square` (local scope)",
+        "b": "Both inside and outside the function (global scope)",
+        "c": "Only in the built‑in scope",
+        "d": "Only in the enclosing scope"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `new_val` is defined by assignment inside the function, making it a local variable. It cannot be accessed from outside.",
+        "b": "If `new_val` were global, the last line would not produce a NameError.",
+        "c": "Built‑in scope contains names like `print` and `len`, not user‑defined variables inside functions.",
+        "d": "Enclosing scope refers to variables in an outer (but not global) function when working with nested functions. There is no enclosing function here."
+      },
+      "hints": [
+        "Consider where the variable is first assigned — inside or outside any function?",
+        "What happens when you try to use `new_val` after the function call?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Variables assigned inside a function are local to that function. They exist only during the function’s execution and are not visible in the global scope. Attempting to print `new_val` outside the function results in a NameError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_011",
+      "concept_name": "Scope (global, local, built-in)",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "The built‑in function `print` is an example of a name that resides in which scope?",
+      "options": {
+        "a": "Global scope",
+        "b": "Local scope",
+        "c": "Built‑in scope",
+        "d": "Enclosing scope"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Global scope is for names defined at the top level of a script or module, not for Python’s built‑in functions.",
+        "b": "Local scope is inside functions; `print` is available everywhere without definition.",
+        "c": "Correct. Functions like `print`, `sum`, and `len` come from Python’s built‑in scope, which is searched last in the LEGB order.",
+        "d": "Enclosing scope applies to nested functions; `print` is not defined in an enclosing function."
+      },
+      "hints": [
+        "You never need to define `print` yourself; it is always available.",
+        "Think about the LEGB rule — which letter corresponds to names provided by Python itself?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Built‑in functions and constants (like `print`, `int`, `True`) belong to the built‑in scope. This scope is automatically available in any Python program.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_019",
+      "concept_name": "LEGB rule",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nx = 'global'\ndef outer():\n    x = 'enclosing'\n    def inner():\n        print(x)\n    inner()\nouter()\n```",
+      "options": {
+        "a": "global",
+        "b": "enclosing",
+        "c": "NameError",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The global `x` is shadowed by the enclosing `x` inside `outer`. `inner` first looks locally, then to the enclosing scope, where it finds `'enclosing'`.",
+        "b": "Correct. According to the LEGB order, `inner` looks in its local scope (nothing), then the enclosing scope (`outer`), where `x = 'enclosing'`. The global `x` is never reached.",
+        "c": "No NameError occurs because `x` is found in the enclosing scope.",
+        "d": "None would only be printed if no value were found or if it were explicitly returned; `x` is defined."
+      },
+      "hints": [
+        "What is the order of name resolution when a variable is referenced inside a nested function?",
+        "Does Python check the enclosing function before or after the global scope?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python resolves names using the LEGB rule: Local, Enclosing, Global, Built‑in. In `inner`, `x` is not local, so Python checks the enclosing function `outer`, where `x = 'enclosing'`. It finds the name there and never proceeds to global.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_019",
+      "concept_name": "LEGB rule",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by this code?\n\n```python\nx = 'global'\ndef outer():\n    def inner():\n        x = 'local'\n    inner()\n    print(x)\nouter()\n```",
+      "options": {
+        "a": "global",
+        "b": "local",
+        "c": "UnboundLocalError",
+        "d": "NameError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The assignment `x = 'local'` inside `inner` creates a local variable there; it does not affect `outer`'s scope. When `outer` prints `x`, it looks in its own local scope (nothing), then the global scope, where `x = 'global'`.",
+        "b": "The `x` in `inner` is local to `inner` and invisible to `outer`. Without `nonlocal`, it does not modify the enclosing scope.",
+        "c": "UnboundLocalError would occur if `outer` tried to use `x` before assignment, but here it only reads `x`.",
+        "d": "`x` is defined globally, so no NameError occurs."
+      },
+      "hints": [
+        "What scope does `inner`'s assignment `x = 'local'` affect?",
+        "When `outer` executes `print(x)`, where does it search for `x`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Inside `inner`, the assignment `x = 'local'` creates a brand‑new local variable that shadows any outer names. Since `nonlocal` is not used, the enclosing scope of `outer` is unaffected. Therefore, `outer` prints the global `x`, 'global'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    }
+  ]
+}

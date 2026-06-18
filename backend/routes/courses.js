@@ -1,3 +1,4 @@
+import config from '../config.js'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
@@ -145,9 +146,7 @@ router.get('/courses', (req, res, next) => {
       WHERE COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
       ORDER BY c.name
     `).all(userId, userId);
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
 
     for (const c of courses) {
       c.tracks = JSON.parse(c.tracks_json || '[]')
@@ -203,9 +202,7 @@ router.get('/courses/:slug', (req, res, next) => {
       `)
       .get(userId, course.id).count
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
 
     if (quizQuestionCount === 0) {
       const mcqPath = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises', 'mcq.json');
@@ -335,9 +332,7 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
     }
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
       
     const exercisePath = path.join(contentFolder, 'tracks', track.slug, req.params.slug, 'exercises', 'flashcards.json');
     
@@ -384,9 +379,7 @@ router.get('/courses/:slug/quiz-questions', (req, res, next) => {
     }
 
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
       
     const exercisePath = path.join(contentFolder, 'tracks', track.slug, req.params.slug, 'exercises', 'mcq.json');
     const parsedCount = Number.parseInt(req.query.count, 10)

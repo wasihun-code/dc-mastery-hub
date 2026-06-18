@@ -1,0 +1,548 @@
+{
+  "course_slug": "introduction-to-sql",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 12,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Design a table for a customer database",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001",
+        "concept_002"
+      ],
+      "context": "You are building a database for a retail store. They need to store customer information, including name, email, and loyalty points.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a CREATE TABLE statement for a 'customers' table with columns: id (integer), name (text up to 100 chars), email (text up to 100 chars), points (integer). Use appropriate data types and constraints.",
+          "variable_name": "create_table_customers",
+          "hint": "Use INT for whole numbers, VARCHAR for text."
+        },
+        {
+          "step": 2,
+          "description": "Insert a sample row: id=1, name='Alice', email='alice@example.com', points=150.",
+          "variable_name": "insert_sample",
+          "hint": "Use INSERT INTO ... VALUES."
+        },
+        {
+          "step": 3,
+          "description": "Write a SELECT query to retrieve the name and email of all customers with points greater than 100.",
+          "variable_name": "query_loyal_customers",
+          "hint": "Use WHERE points > 100."
+        }
+      ],
+      "starter_code": "-- Step 1: Create the table\nCREATE TABLE customers (\n  -- TODO: add columns\n);\n\n-- Step 2: Insert data\nINSERT INTO customers VALUES (1, 'Alice', 'alice@example.com', 150);\n\n-- Step 3: Select loyal customers\nSELECT name, email FROM customers WHERE points > 100;",
+      "pre_loaded_data": {},
+      "solution_code": "CREATE TABLE customers (\n  id INT,\n  name VARCHAR(100),\n  email VARCHAR(100),\n  points INT\n);\n\nINSERT INTO customers VALUES (1, 'Alice', 'alice@example.com', 150);\n\nSELECT name, email FROM customers WHERE points > 100;",
+      "expected_output": "name | email\nAlice | alice@example.com",
+      "output_description": "The query returns the name and email of customers with more than 100 loyalty points.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Think about the data types: integer for id and points, variable-length text for name and email.",
+        "The final SELECT must use the exact column names you created."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Ability to create a table, insert data, and query with a condition."
+    },
+    {
+      "id": "dc_002",
+      "title": "Join and filter across related tables",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_006",
+        "concept_007",
+        "concept_009"
+      ],
+      "context": "A library database has 'patrons' and 'checkouts' tables. Patrons have card_num and name; checkouts have id, patron_card, and book_title. You need to find which patrons have checked out 'SQL Basics'.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Assume the tables already exist. Write a SELECT query that joins patrons and checkouts on card_num (patrons) = patron_card (checkouts). Retrieve the patron's name and the book title.",
+          "variable_name": "join_query",
+          "hint": "Use INNER JOIN ... ON."
+        },
+        {
+          "step": 2,
+          "description": "Add a WHERE clause to show only rows where book_title = 'SQL Basics'.",
+          "variable_name": "filter_query",
+          "hint": "Add WHERE book_title = 'SQL Basics'."
+        }
+      ],
+      "starter_code": "-- Step 1: Join patrons and checkouts\nSELECT patrons.name, checkouts.book_title\nFROM patrons\nJOIN checkouts ON patrons.card_num = checkouts.patron_card;\n\n-- Step 2: Add the filter\nSELECT patrons.name, checkouts.book_title\nFROM patrons\nJOIN checkouts ON patrons.card_num = checkouts.patron_card\n-- TODO: add WHERE clause",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT patrons.name, checkouts.book_title\nFROM patrons\nJOIN checkouts ON patrons.card_num = checkouts.patron_card\nWHERE checkouts.book_title = 'SQL Basics';",
+      "expected_output": "name | book_title\nIzzy  | SQL Basics",
+      "output_description": "The query returns the name(s) of patrons who have checked out 'SQL Basics'.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The relationship is defined by matching card_num and patron_card.",
+        "String literals must be in single quotes."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Ability to join tables and apply filtering on the result."
+    },
+    {
+      "id": "dc_003",
+      "title": "Retrieve unique department-hire year pairs",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_010",
+        "concept_012",
+        "concept_013"
+      ],
+      "context": "The HR department wants a list of all distinct combinations of department id and hiring year from the employees table, but only showing the top 5 results.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a SELECT query to retrieve all columns from the employees table using the wildcard.",
+          "variable_name": "select_all",
+          "hint": "Use SELECT *."
+        },
+        {
+          "step": 2,
+          "description": "Modify the query to select only dept_id and year_hired.",
+          "variable_name": "select_columns",
+          "hint": "Replace * with the column names."
+        },
+        {
+          "step": 3,
+          "description": "Apply DISTINCT to get unique combinations.",
+          "variable_name": "distinct_combinations",
+          "hint": "Add DISTINCT after SELECT."
+        },
+        {
+          "step": 4,
+          "description": "Limit the output to 5 rows using the appropriate syntax for PostgreSQL.",
+          "variable_name": "limit_results",
+          "hint": "Use LIMIT 5 at the end."
+        }
+      ],
+      "starter_code": "-- Step 1: All columns\nSELECT * FROM employees;\n\n-- Step 2: Only dept_id and year_hired\nSELECT dept_id, year_hired FROM employees;\n\n-- Step 3: Distinct combinations\nSELECT DISTINCT dept_id, year_hired FROM employees;\n\n-- Step 4: Top 5\nSELECT DISTINCT dept_id, year_hired FROM employees\n-- TODO: limit rows",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT DISTINCT dept_id, year_hired\nFROM employees\nLIMIT 5;",
+      "expected_output": "dept_id | year_hired\n1       | 2020\n1       | 2021\n2       | 2019\n2       | 2020\n3       | 2021",
+      "output_description": "The result shows up to 5 unique department-year pairs.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "DISTINCT applies to the entire row, not just the first column.",
+        "LIMIT is a PostgreSQL keyword; don't use TOP."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Mastery of SELECT, DISTINCT, and LIMIT in a single query."
+    },
+    {
+      "id": "dc_004",
+      "title": "Create a view for active employees",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_017",
+        "concept_035",
+        "concept_038"
+      ],
+      "context": "Create a virtual table that shows only employees who have a known hire year, and then query that view to count them.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a CREATE VIEW statement named 'active_employees' that selects id and name from employees where year_hired IS NOT NULL.",
+          "variable_name": "create_view",
+          "hint": "Use CREATE VIEW ... AS SELECT ..."
+        },
+        {
+          "step": 2,
+          "description": "Query the view to count how many active employees there are.",
+          "variable_name": "count_active",
+          "hint": "Use SELECT COUNT(*) FROM active_employees;"
+        }
+      ],
+      "starter_code": "-- Step 1: Create the view\nCREATE VIEW active_employees AS\nSELECT id, name FROM employees\n-- TODO: WHERE clause\n;\n\n-- Step 2: Count active employees\nSELECT COUNT(*) FROM active_employees;",
+      "pre_loaded_data": {},
+      "solution_code": "CREATE VIEW active_employees AS\nSELECT id, name FROM employees\nWHERE year_hired IS NOT NULL;\n\nSELECT COUNT(*) FROM active_employees;",
+      "expected_output": "5",
+      "output_description": "The count of employees with a non-NULL hire year.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember that NULL is not a value; use IS NOT NULL.",
+        "Views are queried just like tables."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Ability to create a filtered view and run aggregate queries on it."
+    },
+    {
+      "id": "dc_005",
+      "title": "Count distinct hiring years",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_036",
+        "concept_015"
+      ],
+      "context": "Find out how many different years employees were hired, using the employees table.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a query to count all rows in the employees table.",
+          "variable_name": "total_employees",
+          "hint": "Use COUNT(*)"
+        },
+        {
+          "step": 2,
+          "description": "Modify the query to count the number of distinct hiring years.",
+          "variable_name": "distinct_years",
+          "hint": "Use COUNT(DISTINCT year_hired)"
+        }
+      ],
+      "starter_code": "-- Step 1: Total employees\nSELECT COUNT(*) FROM employees;\n\n-- Step 2: Distinct hiring years\nSELECT COUNT(DISTINCT year_hired) FROM employees;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT COUNT(*) FROM employees;\nSELECT COUNT(DISTINCT year_hired) FROM employees;",
+      "expected_output": "10\n4",
+      "output_description": "The first number is total employees, the second is the number of distinct years.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "COUNT(column) ignores NULLs, but COUNT(DISTINCT column) counts unique non-NULLs.",
+        "You need two separate SELECT statements."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Using COUNT with DISTINCT inside an aggregate function."
+    },
+    {
+      "id": "dc_006",
+      "title": "Filter patrons with missing fines",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_035",
+        "concept_038"
+      ],
+      "context": "Find all patrons who have no fine recorded (NULL in the total_fine column) using the IS NULL condition.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a SELECT query to show all columns from patrons where total_fine IS NULL.",
+          "variable_name": "null_fines",
+          "hint": "Use IS NULL, not = NULL."
+        },
+        {
+          "step": 2,
+          "description": "Write another query to count how many patrons have a non‑NULL fine.",
+          "variable_name": "with_fines",
+          "hint": "Use IS NOT NULL and COUNT(*)."
+        }
+      ],
+      "starter_code": "-- Step 1: Patrons with NULL fine\nSELECT * FROM patrons\nWHERE total_fine IS NULL;\n\n-- Step 2: Count patrons with a fine\nSELECT COUNT(*) FROM patrons\nWHERE total_fine IS NOT NULL;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT * FROM patrons WHERE total_fine IS NULL;\nSELECT COUNT(*) FROM patrons WHERE total_fine IS NOT NULL;",
+      "expected_output": "card_num | name  | member_year | total_fine\n3        | Jasmin| 2020        | NULL\n4",
+      "output_description": "The first result shows patrons with no fine, the second shows the count of patrons who have a fine.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "NULL comparisons require IS NULL or IS NOT NULL.",
+        "COUNT(*) counts all rows that satisfy the WHERE clause."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Correct handling of NULL in WHERE clauses."
+    },
+    {
+      "id": "dc_007",
+      "title": "Create a table with monetary precision",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_024",
+        "concept_037"
+      ],
+      "context": "Design a table to store product prices with exact decimal storage, then insert a product that costs 19.99.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a CREATE TABLE statement for 'products' with columns: id INT, name VARCHAR(50), price NUMERIC(5,2).",
+          "variable_name": "create_products",
+          "hint": "NUMERIC(5,2) allows up to 999.99."
+        },
+        {
+          "step": 2,
+          "description": "Insert a row: id=1, name='Widget', price=19.99.",
+          "variable_name": "insert_product",
+          "hint": "Use INSERT INTO products VALUES (...)."
+        },
+        {
+          "step": 3,
+          "description": "Select the name and price from products where price < 20.",
+          "variable_name": "affordable_products",
+          "hint": "Use WHERE price < 20."
+        }
+      ],
+      "starter_code": "-- Step 1: Create table\nCREATE TABLE products (\n  id INT,\n  name VARCHAR(50),\n  price NUMERIC(5,2)\n);\n\n-- Step 2: Insert data\nINSERT INTO products VALUES (1, 'Widget', 19.99);\n\n-- Step 3: Affordable products\nSELECT name, price FROM products WHERE price < 20;",
+      "pre_loaded_data": {},
+      "solution_code": "CREATE TABLE products (id INT, name VARCHAR(50), price NUMERIC(5,2));\nINSERT INTO products VALUES (1, 'Widget', 19.99);\nSELECT name, price FROM products WHERE price < 20;",
+      "expected_output": "name   | price\nWidget | 19.99",
+      "output_description": "The product that costs less than 20.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use NUMERIC for exact decimal values.",
+        "The precision and scale parameters define total digits and decimal places."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Creating a table with exact numeric data type and querying with numeric condition."
+    },
+    {
+      "id": "dc_008",
+      "title": "Rename columns in output using aliases",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_014"
+      ],
+      "context": "Generate a report that shows patron names and their fines, but rename the columns to 'Customer' and 'Outstanding' for the presentation.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a SELECT query that retrieves name and total_fine from patrons, aliasing name as 'Customer' and total_fine as 'Outstanding'.",
+          "variable_name": "aliased_report",
+          "hint": "Use AS after each column."
+        }
+      ],
+      "starter_code": "SELECT name AS Customer, total_fine AS Outstanding FROM patrons;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT name AS Customer, total_fine AS Outstanding FROM patrons;",
+      "expected_output": "Customer | Outstanding\nIzzy     | 0.00\nMaham    | 2.50\nJasmin   | NULL\nJames    | 1.25",
+      "output_description": "The result set with renamed column headings.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The AS keyword is optional but recommended.",
+        "If an alias contains spaces, enclose it in double quotes."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Using column aliases to rename output."
+    },
+    {
+      "id": "dc_009",
+      "title": "Limit results in SQL Server vs PostgreSQL",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_030",
+        "concept_031"
+      ],
+      "context": "You need to retrieve the first 3 employees from the employees table. Write both the PostgreSQL and SQL Server syntax for this task.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write the PostgreSQL query using LIMIT.",
+          "variable_name": "pg_query",
+          "hint": "Put LIMIT 3 at the end."
+        },
+        {
+          "step": 2,
+          "description": "Write the SQL Server query using TOP.",
+          "variable_name": "mssql_query",
+          "hint": "Use SELECT TOP(3) ..."
+        }
+      ],
+      "starter_code": "-- PostgreSQL\nSELECT * FROM employees\nLIMIT 3;\n\n-- SQL Server\nSELECT TOP(3) * FROM employees;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT * FROM employees LIMIT 3;\nSELECT TOP(3) * FROM employees;",
+      "expected_output": "(PostgreSQL result: 3 rows)\n(SQL Server result: 3 rows)",
+      "output_description": "Both queries return three rows but use different SQL flavors.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "PostgreSQL uses LIMIT, SQL Server uses TOP.",
+        "TOP can be used without parentheses in some versions, but standard is TOP(n)."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Understanding the difference in row‑limiting syntax between major SQL flavors."
+    },
+    {
+      "id": "dc_010",
+      "title": "Build a query with WHERE and COUNT",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 4,
+      "concepts_tested": [
+        "concept_035",
+        "concept_036"
+      ],
+      "context": "Count how many patrons have fines greater than 1.00.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a query that selects the count of patrons where total_fine > 1.00.",
+          "variable_name": "count_high_fines",
+          "hint": "Use COUNT(*) and WHERE."
+        },
+        {
+          "step": 2,
+          "description": "Retrieve the names of those patrons.",
+          "variable_name": "high_fine_patrons",
+          "hint": "Select name with the same condition."
+        }
+      ],
+      "starter_code": "-- Step 1: Count\nSELECT COUNT(*) FROM patrons\nWHERE total_fine > 1.00;\n\n-- Step 2: Names\nSELECT name FROM patrons\nWHERE total_fine > 1.00;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT COUNT(*) FROM patrons WHERE total_fine > 1.00;\nSELECT name FROM patrons WHERE total_fine > 1.00;",
+      "expected_output": "2\nMaham\nJames",
+      "output_description": "The count and the names of patrons with fines over 1.00.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The condition uses a numeric comparison.",
+        "COUNT(*) counts all rows that pass the WHERE filter."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Combining WHERE filtering with aggregate functions."
+    },
+    {
+      "id": "dc_011",
+      "title": "Create a view excluding NULLs and query it",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_016",
+        "concept_017",
+        "concept_038"
+      ],
+      "context": "Create a view that contains only employees with a valid hire year, then write a query that retrieves the department id and count of employees per department from that view.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a view named 'valid_hires' that selects all columns from employees where year_hired IS NOT NULL.",
+          "variable_name": "create_valid_hires",
+          "hint": "Use CREATE VIEW ... AS SELECT * FROM employees WHERE year_hired IS NOT NULL;"
+        },
+        {
+          "step": 2,
+          "description": "From the view, select dept_id and the count of employees per department, grouping by dept_id.",
+          "variable_name": "dept_counts",
+          "hint": "Use GROUP BY dept_id with COUNT(*)."
+        }
+      ],
+      "starter_code": "-- Step 1: Create view\nCREATE VIEW valid_hires AS\nSELECT * FROM employees\n-- TODO: add WHERE clause;\n\n-- Step 2: Department counts\nSELECT dept_id, COUNT(*)\nFROM valid_hires\nGROUP BY dept_id;",
+      "pre_loaded_data": {},
+      "solution_code": "CREATE VIEW valid_hires AS SELECT * FROM employees WHERE year_hired IS NOT NULL;\nSELECT dept_id, COUNT(*) FROM valid_hires GROUP BY dept_id;",
+      "expected_output": "dept_id | count\n1       | 3\n2       | 2\n3       | 1",
+      "output_description": "The number of employees with a known hire year per department.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A view is like a saved query; you can use it in FROM just like a table.",
+        "GROUP BY aggregates rows per distinct dept_id."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Using views to simplify complex queries and performing grouping on the virtual table."
+    },
+    {
+      "id": "dc_012",
+      "title": "Distinct combinations with column alias and limit",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_015",
+        "concept_014",
+        "concept_030",
+        "concept_013"
+      ],
+      "context": "Produce a report showing unique department id and hiring year pairs from the employees table, rename the department id column to 'Department', and limit the result to the first 5 rows (PostgreSQL syntax).",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a SELECT DISTINCT query for dept_id and year_hired, aliasing dept_id as 'Department'.",
+          "variable_name": "distinct_aliased",
+          "hint": "Use AS Department after dept_id."
+        },
+        {
+          "step": 2,
+          "description": "Add LIMIT 5 at the end of the query.",
+          "variable_name": "limited_result",
+          "hint": "Place LIMIT 5 after the FROM clause."
+        }
+      ],
+      "starter_code": "-- Step 1: Distinct with alias\nSELECT DISTINCT dept_id AS Department, year_hired\nFROM employees;\n\n-- Step 2: Add limit\nSELECT DISTINCT dept_id AS Department, year_hired\nFROM employees\n-- TODO: add LIMIT 5;",
+      "pre_loaded_data": {},
+      "solution_code": "SELECT DISTINCT dept_id AS Department, year_hired\nFROM employees\nLIMIT 5;",
+      "expected_output": "Department | year_hired\n1          | 2020\n1          | 2021\n2          | 2019\n2          | 2020\n3          | 2021",
+      "output_description": "Up to 5 unique department-year pairs with renamed column.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "DISTINCT applies to all selected columns.",
+        "The alias renames the column in output, not in the table."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Combining DISTINCT, aliasing, and LIMIT in a single query."
+    }
+  ]
+}

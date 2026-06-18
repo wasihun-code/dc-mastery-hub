@@ -1,0 +1,2752 @@
+{
+  "course_slug": "introduction-to-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-09",
+  "version": 1,
+  "total_questions": 90,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "Python",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which statement accurately distinguishes Python from lower-level programming languages?",
+      "options": {
+        "a": "Python requires explicit type declarations for all variables.",
+        "b": "Python is a high-level interpreted language with automatic memory management.",
+        "c": "Python does not support object-oriented programming.",
+        "d": "Python is a compiled language that runs directly on the hardware."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Python is dynamically typed; variables do not need explicit type declarations.",
+        "b": "Correct. Python is high-level, manages memory automatically, and is widely used for data science, web development, and automation.",
+        "c": "Incorrect. Python fully supports object-oriented programming with classes and objects.",
+        "d": "Incorrect. Python code is typically interpreted (via bytecode), not compiled to machine code."
+      },
+      "hints": [
+        "Think about whether Python requires you to manage memory or declare types.",
+        "Python is known for its readability and ease of use—what does that imply about its level?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python is a high-level, interpreted language that abstracts away memory management and hardware details, making it easier to write and read. It is dynamically typed and supports multiple paradigms, including object-oriented programming.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "Python Shell",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You want to test a quick one‑line Python expression interactively, without saving any file. Which environment should you use?",
+      "options": {
+        "a": "The terminal without Python installed",
+        "b": "A text editor with .py extension",
+        "c": "Python Shell",
+        "d": "Python Script"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. Without Python installed, you cannot run Python code at all.",
+        "b": "Incorrect. Writing a .py file and running it is a script, not an immediate interactive test.",
+        "c": "Correct. The Python Shell is an interactive command‑line interface that executes commands one at a time.",
+        "d": "Incorrect. A Python Script is a file (.py) that runs all at once; it’s not interactive for single‑line testing."
+      },
+      "hints": [
+        "Think about which tool lets you type code and see results immediately.",
+        "The course describes an 'interactive command-line interface' — which one is that?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The Python Shell (also called REPL) is designed for interactive execution, displaying results after each line. Scripts are better for multi‑line programs but require a file.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "Python Script",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What is the key difference between a Python script and the Python Shell?",
+      "options": {
+        "a": "A script executes code from a .py file all at once; the Shell runs commands one by one interactively.",
+        "b": "The Shell is only available on Windows.",
+        "c": "A script cannot use packages, but the Shell can.",
+        "d": "A script is interactive, while the Shell runs a file."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Scripts are saved in .py files and executed as a whole; the Shell (REPL) runs each command immediately.",
+        "b": "Incorrect. The Python Shell is available on all platforms where Python is installed.",
+        "c": "Incorrect. Both scripts and the Shell can use packages after importing.",
+        "d": "Incorrect. It is the opposite: the Shell is interactive, scripts are not."
+      },
+      "hints": [
+        "Think about how you run code in a Jupyter notebook cell vs a .py file.",
+        "Which one lets you see results after each line without saving?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A Python script is a file with a .py extension that runs top‑to‑bottom when executed. The Python Shell (REPL) evaluates one expression at a time interactively, useful for testing small pieces.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_002"
+      ]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_004",
+      "concept_name": "print() function",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\nprint(4 + 5)\n```",
+      "options": {
+        "a": "4 + 5",
+        "b": "9.0",
+        "c": "9",
+        "d": "None"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. print() does not output the raw expression; it prints the result.",
+        "b": "Incorrect. Integer addition results in an integer, not a float (unless division is involved).",
+        "c": "Correct. print() evaluates the arithmetic expression and displays the integer result 9.",
+        "d": "Incorrect. print() returns None but displays the value; the output is 9, not None."
+      },
+      "hints": [
+        "What happens when you pass an expression to print()?",
+        "Python evaluates the argument before printing — what is 4 + 5?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "print(4+5) computes the sum and outputs 9. The function displays the value, not the code. Forgetting parentheses or trying to print without commas are common mistakes.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_005",
+      "concept_name": "Arithmetic Operators",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the result of\n\n```python\n19 / 2\n```",
+      "options": {
+        "a": "9.5",
+        "b": "9.0",
+        "c": "2",
+        "d": "9"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. 19 / 2 yields 9.5 as a float.",
+        "b": "Incorrect. Though the result is float, it is 9.5, not 9.0.",
+        "c": "Incorrect. 2 is unrelated; the operation is division, not subtraction.",
+        "d": "Incorrect. / always performs float division, returning 9.5; integer division uses //."
+      },
+      "hints": [
+        "In Python 3, what does a single forward slash do?",
+        "Try recalling the difference between / and //."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The / operator performs true division and always returns a float. 19 / 2 = 9.5. A common mistake is expecting integer division when using /.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_005",
+      "concept_name": "Arithmetic Operators",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which expression correctly computes 2 raised to the power 3?",
+      "options": {
+        "a": "2 ** 3",
+        "b": "pow(2, 3)",
+        "c": "2 * 3",
+        "d": "2 ^ 3"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. ** is the exponentiation operator in Python.",
+        "b": "Incorrect. pow() is a function but not mentioned in this course; the course uses ** for exponentiation.",
+        "c": "Incorrect. * is multiplication, giving 6, not 8.",
+        "d": "Incorrect. ^ is the bitwise XOR operator, not exponentiation."
+      },
+      "hints": [
+        "Which symbol does Python use for powers?",
+        "Remember the BMI calculation used `weight / height ** 2` — what was the operator?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, exponentiation is done with **. Using ^ is a common mistake because some other languages use ^ for exponentiation. The course examples always use **.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_006",
+      "concept_name": "Variable",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code?\n\n```python\nprint(x)\n```",
+      "options": {
+        "a": "print() must use double quotes around x",
+        "b": "x was never assigned a value before use",
+        "c": "print() cannot print variables",
+        "d": "x is a reserved keyword"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Printing a variable does not require quotes; quotes would print the literal string 'x'.",
+        "b": "Correct. Using a variable before assignment causes a NameError.",
+        "c": "Incorrect. print() can output any object, including variables.",
+        "d": "Incorrect. 'x' is not a reserved keyword in Python."
+      },
+      "hints": [
+        "What happens when you try to use a name that doesn't exist yet?",
+        "Remember the common mistake: 'Using variable before assignment'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python requires variables to be defined before they are referenced. A NameError will be raised if x hasn't been assigned.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_007",
+      "concept_name": "Assignment operator (=)",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this line?\n\n```python\n5 = x\n```",
+      "options": {
+        "a": "Assignment direction is reversed; the variable name must be on the left.",
+        "b": "5 cannot be an integer; it must be a float.",
+        "c": "Nothing; it assigns x the value 5.",
+        "d": "x is not defined yet."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. In Python, the target of the assignment must be a valid variable name, not a literal number.",
+        "b": "Incorrect. 5 is a valid integer; the problem is the assignment syntax.",
+        "c": "Incorrect. The assignment operator always assigns the value on the right to the variable on the left.",
+        "d": "Incorrect. Even if x were defined, 5 = x is syntactically invalid."
+      },
+      "hints": [
+        "Which side of = should the variable name appear on?",
+        "Common mistake: 'Reversing assignment order (e.g., 5 = x)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Assignment in Python is right-to-left: the value on the right is stored in the variable name on the left. 5 = x tries to assign to the literal 5, which is illegal.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_008",
+      "concept_name": "Data Type",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What distinguishes a float from an int in Python?",
+      "options": {
+        "a": "A float is always larger than an int.",
+        "b": "Floats cannot be used in arithmetic with ints.",
+        "c": "A float contains a decimal point; an int does not.",
+        "d": "An int can hold decimal values if assigned with a dot."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. Floats and ints have different ranges; an int can be larger than many floats.",
+        "b": "Incorrect. Python automatically converts int to float when needed in mixed arithmetic.",
+        "c": "Correct. The presence of a decimal point (even .0) defines a float; whole numbers without a point are ints.",
+        "d": "Incorrect. Adding a decimal point makes it a float; ints never store decimal parts."
+      },
+      "hints": [
+        "What does the course say about how to identify a float? 'A number that contains a decimal point.'",
+        "Think about 5 vs 5.0 — are they the same type?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The key distinction is representation: ints are whole numbers without a decimal, floats have a decimal point. Python automatically handles type promotion in operations.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_009",
+      "concept_name": "Integer (int)",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does type(5) return?",
+      "options": {
+        "a": "'int'",
+        "b": "int",
+        "c": "<class 'int'>",
+        "d": "<class 'float'>"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. type() does not return a string; it returns a type object.",
+        "b": "Incorrect. The representation includes <class '...'>.",
+        "c": "Correct. type() returns the class object, displayed as <class 'int'>.",
+        "d": "Incorrect. 5 is an integer, not a float."
+      },
+      "hints": [
+        "When you use type(5), what does the course show for the output format?",
+        "Common mistake: 'Expecting type() to return a string like 'int' instead of <class 'int'>'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The type() function returns a type object, and when printed it shows the class name enclosed in angle brackets and quotes.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_010",
+      "concept_name": "Float",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does type(1.79) return?",
+      "options": {
+        "a": "<class 'str'>",
+        "b": "<class 'int'>",
+        "c": "'float'",
+        "d": "<class 'float'>"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. 1.79 is not quoted, so it's not a string.",
+        "b": "Incorrect. 1.79 has a decimal, so it's float, not int.",
+        "c": "Incorrect. type() returns a type object, not a string.",
+        "d": "Correct. Numbers with a decimal point are floats; type() returns <class 'float'>."
+      },
+      "hints": [
+        "Does 1.79 have a decimal point?",
+        "What does the course say about the float type?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python recognizes numbers with a decimal point as floats. type(1.79) returns <class 'float'>.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_011",
+      "concept_name": "String (str)",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does type('body mass index') return?",
+      "options": {
+        "a": "'str'",
+        "b": "<class 'list'>",
+        "c": "<class 'int'>",
+        "d": "<class 'str'>"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. type() returns a type object, not a string.",
+        "b": "Incorrect. Lists use square brackets, not quotes.",
+        "c": "Incorrect. The content may include words, but it's still a string.",
+        "d": "Correct. Text enclosed in quotes is a string; type() returns <class 'str'>."
+      },
+      "hints": [
+        "Are the characters inside quotes? If so, it's a string.",
+        "The course defines a string as 'a sequence of characters enclosed in quotes'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Any text within single or double quotes is a str. The type() function confirms this by returning <class 'str'>.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_012",
+      "concept_name": "Boolean (bool)",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code?\n\n```python\nx = true\n```",
+      "options": {
+        "a": "x must be declared as bool first",
+        "b": "true cannot be assigned to a variable",
+        "c": "true should be True (capital T)",
+        "d": "Boolean values must be stored as strings"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. Python does not require type declarations.",
+        "b": "Incorrect. You can assign True to a variable.",
+        "c": "Correct. Python's boolean literals are True and False, capitalized.",
+        "d": "Incorrect. Booleans are a separate type, not strings."
+      },
+      "hints": [
+        "Look closely at the capitalization — how does Python spell its boolean values?",
+        "Common mistake: 'Using True/False with lowercase (true/false)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python is case‑sensitive; True and False must start with a capital letter. Lowercase true is not recognised and would cause a NameError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_013",
+      "concept_name": "type() function",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nbmi = 21.4413\nprint(type(bmi))\n```\nWhat is printed?",
+      "options": {
+        "a": "'float'",
+        "b": "21.4413",
+        "c": "float",
+        "d": "<class 'float'>"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. type() returns a type object, not a string.",
+        "b": "Incorrect. print displays the result of type(), not the value of bmi.",
+        "c": "Incorrect. The output includes the class wrapper, not just the word 'float'.",
+        "d": "Correct. bmi is a float, so type() returns <class 'float'>."
+      },
+      "hints": [
+        "What does type() return — a string or an object?",
+        "Recall the example: type(bmi) → float (with the class formatting)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "type() returns a type object, and when printed it shows <class 'float'>. A common mistake is to expect a plain string.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_014",
+      "concept_name": "BMI Calculation",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which expression correctly calculates BMI given height = 1.79 and weight = 68.7?",
+      "options": {
+        "a": "weight / height ^ 2",
+        "b": "weight / height ** 2",
+        "c": "weight / height * height",
+        "d": "weight / (height * 2)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. ^ is bitwise XOR, not exponentiation.",
+        "b": "Correct. BMI = weight / height², and ** is the exponentiation operator.",
+        "c": "Incorrect. Due to operator precedence, this computes (weight / height) * height, cancelling height.",
+        "d": "Incorrect. height * 2 multiplies by 2, not squares."
+      },
+      "hints": [
+        "Which operator is used for powers in Python?",
+        "Look back at how the course computed bmi: `weight / height ** 2`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "BMI is weight divided by height squared. ** performs exponentiation. Common mistake: using ^ or misplacing parentheses.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_005"
+      ]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_015",
+      "concept_name": "List",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which line correctly creates a list of heights?",
+      "options": {
+        "a": "heights = '1.73, 1.68, 1.71'",
+        "b": "heights = (1.73, 1.68, 1.71)",
+        "c": "heights = {1.73, 1.68, 1.71}",
+        "d": "heights = [1.73, 1.68, 1.71]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. Quotes create a string, not a list.",
+        "b": "Incorrect. Parentheses create a tuple, not a list.",
+        "c": "Incorrect. Curly braces create a set or dict, not a list.",
+        "d": "Correct. Square brackets define a list."
+      },
+      "hints": [
+        "Lists are defined with which brackets?",
+        "Recall fam = [1.73, 1.68, 1.71, 1.89] from the course."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, a list is an ordered, mutable collection enclosed in square brackets. Using parentheses gives a tuple, which is immutable.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_016",
+      "concept_name": "List of Lists",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam2 = [[\"liz\", 1.73], [\"emma\", 1.68], [\"mom\", 1.71], [\"dad\", 1.89]]\nprint(fam2[1][0])\n```\nWhat is output?",
+      "options": {
+        "a": "emma",
+        "b": "mom",
+        "c": "1.68",
+        "d": "liz"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. fam2[1] is ['emma', 1.68]; index 0 gives 'emma'.",
+        "b": "Incorrect. 'mom' is in fam2[2][0].",
+        "c": "Incorrect. That would require fam2[1][1].",
+        "d": "Incorrect. fam2[1] accesses the second inner list, not the first."
+      },
+      "hints": [
+        "How do you access an element in a list of lists? The first index picks the inner list, the second picks the element.",
+        "What does fam2[1] look like? Then take its first element."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "fam2 is a list of lists. fam2[1] gives the second sublist [\"emma\", 1.68]; index 0 of that sublist returns 'emma'. Remember that indices start at 0.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_018"
+      ]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_017",
+      "concept_name": "type(list)",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = [1.73, 1.68, 1.71, 1.89]\nprint(type(fam))\n```\nWhat is printed?",
+      "options": {
+        "a": "list",
+        "b": "array",
+        "c": "<class 'list'>",
+        "d": "[1.73, 1.68, 1.71, 1.89]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. While the type is list, type() returns a type object, printed as <class 'list'>.",
+        "b": "Incorrect. fam is a Python list, not a NumPy array.",
+        "c": "Correct. type() applied to a list returns <class 'list'>.",
+        "d": "Incorrect. print(type(fam)) prints the type, not the list contents."
+      },
+      "hints": [
+        "What is the output format of type()?",
+        "Recall the example: type(fam) → list (but with angle brackets and class)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "type(fam) returns the type object for list, which displays as <class 'list'>. A common mistake is to forget the angle-bracket format.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_013"
+      ]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_018",
+      "concept_name": "Subsetting",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam[6])\n```\nWhat is output?",
+      "options": {
+        "a": "mom",
+        "b": "1.89",
+        "c": "1.71",
+        "d": "dad"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. 'mom' is at index 4.",
+        "b": "Incorrect. 1.89 is at index 7.",
+        "c": "Incorrect. 1.71 is at index 5.",
+        "d": "Correct. Index 6 corresponds to 'dad' because indexing starts at 0."
+      },
+      "hints": [
+        "Count the elements starting from 0: what is at position 6?",
+        "Remember that list indices begin at 0, so fam[0] is 'liz'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python uses zero-based indexing. fam[6] returns the seventh element, which is 'dad'. Off-by-one errors are common when people start counting from 1.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_018",
+      "concept_name": "Subsetting",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam[8])\n```\nWhat happens?",
+      "options": {
+        "a": "It prints the last element 1.89.",
+        "b": "It prints 'dad'.",
+        "c": "It raises an IndexError because the list has only 8 elements (indices 0–7).",
+        "d": "It returns None."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. Index 7 is the last element. Index 8 is out of range.",
+        "b": "Incorrect. 'dad' is at index 6.",
+        "c": "Correct. The list has 8 elements, valid indices 0–7. Index 8 is out of bounds, causing IndexError.",
+        "d": "Incorrect. Subsetting an out‑of‑range index does not return None; it raises an error."
+      },
+      "hints": [
+        "How many elements are in the list fam? What are the valid indices?",
+        "A common mistake is forgetting that indices start at 0, so the last index is length-1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python lists are zero‑indexed. For a list with 8 elements, the highest index is 7. Accessing index 8 raises IndexError. Always check the length of the list first.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_019",
+      "concept_name": "Negative Indexing",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam[-1])\n```\nWhat is output?",
+      "options": {
+        "a": "liz",
+        "b": "dad",
+        "c": "1.71",
+        "d": "1.89"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. -1 refers to the last element, not the first.",
+        "b": "Incorrect. 'dad' is the second‑last element (index -2).",
+        "c": "Incorrect. 1.71 is at index -3.",
+        "d": "Correct. Negative indexing starts from the end; -1 gives the last element, 1.89."
+      },
+      "hints": [
+        "What does negative indexing do? -1 means 'last element'.",
+        "Check the example: fam[-1] returned 1.89."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Negative indices count from the end of the list. fam[-1] accesses the last item, 1.89. A common error is to think -1 refers to the first element.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_020",
+      "concept_name": "Slicing",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam[3:5])\n```\nWhat is output?",
+      "options": {
+        "a": "[1.73, 'emma']",
+        "b": "[1.68, 'mom', 1.71, 'dad']",
+        "c": "[1.68, 'mom', 1.71]",
+        "d": "[1.68, 'mom']"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be fam[1:3].",
+        "b": "Incorrect. That would require a larger slice, e.g., [3:7].",
+        "c": "Incorrect. Slicing is exclusive of the end index, so index 5 is not included.",
+        "d": "Correct. Slice starts at index 3 (inclusive) and stops before index 5, giving [1.68, 'mom']."
+      },
+      "hints": [
+        "Slicing includes the start index but excludes the end index.",
+        "fam[3] is 1.68, fam[4] is 'mom' — what does the slice [3:5] include?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The slice start:end includes start but not end. fam[3:5] gives elements at indices 3 and 4: [1.68, 'mom']. Confusing inclusive vs exclusive end is a frequent mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_020",
+      "concept_name": "Slicing",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam[-3:-1])\n```\nWhat is output?",
+      "options": {
+        "a": "['dad', 1.89]",
+        "b": "['mom', 1.71]",
+        "c": "[1.71, 'dad', 1.89]",
+        "d": "[1.71, 'dad']"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be [-2:].",
+        "b": "Incorrect. 'mom' is at index 4 (or -4).",
+        "c": "Incorrect. That would be [-3:].",
+        "d": "Correct. Negative indices: -3 is 1.71, -2 is 'dad', -1 is 1.89. Slice -3:-1 includes indices -3 and -2, exclusive of -1, so [1.71, 'dad']."
+      },
+      "hints": [
+        "Map the negative indices to positive positions: -1 is last, -2 is second‑last, etc.",
+        "Remember that the end index is exclusive. What are the elements at indices -3 and -2?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Negative indexing counts from the end. Slice [start:end] includes start but excludes end. Here start=-3 (1.71), end=-1 (excludes last element 1.89), so we get elements at -3 and -2: [1.71, 'dad'].",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_019"
+      ]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_021",
+      "concept_name": "List Element Modification",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nfam[0:2] = ['lisa', 1.74]\nprint(fam)\n```\nWhat is printed?",
+      "options": {
+        "a": "['lisa', 1.74, 'liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]",
+        "b": "['lisa', 1.74, 'mom', 1.71, 'dad', 1.89]",
+        "c": "['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]",
+        "d": "['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. Assignment does not keep the old elements; they are replaced.",
+        "b": "Incorrect. The slice 0:2 only replaces indices 0 and 1; 2 onwards remain.",
+        "c": "Incorrect. The slice assignment replaced the first two elements.",
+        "d": "Correct. The slice [0:2] was replaced by the new list, changing the original list in-place."
+      },
+      "hints": [
+        "Slice assignment replaces the specified segment with the new elements.",
+        "Check the course example: fam[0:2] = ['lisa', 1.74] gave a list starting with 'lisa'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "You can modify a slice of a list by assigning a new list to it. The original elements at those positions are replaced. The length of the replacement does not need to match the slice length.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_020"
+      ]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_022",
+      "concept_name": "List Concatenation (+)",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nfam = ['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86]\nnew_fam = fam + ['me', 1.79]\nprint(fam)\n```\nWhat is printed?",
+      "options": {
+        "a": "['me', 1.79]",
+        "b": "['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86, 'me', 1.79]",
+        "c": "['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86]",
+        "d": "['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86, 'me', 1.79, 'me', 1.79]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. fam is not reassigned; it keeps its original elements.",
+        "b": "Incorrect. The original list fam was not modified; + returns a new list.",
+        "c": "Correct. The + operator creates a new list and does not modify the original; fam remains unchanged.",
+        "d": "Incorrect. The + operator does not duplicate elements."
+      },
+      "hints": [
+        "Does list concatenation change the original list or return a new one?",
+        "Recall the common mistake: 'Forgetting that + returns a new list, does not modify original'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The + operator returns a new list that is the concatenation of the operands; the original list is unchanged unless you reassign it. This is a common source of confusion.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_023",
+      "concept_name": "del statement",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nfam = ['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86]\ndel fam[2]\nprint(fam)\n```\nWhat is printed?",
+      "options": {
+        "a": "['lisa', 1.74, 1.68, 'mom', 1.71, 'dad', 1.86]",
+        "b": "['lisa', 1.74, 'emma', 'mom', 1.71, 'dad', 1.86]",
+        "c": "['lisa', 1.74, 'emma', 1.68, 'mom', 1.71, 'dad', 1.86]",
+        "d": "['lisa', 1.74, 'mom', 1.71, 'dad', 1.86]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. del fam[2] removes the element at index 2 ('emma'), shifting subsequent elements left.",
+        "b": "Incorrect. The element at index 2 was 'emma', not 1.68; after deletion, 1.68 moves to index 2.",
+        "c": "Incorrect. del does modify the list; the element is removed.",
+        "d": "Incorrect. 'emma' was removed, but 1.68 (at index 3 originally) now occupies index 2."
+      },
+      "hints": [
+        "What index does 'emma' occupy in the original list?",
+        "After deleting an element, indices shift left."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "del removes the element at the specified index. The list shrinks and the later elements shift. A common error is to forget that the element after the deleted one changes index.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_024",
+      "concept_name": "List Copying",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have a list x = ['a', 'b', 'c'] and you want to make an independent copy y so that modifying y does not affect x. Which line(s) create a proper copy?",
+      "options": {
+        "a": "y = 'a', 'b', 'c'",
+        "b": "y = x.copy()",
+        "c": "y = list(x)  or  y = x[:]",
+        "d": "y = x"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. This creates a tuple, not a list, and is not a copy of x.",
+        "b": "Incorrect. copy() method exists but was not covered in the course; the course teaches list() and slicing for copying.",
+        "c": "Correct. Both list(x) and slicing x[:] create a new list with the same elements.",
+        "d": "Incorrect. This creates a reference, not a copy; changes to y affect x."
+      },
+      "hints": [
+        "What is the difference between y = x and y = list(x)?",
+        "The course shows two ways to copy: list(x) and x[:]."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To avoid the reference trap, use list(x) or x[:] to create a shallow copy. y = x only makes y point to the same list object. The copy() method exists but isn't part of this course's taught material.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_025"
+      ]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_024",
+      "concept_name": "List Copying",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You have a list `original = [[1, 2], [3, 4]]` and you make a copy with `copy = original[:]`. Then you modify `copy[0][0] = 99`. What happens to `original`?",
+      "options": {
+        "a": "original[0][0] also becomes 99 because slice creates a shallow copy; inner lists are shared.",
+        "b": "original becomes [[99, 2], [3, 4]] only if you use list(original).",
+        "c": "original remains unchanged because slicing creates a deep copy.",
+        "d": "An error occurs because you cannot modify a copy."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The slice copies the outer list, but the inner lists are not duplicated; they are references to the same objects. Changing a mutable inner element affects the original.",
+        "b": "Incorrect. list(original) also creates a shallow copy, same behavior.",
+        "c": "Incorrect. Slicing creates a shallow copy, not a deep copy. The outer list is new, but inner lists are references.",
+        "d": "Incorrect. You can modify the copy; the issue is the level of copying."
+      },
+      "hints": [
+        "Does `original[:]` create a new list? What about the elements inside that list?",
+        "Common misconception: `[:]` copies only the top level; nested lists are shared."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Slicing creates a shallow copy: a new outer list, but the inner objects are not cloned. Since the inner lists are mutable, modifying them through the copy also changes the original. For a deep copy, use `copy.deepcopy()`.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_025"
+      ]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_025",
+      "concept_name": "Reference vs Copy",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nx = [\"a\", \"b\", \"c\"]\ny = x\ny[1] = \"z\"\nprint(x)\n```",
+      "options": {
+        "a": "['a', 'z', 'b']",
+        "b": "['a', 'z', 'c']",
+        "c": "['a', 'b', 'c']",
+        "d": "['z', 'b', 'c']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The list does not reorder; only index 1 was changed.",
+        "b": "Correct. y = x makes y a reference; modifying y changes x as well.",
+        "c": "Incorrect. x was modified because y is a reference to the same list.",
+        "d": "Incorrect. The change was at index 1, not index 0."
+      },
+      "hints": [
+        "Does y = x create a new list or just a new name for the same list?",
+        "Common mistake: 'Assuming simple assignment copies the list'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Assignment y = x does not copy the list; it creates an alias. Both variables refer to the same object, so changes through one are visible through the other.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_025",
+      "concept_name": "Reference vs Copy",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What happens if you run this?\n\n```python\nx = [\"a\", \"b\", \"c\"]\ny = list(x)\ny[1] = \"z\"\nprint(x[1])\n```",
+      "options": {
+        "a": "z",
+        "b": "b",
+        "c": "a",
+        "d": "An error because y is not a list"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. y is a copy, so changes to y do not affect x.",
+        "b": "Correct. list(x) created a new list; x remains unchanged, so x[1] is 'b'.",
+        "c": "Incorrect. Index 1 is 'b', not 'a'.",
+        "d": "Incorrect. list(x) returns a valid list copy."
+      },
+      "hints": [
+        "What is the difference between y = x and y = list(x)?",
+        "If you make a copy, are the two lists linked?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "list(x) produces a shallow copy of the list. Mutating the copy does not affect the original. This is the correct way to avoid unintended side effects.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_024"
+      ]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_026",
+      "concept_name": "Function",
+      "chapter": 6,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which statement correctly describes a function in Python?",
+      "options": {
+        "a": "Functions are only available in NumPy, not in base Python.",
+        "b": "A function is a type of variable that stores data.",
+        "c": "A function is the same as a method and can be called without parentheses.",
+        "d": "A function is a reusable block of code that performs a specific task, called with parentheses."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. Python has many built‑in functions like max(), round(), print(), not only in packages.",
+        "b": "Incorrect. Functions are callable objects, not simple data containers.",
+        "c": "Incorrect. Methods are functions associated with objects, but both require parentheses to call.",
+        "d": "Correct. Functions encapsulate reusable logic and are invoked using parentheses, e.g., print()."
+      },
+      "hints": [
+        "How do you call a function? Look at examples like max(fam).",
+        "Functions are defined with def or are built‑in; they always need parentheses to execute."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A function is a callable block of code that performs a task. Calling it requires parentheses, even if there are no arguments (e.g., list.pop()).",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_027",
+      "concept_name": "max() function",
+      "chapter": 6,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = [1.73, 1.68, 1.71, 1.89]\nprint(max(fam))\n```\nWhat is output?",
+      "options": {
+        "a": "1.68",
+        "b": "4",
+        "c": "[1.73, 1.68, 1.71, 1.89]",
+        "d": "1.89"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. max() returns the largest value, not the smallest.",
+        "b": "Incorrect. 4 is the length of the list, not the result of max().",
+        "c": "Incorrect. max() returns a single value, not the whole list.",
+        "d": "Correct. max() returns the maximum element of the iterable, which is 1.89."
+      },
+      "hints": [
+        "What does max() do with a list of numbers?",
+        "In the course, max(fam) returned 1.89."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "max(iterable) scans the iterable and returns the largest item. For a list of floats, it returns the highest number.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_028",
+      "concept_name": "round() function",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does round(1.68) return?",
+      "options": {
+        "a": "1.7",
+        "b": "2",
+        "c": "1.68",
+        "d": "1.6"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. round(1.68) with no ndigits returns an integer, not a float.",
+        "b": "Correct. When ndigits is omitted, round() returns the nearest integer, which is 2.",
+        "c": "Incorrect. Rounding changes the value; without ndigits, 1.68 rounds to 2.",
+        "d": "Incorrect. 1.68 is closer to 2 than to 1, and round(1.68) returns an integer."
+      },
+      "hints": [
+        "What does round() return when you don't specify the number of decimal places?",
+        "Common mistake: 'Expecting round() to always return float when ndigits is omitted (it returns int)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "round(number) without ndigits returns an integer (rounded to the nearest whole number). round(1.68) → 2. If you need a float with decimals, specify ndigits, e.g., round(1.68, 1) → 1.7.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_028",
+      "concept_name": "round() function",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does round(2.5) return in Python?",
+      "options": {
+        "a": "3",
+        "b": "2.0",
+        "c": "2",
+        "d": "2.5"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. Banker's rounding rounds to the even choice; 2.5 becomes 2.",
+        "b": "Incorrect. The result is an integer 2, not a float 2.0.",
+        "c": "Correct. Python uses banker's rounding: .5 cases round to the nearest even number, so 2.5 rounds to 2.",
+        "d": "Incorrect. round() does not leave the number unchanged unless ndigits > 0."
+      },
+      "hints": [
+        "Think about how Python handles the .5 case — does it always round up?",
+        "Common mistake: 'Rounding .5 away from zero (banker's rounding) can be surprising'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "round() uses 'round half to even' (banker's rounding). 2.5 is exactly halfway; the nearest even integer is 2. This can surprise users expecting standard rounding up.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_029",
+      "concept_name": "help() function",
+      "chapter": 6,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "How do you display documentation for the round function?",
+      "options": {
+        "a": "help round",
+        "b": "round.help()",
+        "c": "help(round)",
+        "d": "doc(round)"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. help is a function and must be called with parentheses: help(round).",
+        "b": "Incorrect. help() is a built‑in function, not a method of round.",
+        "c": "Correct. help() is called with the function name as argument, with parentheses.",
+        "d": "Incorrect. doc() is not a Python built‑in; help() is used."
+      },
+      "hints": [
+        "How is help() invoked? Look at the course example help(round).",
+        "A common mistake is forgetting the parentheses around the argument."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "help() is a built‑in function that prints documentation for its argument. It must be called with parentheses, e.g., help(round). Typing 'help round' without parentheses is a syntax error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_030",
+      "concept_name": "Method",
+      "chapter": 7,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "How do you call a method on an object in Python?",
+      "options": {
+        "a": "method(object)",
+        "b": "object->method()",
+        "c": "object.method",
+        "d": "object.method()"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That is the syntax for a function, not a method bound to an object.",
+        "b": "Incorrect. The -> syntax is used in other languages like PHP, not Python.",
+        "c": "Incorrect. Forgetting parentheses does not call the method; it just references it.",
+        "d": "Correct. Methods are called using dot notation with parentheses, e.g., fam.append('me')."
+      },
+      "hints": [
+        "Look at the course examples: fam.index('mom'), sister.capitalize() — what pattern do they follow?",
+        "A method is a function that belongs to an object; how do you access it?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python methods are invoked with object.method(arguments). The dot notation binds the method to the instance. Forgetting parentheses is a common mistake; it doesn’t execute the method.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_031",
+      "concept_name": "list.index() method",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nprint(fam.index('mom'))\n```\nWhat is output?",
+      "options": {
+        "a": "5",
+        "b": "4",
+        "c": "mom",
+        "d": "3"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Counting starting from 1 would give 5, but Python indices start at 0.",
+        "b": "Correct. 'mom' is at index 4 (zero‑based).",
+        "c": "Incorrect. index() returns the position, not the element itself.",
+        "d": "Incorrect. Index 3 is 1.68."
+      },
+      "hints": [
+        "list.index() returns the index of the first occurrence of the value.",
+        "Remember to count starting from 0: liz(0), 1.73(1), emma(2), 1.68(3), mom(4)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "list.index(value) returns the zero‑based index where the value first appears. 'mom' is at index 4. A common mistake is off‑by‑one due to forgetting zero‑based indexing.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_031",
+      "concept_name": "list.index() method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71]\nprint(fam.index('dad'))\n```\nWhat happens?",
+      "options": {
+        "a": "Returns -1.",
+        "b": "Raises a ValueError because 'dad' is not in the list.",
+        "c": "Returns None.",
+        "d": "Returns 0."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Python's list.index() does not return -1 for missing elements; it raises ValueError.",
+        "b": "Correct. If the value is not found, index() raises ValueError.",
+        "c": "Incorrect. It does not return None.",
+        "d": "Incorrect. That would imply 'dad' is at the first position, which it isn't."
+      },
+      "hints": [
+        "What does index() do when the element is absent?",
+        "Common mistake: 'ValueError if element not in list'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "list.index() searches for a value and returns its first index. If not found, it raises ValueError. To avoid the error, you can check with 'in' first or catch the exception.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_032",
+      "concept_name": "list.count() method",
+      "chapter": 7,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89, 1.73]\nprint(fam.count(1.73))\n```\nWhat is output?",
+      "options": {
+        "a": "2",
+        "b": "1",
+        "c": "0",
+        "d": "3"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. 1.73 appears twice in the list (index 1 and index 7).",
+        "b": "Incorrect. There are two occurrences of 1.73.",
+        "c": "Incorrect. count() would return 0 only if the element is absent.",
+        "d": "Incorrect. There are only two 1.73 values."
+      },
+      "hints": [
+        "How many times does 1.73 appear in the list? Look carefully.",
+        "The list has 1.73 at position 1 and again later."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "count() returns the number of occurrences of the specified element. Here 1.73 appears twice, so it returns 2.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_033",
+      "concept_name": "list.append() method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nresult = fam.append('me')\nprint(result)\n```",
+      "options": {
+        "a": "['me']",
+        "b": "None",
+        "c": "'me'",
+        "d": "['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89, 'me']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The method returns None, not a list containing the element.",
+        "b": "Correct. list.append() returns None; result is None, so print(result) outputs None.",
+        "c": "Incorrect. append() does not return the appended element; it returns None.",
+        "d": "Incorrect. append() modifies the list in place but returns None. Assigning its return value to result stores None."
+      },
+      "hints": [
+        "What does append() return? Check the course description: 'Modifies the list in place and returns None.'",
+        "Common mistake: 'Assigning result of append() to a variable (it returns None)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "append() adds an element to the end of the list and returns None. A common pitfall is to write result = list.append(item) and expect the extended list; instead result becomes None.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_033",
+      "concept_name": "list.append() method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You want to add the strings 'a' and 'b' to a list items = [] using append(). Which code correctly results in items becoming ['a', 'b']?",
+      "options": {
+        "a": "items.append('a', 'b')",
+        "b": "items.append('a')\nitems.append('b')",
+        "c": "items = items.append('a')\nitems = items.append('b')",
+        "d": "items = append('a', 'b')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. append() accepts exactly one argument; passing two causes a TypeError.",
+        "b": "Correct. append() modifies the list in place; calling it without assignment correctly adds elements.",
+        "c": "Incorrect. append() returns None, so items would become None after the first assignment, causing an error on the second call.",
+        "d": "Incorrect. append is a list method, not a standalone function; also it takes one argument at a time."
+      },
+      "hints": [
+        "Should you assign the result of append() back to the list?",
+        "Remember: append() returns None. What happens if you assign that None to your list variable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "append(item) adds item to the end of the list and returns None. To build a list, call append without reassigning the variable. Reassigning captures the None return and breaks the list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_042",
+      "concept_id": "concept_034",
+      "concept_name": "str.capitalize() method",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nsister = 'liz'\nprint(sister.capitalize())\n```\nWhat is printed?",
+      "options": {
+        "a": "LIZ",
+        "b": "Liz",
+        "c": "liz",
+        "d": "lIZ"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. capitalize() lowercases the rest; it does not uppercase all letters.",
+        "b": "Correct. 'liz'.capitalize() returns 'Liz'.",
+        "c": "Incorrect. capitalize() returns a new string with the first letter capitalized, not the original.",
+        "d": "Incorrect. Capitalize makes the first letter uppercase and the rest lowercase."
+      },
+      "hints": [
+        "What does capitalize() do to the first character?",
+        "The course example shows sister.capitalize() → 'Liz'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "str.capitalize() returns a copy of the string with the first character capitalized and the rest lowercased. The original string is unchanged because strings are immutable.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_043",
+      "concept_id": "concept_034",
+      "concept_name": "str.capitalize() method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nsister = 'liz'\ncap_sister = sister.capitalize()\nprint(sister)\n```\nWhat is printed?",
+      "options": {
+        "a": "None",
+        "b": "liz",
+        "c": "lIZ",
+        "d": "Liz"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. capitalize() returns a string, not None.",
+        "b": "Correct. Strings are immutable; capitalize() does not modify the original string.",
+        "c": "Incorrect. The original string never changed case.",
+        "d": "Incorrect. capitalize() returns a new string; the original sister remains unchanged."
+      },
+      "hints": [
+        "Are strings mutable or immutable in Python?",
+        "What does capitalize() return? It returns a new string; the original stays the same."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Strings in Python are immutable. Methods like capitalize() return a modified copy without changing the original. This is a common point of confusion for learners.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_044",
+      "concept_id": "concept_035",
+      "concept_name": "str.replace() method",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nsister = 'liz'\nprint(sister.replace('z', 'sa'))\n```\nWhat is printed?",
+      "options": {
+        "a": "Liza",
+        "b": "liz",
+        "c": "lisa",
+        "d": "Lisa"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. 'Liza' would be if 'z' was replaced by 'za', but 'sa' is used.",
+        "b": "Incorrect. replace() returns a new string; 'liz' is unchanged only if you don't print the return value.",
+        "c": "Incorrect. The first character remains lowercase unless you also call capitalize(), but replace alone does not change case.",
+        "d": "Correct. 'liz'.replace('z', 'sa') returns 'Lisa'."
+      },
+      "hints": [
+        "What substring is being replaced, and with what?",
+        "The course example: sister.replace('z', 'sa') → 'Lisa'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "replace(old, new) returns a new string where all occurrences of old are replaced by new. The original string remains unmodified.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_045",
+      "concept_id": "concept_036",
+      "concept_name": "Package",
+      "chapter": 8,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "What is a Python package?",
+      "options": {
+        "a": "A collection of modules that provides reusable functionality.",
+        "b": "A single .py file containing functions.",
+        "c": "A special type of variable.",
+        "d": "A built‑in function like print()."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Packages (e.g., NumPy) bundle multiple modules together for a specific purpose.",
+        "b": "Incorrect. That describes a module, not a package. A package is a collection of modules.",
+        "c": "Incorrect. Packages are not data types; they are organizational units of code.",
+        "d": "Incorrect. Built‑in functions are part of the standard library, not packages."
+      },
+      "hints": [
+        "Think of NumPy, Matplotlib — are they single files or collections?",
+        "The course says packages contain 'functions and methods for specific tasks'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A package is a directory of Python modules, often with an __init__.py file, designed to provide a set of related functionalities.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_046",
+      "concept_id": "concept_037",
+      "concept_name": "Module",
+      "chapter": 8,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which best describes a Python module?",
+      "options": {
+        "a": "A compiled library written in C.",
+        "b": "A function inside a package.",
+        "c": "An interactive Python Shell session.",
+        "d": "A single .py file containing Python code."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. While some modules have C extensions, the term module refers to the Python file.",
+        "b": "Incorrect. A module may contain functions, but a module itself is a file.",
+        "c": "Incorrect. A Shell session is interactive, not a module.",
+        "d": "Correct. A module is a .py file that can define functions, classes, and variables."
+      },
+      "hints": [
+        "What extension do Python files have?",
+        "The course defines a module as 'a single Python script file (.py)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A module is a file containing Python definitions and statements. Packages are collections of modules.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_047",
+      "concept_id": "concept_038",
+      "concept_name": "Import Statement",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code?\n\n```python\nimport numpy\narray([1, 2, 3])\n```",
+      "options": {
+        "a": "import numpy is not allowed; you must use 'import numpy as np'.",
+        "b": "numpy is spelled incorrectly.",
+        "c": "array() doesn't exist in NumPy.",
+        "d": "array is not imported; it must be called as numpy.array()"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. 'import numpy' is perfectly valid; aliasing is optional.",
+        "b": "Incorrect. 'numpy' is spelled correctly.",
+        "c": "Incorrect. array() exists in NumPy but must be qualified with numpy.",
+        "d": "Correct. After 'import numpy', functions are accessed via the module prefix: numpy.array()."
+      },
+      "hints": [
+        "When you import a module, how do you access its functions?",
+        "Common mistake: 'Importing module but not using module prefix for functions'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using import module_name creates a namespace. You must prefix functions with module_name., e.g., numpy.array(). A common error is forgetting the prefix.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_048",
+      "concept_id": "concept_038",
+      "concept_name": "Import Statement",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nfrom numpy import array\nimport numpy as np\n```\nWhich of the following calls is now valid?",
+      "options": {
+        "a": "Only array([1,2])",
+        "b": "Only np.array([1,2])",
+        "c": "np.array([1,2]) and array([1,2])",
+        "d": "Neither; they conflict and raise an error."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. The alias np is also defined and can be used.",
+        "b": "Incorrect. array is directly imported and can be used without prefix.",
+        "c": "Correct. Both the alias np and the directly imported name array are available.",
+        "d": "Incorrect. Python allows multiple imports; they coexist as long as there are no name clashes."
+      },
+      "hints": [
+        "What happens when you import the same module in different ways?",
+        "Python namespaces can contain both the module alias and the specific function."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Both import styles are valid and can coexist. The name 'array' now points to numpy.array, and 'np' is the module alias. Just be careful not to define conflicting names.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_039",
+        "concept_040"
+      ]
+    },
+    {
+      "id": "mcq_049",
+      "concept_id": "concept_039",
+      "concept_name": "Aliasing",
+      "chapter": 8,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "Which line correctly imports NumPy with the conventional alias?",
+      "options": {
+        "a": "from numpy import * as np",
+        "b": "import numpy as np",
+        "c": "import numpy as numpy",
+        "d": "import np from numpy"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. '*' cannot be combined with 'as' in that way.",
+        "b": "Correct. 'import numpy as np' is the standard alias for NumPy.",
+        "c": "Incorrect. Aliasing to the same name is redundant and not conventional.",
+        "d": "Incorrect. The syntax is 'from numpy import np', but np is not a function; the alias goes on the module."
+      },
+      "hints": [
+        "What is the conventional alias for NumPy shown in the course?",
+        "Recall the example: import numpy as np."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Aliasing shortens the module name for convenience. 'import numpy as np' is the de facto standard. Using an alias that conflicts with existing variables should be avoided.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_050",
+      "concept_id": "concept_040",
+      "concept_name": "Selective Import",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You only need the array function from NumPy. Which import allows you to call array() directly without a prefix?",
+      "options": {
+        "a": "from numpy import array",
+        "b": "import array from numpy",
+        "c": "import numpy.array",
+        "d": "import numpy"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. 'from numpy import array' makes array available directly in your namespace.",
+        "b": "Incorrect. The correct syntax is 'from module import name'.",
+        "c": "Incorrect. You cannot import a sub‑function with dot notation; that would be an attribute reference.",
+        "d": "Incorrect. That imports the whole module; you would still need to write numpy.array()."
+      },
+      "hints": [
+        "Which syntax places a specific name directly in your namespace?",
+        "The course shows 'from numpy import array' as selective import."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Selective import with 'from ... import ...' brings a specific name into the current scope, avoiding the need for a module prefix. Be cautious of name collisions.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_051",
+      "concept_id": "concept_041",
+      "concept_name": "NumPy",
+      "chapter": 9,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "What is the primary advantage of NumPy arrays over Python lists for numerical data?",
+      "options": {
+        "a": "NumPy arrays automatically handle missing data.",
+        "b": "NumPy arrays support vectorized operations that are faster and use less memory.",
+        "c": "NumPy arrays are identical to lists but with a different name.",
+        "d": "NumPy arrays can store mixed types more efficiently."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. NumPy does not automatically handle NaN; you must use functions like np.nanmean.",
+        "b": "Correct. NumPy enables element‑wise operations without explicit loops, leading to concise and fast code.",
+        "c": "Incorrect. They differ significantly: arrays have a fixed type, vectorization, and different behaviour for +.",
+        "d": "Incorrect. NumPy arrays are homogeneous; mixed types are coerced to a common type, which can be inefficient."
+      },
+      "hints": [
+        "What does vectorization mean?",
+        "Recall that with lists, + concatenates; with arrays, + adds element‑wise."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "NumPy arrays are homogeneous, enabling vectorized operations that run at compiled speed. This avoids the overhead of Python loops and makes code more readable.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_052",
+      "concept_id": "concept_042",
+      "concept_name": "NumPy Array",
+      "chapter": 9,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which code correctly creates a NumPy array from a list?",
+      "options": {
+        "a": "np.array([1.73, 1.68, 1.71])",
+        "b": "np.array('1.73', '1.68', '1.71')",
+        "c": "np.array{1.73, 1.68, 1.71}",
+        "d": "np.array(1.73, 1.68, 1.71)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Pass a list (or tuple) to np.array() to create an array.",
+        "b": "Incorrect. Passing strings creates a string array, not a numeric one.",
+        "c": "Incorrect. Curly braces create a set; np.array accepts a sequence.",
+        "d": "Incorrect. np.array() expects a single sequence argument, not multiple scalars."
+      },
+      "hints": [
+        "What does np.array() expect as its argument?",
+        "The course example: np_height = np.array(height) where height is a list."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.array() takes a sequence (list, tuple, etc.) and returns a NumPy array. Passing individual scalars results in an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_053",
+      "concept_id": "concept_043",
+      "concept_name": "np.array() function",
+      "chapter": 9,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nheight = [1.73, 1.68, 1.71]\nnp_height = np.array(height)\nprint(type(np_height))\n```\nWhat is printed?",
+      "options": {
+        "a": "<class 'list'>",
+        "b": "ndarray",
+        "c": "<class 'array'>",
+        "d": "<class 'numpy.ndarray'>"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. np_height is a NumPy array, not a Python list.",
+        "b": "Incorrect. type() returns a type object with angle brackets, not a plain string.",
+        "c": "Incorrect. While it's an array, the full type name is numpy.ndarray.",
+        "d": "Correct. type() on a NumPy array returns <class 'numpy.ndarray'>."
+      },
+      "hints": [
+        "What does type() return when applied to a NumPy array?",
+        "The course may display 'array', but the actual type is numpy.ndarray."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.array() returns a numpy.ndarray object. type() will show the full class name, including the module.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_013"
+      ]
+    },
+    {
+      "id": "mcq_054",
+      "concept_id": "concept_044",
+      "concept_name": "Vectorization",
+      "chapter": 9,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nnp_height = np.array([1.73, 1.68, 1.71, 1.89, 1.79])\nnp_weight = np.array([65.4, 59.2, 63.6, 88.4, 68.7])\nbmi = np_weight / np_height ** 2\n```\nWhat type of operation is performed in the last line?",
+      "options": {
+        "a": "A loop over each element sequentially.",
+        "b": "A Python list concatenation.",
+        "c": "A broadcasting error because arrays are different sizes.",
+        "d": "A vectorized element‑wise operation."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. No explicit loop is written; NumPy performs element‑wise operations in compiled code.",
+        "b": "Incorrect. With NumPy arrays, + is addition, not concatenation like lists.",
+        "c": "Incorrect. Arrays have the same length; the operation is valid.",
+        "d": "Correct. The division and exponentiation are applied element‑wise to the arrays; this is vectorization."
+      },
+      "hints": [
+        "What does NumPy do when you write array + array?",
+        "The course defines vectorization as 'performing arithmetic operations directly on entire arrays without explicit loops'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Vectorization allows operations on whole arrays at once, without writing Python loops. It's faster and more concise. The expression computes BMI for each corresponding pair.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_055",
+      "concept_id": "concept_045",
+      "concept_name": "NumPy Homogeneous Type",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code output?\n\n```python\nimport numpy as np\narr = np.array([1.0, \"is\", True])\nprint(arr)\n```",
+      "options": {
+        "a": "[1.0, nan, 1.0]",
+        "b": "[1.0, 'is', True]",
+        "c": "An error because types are mixed.",
+        "d": "['1.0', 'is', 'True']"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. It does not attempt numeric conversion; strings dominate.",
+        "b": "Incorrect. NumPy coerces mixed types to a common string type.",
+        "c": "Incorrect. NumPy does not raise an error; it silently converts to a common type.",
+        "d": "Correct. The array becomes all strings; numbers and booleans are converted to their string representations."
+      },
+      "hints": [
+        "What does the course say about NumPy arrays containing mixed types?",
+        "Common mistake: 'Expecting numeric operations on array with mixed types'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "NumPy arrays must be homogeneous. When given mixed types, it coerces all elements to the most general type, often string. This can lead to unexpected results when you try to do math.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_056",
+      "concept_id": "concept_045",
+      "concept_name": "NumPy Homogeneous Type",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nimport numpy as np\narr = np.array([1.73, 1.68, '1.71'])\nmean_val = np.mean(arr)\n```\nWhat happens?",
+      "options": {
+        "a": "mean_val will be the numeric mean of 1.73 and 1.68, ignoring the string.",
+        "b": "The array becomes all strings; np.mean will raise a TypeError.",
+        "c": "An error occurs because you cannot calculate mean of a string array.",
+        "d": "The string is converted to float 1.71 and the mean is computed correctly."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The entire array becomes strings; no numeric mean is possible.",
+        "b": "Correct. The mixed types cause the array to become string, and np.mean on a string array raises TypeError.",
+        "c": "Incorrect. The error is not immediate on array creation; it arises when np.mean is called on string data.",
+        "d": "Incorrect. NumPy does not convert strings back to numbers; the array dtype is string."
+      },
+      "hints": [
+        "What dtype will arr have after creation?",
+        "NumPy's homogeneity means all elements become strings; mathematical functions don't work on strings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Because one element is a string, the whole array is cast to string (dtype '<U...'). Any arithmetic function like np.mean will fail with a TypeError. Always ensure numeric homogeneity.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_042",
+        "concept_053"
+      ]
+    },
+    {
+      "id": "mcq_057",
+      "concept_id": "concept_045",
+      "concept_name": "NumPy Homogeneous Type",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nimport numpy as np\narr = np.array([10, 20.5, 30])\nprint(arr.dtype)\n```\nWhat is printed?",
+      "options": {
+        "a": "int64",
+        "b": "float64",
+        "c": "object",
+        "d": "U3"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The presence of a float (20.5) forces promotion to float to preserve precision.",
+        "b": "Correct. NumPy coerces all elements to the most general type (float64) because one element is a float.",
+        "c": "Incorrect. Object arrays occur only with mixed types that cannot be unified, e.g., strings and numbers.",
+        "d": "Incorrect. `U3` is a string dtype, not relevant here."
+      },
+      "hints": [
+        "What happens when you mix integers and floats in a NumPy array?",
+        "The array will become float to accommodate all values."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "NumPy arrays are homogeneous. If any element is a float, the entire array becomes float (float64) to avoid losing precision. This is different from Python lists, which can hold mixed types.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_058",
+      "concept_id": "concept_046",
+      "concept_name": "List vs Array Addition",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\npython_list = [1, 2, 3]\nnumpy_array = np.array([1, 2, 3])\nprint(python_list + python_list)\nprint(numpy_array + numpy_array)\n```\nWhat are the outputs, in order?",
+      "options": {
+        "a": "[2, 4, 6] and [2, 4, 6]",
+        "b": "[1, 2, 3, 1, 2, 3] and [1, 2, 3, 1, 2, 3]",
+        "c": "[2, 4, 6] and [1, 2, 3, 1, 2, 3]",
+        "d": "[1, 2, 3, 1, 2, 3] and [2, 4, 6]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. This assumes both perform element‑wise addition, but lists concatenate.",
+        "b": "Incorrect. This assumes arrays also concatenate, but they add element‑wise.",
+        "c": "Incorrect. It reverses the behaviors.",
+        "d": "Correct. List addition concatenates, producing a longer list. Array addition performs element‑wise arithmetic, summing corresponding elements."
+      },
+      "hints": [
+        "What does the + operator do with Python lists? With NumPy arrays?",
+        "The course shows: python_list + python_list → [1,2,3,1,2,3]; numpy_array + numpy_array → array([2,4,6])."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python lists concatenate when added; NumPy arrays perform vectorized element‑wise addition. This is a crucial difference when working with data.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_022",
+        "concept_044"
+      ]
+    },
+    {
+      "id": "mcq_059",
+      "concept_id": "concept_046",
+      "concept_name": "List vs Array Addition",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nlst = [1, 2]\narr = np.array([1, 2])\nresult1 = lst + lst\nresult2 = arr + arr\nprint(result1, result2)\n```\nWhat is printed?",
+      "options": {
+        "a": "[2, 4] [2, 4]",
+        "b": "[1, 2, 1, 2] [1, 2, 1, 2]",
+        "c": "[2, 4] [1, 2, 1, 2]",
+        "d": "[1, 2, 1, 2] [2, 4]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. Assumes both perform element‑wise addition.",
+        "b": "Incorrect. Assumes both concatenate.",
+        "c": "Incorrect. Swaps the two behaviors.",
+        "d": "Correct. List concatenation: `[1,2] + [1,2] = [1,2,1,2]`. Array addition: element‑wise `[1+1, 2+2] = [2,4]`."
+      },
+      "hints": [
+        "What does the `+` operator do with Python lists? What does it do with NumPy arrays?",
+        "Recall the course example: `python_list + python_list` → concatenation; `numpy_array + numpy_array` → vectorized addition."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "This highlights a fundamental difference: lists concatenate, arrays add element‑wise. Confusing the two is a common bug when switching between Python lists and NumPy.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_022",
+        "concept_044"
+      ]
+    },
+    {
+      "id": "mcq_060",
+      "concept_id": "concept_047",
+      "concept_name": "Boolean Indexing (Masking)",
+      "chapter": 9,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nbmi = np.array([21.85, 20.98, 21.75, 24.75, 21.44])\nprint(bmi > 23)\n```\nWhat is printed?",
+      "options": {
+        "a": "24.75",
+        "b": "[21.85, 20.98, 21.75, 24.75, 21.44]",
+        "c": "True",
+        "d": "[False, False, False, True, False]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be the result of bmi[bmi > 23], not bmi > 23 alone.",
+        "b": "Incorrect. bmi > 23 is a Boolean array, not the original values.",
+        "c": "Incorrect. The result is an array of booleans, not a single boolean.",
+        "d": "Correct. The comparison returns a Boolean array where each element is True if >23, else False."
+      },
+      "hints": [
+        "What kind of result does a comparison on a NumPy array yield?",
+        "Remember the course example: bmi > 23 → array([False, False, False, True, False])."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Boolean indexing starts with a condition that returns a Boolean array of the same shape. That mask can then be used to select elements.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_061",
+      "concept_id": "concept_047",
+      "concept_name": "Boolean Indexing (Masking)",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code?\n\n```python\nimport numpy as np\nbmi = np.array([21.85, 20.98, 21.75, 24.75, 21.44])\nprint(bmi[bmi > 23 and bmi < 25])\n```",
+      "options": {
+        "a": "Boolean indexing cannot use two conditions.",
+        "b": "bmi[bmi > 23] returns a smaller array; you cannot use 'and' on arrays.",
+        "c": "The code is perfectly correct.",
+        "d": "The condition uses 'and' instead of '&'; it will cause a ValueError about truth value of array."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. You can combine multiple conditions using & (and) or | (or).",
+        "b": "Incorrect. The issue is 'and', not the shape mismatch.",
+        "c": "Incorrect. It will raise an error.",
+        "d": "Correct. Python's 'and' expects a single boolean; with arrays it's ambiguous. Use '&' for element‑wise logical AND."
+      },
+      "hints": [
+        "What operator should you use for element‑wise logical operations on NumPy arrays?",
+        "Common mistake: 'Using and/or instead of &/| for multiple conditions'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "For NumPy arrays, logical operations must use bitwise operators & (and) and | (or). Using 'and'/'or' tries to evaluate the whole array as a single boolean, causing a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_062",
+      "concept_id": "concept_047",
+      "concept_name": "Boolean Indexing (Masking)",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nbmi = np.array([21, 23, 25, 22, 30])\nmask = (bmi > 22) & (bmi < 28)\nprint(bmi[mask])\n```\nWhat is output?",
+      "options": {
+        "a": "[25, 30]",
+        "b": "[21, 23, 25, 22]",
+        "c": "[23, 25]",
+        "d": "[23, 25, 22]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. 30 is >28, so excluded.",
+        "b": "Incorrect. That would be the full array.",
+        "c": "Correct. Condition: >22 and <28. 23 and 25 satisfy; 21 (no), 22 (no, 22 not >22), 30 (no). Output [23, 25].",
+        "d": "Incorrect. 22 is not >22, so it is excluded."
+      },
+      "hints": [
+        "What does the `&` operator do? It combines boolean arrays element‑wise.",
+        "Apply the condition to each element: which numbers are both greater than 22 and less than 28?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Boolean indexing uses a boolean array of the same shape. The `&` operator performs element‑wise logical AND. Remember to use `&` (not `and`) and parentheses around each condition.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_063",
+      "concept_id": "concept_048",
+      "concept_name": "2D NumPy Array",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which code creates a 2D NumPy array with two rows and three columns?",
+      "options": {
+        "a": "np.array([[1,2,3], [4,5,6]])",
+        "b": "np.array((1,2,3), (4,5,6))",
+        "c": "np.array([1,2,3], [4,5,6])",
+        "d": "np.array([1,2,3,4,5,6], shape=(2,3))"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. A list of lists (or tuple of lists) creates a 2D array.",
+        "b": "Incorrect. Similar to A, it passes two separate tuples instead of one nested structure.",
+        "c": "Incorrect. np.array expects a single sequence; passing two sequences without nesting causes an error.",
+        "d": "Incorrect. np.array doesn't have a shape parameter; use .reshape after creation."
+      },
+      "hints": [
+        "How many pairs of brackets are needed to represent a 2D array?",
+        "The course creates np_2d = np.array([[1.73, 1.68, ...], [65.4, ...]])."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A 2D array is created by passing a nested sequence (list of lists) to np.array(). The inner lists become rows. Ensure all inner lists have the same length.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_064",
+      "concept_id": "concept_049",
+      "concept_name": "Array Shape",
+      "chapter": 10,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\nnp_2d = np.array([[1.73, 1.68, 1.71, 1.89, 1.79],\n                  [65.4, 59.2, 63.6, 88.4, 68.7]])\nprint(np_2d.shape)\n```\nWhat is printed?",
+      "options": {
+        "a": "2",
+        "b": "5",
+        "c": "(5, 2)",
+        "d": "(2, 5)"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. .shape returns a tuple, not a single integer.",
+        "b": "Incorrect. Shape returns both dimensions.",
+        "c": "Incorrect. The order is (rows, columns), not (columns, rows).",
+        "d": "Correct. The array has 2 rows and 5 columns, so shape is (2, 5)."
+      },
+      "hints": [
+        "What does .shape return — a number or a tuple?",
+        "Count the number of inner lists (rows) and elements in each (columns)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The .shape attribute is a tuple indicating the size of each dimension. For a 2D array, it is (rows, columns). Common mistake: calling shape as a method with parentheses.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_065",
+      "concept_id": "concept_050",
+      "concept_name": "2D Array Subsetting",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nnp_2d = np.array([[1.73, 1.68, 1.71, 1.89, 1.79],\n                  [65.4, 59.2, 63.6, 88.4, 68.7]])\nprint(np_2d[0, 2])\n```\nWhat is output?",
+      "options": {
+        "a": "59.2",
+        "b": "1.71",
+        "c": "1.68",
+        "d": "63.6"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That is row 1, column 1.",
+        "b": "Correct. Row 0, column 2 gives 1.71.",
+        "c": "Incorrect. That is column 1 (1.68).",
+        "d": "Incorrect. That would be np_2d[1, 2]."
+      },
+      "hints": [
+        "Which index corresponds to rows, and which to columns?",
+        "Remember: first index selects the row, second selects the column."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "2D subsetting uses the syntax [row_index, column_index]. np_2d[0, 2] accesses the first row and third column. Avoid using [row][col] if you want cleaner code, though it also works.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_066",
+      "concept_id": "concept_050",
+      "concept_name": "2D Array Subsetting",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You try to subset a 2D array with np_2d[1, 5]. The array has shape (2, 5). What happens?",
+      "options": {
+        "a": "It raises an IndexError because column index 5 is out of range.",
+        "b": "It returns 68.7.",
+        "c": "It returns the last element of the second row.",
+        "d": "It returns an empty array."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. With shape (2,5), columns are indexed 0–4. Index 5 raises IndexError.",
+        "b": "Incorrect. 68.7 is at column 4, not 5.",
+        "c": "Incorrect. Valid column indices are 0–4; 5 is out of bounds.",
+        "d": "Incorrect. NumPy raises an error for out‑of‑bounds indexing, not returning empty."
+      },
+      "hints": [
+        "What are the valid index ranges for an array of shape (2,5)?",
+        "Remember that indexing starts at 0, so the maximum column index is 4."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Indexing follows zero‑based numbering. For shape (2,5), columns go from 0 to 4. Accessing column 5 causes an IndexError. Off‑by‑one errors are common.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_067",
+      "concept_id": "concept_051",
+      "concept_name": "Slicing 2D Arrays",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nnp_2d = np.array([[1.73, 1.68, 1.71, 1.89, 1.79],\n                  [65.4, 59.2, 63.6, 88.4, 68.7]])\nprint(np_2d[:, 1:3])\n```\nWhat is output?",
+      "options": {
+        "a": "array([[1.73, 1.68, 1.71], [65.4, 59.2, 63.6]])",
+        "b": "array([1.68, 1.71])",
+        "c": "array([[1.68, 1.71], [59.2, 63.6]])",
+        "d": "array([[1.68], [59.2]])"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be column slice :3 (columns 0,1,2).",
+        "b": "Incorrect. Slicing returns a 2D subarray, not a 1D array unless a single row/column is selected.",
+        "c": "Correct. : selects all rows; 1:3 selects columns 1 and 2 (inclusive:exclusive).",
+        "d": "Incorrect. That would be column 1 only, not a range."
+      },
+      "hints": [
+        "What does the colon (:) alone mean in the row position?",
+        "Slicing uses start:end, where end is exclusive. Which columns are at indices 1 and 2?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Slicing a 2D array uses [row_slice, column_slice]. : means 'all'. 1:3 selects columns 1 and 2. The result maintains 2D shape.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_068",
+      "concept_id": "concept_051",
+      "concept_name": "Slicing 2D Arrays",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What does np_2d[1, :] return? (np_2d has shape (2,5))",
+      "options": {
+        "a": "The element at row 1, column 0.",
+        "b": "The second column as a 1D array.",
+        "c": "A 2x5 array identical to np_2d.",
+        "d": "The second row as a 1D array."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be np_2d[1, 0].",
+        "b": "Incorrect. That would be np_2d[:, 1].",
+        "c": "Incorrect. The colon selects all columns of that row, not all rows.",
+        "d": "Correct. np_2d[1, :] selects the entire second row, returning a 1D array of length 5."
+      },
+      "hints": [
+        "What does the colon in the column position mean?",
+        "If you specify a single row index and colon for columns, you get that entire row."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using a single index for the row and : for the column selects all columns of that row, resulting in a 1D array. It’s a common way to extract a row.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_069",
+      "concept_id": "concept_052",
+      "concept_name": "np.median()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have a 2D array np_city with shape (100, 2) where the first column is height and the second is weight. How do you compute the median height?",
+      "options": {
+        "a": "np.median(np_city[0, :])",
+        "b": "np_city.median()",
+        "c": "np.median(np_city[:, 0])",
+        "d": "np.median(np_city[0])"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. This selects the first row only, not all heights.",
+        "b": "Incorrect. NumPy arrays have no .median() method; you must use np.median().",
+        "c": "Correct. np_city[:, 0] extracts the entire first column (all heights), then np.median() computes the median.",
+        "d": "Incorrect. np_city[0] returns the first row (both height and weight)."
+      },
+      "hints": [
+        "Which slice selects all rows and the first column?",
+        "The course example: np.median(np_city[:, 0]) gave 1.75."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To compute a statistic on one column, slice that column with [:, col_index]. np.median() returns the median of the selected column.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_051"
+      ]
+    },
+    {
+      "id": "mcq_070",
+      "concept_id": "concept_052",
+      "concept_name": "np.median()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\narr = np.array([1, 2, 3, 100])\nprint(np.median(arr))\n```\nWhat is output?",
+      "options": {
+        "a": "26.5",
+        "b": "2.5",
+        "c": "2",
+        "d": "100"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be the mean, not the median.",
+        "b": "Correct. The median is the average of the two middle numbers (2 and 3): (2+3)/2 = 2.5.",
+        "c": "Incorrect. That would be the lower middle if there were 3 elements.",
+        "d": "Incorrect. That is the maximum."
+      },
+      "hints": [
+        "How is median computed for an even number of elements?",
+        "Sort the array: 1,2,3,100 → middle two are 2 and 3; average them."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.median() sorts the array and returns the middle value. For even length, it returns the average of the two middle values.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_071",
+      "concept_id": "concept_053",
+      "concept_name": "np.mean()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Your data contains an outlier that inflates the average. Which function provides a more robust measure of central tendency?",
+      "options": {
+        "a": "np.median()",
+        "b": "np.sum()",
+        "c": "np.sort()",
+        "d": "np.mean()"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Median is less influenced by extreme values, making it a robust alternative.",
+        "b": "Incorrect. Sum is even more affected by outliers.",
+        "c": "Incorrect. Sorting doesn't summarize central tendency.",
+        "d": "Incorrect. Mean is sensitive to outliers; the average can be skewed."
+      },
+      "hints": [
+        "Which statistic is often called 'robust'?",
+        "Recall the outlier discussion: 'mean vs median when outliers are present'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Median is the middle value; it isn't distorted by a few very large or small numbers. Mean can be pulled significantly by outliers. This is a key concept in data analysis.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_063"
+      ]
+    },
+    {
+      "id": "mcq_072",
+      "concept_id": "concept_054",
+      "concept_name": "np.sum()",
+      "chapter": 11,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\narr = np.array([1.73, 1.68, 1.71])\nprint(np.sum(arr))\n```\nWhat is printed?",
+      "options": {
+        "a": "3",
+        "b": "5.12 (sum of elements)",
+        "c": "5.12",
+        "d": "[1.73, 1.68, 1.71]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. That's the number of elements, not the sum.",
+        "b": "Incorrect. This is essentially the same as A but with explanatory text; Python would output just the number.",
+        "c": "Correct. 1.73+1.68+1.71 = 5.12.",
+        "d": "Incorrect. sum() returns a scalar, not the array."
+      },
+      "hints": [
+        "What operation does np.sum perform?",
+        "Add up the three numbers."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.sum() adds all elements in the array and returns a scalar. For multi‑dimensional arrays, you can specify an axis.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_073",
+      "concept_id": "concept_055",
+      "concept_name": "np.sort()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What happens after running this?\n\n```python\nimport numpy as np\narr = np.array([3, 1, 2])\nsorted_arr = np.sort(arr)\nprint(arr)\n```",
+      "options": {
+        "a": "sorted_arr is None; np.sort sorts in place.",
+        "b": "An error occurs because np.sort doesn't exist.",
+        "c": "arr is unchanged; np.sort returns a sorted copy.",
+        "d": "arr becomes [1, 2, 3]."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. np.sort() returns the sorted array, not None.",
+        "b": "Incorrect. np.sort is a valid NumPy function.",
+        "c": "Correct. np.sort() returns a sorted copy; the original array is not modified.",
+        "d": "Incorrect. Unlike the list method .sort(), np.sort() does not sort in place."
+      },
+      "hints": [
+        "Does np.sort modify the original array or return a new one?",
+        "Common mistake: 'Using sort() as method which sorts in‑place (np.sort returns copy)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.sort() is a function that returns a sorted copy of the input array. The list method .sort() behaves differently (sorts in place). This distinction can cause confusion.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_074",
+      "concept_id": "concept_055",
+      "concept_name": "np.sort()",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between `np.sort(arr)` and `arr.sort()`?",
+      "options": {
+        "a": "Both are identical and return a sorted copy.",
+        "b": "`np.sort(arr)` returns a sorted copy; `arr.sort()` sorts the array in place and returns `None`.",
+        "c": "`np.sort(arr)` only works on 1D arrays; `arr.sort()` works on any array.",
+        "d": "`np.sort(arr)` sorts in place; `arr.sort()` returns a copy."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. They differ in mutability and return value.",
+        "b": "Correct. `np.sort()` is a function that returns a new array; `arr.sort()` is a method that modifies the array in place and returns `None`.",
+        "c": "Incorrect. Both can sort multi‑dimensional arrays (with axis parameter).",
+        "d": "Incorrect. The behaviors are reversed."
+      },
+      "hints": [
+        "Remember the course warning: 'np.sort returns copy' vs 'list.sort modifies in place'? Same for NumPy.",
+        "Check the documentation snippet in the concept."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.sort()` returns a sorted copy, leaving the original unchanged. The `ndarray.sort()` method sorts the array in place and returns `None`. This mirrors the difference between Python's `sorted()` and `list.sort()`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_075",
+      "concept_id": "concept_056",
+      "concept_name": "np.random.normal()",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which code generates 5000 height samples with a mean of 1.75 and a standard deviation of 0.20?",
+      "options": {
+        "a": "np.random.normal(5000, 1.75, 0.20)",
+        "b": "np.random.normal(1.75, 0.20, 5000)",
+        "c": "np.random.normal(mean=1.75, std=0.20, size=5000)",
+        "d": "np.random.normal(0.20, 1.75, 5000)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The first argument is loc (mean), not size.",
+        "b": "Correct. The parameters are (loc, scale, size) — mean, standard deviation, number of samples.",
+        "c": "Incorrect. While keyword arguments exist, they are loc, scale, size, not mean/std.",
+        "d": "Incorrect. This would set mean=0.20 and std=1.75, reversed."
+      },
+      "hints": [
+        "What is the order of arguments for np.random.normal?",
+        "The course example: np.random.normal(1.75, 0.20, 5000)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.random.normal(loc, scale, size) draws samples from a normal distribution. loc is the mean, scale is the standard deviation. The course uses positional arguments.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_076",
+      "concept_id": "concept_056",
+      "concept_name": "np.random.normal()",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You run np.random.normal(1.75, 0.20) without a size argument. What happens?",
+      "options": {
+        "a": "It returns an array of 1.75 repeated.",
+        "b": "It returns None.",
+        "c": "It returns a single random float.",
+        "d": "It raises an error because size is required."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. It returns a random number, not the mean.",
+        "b": "Incorrect. It returns a value, not None.",
+        "c": "Correct. When size is omitted, the function returns one random number.",
+        "d": "Incorrect. size is optional; default is None, which returns a single scalar."
+      },
+      "hints": [
+        "What is the default for the size parameter?",
+        "Check the concept definition: 'size: Number of samples … default: None (returns single value)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Omitting size yields a single floating‑point sample from the distribution, not an array. This is a useful detail when you need just one random number.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_077",
+      "concept_id": "concept_056",
+      "concept_name": "np.random.normal()",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You run `np.random.normal(loc=0, scale=1, size=5)`. What is the shape of the returned object?",
+      "options": {
+        "a": "A 1D NumPy array of length 5.",
+        "b": "A 5x5 2D array.",
+        "c": "A Python list of 5 floats.",
+        "d": "A single float."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. When `size` is an integer, the function returns a 1D array of that length.",
+        "b": "Incorrect. To get a 2D array, `size` would be a tuple like (5,5).",
+        "c": "Incorrect. It returns a NumPy array, not a Python list.",
+        "d": "Incorrect. `size=5` requests 5 samples, so an array is returned."
+      },
+      "hints": [
+        "What type of object does `np.random.normal` return when you specify `size`?",
+        "The course example `np.random.normal(1.75, 0.20, 5000)` returns a 1D array."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.random.normal` with a scalar `size` returns a 1D NumPy array. If `size` is omitted, it returns a scalar. The return type is always a NumPy array for non‑scalar `size`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_078",
+      "concept_id": "concept_057",
+      "concept_name": "np.round()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\narr = np.array([1.678, 2.345, 3.123])\nprint(np.round(arr, 1))\n```\nWhat is printed?",
+      "options": {
+        "a": "[1.7, 2.3, 3.1]",
+        "b": "[2, 2, 3]",
+        "c": "[1.68, 2.35, 3.12]",
+        "d": "[1.6, 2.3, 3.1]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Rounding to 1 decimal: 1.678 → 1.7, 2.345 → 2.3, 3.123 → 3.1.",
+        "b": "Incorrect. That would be with decimals=0, not 1.",
+        "c": "Incorrect. That would be rounding to 2 decimals, not 1.",
+        "d": "Incorrect. np.round uses standard rounding; 1.678 rounds to 1.7, not 1.6."
+      },
+      "hints": [
+        "What does the second argument to np.round do?",
+        "Round each element to one decimal place."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.round(array, decimals) rounds each element to the specified number of decimal places. It returns a new array; the original is unchanged.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_079",
+      "concept_id": "concept_057",
+      "concept_name": "np.round()",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the key difference between the built‑in round() and np.round()?",
+      "options": {
+        "a": "round() returns an integer when ndigits omitted; np.round() always returns a float array even with decimals=0.",
+        "b": "round() can handle arrays, while np.round() cannot.",
+        "c": "np.round() is identical to round() but works on arrays.",
+        "d": "np.round() modifies the array in place."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. With decimals=0 (or omitted for built‑in round), round() returns an int; np.round() returns an array of floats.",
+        "b": "Incorrect. round() works on scalars; np.round() works on scalars and arrays.",
+        "c": "Incorrect. They differ in return type for integers and behaviour on scalars vs arrays.",
+        "d": "Incorrect. np.round() returns a copy; it does not modify in place."
+      },
+      "hints": [
+        "What does round(1.68) return? What about np.round(1.68)?",
+        "Think about data types: one returns an int, the other an array/scalar float."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "round() without ndigits returns an integer (e.g., round(1.68) → 2). np.round() with decimals=0 returns a float array (or float scalar), preserving the array type. This can be important when further array operations are expected.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_028"
+      ]
+    },
+    {
+      "id": "mcq_080",
+      "concept_id": "concept_058",
+      "concept_name": "np.column_stack()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have two 1D arrays: height and weight. How do you combine them into a 2D array where height is the first column and weight the second?",
+      "options": {
+        "a": "np.vstack((height, weight)).T",
+        "b": "np.column_stack((height, weight))",
+        "c": "np.array([height, weight])",
+        "d": "np.column_stack(height, weight)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. vstack stacks as rows; transposing afterwards works but is indirect. The course teaches column_stack.",
+        "b": "Correct. np.column_stack takes a tuple of arrays and stacks them as columns.",
+        "c": "Incorrect. np.array([height, weight]) creates a 2xN array with height as the first row, not column.",
+        "d": "Incorrect. column_stack expects a single tuple argument, not two separate arrays."
+      },
+      "hints": [
+        "What argument does np.column_stack take? Look at the course example.",
+        "The course shows: np.column_stack((height, weight))."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.column_stack((arr1, arr2)) combines 1D arrays into a 2D array where each input becomes a column. The arrays must have the same length.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_081",
+      "concept_id": "concept_058",
+      "concept_name": "np.column_stack()",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\nresult = np.column_stack((a, b))\nprint(result.shape)\n```\nWhat is printed?",
+      "options": {
+        "a": "(2, 3)",
+        "b": "(3,)",
+        "c": "(6,)",
+        "d": "(3, 2)"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. That would be `np.vstack((a, b)).T` or `np.row_stack`.",
+        "b": "Incorrect. That would be the shape of the original 1D arrays.",
+        "c": "Incorrect. That would be concatenation into a 1D array of length 6.",
+        "d": "Correct. Two columns (a and b) with 3 rows each → shape (3, 2)."
+      },
+      "hints": [
+        "How many rows and columns does the resulting 2D array have?",
+        "`column_stack` takes 1D arrays and makes them columns of a 2D array."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.column_stack` takes 1D arrays and stacks them vertically as columns. So with two arrays of length 3, the output shape is (3, 2).",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_082",
+      "concept_id": "concept_059",
+      "concept_name": "Type Conversion",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does int(5.7) return?",
+      "options": {
+        "a": "6",
+        "b": "5.7",
+        "c": "5",
+        "d": "'5'"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. int() truncates toward zero, it does not round.",
+        "b": "Incorrect. int() converts to an integer, not float.",
+        "c": "Correct. int() drops the decimal part, returning 5.",
+        "d": "Incorrect. It returns an integer, not a string."
+      },
+      "hints": [
+        "Does int() round or truncate?",
+        "Try int(5.7) in your head: it removes the decimal portion."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "int() conversion truncates toward zero, discarding the fractional part. To round to the nearest integer, use round() first.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_083",
+      "concept_id": "concept_059",
+      "concept_name": "Type Conversion",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "You run `int('3.14')`. What happens?",
+      "options": {
+        "a": "It returns 3.",
+        "b": "It returns '3'.",
+        "c": "It returns 3.14.",
+        "d": "It raises a ValueError because the string '3.14' is not a valid integer literal."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. `int()` can parse integer strings like '3', but not float strings.",
+        "b": "Incorrect. It does not truncate the string; it raises an error.",
+        "c": "Incorrect. `int()` never returns a float.",
+        "d": "Correct. `int()` expects a string that looks like an integer (no decimal point). '3.14' contains a decimal point, causing ValueError."
+      },
+      "hints": [
+        "What kind of string can `int()` convert directly?",
+        "Common mistake: assuming `int()` will parse decimal strings by truncating."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`int()` can convert a string to an integer only if the string represents a whole number (e.g., '3'). For a string with a decimal, you must first convert to float (float('3.14')) then to int, or use `int(float('3.14'))`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_084",
+      "concept_id": "concept_060",
+      "concept_name": "list.remove() method",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Given:\n\n```python\nfam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]\nfam.remove('emma')\nprint(fam)\n```\nWhat is printed?",
+      "options": {
+        "a": "None",
+        "b": "['liz', 1.73, 'mom', 1.71, 'dad', 1.89]",
+        "c": "['liz', 1.73, 1.68, 'mom', 1.71, 'dad', 1.89]",
+        "d": "['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. remove() returns None, but the list itself is changed; printing the list shows the modified version.",
+        "b": "Incorrect. Only 'emma' is removed; 1.68 remains because it's a different element.",
+        "c": "Correct. remove('emma') deletes the first occurrence of 'emma' in the list, shifting elements left.",
+        "d": "Incorrect. remove modifies the list in place; 'emma' is gone."
+      },
+      "hints": [
+        "Does remove() return a value or modify the list directly?",
+        "After removing 'emma', which elements are left?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "remove(value) deletes the first item matching value from the list. It modifies the list in place and returns None. A common mistake is to try to use the return value.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_085",
+      "concept_id": "concept_060",
+      "concept_name": "list.remove() method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nitems = [1, 2, 3, 2]\nresult = items.remove(2)\nprint(items, result)\n```",
+      "options": {
+        "a": "None None",
+        "b": "[1, 3, 2] 2",
+        "c": "[1, 3, 2] None",
+        "d": "[1, 2, 3, 2] None"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. `items` is printed as the modified list, not `None`.",
+        "b": "Incorrect. `remove()` returns `None`, not the removed element.",
+        "c": "Correct. `remove(2)` deletes the first occurrence of 2 (at index 1), leaving `[1,3,2]`. It returns `None`, so `result` is `None`.",
+        "d": "Incorrect. The list is modified; the first 2 is removed."
+      },
+      "hints": [
+        "What does `list.remove()` return? Does it return the removed value?",
+        "Common mistake: expecting `remove()` to return the removed element (like `pop()`)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`remove()` modifies the list in place and returns `None`. It only removes the first matching value. To capture the removed value, use `pop(index)` instead.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_086",
+      "concept_id": "concept_061",
+      "concept_name": "list.reverse() method",
+      "chapter": 7,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "Given:\n\n```python\nnums = [3, 1, 2]\nnums.reverse()\nprint(nums)\n```\nWhat is printed?",
+      "options": {
+        "a": "[2, 1, 3]",
+        "b": "None",
+        "c": "[3, 1, 2]",
+        "d": "[1, 2, 3]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The list is reversed; the original order is mutated.",
+        "b": "Incorrect. reverse() returns None, but the list itself is reversed; printing nums shows the new order.",
+        "c": "Incorrect. reverse() changes the order in place.",
+        "d": "Incorrect. That would be sorted order, not reversed."
+      },
+      "hints": [
+        "What does reverse() do to a list?",
+        "It modifies the list directly — no need to assign the result."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "list.reverse() reverses the elements of the list in place. It returns None, so assigning its result would lose the list. A common mistake is to write `nums = nums.reverse()`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_087",
+      "concept_id": "concept_062",
+      "concept_name": "Correlation (np.corrcoef)",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You compute np.corrcoef(height, weight) and get a 2x2 matrix. What does the off‑diagonal value represent?",
+      "options": {
+        "a": "The covariance between height and weight.",
+        "b": "The correlation coefficient between height and weight.",
+        "c": "The p‑value of the correlation.",
+        "d": "The mean of height and weight."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Covariance is computed with np.cov, not corrcoef.",
+        "b": "Correct. np.corrcoef returns a correlation matrix; off‑diagonal elements are the Pearson correlation coefficients between the two variables.",
+        "c": "Incorrect. corrcoef gives correlation, not p‑value; statistical significance requires a test.",
+        "d": "Incorrect. The matrix contains correlation, not means."
+      },
+      "hints": [
+        "What kind of matrix does corrcoef produce?",
+        "Think about the term 'correlation coefficient' — what does the matrix show?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.corrcoef(x, y) returns a 2x2 matrix where the diagonal is 1 (self‑correlation) and the off‑diagonal is the Pearson correlation between x and y. Values range from -1 to 1.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_088",
+      "concept_id": "concept_062",
+      "concept_name": "Correlation (np.corrcoef)",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You try to compute correlation with np.corrcoef(height, weight) but get an error because height has NaN values. What should you do?",
+      "options": {
+        "a": "Correlation cannot be computed with missing values; you must remove or impute them first.",
+        "b": "corrcoef automatically ignores NaNs.",
+        "c": "Use np.corrcoef(height, weight, nan_policy='omit').",
+        "d": "Use np.nanmean before corrcoef."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. np.corrcoef does not handle NaN; you must clean the data (remove or fill NaN) before passing it.",
+        "b": "Incorrect. It will return NaN or raise an error if NaN is present.",
+        "c": "Incorrect. corrcoef does not have a nan_policy parameter.",
+        "d": "Incorrect. nanmean only computes mean; it doesn't fix correlation computation."
+      },
+      "hints": [
+        "What does the course say about missing values and NumPy functions?",
+        "Many NumPy statistical functions have NaN‑aware counterparts (e.g., np.nanmean), but corrcoef does not."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "np.corrcoef doesn't skip NaN values; they must be handled beforehand. Using boolean indexing to drop NaNs or filling with a suitable value are common strategies.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_089",
+      "concept_id": "concept_063",
+      "concept_name": "Outlier",
+      "chapter": 11,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Your dataset has an extremely high value that inflates the mean. What is the most appropriate measure to report?",
+      "options": {
+        "a": "Standard deviation",
+        "b": "Median",
+        "c": "Mean",
+        "d": "Sum"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Std dev measures spread, not central tendency, and is also affected by outliers.",
+        "b": "Correct. Median is robust to outliers and better represents the typical value.",
+        "c": "Incorrect. Mean is sensitive to outliers.",
+        "d": "Incorrect. Sum is even more affected by extreme values."
+      },
+      "hints": [
+        "Which statistic is least influenced by extreme values?",
+        "The course discusses outliers in the context of mean vs median."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When data contains outliers, the median provides a more reliable measure of central tendency. The mean can be dramatically skewed. Always visualize your data to check for outliers.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_052",
+        "concept_053"
+      ]
+    },
+    {
+      "id": "mcq_090",
+      "concept_id": "concept_064",
+      "concept_name": "Conversion Factors",
+      "chapter": 11,
+      "difficulty": "easy",
+      "question_subtype": "scenario",
+      "question_text": "You have a NumPy array height_in_inches and want to convert to meters using the factor 0.0254. Which line is correct?",
+      "options": {
+        "a": "height_m = height_in_inches + 0.0254",
+        "b": "height_m = height_in_inches * 0.0254",
+        "c": "height_m = height_in_inches / 0.0254",
+        "d": "height_m = multiply(height_in_inches, 0.0254)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Addition would not perform the correct conversion.",
+        "b": "Correct. Vectorized multiplication applies the conversion factor element‑wise.",
+        "c": "Incorrect. Division would convert to a different unit (e.g., meters to inches).",
+        "d": "Incorrect. There is no standalone multiply function in NumPy; you use *."
+      },
+      "hints": [
+        "How do you apply a factor to every element of a NumPy array?",
+        "Recall vectorization: operations like * work element‑wise."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "NumPy's vectorization allows you to multiply the entire array by the conversion factor in one go: height_m = height_in_inches * 0.0254.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_044"
+      ]
+    }
+  ]
+}

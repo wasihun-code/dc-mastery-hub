@@ -1,3 +1,4 @@
+import config from '../config.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -7,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
 export function importJsonExercises() {
-  const rawContentFolder = process.env.CONTENT_FOLDER
+  const rawContentFolder = config.CONTENT_PATH
   const contentFolder = rawContentFolder
     ? (path.isAbsolute(rawContentFolder) ? rawContentFolder : path.resolve(__dirname, '..', rawContentFolder))
     : DEFAULT_CONTENT_FOLDER

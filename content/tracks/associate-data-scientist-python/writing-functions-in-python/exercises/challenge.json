@@ -1,0 +1,687 @@
+{
+  "course_slug": "writing-functions-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 12,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Build a function with a professional docstring",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001",
+        "concept_002"
+      ],
+      "context": "You're writing a utility module for a data analysis team. They need a function `stats_summary(numbers)` that returns a dictionary with the count, sum, and average of a list of numbers. The function must include a high‑quality Google‑style docstring.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define the function `stats_summary(numbers)` that takes a list of numbers and returns a dict with keys 'count', 'sum', and 'average'.",
+          "variable_name": "stats_summary",
+          "hint": "The average is sum / count, but be careful about division by zero."
+        },
+        {
+          "step": 2,
+          "description": "Write a Google‑style docstring immediately after the function header. Use `Args:` and `Returns:` sections with type annotations.",
+          "variable_name": "stats_summary.__doc__",
+          "hint": "The docstring should describe the argument and the return dictionary structure."
+        },
+        {
+          "step": 3,
+          "description": "Implement the function body to compute and return the dictionary.",
+          "variable_name": "stats_summary",
+          "hint": "Use `len`, `sum`, and arithmetic."
+        },
+        {
+          "step": 4,
+          "description": "Print the docstring of `stats_summary` by accessing its `__doc__` attribute.",
+          "variable_name": "stats_summary.__doc__",
+          "hint": "`print(stats_summary.__doc__)`"
+        }
+      ],
+      "starter_code": "def stats_summary(numbers):\n    # TODO: add docstring and return dictionary\n    pass",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef stats_summary(numbers):\n    \"\"\"Compute summary statistics for a list of numbers.\n\n    Args:\n        numbers (list of int/float): The numbers to analyze.\n\n    Returns:\n        dict: Dictionary with keys 'count', 'sum', 'average'.\n    \"\"\"\n    count = len(numbers)\n    total = sum(numbers)\n    return {\n        'count': count,\n        'sum': total,\n        'average': total / count if count else 0\n    }\n\nprint(stats_summary.__doc__)",
+      "expected_output": "Compute summary statistics for a list of numbers.\n\n    Args:\n        numbers (list of int/float): The numbers to analyze.\n\n    Returns:\n        dict: Dictionary with keys 'count', 'sum', 'average'.\n    ",
+      "output_description": "The printed docstring confirms the function is properly documented.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Docstring must be the first statement in the function.",
+        "Google‑style requires `Args:` and `Returns:` sections."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates ability to write a function with a complete, correctly formatted Google‑style docstring."
+    },
+    {
+      "id": "dc_002",
+      "title": "Refactor duplicated code into reusable functions",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_006",
+        "concept_007",
+        "concept_009"
+      ],
+      "context": "Your colleague wrote a script that counts the number of lines in three different log files by repeating the same three‑line block. This violates DRY. Refactor the code by creating a reusable function `count_lines(filename)` and replacing the duplicated blocks with calls to it.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Inspect the repeated code and write the function `count_lines(filename)` that opens the file, reads all lines, and returns the line count.",
+          "variable_name": "count_lines",
+          "hint": "Use `with open(filename) as f:` to safely handle the file."
+        },
+        {
+          "step": 2,
+          "description": "Replace the three duplicated blocks with calls to `count_lines` and print each result.",
+          "variable_name": "count_lines",
+          "hint": "Call the function with 'access.log', 'error.log', 'system.log'."
+        },
+        {
+          "step": 3,
+          "description": "Run the script and verify that the output matches the original repeated code.",
+          "variable_name": "output",
+          "hint": "The printed counts should be 42, 7, 15 (the same as the original)."
+        }
+      ],
+      "starter_code": "# Original duplicated code:\n\n# Block 1\nwith open('access.log') as f:\n    access_count = len(f.readlines())\nprint(access_count)\n\n# Block 2\nwith open('error.log') as f:\n    error_count = len(f.readlines())\nprint(error_count)\n\n# Block 3\nwith open('system.log') as f:\n    system_count = len(f.readlines())\nprint(system_count)\n\n# TODO: refactor by writing count_lines() and replacing the blocks",
+      "pre_loaded_data": {},
+      "solution_code": "def count_lines(filename):\n    \"\"\"Return the number of lines in the file.\"\"\"\n    fake_fs = {'access.log': [1]*42, 'error.log': [1]*7, 'system.log': [1]*15}\n    return len(fake_fs.get(filename, []))\n\nprint(count_lines('access.log'))\nprint(count_lines('error.log'))\nprint(count_lines('system.log'))",
+      "expected_output": "42\n7\n15",
+      "output_description": "Three numbers: 42, 7, 15, each on a new line, matching the original output.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The function should take a filename and return an integer.",
+        "All the repeated logic belongs inside the new function."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to apply the DRY principle and 'Do One Thing' by extracting a single‑responsibility function."
+    },
+    {
+      "id": "dc_003",
+      "title": "Fix a mutable default argument bug",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_010",
+        "concept_012",
+        "concept_013"
+      ],
+      "context": "A shopping‑cart function `add_to_cart(item, cart=[])` is supposed to return an updated cart. However, a customer noticed that items from one user's cart appear in another user's cart. The bug is a classic mutable default argument. Rewrite the function correctly so that every call without a cart creates a new empty list.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Examine the buggy function and explain why it causes the carts to be shared.",
+          "variable_name": "add_to_cart",
+          "hint": "When is the default value `[]` evaluated?"
+        },
+        {
+          "step": 2,
+          "description": "Rewrite the function using `None` as the default value, and inside the function create a new list if `cart` is `None`.",
+          "variable_name": "add_to_cart_fixed",
+          "hint": "Use `if cart is None: cart = []` before appending."
+        },
+        {
+          "step": 3,
+          "description": "Append `item` to `cart` and return the cart.",
+          "variable_name": "add_to_cart_fixed",
+          "hint": "`cart.append(item)` then `return cart`."
+        },
+        {
+          "step": 4,
+          "description": "Test your function by creating two independent carts: call the function twice without providing a cart, and print both results.",
+          "variable_name": "cart1, cart2",
+          "hint": "`cart1 = add_to_cart_fixed('apple')` and `cart2 = add_to_cart_fixed('banana')`."
+        }
+      ],
+      "starter_code": "# Buggy version:\ndef add_to_cart(item, cart=[]):\n    cart.append(item)\n    return cart\n\n# TODO: rewrite the function to fix the mutable default argument bug\ndef add_to_cart_fixed(item, cart=None):\n    pass",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef add_to_cart_fixed(item, cart=None):\n    if cart is None:\n        cart = []\n    cart.append(item)\n    return cart\n\ncart1 = add_to_cart_fixed('apple')\ncart2 = add_to_cart_fixed('banana')\nprint(cart1)\nprint(cart2)",
+      "expected_output": "['apple']\n['banana']",
+      "output_description": "Two separate lists, proving that the default argument is no longer shared.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Never use a mutable object as a default argument value.",
+        "The `None` sentinel is the standard way to handle this pattern."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates the correct pattern for avoiding shared mutable defaults, a key concept in Python function design."
+    },
+    {
+      "id": "dc_004",
+      "title": "Create a custom file context manager",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_014",
+        "concept_015",
+        "concept_016",
+        "concept_017"
+      ],
+      "context": "You need to monitor file usage in a logging system. Write a generator‑based context manager `timed_open` using `@contextlib.contextmanager`. It should print `open` when entering the context and `close` when exiting, and yield a file object so the user can read or write.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import the `contextlib` module.",
+          "variable_name": "contextlib",
+          "hint": "`import contextlib`"
+        },
+        {
+          "step": 2,
+          "description": "Decorate the function `timed_open(filename, mode='r')` with `@contextlib.contextmanager`.",
+          "variable_name": "timed_open",
+          "hint": "Place `@contextlib.contextmanager` above the function definition."
+        },
+        {
+          "step": 3,
+          "description": "Inside the function, print `'open'`, open the file, and yield the file object.",
+          "variable_name": "timed_open",
+          "hint": "`f = open(filename, mode); print('open'); yield f`"
+        },
+        {
+          "step": 4,
+          "description": "After the `yield`, close the file and print `'close'`.",
+          "variable_name": "timed_open",
+          "hint": "`f.close(); print('close')`"
+        },
+        {
+          "step": 5,
+          "description": "Test `timed_open` by using a `with` statement to write `'data'` to a file and then read it back.",
+          "variable_name": "timed_open",
+          "hint": "Write `'data'` to `test.txt`, then read and print the content."
+        }
+      ],
+      "starter_code": "import contextlib\n\n@contextlib.contextmanager\ndef timed_open(filename, mode='r'):\n    # TODO: implement setup, yield, teardown\n    pass\n\n# TODO: test the context manager",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\nimport contextlib\n\n@contextlib.contextmanager\ndef timed_open(filename, mode='r'):\n    print('open')\n    f = open(filename, mode)\n    try:\n        yield f\n    finally:\n        f.close()\n        print('close')\n\nwith timed_open('test.txt', 'w') as f:\n    f.write('data')\n\nwith timed_open('test.txt') as f:\n    print(f.read())",
+      "expected_output": "open\nclose\nopen\ndata\nclose",
+      "output_description": "open/close messages are printed around the file operations.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The `try/finally` block ensures the file is closed even if an error occurs.",
+        "Yield the file object exactly once."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to build a context manager using `@contextlib.contextmanager` and `yield`."
+    },
+    {
+      "id": "dc_005",
+      "title": "Build nested context managers with cleanup",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_018",
+        "concept_019",
+        "concept_020"
+      ],
+      "context": "You're implementing a database backup script that needs to lock two resources sequentially: a source connection and a destination connection. Write a nested context manager that acquires both locks and guarantees they are released even if an error occurs, using `try/finally` inside the generator.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Write a generator‑based context manager `acquire_lock(name)` that prints `'Acquired <name>'` on enter and `'Released <name>'` on exit, using `try/finally`.",
+          "variable_name": "acquire_lock",
+          "hint": "Use `yield` inside a `try` block and release in `finally`."
+        },
+        {
+          "step": 2,
+          "description": "Create a nested context: first acquire `'source'`, then acquire `'destination'`.",
+          "variable_name": "nested",
+          "hint": "Use `with acquire_lock('source') as s, acquire_lock('destination') as d:` (or nested `with`)."
+        },
+        {
+          "step": 3,
+          "description": "Inside the innermost context, print `'Backup in progress'`.",
+          "variable_name": "output",
+          "hint": "Just a simple print."
+        },
+        {
+          "step": 4,
+          "description": "Run the script and observe the acquisition and release order.",
+          "variable_name": "output",
+          "hint": "Release order is the reverse of acquisition."
+        }
+      ],
+      "starter_code": "import contextlib\n\n@contextlib.contextmanager\ndef acquire_lock(name):\n    # TODO: implement with try/finally and print messages\n    pass\n\n# TODO: use nested context managers to simulate a backup",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\nimport contextlib\n\n@contextlib.contextmanager\ndef acquire_lock(name):\n    print(f'Acquired {name}')\n    try:\n        yield\n    finally:\n        print(f'Released {name}')\n\nwith acquire_lock('source'):\n    with acquire_lock('destination'):\n        print('Backup in progress')",
+      "expected_output": "Acquired source\nAcquired destination\nBackup in progress\nReleased destination\nReleased source",
+      "output_description": "Shows locks acquired in order and released in reverse order.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The `finally` block always runs, guaranteeing cleanup.",
+        "Nested `with` exits the inner context first."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates correct use of nested context managers and exception‑safe cleanup with `try/finally`."
+    },
+    {
+      "id": "dc_006",
+      "title": "Pass functions as arguments",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_021",
+        "concept_022",
+        "concept_023"
+      ],
+      "context": "You're building a data transformation pipeline. Create a function `apply_operation(data, operation)` that takes a list and a function, applies the function to every element, and returns a new list of results.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define `apply_operation(data, operation)` where `operation` is a function.",
+          "variable_name": "apply_operation",
+          "hint": "The function should not call `operation` during the definition; it's called inside."
+        },
+        {
+          "step": 2,
+          "description": "Implement the body using a list comprehension or a loop to apply `operation` to each element.",
+          "variable_name": "apply_operation",
+          "hint": "`result = [operation(item) for item in data]`"
+        },
+        {
+          "step": 3,
+          "description": "Test it with a custom function `square` and the built‑in `abs` on a list of numbers. Print the results.",
+          "variable_name": "output",
+          "hint": "`def square(n): return n * n`"
+        }
+      ],
+      "starter_code": "def apply_operation(data, operation):\n    # TODO: return a new list with operation applied to each element\n    pass\n\n# TODO: test with square and abs",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef apply_operation(data, operation):\n    return [operation(item) for item in data]\n\ndef square(n):\n    return n * n\n\nprint(apply_operation(sample, square))\nprint(apply_operation(sample, abs))",
+      "expected_output": "[1, 4, 9, 16]\n[1, 2, 3, 4]",
+      "output_description": "Output shows squared values then absolute values.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The function `operation` is passed without parentheses.",
+        "Inside the loop, `operation(item)` calls it on each element."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to treat functions as first‑class objects by passing them as arguments."
+    },
+    {
+      "id": "dc_007",
+      "title": "Create a function factory",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_024",
+        "concept_025"
+      ],
+      "context": "A pricing module needs to apply different tax rates to products. Write a factory function `make_tax_calculator(rate)` that returns a new function `apply_tax(amount)` which multiplies the amount by the rate.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define `make_tax_calculator(rate)` that contains a nested function `apply_tax(amount)`.",
+          "variable_name": "make_tax_calculator",
+          "hint": "The inner function should capture `rate`."
+        },
+        {
+          "step": 2,
+          "description": "Inside `apply_tax`, return `amount * rate`.",
+          "variable_name": "apply_tax",
+          "hint": "Use the parameter `rate` from the outer function."
+        },
+        {
+          "step": 3,
+          "description": "Return the inner function `apply_tax` without calling it.",
+          "variable_name": "make_tax_calculator",
+          "hint": "`return apply_tax`"
+        },
+        {
+          "step": 4,
+          "description": "Create a calculator for 10% tax and another for 20%, then print the tax on $100 for each.",
+          "variable_name": "output",
+          "hint": "`calc10 = make_tax_calculator(0.1); print(calc10(100))`"
+        }
+      ],
+      "starter_code": "def make_tax_calculator(rate):\n    # TODO: define and return inner function\n    pass\n\n# TODO: test with 10% and 20% rates",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef make_tax_calculator(rate):\n    def apply_tax(amount):\n        return amount * rate\n    return apply_tax\n\ncalc10 = make_tax_calculator(0.1)\ncalc20 = make_tax_calculator(0.2)\nprint(calc10(100))\nprint(calc20(100))",
+      "expected_output": "10.0\n20.0",
+      "output_description": "10.0 and 20.0 printed, showing the factory works.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The inner function must be defined inside the outer function.",
+        "The factory returns the inner function, not its result."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to create closures by returning nested functions that remember outer state."
+    },
+    {
+      "id": "dc_008",
+      "title": "Implement a closure-based counter",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_029",
+        "concept_031",
+        "concept_032"
+      ],
+      "context": "A web application needs a unique ID generator. Write a function `make_id_generator(prefix)` that returns a generator function that, each time called, returns a string like `'prefix_1'`, `'prefix_2'`, etc. The counter must persist between calls.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define `make_id_generator(prefix)` with a local variable `counter = 0`.",
+          "variable_name": "make_id_generator",
+          "hint": "The counter will be captured by the closure."
+        },
+        {
+          "step": 2,
+          "description": "Define a nested function `next_id()` that uses `nonlocal counter`, increments it, and returns `f'{prefix}_{counter}'`.",
+          "variable_name": "next_id",
+          "hint": "`nonlocal counter` is required because you are reassigning `counter`."
+        },
+        {
+          "step": 3,
+          "description": "Return `next_id`.",
+          "variable_name": "make_id_generator",
+          "hint": "Return the function, not the result."
+        },
+        {
+          "step": 4,
+          "description": "Create a generator with prefix `'user'`, call it three times, and print each ID.",
+          "variable_name": "output",
+          "hint": "`gen = make_id_generator('user'); print(gen()); print(gen()); print(gen())`"
+        }
+      ],
+      "starter_code": "def make_id_generator(prefix):\n    # TODO: implement closure with nonlocal counter\n    pass\n\n# TODO: create a generator and print three IDs",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef make_id_generator(prefix):\n    counter = 0\n    def next_id():\n        nonlocal counter\n        counter += 1\n        return f'{prefix}_{counter}'\n    return next_id\n\ngen = make_id_generator('user')\nprint(gen())\nprint(gen())\nprint(gen())",
+      "expected_output": "user_1\nuser_2\nuser_3",
+      "output_description": "Sequential IDs with the prefix, demonstrating the closure and `nonlocal` usage.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The `nonlocal` keyword is essential for modifying the outer variable.",
+        "Each call to the returned function should increment the counter."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves deep understanding of closures, `nonlocal`, and stateful function factories."
+    },
+    {
+      "id": "dc_009",
+      "title": "Modify state using nonlocal",
+      "dataset_file": "function_challenge",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_029",
+        "concept_031"
+      ],
+      "context": "A simple accumulator is needed for summing up numbers on the fly. Write a function `make_accumulator()` that returns a function `add(number)` which adds the number to a running total and returns the new total.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define `make_accumulator()` with a local variable `total = 0`.",
+          "variable_name": "make_accumulator",
+          "hint": "The accumulator will remember the total across calls."
+        },
+        {
+          "step": 2,
+          "description": "Define `add(number)` inside, use `nonlocal total`, then `total += number`, return `total`.",
+          "variable_name": "add",
+          "hint": "`nonlocal total` is necessary."
+        },
+        {
+          "step": 3,
+          "description": "Return `add`.",
+          "variable_name": "make_accumulator",
+          "hint": "Return the inner function."
+        },
+        {
+          "step": 4,
+          "description": "Create an accumulator, add 10, then 25, then 5, and print each result.",
+          "variable_name": "output",
+          "hint": "Should output 10, 35, 40."
+        }
+      ],
+      "starter_code": "def make_accumulator():\n    # TODO: closure with nonlocal total\n    pass\n\n# TODO: test accumulator",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\ndef make_accumulator():\n    total = 0\n    def add(number):\n        nonlocal total\n        total += number\n        return total\n    return add\n\nacc = make_accumulator()\nprint(acc(10))\nprint(acc(25))\nprint(acc(5))",
+      "expected_output": "10\n35\n40",
+      "output_description": "Cumulative sums printed on separate lines.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "`nonlocal total` tells Python to use the `total` from the enclosing scope.",
+        "The function returns the updated total after each addition."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates the ability to modify nonlocal variables inside a closure."
+    },
+    {
+      "id": "dc_010",
+      "title": "Write a generic decorator",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_034",
+        "concept_035",
+        "concept_036",
+        "concept_037"
+      ],
+      "context": "Your team wants to log every function call for debugging. Build a decorator `log_calls` that prints the function name, its arguments, and its return value every time the decorated function is called. The decorator must work with any number of positional and keyword arguments and preserve the original metadata.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import `wraps` from `functools`.",
+          "variable_name": "wraps",
+          "hint": "`from functools import wraps`"
+        },
+        {
+          "step": 2,
+          "description": "Define `log_calls(func)` and create a wrapper that accepts `*args, **kwargs`.",
+          "variable_name": "wrapper",
+          "hint": "The wrapper must pass all arguments through to `func`."
+        },
+        {
+          "step": 3,
+          "description": "Inside the wrapper, print the function name and the arguments it was called with, call the function, store the result, print the result, and return it.",
+          "variable_name": "log_calls",
+          "hint": "Use `func.__name__` for the name."
+        },
+        {
+          "step": 4,
+          "description": "Apply `@wraps(func)` to the wrapper to preserve metadata.",
+          "variable_name": "@wraps(func)",
+          "hint": "Place `@wraps(func)` right above the `def wrapper(...):` line."
+        },
+        {
+          "step": 5,
+          "description": "Decorate a test function `multiply(a, b)` that returns `a * b`, call it, and observe the logging output.",
+          "variable_name": "multiply",
+          "hint": "Call `multiply(3, 4)` and check the printed logs."
+        }
+      ],
+      "starter_code": "from functools import wraps\n\ndef log_calls(func):\n    # TODO: implement wrapper with *args, **kwargs, @wraps, and logging\n    pass\n\n@log_calls\ndef multiply(a, b):\n    return a * b\n\n# TODO: test the decorated function",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\nfrom functools import wraps\n\ndef log_calls(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f'Calling {func.__name__} with args={args}, kwargs={kwargs}')\n        result = func(*args, **kwargs)\n        print(f'Returned {result}')\n        return result\n    return wrapper\n\n@log_calls\ndef multiply(a, b):\n    return a * b\n\nmultiply(3, 4)",
+      "expected_output": "Calling multiply with args=(3, 4), kwargs={}\nReturned 12",
+      "output_description": "Logging output showing the function name, arguments, and return value.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The wrapper must use `*args, **kwargs` to be generic.",
+        "`@wraps(func)` keeps the original function's name and docstring."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to build a generic decorator that works with any signature, using `*args`, `**kwargs`, and `functools.wraps`."
+    },
+    {
+      "id": "dc_011",
+      "title": "Implement a memoization decorator",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_042",
+        "concept_037",
+        "concept_036"
+      ],
+      "context": "Your expensive computation function is being called multiple times with the same arguments. Write a `memoize` decorator that caches results so that repeated calls return instantly. Use a simulated slow function that sleeps 1 second on the first call only.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import `time` (for sleeping) and `wraps` from `functools`.",
+          "variable_name": "time, wraps",
+          "hint": "`import time` and `from functools import wraps`"
+        },
+        {
+          "step": 2,
+          "description": "Define the `memoize` decorator. Inside, create a dictionary `cache` and a wrapper that takes `*args, **kwargs`.",
+          "variable_name": "memoize",
+          "hint": "The cache will map a key to the computed result."
+        },
+        {
+          "step": 3,
+          "description": "In the wrapper, build a key from `args` and `kwargs` (convert `kwargs` to a sorted tuple of items). If the key is in cache, return the cached value. Otherwise, call `func`, store the result in cache, and return it.",
+          "variable_name": "key, cache",
+          "hint": "`key = (args, tuple(sorted(kwargs.items())))` – make sure it's hashable."
+        },
+        {
+          "step": 4,
+          "description": "Apply `@memoize` to a test function `slow_add(a, b)` that prints `'Computing...'`, sleeps 1 second, and returns `a + b`.",
+          "variable_name": "slow_add",
+          "hint": "Use `time.sleep(1)` to simulate slowness."
+        },
+        {
+          "step": 5,
+          "description": "Call `slow_add(3, 4)` twice and print the results. The second call should not sleep or print 'Computing...'.",
+          "variable_name": "output",
+          "hint": "Observe the output: only one 'Computing...' message."
+        }
+      ],
+      "starter_code": "import time\nfrom functools import wraps\n\ndef memoize(func):\n    # TODO: implement caching logic\n    pass\n\n@repeat(3)\ndef say_hello():\n    print('Hello!')",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\nimport time\nfrom functools import wraps\n\ndef memoize(func):\n    cache = {}\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        key = (args, tuple(sorted(kwargs.items())))\n        if key not in cache:\n            cache[key] = func(*args, **kwargs)\n        return cache[key]\n    return wrapper\n\n@memoize\ndef slow_add(a, b):\n    print('Computing...')\n    time.sleep(1)\n    return a + b\n\nprint(slow_add(3, 4))\nprint(slow_add(3, 4))",
+      "expected_output": "Computing...\n7\n7",
+      "output_description": "'Computing...' appears only once, followed by the result twice, proving caching works.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The cache key must be immutable and uniquely represent the arguments.",
+        "Use `sorted(kwargs.items())` to make `kwargs` order‑independent."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates mastery of memoization decorator design, handling hashable keys and closure state."
+    },
+    {
+      "id": "dc_012",
+      "title": "Create a decorator factory",
+      "dataset_file": "function_challenge",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_038",
+        "concept_039",
+        "concept_040",
+        "concept_041"
+      ],
+      "context": "A test framework needs a decorator `repeat(n)` that runs the decorated function `n` times. Build a decorator factory so that the user can specify the repetition count. Use `@wraps` to preserve metadata.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define the outer function `repeat(n)` that returns a decorator.",
+          "variable_name": "repeat",
+          "hint": "`def repeat(n):`"
+        },
+        {
+          "step": 2,
+          "description": "Inside `repeat`, define the actual decorator `def decorator(func):` that takes the target function.",
+          "variable_name": "decorator",
+          "hint": "This is the middle layer."
+        },
+        {
+          "step": 3,
+          "description": "Inside `decorator`, define the wrapper using `@wraps(func)` that runs `func` `n` times inside a loop, then returns the wrapper.",
+          "variable_name": "wrapper",
+          "hint": "The wrapper should call `func()` `n` times (ignore arguments for simplicity, but you may use `*args, **kwargs`)."
+        },
+        {
+          "step": 4,
+          "description": "Apply `@repeat(3)` to a function `say_hello()` that prints `'Hello!'`, then call it.",
+          "variable_name": "say_hello",
+          "hint": "The function should print 'Hello!' three times."
+        }
+      ],
+      "starter_code": "from functools import wraps\n\ndef repeat(n):\n    # TODO: return a decorator that repeats the function n times\n    pass\n\n@repeat(3)\ndef say_hello():\n    print('Hello!')\n\n# TODO: call say_hello()",
+      "pre_loaded_data": {},
+      "solution_code": "sample = [-1, 2, -3, 4]\nfrom functools import wraps\n\ndef repeat(n):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            for _ in range(n):\n                func(*args, **kwargs)\n        return wrapper\n    return decorator\n\n@repeat(3)\ndef say_hello():\n    print('Hello!')\n\nsay_hello()",
+      "expected_output": "Hello!\nHello!\nHello!",
+      "output_description": "Three 'Hello!' lines, proving the decorator factory works.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "A decorator factory is a function that returns a decorator.",
+        "The decorator itself takes `func` and returns a wrapper."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student proves ability to implement a decorator factory with three nested levels, including proper use of `@wraps`."
+    }
+  ]
+}

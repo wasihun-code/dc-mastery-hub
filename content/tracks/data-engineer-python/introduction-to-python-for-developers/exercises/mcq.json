@@ -1,0 +1,1209 @@
+{
+  "course_slug": "introduction-to-python-for-developers",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_004",
+      "concept_name": "print function",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "You need to display the text 'Hello, world!' in the console. Which line of code correctly does this?",
+      "options": {
+        "a": "print(\"Hello, world!\")",
+        "b": "print(Hello, world!)",
+        "c": "print \"Hello, world!\"",
+        "d": "print('Hello, world!\")"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! print() with a string literal inside parentheses works.",
+        "b": "Missing quotation marks around the text; Python tries to interpret Hello and world! as variable names, causing a NameError.",
+        "c": "In Python 3, print requires parentheses. This style was used in Python 2 and will cause a SyntaxError here.",
+        "d": "The opening quote is a single quote but the closing quote is a double quote, which creates a SyntaxError due to mismatched quotes."
+      },
+      "hints": [
+        "The print function needs parentheses and the text must be enclosed in matching quotes.",
+        "Think about what constitutes a valid string literal in Python."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python 3, the print function requires parentheses around its arguments, and string literals must be enclosed in matching single or double quotation marks. Option a uses a correctly paired double-quoted string inside parentheses.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_005",
+      "concept_name": "Code comment",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "You want to add a comment that says 'This is a test' without affecting the code execution. Which line correctly adds this comment in Python?",
+      "options": {
+        "a": "// This is a test",
+        "b": "# This is a test",
+        "c": "/* This is a test */",
+        "d": "comment: This is a test"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "// is used for comments in languages like Java or C++, not Python.",
+        "b": "Correct! In Python, comments start with the # symbol.",
+        "c": "/* ... */ is a block comment style from C-like languages, not valid in Python.",
+        "d": "'comment:' is not a keyword or recognized syntax for comments in Python."
+      },
+      "hints": [
+        "Python uses a single character to start a comment.",
+        "Look for the symbol that appears in a different color in most code editors when used as a comment."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python comments begin with the hash (#) character. Everything after # on that line is ignored by the interpreter.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_006",
+      "concept_name": "Variable",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Which of the following is a valid variable name in Python?",
+      "options": {
+        "a": "1st_ingredient",
+        "b": "ingredient name",
+        "c": "ingredient_name",
+        "d": "print"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Variable names cannot start with a digit; 1st_ingredient is invalid.",
+        "b": "Spaces are not allowed in variable names; use underscores instead.",
+        "c": "Correct! snake_case uses lowercase letters and underscores, which is the standard naming convention in Python.",
+        "d": "print is a built-in function name; using it as a variable can shadow the function and cause unexpected behavior."
+      },
+      "hints": [
+        "Python variable names must start with a letter or underscore and cannot contain spaces.",
+        "Avoid using words that Python already uses as built-in functions or keywords."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Valid variable names must start with a letter or underscore, contain only letters, numbers and underscores, and not be reserved keywords. ingredient_name follows PEP 8 snake_case conventions.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_007",
+      "concept_name": "String data type",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which line correctly creates a string variable containing the word 'pasta'?",
+      "options": {
+        "a": "ingredient_name = \"pasta\"",
+        "b": "ingredient_name = pasta",
+        "c": "ingredient_name = 'pasta\"",
+        "d": "ingredient_name = 2"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Double quotes enclose the string literal, assigning the text 'pasta' to the variable.",
+        "b": "Without quotation marks, pasta is interpreted as a variable name, not a string. If it's not defined, a NameError occurs.",
+        "c": "The quotes are mismatched (starts with single, ends with double), causing a SyntaxError.",
+        "d": "This assigns the integer 2, not a string."
+      },
+      "hints": [
+        "Strings must be surrounded by matching quotation marks.",
+        "Check that both the opening and closing quotes are the same type."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Strings are created by enclosing text in either single or double quotation marks. Option a uses consistent double quotes, correctly creating a string.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_008",
+      "concept_name": "Integer data type",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You need a variable that holds the whole number 2. Which line does this correctly?",
+      "options": {
+        "a": "ingredient_quantity = \"2\"",
+        "b": "ingredient_quantity = 2.0",
+        "c": "ingredient_quantity = '2'",
+        "d": "ingredient_quantity = 2"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Quotation marks create a string, not an integer.",
+        "b": "2.0 is a float because it has a decimal point, not an integer.",
+        "c": "Single quotes produce a string, not an integer.",
+        "d": "Correct! The number 2 without quotes is an integer."
+      },
+      "hints": [
+        "Integers represent whole numbers without fractions or decimals.",
+        "Do not put quotation marks around the number if you want it to be an integer."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An integer is a whole number without quotation marks. 2 is an int, while \"2\" or '2' are strings, and 2.0 is a float.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_008"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_009",
+      "concept_name": "Variable assignment",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "You want to update the variable `count` to the value 10. Which of the following contains an error?",
+      "options": {
+        "a": "count = 10",
+        "b": "count == 10",
+        "c": "count = 10 + 0",
+        "d": "count = 5 + 5"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This correctly assigns 10 to count using the assignment operator =.",
+        "b": "This uses the equality operator ==, which compares values but does not assign. The variable count is not updated.",
+        "c": "This is a valid assignment; the expression 10 + 0 evaluates to 10, then it's assigned.",
+        "d": "Also a valid assignment; 5 + 5 yields 10, which is assigned."
+      },
+      "hints": [
+        "Assignment uses a single equals sign =, while comparison uses a double equals sign ==",
+        "The question asks for an error; look for a line that doesn't perform assignment."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The = operator assigns a value to a variable. == checks equality and returns a Boolean, it does not change the variable. Thus, count == 10 is a comparison, not an update.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_010",
+      "concept_name": "Printing variables",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ningredient_name = \"tomatoes\"\nprint(ingredient_name)\n```",
+      "options": {
+        "a": "tomatoes",
+        "b": "ingredient_name",
+        "c": "\"tomatoes\"",
+        "d": "NameError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! print displays the value stored in the variable, which is 'tomatoes'.",
+        "b": "If you wanted to print the literal text 'ingredient_name', you would need to pass it as a string: print(\"ingredient_name\").",
+        "c": "The quotes are not part of the string value and would not be printed unless included inside the string.",
+        "d": "No NameError occurs because ingredient_name has been defined."
+      },
+      "hints": [
+        "When you pass a variable to print, it shows the value stored inside the variable.",
+        "Look at what the variable contains: the string \"tomatoes\"."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The variable ingredient_name holds the string \"tomatoes\". print(ingredient_name) displays that string, not the variable name itself.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_011",
+      "concept_name": "Updating variables",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ningredient_quantity = 1\ningredient_quantity = 3\nprint(ingredient_quantity)\n```",
+      "options": {
+        "a": "1",
+        "b": "3",
+        "c": "1 3",
+        "d": "4"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be printed if the variable had not been reassigned, but it was updated to 3.",
+        "b": "Correct! The variable was reassigned from 1 to 3, so print shows the latest value.",
+        "c": "Python does not accumulate values; the new value replaces the old one.",
+        "d": "The numbers are not added; assignment simply replaces the value."
+      },
+      "hints": [
+        "Assignment replaces the existing value of a variable.",
+        "The final print statement shows the most recent assignment."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When you assign a new value to an existing variable, the old value is overwritten. So ingredient_quantity becomes 3, and that is printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_013",
+      "concept_name": "Float data type",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You want to store the decimal number 1.5 in a variable. Which line correctly creates a float?",
+      "options": {
+        "a": "new_ingredient_quantity = \"1.5\"",
+        "b": "new_ingredient_quantity = 1.5",
+        "c": "new_ingredient_quantity = 1,5",
+        "d": "new_ingredient_quantity = '1.5'"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Quotation marks make it a string, not a float.",
+        "b": "Correct! 1.5 is a float because it contains a decimal point.",
+        "c": "A comma is not valid for a decimal number in Python; this creates a tuple (1, 5).",
+        "d": "Single quotes produce a string, not a float."
+      },
+      "hints": [
+        "Floats are numbers with a decimal point and no quotation marks.",
+        "Python uses a period for decimals, not a comma."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A float literal is written with a decimal point, like 1.5, without any quotes. Using quotes creates a string, and a comma is not valid syntax for a float.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_014",
+      "concept_name": "Boolean data type",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which line correctly assigns the Boolean value True to a variable?",
+      "options": {
+        "a": "is_in_stock = \"True\"",
+        "b": "is_in_stock = True",
+        "c": "is_in_stock = true",
+        "d": "is_in_stock = 1"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Double quotes create a string, not a Boolean.",
+        "b": "Correct! True (capitalized and without quotes) is a Boolean value.",
+        "c": "Python is case-sensitive; true is not the same as True and would cause a NameError.",
+        "d": "Although 1 can be truthy, it is an integer, not a Boolean value."
+      },
+      "hints": [
+        "Boolean values in Python are written with capital letters: True and False.",
+        "Do not use quotation marks around Booleans."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python's Boolean constants are True and False, case-sensitive and without quotes. Option b correctly assigns the Boolean True.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_015",
+      "concept_name": "type function",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ningredient_name = \"tomatoes\"\nprint(type(ingredient_name))\n```",
+      "options": {
+        "a": "str",
+        "b": "<class 'str'>",
+        "c": "\"tomatoes\"",
+        "d": "string"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "type() returns a class object description, not just the plain name.",
+        "b": "Correct! type() returns the class, formatted as <class 'str'>.",
+        "c": "This would be printed if you passed the variable itself to print, not its type.",
+        "d": "Python's type name is 'str', not 'string'."
+      },
+      "hints": [
+        "The type() function returns a class description, not a simple string.",
+        "Look at the exact output format that Python uses for a string type."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The type() function returns the type of the object in a specific format: <class 'type_name'>. For a string, it's <class 'str'>.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_016",
+      "concept_name": "Arithmetic operators",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nprint(2 + 1.5)\n```",
+      "options": {
+        "a": "3.5",
+        "b": "3",
+        "c": "21.5",
+        "d": "2 + 1.5"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Adding an integer and a float returns a float (3.5).",
+        "b": "Integer division is not used; the + operator adds the exact values.",
+        "c": "Python does not automatically convert the numbers to strings before addition.",
+        "d": "The expression is evaluated, not printed literally."
+      },
+      "hints": [
+        "The + operator performs mathematical addition on numbers.",
+        "An integer plus a float yields a float."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "2 + 1.5 uses the addition operator to add an integer and a float, resulting in 3.5.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_017",
+      "concept_name": "String operators",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What happens when you run the following code?\n\n```python\nprint(\"Hi\" + 3)\n```",
+      "options": {
+        "a": "Hi3",
+        "b": "HiHiHi",
+        "c": "TypeError",
+        "d": "Hi+3"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Python does not automatically convert an integer to a string for concatenation; that would require explicit conversion like str(3).",
+        "b": "\"Hi\" * 3 would repeat the string, but + with an integer is not repetition.",
+        "c": "Correct! Adding a string and an integer raises a TypeError because Python cannot combine them implicitly.",
+        "d": "The expression is evaluated, not printed as literal characters."
+      },
+      "hints": [
+        "String concatenation requires both operands to be strings.",
+        "Consider what type the number 3 is and whether Python can concatenate it with a string."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The + operator between a string and an integer raises a TypeError because Python does not perform implicit type conversion. You need str(3) to concatenate.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_018",
+      "concept_name": "Single and double quotes",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with the following code?\n\n```python\nmessage = 'It's a great day'\n```",
+      "options": {
+        "a": "The string uses double quotes inside single quotes, which is fine.",
+        "b": "The apostrophe in \"It's\" prematurely ends the string, causing a SyntaxError.",
+        "c": "Multi-line strings require triple quotes.",
+        "d": "The variable name 'message' is reserved."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Actually, the single quote inside single quotes is not escaped, so it ends the string early.",
+        "b": "Correct! The string starts with a single quote, and the next single quote in \"It's\" terminates the string, leaving the rest as invalid syntax.",
+        "c": "This is not a multi-line string; the issue is the unescaped quote.",
+        "d": "message is not a reserved keyword."
+      },
+      "hints": [
+        "Look carefully at the quotation marks; does the string contain the same type of quote inside?",
+        "If you use single quotes, an apostrophe can cause a problem."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When a string is delimited by single quotes, any single quote inside the string must be escaped (\\') or the string should be delimited by double quotes. Here, the apostrophe in It's closes the string early, causing a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_019",
+      "concept_name": "Multi-line strings",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ninstructions = \"\"\"Line1\nLine2\"\"\"\nprint(instructions)\n```",
+      "options": {
+        "a": "Line1Line2",
+        "b": "Line1\nLine2",
+        "c": "Line1\n\nLine2",
+        "d": "SyntaxError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Triple-quoted strings preserve the newline character, so they don't appear on the same line.",
+        "b": "Correct! The triple-quoted string contains a newline, and print displays it across two lines.",
+        "c": "There is only one newline character, not two.",
+        "d": "The triple-quoted string syntax is valid; no SyntaxError occurs."
+      },
+      "hints": [
+        "Triple-quoted strings preserve newline characters as they appear.",
+        "How many lines are inside the triple quotes?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Triple-quoted strings maintain the line breaks exactly as written. The newline after Line1 is included, so print shows two lines: Line1 followed by Line2 on the next line.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_020",
+      "concept_name": "Method",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ngreeting = \"hello\"\nresult = greeting.upper\nprint(result)\n```",
+      "options": {
+        "a": "HELLO",
+        "b": "<built-in method upper of str object at 0x...>",
+        "c": "hello",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Calling upper() would return 'HELLO', but here the method is not called – the parentheses are missing.",
+        "b": "Correct! Without parentheses, result refers to the method object itself, and printing it shows the method representation.",
+        "c": "The original string is 'hello', but result is not the string; it's the method.",
+        "d": "upper does not return None; it would return the method object when not called."
+      },
+      "hints": [
+        "Look carefully: is the method being called, or is the method itself being assigned?",
+        "Methods need parentheses to be invoked."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Forgetting the parentheses means you are not calling the method. result holds the method object, and printing it displays something like <built-in method upper of str object at ...>.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_021",
+      "concept_name": ".replace() method",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nwelcome_message = \"Welcome to the recipe scaler, George\"\nwelcome_message.replace(\"George\", \"John\")\nprint(welcome_message)\n```",
+      "options": {
+        "a": "Welcome to the recipe scaler, George",
+        "b": "Welcome to the recipe scaler, John",
+        "c": "Welcome to the recipe scaler, George John",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! .replace() returns a new string but does not modify the original variable; the result is not reassigned.",
+        "b": "This would be the output if the result were reassigned: welcome_message = welcome_message.replace(...).",
+        "c": "replace() does not concatenate; it only substitutes.",
+        "d": "No error occurs; the replace method works fine, just the result is not saved."
+      },
+      "hints": [
+        "Strings are immutable; does .replace() change the string in place?",
+        "Check if the variable is reassigned after calling .replace()."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The .replace() method returns a new string, but the original variable welcome_message is not updated because the result is not reassigned. Therefore, printing welcome_message still shows the original string.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_022",
+      "concept_name": ".lower() method",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What will be printed by the following code?\n\n```python\ningredient_name = \"Basil Leaves\"\ningredient_name.lower()\nprint(ingredient_name)\n```",
+      "options": {
+        "a": "BASIL LEAVES",
+        "b": "basil leaves",
+        "c": "Basil Leaves",
+        "d": "B"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": ".upper() would give this, but .lower() was called (and not reassigned).",
+        "b": "This would be the result if the variable was reassigned: ingredient_name = ingredient_name.lower().",
+        "c": "Correct! The .lower() result is not stored, so the original string is printed unchanged.",
+        "d": ".lower() does not return the first character; it returns the whole string in lowercase."
+      },
+      "hints": [
+        "Does .lower() modify the string in place or return a new string?",
+        "Look for a reassignment of the variable after the method call."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Strings are immutable, so .lower() returns a new string but does not change the original. Because the result is not reassigned to ingredient_name, the original 'Basil Leaves' is printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_023",
+      "concept_name": ".upper() method",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ningredient_name = \"Basil Leaves\"\ningredient_name = ingredient_name.upper()\nprint(ingredient_name)\n```",
+      "options": {
+        "a": "Basil Leaves",
+        "b": "BASIL LEAVES",
+        "c": "basil leaves",
+        "d": "B"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The variable is reassigned with the result of .upper(), so the original is replaced.",
+        "b": "Correct! .upper() returns the uppercase version, and the assignment stores it back in ingredient_name.",
+        "c": "That would be .lower(), not .upper().",
+        "d": ".upper() does not return only the first character."
+      },
+      "hints": [
+        "Check whether the method result is being reassigned to the variable.",
+        "What does .upper() do to a string?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Because ingredient_name is reassigned with the result of .upper(), the variable now holds 'BASIL LEAVES', which is printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_024",
+      "concept_name": "List",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which of the following correctly creates a list of ingredients?",
+      "options": {
+        "a": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\"]",
+        "b": "ingredients = (\"pasta\", \"tomatoes\", \"garlic\")",
+        "c": "ingredients = {\"pasta\", \"tomatoes\", \"garlic\"}",
+        "d": "ingredients = \"pasta\", \"tomatoes\", \"garlic\""
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Square brackets with comma-separated values create a list.",
+        "b": "Parentheses create a tuple, not a list.",
+        "c": "Curly braces without colons create a set, not a list.",
+        "d": "This is not a valid list syntax; it would cause a SyntaxError."
+      },
+      "hints": [
+        "Lists are defined with square brackets.",
+        "Other bracket types produce different data structures."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, a list is created by enclosing items in square brackets [ ] and separating them with commas.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_024"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_025",
+      "concept_name": "List indexing",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given the list below, what does `ingredients[1]` return?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\n```",
+      "options": {
+        "a": "\"pasta\"",
+        "b": "\"tomatoes\"",
+        "c": "\"garlic\"",
+        "d": "\"basil\""
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That is the element at index 0.",
+        "b": "Correct! Index 1 refers to the second element.",
+        "c": "That would be index 2.",
+        "d": "That would be index 3."
+      },
+      "hints": [
+        "Python list indexing starts at 0.",
+        "Count the positions starting from zero: 0, 1, 2, ..."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "List indices begin at 0, so index 1 is the second item: 'tomatoes'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_026",
+      "concept_name": "Negative indexing",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\nprint(ingredients[-2])\n```",
+      "options": {
+        "a": "\"pasta\"",
+        "b": "\"tomatoes\"",
+        "c": "\"garlic\"",
+        "d": "\"basil\""
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "This is index 0, not -2.",
+        "b": "This is index 1, not -2.",
+        "c": "Correct! Negative index -2 counts from the end: -1 is 'basil', -2 is 'garlic'.",
+        "d": "This is index -1, the last element."
+      },
+      "hints": [
+        "Negative indices count backward from the end: -1 is the last element.",
+        "What is the second-to-last item?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Negative indices access elements from the end of the list. -1 is the last item, -2 is the second last, so ingredients[-2] is 'garlic'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_027",
+      "concept_name": "List slicing",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\nprint(ingredients[1:3])\n```",
+      "options": {
+        "a": "['tomatoes', 'garlic', 'basil']",
+        "b": "['tomatoes', 'garlic']",
+        "c": "['pasta', 'tomatoes']",
+        "d": "['garlic', 'basil']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The end index 3 is exclusive, so 'basil' (index 3) is not included.",
+        "b": "Correct! The slice [1:3] includes index 1 ('tomatoes') and index 2 ('garlic'), stopping before index 3.",
+        "c": "This would be the result of [0:2].",
+        "d": "This would require starting at index 2."
+      },
+      "hints": [
+        "Remember that the stop index in a slice is exclusive.",
+        "Count the elements: start at index 1, go up to but not including index 3."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "List slicing [start:stop] includes elements from start up to but not including stop. So [1:3] includes indices 1 and 2, giving ['tomatoes', 'garlic'].",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_028",
+      "concept_name": "Step slicing",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is the result of this code?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\"]\nprint(ingredients[1::2])\n```",
+      "options": {
+        "a": "['tomatoes', 'basil']",
+        "b": "['pasta', 'garlic', 'olive oil']",
+        "c": "['tomatoes', 'garlic', 'olive oil']",
+        "d": "['basil', 'olive oil']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Starting at index 1, step 2 selects indices 1 ('tomatoes') and 3 ('basil').",
+        "b": "That would be ingredients[0::2] (starting at 0).",
+        "c": "Step 2 would skip 'garlic' (index 2) and 'olive oil' (index 4) is not reached because it starts at 1.",
+        "d": "This would be ingredients[3::2] perhaps."
+      },
+      "hints": [
+        "The slice [1::2] means start at index 1, go to the end, and take every second element.",
+        "List the indices and then pick every second one starting from index 1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With slice [start::step], the elements are chosen from start index, advancing by step each time. Starting at 1, then 1+2=3, then 5 (out of range). So indices 1 and 3: 'tomatoes' and 'basil'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_029",
+      "concept_name": "Dictionary",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which of the following creates a dictionary with the key 'pasta' and value 500?",
+      "options": {
+        "a": "recipe = {\"pasta\", 500}",
+        "b": "recipe = [\"pasta\", 500]",
+        "c": "recipe = (\"pasta\", 500)",
+        "d": "recipe = {\"pasta\": 500}"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Curly braces without a colon create a set, but a set cannot hold a key-value pair like this; it would be interpreted as a set with two elements.",
+        "b": "Square brackets create a list, not a dictionary.",
+        "c": "Parentheses create a tuple, not a dictionary.",
+        "d": "Correct! Curly braces with a colon separate the key and value, creating a dictionary entry."
+      },
+      "hints": [
+        "Dictionaries use curly braces, but they also need a colon between the key and value.",
+        "Which structure uses key: value pairs?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A dictionary is defined with curly braces and key-value pairs separated by colons. Option d uses the correct syntax: {\"pasta\": 500}.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_029"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_030",
+      "concept_name": "Access dictionary by key",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nrecipe = {\"pasta\": 500, \"tomatoes\": 400}\nprint(recipe[\"pasta\"])\n```",
+      "options": {
+        "a": "500",
+        "b": "\"pasta\"",
+        "c": "400",
+        "d": "KeyError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! recipe[\"pasta\"] retrieves the value associated with the key 'pasta', which is 500.",
+        "b": "Using square brackets with the key returns the value, not the key itself.",
+        "c": "That would be recipe[\"tomatoes\"].",
+        "d": "The key 'pasta' exists, so no KeyError is raised."
+      },
+      "hints": [
+        "Square bracket access on a dictionary returns the value for the given key.",
+        "What value did we assign to the key 'pasta'?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Dictionaries map keys to values. Accessing recipe[\"pasta\"] returns the value 500.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_030"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_031",
+      "concept_name": ".values() method (dict)",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nrecipe = {\"pasta\": 500, \"tomatoes\": 400}\nprint(recipe.values())\n```",
+      "options": {
+        "a": "[500, 400]",
+        "b": "(500, 400)",
+        "c": "dict_values([500, 400])",
+        "d": "{500, 400}"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "A list would be printed if you converted it explicitly, but .values() returns a view object.",
+        "b": "It does not return a tuple.",
+        "c": "Correct! .values() returns a view object of type dict_values containing the values.",
+        "d": "That would be a set, not the output of .values()."
+      },
+      "hints": [
+        "The .values() method returns a special view object, not a plain list.",
+        "Check the output format that Python uses for dict values."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "recipe.values() returns a dict_values object, which prints as dict_values([500, 400]).",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_031"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_032",
+      "concept_name": ".keys() method (dict)",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nrecipe = {\"pasta\": 500, \"tomatoes\": 400}\nprint(recipe.keys())\n```",
+      "options": {
+        "a": "['pasta', 'tomatoes']",
+        "b": "dict_keys(['pasta', 'tomatoes'])",
+        "c": "('pasta', 'tomatoes')",
+        "d": "{'pasta', 'tomatoes'}"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would be a list, but .keys() returns a view object.",
+        "b": "Correct! recipe.keys() returns a dict_keys view object.",
+        "c": "It does not return a tuple.",
+        "d": "A set would not be the return type."
+      },
+      "hints": [
+        ".keys() returns a special view, not a list.",
+        "The output format includes the class name and the keys inside parentheses."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The .keys() method returns a dict_keys view, which prints as dict_keys(['pasta', 'tomatoes']).",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_032"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_033",
+      "concept_name": ".items() method (dict)",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nrecipe = {\"pasta\": 500, \"tomatoes\": 400}\nprint(recipe.items())\n```",
+      "options": {
+        "a": "[('pasta', 500), ('tomatoes', 400)]",
+        "b": "{'pasta': 500, 'tomatoes': 400}",
+        "c": "dict_items([('pasta', 500), ('tomatoes', 400)])",
+        "d": "('pasta', 'tomatoes')"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "That would be a list of tuples, but .items() returns a view, not a list.",
+        "b": "That would be the dictionary itself, not the items view.",
+        "c": "Correct! .items() returns a dict_items view containing key-value pairs as tuples.",
+        "d": "That would be a tuple of keys, not the items."
+      },
+      "hints": [
+        ".items() returns a view object, similar to .keys() and .values().",
+        "Look for the output format starting with 'dict_items'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "recipe.items() returns a dict_items view, displayed as dict_items([('pasta', 500), ('tomatoes', 400)]).",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_033"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_034",
+      "concept_name": "Add key-value pair to dict",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nrecipe = {\"pasta\": 500}\nrecipe[\"parmesan\"] = 50\nprint(recipe)\n```",
+      "options": {
+        "a": "{'pasta': 500}",
+        "b": "{'pasta': 500, 'parmesan': 50}",
+        "c": "{'pasta': 500, 'parmesan': [50]}",
+        "d": "KeyError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The key 'parmesan' was added, so the dictionary would include it.",
+        "b": "Correct! Assigning to a new key adds that key-value pair to the dictionary.",
+        "c": "The value is just 50, not a list containing 50.",
+        "d": "No KeyError occurs; adding a new key is allowed."
+      },
+      "hints": [
+        "Assigning a value to a new key in a dictionary adds that entry.",
+        "Does Python allow you to add new keys on the fly?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using square brackets with a new key and a value adds the key-value pair to the dictionary. So recipe becomes {'pasta': 500, 'parmesan': 50}.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_034"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_035",
+      "concept_name": "Update dictionary value",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nrecipe = {\"pasta\": 500}\nrecipe[\"pasta\"] = 1000\nprint(recipe[\"pasta\"])\n```",
+      "options": {
+        "a": "500",
+        "b": "1000",
+        "c": "500 and 1000",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The value was updated from 500 to 1000, so this is no longer the current value.",
+        "b": "Correct! The key 'pasta' was reassigned to 1000, overwriting the previous value.",
+        "c": "Dictionaries do not store multiple values for the same key; the latest value replaces the old one.",
+        "d": "Assignment does not return None; it sets the value."
+      },
+      "hints": [
+        "Assigning to an existing key updates the value.",
+        "What is the last value assigned to 'pasta'?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When you assign a new value to an existing key, the old value is overwritten. recipe[\"pasta\"] is now 1000.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_035"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_036",
+      "concept_name": "Duplicate keys in dictionary",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nrecipe = {\"pasta\": 500, \"garlic\": 5, \"garlic\": 15}\nprint(recipe[\"garlic\"])\n```",
+      "options": {
+        "a": "5",
+        "b": "15",
+        "c": "{5, 15}",
+        "d": "KeyError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "When keys are duplicated, the last value overwrites earlier ones, so the first 5 is lost.",
+        "b": "Correct! Duplicate keys are not allowed; the last occurrence wins, so 'garlic' maps to 15.",
+        "c": "Dictionaries do not store a set of values; they only keep one value per key.",
+        "d": "No error is raised for duplicate keys; the later value simply overwrites."
+      },
+      "hints": [
+        "What happens when you define the same key twice in a dictionary literal?",
+        "Python silently keeps the last value for a duplicated key."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python dictionaries do not permit duplicate keys. If a key is repeated, the last value provided is the one stored. Thus, recipe[\"garlic\"] is 15.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_036"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_037",
+      "concept_name": "Set",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\ningredients = {\"pasta\", \"tomatoes\", \"pasta\"}\nprint(ingredients)\n```",
+      "options": {
+        "a": "['pasta', 'tomatoes', 'pasta']",
+        "b": "('pasta', 'tomatoes', 'pasta')",
+        "c": "{'pasta', 'tomatoes'}",
+        "d": "SyntaxError"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "That would be a list with duplicates, but the variable is a set.",
+        "b": "That would be a tuple, but the variable is a set.",
+        "c": "Correct! Sets automatically remove duplicate elements.",
+        "d": "The syntax is valid; duplicate values are simply ignored."
+      },
+      "hints": [
+        "Sets are unordered collections of unique elements.",
+        "What happens to duplicate values when you create a set?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A set stores only unique values. The duplicate 'pasta' is removed, leaving {'pasta', 'tomatoes'} (order may vary).",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_037"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_038",
+      "concept_name": "Convert to set",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the result of running this code?\n\n```python\ningredients_list = [\"pasta\", \"tomatoes\", \"pasta\"]\nunique_ingredients = set(ingredients_list)\nprint(unique_ingredients)\n```",
+      "options": {
+        "a": "['pasta', 'tomatoes']",
+        "b": "('pasta', 'tomatoes')",
+        "c": "{'pasta', 'tomatoes'}",
+        "d": "{'pasta', 'tomatoes', 'pasta'}"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The set() function returns a set, not a list.",
+        "b": "It returns a set, not a tuple.",
+        "c": "Correct! set() converts the list to a set, eliminating duplicates.",
+        "d": "A set cannot contain duplicate elements."
+      },
+      "hints": [
+        "What does the set() function do to a list?",
+        "Does it keep duplicate values?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The set() function creates a set from an iterable, removing duplicates. The output is a set containing 'pasta' and 'tomatoes'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_038"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_039",
+      "concept_name": "Set limitations",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you execute the following code?\n\n```python\ningredients = {\"pasta\", \"tomatoes\"}\nprint(ingredients[0])\n```",
+      "options": {
+        "a": "It prints 'pasta'",
+        "b": "It prints 'tomatoes'",
+        "c": "TypeError: 'set' object is not subscriptable",
+        "d": "It prints the first element alphabetically"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Sets do not support indexing; you cannot access elements by position.",
+        "b": "Same reason; indexing is not allowed on sets.",
+        "c": "Correct! Trying to index a set raises a TypeError because sets are unordered and do not support indexing.",
+        "d": "There is no guarantee of order, and indexing is not supported."
+      },
+      "hints": [
+        "Are sets ordered data structures?",
+        "Can you use square brackets with an index on a set?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Sets are unordered collections and do not support index-based access. Using ingredients[0] results in TypeError: 'set' object is not subscriptable.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_039"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_040",
+      "concept_name": "sorted() function",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ningredients = {\"pasta\", \"tomatoes\", \"garlic\"}\nprint(sorted(ingredients))\n```",
+      "options": {
+        "a": "['garlic', 'pasta', 'tomatoes']",
+        "b": "{'garlic', 'pasta', 'tomatoes'}",
+        "c": "('garlic', 'pasta', 'tomatoes')",
+        "d": "None"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! sorted() returns a new sorted list from the set's elements.",
+        "b": "sorted() returns a list, not a set.",
+        "c": "It returns a list, not a tuple.",
+        "d": "sorted() does not return None; it returns a list."
+      },
+      "hints": [
+        "What type does the sorted() function return?",
+        "It converts the input iterable into a sorted list."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The sorted() function returns a sorted list of the elements from the iterable. The set {'pasta', 'tomatoes', 'garlic'} is sorted alphabetically into a list.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_040"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_041",
+      "concept_name": "Tuple",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which of the following correctly creates a tuple?",
+      "options": {
+        "a": "serving_sizes = (1, 2, 4)",
+        "b": "serving_sizes = [1, 2, 4]",
+        "c": "serving_sizes = {1, 2, 4}",
+        "d": "serving_sizes = \"1, 2, 4\""
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Parentheses with comma-separated values create a tuple.",
+        "b": "Square brackets create a list.",
+        "c": "Curly braces without colons create a set.",
+        "d": "Quotation marks create a string."
+      },
+      "hints": [
+        "Tuples are defined with parentheses.",
+        "Look for the data structure that is immutable and uses round brackets."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A tuple is created by enclosing values in parentheses ( ) and separating them with commas.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_041"]
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_042",
+      "concept_name": "Tuple indexing",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nserving_sizes = (1, 2, 4, 6, 8)\nprint(serving_sizes[1])\n```",
+      "options": {
+        "a": "1",
+        "b": "2",
+        "c": "4",
+        "d": "6"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be index 0.",
+        "b": "Correct! Tuple indexing starts at 0, so index 1 is the second element, 2.",
+        "c": "That is index 2.",
+        "d": "That is index 3."
+      },
+      "hints": [
+        "Tuple indexing works the same as list indexing: zero-based.",
+        "Count the positions starting from 0."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Tuples are indexed exactly like lists, starting from 0. serving_sizes[1] accesses the second element, which is 2.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_042"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_043",
+      "concept_name": "Comparison operators",
+      "chapter": 8,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You want to check whether the variable `quantity` equals 10. Which of the following code snippets contains an error?",
+      "options": {
+        "a": "if quantity = 10: print(\"yes\")",
+        "b": "if quantity == 10: print(\"yes\")",
+        "c": "if quantity != 10: print(\"no\")",
+        "d": "if quantity is 10: print(\"yes\")"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! This uses assignment (=) inside the condition, which is a SyntaxError (assignment cannot be used as an expression in that context).",
+        "b": "This correctly uses the equality operator == and works as intended.",
+        "c": "This uses != to check inequality; it is valid.",
+        "d": "Although is checks identity rather than equality and may give unexpected results for larger numbers, it is syntactically valid and will often work for small integers due to caching."
+      },
+      "hints": [
+        "What operator is used for equality comparison?",
+        "Look for a common typo where a single equals sign is used instead of a double equals."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The assignment operator = cannot be used in a conditional expression; Python expects an expression that evaluates to a Boolean. The correct equality operator is ==. Option a would raise a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_043"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_044",
+      "concept_name": "String comparison",
+      "chapter": 8,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\nprint(\"James\" > \"Brian\")\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "TypeError",
+        "d": "\"JamesBrian\""
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! String comparison uses lexicographic order based on Unicode code points; 'J' (74) comes after 'B' (66), so 'James' > 'Brian' is True.",
+        "b": "False would imply 'James' is less than 'Brian', but that's not the case alphabetically.",
+        "c": "String comparison with > is perfectly valid; no TypeError.",
+        "d": "The > operator does not concatenate strings."
+      },
+      "hints": [
+        "Python compares strings character by character, not by length.",
+        "Which letter comes first in the alphabet: 'B' or 'J'?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Strings are compared using Unicode order. The first differing character decides the result: 'J' has a higher code point than 'B', so \"James\" > \"Brian\" returns True.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_044"]
+    }
+  ]
+}

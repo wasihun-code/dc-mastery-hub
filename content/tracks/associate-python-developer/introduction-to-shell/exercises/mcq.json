@@ -1,0 +1,1209 @@
+{
+  "course_slug": "introduction-to-shell",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "Shell",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "definition",
+      "question_text": "What is a shell in the context of command-line interfaces?",
+      "options": {
+        "a": "A command-line interface that interprets typed commands and sends them to the operating system",
+        "b": "A terminal emulator window that displays text",
+        "c": "A programming language used to write scripts",
+        "d": "A file system structure for organizing directories"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The shell interprets commands and communicates with the OS.",
+        "b": "Incorrect. The terminal emulator is the graphical window, not the command interpreter itself.",
+        "c": "Incorrect. While shells support scripting, the shell itself is the command interpreter, not a general-purpose programming language.",
+        "d": "Incorrect. The file system organizes files; the shell is the interface that accesses it."
+      },
+      "hints": [
+        "Think about the part of the system that actually reads and runs your typed instructions.",
+        "The shell is not the window, but the program running inside it that processes commands."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The shell is the command-line interface that interprets the commands you type and passes them to the operating system. The terminal emulator is the application that displays the shell, and the filesystem is the data organization structure.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_006",
+      "concept_name": "Home Directory",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "definition",
+      "question_text": "Which symbol represents a user's home directory in the shell?",
+      "options": {
+        "a": ".",
+        "b": "~",
+        "c": "/",
+        "d": ".."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. '.' refers to the current directory.",
+        "b": "Correct. The tilde '~' is shorthand for the home directory.",
+        "c": "Incorrect. '/' is the root of the filesystem.",
+        "d": "Incorrect. '..' is the parent directory."
+      },
+      "hints": [
+        "This symbol often appears in shell prompts before the '$'.",
+        "It's not a dot or a slash, but a squiggly character."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The tilde '~' is a shortcut that expands to the path of the user's home directory, e.g., /home/repl.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_004",
+      "concept_name": "Absolute Path",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which of the following is an absolute path?",
+      "options": {
+        "a": "home/repl/seasonal/summer.csv",
+        "b": "/home/repl/seasonal/summer.csv",
+        "c": "../seasonal/summer.csv",
+        "d": "~/seasonal/summer.csv"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. This path does not begin with '/', so it is relative to the current directory.",
+        "b": "Correct. An absolute path always starts with a '/'.",
+        "c": "Incorrect. It starts with '..', making it a relative path that moves up one level.",
+        "d": "Incorrect. While '~' expands to an absolute path, the tilde itself is not a leading slash, and the path is not considered a raw absolute path; it relies on shell expansion."
+      },
+      "hints": [
+        "An absolute path starts from the root of the filesystem.",
+        "Look for the leading character that represents the top-level directory."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An absolute path is a full path that begins with the root '/', such as '/home/repl/seasonal/summer.csv'. Paths starting with '~', '..', or without a leading slash are relative.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_005",
+      "concept_name": "Relative Path",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Your current working directory is /home/repl. Which command uses a relative path to change into the seasonal directory?",
+      "options": {
+        "a": "cd /home/repl/seasonal",
+        "b": "cd seasonal",
+        "c": "cd ~/seasonal",
+        "d": "cd /seasonal"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. This is an absolute path because it starts with '/'.",
+        "b": "Correct. 'seasonal' is a relative path; it assumes the directory exists inside the current directory.",
+        "c": "Incorrect. '~' expands to the home directory, making this an absolute-like shortcut, not a relative path.",
+        "d": "Incorrect. This is an absolute path pointing to a directory called 'seasonal' directly under root."
+      },
+      "hints": [
+        "A relative path does not start with '/' or '~'.",
+        "Think of how you would navigate if you are already in the parent directory."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The command 'cd seasonal' uses a relative path. Since the current directory is /home/repl, this moves into /home/repl/seasonal. Absolute paths start with '/', and '~' also provides an absolute expansion.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_008",
+      "concept_name": "pwd command",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What happens when you run `pwd /home` in the shell?",
+      "options": {
+        "a": "It prints '/home'.",
+        "b": "It prints the current working directory, ignoring '/home'.",
+        "c": "It prints both the current directory and '/home'.",
+        "d": "It produces an error because pwd does not accept arguments."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. pwd ignores any arguments and always shows the current directory.",
+        "b": "Correct. pwd silently ignores extra arguments and outputs the working directory.",
+        "c": "Incorrect. pwd never prints multiple paths.",
+        "d": "Incorrect. pwd accepts arguments but simply disregards them."
+      },
+      "hints": [
+        "pwd is designed to print the working directory, no matter what follows.",
+        "Consider whether the command is strict about extra input."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The pwd command ignores any arguments given to it and always prints the absolute path of the current working directory.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_008"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_009",
+      "concept_name": "ls command",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "A directory contains the files: `.config`, `data.txt`, and `script.sh`. What will `ls` output?",
+      "options": {
+        "a": ".config  data.txt  script.sh",
+        "b": "data.txt  script.sh",
+        "c": ".config",
+        "d": "An error because of the hidden file"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. By default, ls does not show files that start with a dot.",
+        "b": "Correct. Hidden files (those starting with '.') are omitted unless the -a flag is used.",
+        "c": "Incorrect. ls lists visible files, not just hidden ones.",
+        "d": "Incorrect. Hidden files do not cause errors; they are simply not displayed."
+      },
+      "hints": [
+        "Files whose names begin with a dot are considered hidden in Unix-like systems.",
+        "Does ls display everything by default, or do you need an extra option?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without any flags, `ls` does not list hidden files (those with names starting with a dot). Therefore, only `data.txt` and `script.sh` are shown.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_010",
+      "concept_name": "cd command",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "You have a regular file named `notes.txt` in your current directory. What happens if you run `cd notes.txt`?",
+      "options": {
+        "a": "The shell opens notes.txt in a text editor.",
+        "b": "The current directory changes to a directory called notes.txt if it exists.",
+        "c": "An error occurs because notes.txt is not a directory.",
+        "d": "The contents of notes.txt are displayed."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. cd does not open files; it only changes directories.",
+        "b": "Incorrect. Even if a directory with that name existed, this file is not a directory.",
+        "c": "Correct. cd expects a directory; using a file results in an error like 'not a directory'.",
+        "d": "Incorrect. cd never displays file contents."
+      },
+      "hints": [
+        "cd stands for 'change directory'.",
+        "Can you 'change directory' into a regular file?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `cd` command only accepts directory paths. Providing a file results in an error because the operating system expects a directory to change into.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_013",
+      "concept_name": "cp command",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "You want to copy the directory `reports` (which contains several files) to a new location `backups`. Which command will fail?",
+      "options": {
+        "a": "cp reports backups",
+        "b": "cp -r reports backups",
+        "c": "cp -R reports backups",
+        "d": "cp -a reports backups"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Without the -r (or -R) flag, cp cannot copy directories; it will produce an error.",
+        "b": "Incorrect. The -r flag allows recursive directory copying, so this works.",
+        "c": "Incorrect. -R is the same as -r and enables recursive copying.",
+        "d": "Incorrect. The -a flag (archive mode) also implies recursive copying, though not taught in this course, but it would work on many systems; however, the core mistake here is omitting recursion."
+      },
+      "hints": [
+        "Copying a directory involves everything inside it.",
+        "Think about whether cp needs a special option to handle folders."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `cp` command requires the `-r` (or `-R`) flag to copy directories. Without it, trying to copy a directory results in an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_018",
+      "concept_name": "cat command",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Which statement best describes a disadvantage of using `cat` to view a very large log file (e.g., several gigabytes)?",
+      "options": {
+        "a": "cat cannot read files larger than 1 MB.",
+        "b": "cat dumps the entire file content to the screen at once, making it nearly impossible to read.",
+        "c": "cat only shows the first 10 lines of a file.",
+        "d": "cat permanently deletes the file after reading."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. There is no built-in size limit; cat can read huge files.",
+        "b": "Correct. cat outputs everything without pausing, so scrolling back through gigabytes is impractical.",
+        "c": "Incorrect. head shows the first 10 lines; cat shows everything.",
+        "d": "Incorrect. cat never deletes files."
+      },
+      "hints": [
+        "How does the output behave when you run cat on a very long file?",
+        "Compare cat's behavior to tools like less or head."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `cat` command streams the entire file to the terminal without any pagination, which makes it unsuitable for inspecting very large files. Tools like `less` or `head` are more appropriate.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_020",
+      "concept_name": "head command",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the default number of lines `head` displays when no `-n` flag is given?",
+      "options": {
+        "a": "5",
+        "b": "10",
+        "c": "15",
+        "d": "1"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. 5 is not the default; you can specify it with -n 5.",
+        "b": "Correct. head prints the first 10 lines by default.",
+        "c": "Incorrect. 15 is not the default.",
+        "d": "Incorrect. A single line would require -n 1."
+      },
+      "hints": [
+        "The default is a round number often used as a standard sample size.",
+        "Think of the typical command examples you've seen that don't include -n."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `head` outputs the first 10 lines of each file. The `-n` flag overrides this default.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_030",
+      "concept_name": "Output redirection (>)",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You have a file `config.txt` that already contains some settings. What happens if you run `echo 'debug=true' > config.txt`?",
+      "options": {
+        "a": "The string 'debug=true' is appended to the end of config.txt.",
+        "b": "The file config.txt is overwritten and now contains only 'debug=true'.",
+        "c": "A new file named `config.txt` is created alongside the old one.",
+        "d": "An error occurs because the file already exists."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The single `>` operator overwrites; appending requires `>>`.",
+        "b": "Correct. A single `>` replaces the entire content of the file.",
+        "c": "Incorrect. Redirection does not create a second file with the same name.",
+        "d": "Incorrect. The shell overwrites the existing file silently."
+      },
+      "hints": [
+        "Does > add to a file or replace it?",
+        "Recall the difference between > and >>."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The output redirection operator `>` overwrites the target file if it exists. To append, you would use `>>`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_030"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_041",
+      "concept_name": "Shell Variable",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Which line correctly assigns the value `data.csv` to a shell variable?",
+      "options": {
+        "a": "file=data.csv",
+        "b": "file = data.csv",
+        "c": "$file=data.csv",
+        "d": "file= data.csv"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. There must be no spaces around the equals sign.",
+        "b": "Incorrect. Spaces around `=` cause the shell to interpret `file` as a command.",
+        "c": "Incorrect. The `$` prefix is used to retrieve a variable's value, not to assign it.",
+        "d": "Incorrect. The space after `=` leads to an empty value or syntax error."
+      },
+      "hints": [
+        "Shell variable assignments are picky about spaces.",
+        "The variable name on the left should not be preceded by a dollar sign."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The correct syntax is `name=value` with no spaces. Adding spaces or a `$` on the left side results in errors or unintended behavior.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_041"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_014",
+      "concept_name": "mv command",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You execute `mv summary.txt archive/summary.txt` and `archive/summary.txt` already exists. What happens?",
+      "options": {
+        "a": "The mv command asks for confirmation before overwriting.",
+        "b": "The existing archive/summary.txt is silently replaced by the new file.",
+        "c": "The command fails with a 'file exists' error.",
+        "d": "The new file is renamed to summary.txt.bak automatically."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. By default, mv does not prompt before overwriting.",
+        "b": "Correct. mv overwrites the destination without warning.",
+        "c": "Incorrect. mv does not refuse to overwrite; it simply does it.",
+        "d": "Incorrect. mv never creates backup files automatically."
+      },
+      "hints": [
+        "mv does not have a built-in safety net unless you use the -i option.",
+        "Think about what 'move' implies when the destination already has a file."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `mv` command overwrites existing files silently. This is a common source of accidental data loss if not careful. The `-i` flag can be used to prompt before overwriting.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_015",
+      "concept_name": "rm command",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You have a directory called `old_data` that contains several files. What is the result of running `rm old_data`?",
+      "options": {
+        "a": "old_data and all its contents are permanently deleted.",
+        "b": "An error occurs because rm cannot remove directories.",
+        "c": "old_data is deleted but the files inside remain.",
+        "d": "An error occurs because rm requires the -r flag to remove directories."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. rm without -r will not touch directories; it will only complain.",
+        "b": "Incorrect. rm can remove directories, but only with the -r option.",
+        "c": "Incorrect. A directory cannot be deleted while its contents exist unless forced.",
+        "d": "Correct. rm needs the -r (recursive) flag to delete directories and their contents."
+      },
+      "hints": [
+        "Does plain rm work on folders?",
+        "Think about the safety mechanism against accidentally deleting whole directories."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without the `-r` flag, `rm` refuses to delete directories, issuing an error like 'rm: cannot remove 'old_data': Is a directory'. This prevents accidental bulk deletion.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_016",
+      "concept_name": "rmdir command",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You try to remove a directory `temp` using `rmdir temp`, but it still contains a file called `log.txt`. What happens?",
+      "options": {
+        "a": "rmdir deletes temp and log.txt together.",
+        "b": "rmdir fails with an error because the directory is not empty.",
+        "c": "rmdir asks whether to delete log.txt first.",
+        "d": "rmdir silently skips the directory."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. rmdir never deletes files.",
+        "b": "Correct. rmdir only works on empty directories; otherwise it prints an error.",
+        "c": "Incorrect. rmdir does not interactively prompt.",
+        "d": "Incorrect. It does not skip; it reports a failure."
+      },
+      "hints": [
+        "rmdir stands for 'remove directory' – but there's a catch.",
+        "What condition must a directory meet for rmdir to succeed?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `rmdir` command removes only empty directories. If the directory contains any files or subdirectories, it fails with an error like 'Directory not empty'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_019",
+      "concept_name": "less command",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You are viewing a file with `less`. You press `q` to quit, but nothing happens and you remain in the viewer. What is the most likely explanation?",
+      "options": {
+        "a": "You must press Ctrl+q instead of q.",
+        "b": "less has frozen and needs to be killed.",
+        "c": "You had already quit `less` earlier, so pressing `q` now does nothing.",
+        "d": "The file is too large for less to handle the quit command."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. The quit key in less is simply 'q', not Ctrl+q.",
+        "b": "Incorrect. Freezing is unlikely; the more common mistake is being outside less.",
+        "c": "Correct. If you already exited less, you are back at the shell prompt, and typing 'q' just appears on the command line.",
+        "d": "Incorrect. File size does not affect quitting."
+      },
+      "hints": [
+        "Check whether you are still inside the pager or have returned to the shell.",
+        "What does your prompt look like?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A common mistake is thinking you're still inside `less` when you've already quit. Once back at the shell, pressing `q` simply types the letter on the command line, leading to confusion.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_021",
+      "concept_name": "tail command",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "What is the main risk of using `tail -f access.log` inside a shell script that is meant to run and exit automatically?",
+      "options": {
+        "a": "tail -f will delete the log file.",
+        "b": "tail -f will keep the script running indefinitely, waiting for new lines.",
+        "c": "tail -f only shows the first line.",
+        "d": "tail -f does not work in scripts."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. tail -f never deletes files.",
+        "b": "Correct. The -f (follow) flag causes tail to wait for new data, blocking the script forever unless interrupted.",
+        "c": "Incorrect. tail shows the last lines; -f adds live following.",
+        "d": "Incorrect. tail -f can run in scripts, but the script won't proceed past it."
+      },
+      "hints": [
+        "What does the -f flag do?",
+        "Consider how a script would behave if a command never finishes."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using `tail -f` in a non-interactive script causes the script to hang indefinitely, as tail waits for new data to arrive. This is a common pitfall when automating log monitoring.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_032",
+      "concept_name": "wc command",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "A file `notes.txt` has exactly 5 lines, but one of those lines is completely empty. What does `wc -l notes.txt` print?",
+      "options": {
+        "a": "4 notes.txt",
+        "b": "5 notes.txt",
+        "c": "6 notes.txt",
+        "d": "5"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. wc -l counts every newline, including the one after an empty line.",
+        "b": "Correct. All lines, even blank ones, are counted.",
+        "c": "Incorrect. It does not add an extra line for the blank.",
+        "d": "Incorrect. The filename is included in the output when a file is specified."
+      },
+      "hints": [
+        "Does wc consider blank lines as lines?",
+        "Think about what defines a line: a newline character."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`wc -l` counts all lines, regardless of content. A blank line still ends with a newline and increments the count.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_032"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_033",
+      "concept_name": "Wildcards",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "A directory contains `a.txt` and `b.txt`. What is the effect of running `ls '*.txt'` (with single quotes)?",
+      "options": {
+        "a": "Lists a.txt and b.txt.",
+        "b": "Tries to list a file literally named '*.txt', likely producing an error.",
+        "c": "Lists only a.txt.",
+        "d": "Behaves the same as ls *.txt."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Quotes prevent wildcard expansion, so the pattern is not matched.",
+        "b": "Correct. The quotes pass the literal string '*.txt' to ls, which looks for that exact filename.",
+        "c": "Incorrect. No expansion happens at all.",
+        "d": "Incorrect. Without quotes, the shell expands the wildcard; with quotes, it does not."
+      },
+      "hints": [
+        "How does the shell treat wildcards inside single quotes?",
+        "What would ls do if given a filename that doesn't exist?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Single quotes disable wildcard expansion. The shell passes the literal string `*.txt` to `ls`, which then looks for a file with that exact name. If no such file exists, an error is printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_033"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_034",
+      "concept_name": "* wildcard",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which wildcard pattern matches every file in the current directory, including files without a dot?",
+      "options": {
+        "a": "*",
+        "b": "*.*",
+        "c": "?",
+        "d": "*?"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. * matches zero or more characters, including names without dots.",
+        "b": "Incorrect. *.* requires a dot, missing files like 'README'.",
+        "c": "Incorrect. ? matches exactly one character, missing longer names.",
+        "d": "Incorrect. *? still requires at least one character, and may not catch all."
+      },
+      "hints": [
+        "Asterisk alone stands for any sequence of characters, including empty.",
+        "Does 'every file' include those without an extension?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `*` wildcard matches any sequence of characters (including none), so it matches all filenames. `*.*` fails on files lacking a dot, like `Makefile` or `README`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_034"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_035",
+      "concept_name": "? wildcard",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Which file(s) does `ls 202?.csv` match?",
+      "options": {
+        "a": "Only 202.csv",
+        "b": "Only 2021.csv",
+        "c": "Only 202a.csv",
+        "d": "Both 2021.csv and 202a.csv"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. 202.csv has no character after '202', but ? requires exactly one character.",
+        "b": "Incorrect. It matches 2021.csv, but that's not the only match.",
+        "c": "Incorrect. 202a.csv also matches, so this is incomplete.",
+        "d": "Correct. ? matches exactly one character, so any file with a single character after '202' before the extension is matched."
+      },
+      "hints": [
+        "How many characters does the question mark stand for?",
+        "Does '202.csv' have an extra character between the number and the dot?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `?` wildcard stands for exactly one character. Therefore `202?.csv` matches `2021.csv`, `202a.csv`, etc., but not `202.csv` because it lacks that extra character.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_035"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_036",
+      "concept_name": "[] wildcard",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Which filename would be matched by `ls report[0-9].txt`?",
+      "options": {
+        "a": "report.txt",
+        "b": "report1.txt",
+        "c": "report10.txt",
+        "d": "report_1.txt"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. There is no digit between 'report' and '.txt'.",
+        "b": "Correct. [0-9] matches a single digit, so 'report1.txt' works.",
+        "c": "Incorrect. [0-9] only matches one character; '10' is two digits.",
+        "d": "Incorrect. The underscore is not within the digit range."
+      },
+      "hints": [
+        "Inside brackets, each character class matches exactly one character.",
+        "Does the pattern allow more than one digit?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `[0-9]` wildcard matches a single digit. Therefore `report1.txt` is a valid match, while `report10.txt` has two digits and fails.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_036"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_037",
+      "concept_name": "{} expansion",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You want to use brace expansion to list all .csv and .txt files. Which command will fail due to incorrect syntax?",
+      "options": {
+        "a": "ls *.{csv,txt}",
+        "b": "ls *.{csv, txt}",
+        "c": "ls {*.csv,*.txt}",
+        "d": "ls *.csv *.txt"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. This is valid: the comma has no spaces.",
+        "b": "Correct. The space after the comma breaks brace expansion and causes a syntax error.",
+        "c": "Incorrect. This is also valid brace expansion.",
+        "d": "Incorrect. This uses two separate globs and works, though it doesn't use brace expansion."
+      },
+      "hints": [
+        "Spaces inside brace expansions are not allowed.",
+        "The comma must directly separate the alternatives."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Brace expansion requires no spaces around the commas. `*{csv, txt}` causes an error because the space after the comma is interpreted as part of the pattern and breaks the expansion.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_037"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_040",
+      "concept_name": "Environment Variable",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "In your current shell session, you run `MYVAR=hello` without using `export`. What value of `$MYVAR` will a newly executed child script see?",
+      "options": {
+        "a": "hello",
+        "b": "Empty (no value)",
+        "c": "MYVAR",
+        "d": "An error message"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Without export, the variable is only a shell variable and is not inherited by child processes.",
+        "b": "Correct. The child script does not inherit shell variables unless they are exported.",
+        "c": "Incorrect. The variable name itself is not passed.",
+        "d": "Incorrect. No error occurs; the variable simply is unset in the child."
+      },
+      "hints": [
+        "What is the difference between a shell variable and an environment variable?",
+        "Think about what export does."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Variables created without `export` are shell variables, visible only in the current shell. A child process receives only environment variables, so `$MYVAR` will be empty.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_040"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_042",
+      "concept_name": "echo command",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of `echo Hello   World` (with three spaces between the words)?",
+      "options": {
+        "a": "Hello World (a single space between words)",
+        "b": "Hello   World (three spaces preserved)",
+        "c": "Hello\tWorld",
+        "d": "An error due to unquoted spaces"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The shell collapses multiple spaces into one before passing arguments to echo.",
+        "b": "Incorrect. Without quoting, the shell treats consecutive spaces as a single argument separator.",
+        "c": "Incorrect. No tab character is involved.",
+        "d": "Incorrect. It is not an error, just a different result than expected."
+      },
+      "hints": [
+        "How does the shell handle multiple spaces before running a command?",
+        "What happens if you put the string in double quotes?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The shell splits arguments by spaces and collapses multiple spaces into a single delimiter. To preserve multiple spaces, you must quote the string: `echo \"Hello   World\"`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_042"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_044",
+      "concept_name": "Variable assignment",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which of these is a valid variable assignment in bash?",
+      "options": {
+        "a": "name=John",
+        "b": "name = John",
+        "c": "$name=John",
+        "d": "name=John Doe"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. No spaces around `=`, and the variable name has no leading `$`.",
+        "b": "Incorrect. The spaces around `=` cause the shell to interpret `name` as a command.",
+        "c": "Incorrect. The `$` prefix is for reading a variable, not for assignment.",
+        "d": "Incorrect. The space after `John` makes `Doe` a separate token, likely causing an error or undesired behavior."
+      },
+      "hints": [
+        "Assignment syntax is very strict about whitespace.",
+        "Which side of the equal sign can have a dollar sign?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Correct assignment follows the form `VAR=value` with no spaces. A `$` on the left side is a common mistake, as is having unquoted spaces in the value.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_044"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_045",
+      "concept_name": "$ prefix",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between `echo \"$HOME\"` and `echo '$HOME'`?",
+      "options": {
+        "a": "Both print the home directory path.",
+        "b": "The first prints the home directory path; the second prints the literal string '$HOME'.",
+        "c": "The first prints '$HOME'; the second prints the home directory path.",
+        "d": "Both print '$HOME' literally."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Single quotes prevent variable expansion.",
+        "b": "Correct. Double quotes allow expansion, single quotes do not.",
+        "c": "Incorrect. The behaviors are reversed.",
+        "d": "Incorrect. Double quotes allow expansion, so the first would not be literal."
+      },
+      "hints": [
+        "How do single quotes and double quotes treat dollar signs?",
+        "Think about when a variable is 'protected' from being expanded."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Double quotes allow variable expansion, so `$HOME` is replaced by the home directory path. Single quotes treat everything literally, so `$HOME` is printed as is.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_045"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_046",
+      "concept_name": "for loop syntax",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which `for` loop correctly prints the numbers 1, 2, and 3?",
+      "options": {
+        "a": "for i in 1 2 3; do echo $i; done",
+        "b": "for i in 1 2 3 do echo $i; done",
+        "c": "for i in 1,2,3; do echo $i; done",
+        "d": "for i in 1 2 3; do echo i; done"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The semicolon before `do` and the `$` before `i` are both present.",
+        "b": "Incorrect. Missing semicolon before `do` causes a syntax error.",
+        "c": "Incorrect. Commas are treated as part of the list items, not separators, so it prints '1,2,3'.",
+        "d": "Incorrect. Missing `$` before `i` prints the literal character 'i' instead of the variable's value."
+      },
+      "hints": [
+        "The loop needs a separator before `do` and a dollar sign to access the variable.",
+        "Check the syntax of the variable reference inside the loop body."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The correct syntax is `for variable in list; do commands; done`. A missing semicolon or `$` is a common beginner mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_046"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_048",
+      "concept_name": "Multiple commands in loop",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the bug in this loop?\n\n```Shell\nfor f in *.txt; do echo $f head -n 1 $f; done\n```",
+      "options": {
+        "a": "Missing `$` before the second `f` in `echo`.",
+        "b": "Missing semicolon between `echo $f` and `head`.",
+        "c": "The loop will not iterate over `*.txt`.",
+        "d": "There is no bug; it prints each filename and its first line."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The first `$f` in echo is correct; the mistake is elsewhere.",
+        "b": "Correct. Without a semicolon or newline, `head` is treated as an argument to `echo`, so it prints the filename followed by the literal word 'head'.",
+        "c": "Incorrect. The wildcard will expand correctly.",
+        "d": "Incorrect. The missing separator causes the `head` command to never run."
+      },
+      "hints": [
+        "Look at how the commands are separated inside the loop body.",
+        "What does the shell expect between two commands on the same line?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Multiple commands on one line must be separated by `;` or a newline. Here `echo $f head ...` is interpreted as a single command, so `head` becomes text printed by echo.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_048"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_050",
+      "concept_name": "bash script",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "After creating a script `run.sh`, you try `./run.sh` and get 'Permission denied'. What is the most likely reason?",
+      "options": {
+        "a": "The script has a syntax error.",
+        "b": "The script file does not have execute permission.",
+        "c": "The shebang line is missing.",
+        "d": "You are not in the same directory as the script."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Syntax errors would produce a different message after the script starts.",
+        "b": "Correct. Without execute permission, the shell cannot run the file directly.",
+        "c": "Incorrect. A missing shebang might cause an execution error but not 'Permission denied'.",
+        "d": "Incorrect. If the script is not found, the error would be 'No such file or directory'."
+      },
+      "hints": [
+        "What filesystem permission is required to run a file as a program?",
+        "Think about the difference between reading and executing a file."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To run a script with `./script.sh`, the file must have execute permission. Use `chmod +x script.sh` to add it. 'Permission denied' indicates the file was found but is not executable.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_050"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_052",
+      "concept_name": "Script parameters $1, $2, ...",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "In a shell script, what does `$0` represent?",
+      "options": {
+        "a": "The first argument passed to the script.",
+        "b": "The second argument.",
+        "c": "The number of arguments.",
+        "d": "The name of the script itself."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect. `$1` is the first argument, not `$0`.",
+        "b": "Incorrect. `$2` is the second argument.",
+        "c": "Incorrect. `$#` gives the argument count.",
+        "d": "Correct. `$0` holds the script's name."
+      },
+      "hints": [
+        "The positional parameters start from 1 for the first argument.",
+        "What is the zeroth item in this list?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a script, `$0` contains the script's name as it was invoked. `$1`, `$2`, etc., are the actual arguments.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_052"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_054",
+      "concept_name": "Loops in shell scripts",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which script correctly loops over all command-line arguments passed to it?",
+      "options": {
+        "a": "for arg in $@; do echo $arg; done",
+        "b": "for arg in $@ do echo $arg; done",
+        "c": "for arg in '$@'; do echo $arg; done",
+        "d": "for arg; do echo $@; done"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `$@` expands to each argument, and the loop syntax is valid.",
+        "b": "Incorrect. Missing semicolon before `do` causes a syntax error.",
+        "c": "Incorrect. Quoting `'$@'` turns the entire argument list into a single string, so the loop runs once.",
+        "d": "Incorrect. The loop header is valid, but `echo $@` inside prints all arguments every iteration, not each one."
+      },
+      "hints": [
+        "Check the semicolon placement.",
+        "How does quoting affect `$@` expansion?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The idiomatic way to iterate over all arguments is `for arg in \"$@\"; do ... done` (unquoted `$@` also works but has word-splitting issues; here the given correct option a is simple and works). Option b misses the semicolon.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_054"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_026",
+      "concept_name": "cut command",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "You have a CSV line: `John,\"Smith, Jr.\",25`. What does `cut -d , -f 2` output for this line?",
+      "options": {
+        "a": "\"Smith, Jr.\"",
+        "b": "\"Smith",
+        "c": "Smith,",
+        "d": "Smith"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. cut does not understand quoting; it splits on every comma, including the one inside quotes.",
+        "b": "Correct. The second field is `\"Smith` because the first comma is after `John`, then the next comma is inside the quoted string, so the field runs from just after the first comma to the second comma.",
+        "c": "Incorrect. The trailing comma would appear if the delimiter were not consumed, but cut removes the delimiters.",
+        "d": "Incorrect. The opening double quote is included in the field because cut sees it as part of the text."
+      },
+      "hints": [
+        "cut splits purely by delimiter; it doesn't care about quoting rules.",
+        "Where are the commas in the input string?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`cut` splits the line `John,\"Smith, Jr.\",25` by commas into fields: `John`, `\"Smith`, ` Jr.\"`, `25`. Thus `-f 2` extracts `\"Smith`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_027",
+      "concept_name": "grep command",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run `grep error log app.log` without any quotes around the pattern?",
+      "options": {
+        "a": "It searches for the literal string 'error log' in app.log.",
+        "b": "It searches for 'error' in the files 'log' and 'app.log', and likely fails if 'log' does not exist.",
+        "c": "It produces a syntax error because the pattern must be quoted.",
+        "d": "It searches for 'error log' in all files in the current directory."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Without quotes, each word is a separate argument; the pattern is only 'error', and 'log' becomes a file name.",
+        "b": "Correct. `grep` interprets 'error' as the pattern, and then 'log' and 'app.log' as files to search. If 'log' is not a file, it reports an error.",
+        "c": "Incorrect. It's not a syntax error; grep accepts unquoted patterns as long as they are a single word.",
+        "d": "Incorrect. It does not search all files; it uses the specific filenames provided."
+      },
+      "hints": [
+        "How does the shell split unquoted arguments?",
+        "What does grep consider as its first argument?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Unquoted spaces split the arguments: `grep` sees `error` as the pattern, and `log` and `app.log` as file names. This is a common pitfall that leads to 'No such file or directory' errors when searching for multi-word phrases.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_031",
+      "concept_name": "Pipes (|)",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What is the flaw in this pipeline?\n\n```Shell\ncat file.txt | grep foo > result.txt | wc -l\n```",
+      "options": {
+        "a": "You cannot use redirection and a pipe in the same command.",
+        "b": "wc -l receives empty input because all output of grep is redirected to result.txt.",
+        "c": "grep's output goes to both the file and the pipe.",
+        "d": "cat is unnecessary; the pipeline is merely inefficient."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. It is syntactically allowed, though the result is probably not intended.",
+        "b": "Correct. The redirection `> result.txt` captures the standard output of grep, so nothing flows through the pipe to wc.",
+        "c": "Incorrect. Output goes to only one place: the file.",
+        "d": "Incorrect. While `cat` can be avoided, the real bug is that wc receives no data."
+      },
+      "hints": [
+        "Does the pipe receive any data after the redirection?",
+        "Trace where stdout of grep is being sent."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Redirection `> result.txt` attaches grep's stdout to the file. The pipe is connected to the command's stdout, but since stdout has been redirected, the pipe receives nothing, causing `wc -l` to count zero lines.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_031"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_038",
+      "concept_name": "sort command",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "A file `numbers.txt` contains the lines: 2, 10, 1 (each on its own line). What is the output of `sort numbers.txt`?",
+      "options": {
+        "a": "1\n2\n10",
+        "b": "1\n10\n2",
+        "c": "2\n10\n1",
+        "d": "10\n2\n1"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. This would be the result of a numeric sort (`sort -n`).",
+        "b": "Correct. Without `-n`, sort compares alphabetically: '1', then '10', then '2'.",
+        "c": "Incorrect. The default sort does not preserve input order.",
+        "d": "Incorrect. This is the reverse alphabetical order."
+      },
+      "hints": [
+        "Does sort consider numbers as text or numeric values by default?",
+        "Think about dictionary order for strings that start with digits."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `sort` performs a lexicographic (dictionary) sort. As strings, '1' < '10' < '2'. Use `-n` to sort numerically.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_038"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_039",
+      "concept_name": "uniq command",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "A file `fruits.txt` contains:\napple\napple\nbanana\napple\n\nWhat is the output of `uniq fruits.txt`?",
+      "options": {
+        "a": "apple\nbanana\napple",
+        "b": "apple\nbanana",
+        "c": "apple",
+        "d": "apple\napple\nbanana\napple"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. uniq removes only consecutive duplicate lines, so the third 'apple' (non-adjacent) remains.",
+        "b": "Incorrect. This would be the result if the file were sorted before uniq.",
+        "c": "Incorrect. Uniq does not output a single unique value for the whole file.",
+        "d": "Incorrect. The second consecutive 'apple' is removed."
+      },
+      "hints": [
+        "uniq works by comparing each line to the previous one.",
+        "Are all identical lines next to each other in the input?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`uniq` only removes duplicate lines that are immediately adjacent. To remove all duplicates, the input must be sorted first (`sort | uniq`).",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_039"]
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_047",
+      "concept_name": "Wildcards in loops",
+      "chapter": 9,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this command output?\n\n```Shell\nfor file in 'seasonal/*.csv'; do echo $file; done\n```",
+      "options": {
+        "a": "It prints each .csv filename found in the seasonal directory.",
+        "b": "It prints the literal string 'seasonal/*.csv'.",
+        "c": "It produces an error because the wildcard is not expanded.",
+        "d": "It prints 'seasonal/' followed by '*.csv' on the next line."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The single quotes prevent wildcard expansion, so the loop sees only the literal string.",
+        "b": "Correct. Quoting the pattern prevents the shell from expanding the wildcard; the loop iterates once with the literal value.",
+        "c": "Incorrect. It is syntactically valid, just not what was probably intended.",
+        "d": "Incorrect. The string is treated as a single token."
+      },
+      "hints": [
+        "What do single quotes do to special characters like *?",
+        "Will the shell expand a wildcard inside quotes?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Wrapping the wildcard in single quotes suppresses expansion, so the loop variable receives the literal string `seasonal/*.csv` instead of a list of matching files.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_047"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_051",
+      "concept_name": "Script parameters $@",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "A script contains `for arg in $@; do echo $arg; done`. What happens if the script is called with no arguments?",
+      "options": {
+        "a": "The loop runs once with an empty string.",
+        "b": "The loop does not execute at all.",
+        "c": "A syntax error occurs because $@ is undefined.",
+        "d": "The loop runs once with the script's name."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. An unquoted empty $@ expands to nothing, not an empty string.",
+        "b": "Correct. With no arguments, $@ is empty, so the for loop has no items to iterate over.",
+        "c": "Incorrect. $@ is always defined (possibly empty); no error occurs.",
+        "d": "Incorrect. The script name is $0, not part of $@."
+      },
+      "hints": [
+        "What does $@ expand to when there are no arguments?",
+        "How does a for loop behave with an empty list?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When no arguments are provided, `$@` expands to nothing. The `for` loop therefore has an empty list and does not run any iterations.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_051"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_056",
+      "concept_name": "Quoting filenames with spaces",
+      "chapter": 11,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run `rm file with spaces.txt` without any quotes?",
+      "options": {
+        "a": "It removes the single file named 'file with spaces.txt'.",
+        "b": "It tries to remove three separate files: 'file', 'with', and 'spaces.txt'.",
+        "c": "It produces an error because filenames cannot contain spaces.",
+        "d": "It only removes the file 'file' and ignores the rest."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Without quotes, the shell splits the arguments on spaces, so it does not treat them as one filename.",
+        "b": "Correct. The command becomes `rm file with spaces.txt`, which tries to delete all three items, potentially deleting unintended files.",
+        "c": "Incorrect. Filenames can contain spaces; they just require quoting.",
+        "d": "Incorrect. It does not stop at the first word; all three are passed as arguments."
+      },
+      "hints": [
+        "How does the shell parse words separated by spaces?",
+        "What would you need to do to protect the spaces?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The shell splits unquoted command-line arguments on spaces, so `rm file with spaces.txt` becomes three separate arguments. To delete a file with spaces, use quotes: `rm 'file with spaces.txt'` or escape the spaces.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_056"]
+    }
+  ]
+}

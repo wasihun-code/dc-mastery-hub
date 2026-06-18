@@ -22,11 +22,47 @@ function masteryColor(value) {
 export default function ManageCourseDetail() {
   const { courseSlug } = useParams()
   const navigate = useNavigate()
-  
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [savingField, setSavingField] = useState(null)
+
+  const [leftColumnWidth, setLeftColumnWidth] = useState(() => {
+    return parseInt(localStorage.getItem('manageCourseLeftColWidth')) || 500
+  })
+  const [isResizing, setIsResizing] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('manageCourseLeftColWidth', leftColumnWidth)
+  }, [leftColumnWidth])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizing) return
+      // Relative to parent container or simple viewport calculation
+      const newWidth = Math.max(400, Math.min(e.clientX - 260, 800))
+      setLeftColumnWidth(newWidth)
+    }
+
+    const handleMouseUp = () => {
+      setIsResizing(false)
+    }
+
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove)
+      window.addEventListener('mouseup', handleMouseUp)
+      document.body.style.cursor = 'col-resize'
+      document.body.style.userSelect = 'none'
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+      document.body.style.cursor = 'default'
+      document.body.style.userSelect = 'auto'
+    }
+  }, [isResizing])
+
   
   // PDF Viewer states
   const [showPdf, setShowPdf] = useState(false)
@@ -183,9 +219,18 @@ export default function ManageCourseDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="flex flex-col lg:flex-row gap-6 relative">
         {/* Left Column: Properties Controls, Slides, Danger Zone */}
-        <div className="space-y-6">
+        <div 
+          className="space-y-6 shrink-0 relative"
+          style={{ width: `${leftColumnWidth}px` }}
+        >
+          {/* Resize Handle */}
+          <div
+            onMouseDown={() => setIsResizing(true)}
+            className="absolute right-[-14px] top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
+          />
+
           <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 space-y-6 shadow-sm">
             <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--accent-blue)] border-b border-[var(--border)] pb-3">
               Course Properties

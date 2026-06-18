@@ -1,0 +1,1269 @@
+{
+  "course_slug": "joining-data-with-pandas",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-12",
+  "version": 1,
+  "total_questions": 42,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_002",
+      "concept_name": "Inner join",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What does an inner join return when merging two DataFrames on a key column?",
+      "options": {
+        "a": "Only rows with matching key values in both tables.",
+        "b": "All rows from the left table and matching rows from the right table.",
+        "c": "All rows from both tables, filling NaN where no match exists.",
+        "d": "All rows from the right table and matching rows from the left table."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! An inner join returns only the rows where the key value appears in both DataFrames.",
+        "b": "That describes a left join, not an inner join.",
+        "c": "That describes an outer join.",
+        "d": "That describes a right join."
+      },
+      "hints": [
+        "Think about the most restrictive join type — it keeps only the intersection.",
+        "Recall: inner join eliminates rows that don't have a match in both tables."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An inner join (the default in pandas merge) performs a relational intersection on the join key, returning only rows where the key values match in both DataFrames.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_003",
+      "concept_name": "One-to-one relationship",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "scenario",
+      "question_text": "A DataFrame of wards and a DataFrame of census data share a key column 'ward'. Each ward appears exactly once in both tables. What type of relationship exists between them?",
+      "options": {
+        "a": "One-to-many relationship",
+        "b": "Many-to-many relationship",
+        "c": "One-to-one relationship",
+        "d": "No relationship"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "A one-to-many relationship occurs when a key appears once in the left table but multiple times in the right table. Here both tables have unique keys.",
+        "b": "Many-to-many would mean duplicate keys on both sides.",
+        "c": "Correct! Every row in one table links to exactly one row in the other.",
+        "d": "There is a relationship because the 'ward' column links them."
+      },
+      "hints": [
+        "Consider whether the key is unique in both tables.",
+        "If each ward ID appears only once in each table, the relationship is the simplest possible."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A one-to-one relationship exists when every row in the left table is related to exactly one row in the right table, and vice versa. The key column is unique in both DataFrames.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_004",
+      "concept_name": "One-to-many relationship",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "The left table A has 5 unique rows (unique keys). The right table B has 10 rows, and the key column in B is not unique. You perform an inner join. What is the maximum possible number of rows in the result?",
+      "options": {
+        "a": "5",
+        "b": "10",
+        "c": "15",
+        "d": "50"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "That would be the case if each left row matched exactly one right row, but here right keys can repeat.",
+        "b": "That would ignore the duplication on the right side.",
+        "c": "15 would be sum of rows, not possible in a one-to-many join.",
+        "d": "Correct! If all right keys are the same and match a left key, every left row can multiply by every right row (5×10 = 50), a Cartesian product within that key group."
+      },
+      "hints": [
+        "In a one-to-many relationship, left rows can be repeated for each matching right row.",
+        "Consider the extreme case: all rows in B have the same key value that exists in A."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When the right table has non‑unique keys, a single left row can match multiple right rows. The maximum happens when every left row matches every right row (e.g., all keys identical), leading to len(A) * len(B) rows, which is 50.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_008",
+      "concept_name": "Left join",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code return?\n\n```python\nmovies_taglines = movies.merge(taglines, on='id', how='left')\n```",
+      "options": {
+        "a": "Only rows from movies that have a matching tagline.",
+        "b": "All rows from taglines with NaN where a movie does not exist.",
+        "c": "All rows from movies, with tagline values where a match exists, NaN otherwise.",
+        "d": "All rows from both tables, with NaN for non-matching sides."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "That describes an inner join, not a left join.",
+        "b": "That describes a right join (all rows from taglines).",
+        "c": "Correct! A left join returns every row from the left DataFrame (movies) and matches from taglines where available.",
+        "d": "That describes an outer join."
+      },
+      "hints": [
+        "The left table is the first DataFrame in the merge call.",
+        "In a left join, rows that don't have a match in the right table still appear."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The left join (how='left') returns all rows from the left DataFrame (movies) and only matching rows from taglines. Unmatched tagline columns become NaN.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_009",
+      "concept_name": "Right join",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What will be the result of the following merge?\n\n```python\ntv_movies = movies.merge(tv_genre, how='right', left_on='id', right_on='movie_id')\n```",
+      "options": {
+        "a": "All movies with a TV genre, including movies that are not TV genre.",
+        "b": "Only movies that are classified as TV genre.",
+        "c": "All rows from tv_genre, with matching movie details where they exist, NaN otherwise.",
+        "d": "All rows from both tables, with NaN where no match."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "That would require a left join from movies, not a right join from tv_genre.",
+        "b": "An inner join would return only matching rows.",
+        "c": "Correct! A right join returns every row from the right DataFrame (tv_genre) and only matching rows from movies.",
+        "d": "That describes an outer join."
+      },
+      "hints": [
+        "The how='right' parameter makes the right table the reference.",
+        "A right join is the mirror of a left join: all rows from the right table are kept."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The right join keeps every row from the right table (tv_genre). Rows in tv_genre that have a matching id in movies will have movie columns filled; others will have NaN for movie columns.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_010",
+      "concept_name": "Outer join",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "family contains 3 rows and comedy contains 3 rows. Their merge with how='outer' on 'movie_id' produces a DataFrame with 4 rows. How many movie_ids appear in both tables?",
+      "options": {
+        "a": "1",
+        "b": "2",
+        "c": "3",
+        "d": "4"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "If only 1 id overlapped, the result would have 3+3-1 = 5 rows.",
+        "b": "Correct! With 2 overlapping ids, the total rows = 3 + 3 - 2 = 4.",
+        "c": "If all 3 ids overlapped, the result would have 3 rows.",
+        "d": "4 overlapping ids is impossible because each table has only 3 rows."
+      },
+      "hints": [
+        "Outer join combines all unique keys from both tables.",
+        "The number of rows in an outer join = (rows in left) + (rows in right) – (number of matching keys)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An outer join returns the union of keys. The resulting row count = len(left) + len(right) − number_of_matching_keys. Here 4 = 3 + 3 − x → x = 2.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_016",
+      "concept_name": "Semi join",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You have two DataFrames: genres (gid, name) and top_tracks (gid, title). You want to keep only the genres that appear in top_tracks, but the result must contain only columns from genres. Which code achieves this?",
+      "options": {
+        "a": "genres.merge(top_tracks, on='gid')",
+        "b": "genres.merge(top_tracks, on='gid', how='left')",
+        "c": "genres[genres['gid'].isin(top_tracks['gid'])]",
+        "d": "top_tracks.merge(genres, on='gid', how='right')"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "An inner merge returns columns from both DataFrames, not just genres.",
+        "b": "A left join also includes columns from top_tracks and keeps all genres, not just those with matches.",
+        "c": "Correct! Using isin on the genres 'gid' column filters rows down to those with a match, and only genres columns are returned.",
+        "d": "A right join from top_tracks would return all rows from genres, but columns from both DataFrames."
+      },
+      "hints": [
+        "A semi join filters the left table based on matches in the right table, without adding columns.",
+        "The isin() method creates a boolean mask for filtering."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A semi join is achieved by first obtaining the matching keys, then using isin to filter the left DataFrame. The result is exactly the rows from genres that have a corresponding gid in top_tracks, with only genres columns.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_018",
+      "concept_name": "Anti join",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code return?\n\n```python\ngenres_tracks = genres.merge(top_tracks, on='gid', how='left', indicator=True)\ngid_list = genres_tracks.loc[genres_tracks['_merge'] == 'left_only', 'gid']\nnon_top_genres = genres[genres['gid'].isin(gid_list)]\n```",
+      "options": {
+        "a": "Genres that have no matching track in top_tracks.",
+        "b": "Genres that have at least one matching track.",
+        "c": "All genres, with an indicator column.",
+        "d": "Tracks that do not belong to any genre."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The left join with indicator identifies rows only in the left table, and the following filter selects those genres.",
+        "b": "This would be the opposite: rows where _merge equals 'both'.",
+        "c": "The indicator column is present in genres_tracks, but non_top_genres filters to only unmatched genres.",
+        "d": "The code operates on genres, not tracks; it returns genres without matches."
+      },
+      "hints": [
+        "Look at the condition '_merge' == 'left_only'. What does that signify?",
+        "An anti join returns rows from the left table that have no match in the right table."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The code performs an anti join: genres_tracks is a left join with indicator, so rows where _merge is 'left_only' are genres not present in top_tracks. Filtering genres by those gid values yields the non‑matching genres.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_032",
+      "concept_name": "Wide format",
+      "chapter": 4,
+      "difficulty": "easy",
+      "question_subtype": "scenario",
+      "question_text": "Which description best matches wide format data?",
+      "options": {
+        "a": "Each row represents one observation of a variable, with columns for variable name and value.",
+        "b": "Each row represents one subject, and different columns hold different attributes of that subject.",
+        "c": "Data is always sorted by a time column.",
+        "d": "All columns contain numeric values only."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That describes long format.",
+        "b": "Correct! In wide format, one subject per row, attributes in columns.",
+        "c": "Sorting is not a defining characteristic of wide format.",
+        "d": "Wide format can include non‑numeric columns."
+      },
+      "hints": [
+        "Think of a spreadsheet where each row is a unique entity.",
+        "Wide format is often more human‑readable but less machine‑friendly."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Wide format data is structured so that each row corresponds to one subject and each column holds a different attribute, making it easy for humans to read but often requiring reshaping for analysis.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_033",
+      "concept_name": "Long format",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which statement is true about long format data compared to wide format?",
+      "options": {
+        "a": "Long format has fewer rows than wide format for the same data.",
+        "b": "Long format is preferred by many plotting libraries like seaborn.",
+        "c": "In long format, each column represents a different attribute of a subject.",
+        "d": "Long format cannot be produced from wide format using pandas."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Long format typically has more rows because each attribute becomes a separate row.",
+        "b": "Correct! Many plotting functions expect data in long/tidy format for faceting and grouping.",
+        "c": "That describes wide format; in long format, one column holds variable names, another holds values.",
+        "d": "The .melt() method easily converts wide to long format."
+      },
+      "hints": [
+        "Long format is sometimes called 'tidy' data.",
+        "Seaborn's catplot and lineplot often require long‑form data."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Long format (tidy data) is well‑suited for statistical analysis and visualization libraries. It is produced by melting wide data, increasing row count but making the data structure uniform.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_001",
+      "concept_name": "merge() method",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "If wards and census both have columns 'address' and 'zip', what column names will appear in the result of wards.merge(census, on='ward')?",
+      "options": {
+        "a": "address_x, address_y, zip_x, zip_y",
+        "b": "address_left, address_right, zip_left, zip_right",
+        "c": "address, zip (only one copy of each)",
+        "d": "The merge raises an error due to duplicate columns."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! pandas automatically adds _x and _y suffixes to resolve duplicate column names.",
+        "b": "Those suffixes are not the default; pandas uses '_x' and '_y'.",
+        "c": "Merge does not drop duplicate columns; it renames them.",
+        "d": "Merge does not error; it handles duplicate names with suffixes."
+      },
+      "hints": [
+        "What is the default suffixes parameter in merge?",
+        "Check the common mistake about not handling duplicate column names."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, when merging on a key and both DataFrames contain identically named non‑key columns, pandas appends '_x' for the left DataFrame and '_y' for the right. The result contains address_x, address_y, zip_x, zip_y.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_001",
+      "concept_name": "merge() method",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this merge call?\n\n```python\nwards_census = wards.merge(census, on='ward', suffixes='_ward')\n```",
+      "options": {
+        "a": "The on parameter should be a list.",
+        "b": "suffixes must be a tuple of two strings, not a single string.",
+        "c": "The merge cannot be performed because the column names do not match.",
+        "d": "The how parameter is missing."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The on parameter can be a single column name, that is fine.",
+        "b": "Correct! The suffixes parameter expects a tuple of exactly two strings, e.g., ('_ward','_cen').",
+        "c": "The column 'ward' exists in both, so the merge is valid.",
+        "d": "The how parameter is optional and defaults to 'inner'."
+      },
+      "hints": [
+        "Look at the suffixes argument: what type does it need?",
+        "The error message would be something like 'TypeError: 'tuple' object is not callable' but here it's a string, not a tuple."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The suffixes parameter requires a tuple of two strings to rename overlapping columns from left and right. Providing a single string '_ward' causes a TypeError because a tuple is expected.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_001",
+      "concept_name": "merge() method",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You merge DataFrames A and B on column 'id'. A has a row with id=5 that appears twice; B has id=5 once. With default inner merge, how many rows will have id=5 in the result?",
+      "options": {
+        "a": "1",
+        "b": "2",
+        "c": "3",
+        "d": "0"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would be true only if both sides had unique keys.",
+        "b": "Correct! Each occurrence of id=5 in A matches the single row in B, producing 2 rows (a Cartesian product within the key).",
+        "c": "3 would occur if B also had 3 rows with id=5 and A had 1.",
+        "d": "0 would happen only if id=5 did not exist in one of the tables."
+      },
+      "hints": [
+        "Remember: merge duplicates are matched combinatorially.",
+        "If left has n rows for a key and right has m rows, the result will have n*m rows for that key."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With duplicate keys on one side, the merge produces the Cartesian product of matching rows. Here left has 2, right has 1, so 2×1 = 2 rows with id=5.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_005",
+      "concept_name": "suffixes parameter",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Both wards and census contain a column named 'address'. You want the merged DataFrame to rename these to 'address_ward' and 'address_cen'. Which code is correct?",
+      "options": {
+        "a": "wards.merge(census, on='ward', suffixes=('address_ward','address_cen'))",
+        "b": "wards.merge(census, on='ward', suffixes=('_ward','_cen'))",
+        "c": "wards.merge(census, on='ward', suffixes=['_ward','_cen'])",
+        "d": "wards.merge(census, on='ward', suffix='_ward')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The suffixes apply to all overlapping columns, not individual columns. The resulting column names would be 'address_address_ward' and 'address_address_cen'? Actually that's not how it works; the suffix is appended, so using ('address_ward','address_cen') would produce 'addressaddress_ward' which is messy.",
+        "b": "Correct! Suffixes are appended to the original column names, giving 'address_ward' and 'address_cen'.",
+        "c": "suffixes must be a tuple, not a list.",
+        "d": "There is no 'suffix' parameter; the correct parameter is 'suffixes'."
+      },
+      "hints": [
+        "The suffixes are appended to the base column name, not replacements.",
+        "The parameter expects a tuple of two strings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To rename overlapping columns, use suffixes=('_ward','_cen'). This appends '_ward' to the left DataFrame's column and '_cen' to the right DataFrame's column, yielding 'address_ward' and 'address_cen'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_006",
+      "concept_name": "Merging on multiple columns",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "The following code raises a KeyError. Why?\n\n```python\ngrants.merge(licenses, on=['address','zip_code'])\n```\n(licenses has columns 'address', 'zip', and 'license_id')",
+      "options": {
+        "a": "The column 'zip_code' does not exist in licenses; the correct column name is 'zip'.",
+        "b": "You cannot merge on two columns.",
+        "c": "The on parameter must be a single string.",
+        "d": "Merging on multiple columns requires specifying suffixes."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The KeyError occurs because 'zip_code' is not a column in licenses.",
+        "b": "Merging on multiple columns is supported by passing a list to on.",
+        "c": "The on parameter can accept a list of column names.",
+        "d": "Suffixes are only needed when non‑key columns overlap; the error here is a missing column."
+      },
+      "hints": [
+        "Check the actual column names in the dataset.",
+        "A KeyError means a specified column name was not found."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The licenses DataFrame does not contain a column named 'zip_code'; its zip code column is simply 'zip'. The merge fails with a KeyError because pandas cannot find the specified column.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_006",
+      "concept_name": "Merging on multiple columns",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You perform grants.merge(licenses, on=['address','zip']). Both DataFrames have columns 'address' and 'zip', and the keys are not unique on either side. How will the merge behave?",
+      "options": {
+        "a": "It returns only rows where both 'address' and 'zip' match exactly.",
+        "b": "It merges on 'address' first, then on 'zip' ignoring the other column.",
+        "c": "It concatenates 'address' and 'zip' into a single string and merges on that.",
+        "d": "It raises an error because keys are not unique."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The merge matches rows only when both column values are identical between the DataFrames.",
+        "b": "Merging on multiple columns considers the combination, not sequentially ignoring one column.",
+        "c": "No string concatenation is performed; each column is compared separately.",
+        "d": "Merge works with non‑unique keys; it simply generates all combinations of matching rows."
+      },
+      "hints": [
+        "Merging on multiple columns is like a composite key.",
+        "Think of it as requiring an exact match on all specified columns."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When on accepts a list, pandas matches rows where every column in the list has equal values in both DataFrames. Duplicate composite keys result in a Cartesian product for that combination.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_007",
+      "concept_name": "Chaining merges",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Why does this code cause a SyntaxError?\n\n```python\ngrants_licenses_ward = grants.merge(licenses, on=['address','zip']) \\\n .merge(wards, on='ward', suffixes=('_bus','_ward'))\n```",
+      "options": {
+        "a": "The backslash must be at the end of the line with no trailing spaces.",
+        "b": "You cannot chain merge calls.",
+        "c": "The suffixes tuple should be a list.",
+        "d": "The on parameter should be a single string."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! A trailing space after the backslash breaks the line continuation, causing a syntax error.",
+        "b": "Chaining merges is allowed and is a common pattern.",
+        "c": "A tuple is correct for suffixes.",
+        "d": "A list is acceptable for on when merging on multiple columns."
+      },
+      "hints": [
+        "Line continuation in Python requires the backslash to be the very last character on the line.",
+        "Invisible spaces after a backslash are a common pitfall."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The backslash character for line continuation must be the last character on its line, with no trailing whitespace. Even a single space after the backslash invalidates the continuation and triggers a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_011",
+      "concept_name": "left_on and right_on parameters",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "A user intends to join movies (with an 'id' column) to tv_genre (with a 'movie_id' column) and mistakenly writes:\n\n```python\nmovies.merge(tv_genre, how='right', left_on='movie_id', right_on='id')\n```\nWhat is the most likely outcome?",
+      "options": {
+        "a": "The merge succeeds but returns an empty DataFrame because no keys match.",
+        "b": "A KeyError is raised because 'movie_id' does not exist in movies.",
+        "c": "The merge swaps the tables automatically.",
+        "d": "It works correctly, yielding tv_genre rows with movie details."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "If 'movie_id' doesn't exist in movies, a KeyError will be raised before any merge.",
+        "b": "Correct! movies does not have a column 'movie_id', so pandas raises a KeyError.",
+        "c": "No automatic swapping occurs.",
+        "d": "Because the columns are specified incorrectly, it cannot work."
+      },
+      "hints": [
+        "Check which columns exist in which DataFrame.",
+        "A common mistake is to swap left_on and right_on without verifying column names."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The left_on parameter refers to a column in the left DataFrame (movies). Since movies has an 'id' column but no 'movie_id', this raises a KeyError. The correct usage would be left_on='id', right_on='movie_id'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_012",
+      "concept_name": "Self join",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "The sequels DataFrame has columns 'id', 'title', and 'sequel' (which holds the id of the sequel, if any). You run:\n\n```python\noriginal_sequels = sequels.merge(sequels, left_on='sequel', right_on='id', suffixes=('_org','_seq'))\n```\nIf sequels has 5 rows, and only 2 movies have a non‑null 'sequel' that matches an existing 'id', how many rows will original_sequels contain? (Assume default how='inner')",
+      "options": {
+        "a": "2",
+        "b": "5",
+        "c": "0",
+        "d": "7"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The inner join only matches rows where left['sequel'] equals right['id']. Only 2 such matches exist.",
+        "b": "That would be the result of a left join keeping all original movies.",
+        "c": "There would be rows if no matches existed, but we know 2 matches exist.",
+        "d": "7 would be the result if the join were outer, including all original rows plus matched sequels."
+      },
+      "hints": [
+        "An inner join returns only rows with matching keys.",
+        "Think about how many movies have a sequel that exists in the same table."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With inner merge, only rows where sequels.sequel equals sequels.id are kept. Since only 2 movies have a valid sequel id that matches another movie's id, the result has exactly 2 rows.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_012",
+      "concept_name": "Self join",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You attempt a self‑join without specifying suffixes:\n\n```python\nsequels.merge(sequels, left_on='sequel', right_on='id')\n```\nWhat happens?",
+      "options": {
+        "a": "The merge succeeds, and pandas automatically adds suffixes '_x' and '_y'.",
+        "b": "The merge succeeds, but duplicate column names cause a warning, not an error.",
+        "c": "A ValueError is raised because of duplicate column names.",
+        "d": "The merge returns an empty DataFrame."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "pandas does not automatically handle duplicate column names by adding suffixes; it raises an error.",
+        "b": "In many versions, duplicate column names in a merge raise a ValueError, not a warning.",
+        "c": "Correct! pandas raises a ValueError because the resulting DataFrame would have duplicate column names.",
+        "d": "The error occurs before any data is actually merged."
+      },
+      "hints": [
+        "What does pandas do when two input DataFrames have identically named columns and suffixes aren't provided?",
+        "Try to recall the error you get if you forget suffixes in a self‑join."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When merging the same DataFrame with itself, every column appears twice. Without suffixes, pandas raises a ValueError to prevent duplicate column names in the result. This is a common pitfall in self‑joins.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_013",
+      "concept_name": "Merging on index",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "The movies DataFrame has its index set to 'id'. The movie_to_genres DataFrame has a column 'movie_id'. You want to merge using the index of movies. Which merge call is correct?",
+      "options": {
+        "a": "movies.merge(movie_to_genres, left_index=True, right_on='movie_id')",
+        "b": "movies.merge(movie_to_genres, left_on='id', right_on='movie_id')",
+        "c": "movies.merge(movie_to_genres, on='movie_id')",
+        "d": "movies.merge(movie_to_genres, left_on='id', right_index=True)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! left_index=True tells merge to use the movies index as the join key, and right_on specifies the column from movie_to_genres.",
+        "b": "This would use the column 'id' from movies, but the index is not a regular column; if 'id' is the index, it may not be found as a column.",
+        "c": "on='movie_id' would look for 'movie_id' in both DataFrames, which is not present in movies.",
+        "d": "This would use the index of movie_to_genres, which is not what we want."
+      },
+      "hints": [
+        "When a key is an index, you need to use the left_index or right_index flag.",
+        "left_index=True indicates that the left DataFrame's index should be used as the key."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To merge on the index of the left DataFrame, set left_index=True. The right side column is specified with right_on. This allows joining an index to a regular column.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_014",
+      "concept_name": "MultiIndex merge",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "Both samuel and casts have a MultiIndex with levels ['movie_id','cast_id']. You want to merge them. Which statement is true?",
+      "options": {
+        "a": "Both DataFrames must have the same MultiIndex level names and order for the merge to match correctly.",
+        "b": "You must reset the index before merging, because MultiIndex merges are not supported.",
+        "c": "The merge will automatically align the MultiIndex levels regardless of order.",
+        "d": "Only the first level ('movie_id') is used for merging."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The level names and order must match exactly for a successful MultiIndex merge.",
+        "b": "pandas supports merging on MultiIndex levels using on with a list of level names.",
+        "c": "pandas does not reorder MultiIndex levels; they must be in the same order.",
+        "d": "If you pass a list of level names, both are used together as a composite key."
+      },
+      "hints": [
+        "A MultiIndex acts like a composite key.",
+        "The on parameter can list the level names to join on."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When merging on a MultiIndex, the level names and their order must be identical in both DataFrames. If the order differs, the merge will still run but may produce no matches because the tuples are compared positionally.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_014",
+      "concept_name": "MultiIndex merge",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You have two DataFrames with MultiIndex. left’s levels are ['movie_id','cast_id']; right’s levels are ['cast_id','movie_id'] (order reversed). What will happen if you run left.merge(right, on=['movie_id','cast_id'])?",
+      "options": {
+        "a": "The merge will proceed but likely return 0 rows because the index tuples do not align.",
+        "b": "A ValueError is raised because the level names are not in the same order.",
+        "c": "pandas automatically reorders the levels before merging.",
+        "d": "The merge uses only 'movie_id' and ignores 'cast_id'."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The merge tries to match the composite keys, but because the order of the levels in the right DataFrame is different, the tuples won't match, resulting in an empty DataFrame.",
+        "b": "No error is raised because the level names exist, they are just in a different order.",
+        "c": "pandas does not reorder MultiIndex levels automatically.",
+        "d": "Both levels are used; the mismatch in order prevents matches."
+      },
+      "hints": [
+        "A MultiIndex tuple (movie_id, cast_id) is compared to (cast_id, movie_id) directly.",
+        "Order of levels matters for exact matching."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The merge operates on the actual index tuples. Because the right DataFrame’s index has the values in reverse order, the tuples will rarely (if ever) match, yielding zero rows. No error occurs because the level names are present; the mismatch is semantic.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_015",
+      "concept_name": "left_index and right_index parameters",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You execute:\n\n```python\nmovies_genres = movies.merge(movie_to_genres, left_on='id', left_index=True, right_on='movie_id')\n```\nAssuming movies has index set to 'id' and a column also named 'id', which key is actually used from movies?",
+      "options": {
+        "a": "The index is used; left_on is ignored because left_index=True.",
+        "b": "The 'id' column is used because left_on specifies it.",
+        "c": "Both the index and the column are used together as a composite key.",
+        "d": "An error occurs because you cannot specify both left_on and left_index."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! When left_index is True, the index takes precedence as the join key.",
+        "b": "While left_on can be given, it is effectively overridden by left_index=True in terms of key selection; the index is used.",
+        "c": "pandas does not combine them; it uses the index alone.",
+        "d": "It is allowed to specify both, but left_index=True overrides left_on."
+      },
+      "hints": [
+        "What does the pandas documentation say about combining left_index and left_on?",
+        "left_index=True means the index is the key; left_on might still be used for naming? Actually the key is index."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When left_index=True, the left DataFrame’s index is used as the join key. Any left_on specification is effectively ignored. The right_on still applies for the right DataFrame.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_017",
+      "concept_name": "isin() method",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the result of the following code?\n\n```python\ngenres['gid'].isin(genres_tracks['gid'])\n```",
+      "options": {
+        "a": "A DataFrame containing only matching rows from genres.",
+        "b": "A boolean Series where each element indicates whether the gid is present in genres_tracks.",
+        "c": "A list of all gid values that appear in both DataFrames.",
+        "d": "An integer count of matches."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "isin returns a Series, not a DataFrame; it's a mask, not the filtered data.",
+        "b": "Correct! isin returns a boolean Series suitable for filtering.",
+        "c": "It does not return a list of matching values; it returns a boolean mask.",
+        "d": "It returns a Series, not a count. You could use .sum() to get the count."
+      },
+      "hints": [
+        "isin is a membership test, not a join operation.",
+        "It returns a Series of the same length as the original with True/False."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The isin() method checks each element of the calling Series against the passed iterable and returns a boolean Series of the same length. It does not filter rows directly; it creates a mask for filtering.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_019",
+      "concept_name": "indicator parameter",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You want to know which rows came only from the left table after a left join. What must you do?",
+      "options": {
+        "a": "Set indicator=True in the merge and filter for '_merge' == 'left_only'.",
+        "b": "Look for NaN values in the right table's columns.",
+        "c": "Use an inner join instead.",
+        "d": "Set how='outer' and drop duplicates."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! With indicator=True, a '_merge' column is added, and rows with 'left_only' are those only present in the left DataFrame.",
+        "b": "NaN can also occur in columns that genuinely have missing data, not necessarily indicating a non‑match.",
+        "c": "An inner join would remove rows that don't have matches, not help identify them.",
+        "d": "An outer join with duplicates does not clearly separate unmatched rows from the left side."
+      },
+      "hints": [
+        "The indicator parameter adds a special column that reveals the source of each row.",
+        "Think about the '_merge' column values: 'both', 'left_only', 'right_only'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When indicator=True, pandas adds a column '_merge' with values 'both', 'left_only', or 'right_only'. Filtering for '_merge' == 'left_only' isolates rows only from the left table, a common step in anti‑join operations.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_020",
+      "concept_name": "concat() method",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given inv_jan (columns: iid, cid, invoice_date, total) and inv_feb (columns: iid, cid, invoice_date, total, bill_ctry), what columns will be present after:\n\n```python\npd.concat([inv_jan, inv_feb], join='inner')\n```",
+      "options": {
+        "a": "Only iid, cid, invoice_date, total",
+        "b": "iid, cid, invoice_date, total, bill_ctry",
+        "c": "All columns from both DataFrames, with NaN in bill_ctry for jan rows",
+        "d": "Only bill_ctry"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! join='inner' keeps only columns that appear in all DataFrames being concatenated.",
+        "b": "That would be the result with join='outer', which includes the union of columns.",
+        "c": "That also describes join='outer'.",
+        "d": "bill_ctry is only in one DataFrame, so it would not be kept by inner join."
+      },
+      "hints": [
+        "The join parameter in concat controls column set intersection vs. union.",
+        "'inner' means intersection of columns."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With join='inner', only the columns present in every concatenated DataFrame are retained. Since bill_ctry is missing from inv_jan, it is dropped. The result contains only the common columns.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_020",
+      "concept_name": "concat() method",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You want to stack three DataFrames (jan, feb, mar) vertically and be able to identify which month each row originally came from. Which code does this correctly?",
+      "options": {
+        "a": "pd.concat([jan, feb, mar], keys=['jan','feb','mar'], ignore_index=False)",
+        "b": "pd.concat([jan, feb, mar], ignore_index=True)",
+        "c": "jan.append(feb).append(mar)",
+        "d": "pd.concat([jan, feb, mar], axis=1, keys=['jan','feb','mar'])"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The keys parameter creates a MultiIndex that labels each original DataFrame's rows.",
+        "b": "ignore_index=True discards original indices and doesn't add month labels.",
+        "c": "append does not add source labels; it just concatenates.",
+        "d": "axis=1 concatenates horizontally, not vertically."
+      },
+      "hints": [
+        "Look for a way to add a hierarchical index level with labels.",
+        "The keys parameter is designed exactly for this purpose."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By passing a list of labels to the keys parameter and setting ignore_index=False, concat creates a MultiIndex where the first level holds the provided keys. This allows easy identification of the source DataFrame for each row.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_020",
+      "concept_name": "concat() method",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this concatenation attempt?\n\n```python\npd.concat([inv_jan, inv_feb, inv_mar], axis=0, verify_integrity=True)\n```\nAll three DataFrames have the same columns and no duplicate indices within each, but inv_jan and inv_feb both contain an index value 0.",
+      "options": {
+        "a": "Nothing; it will raise a ValueError because the resulting index would have duplicates.",
+        "b": "It will succeed because each DataFrame internally has unique indices.",
+        "c": "verify_integrity only checks column names, not index.",
+        "d": "An error occurs because axis=0 is not valid."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! verify_integrity=True causes a ValueError when the concatenated index contains duplicate values.",
+        "b": "Each DataFrame alone has unique indices, but after concatenation the combined index will have duplicates if they share index values.",
+        "c": "verify_integrity checks the resulting index, not columns.",
+        "d": "axis=0 is the default vertical concatenation axis."
+      },
+      "hints": [
+        "What does verify_integrity do?",
+        "Duplicate indices across DataFrames can cause issues if not handled."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When verify_integrity=True, pandas checks the concatenated index for duplicates. Since inv_jan and inv_feb both have an index value 0, the combined index will contain 0 twice, causing a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_021",
+      "concept_name": "ignore_index parameter (concat)",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What is the effect of setting ignore_index=True in pd.concat?",
+      "options": {
+        "a": "The original indices are preserved and a new integer index is added as a second level.",
+        "b": "A new 0‑based integer index is created, discarding the original indices.",
+        "c": "The columns are re‑indexed alphabetically.",
+        "d": "The DataFrames are concatenated horizontally instead of vertically."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would describe using keys without ignore_index; ignore_index discards original indices.",
+        "b": "Correct! ignore_index=True resets the row index to a fresh integer range 0..n-1.",
+        "c": "That is controlled by the sort parameter, not ignore_index.",
+        "d": "Axis is controlled by the axis parameter."
+      },
+      "hints": [
+        "Think about what 'ignore index' implies.",
+        "It's useful when original index values are meaningless after stacking."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With ignore_index=True, pandas ignores the existing index values and assigns a new default integer index from 0 to the total number of rows minus one.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_022",
+      "concept_name": "keys parameter (concat)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What will happen when you run the following code?\n\n```python\npd.concat([inv_jan, inv_feb], ignore_index=True, keys=['jan','feb'])\n```",
+      "options": {
+        "a": "A ValueError will be raised because keys and ignore_index are incompatible.",
+        "b": "It will work, creating a MultiIndex with keys and ignoring the original index.",
+        "c": "It will work, but the keys parameter is silently ignored.",
+        "d": "It will work, but ignore_index is silently ignored."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! keys and ignore_index cannot be used together; pandas raises a ValueError.",
+        "b": "Unfortunately, these two parameters conflict and an error is raised.",
+        "c": "keys is not ignored; the code fails with an error.",
+        "d": "ignore_index is not ignored; the code fails."
+      },
+      "hints": [
+        "Can you have a meaningful MultiIndex label if the original index is discarded?",
+        "Check the common mistake about using keys with ignore_index=True."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The keys parameter creates a hierarchical index based on the original index values. If ignore_index=True discards those original indices, keys cannot be built, so pandas raises a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_023",
+      "concept_name": "join parameter in concat",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between join='outer' and join='inner' in pd.concat when the DataFrames have different column sets?",
+      "options": {
+        "a": "outer keeps all columns (union), filling missing with NaN; inner keeps only columns that appear in all DataFrames.",
+        "b": "outer keeps only common columns; inner keeps all columns.",
+        "c": "outer concatenates rows, inner concatenates columns.",
+        "d": "outer uses a left join, inner uses an outer join."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! outer = union of columns, inner = intersection of columns.",
+        "b": "The definitions are reversed; outer is the broader set.",
+        "c": "The axis parameter controls row vs column concatenation, not join.",
+        "d": "join in concat does not perform relational joins; it controls column set handling."
+      },
+      "hints": [
+        "Think of set operations: 'outer' like union, 'inner' like intersection.",
+        "The join parameter applies to the columns, not the rows."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In pd.concat, join='outer' (default) results in the union of columns, with NaN for missing values. join='inner' results in the intersection, keeping only columns present in every DataFrame.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_024",
+      "concept_name": "validate parameter (merge)",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "Given that the specs DataFrame has duplicate values in the 'tid' column, what will the following code do?\n\n```python\ntracks.merge(specs, on='tid', validate='one_to_one')\n```",
+      "options": {
+        "a": "It will merge normally but print a warning.",
+        "b": "It will raise a MergeError because the right DataFrame has duplicate keys.",
+        "c": "It will drop duplicate rows in specs before merging.",
+        "d": "It will perform a one‑to‑many merge automatically."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "No warning is printed; a MergeError is raised.",
+        "b": "Correct! validate='one_to_one' checks the uniqueness of keys on both sides and raises a MergeError if duplicates are found.",
+        "c": "validate does not modify the data; it only checks and raises errors.",
+        "d": "The merge type is not adjusted automatically; if it's not one‑to‑one, an error occurs."
+      },
+      "hints": [
+        "The validate parameter is meant to catch unexpected duplicates.",
+        "A common mistake is to assume it prevents the merge; it actually raises an error after computing the merge."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "validate='one_to_one' requires that the join keys are unique in both DataFrames. If specs has duplicate 'tid' values, a MergeError is raised immediately because the one‑to‑one assumption is violated.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_024",
+      "concept_name": "validate parameter (merge)",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "application",
+      "question_text": "You need to guarantee that a merge between two tables is one‑to‑one before using the result. Which merge call accomplishes this?",
+      "options": {
+        "a": "tracks.merge(specs, on='tid', how='inner', indicator=True)",
+        "b": "tracks.merge(specs, on='tid', validate='one_to_one')",
+        "c": "tracks.merge(specs, on='tid', how='left')",
+        "d": "pd.concat([tracks, specs], axis=1, join='inner')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "indicator adds a source column but does not enforce uniqueness.",
+        "b": "Correct! validate='one_to_one' will raise an error if the relationship is not one‑to‑one, ensuring the assumption holds.",
+        "c": "A left join does not check uniqueness; it simply performs the join.",
+        "d": "concat is not a merge and does not validate key relationships."
+      },
+      "hints": [
+        "Look for a parameter that explicitly checks the merge type.",
+        "The validate parameter can take values like 'one_to_one', 'one_to_many', etc."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Setting validate='one_to_one' tells pandas to verify that the join keys are unique in both DataFrames and raise a MergeError if not, providing a runtime guarantee of the expected relationship.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_025",
+      "concept_name": "verify_integrity parameter (concat)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You run pd.concat([df1, df2], verify_integrity=True). df1 has index values [0,1,2] and columns ['A','B']; df2 has index values [2,3,4] and columns ['A','B']. What happens?",
+      "options": {
+        "a": "A ValueError is raised because index value 2 appears in both DataFrames.",
+        "b": "The concatenation succeeds because columns match perfectly.",
+        "c": "The duplicate index 2 is automatically renamed to avoid conflict.",
+        "d": "The concatenation drops duplicate indices."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! verify_integrity checks the final index for duplicates, and index 2 appears twice, triggering a ValueError.",
+        "b": "Column matching does not prevent an index duplicate error.",
+        "c": "pandas does not rename indices automatically.",
+        "d": "It does not drop duplicates; it raises an error."
+      },
+      "hints": [
+        "The verify_integrity parameter guards against unintended duplicate row labels.",
+        "It only looks at the index, not the column values."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With verify_integrity=True, pandas checks whether the resulting concatenated index contains any duplicate values. Since index 2 exists in both df1 and df2, the final index will have duplicate 2, causing a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_026",
+      "concept_name": "merge_ordered() function",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "You run:\n\n```python\npd.merge_ordered(aapl, mcd, on='date', suffixes=('_aapl', '_mcd'))\n```\nIf aapl data starts on 2007-02-01 and mcd starts on 2007-01-01, what will the first row show for close_aapl?",
+      "options": {
+        "a": "NaN",
+        "b": "12.087143 (the first AAPL close)",
+        "c": "The merge will skip that row.",
+        "d": "0.0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! merge_ordered uses an outer join by default. The first date from mcd has no aapl data, so close_aapl is NaN.",
+        "b": "That would be the case if the join were an inner join or left join from aapl, but outer join fills missing with NaN.",
+        "c": "Outer join includes all rows, even without a match.",
+        "d": "Missing values are filled with NaN, not zero."
+      },
+      "hints": [
+        "What is the default how parameter in merge_ordered?",
+        "Outer join preserves all dates from both tables."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "merge_ordered defaults to how='outer' and sorts by the key column. The earliest date is 2007-01-01 from mcd, for which aapl has no data, so close_aapl is NaN.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_027",
+      "concept_name": "Forward fill (ffill)",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Using merge_ordered with fill_method='ffill', what happens to NaN values at the very beginning of a series?",
+      "options": {
+        "a": "They remain NaN because there is no previous value to fill forward.",
+        "b": "They are filled with the next non‑null value (backward fill).",
+        "c": "They are replaced with zero.",
+        "d": "The row is dropped."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Forward fill cannot fill initial NaNs because there is no preceding value to propagate.",
+        "b": "ffill only fills forward, not backward.",
+        "c": "ffill does not replace with a constant; it uses the previous value.",
+        "d": "ffill does not drop rows."
+      },
+      "hints": [
+        "Forward fill propagates the last observed value forward.",
+        "If the first observation is missing, there's nothing to propagate."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Forward fill ('ffill') replaces NaN with the most recent non‑null value above it. When NaN appears at the start of the column, there is no prior value to use, so they stay NaN.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_028",
+      "concept_name": "merge_asof() function",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "You run:\n\n```python\npd.merge_asof(visa, ibm, on='date_time', suffixes=('_visa','_ibm'))\n```\nvisa’s first row is at 16:00, and ibm has rows at 15:00 and 16:05. What ibm close value will be matched to visa’s 16:00 row? (Assume default direction='backward')",
+      "options": {
+        "a": "The close from ibm at 15:00 (the last row ≤ 16:00).",
+        "b": "The close from ibm at 16:05 (the nearest after 16:00).",
+        "c": "NaN because there is no exact match.",
+        "d": "The average of 15:00 and 16:05 closes."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! With backward direction, merge_asof picks the last row in the right DataFrame whose key is ≤ the left key.",
+        "b": "That would be chosen if direction='forward' or 'nearest' depending on values, but default is backward.",
+        "c": "merge_asof does not require exact matches; it finds the nearest according to direction.",
+        "d": "No averaging occurs; a single row is matched."
+      },
+      "hints": [
+        "merge_asof does a 'fuzzy' join on ordered keys.",
+        "Backward direction looks for the greatest right key ≤ left key."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With direction='backward' (the default), each left key is matched with the right row having the largest key that is still ≤ the left key. So 16:00 matches the 15:00 row.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_029"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_028",
+      "concept_name": "merge_asof() function",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You have two unsorted DataFrames with datetime columns. What error will you encounter if you directly use merge_asof without sorting?",
+      "options": {
+        "a": "A ValueError stating that the key columns must be sorted.",
+        "b": "A silent merge with unpredictable results.",
+        "c": "A KeyError because the column names don't match.",
+        "d": "A MemoryError due to large data."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! merge_asof requires the 'on' column to be sorted in ascending order and raises a ValueError if it isn't.",
+        "b": "pandas explicitly checks for sorted order and raises an error, rather than silently producing wrong results.",
+        "c": "A KeyError occurs only if specified column names are missing, not due to sorting.",
+        "d": "Unsorted data does not cause a MemoryError."
+      },
+      "hints": [
+        "merge_asof expects time‑series or ordered data.",
+        "What is the first thing the documentation says about the 'on' column in merge_asof?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "merge_asof relies on the key columns being sorted to perform efficient nearest matching. If the columns are not sorted, pandas raises a ValueError indicating that the keys must be sorted.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_029",
+      "concept_name": "direction parameter (merge_asof)",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "What does direction='forward' do in merge_asof?",
+      "options": {
+        "a": "Matches each left key with the first right key that is greater than or equal to the left key.",
+        "b": "Matches each left key with the last right key that is less than or equal to the left key.",
+        "c": "Matches each left key with the closest right key in either direction.",
+        "d": "Matches only exact keys."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! 'forward' searches for the first right row with key ≥ the left key.",
+        "b": "That describes direction='backward'.",
+        "c": "That describes direction='nearest'.",
+        "d": "Exact matching is not the purpose of merge_asof."
+      },
+      "hints": [
+        "Think of 'forward' as looking ahead in time.",
+        "The right key must be >= the left key."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "With direction='forward', merge_asof matches each left key with the right row having the smallest key that is still ≥ the left key, effectively looking into the future.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_029",
+      "concept_name": "direction parameter (merge_asof)",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "You are building a predictive model and need to join a real‑time price feed (left) to a slower economic indicator (right). You must avoid using future data. Which direction should you choose?",
+      "options": {
+        "a": "direction='backward'",
+        "b": "direction='forward'",
+        "c": "direction='nearest'",
+        "d": "direction='exact'"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! 'backward' ensures you only match with indicator values observed at or before the price time, preventing data leakage.",
+        "b": "'forward' would use future indicator values, which is data leakage.",
+        "c": "'nearest' could pick a future value if it's closer, still risking leakage.",
+        "d": "There is no 'exact' direction; merge_asof is for approximate matching."
+      },
+      "hints": [
+        "Using future information to predict the past is called data leakage.",
+        "For time‑series tasks, you want to match on the most recent known data at or before the event."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In predictive settings, it's crucial to use only information that would have been available at the time of prediction. direction='backward' matches on the last right row ≤ the left key, ensuring no future data leaks into the model.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_042",
+      "concept_id": "concept_030",
+      "concept_name": "query() method",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this query on the stocks_long DataFrame?\n\n```python\nstocks_long.query('stock == \"disney\"')\n```",
+      "options": {
+        "a": "The string literal \"disney\" uses double quotes inside a single‑quoted query, which is correct; nothing is wrong.",
+        "b": "String comparisons in query require backticks around the column name.",
+        "c": "The equality operator should be '=' not '=='.",
+        "d": "Column names with spaces need double quotes."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Using double quotes for string literals inside a single‑quoted query string is the proper way to avoid syntax conflicts.",
+        "b": "Backticks are needed only for column names with spaces or special characters; 'stock' is fine.",
+        "c": "In query, '==' is the correct equality operator.",
+        "d": "Column 'stock' has no space, so no backticks needed."
+      },
+      "hints": [
+        "In query(), strings can be written with matching quotes or escaped quotes.",
+        "Double quotes inside single‑quoted expression are valid."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The query() method interprets the string as a Python expression. Using double quotes for the string literal 'disney' inside single‑quoted outer string is perfectly valid and avoids escaping issues.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    }
+  ]
+}

@@ -1,0 +1,1397 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_001",
+    "concept_name": "open()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nfile = open('poem.txt', 'r')\ncontent = file.read()\nfile.close()\nprint(content[:5])\n```\nAssume poem.txt contains \"Roses are red\"",
+    "options": {
+      "a": "Roses",
+      "b": "Roses ",
+      "c": "Roses\n",
+      "d": "Roses are red"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `content[:5]` slices the first 5 characters, yielding 'Roses'.",
+      "b": "Incorrect. The slice stops before index 5, so the space is not included.",
+      "c": "Incorrect. There is no newline in the assumed content.",
+      "d": "Incorrect. That's the entire string, not a slice of 5 characters."
+    },
+    "hints": [
+      "`[:5]` means characters from index 0 up to (but not including) 5.",
+      "Count the letters in 'Roses'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`file.read()` returns the whole string. Slicing with `[:5]` returns the first five characters. Since 'Roses' is five letters, that's the output.",
+    "time_pressure_note": "Under pressure, some mistake the slice for inclusive of the ending index.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_002",
+    "concept_name": "file.read()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Complete the output comment.\n\n```python\nfile = open('greeting.txt', 'r')\ntext = file.read()\nfile.close()\n# print(text)  # output: __________\n```\ngreeting.txt contains:\nHello\nWorld",
+    "options": {
+      "a": "Hello",
+      "b": "Hello\nWorld",
+      "c": "Hello World",
+      "d": "['Hello', 'World']"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Incorrect. `read()` returns the whole file, not just the first line.",
+      "b": "Correct. It returns the exact content including the newline character.",
+      "c": "Incorrect. There is no space between lines; the newline is `\\n`.",
+      "d": "Incorrect. That would be the result of `readlines()` or splitting by newlines."
+    },
+    "hints": [
+      "`read()` returns everything as a single string, newlines and all.",
+      "The file has two lines separated by a line break."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`file.read()` reads the entire file content, including newline characters, and returns it as a single string.",
+    "time_pressure_note": "Time pressure makes you forget that newlines are part of the string.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_003",
+    "concept_name": "file.close()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\nfile = open('data.txt', 'r')\nfile.close()\nfile.read()\n```",
+    "options": {
+      "a": "NameError",
+      "b": "TypeError",
+      "c": "ValueError",
+      "d": "FileNotFoundError"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Incorrect. `file` is defined, so it's not a NameError.",
+      "b": "Incorrect. The operation is syntactically correct, but semantically wrong.",
+      "c": "Correct. Reading from a closed file raises `ValueError: I/O operation on closed file.`",
+      "d": "Incorrect. The file was already opened; no file-not-found error occurs."
+    },
+    "hints": [
+      "The error indicates an operation on an object in an inappropriate state.",
+      "`ValueError` is raised when an argument has the right type but an invalid value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "After `file.close()`, the file object is no longer connected to the file. Any subsequent I/O operation raises `ValueError`.",
+    "time_pressure_note": "Under time, some might confuse this with `IOError` or `TypeError`.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_004",
+    "concept_name": "with statement",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "What single line caused the state to change from `file` being open and readable to `file` being closed and unusable?\n\nBEFORE (file is open):\n```python\nwith open('log.txt', 'r') as file:\n    first_line = file.readline()\n```\nAFTER (file is closed):\n```python\nfile.read()  # raises ValueError\n```",
+    "options": {
+      "a": "The line `first_line = file.readline()`",
+      "b": "The line `with open('log.txt', 'r') as file:`",
+      "c": "Exiting the `with` block (the end of indentation)",
+      "d": "The line `file.read()`"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Incorrect. Reading a line does not close the file.",
+      "b": "Incorrect. The `with` statement opens the file, it doesn't close it immediately.",
+      "c": "Correct. The context manager automatically closes the file when the block ends.",
+      "d": "Incorrect. That line tries to read after the file is already closed, causing the error."
+    },
+    "hints": [
+      "The `with` statement ensures automatic cleanup after the indented block.",
+      "The change happens when the program leaves the indentation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `with` statement closes the file as soon as the indented block finishes, even if no explicit `close()` is called. The `ValueError` occurs because the file is already closed.",
+    "time_pressure_note": "You might mistakenly think the error happens because of the `file.read()` call itself, but it's because the file was already closed.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_010",
+    "concept_name": "numpy.loadtxt()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nimport numpy as np\ndata = np.loadtxt('matrix.csv', delimiter=',')\nprint(data.shape)\n```\nAssume 'matrix.csv' contains:\n1,2,3\n4,5,6",
+    "options": {
+      "a": "(2, 3)",
+      "b": "(3, 2)",
+      "c": "(2,)",
+      "d": "An error because `loadtxt` cannot handle multi‑row data without `skiprows`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Two rows, three columns.",
+      "b": "Incorrect. The shape is (rows, columns).",
+      "c": "Incorrect. That would be a 1D array, not a 2D one.",
+      "d": "Incorrect. `loadtxt` handles multiple rows fine without `skiprows`."
+    },
+    "hints": [
+      "The file has two lines, each with three numbers.",
+      "`shape` is a tuple of (rows, columns)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`loadtxt` reads the CSV as a 2D array with 2 rows and 3 columns, so `shape` is `(2, 3)`.",
+    "time_pressure_note": "Swapping rows and columns is a common slip when reading shape tuples.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_011",
+    "concept_name": "numpy.genfromtxt()",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "This code tries to read a file with missing values. What is the bug?\n\n```python\nimport numpy as np\ndata = np.loadtxt('data_with_blanks.csv', delimiter=',')\n```",
+    "options": {
+      "a": "`loadtxt` cannot handle missing data; use `genfromtxt` instead.",
+      "b": "The delimiter should be `;`.",
+      "c": "`loadtxt` requires a `skiprows` argument.",
+      "d": "The file extension must be `.txt`."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `loadtxt` fails on missing values; `genfromtxt` is more tolerant.",
+      "b": "Incorrect. The delimiter depends on the file, not a fixed bug.",
+      "c": "Incorrect. `skiprows` is optional.",
+      "d": "Incorrect. File extensions do not affect `loadtxt`."
+    },
+    "hints": [
+      "Think about which NumPy function handles irregular data.",
+      "`loadtxt` expects clean, homogeneous numeric data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`numpy.loadtxt()` is designed for complete, uniformly typed data. When blanks or missing entries exist, `numpy.genfromtxt()` should be used because it can replace missing values with placeholders.",
+    "time_pressure_note": "Under time, you might forget the existence of `genfromtxt` and pick a wrong parameter error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_012",
+    "concept_name": "skiprows parameter (loadtxt)",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A CSV file has a header line, then 100 data rows. The code:\n\n```python\nimport numpy as np\ndata = np.loadtxt('data.csv', delimiter=',', skiprows=0)\n```\nWhat issue does this cause?",
+    "options": {
+      "a": "No issue; the header is correctly ignored.",
+      "b": "The header is treated as data, causing a dtype error.",
+      "c": "Only the header is read, and the data is skipped.",
+      "d": "The file is read as a 1D array."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Incorrect. `skiprows=0` means no rows are skipped.",
+      "b": "Correct. The header, containing text, will be parsed as numeric data, leading to a `ValueError`.",
+      "c": "Incorrect. All rows are read; none are skipped.",
+      "d": "Incorrect. The number of rows skipped does not change the array dimensionality."
+    },
+    "hints": [
+      "`skiprows` is a count, not an index. `skiprows=0` skips zero rows.",
+      "Headers usually contain text, which `loadtxt` cannot parse as numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With `skiprows=0`, the header line is read as data, causing a `ValueError` because the header text cannot be converted to float.",
+    "time_pressure_note": "Mistaking `skiprows=0` as 'skip header' is a classic off‑by‑one mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_013",
+    "concept_name": "usecols parameter (loadtxt)",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "The file has columns A, B, C, D. You want only B and D. What is the bug?\n\n```python\nimport numpy as np\ndata = np.loadtxt('file.csv', delimiter=',', usecols=[1, 3])\n```",
+    "options": {
+      "a": "No bug; it correctly selects columns 1 and 3 (B and D).",
+      "b": "The indices should be 0‑based; B and D are at indices 1 and 3, so this is correct.",
+      "c": "`usecols` does not accept a list.",
+      "d": "The bug is that `usecols` uses 1‑based indexing, so [1,3] would select A and C."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Zero‑based indexing: B is index 1, D is index 3.",
+      "b": "Incorrect. That statement correctly identifies the indexing, making option (a) correct.",
+      "c": "Incorrect. `usecols` does accept a list.",
+      "d": "Incorrect. `usecols` uses 0‑based indexing, so [1,3] selects B and D."
+    },
+    "hints": [
+      "NumPy uses standard Python 0‑based indexing.",
+      "Column A is index 0, B is 1, C is 2, D is 3."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With 0‑based indexing, B is at index 1 and D is at index 3. The code correctly selects those columns.",
+    "time_pressure_note": "Many assume indexing starts at 1 under time pressure, leading to a wrong answer.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_014",
+    "concept_name": "dtype parameter (loadtxt)",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nimport numpy as np\ndata = np.loadtxt('nums.txt', delimiter=',', dtype=str)\nprint(data[0] + data[1])\n```\n'nums.txt' contains:\n1,2\n3,4",
+    "options": {
+      "a": "13",
+      "b": "'13'",
+      "c": "'1' + '3'",
+      "d": "A TypeError"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Incorrect. Arithmetic addition would give 4, but the dtype is str.",
+      "b": "Correct. The strings '1' and '3' are concatenated to '13'.",
+      "c": "Incorrect. That's not valid Python syntax.",
+      "d": "Incorrect. `+` on strings concatenates; no error."
+    },
+    "hints": [
+      "With `dtype=str`, elements are strings, so `+` is string concatenation.",
+      "`data[0]` is '1' and `data[1]` is '3'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because `dtype=str`, the numbers are read as strings. The `+` operator concatenates them, resulting in '13'.",
+    "time_pressure_note": "You might quickly think '1+3=4' and choose 13 by mistake. The correct output is a string.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_015",
+    "concept_name": "Mixed datatypes",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A CSV has columns Name (string) and Age (integer). What bug is present?\n\n```python\nimport numpy as np\ndata = np.loadtxt('people.csv', delimiter=',')\n```",
+    "options": {
+      "a": "`loadtxt` will fail because it cannot store mixed types in a homogeneous array.",
+      "b": "The delimiter should be a tab, not a comma.",
+      "c": "`loadtxt` needs `dtype=str` to read strings.",
+      "d": "The file must be loaded with `pd.read_csv()`; NumPy cannot read CSV."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `loadtxt` expects all columns to be numeric, so it will raise a `ValueError` on encountering strings.",
+      "b": "Incorrect. The delimiter is not the issue.",
+      "c": "Incorrect. Using `dtype=str` would read everything as strings, but that still doesn't allow mixed numeric operations.",
+      "d": "Incorrect. NumPy can read CSV files, just not mixed data."
+    },
+    "hints": [
+      "NumPy arrays must have a single data type for all elements.",
+      "A file with strings and numbers cannot be loaded into a numeric array."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`numpy.loadtxt()` attempts to parse everything as float. The presence of string values will cause a `ValueError`. Use `pandas.read_csv()` for mixed‑type data.",
+    "time_pressure_note": "You might panic and think the bug is a missing parameter, forgetting the fundamental type restriction.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_017",
+    "concept_name": "DataFrame",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank.\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'A': [1,2], 'B': [3,4]})\nprint(df.shape)  # output: __________\n```",
+    "options": {
+      "a": "(2, 2)",
+      "b": "2 2",
+      "c": "(2, 2)",
+      "d": "(2,2)"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Incorrect. The output is printed without parentheses in the code comment, but the actual `shape` attribute is a tuple. The question shows a comment, so the blank should contain the tuple representation `(2, 2)`.",
+      "b": "Incorrect. `shape` returns a tuple, not a string with spaces.",
+      "c": "Correct. `shape` returns `(2, 2)` as a tuple, printed as `(2, 2)`.",
+      "d": "Incorrect. The tuple printed by Python includes a space after the comma."
+    },
+    "hints": [
+      "`shape` is an attribute that returns a tuple of dimensions.",
+      "When a tuple is printed, it includes parentheses and a space after the comma."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The DataFrame has 2 rows and 2 columns, so `df.shape` is `(2, 2)`. When printed, Python outputs `(2, 2)`.",
+    "time_pressure_note": "The space in the tuple is easily overlooked; picking `(2,2)` is a subtle trap.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_018",
+    "concept_name": "pandas.read_csv()",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "The file 'sales.txt' has no header row and uses `|` as delimiter. Which code will read it correctly into a DataFrame?",
+    "options": {
+      "a": "pd.read_csv('sales.txt', sep='|', header=None)",
+      "b": "pd.read_csv('sales.txt', delimiter='|')",
+      "c": "pd.read_csv('sales.txt', sep='|')",
+      "d": "pd.read_csv('sales.txt', delimiter='|', header=0)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `sep='|'` sets the delimiter, and `header=None` ensures no row is used as column names.",
+      "b": "Incorrect. Without `header=None`, the first row will be treated as the header, which is incorrect.",
+      "c": "Incorrect. Same as above; missing `header=None`.",
+      "d": "Incorrect. `header=0` treats the first row as the header, which is wrong for a headerless file."
+    },
+    "hints": [
+      "When there's no header, you must tell pandas not to use the first row as column names.",
+      "`sep` is an alias for `delimiter` in `read_csv`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To correctly read a headerless file with a custom delimiter, set `header=None` and specify the separator. Otherwise, the first data row becomes column names.",
+    "time_pressure_note": "Forgetting `header=None` is a classic blunder under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_020",
+    "concept_name": "DataFrame.to_numpy()",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'name': ['Alice', 'Bob'], 'score': [85, 92]})\narr = df.to_numpy()\nprint(type(arr))\n```",
+    "options": {
+      "a": "<class 'numpy.ndarray'>",
+      "b": "<class 'pandas.DataFrame'>",
+      "c": "<class 'list'>",
+      "d": "<class 'dict'>"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `to_numpy()` returns a NumPy array.",
+      "b": "Incorrect. The result is not a DataFrame.",
+      "c": "Incorrect. It's not a list.",
+      "d": "Incorrect. It's not a dictionary."
+    },
+    "hints": [
+      "The method name clearly indicates conversion to NumPy.",
+      "The type of the object is printed with `type()`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`DataFrame.to_numpy()` returns the underlying data as a NumPy `ndarray`, even if the DataFrame contains mixed types.",
+    "time_pressure_note": "Some might expect a DataFrame or list, but the method says exactly what it does.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_021",
+    "concept_name": "Pickle / serialization",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Identify the bug.\n\n```python\nimport pickle\nwith open('data.pkl', 'r') as file:\n    obj = pickle.load(file)\n```",
+    "options": {
+      "a": "The file mode should be 'rb' not 'r'.",
+      "b": "`pickle.load` requires a file path, not a file object.",
+      "c": "The `with` statement cannot be used with pickle.",
+      "d": "The file extension must be '.pickle'."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Pickled files are binary and must be opened with 'rb'.",
+      "b": "Incorrect. `pickle.load` accepts a binary file object.",
+      "c": "Incorrect. `with` works perfectly with pickle.",
+      "d": "Incorrect. File extension does not matter."
+    },
+    "hints": [
+      "Pickle stores objects as byte streams, so binary mode is mandatory.",
+      "Text mode 'r' would cause an error when reading binary data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Opening a pickled file in text mode ('r') will result in a `TypeError` or `UnicodeDecodeError` because the data is binary. Always use 'rb'.",
+    "time_pressure_note": "When rushing, it's easy to forget that pickle files are binary.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_022",
+    "concept_name": "pickle.load()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\nimport pickle\nfile = open('data.pkl', 'rb')\n# missing: import pickle (actually we have import, so fine)\n# but maybe we forgot import? No.\n```\nActually, let's create a scenario where `pickle` is not imported.\n",
+    "options": {
+      "a": "NameError",
+      "b": "TypeError",
+      "c": "FileNotFoundError",
+      "d": "ImportError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. If `import pickle` is missing, `pickle.load` will raise `NameError`.",
+      "b": "Incorrect. The error is about an undefined name.",
+      "c": "Incorrect. The file exists.",
+      "d": "Incorrect. `ImportError` is raised when an import fails, not when a name is undefined after a missing import."
+    },
+    "hints": [
+      "Python raises `NameError` when a variable or module name is not defined.",
+      "Forgetting to import a module is a common mistake."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "If the `import pickle` line is omitted, `pickle` is undefined, leading to `NameError: name 'pickle' is not defined` when `pickle.load` is called.",
+    "time_pressure_note": "The error type can be confused with `ImportError` if you think of the missing import statement.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_024",
+    "concept_name": "pandas.ExcelFile",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code that tries to list sheets in an Excel workbook?\n\n```python\nimport pandas as pd\nxls = pd.ExcelFile('workbook.xlsx')\nprint(xls.sheet_names())\n```",
+    "options": {
+      "a": "`sheet_names` is an attribute, not a method; remove the parentheses.",
+      "b": "`ExcelFile` should be `ExcelReader`.",
+      "c": "The file extension must be `.xls`.",
+      "d": "`sheet_names` returns a generator, so it must be iterated, not printed."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `sheet_names` is an attribute, not callable. Using `()` causes `TypeError`.",
+      "b": "Incorrect. `ExcelReader` does not exist.",
+      "c": "Incorrect. `.xlsx` is a valid extension.",
+      "d": "Incorrect. `sheet_names` returns a list, which can be printed directly."
+    },
+    "hints": [
+      "Check the parentheses; `sheet_names` is not a function.",
+      "If you call an attribute as a function, Python will complain about the object not being callable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ExcelFile.sheet_names` is an attribute that returns a list. Adding parentheses tries to call the list, causing a `TypeError`.",
+    "time_pressure_note": "Under time, the extra parentheses might go unnoticed.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_025",
+    "concept_name": "ExcelFile.sheet_names",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which line does NOT return or set a value related to sheet names?\n\n```python\nimport pandas as pd\nxls = pd.ExcelFile('example.xlsx')\n```",
+    "options": {
+      "a": "xls.sheet_names",
+      "b": "xls.parse('Sheet1')",
+      "c": "xls.sheet_names",
+      "d": "xls.sheet_names"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Incorrect. `sheet_names` returns the list of sheet names.",
+      "b": "Correct. `parse` returns a DataFrame, not a sheet name.",
+      "c": "Incorrect. Same as (a).",
+      "d": "Incorrect. Same as (a)."
+    },
+    "hints": [
+      "`parse()` reads the data of a sheet, not its name.",
+      "`sheet_names` is specifically about the names of the sheets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "All other options access `sheet_names`, while `parse` is a method to read sheet data into a DataFrame.",
+    "time_pressure_note": "The repetition of `sheet_names` might trick you into missing that `parse` is different.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_026",
+    "concept_name": "ExcelFile.parse()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the output of this code?\n\n```python\nimport pandas as pd\nxls = pd.ExcelFile('demo.xlsx')\ndf = xls.parse(0)\nprint(type(df))\n```",
+    "options": {
+      "a": "<class 'pandas.core.frame.DataFrame'>",
+      "b": "<class 'pandas.io.excel.ExcelFile'>",
+      "c": "<class 'list'>",
+      "d": "<class 'dict'>"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `parse()` returns a DataFrame.",
+      "b": "Incorrect. The variable `df` is a DataFrame, not an ExcelFile.",
+      "c": "Incorrect. It's not a list.",
+      "d": "Incorrect. It's not a dictionary."
+    },
+    "hints": [
+      "`parse()` loads a sheet into a pandas DataFrame.",
+      "The type printed is the class of the object, which is `DataFrame`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ExcelFile.parse()` always returns a DataFrame, regardless of whether you use a sheet index or name.",
+    "time_pressure_note": "You might mistakenly think the type is something else, but `parse` is the DataFrame factory.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_028",
+    "concept_name": "sas7bdat.SAS7BDAT",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug?\n\n```python\nfrom sas7bdat import SAS7BDAT\ndf = SAS7BDAT('data.sas7bdat').to_data_frame()\n```",
+    "options": {
+      "a": "No context manager used; the file may not be closed properly.",
+      "b": "`SAS7BDAT` does not accept a filename.",
+      "c": "`to_data_frame` should be spelled `to_dataframe`.",
+      "d": "The import statement is incorrect."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Best practice is to use `with SAS7BDAT(...) as file:` to ensure the file is closed.",
+      "b": "Incorrect. It does accept a filename.",
+      "c": "Incorrect. The correct spelling is `to_data_frame`.",
+      "d": "Incorrect. The import is correct."
+    },
+    "hints": [
+      "Resource leaks can occur if the file is not closed properly.",
+      "The context manager `with` is recommended for file handling."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "While the code works, it's better to use a context manager to automatically close the SAS file and free resources.",
+    "time_pressure_note": "The bug is about style/resource management, not a syntax error. Under time, you might miss it.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_029",
+    "concept_name": "SAS7BDAT.to_data_frame()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code raise?\n\n```python\nfrom sas7bdat import SAS7BDAT\nwith SAS7BDAT('example.sas7bdat') as file:\n    df = file.to_dataframe()\n```",
+    "options": {
+      "a": "AttributeError: 'SAS7BDAT' object has no attribute 'to_dataframe'",
+      "b": "TypeError: to_dataframe() missing 1 required positional argument: 'self'",
+      "c": "ValueError: invalid SAS file",
+      "d": "NameError: name 'to_dataframe' is not defined"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The method is `to_data_frame`, not `to_dataframe`.",
+      "b": "Incorrect. If the method existed, calling it with `()` would be fine.",
+      "c": "Incorrect. The file is valid.",
+      "d": "Incorrect. `to_dataframe` is an attribute access on the object, not a standalone name."
+    },
+    "hints": [
+      "Check the method name spelling: it has an underscore.",
+      "A common mistake is omitting the underscore between 'data' and 'frame'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct method is `to_data_frame()`. Misspelling it as `to_dataframe()` raises `AttributeError`.",
+    "time_pressure_note": "The underscore is easily overlooked, especially under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_030",
+    "concept_name": "Stata files",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which file extension is NOT associated with Stata?",
+    "options": {
+      "a": ".dta",
+      "b": ".sas7bdat",
+      "c": ".dta (again)",
+      "d": ".csv"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Incorrect. `.dta` is the Stata file extension.",
+      "b": "Correct. `.sas7bdat` is for SAS files, not Stata.",
+      "c": "Incorrect. `.dta` is Stata.",
+      "d": "Incorrect. `.csv` is not a Stata‑specific format, but the question asks for the one definitely NOT associated with Stata; `.sas7bdat` is more clearly unrelated."
+    },
+    "hints": [
+      "Stata files end with `.dta`.",
+      "SAS files end with `.sas7bdat`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Stata files use the `.dta` extension. `.sas7bdat` is the SAS extension.",
+    "time_pressure_note": "Mixing up SAS and Stata extensions is common when you're not careful.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_031",
+    "concept_name": "pandas.read_stata()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Find the bug.\n\n```python\nimport pandas as pd\ndata = pd.read_dta('survey.dta')\n```",
+    "options": {
+      "a": "The function name should be `read_stata`, not `read_dta`.",
+      "b": "The file must be opened in binary mode before passing to pandas.",
+      "c": "`read_dta` is a valid function; no bug.",
+      "d": "Pandas cannot read Stata files."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The correct function is `pd.read_stata()`, named after the software, not the file extension.",
+      "b": "Incorrect. Pandas handles file opening internally.",
+      "c": "Incorrect. There is no `read_dta`.",
+      "d": "Incorrect. Pandas can read Stata files with `read_stata`."
+    },
+    "hints": [
+      "The function name is based on the software (Stata), not the file extension (.dta).",
+      "Common mistake: assuming the function is named after the extension."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`pandas.read_stata()` is the correct function. `read_dta` does not exist.",
+    "time_pressure_note": "The .dta extension might trick you into thinking the function is `read_dta`.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_032",
+    "concept_name": "HDF5 files",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which description does NOT apply to HDF5?",
+    "options": {
+      "a": "Can scale to exabytes",
+      "b": "Hierarchical grouping of datasets",
+      "c": "Plain‑text human‑readable format",
+      "d": "Binary file format"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Incorrect. HDF5 is indeed scalable.",
+      "b": "Incorrect. Hierarchical structure is a key feature.",
+      "c": "Correct. HDF5 is binary, not plain text.",
+      "d": "Incorrect. HDF5 is a binary format."
+    },
+    "hints": [
+      "HDF5 is not something you can open in a simple text editor.",
+      "It is designed for efficient storage, not human readability."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "HDF5 is a binary, hierarchical file format optimized for large numerical datasets. It is not human‑readable like CSV or plain text.",
+    "time_pressure_note": "The mention of 'plain‑text' might slip past under time pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_033",
+    "concept_name": "h5py",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "After executing `import h5py`, what type of object does `h5py` refer to?",
+    "options": {
+      "a": "A module",
+      "b": "A function",
+      "c": "A class",
+      "d": "A string"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `h5py` is a Python module.",
+      "b": "Incorrect. It's a module, not a function.",
+      "c": "Incorrect. The module itself is not a class.",
+      "d": "Incorrect. It's not a string."
+    },
+    "hints": [
+      "`import h5py` brings in a library, which is a module.",
+      "Modules contain functions and classes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`h5py` is a module containing classes like `File` and other utilities for HDF5 files.",
+    "time_pressure_note": "People often confuse the module with its contents.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_034",
+    "concept_name": "h5py.File()",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error occurs when opening an HDF5 file with `h5py.File('data.h5', 'r')` but the file does not exist?",
+    "options": {
+      "a": "FileNotFoundError",
+      "b": "OSError",
+      "c": "KeyError",
+      "d": "ValueError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Trying to open a nonexistent file in read mode raises `FileNotFoundError`.",
+      "b": "Incorrect. `OSError` is a broader parent class, but `FileNotFoundError` is the specific exception.",
+      "c": "Incorrect. `KeyError` is for missing dictionary keys.",
+      "d": "Incorrect. `ValueError` is for inappropriate values."
+    },
+    "hints": [
+      "Opening a file that doesn't exist for reading is a standard Python exception.",
+      "The error type is the same as when using `open()` with 'r' on a missing file."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`h5py.File` in read mode behaves like Python's built‑in `open`: a missing file raises `FileNotFoundError`.",
+    "time_pressure_note": "You might confuse it with an HDF5‑specific error, but it's standard.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_035",
+    "concept_name": "h5py group keys",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is the result of `list(data.keys())` where `data` is an `h5py.File` object containing groups 'meta', 'quality', and 'strain'?",
+    "options": {
+      "a": "['meta', 'quality', 'strain']",
+      "b": "{'meta', 'quality', 'strain'}",
+      "c": "('meta', 'quality', 'strain')",
+      "d": "A generator object"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `list()` converts the iterator to a list.",
+      "b": "Incorrect. It returns a list, not a set.",
+      "c": "Incorrect. It's a list, not a tuple.",
+      "d": "Incorrect. `list()` consumes the iterator and produces a list."
+    },
+    "hints": [
+      "`keys()` returns an iterator, but `list()` collects its items.",
+      "The order of keys is preserved."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`data.keys()` returns an iterator-like object. Wrapping it with `list()` gives a Python list of the group/dataset names.",
+    "time_pressure_note": "The fact that `keys()` returns an iterator, not a list, might be forgotten.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_036",
+    "concept_name": "MATLAB .mat files",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "Before: `result` is not defined. After: `result` is a dictionary with keys 'x' and 'y'. What single line caused this change?",
+    "options": {
+      "a": "result = scipy.io.loadmat('data.mat')",
+      "b": "result = pd.read_csv('data.csv')",
+      "c": "result = pickle.load(open('data.pkl', 'rb'))",
+      "d": "result = h5py.File('data.h5', 'r')"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `loadmat` returns a dictionary of MATLAB variables.",
+      "b": "Incorrect. That would return a DataFrame, not a dictionary with keys.",
+      "c": "Incorrect. That could return a dictionary, but the context of .mat file points to `loadmat`.",
+      "d": "Incorrect. `h5py.File` returns an HDF5 file object, not a dictionary."
+    },
+    "hints": [
+      "The file extension .mat is specifically for MATLAB.",
+      "`scipy.io.loadmat` is the function to read .mat files and returns a dictionary."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`scipy.io.loadmat` reads a MATLAB workspace file and returns a dictionary where each key is a variable name.",
+    "time_pressure_note": "You might confuse MATLAB .mat with HDF5, but the key difference is the function used.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_037",
+    "concept_name": "scipy.io.loadmat()",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error is raised by this code?\n\n```python\nimport scipy.io\nmat = scipy.io.loadmat('nonexistent.mat')\n```",
+    "options": {
+      "a": "FileNotFoundError",
+      "b": "ImportError",
+      "c": "ValueError",
+      "d": "KeyError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `loadmat` tries to open the file and fails if it doesn't exist.",
+      "b": "Incorrect. The import works.",
+      "c": "Incorrect. Not a `ValueError`.",
+      "d": "Incorrect. `KeyError` would occur if accessing a missing key in the returned dictionary."
+    },
+    "hints": [
+      "This is a standard file‑not‑found situation.",
+      "Python’s `open` inside `loadmat` will raise the appropriate exception."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "If the .mat file does not exist, `loadmat` will raise `FileNotFoundError` (or `IOError` in older Python).",
+    "time_pressure_note": "You might think of a `KeyError` because you're focusing on the MATLAB variable part.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_038",
+    "concept_name": "Relational database",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which is NOT a characteristic of a relational database?",
+    "options": {
+      "a": "Data stored in flat files without relationships",
+      "b": "Tables linked by primary and foreign keys",
+      "c": "Querying using SQL",
+      "d": "Supports ACID transactions"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Flat files are the opposite of a relational database.",
+      "b": "Incorrect. That is a key feature.",
+      "c": "Incorrect. SQL is the standard query language.",
+      "d": "Incorrect. ACID is often supported."
+    },
+    "hints": [
+      "Relational databases are all about relationships between tables.",
+      "Flat files have no inherent relationships."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A relational database structures data into related tables, not isolated flat files.",
+    "time_pressure_note": "The term 'flat files' might be confused with tables, but they are fundamentally different.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_039",
+    "concept_name": "Table (database)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "If you have a table `Employees` with columns `ID`, `Name`, what SQL keyword do you use to get all rows?",
+    "options": {
+      "a": "SELECT",
+      "b": "GET",
+      "c": "FETCH",
+      "d": "PULL"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `SELECT * FROM Employees` retrieves all rows.",
+      "b": "Incorrect. `GET` is not SQL.",
+      "c": "Incorrect. `FETCH` is used in cursors, not the main query.",
+      "d": "Incorrect. `PULL` is not an SQL command."
+    },
+    "hints": [
+      "The standard command to retrieve data is `SELECT`.",
+      "It's the first word in almost every SQL query."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`SELECT` is the fundamental SQL keyword for querying data.",
+    "time_pressure_note": "Simple recall, but the timer can make you second‑guess.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_040",
+    "concept_name": "Primary key",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A table's primary key column contains two identical values. What is the bug?",
+    "options": {
+      "a": "Primary keys must be unique; duplicate values violate the constraint.",
+      "b": "The column should be a foreign key.",
+      "c": "The primary key must be numeric.",
+      "d": "Duplicates are allowed if the column is indexed."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Primary keys enforce uniqueness.",
+      "b": "Incorrect. Foreign keys reference other tables.",
+      "c": "Incorrect. Primary keys can be any data type.",
+      "d": "Incorrect. Indexing does not permit duplicates; uniqueness is a constraint."
+    },
+    "hints": [
+      "Primary keys identify each row uniquely.",
+      "No two rows can share the same primary key value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A primary key constraint ensures no duplicate or NULL values. Duplicate values violate this rule.",
+    "time_pressure_note": "The concept of uniqueness is fundamental; mixing with foreign keys could cause confusion.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_041",
+    "concept_name": "Foreign key",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error occurs when inserting a row with a foreign key value that doesn't exist in the referenced table?",
+    "options": {
+      "a": "IntegrityError (or foreign key constraint failure)",
+      "b": "NameError",
+      "c": "SyntaxError",
+      "d": "TypeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. This violates referential integrity, raising an integrity error.",
+      "b": "Incorrect. It's not a Python name error.",
+      "c": "Incorrect. The SQL is syntactically correct.",
+      "d": "Incorrect. Not a type mismatch issue."
+    },
+    "hints": [
+      "Foreign keys must reference existing primary key values.",
+      "Violating this rule triggers a constraint error."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Referential integrity ensures that foreign key values correspond to existing rows. An invalid foreign key causes a constraint violation, often raised as `IntegrityError` in SQLAlchemy.",
+    "time_pressure_note": "The error might be mistaken for a generic `ValueError` or `KeyError`.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_042",
+    "concept_name": "SQL (Structured Query Language)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which statement about SQL is FALSE?",
+    "options": {
+      "a": "SQL is a procedural language that describes step‑by‑step data retrieval.",
+      "b": "SQL stands for Structured Query Language.",
+      "c": "SQL is used to query and manipulate relational databases.",
+      "d": "SQL can join tables using INNER JOIN."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. SQL is declarative, not procedural. You specify what you want, not how to get it.",
+      "b": "Incorrect. That's true.",
+      "c": "Incorrect. That's true.",
+      "d": "Incorrect. That's true."
+    },
+    "hints": [
+      "SQL tells the database what result you need, not how to find it.",
+      "Procedural languages require explicit looping and conditionals."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL is a declarative language. You describe the result set, and the database engine determines the execution plan.",
+    "time_pressure_note": "The procedural vs. declarative distinction is often misunderstood.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_043",
+    "concept_name": "SELECT * FROM",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "How many rows are returned by `SELECT * FROM Orders`?",
+    "options": {
+      "a": "All rows in the Orders table.",
+      "b": "Only the first 10 rows.",
+      "c": "Only rows that satisfy a condition.",
+      "d": "The number of rows is unpredictable."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Without a `WHERE` clause, all rows are returned.",
+      "b": "Incorrect. `SELECT *` does not limit rows.",
+      "c": "Incorrect. That would require a `WHERE` clause.",
+      "d": "Incorrect. The table has a known number of rows."
+    },
+    "hints": [
+      "`SELECT * FROM table` retrieves every row.",
+      "There is no implicit row limit in standard SQL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The query returns every row present in the Orders table because no filter is applied.",
+    "time_pressure_note": "Beginners might think it returns a sample or limited set.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_044",
+    "concept_name": "SQLAlchemy",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "Before: no `engine` variable. After: `engine` is an object connected to 'Northwind.sqlite'. What line caused this?",
+    "options": {
+      "a": "engine = create_engine('sqlite:///Northwind.sqlite')",
+      "b": "engine = connect('sqlite:///Northwind.sqlite')",
+      "c": "engine = sqlite3.connect('Northwind.sqlite')",
+      "d": "engine = pd.read_sql('Northwind.sqlite')"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `create_engine` from SQLAlchemy creates the engine.",
+      "b": "Incorrect. `connect` is not the engine creator.",
+      "c": "Incorrect. That's the sqlite3 module, not SQLAlchemy.",
+      "d": "Incorrect. `read_sql` reads data, not creates an engine."
+    },
+    "hints": [
+      "SQLAlchemy's `create_engine` returns an engine object.",
+      "The connection string uses triple slashes for SQLite."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`from sqlalchemy import create_engine` and then `create_engine('sqlite:///Northwind.sqlite')` creates the engine.",
+    "time_pressure_note": "Mixing up `create_engine` with `connect` or `sqlite3` is easy.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_045",
+    "concept_name": "create_engine()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error does `create_engine('sqlite:/Northwind.sqlite')` cause?",
+    "options": {
+      "a": "An error because the URL format is invalid (only one slash after sqlite:).",
+      "b": "It works fine.",
+      "c": "FileNotFoundError",
+      "d": "TypeError: create_engine() takes 0 arguments"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The SQLite URL requires three slashes (`///`) for a relative path.",
+      "b": "Incorrect. The URL is malformed.",
+      "c": "Incorrect. The error is about URL parsing, not file existence.",
+      "d": "Incorrect. `create_engine` takes an argument."
+    },
+    "hints": [
+      "The correct SQLite connection string starts with `sqlite:///`.",
+      "Missing slashes will result in a configuration error."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQLAlchemy expects `sqlite:///` for a relative path. Incorrect slashes cause an `ArgumentError`.",
+    "time_pressure_note": "The slash count is a subtle detail that's easy to overlook.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_046",
+    "concept_name": "engine.table_names()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does `engine.table_names()` return?",
+    "options": {
+      "a": "A list of all table names in the database.",
+      "b": "A list of column names of a specific table.",
+      "c": "The SQL query to create the tables.",
+      "d": "A string listing table names separated by commas."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. It returns a list of strings.",
+      "b": "Incorrect. Column names are obtained via `ResultProxy.keys()`.",
+      "c": "Incorrect. That's schema creation.",
+      "d": "Incorrect. It returns a list, not a single string."
+    },
+    "hints": [
+      "This method is called on the engine, not on a table.",
+      "It's useful for discovering what tables exist."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`engine.table_names()` queries the database metadata and returns a Python list of table names.",
+    "time_pressure_note": "You might confuse it with column names or a formatted string.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_047",
+    "concept_name": "engine.connect()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "This code runs a query but fails to close resources properly. What is the bug?\n\n```python\nfrom sqlalchemy import create_engine\nengine = create_engine('sqlite:///mydb.sqlite')\ncon = engine.connect()\ncon.execute(\"SELECT * FROM Customers\")\n# missing something\n```",
+    "options": {
+      "a": "The connection `con` is never closed, risking resource leak.",
+      "b": "The SQL query is missing a semicolon.",
+      "c": "`engine.connect()` should be called inside a `with` statement.",
+      "d": "`create_engine` requires a user and password."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Always close connections, preferably with a context manager.",
+      "b": "Incorrect. SQLite doesn't require semicolons.",
+      "c": "Incorrect. While `with` is best practice, the more direct bug is the missing close.",
+      "d": "Incorrect. SQLite doesn't need credentials."
+    },
+    "hints": [
+      "Connections should be released when done.",
+      "Using a context manager `with engine.connect() as con:` is the safe way."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The connection object `con` is not closed, which may lead to database locks or memory leaks. Using `with engine.connect() as con:` would automatically close it.",
+    "time_pressure_note": "The lack of close might be missed when focusing on the query.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_048",
+    "concept_name": "connection.execute()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "After `rs = con.execute(\"SELECT Name FROM Customers\")`, what does `rs` contain before any fetch call?",
+    "options": {
+      "a": "A ResultProxy object representing the pending result set.",
+      "b": "A list of tuples with the customer names.",
+      "c": "The first row as a tuple.",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `execute()` returns a ResultProxy, not the data directly.",
+      "b": "Incorrect. You need `fetchall()` to get all rows.",
+      "c": "Incorrect. `fetchone()` would return the first row.",
+      "d": "Incorrect. It's not None."
+    },
+    "hints": [
+      "The result proxy is like a cursor; you must fetch rows explicitly.",
+      "Data is not retrieved until you call a fetch method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`execute()` returns a ResultProxy that points to the database result. The actual rows are obtained via `fetchone`, `fetchmany`, or `fetchall`.",
+    "time_pressure_note": "You might think `execute()` immediately returns all data, but it doesn't.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_049",
+    "concept_name": "ResultProxy.fetchall()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "If you call `rs.fetchall()` twice on the same ResultProxy, what happens on the second call?",
+    "options": {
+      "a": "It returns an empty list because the result was consumed by the first call.",
+      "b": "It raises `ResourceClosedError`.",
+      "c": "It returns the same rows as the first call.",
+      "d": "It causes a database error."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. After fetching all rows, the result proxy is exhausted.",
+      "b": "Incorrect. The result proxy is still usable but returns nothing.",
+      "c": "Incorrect. The rows are not re‑sent.",
+      "d": "Incorrect. No error occurs, just an empty list."
+    },
+    "hints": [
+      "ResultProxy is like an iterator; once consumed, it's empty.",
+      "Fetchall consumes all remaining rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The first `fetchall()` retrieves all rows. Subsequent calls return an empty list because there are no more rows to fetch.",
+    "time_pressure_note": "You might expect an error, but it's simply empty.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_041",
+    "concept_id": "concept_050",
+    "concept_name": "ResultProxy.fetchmany()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "If a query returns 10 rows and you call `rs.fetchmany(size=3)` twice, what does the second call return?",
+    "options": {
+      "a": "The next 3 rows (rows 4-6).",
+      "b": "The same 3 rows as the first call.",
+      "c": "All remaining rows (7-10) because the size is ignored when smaller than remaining.",
+      "d": "An empty list."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `fetchmany` advances the cursor, so the second call retrieves the next batch.",
+      "b": "Incorrect. It does not restart; it continues from where it left off.",
+      "c": "Incorrect. It respects the size parameter as long as that many rows remain.",
+      "d": "Incorrect. There are still 7 rows left; only after third call it might return fewer."
+    },
+    "hints": [
+      "`fetchmany` works like a moving window.",
+      "It fetches up to `size` rows each time, moving the internal pointer."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Each `fetchmany(size=3)` call retrieves the next 3 rows from the result set, if available.",
+    "time_pressure_note": "You might think it resets, but it keeps state.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_042",
+    "concept_id": "concept_051",
+    "concept_name": "ResultProxy.keys()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Identify the bug.\n\n```python\nfrom sqlalchemy import create_engine\nengine = create_engine('sqlite:///db.sqlite')\ncon = engine.connect()\nrs = con.execute(\"SELECT id, name FROM employees\")\nrows = rs.fetchall()\ncols = rs.keys()\n```",
+    "options": {
+      "a": "`.keys()` is called after `fetchall()`, which may fail because the result is exhausted.",
+      "b": "`.keys()` should be called before `fetchall()`.",
+      "c": "`.keys()` returns column names, but the code ignores them.",
+      "d": "`.keys()` is not a method of ResultProxy."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Calling `.keys()` after consuming all rows can raise an error or return nothing.",
+      "b": "Incorrect. While it's safer to call before, the bug is that it's called after, which is the problem.",
+      "c": "Incorrect. That's not a bug; the column names aren't used yet.",
+      "d": "Incorrect. `.keys()` is a valid method."
+    },
+    "hints": [
+      "Once all rows are fetched, the ResultProxy is exhausted.",
+      "Always retrieve column names before fetching rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`rs.keys()` should be called before `rs.fetchall()`. After fetching all, the result proxy may no longer provide metadata, leading to an `AttributeError` or empty result.",
+    "time_pressure_note": "The order of `fetchall` and `keys` is often swapped by mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_043",
+    "concept_id": "concept_052",
+    "concept_name": "pandas.read_sql_query()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nimport pandas as pd\nfrom sqlalchemy import create_engine\nengine = create_engine('sqlite:///sample.sqlite')\ndf = pd.read_sql_query(\"SELECT name FROM users\", engine)\nprint(type(df))\n```",
+    "options": {
+      "a": "<class 'pandas.core.frame.DataFrame'>",
+      "b": "<class 'list'>",
+      "c": "<class 'sqlalchemy.engine.result.ResultProxy'>",
+      "d": "<class 'str'>"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `read_sql_query` returns a DataFrame.",
+      "b": "Incorrect. It's a DataFrame, not a list.",
+      "c": "Incorrect. That would be the result of `execute()`.",
+      "d": "Incorrect. Not a string."
+    },
+    "hints": [
+      "`pd.read_sql_query` is designed to bypass manual result handling.",
+      "It directly returns a DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`pandas.read_sql_query()` combines execution and conversion, returning a DataFrame.",
+    "time_pressure_note": "You might confuse it with `execute` and think it returns a ResultProxy.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_044",
+    "concept_id": "concept_053",
+    "concept_name": "INNER JOIN",
+    "chapter": 5,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "Before: `result` is empty. After: `result` contains rows where `Orders.CustomerID` equals `Customers.CustomerID`. What SQL caused this?",
+    "options": {
+      "a": "SELECT * FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID",
+      "b": "SELECT * FROM Orders LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID",
+      "c": "SELECT * FROM Orders, Customers WHERE Orders.CustomerID = Customers.CustomerID",
+      "d": "SELECT * FROM Orders FULL OUTER JOIN Customers ON Orders.CustomerID = Customers.CustomerID"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. INNER JOIN returns only matching rows.",
+      "b": "Incorrect. LEFT JOIN returns all Orders, even without matching Customers.",
+      "c": "Incorrect. That's an implicit join, not an explicit INNER JOIN.",
+      "d": "Incorrect. FULL OUTER JOIN includes non‑matching rows."
+    },
+    "hints": [
+      "An INNER JOIN filters to only rows that satisfy the ON condition.",
+      "It is the default join when you want strict matches."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`INNER JOIN` creates a result set containing only the rows where the join condition is true for both tables.",
+    "time_pressure_note": "The subtle difference between JOIN types can be forgotten under pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_045",
+    "concept_id": "concept_054",
+    "concept_name": "ON clause (SQL JOIN)",
+    "chapter": 5,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What is the error in this SQL?\n\n```sql\nSELECT * FROM Orders\nINNER JOIN Customers ON Orders.CustomerID == Customers.CustomerID\n```",
+    "options": {
+      "a": "SQL uses single `=` for equality, not `==`. This is a syntax error.",
+      "b": "The ON clause must come before the join type.",
+      "c": "Table aliases are missing.",
+      "d": "INNER JOIN does not support an ON clause."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. `==` is invalid SQL; use `=`.",
+      "b": "Incorrect. The order is correct.",
+      "c": "Incorrect. Aliases are optional.",
+      "d": "Incorrect. ON clause is required for INNER JOIN."
+    },
+    "hints": [
+      "SQL uses a single equals sign for comparison.",
+      "This is a common mistake for Python programmers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In SQL, the equality operator is `=`, not `==`. Using `==` will result in a syntax error.",
+    "time_pressure_note": "Autopilot from Python can make you type `==` without thinking.",
+    "common_mistake_tested": true
+  }
+]

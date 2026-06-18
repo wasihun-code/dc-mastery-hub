@@ -1,0 +1,1134 @@
+{
+  "course_slug": "data-manipulation-with-pandas",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_challenges": 10,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Which US region has the highest total number of homeless individuals?",
+      "dataset_file": "homelessness.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_027",
+        "concept_012",
+        "concept_013",
+        "concept_047"
+      ],
+      "context": "The US Department of Housing and Urban Development tracks homelessness by state. You'll aggregate the data to identify the region with the most homeless individuals across all states.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame named `df` from the pre‑loaded lists using a dictionary of lists. The columns must be: 'region', 'state', 'individuals', 'family_members', 'state_pop'.",
+          "variable_name": "df",
+          "hint": "Use pd.DataFrame() with a dictionary where keys are column names and values are the provided lists."
+        },
+        {
+          "step": 2,
+          "description": "Group `df` by 'region' and sum the 'individuals' column. Store the resulting Series in `region_homeless`.",
+          "variable_name": "region_homeless",
+          "hint": "Chain .groupby() with .sum() and select only the desired column."
+        },
+        {
+          "step": 3,
+          "description": "Sort `region_homeless` in descending order so the region with the highest total is first. Save the sorted Series as `sorted_region_homeless`.",
+          "variable_name": "sorted_region_homeless",
+          "hint": "Use .sort_values(ascending=False) and remember to assign the result."
+        },
+        {
+          "step": 4,
+          "description": "Extract the name of the top region and its total homeless count. Print them as: \"REGION_NAME: COUNT\" (e.g., \"Pacific: 12345\"). Assign the region name to a variable `top_region` and the count to `top_count`.",
+          "variable_name": "top_region",
+          "hint": "The first index of the sorted Series is the region name; the first value is the count."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# region (list of str), state (list of str), individuals (list of float),\n# family_members (list of float), state_pop (list of int)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "region": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "region"
+        },
+        "state": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state"
+        },
+        "individuals": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "individuals"
+        },
+        "family_members": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "family_members"
+        },
+        "state_pop": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state_pop"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\n# Create DataFrame from pre‑loaded lists\ndata = {\n    'region': region,\n    'state': state,\n    'individuals': individuals,\n    'family_members': family_members,\n    'state_pop': state_pop\n}\ndf = pd.DataFrame(data)\n\n# Group by region and sum individuals\nregion_homeless = df.groupby('region')['individuals'].sum()\n\n# Sort descending\nsorted_region_homeless = region_homeless.sort_values(ascending=False)\n\n# Top region and count\ntop_region = sorted_region_homeless.index[0]\ntop_count = int(sorted_region_homeless.iloc[0])\nprint(f\"{top_region}: {top_count}\")",
+      "expected_output": "Pacific: 109008",
+      "output_description": "The Pacific region (California, Oregon, Washington, etc.) has the highest total number of homeless individuals.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use the exact column names as they appear in the dataset.",
+        "After grouping, you need to apply an aggregation function like .sum()."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates grouping data with .groupby(), summing a specific column, sorting results, and extracting insights."
+    },
+    {
+      "id": "dc_002",
+      "title": "What is the average number of homeless individuals per state for each region?",
+      "dataset_file": "homelessness.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_028",
+        "concept_013",
+        "concept_047"
+      ],
+      "context": "A policy analyst wants to compare the average homeless population per state across different regions. Pivot tables provide a clean summary.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame named `df` from the pre‑loaded lists, with the same columns as before.",
+          "variable_name": "df",
+          "hint": "Similar to the previous challenge: use a dictionary of lists."
+        },
+        {
+          "step": 2,
+          "description": "Build a pivot table called `pivot` that shows the average (mean) of 'individuals' for each 'region'. Use 'region' as the index.",
+          "variable_name": "pivot",
+          "hint": "Use .pivot_table() with values='individuals', index='region'. The default aggfunc is 'mean'."
+        },
+        {
+          "step": 3,
+          "description": "Find the region with the highest average individuals and store its name in `top_avg_region` and the average value (rounded to 1 decimal) in `top_avg_value`.",
+          "variable_name": "top_avg_region",
+          "hint": "Use .idxmax() on the pivot column and then .loc to get the value."
+        },
+        {
+          "step": 4,
+          "description": "Print the result in the format: \"Highest average individuals per state: REGION (VALUE)\". Example: \"Highest average individuals per state: Pacific (7267.2)\"",
+          "variable_name": "",
+          "hint": "Combine the variables in an f‑string, rounding the value to one decimal."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# region (list of str), state (list of str), individuals (list of float),\n# family_members (list of float), state_pop (list of int)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "region": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "region"
+        },
+        "state": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state"
+        },
+        "individuals": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "individuals"
+        },
+        "family_members": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "family_members"
+        },
+        "state_pop": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state_pop"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\n# Create DataFrame\ndf = pd.DataFrame({\n    'region': region,\n    'state': state,\n    'individuals': individuals,\n    'family_members': family_members,\n    'state_pop': state_pop\n})\n\n# Create pivot table (default mean)\npivot = df.pivot_table(values='individuals', index='region')\n\n# Find region with highest average\ntop_avg_region = pivot['individuals'].idxmax()\ntop_avg_value = round(pivot.loc[top_avg_region, 'individuals'], 1)\nprint(f\"Highest average individuals per state: {top_avg_region} ({top_avg_value})\")",
+      "expected_output": "Highest average individuals per state: Pacific (7267.2)",
+      "output_description": "The Pacific region has the highest average homeless individuals per state, driven by large states like California.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember that pivot_table's default aggregation is mean.",
+        "Use .idxmax() on the Series to get the index label of the maximum value."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates creating a pivot table, understanding the default aggregation, and extracting insight from the result."
+    },
+    {
+      "id": "dc_003",
+      "title": "What were the total weekly sales for type 'A' stores in 2011?",
+      "dataset_file": "sales_subset.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_036",
+        "concept_031",
+        "concept_012",
+        "concept_047",
+        "concept_029"
+      ],
+      "context": "Walmart wants to evaluate the performance of its type 'A' stores during the year 2011. You have a dataset of weekly sales with dates. You'll slice the data by date and store type to compute the total.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `sales` from the pre‑loaded lists with columns: 'store', 'type', 'department', 'date', 'weekly_sales', 'is_holiday', 'temperature_c', 'fuel_price_usd_per_l', 'unemployment'.",
+          "variable_name": "sales",
+          "hint": "Use a dictionary of lists. Ensure column names match exactly."
+        },
+        {
+          "step": 2,
+          "description": "Set the 'date' column as the index of `sales` and store the resulting DataFrame in `sales_dated`. Then sort the index to make date‑based slicing possible.",
+          "variable_name": "sales_dated",
+          "hint": "Chain .set_index('date') and .sort_index()."
+        },
+        {
+          "step": 3,
+          "description": "Slice `sales_dated` to keep only rows from the year 2011. Use a partial date string slice with `.loc`. Store this subset in `sales_2011`.",
+          "variable_name": "sales_2011",
+          "hint": "A partial date like '2011' selects all dates in that year if the index is sorted."
+        },
+        {
+          "step": 4,
+          "description": "Filter `sales_2011` to keep only rows where the store 'type' equals 'A'. Save the filtered DataFrame as `sales_2011_A`.",
+          "variable_name": "sales_2011_A",
+          "hint": "Use Boolean indexing: sales_2011[sales_2011['type'] == 'A']."
+        },
+        {
+          "step": 5,
+          "description": "Calculate the total 'weekly_sales' for these filtered rows and store it as `total_sales_2011_A`. Print the total as: \"Total 2011 sales for type A stores: $X\" (where X is rounded to 2 decimal places).",
+          "variable_name": "total_sales_2011_A",
+          "hint": "Use .sum() on the 'weekly_sales' column."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# store (list of int), type (list of str), department (list of int), date (list of str),\n# weekly_sales (list of float), is_holiday (list of bool), temperature_c (list of float),\n# fuel_price_usd_per_l (list of float), unemployment (list of float)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "store": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "store"
+        },
+        "type": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "type"
+        },
+        "department": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "department"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "date"
+        },
+        "weekly_sales": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "weekly_sales"
+        },
+        "is_holiday": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "is_holiday"
+        },
+        "temperature_c": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "temperature_c"
+        },
+        "fuel_price_usd_per_l": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "fuel_price_usd_per_l"
+        },
+        "unemployment": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "unemployment"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\n# Create DataFrame\ndata = {\n    'store': store,\n    'type': type,\n    'department': department,\n    'date': date,\n    'weekly_sales': weekly_sales,\n    'is_holiday': is_holiday,\n    'temperature_c': temperature_c,\n    'fuel_price_usd_per_l': fuel_price_usd_per_l,\n    'unemployment': unemployment\n}\nsales = pd.DataFrame(data)\n\n# Set date as index and sort\nsales_dated = sales.set_index('date').sort_index()\n\n# Slice year 2011\nsales_2011 = sales_dated.loc['2011':'2011']\n\n# Filter type 'A'\nsales_2011_A = sales_2011[sales_2011['type'] == 'A']\n\n# Total weekly sales\ntotal_sales_2011_A = sales_2011_A['weekly_sales'].sum()\nprint(f\"Total 2011 sales for type A stores: ${total_sales_2011_A:,.2f}\")",
+      "expected_output": "Total 2011 sales for type A stores: $95,358,176.44",
+      "output_description": "The total sales for type A stores in 2011 is approximately $95.36 million.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "After setting and sorting the index, partial date slicing '2011' selects all rows with a date in that year.",
+        "Make sure you are filtering the column 'type' with a capital 'A'."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates setting a datetime index, sorting it, slicing by partial date string, filtering with Boolean indexing, and aggregating sales."
+    },
+    {
+      "id": "dc_004",
+      "title": "What is the filled mean temperature for Abidjan?",
+      "dataset_file": "temperatures.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_045",
+        "concept_019",
+        "concept_013",
+        "concept_047"
+      ],
+      "context": "Climate data often has gaps. For the city of Abidjan, you need a reliable average temperature. You'll impute missing values with the city's own median and then compute the mean.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `temp` from the pre‑loaded lists with columns: 'date', 'city', 'country', 'avg_temp_c'.",
+          "variable_name": "temp",
+          "hint": "Use a dictionary of lists."
+        },
+        {
+          "step": 2,
+          "description": "Filter `temp` to keep only rows where `city` equals 'Abidjan'. Store this subset in `abidjan`.",
+          "variable_name": "abidjan",
+          "hint": "Use Boolean indexing: temp[temp['city'] == 'Abidjan']."
+        },
+        {
+          "step": 3,
+          "description": "Compute the median of the `avg_temp_c` column in `abidjan` (ignoring NaN) and store it in `med_temp`.",
+          "variable_name": "med_temp",
+          "hint": "Use .median() on the column."
+        },
+        {
+          "step": 4,
+          "description": "Fill the missing values in the `avg_temp_c` column of `abidjan` with `med_temp`. Save the result back into `abidjan` (or a new variable `abidjan_filled`).",
+          "variable_name": "abidjan_filled",
+          "hint": "Use .fillna(med_temp) and assign the result."
+        },
+        {
+          "step": 5,
+          "description": "Calculate the mean of the `avg_temp_c` column in `abidjan_filled` and print it as: \"Filled mean temperature for Abidjan: XX.XX °C\" (rounded to 2 decimal places).",
+          "variable_name": "mean_abidjan_filled",
+          "hint": "Use .mean() and an f‑string with :.2f."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# date (list of str), city (list of str), country (list of str), avg_temp_c (list of float, may contain NaN)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "date"
+        },
+        "city": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "city"
+        },
+        "country": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "country"
+        },
+        "avg_temp_c": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "avg_temp_c"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\n# Create DataFrame\ntemp = pd.DataFrame({\n    'date': date,\n    'city': city,\n    'country': country,\n    'avg_temp_c': avg_temp_c\n})\n\n# Filter for Abidjan\nabidjan = temp[temp['city'] == 'Abidjan']\n\n# Median of existing temperatures\nmed_temp = abidjan['avg_temp_c'].median()\n\n# Fill missing values\nabidjan_filled = abidjan.copy()\nabidjan_filled['avg_temp_c'] = abidjan['avg_temp_c'].fillna(med_temp)\n\n# Mean after filling\nmean_abidjan_filled = abidjan_filled['avg_temp_c'].mean()\nprint(f\"Filled mean temperature for Abidjan: {mean_abidjan_filled:.2f} °C\")",
+      "expected_output": "Filled mean temperature for Abidjan: 27.30 °C",
+      "output_description": "After replacing missing temperatures with the city's median, the overall mean for Abidjan is 27.30°C.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Median ignores NaN by default, so no need to dropna before calculating.",
+        "Use .fillna() on the Series to replace NaN with a scalar."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates filtering, computing a robust statistic (median), imputing missing values, and calculating a final mean."
+    },
+    {
+      "id": "dc_005",
+      "title": "Which state has the highest homelessness rate (individuals per 100,000 population)?",
+      "dataset_file": "homelessness.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_017",
+        "concept_012",
+        "concept_013",
+        "concept_047"
+      ],
+      "context": "A public health researcher needs to identify the state with the highest rate of homeless individuals per capita, standardized per 100,000 people.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `df` from the pre‑loaded lists with columns: 'state', 'region', 'individuals', 'family_members', 'state_pop'.",
+          "variable_name": "df",
+          "hint": "Use a dictionary where each key is a column name and each value is the corresponding list."
+        },
+        {
+          "step": 2,
+          "description": "Add a new column `rate_per_100k` to `df` calculated as `(individuals / state_pop) * 100000`.",
+          "variable_name": "rate_per_100k",
+          "hint": "Assign the result of the division and multiplication to a new column."
+        },
+        {
+          "step": 3,
+          "description": "Sort `df` by the new column `rate_per_100k` in descending order to see the highest rates first. Store the sorted DataFrame in `df_sorted`.",
+          "variable_name": "df_sorted",
+          "hint": "Use .sort_values() and assign the result."
+        },
+        {
+          "step": 4,
+          "description": "Extract the name of the state with the highest rate and its rate value. The state name should be stored in `worst_state`, and the rate (rounded to 1 decimal) in `worst_rate`.",
+          "variable_name": "worst_state",
+          "hint": "The first row of the sorted DataFrame contains the answer; use .iloc[]."
+        },
+        {
+          "step": 5,
+          "description": "Print the result as: \"State with highest homelessness rate: STATE (XX.X per 100k)\".",
+          "variable_name": "",
+          "hint": "Use an f‑string to format the output."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# state (list of str), region (list of str), individuals (list of float),\n# family_members (list of float), state_pop (list of int)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "region": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "region"
+        },
+        "state": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state"
+        },
+        "individuals": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "individuals"
+        },
+        "family_members": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "family_members"
+        },
+        "state_pop": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state_pop"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\n# Create DataFrame\ndf = pd.DataFrame({\n    'state': state,\n    'region': region,\n    'individuals': individuals,\n    'family_members': family_members,\n    'state_pop': state_pop\n})\n\n# Add rate per 100k\ndf['rate_per_100k'] = (df['individuals'] / df['state_pop']) * 100000\n\n# Sort descending\ndf_sorted = df.sort_values('rate_per_100k', ascending=False)\n\n# Top state\nworst_state = df_sorted.iloc[0]['state']\nworst_rate = round(df_sorted.iloc[0]['rate_per_100k'], 1)\nprint(f\"State with highest homelessness rate: {worst_state} ({worst_rate} per 100k)\")",
+      "expected_output": "State with highest homelessness rate: District of Columbia (286.3 per 100k)",
+      "output_description": "The District of Columbia has the highest rate of homeless individuals per capita.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Make sure to use parentheses to multiply by 100000 after division.",
+        "iloc[0] gives the first row (position 0)."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates adding a calculated column, sorting by that column, and extracting a top result using iloc."
+    },
+    {
+      "id": "dc_006",
+      "title": "During holiday weeks, which store type has the highest average weekly sales?",
+      "dataset_file": "sales_subset.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_014",
+        "concept_027",
+        "concept_012",
+        "concept_047"
+      ],
+      "context": "Walmart's marketing team wants to know which store type performs best during holiday periods. You'll filter the data to only holiday weeks and compute average sales by store type.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `sales` from the pre‑loaded lists with columns: 'store', 'type', 'department', 'date', 'weekly_sales', 'is_holiday', 'temperature_c', 'fuel_price_usd_per_l', 'unemployment'.",
+          "variable_name": "sales",
+          "hint": "Ensure the column names match exactly those in the dataset."
+        },
+        {
+          "step": 2,
+          "description": "Filter `sales` to keep only rows where `is_holiday` is `True`. Save the result in `holiday_sales`.",
+          "variable_name": "holiday_sales",
+          "hint": "Use Boolean indexing: sales[sales['is_holiday'] == True]."
+        },
+        {
+          "step": 3,
+          "description": "Group `holiday_sales` by `type` and calculate the mean of `weekly_sales`. Store the result in `holiday_avg`.",
+          "variable_name": "holiday_avg",
+          "hint": "Use .groupby() followed by .mean() on the weekly_sales column."
+        },
+        {
+          "step": 4,
+          "description": "Sort `holiday_avg` in descending order to put the highest average first. Save the sorted Series as `holiday_avg_sorted`.",
+          "variable_name": "holiday_avg_sorted",
+          "hint": "Use .sort_values(ascending=False)."
+        },
+        {
+          "step": 5,
+          "description": "Print the best store type and its average sales value in the format: \"Best holiday store type: TYPE ($XX,XXX.XX)\" (sales rounded to 2 decimal places, commas optional).",
+          "variable_name": "",
+          "hint": "Use .index[0] and .iloc[0] to get the top type and value."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# store, type, department, date, weekly_sales, is_holiday,\n# temperature_c, fuel_price_usd_per_l, unemployment\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "store": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "store"
+        },
+        "type": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "type"
+        },
+        "department": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "department"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "date"
+        },
+        "weekly_sales": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "weekly_sales"
+        },
+        "is_holiday": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "is_holiday"
+        },
+        "temperature_c": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "temperature_c"
+        },
+        "fuel_price_usd_per_l": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "fuel_price_usd_per_l"
+        },
+        "unemployment": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "unemployment"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\nsales = pd.DataFrame({\n    'store': store,\n    'type': type,\n    'department': department,\n    'date': date,\n    'weekly_sales': weekly_sales,\n    'is_holiday': is_holiday,\n    'temperature_c': temperature_c,\n    'fuel_price_usd_per_l': fuel_price_usd_per_l,\n    'unemployment': unemployment\n})\n\nholiday_sales = sales[sales['is_holiday'] == True]\nholiday_avg = holiday_sales.groupby('type')['weekly_sales'].mean()\nholiday_avg_sorted = holiday_avg.sort_values(ascending=False)\n\nbest_type = holiday_avg_sorted.index[0]\nbest_avg = round(holiday_avg_sorted.iloc[0], 2)\nprint(f\"Best holiday store type: {best_type} (${best_avg:,.2f})\")",
+      "expected_output": "Best holiday store type: A ($23,162.63)",
+      "output_description": "Store type A has the highest average weekly sales during holiday weeks.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `== True` to filter boolean columns.",
+        "After grouping, select the column you want to aggregate before applying .mean()."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates Boolean filtering on a boolean column, groupby with column selection, and sorting aggregated results."
+    },
+    {
+      "id": "dc_007",
+      "title": "Which city recorded the highest monthly temperature in 2013?",
+      "dataset_file": "temperatures.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_036",
+        "concept_031",
+        "concept_012",
+        "concept_047"
+      ],
+      "context": "Climate scientists need to identify record high monthly temperatures. You will extract data for 2013 and find the city and temperature that hit the maximum.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `temp` with columns 'date', 'city', 'country', 'avg_temp_c' from the pre‑loaded lists.",
+          "variable_name": "temp",
+          "hint": "Use a dictionary."
+        },
+        {
+          "step": 2,
+          "description": "Set the 'date' column as the index and sort it. Assign the result to `temp_indexed`.",
+          "variable_name": "temp_indexed",
+          "hint": "Chain .set_index() and .sort_index()."
+        },
+        {
+          "step": 3,
+          "description": "Slice `temp_indexed` to include only rows from the year 2013. Use `.loc` with a partial date string. Save this subset as `temp_2013`.",
+          "variable_name": "temp_2013",
+          "hint": "Use '2013' as the slice start and end."
+        },
+        {
+          "step": 4,
+          "description": "Sort `temp_2013` by the 'avg_temp_c' column in descending order to bring the highest temperature to the top. Store in `temp_2013_sorted`.",
+          "variable_name": "temp_2013_sorted",
+          "hint": "Use .sort_values() with ascending=False."
+        },
+        {
+          "step": 5,
+          "description": "Extract the city name and temperature from the first row. Store the city in `hottest_city`, the temperature in `hottest_temp`, and print: \"Hottest city in 2013: CITY (XX.XX °C)\" (temp rounded to 2 decimals).",
+          "variable_name": "hottest_city",
+          "hint": "Use .iloc[0] and column names."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# date (list of str), city (list of str), country (list of str), avg_temp_c (list of float)\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "date"
+        },
+        "city": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "city"
+        },
+        "country": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "country"
+        },
+        "avg_temp_c": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "avg_temp_c"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\ntemp = pd.DataFrame({\n    'date': date,\n    'city': city,\n    'country': country,\n    'avg_temp_c': avg_temp_c\n})\n\ntemp['date'] = pd.to_datetime(temp['date'])\ntemp_indexed = temp.set_index('date').sort_index()\ntemp_2013 = temp[temp['date'].dt.year == 2013]\ntemp_2013_sorted = temp_2013.sort_values('avg_temp_c', ascending=False)\n\nhottest_city = temp_2013_sorted.iloc[0]['city']\nhottest_temp = round(temp_2013_sorted.iloc[0]['avg_temp_c'], 2)\nprint(f\"Hottest city in 2013: {hottest_city} ({hottest_temp} °C)\")",
+      "expected_output": "Hottest city in 2013: Kuwait City (38.84 °C)",
+      "output_description": "Kuwait City recorded the highest monthly average temperature in 2013.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Ensure the index is sorted before slicing, otherwise you may get a PerformanceWarning.",
+        "Use .iloc[0] after sorting to get the row with the maximum value."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates setting and sorting a datetime index, slicing by partial year string, sorting by values, and extracting top result."
+    },
+    {
+      "id": "dc_008",
+      "title": "Which region has the highest total number of homeless people (individuals + family members)?",
+      "dataset_file": "homelessness.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_017",
+        "concept_027",
+        "concept_012",
+        "concept_047"
+      ],
+      "context": "A non‑profit organization needs to allocate resources based on total homeless population (including individuals and families) per region. You'll compute totals and rank the regions.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `df` from the pre‑loaded lists with columns: 'state', 'region', 'individuals', 'family_members', 'state_pop'.",
+          "variable_name": "df",
+          "hint": "Use a dictionary."
+        },
+        {
+          "step": 2,
+          "description": "Add a new column `total_homeless` to `df` which is the sum of `individuals` and `family_members`.",
+          "variable_name": "total_homeless",
+          "hint": "Simply add the two columns."
+        },
+        {
+          "step": 3,
+          "description": "Group `df` by `region` and compute the sum of `total_homeless`. Store the result in `region_totals`.",
+          "variable_name": "region_totals",
+          "hint": "Use .groupby() followed by .sum() on the total column."
+        },
+        {
+          "step": 4,
+          "description": "Sort `region_totals` in descending order to see the highest total first. Save as `region_totals_sorted`.",
+          "variable_name": "region_totals_sorted",
+          "hint": ".sort_values(ascending=False)."
+        },
+        {
+          "step": 5,
+          "description": "Print the top region and its total homeless count as: \"Region with most homeless: REGION (TOTAL people)\" where TOTAL is an integer.",
+          "variable_name": "",
+          "hint": "Access .index[0] and .iloc[0]."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# state, region, individuals, family_members, state_pop\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "region": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "region"
+        },
+        "state": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state"
+        },
+        "individuals": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "individuals"
+        },
+        "family_members": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "family_members"
+        },
+        "state_pop": {
+          "type": "csv_list",
+          "path": "homelessness.csv",
+          "column": "state_pop"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\ndf = pd.DataFrame({\n    'state': state,\n    'region': region,\n    'individuals': individuals,\n    'family_members': family_members,\n    'state_pop': state_pop\n})\n\ndf['total_homeless'] = df['individuals'] + df['family_members']\nregion_totals = df.groupby('region')['total_homeless'].sum()\nregion_totals_sorted = region_totals.sort_values(ascending=False)\n\ntop_region = region_totals_sorted.index[0]\ntop_total = int(region_totals_sorted.iloc[0])\nprint(f\"Region with most homeless: {top_region} ({top_total} people)\")",
+      "expected_output": "Region with most homeless: Pacific (142194 people)",
+      "output_description": "The Pacific region has the highest combined homeless population.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "You can add two Series directly with the + operator.",
+        "Groupby sum will aggregate the new total column."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates adding a new column, grouping by a categorical column, summing, and sorting aggregated data."
+    },
+    {
+      "id": "dc_009",
+      "title": "What was the single highest‑sales week for store 1, and how much was it?",
+      "dataset_file": "sales_subset.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_014",
+        "concept_012",
+        "concept_013",
+        "concept_032",
+        "concept_047"
+      ],
+      "context": "Store 1's manager wants to identify their record sales week. You'll filter the data for that store, find the maximum sales value, and report the date and amount.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `sales` from the pre‑loaded lists with the usual sales columns.",
+          "variable_name": "sales",
+          "hint": "As before, create the DataFrame with all columns."
+        },
+        {
+          "step": 2,
+          "description": "Filter `sales` to keep only rows where `store` equals 1. Store the result in `store1`.",
+          "variable_name": "store1",
+          "hint": "Use sales[sales['store'] == 1]."
+        },
+        {
+          "step": 3,
+          "description": "Sort `store1` by `weekly_sales` in descending order to bring the highest sale to the top. Save the sorted DataFrame in `store1_sorted`.",
+          "variable_name": "store1_sorted",
+          "hint": "Use .sort_values('weekly_sales', ascending=False)."
+        },
+        {
+          "step": 4,
+          "description": "Extract the date and sales amount of the top row. Store the date in `top_date` and the sales in `top_sales`.",
+          "variable_name": "top_date",
+          "hint": "Use .iloc[0] to access the first row, then column names."
+        },
+        {
+          "step": 5,
+          "description": "Print the result: \"Store 1's best week: DATE with $SALES\" (sales formatted with comma and two decimals).",
+          "variable_name": "",
+          "hint": "Use an f‑string with :,.2f for formatting."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# store, type, department, date, weekly_sales, ...\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "store": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "store"
+        },
+        "type": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "type"
+        },
+        "department": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "department"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "date"
+        },
+        "weekly_sales": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "weekly_sales"
+        },
+        "is_holiday": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "is_holiday"
+        },
+        "temperature_c": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "temperature_c"
+        },
+        "fuel_price_usd_per_l": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "fuel_price_usd_per_l"
+        },
+        "unemployment": {
+          "type": "csv_list",
+          "path": "sales_subset.csv",
+          "column": "unemployment"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\nsales = pd.DataFrame({\n    'store': store,\n    'type': type,\n    'department': department,\n    'date': date,\n    'weekly_sales': weekly_sales,\n    'is_holiday': is_holiday,\n    'temperature_c': temperature_c,\n    'fuel_price_usd_per_l': fuel_price_usd_per_l,\n    'unemployment': unemployment\n})\n\nstore1 = sales[sales['store'] == 1]\nstore1_sorted = store1.sort_values('weekly_sales', ascending=False)\n\ntop_date = store1_sorted.iloc[0]['date']\ntop_sales = store1_sorted.iloc[0]['weekly_sales']\nprint(f\"Store 1's best week: {top_date} with ${top_sales:,.2f}\")",
+      "expected_output": "Store 1's best week: 2011-12-23 with $381,868.14",
+      "output_description": "The week ending 2011-12-23 was Store 1's highest‑grossing week in the dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Make sure to filter exactly store 1 (an integer).",
+        "Sorting by weekly_sales descending puts the maximum first."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates boolean filtering on a numeric column, sorting by a value, and using iloc for positional extraction."
+    },
+    {
+      "id": "dc_010",
+      "title": "Which country has the highest average temperature across all its cities?",
+      "dataset_file": "temperatures.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_027",
+        "concept_019",
+        "concept_012",
+        "concept_044",
+        "concept_047"
+      ],
+      "context": "A climate researcher wants to compare countries by their average temperature across all available city data. Missing values must be handled correctly (excluded from means).",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `temp` with columns 'date', 'city', 'country', 'avg_temp_c' from the pre‑loaded lists.",
+          "variable_name": "temp",
+          "hint": "Use a dictionary."
+        },
+        {
+          "step": 2,
+          "description": "Group `temp` by `country` and compute the mean of `avg_temp_c`. Store the result in `country_avg`.",
+          "variable_name": "country_avg",
+          "hint": "Use .groupby('country')['avg_temp_c'].mean()."
+        },
+        {
+          "step": 3,
+          "description": "Sort `country_avg` in descending order to see the highest average at the top. Save as `country_avg_sorted`.",
+          "variable_name": "country_avg_sorted",
+          "hint": ".sort_values(ascending=False)."
+        },
+        {
+          "step": 4,
+          "description": "Extract the country name and its average temperature from the sorted Series. Store them in `hottest_country` and `hottest_avg_temp` (rounded to 2 decimals).",
+          "variable_name": "hottest_country",
+          "hint": "Use .index[0] and .iloc[0]."
+        },
+        {
+          "step": 5,
+          "description": "Print the result: \"Country with highest average temperature: COUNTRY (XX.XX °C)\".",
+          "variable_name": "",
+          "hint": "F‑string with :.2f."
+        }
+      ],
+      "starter_code": "# Pre‑loaded variables:\n# date, city, country, avg_temp_c\n\nimport pandas as pd\n\n# Your solution here",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        },
+        "date": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "date"
+        },
+        "city": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "city"
+        },
+        "country": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "country"
+        },
+        "avg_temp_c": {
+          "type": "csv_list",
+          "path": "temperatures.csv",
+          "column": "avg_temp_c"
+        },
+        "avoplotto": {
+          "type": "pickle",
+          "path": "avoplotto.pkl"
+        },
+        "homelessness": {
+          "type": "csv",
+          "path": "homelessness.csv"
+        },
+        "sales_subset": {
+          "type": "csv",
+          "path": "sales_subset.csv"
+        },
+        "temperatures": {
+          "type": "csv",
+          "path": "temperatures.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\n\ntemp = pd.DataFrame({\n    'date': date,\n    'city': city,\n    'country': country,\n    'avg_temp_c': avg_temp_c\n})\n\ncountry_avg = temp.groupby('country')['avg_temp_c'].mean()\ncountry_avg_sorted = country_avg.sort_values(ascending=False)\n\nhottest_country = country_avg_sorted.index[0]\nhottest_avg_temp = round(country_avg_sorted.iloc[0], 2)\nprint(f\"Country with highest average temperature: {hottest_country} ({hottest_avg_temp} °C)\")",
+      "expected_output": "Country with highest average temperature: Mali (29.41 °C)",
+      "output_description": "Mali has the highest average monthly temperature across its cities in the dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        ".mean() automatically skips NaN values, so no need to drop them explicitly.",
+        "After groupby, select the column before applying .mean()."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Student demonstrates grouping, computing an aggregate with missing values handled automatically, sorting, and extracting insight."
+    }
+  ]
+}

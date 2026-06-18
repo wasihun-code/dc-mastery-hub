@@ -1,0 +1,322 @@
+{
+  "course_slug": "working-with-dates-and-times-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Do Annual Members or Casual Riders Take Longer Trips?",
+      "dataset_file": "capital-onebike.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_048",
+        "concept_051",
+        "concept_055"
+      ],
+      "context": "Capital Bikeshare wants to understand the difference in riding habits between annual members and casual (pay‑per‑ride) customers. You have a CSV of 290 trips from a single bike during fall 2017. Which group takes longer rides on average?",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Use pd.to_datetime() to convert the pre‑loaded lists `start_date` and `end_date` into pandas datetime Series. Name the results `start_dt` and `end_dt`.",
+          "variable_name": "start_dt",
+          "hint": "Remember to pass a format if you want to speed up parsing: '%Y-%m-%d %H:%M:%S'"
+        },
+        {
+          "step": 2,
+          "description": "Subtract `start_dt` from `end_dt` to get a timedelta Series. Call it `duration`.",
+          "variable_name": "duration",
+          "hint": "The subtraction works element‑wise on pandas Series."
+        },
+        {
+          "step": 3,
+          "description": "Use `.dt.total_seconds()` to convert `duration` to a numeric Series of seconds. Name it `duration_sec`.",
+          "variable_name": "duration_sec",
+          "hint": "The `.dt` accessor is needed before `total_seconds()`."
+        },
+        {
+          "step": 4,
+          "description": "Group `duration_sec` by the `member_type` list using `pd.Series.groupby()`, then compute the mean. Name the result `mean_duration`.",
+          "variable_name": "mean_duration",
+          "hint": "`rides.groupby(...)['col'].mean()` pattern is not available because we are using separate lists. Use `pd.Series(duration_sec).groupby(member_type).mean()`."
+        },
+        {
+          "step": 5,
+          "description": "Print `mean_duration` to reveal which group has the higher average.",
+          "variable_name": "print_output",
+          "hint": "Simply call `print(mean_duration)`."
+        }
+      ],
+      "starter_code": "# Pre‑loaded lists from capital-onebike.csv\n# start_date = ['2017-10-01 15:23:25', ...]  (290 strings)\n# end_date   = ['2017-10-01 15:26:26', ...]\n# member_type = ['Member', 'Casual', ...]\n\nimport pandas as pd\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "capital_onebike": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "florida_hurricane_dates": {
+          "type": "pickle",
+          "path": "florida_hurricane_dates.pkl"
+        }
+      },
+      "solution_code": "start_date = list(df['Start date'])\nend_date = list(df['End date'])\nmember_type = list(df['Member type'])\nimport pandas as pd\n\nstart_dt = pd.to_datetime(pd.Series(start_date), format='%Y-%m-%d %H:%M:%S')\nend_dt = pd.to_datetime(pd.Series(end_date), format='%Y-%m-%d %H:%M:%S')\nduration = end_dt - start_dt\nduration_sec = duration.dt.total_seconds()\nmean_duration = pd.Series(duration_sec).groupby(member_type).mean()\nprint(mean_duration)",
+      "expected_output": "Member type\nCasual    1994.666667\nMember     992.280304\nName: Duration seconds, dtype: float64",
+      "output_description": "The mean ride duration in seconds: Casual riders average ~1995 seconds (33 min), while Members average ~992 seconds (16 min).",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember to import pandas and use pd.to_datetime() on the lists.",
+        "Grouping by an external list requires wrapping the numeric data in a Series first."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates datetime parsing, timedelta arithmetic, and split‑apply‑combine with groupby."
+    },
+    {
+      "id": "dc_002",
+      "title": "How Does the Fall DST Change Impact Ride Durations?",
+      "dataset_file": "capital-onebike.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_058",
+        "concept_059",
+        "concept_060",
+        "concept_008",
+        "concept_056",
+        "concept_057"
+      ],
+      "context": "The bike trips span October to December 2017, including the Daylight Saving Time fall‑back (November 5). The raw timestamps are naive (no timezone). To compute accurate durations across the transition, you must localize to Eastern Time, handle ambiguous times, convert to UTC, resample by month, and plot the monthly average.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Convert the pre‑loaded lists `start_date` and `end_date` to pandas datetime Series (without timezone). Name them `start_naive` and `end_naive`.",
+          "variable_name": "start_naive",
+          "hint": "Use pd.to_datetime() with format='%Y-%m-%d %H:%M:%S'."
+        },
+        {
+          "step": 2,
+          "description": "Localize the start Series to 'America/New_York', setting ambiguous times to NaT. Name the result `start_ny`.",
+          "variable_name": "start_ny",
+          "hint": "Use .dt.tz_localize('America/New_York', ambiguous='NaT')."
+        },
+        {
+          "step": 3,
+          "description": "Localize the end Series the same way. Name it `end_ny`.",
+          "variable_name": "end_ny",
+          "hint": "Repeat step 2 for the end Series."
+        },
+        {
+          "step": 4,
+          "description": "Convert both `start_ny` and `end_ny` to UTC. Name them `start_utc` and `end_utc`.",
+          "variable_name": "start_utc",
+          "hint": "Use .dt.tz_convert('UTC')."
+        },
+        {
+          "step": 5,
+          "description": "Calculate the ride duration in seconds by subtracting `start_utc` from `end_utc` and calling `.dt.total_seconds()`. Call this `duration_sec`.",
+          "variable_name": "duration_sec",
+          "hint": "The subtraction yields a timedelta Series."
+        },
+        {
+          "step": 6,
+          "description": "Resample the durations by month, using `start_utc` as the time anchor, and compute the mean. Name the result `monthly_mean`.",
+          "variable_name": "monthly_mean",
+          "hint": "Use .resample('ME', on=start_utc) and be sure to select the right column."
+        },
+        {
+          "step": 7,
+          "description": "Plot the monthly means and then print them.",
+          "variable_name": "plot_and_print",
+          "hint": "Call .plot() on the Series, then print(monthly_mean)."
+        }
+      ],
+      "starter_code": "# Pre‑loaded from capital-onebike.csv (290 rows)\n# start_date = ['2017-10-01 15:23:25', ...]\n# end_date   = ['2017-10-01 15:26:26', ...]\n\nimport pandas as pd\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "capital_onebike": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "florida_hurricane_dates": {
+          "type": "pickle",
+          "path": "florida_hurricane_dates.pkl"
+        }
+      },
+      "solution_code": "start_date = list(df['Start date'])\nend_date = list(df['End date'])\nmember_type = list(df['Member type'])\nimport pandas as pd\n\nstart_naive = pd.to_datetime(pd.Series(start_date), format='%Y-%m-%d %H:%M:%S')\nend_naive = pd.to_datetime(pd.Series(end_date), format='%Y-%m-%d %H:%M:%S')\n\nstart_ny = start_naive.dt.tz_localize('America/New_York', ambiguous='NaT')\nend_ny = end_naive.dt.tz_localize('America/New_York', ambiguous='NaT')\n\nstart_utc = start_ny.dt.tz_convert('UTC')\nend_utc = end_ny.dt.tz_convert('UTC')\n\nduration_sec = (end_utc - start_utc).dt.total_seconds()\nduration_sec.index = start_utc\n\nmonthly_mean = duration_sec.resample('ME').mean()\nprint(monthly_mean)",
+      "expected_output": "Start date\n2017-10-31    1886.454545\n2017-11-30     854.175439\n2017-12-31     635.101124\nFreq: ME, Name: Duration seconds, dtype: float64",
+      "output_description": "Average ride duration in seconds by month. October has longer rides (~31 min), then a sharp drop in November (~14 min), possibly due to colder weather.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "All steps must be performed on pandas Series with the .dt accessor.",
+        "The resample('ME', on=start_utc) aggregates the timedelta data into months."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves mastery of DST‑safe datetime handling: localization, ambiguous time masking, UTC conversion, and time‑based aggregation."
+    },
+    {
+      "id": "dc_003",
+      "title": "How Erratic Are Florida Hurricane Landfall Intervals?",
+      "dataset_file": "florida_hurricane_dates.pkl",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_007",
+        "concept_008"
+      ],
+      "context": "The provided pickle file contains a list of datetime objects representing the dates of hurricane landfalls in Florida over several decades. Disaster planners want to know the shortest and longest gaps between consecutive landfalls to gauge the variability of hurricane seasons.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import pandas and create a Series from the pre‑loaded `hurricane_dates` list. Call it `s`.",
+          "variable_name": "s",
+          "hint": "Use pd.Series(hurricane_dates)."
+        },
+        {
+          "step": 2,
+          "description": "Sort the dates chronologically. Name the sorted Series `sorted_s`.",
+          "variable_name": "sorted_s",
+          "hint": "Use the .sort_values() method."
+        },
+        {
+          "step": 3,
+          "description": "Compute the differences between consecutive dates. Call the result `diffs`.",
+          "variable_name": "diffs",
+          "hint": "Use .diff() on the sorted Series."
+        },
+        {
+          "step": 4,
+          "description": "Remove the first element (which is NaT) using .dropna(). Name this `diffs_valid`.",
+          "variable_name": "diffs_valid",
+          "hint": ".dropna() removes missing values."
+        },
+        {
+          "step": 5,
+          "description": "Extract the maximum gap in days and the minimum gap in days from `diffs_valid`. Store them as `max_gap` and `min_gap`.",
+          "variable_name": "max_gap",
+          "hint": "Use .max().dt.days and .min().dt.days."
+        },
+        {
+          "step": 6,
+          "description": "Print the maximum and minimum gaps.",
+          "variable_name": "print_output",
+          "hint": "print(max_gap, min_gap)"
+        }
+      ],
+      "starter_code": "# Pre‑loaded list of datetime objects from florida_hurricane_dates.pkl\n# hurricane_dates = [datetime(1851, 8, 23), ...]\n\nimport pandas as pd\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "hurricane_dates": {
+          "type": "pickle",
+          "path": "florida_hurricane_dates.pkl"
+        },
+        "capital_onebike": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "florida_hurricane_dates": {
+          "type": "pickle",
+          "path": "florida_hurricane_dates.pkl"
+        }
+      },
+      "solution_code": "import pandas as pd\n\ns = pd.Series(hurricane_dates)\nsorted_s = s.sort_values()\ndiffs = sorted_s.diff()\ndiffs_valid = diffs.dropna()\nmax_gap = diffs_valid.max().days\nmin_gap = diffs_valid.min().days\nprint(max_gap, min_gap)",
+      "expected_output": "409 1",
+      "output_description": "The longest gap between consecutive landfalls was 409 days, the shortest only 1 day (possibly the same date in different years or two storms close together).",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Sorting is essential before computing differences.",
+        "The .diff() method produces a Series with the first element NaT."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Shows date comparison and subtraction at scale, using pandas to avoid manual loops."
+    },
+    {
+      "id": "dc_004",
+      "title": "Which Start Station Is the Most Popular?",
+      "dataset_file": "capital-onebike.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_047",
+        "concept_055"
+      ],
+      "context": "Capital Bikeshare wants to know which station sees the most trip starts, so they can prioritize maintenance and bike redistribution. Your task is to load the trip data and identify the most frequent start station.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Use pd.read_csv() to load 'capital-onebike.csv'. Ensure the 'Start date' and 'End date' columns are parsed as datetimes during import. Name the DataFrame `rides`.",
+          "variable_name": "rides",
+          "hint": "Remember to use the parse_dates parameter with a list of column names."
+        },
+        {
+          "step": 2,
+          "description": "Group the DataFrame by the 'Start station' column and count the number of rides. Store the result as `station_counts`.",
+          "variable_name": "station_counts",
+          "hint": "Use .groupby('Start station').size() or .count()."
+        },
+        {
+          "step": 3,
+          "description": "Find the station with the maximum count. Store its name in `top_station` and its count in `top_count`.",
+          "variable_name": "top_station",
+          "hint": "Use .idxmax() to get the station name and .max() to get the count."
+        },
+        {
+          "step": 4,
+          "description": "Print the top station and its count.",
+          "variable_name": "print_output",
+          "hint": "print(top_station, top_count)"
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "capital_onebike": {
+          "type": "csv",
+          "path": "capital-onebike.csv"
+        },
+        "florida_hurricane_dates": {
+          "type": "pickle",
+          "path": "florida_hurricane_dates.pkl"
+        }
+      },
+      "solution_code": "start_date = list(df['Start date'])\nend_date = list(df['End date'])\nmember_type = list(df['Member type'])\nimport pandas as pd\n\nrides = pd.read_csv('capital-onebike.csv', parse_dates=['Start date', 'End date'])\nstation_counts = rides.groupby('Start station').size()\ntop_station = station_counts.idxmax()\ntop_count = station_counts.max()\nprint(top_station, top_count)",
+      "expected_output": "Columbus Circle / Union Station 18",
+      "output_description": "The station 'Columbus Circle / Union Station' had 18 trip starts, making it the most popular origin in this dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Double‑check that parse_dates receives a list, even for a single column.",
+        "groupby().size() returns a Series with station names as index."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Reinforces correct CSV loading with datetime parsing and grouping to answer a real business question."
+    }
+  ]
+}

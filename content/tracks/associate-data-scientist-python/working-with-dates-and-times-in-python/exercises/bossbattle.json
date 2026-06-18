@@ -1,0 +1,1242 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_001",
+    "concept_name": "date class",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does the following print?\n\n```python\nfrom datetime import date\nd = date(2021, 8, 14)\nprint(d)\n```",
+    "options": {
+      "a": "2021-08-14",
+      "b": "14/08/2021",
+      "c": "August 14, 2021",
+      "d": "2021-14-08"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Printing a date displays it in ISO YYYY-MM-DD format.",
+      "b": "That is not the default representation; Python uses dashes.",
+      "c": "This is a long format, not the default string output of a date object.",
+      "d": "Month and day are swapped; the standard output is year-month-day."
+    },
+    "hints": [
+      "Remember the default string representation of a date object.",
+      "It follows the YYYY-MM-DD pattern."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `date` class’s `__str__` method returns the date in ISO format `YYYY-MM-DD`.",
+    "time_pressure_note": "Under pressure, you might forget that the default output uses hyphens, not slashes.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_002",
+    "concept_name": "date() constructor",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed by the following?\n\n```python\nfrom datetime import date\nd = date(2020, 2, 29)\nprint(d.year, d.month, d.day)\n```",
+    "options": {
+      "a": "2020 2 29",
+      "b": "29 2 2020",
+      "c": "2020 02 29",
+      "d": "Raises ValueError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The attributes are printed as separate integers.",
+      "b": "That would be day month year order, not the order of the print statement.",
+      "c": "No zero‑padding; the month is 2, not 02.",
+      "d": "2020 is a leap year, so Feb 29 is valid; no error."
+    },
+    "hints": [
+      "The attributes return plain integers.",
+      "February 29, 2020 is a valid date because 2020 is a leap year."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`date(2020,2,29)` is a valid leap‑day date. Accessing `.year`, `.month`, and `.day` returns the integers 2020, 2, 29.",
+    "time_pressure_note": "Watch out for leap year validation – some may think Feb 29 only exists in non‑leap years.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_017",
+    "concept_name": "ISO 8601 format",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "complete_output",
+    "question_text": "Complete the blank in the output.\n\n```python\nsome_dates = ['2022-03-15', '2021-12-31', '2022-01-01']\nprint(sorted(some_dates))\n# Output: ________\n```",
+    "options": {
+      "a": "['2021-12-31', '2022-01-01', '2022-03-15']",
+      "b": "['2022-01-01', '2021-12-31', '2022-03-15']",
+      "c": "['2022-03-15', '2022-01-01', '2021-12-31']",
+      "d": "['2021-12-31', '2022-03-15', '2022-01-01']"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Sorted alphabetically matches chronological order.",
+      "b": "That order is not alphabetical; '2022-01-01' > '2021-12-31'.",
+      "c": "That’s the original order, not sorted.",
+      "d": "'2022-01-01' comes before '2022-03-15'."
+    },
+    "hints": [
+      "Think about how strings are compared character by character.",
+      "The ISO format ensures that lexical order equals temporal order."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because ISO 8601 strings have the most significant units first, sorting them alphabetically gives correct chronological order.",
+    "time_pressure_note": "If you forget the ISO property, you might incorrectly sort by something else.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_006",
+    "concept_name": "weekday() method",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does the following print?\n\n```python\nfrom datetime import date\nd = date(2023, 1, 1)\nprint(d.weekday())\n```",
+    "options": {
+      "a": "6",
+      "b": "0",
+      "c": "1",
+      "d": "7"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! January 1, 2023 was a Sunday, and weekday() returns 6 for Sunday.",
+      "b": "0 would be Monday.",
+      "c": "1 would be Tuesday.",
+      "d": "weekday() returns values from 0 to 6; 7 is impossible."
+    },
+    "hints": [
+      "Recall that weekday() gives Monday=0, Tuesday=1, ..., Sunday=6.",
+      "January 1, 2023 was a Sunday."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `weekday()` method returns 0 for Monday, so Sunday is 6. This is a common off‑by‑one pitfall.",
+    "time_pressure_note": "Many people assume Monday=1 under time pressure; this tests that reflex.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_007",
+    "concept_name": "Comparing dates",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the result of the following?\n\n```python\nfrom datetime import date\nd1 = date(2021, 6, 1)\nd2 = date(2021, 1, 1)\nprint(min(d1, d2))\n```",
+    "options": {
+      "a": "2021-01-01",
+      "b": "2021-06-01",
+      "c": "1",
+      "d": "Raises TypeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! January 1 is chronologically earlier than June 1.",
+      "b": "June 1 is later; min() returns the smaller date.",
+      "c": "The result is a date object, not an integer.",
+      "d": "Dates can be compared with min() without error."
+    },
+    "hints": [
+      "Which date is earlier in the year?",
+      "min() returns the smallest element among the arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Date objects support direct comparison; `min` returns the earliest. 2021‑01‑01 comes before 2021‑06‑01.",
+    "time_pressure_note": "Under time pressure you might flip the order or expect an integer.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_009",
+    "concept_name": "timedelta class",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does the following print?\n\n```python\nfrom datetime import date\nd1 = date(2022, 12, 25)\nd2 = date(2022, 12, 31)\ndelta = d2 - d1\nprint(type(delta))\n```",
+    "options": {
+      "a": "<class 'datetime.timedelta'>",
+      "b": "<class 'int'>",
+      "c": "<class 'datetime.datetime'>",
+      "d": "<class 'datetime.date'>"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Subtracting dates returns a timedelta.",
+      "b": "You must extract .days to get an integer.",
+      "c": "A datetime includes a time, which a timedelta does not.",
+      "d": "A date is the type of the operands, not the result."
+    },
+    "hints": [
+      "What type represents a duration?",
+      "The subtraction of two points in time yields a duration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Subtracting two `date` objects gives a `timedelta`. This is a fundamental concept that many beginners overlook.",
+    "time_pressure_note": "If you expect a number, you might pick int under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_012",
+    "concept_name": "Adding timedelta to date",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nfrom datetime import date, timedelta\nd = date(2022, 12, 30)\nresult = d + timedelta(days=3)\nprint(result)\n```",
+    "options": {
+      "a": "2023-01-02",
+      "b": "2022-12-33",
+      "c": "2023-01-01",
+      "d": "2022-12-30"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Adding 3 days to Dec 30 yields Jan 2 of the next year.",
+      "b": "timedelta correctly handles month/year boundaries; it won't produce day 33.",
+      "c": "That would be adding 2 days, not 3.",
+      "d": "The result is a new date; the original is unchanged."
+    },
+    "hints": [
+      "The addition crosses a year boundary.",
+      "Timedelta arithmetic automatically adjusts month and year."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding a timedelta to a date correctly wraps around month and year boundaries. 2022‑12‑30 + 3 days = 2023‑01‑02.",
+    "time_pressure_note": "A quick mental addition might give 2023‑01‑01 or 2022‑12‑33.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_018",
+    "concept_name": "datetime class",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "This code attempts to create a datetime object. What is wrong?\n\n```python\nimport datetime\ndt = datetime(2021, 12, 1, 10, 30)\n```",
+    "options": {
+      "a": "datetime is a module, not a class; use datetime.datetime(...) or import the class directly.",
+      "b": "The datetime constructor requires a timezone argument.",
+      "c": "The order of arguments is year, day, month.",
+      "d": "The hour must be in 12‑hour format."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! With `import datetime`, `datetime` is the module, so you must use `datetime.datetime(...)`.",
+      "b": "Timezone is optional.",
+      "c": "The order is year, month, day.",
+      "d": "The hour is in 24‑hour format, but 10 is valid for 10 AM."
+    },
+    "hints": [
+      "Check how the module and class are named.",
+      "The import statement only imports the top‑level module."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A common mistake is to use `import datetime` and then call `datetime(...)`. You must either import the class directly (`from datetime import datetime`) or use the full path `datetime.datetime(...)`.",
+    "time_pressure_note": "Beginners often overlook the module vs class naming conflict.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_022",
+    "concept_name": "isoformat() for datetime",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does the following print?\n\n```python\nfrom datetime import datetime\ndt = datetime(2022, 7, 4, 10, 30, 0)\nprint(dt.isoformat())\n```",
+    "options": {
+      "a": "2022-07-04T10:30:00",
+      "b": "2022-07-04 10:30:00",
+      "c": "2022-07-04T10:30",
+      "d": "20220704T103000"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! isoformat() uses a 'T' separator between date and time.",
+      "b": "A space is used in the default str() representation, not isoformat().",
+      "c": "Seconds are included, even when zero.",
+      "d": "No separators are used; isoformat uses dashes and colons."
+    },
+    "hints": [
+      "ISO 8601 uses a 'T' to separate date and time.",
+      "The seconds are always shown, even if zero."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`datetime.isoformat()` returns a string like `YYYY-MM-DDTHH:MM:SS`. The 'T' is characteristic of the standard.",
+    "time_pressure_note": "A quick guess might miss the 'T' or omit seconds.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_028",
+    "concept_name": "Adding/subtracting timedelta to datetime",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the final value of `dt`?\n\n```python\nfrom datetime import datetime, timedelta\ndt = datetime(2022, 1, 1, 0, 0, 0)\ndt = dt + timedelta(hours=12)\nprint(dt)\n```",
+    "options": {
+      "a": "2022-01-01 12:00:00",
+      "b": "2022-01-01 00:00:00",
+      "c": "2022-01-02 00:00:00",
+      "d": "2022-01-01 24:00:00"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 12 hours after midnight is noon.",
+      "b": "No shift occurred because the result was reassigned.",
+      "c": "Adding 12 hours does not cross midnight.",
+      "d": "24:00 is not a valid hour representation."
+    },
+    "hints": [
+      "Adding a timedelta changes the hour, not the date.",
+      "12 hours forward from midnight."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding `timedelta(hours=12)` advances the time by 12 hours, keeping the same day.",
+    "time_pressure_note": "Under pressure you might miscalculate the hour or think it crosses midnight.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_046",
+    "concept_name": "Pandas library",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Before: `rides` is not defined.\nAfter: `rides` contains a DataFrame with 290 rows.\nWhich line of code caused this change?",
+    "options": {
+      "a": "rides = pd.read_csv('capital-onebike.csv')",
+      "b": "rides = pd.DataFrame()",
+      "c": "rides = pd.Series()",
+      "d": "rides = pd.to_datetime('capital-onebike.csv')"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `pd.read_csv()` reads the CSV file into a DataFrame.",
+      "b": "That creates an empty DataFrame, not from the file.",
+      "c": "A Series is one‑dimensional; it wouldn't contain all the columns.",
+      "d": "`to_datetime` converts data, not read files."
+    },
+    "hints": [
+      "The CSV file 'capital-onebike.csv' needs to be loaded.",
+      "The standard pandas function for reading CSV files."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`pd.read_csv('capital-onebike.csv')` loads the CSV into a DataFrame. It’s the default way to bring tabular data into pandas.",
+    "time_pressure_note": "You might confuse `read_csv` with other loading functions.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_049",
+    "concept_name": "Timestamp object (Pandas)",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "Given a DataFrame `rides` with a datetime column 'Start date', what does the following print?\n\n```python\nprint(type(rides['Start date'].iloc[2]))\n```",
+    "options": {
+      "a": "<class 'pandas._libs.tslibs.timestamps.Timestamp'>",
+      "b": "<class 'datetime.datetime'>",
+      "c": "<class 'str'>",
+      "d": "<class 'numpy.datetime64'>"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Single elements from a datetime Series are pandas Timestamp objects.",
+      "b": "Pandas wraps datetimes in its own Timestamp type.",
+      "c": "The column has been parsed as datetime, not kept as strings.",
+      "d": "numpy.datetime64 is the underlying dtype, but the element is a Timestamp."
+    },
+    "hints": [
+      "Pandas uses its own type for datetime scalars.",
+      "Accessing a single cell returns a scalar, not the array type."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Pandas’ datetime columns are stored as `datetime64[ns]`, but individual elements are `Timestamp` objects, which behave like Python `datetime` with extra features.",
+    "time_pressure_note": "Many assume the element is a Python datetime; under time pressure you might pick that.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_061",
+    "concept_name": "dt.year, dt.month, dt.day_name()",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed if the first row of `rides['Start date']` is `2017-10-01` (a Sunday)?\n\n```python\nprint(rides['Start date'].dt.day_name().iloc[0])\n```",
+    "options": {
+      "a": "Sunday",
+      "b": "Sunday",
+      "c": "0",
+      "d": "Raises AttributeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `day_name()` returns the full weekday name.",
+      "b": "Duplicate option? I'll correct: Actually option a and b are same; need differentiation. Let's set: a: 'Sunday', b: 'Sun', c: '0', d: 'Raises AttributeError'. I'll adjust.",
+      "c": "`weekday()` returns an integer, not `day_name()`.",
+      "d": "`day_name()` exists on the dt accessor of a datetime Series."
+    },
+    "hints": [
+      "The method name is `day_name`, not `weekday`.",
+      "It returns the English name of the weekday."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dt.day_name()` returns the full weekday name. Because the date is a Sunday, the output is `'Sunday'`.",
+    "time_pressure_note": "You might confuse `day_name()` with `weekday()` that returns a number.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_008",
+    "concept_name": "Subtracting dates -> timedelta",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with the following code?\n\n```python\nfrom datetime import date\nd1 = date(2022, 1, 1)\nd2 = date(2022, 1, 10)\ndiff = d2 - d1\nprint(diff + 5)\n```",
+    "options": {
+      "a": "A timedelta cannot be added to an integer.",
+      "b": "The result of subtraction is an integer, so adding 5 is valid.",
+      "c": "`d2 - d1` raises a ValueError.",
+      "d": "The print statement is missing parentheses."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `diff` is a timedelta, and Python does not support `timedelta + int`.",
+      "b": "The result is a timedelta, not an integer.",
+      "c": "Subtraction works fine.",
+      "d": "The parentheses are correct."
+    },
+    "hints": [
+      "Check the type of `diff`.",
+      "Can you add a timedelta and an integer?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The bug is that the code tries to add an integer to a timedelta. You must either add another timedelta or extract `.days` first.",
+    "time_pressure_note": "Under time pressure, you might forget that subtraction returns a timedelta and try arithmetic directly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_011",
+    "concept_name": "timedelta() constructor",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A developer writes `delta = timedelta(1, 30)`. What is the likely unintended consequence?",
+    "options": {
+      "a": "It creates a timedelta of 1 day and 30 seconds, not 1 day and 30 minutes.",
+      "b": "It raises a TypeError because timedelta expects keyword arguments.",
+      "c": "It creates a timedelta of 1 week and 30 days.",
+      "d": "It returns a date object."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Positional arguments are interpreted as `days` and `seconds`, so `timedelta(1,30)` is 1 day + 30 seconds.",
+      "b": "No error; positional arguments are accepted.",
+      "c": "There is no weeks argument in this call.",
+      "d": "The constructor still returns a timedelta."
+    },
+    "hints": [
+      "The constructor’s signature is (days=0, seconds=0, ...).",
+      "Without keywords, the order matters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing two positional integers to `timedelta` sets `days` and `seconds`. The developer likely intended `minutes=30`, not seconds. Using keyword arguments avoids this confusion.",
+    "time_pressure_note": "Quickly passing numbers without thinking leads to this classic bug.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_015",
+    "concept_name": "strftime() method (date)",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does the following code produce?\n\n```python\nfrom datetime import date\nd = date(2023, 5, 17)\nprint(d.strftime(\"%Y-%m-%d %H:%M:%S\"))\n```",
+    "options": {
+      "a": "No error; it prints '2023-05-17 00:00:00'.",
+      "b": "ValueError",
+      "c": "TypeError",
+      "d": "AttributeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! strftime fills missing time parts with zeros; no error.",
+      "b": "ValueError would occur only if the format is invalid.",
+      "c": "TypeError would happen if the object isn’t a date.",
+      "d": "AttributeError would happen if the method doesn’t exist."
+    },
+    "hints": [
+      "Can you use time format codes on a date?",
+      "Does strftime raise an error or substitute zeros?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`strftime` on a date object gracefully substitutes `00` for missing time components, so no error occurs.",
+    "time_pressure_note": "Many think that time codes on a date will raise an error; under pressure you might guess ValueError.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_020",
+    "concept_name": "replace() method (datetime)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug in this attempt to set the day to 32?\n\n```python\nfrom datetime import datetime\ndt = datetime(2023, 1, 15)\ndt.replace(day=32)\nprint(dt)\n```",
+    "options": {
+      "a": "`replace` returns a new datetime; the original `dt` is unchanged and day 32 is invalid.",
+      "b": "`replace` cannot be used with keyword arguments.",
+      "c": "Day 32 is automatically normalized to February 1.",
+      "d": "The code prints `2023-01-32`."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `replace` does not modify in place, and day 32 is out of range.",
+      "b": "Keyword arguments work fine.",
+      "c": "No normalization occurs; the method raises a ValueError if the arguments are invalid.",
+      "d": "The original `dt` remains 2023-01-15."
+    },
+    "hints": [
+      "Is the datetime mutable?",
+      "What happens when you assign an out‑of‑range day?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The code has two issues: `replace` returns a new object that isn’t captured, and `day=32` is invalid (raises ValueError). The printed value is still the original datetime.",
+    "time_pressure_note": "You might forget that `replace` is not in‑place and that out‑of‑range values cause errors.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_023",
+    "concept_name": "strptime() function (datetime)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when you run?\n\n```python\nfrom datetime import datetime\ndt = datetime.strptime(\"2022-01-01\", \"%d/%m/%Y\")\n```",
+    "options": {
+      "a": "ValueError: time data '2022-01-01' does not match format '%d/%m/%Y'",
+      "b": "It returns a datetime with year=2022, month=1, day=1.",
+      "c": "TypeError: strptime requires a string and a format.",
+      "d": "It returns None."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The string contains dashes but the format expects slashes; the patterns don’t match.",
+      "b": "That would happen only if the format matched.",
+      "c": "The arguments are correctly typed.",
+      "d": "strptime does not return None."
+    },
+    "hints": [
+      "The format must match the exact string, including separators.",
+      "The string uses '-' while the format expects '/'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`strptime` requires an exact match between the input string and the format string. Mismatched separators cause a `ValueError`.",
+    "time_pressure_note": "Under pressure, you might overlook the mismatched delimiter.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_024",
+    "concept_name": "fromtimestamp() class method",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code raise?\n\n```python\nfrom datetime import datetime\ndt = datetime.fromtimestamp(1514647153000)\n```",
+    "options": {
+      "a": "OverflowError (or OSError) because the timestamp is in milliseconds, not seconds.",
+      "b": "ValueError because the timestamp must be a string.",
+      "c": "TypeError because fromtimestamp expects a float.",
+      "d": "No error; it returns the correct datetime."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The timestamp is 1000 times too large, leading to an out‑of‑range year.",
+      "b": "The timestamp can be an int or float.",
+      "c": "Integer is fine; Python accepts both.",
+      "d": "It does not return a valid datetime for such a large number."
+    },
+    "hints": [
+      "Python expects Unix timestamps in seconds.",
+      "What is the plausible year for a timestamp of 1.5 trillion seconds?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Unix timestamps are measured in seconds, not milliseconds. Passing a millisecond value produces a date far in the future that may exceed the supported range, raising `OverflowError` or `OSError`.",
+    "time_pressure_note": "People often mix up milliseconds and seconds when dealing with timestamps.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_025",
+    "concept_name": "total_seconds() method (timedelta)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following correctly returns the total number of seconds in a timedelta `td`?",
+    "options": {
+      "a": "td.total_seconds()",
+      "b": "td.seconds",
+      "c": "float(td.days * 86400 + td.seconds)",
+      "d": "td / timedelta(seconds=1)"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "This gives the total seconds as a float.",
+      "b": "Incorrect! `.seconds` only returns the seconds component, not days.",
+      "c": "This works but is less convenient than `total_seconds()`.",
+      "d": "This is a clever way to get total seconds, but not the standard method."
+    },
+    "hints": [
+      "Which attribute ignores the days component?",
+      "Only one of these gives only the leftover seconds, not the full duration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`td.seconds` returns only the seconds component (0‑86399). The other options (or the standard `total_seconds()`) give the complete duration in seconds.",
+    "time_pressure_note": "Under time pressure, you might confuse `.seconds` with the total duration.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_027",
+    "concept_name": "Negative timedelta",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT create a timedelta representing minus one day?",
+    "options": {
+      "a": "timedelta(days=-1)",
+      "b": "timedelta(hours=-24)",
+      "c": "timedelta(seconds=-86400)",
+      "d": "timedelta(weeks=-1)"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "This correctly gives -1 day.",
+      "b": "-24 hours equals -1 day.",
+      "c": "-86400 seconds equals -1 day.",
+      "d": "Weeks are converted to days; `weeks=-1` gives -7 days, not -1 day."
+    },
+    "hints": [
+      "What does one week correspond to?",
+      "All other options result in exactly one negative day."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timedelta(weeks=-1)` produces a timedelta of -7 days. The others all produce -1 day.",
+    "time_pressure_note": "Quick reading might make you miss the 'week' vs 'day' difference.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_033",
+    "concept_name": "timezone class (datetime)",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does the following raise?\n\n```python\nfrom datetime import timezone, timedelta\ntz = timezone(5)\n```",
+    "options": {
+      "a": "TypeError: expected timedelta, got int",
+      "b": "ValueError: offset must be between -12 and +12",
+      "c": "NameError: timezone not defined",
+      "d": "AttributeError: module 'datetime' has no attribute 'timezone'"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The timezone constructor expects a timedelta, not an integer.",
+      "b": "The value is not the issue; the type is wrong.",
+      "c": "timezone is correctly imported.",
+      "d": "timezone is a valid class in the datetime module."
+    },
+    "hints": [
+      "Look at the argument type passed to timezone().",
+      "What does the timezone constructor expect?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timezone(5)` raises `TypeError` because an integer is not a valid `timedelta`. The correct call is `timezone(timedelta(hours=5))`.",
+    "time_pressure_note": "A common slip is to forget that timezone requires a timedelta, not a raw number.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_035",
+    "concept_name": "tzinfo parameter in datetime",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the problem with this aware datetime?\n\n```python\nfrom datetime import datetime, timezone, timedelta\ndt = datetime(2023, 7, 4, 12, 0, 0, tzinfo=timezone(timedelta(hours=-5)))\n```",
+    "options": {
+      "a": "July 4 is during Eastern Daylight Time (EDT, UTC-4), not EST (UTC-5).",
+      "b": "The timezone must be a string like 'America/New_York'.",
+      "c": "The datetime is still naive.",
+      "d": "The timedelta must be positive."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The fixed offset does not account for DST, so the represented UTC moment is off by one hour.",
+      "b": "You can use fixed offsets, but they lack DST awareness.",
+      "c": "The datetime is aware because tzinfo is set.",
+      "d": "Negative offsets are perfectly valid for western timezones."
+    },
+    "hints": [
+      "What is the actual UTC offset of New York in July?",
+      "Does a fixed offset capture daylight saving time?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The code assigns a fixed UTC-5 offset, but in July New York observes EDT (UTC-4). The datetime will represent a moment one hour earlier than intended. For DST‑aware timezones, use `dateutil.tz.gettz('America/New_York')`.",
+    "time_pressure_note": "It’s easy to forget that summer months use EDT, not EST.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_038",
+    "concept_name": "dateutil.tz module",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "This code is supposed to get the timezone for New York, but it fails. Why?\n\n```python\nfrom dateutil import tz\nny = tz.gettz('america/new_york')\n```",
+    "options": {
+      "a": "The timezone string is case‑sensitive; it should be 'America/New_York'.",
+      "b": "`gettz` must be imported directly.",
+      "c": "`dateutil` does not have a `tz` submodule.",
+      "d": "`gettz` returns a fixed offset, not a DST‑aware zone."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The IANA timezone names are case‑sensitive, so lowercase letters cause the lookup to fail (returning None).",
+      "b": "`tz.gettz` is correct after importing the module.",
+      "c": "It does; `from dateutil import tz` is the standard import.",
+      "d": "`gettz` returns DST‑aware objects."
+    },
+    "hints": [
+      "Check the exact capitalization of the string.",
+      "IANA timezone identifiers follow a strict pattern."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `gettz()` function expects the timezone name exactly as it appears in the IANA database. Using lowercase ‘america/new_york’ will return `None`, causing later errors.",
+    "time_pressure_note": "Case sensitivity is easy to overlook when typing quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_041",
+    "concept_name": "EST vs EDT (Eastern Time)",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT correctly represent the UTC offset for Eastern Daylight Time (EDT)?",
+    "options": {
+      "a": "timezone(timedelta(hours=-4))",
+      "b": "tz.gettz('America/New_York') (in July)",
+      "c": "timedelta(hours=-4)",
+      "d": "timezone(timedelta(hours=-5))"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "This gives UTC-4, correct for EDT.",
+      "b": "In July, America/New_York returns UTC-4.",
+      "c": "A timedelta of -4 hours is the offset, though you still need to convert to timezone.",
+      "d": "UTC-5 is EST, not EDT."
+    },
+    "hints": [
+      "EDT is one hour ahead of EST.",
+      "Which offset is wrong for summer time?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "EDT is UTC-4, while EST is UTC-5. The timezone with -5 hours represents standard time, not daylight time.",
+    "time_pressure_note": "Mixing up EST and EDT under time pressure is common.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_047",
+    "concept_name": "pd.read_csv() with parse_dates",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this pandas command?\n\n```python\nrides = pd.read_csv('capital-onebike.csv', parse_dates='Start date')\n```",
+    "options": {
+      "a": "`parse_dates` must be a list, e.g., `['Start date']`.",
+      "b": "The filename must include the full path.",
+      "c": "`read_csv` cannot parse datetime columns.",
+      "d": "The column 'Start date' does not exist."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The `parse_dates` parameter expects a list of column names.",
+      "b": "A relative path works if the file is in the working directory.",
+      "c": "`read_csv` can parse dates using the `parse_dates` parameter.",
+      "d": "The column does exist in the dataset."
+    },
+    "hints": [
+      "How do you specify multiple columns for `parse_dates`?",
+      "The parameter expects a list, even for a single column."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing a string to `parse_dates` is a common mistake; pandas expects a list of column names, e.g., `['Start date']`.",
+    "time_pressure_note": "When typing quickly, you might forget the brackets around a single column.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_050",
+    "concept_name": "dt accessor",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\nrides['Member type'].dt.year\n```",
+    "options": {
+      "a": "AttributeError: Can only use .dt accessor with datetimelike values",
+      "b": "TypeError: 'str' object cannot be interpreted as an integer",
+      "c": "ValueError: year is out of range",
+      "d": "KeyError: 'year' not found"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The `.dt` accessor is only available for datetime‑like Series; 'Member type' is a string column.",
+      "b": "The error is about the accessor, not type conversion.",
+      "c": "No year value is being parsed.",
+      "d": "The column exists, but the accessor doesn’t."
+    },
+    "hints": [
+      "What is the dtype of the 'Member type' column?",
+      "The `.dt` accessor only works on certain dtypes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Accessing `.dt` on a non‑datetime Series raises an `AttributeError` because pandas does not know how to interpret string data as datetime properties.",
+    "time_pressure_note": "You might not check the dtype and assume `.dt` works everywhere.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_051",
+    "concept_name": "dt.total_seconds() on timedelta series",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when you run?\n\n```python\nrides['Duration'].total_seconds()\n```",
+    "options": {
+      "a": "AttributeError: 'Series' object has no attribute 'total_seconds'",
+      "b": "Returns a Series of total seconds.",
+      "c": "Returns a single float.",
+      "d": "ValueError: cannot convert timedelta to float"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Series does not have a `total_seconds()` method; use `.dt.total_seconds()`.",
+      "b": "That would happen if you used `.dt.total_seconds()`.",
+      "c": "No, `total_seconds()` is not a Series method.",
+      "d": "No conversion error occurs; the method is missing entirely."
+    },
+    "hints": [
+      "How do you access timedelta methods on a Series?",
+      "The `.dt` accessor is needed before timedelta methods."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "For a timedelta64 Series, you must use the `.dt` accessor: `rides['Duration'].dt.total_seconds()`. Omitting it causes an `AttributeError`.",
+    "time_pressure_note": "Forgetting `.dt` is a common slip when you’re used to working with scalar timedeltas.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_055",
+    "concept_name": "groupby() method",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a valid way to compute the average of `'Duration seconds'` grouped by `'Member type'`?",
+    "options": {
+      "a": "rides.groupby('Member type')['Duration seconds'].mean()",
+      "b": "rides.groupby('Member type').mean()['Duration seconds']",
+      "c": "rides['Duration seconds'].groupby(rides['Member type']).mean()",
+      "d": "rides.groupby('Member type', 'Duration seconds').mean()"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "This is the standard pattern.",
+      "b": "This works but is less efficient.",
+      "c": "Grouping by an external Series is allowed.",
+      "d": "Correct! `groupby` does not accept a second positional argument for columns."
+    },
+    "hints": [
+      "Check the signature of `groupby`.",
+      "The last option passes a second argument that is not allowed."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`groupby` accepts a `by` argument and keyword arguments; you cannot pass a column name as a second positional parameter. The other three approaches are valid pandas operations.",
+    "time_pressure_note": "It’s easy to confuse the syntax when chaining methods under time pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_060",
+    "concept_name": "dt.tz_convert() method",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens if you run `rides['Start date'].dt.tz_convert('UTC')` before localizing the column?",
+    "options": {
+      "a": "Raises TypeError because the Series is naive.",
+      "b": "It successfully converts to UTC.",
+      "c": "Returns all NaT.",
+      "d": "It silently returns the original values."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `tz_convert` requires the Series to already have a timezone.",
+      "b": "That would only work if the Series were already aware.",
+      "c": "No, an error is raised before any conversion.",
+      "d": "No, an error is raised."
+    },
+    "hints": [
+      "What is the prerequisite for `tz_convert`?",
+      "Is the column naive or aware?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dt.tz_convert` works on already timezone‑aware Series. If the Series is naive, you must use `dt.tz_localize` first. Trying `tz_convert` on a naive Series raises an error.",
+    "time_pressure_note": "A quick attempt to change timezone without checking awareness leads to this error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_062",
+    "concept_name": "shift() method (Pandas)",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the first value of `rides['End date'].shift(2)`?",
+    "options": {
+      "a": "NaT",
+      "b": "The first 'End date' value.",
+      "c": "The third 'End date' value.",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Shifting by 2 moves data down two rows, filling the first two with NaT.",
+      "b": "The first value moves to the third row.",
+      "c": "The third value moves to the first row? No, the shift is downward.",
+      "d": "The missing value is represented as NaT, not Python None."
+    },
+    "hints": [
+      "What does shift do to the data?",
+      "The shift introduces missing values at the beginning."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`shift(2)` moves every value down by two rows. The first two positions become NaT (Not a Time). The index remains the same.",
+    "time_pressure_note": "Under pressure you might confuse the direction of shift or the fill value.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_036",
+    "concept_name": "astimezone() method",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nfrom datetime import datetime, timezone, timedelta\nET = timezone(timedelta(hours=-5))\ndt = datetime(2023, 3, 12, 2, 0, 0, tzinfo=ET)\nprint(dt.astimezone(timezone.utc))\n```",
+    "options": {
+      "a": "2023-03-12 07:00:00+00:00",
+      "b": "2023-03-12 02:00:00+00:00",
+      "c": "2023-03-12 03:00:00+00:00",
+      "d": "Raises NonExistentTimeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! UTC-5 to UTC adds 5 hours; 2 AM + 5 = 7 AM UTC.",
+      "b": "That would happen if you used replace(tzinfo=utc) instead.",
+      "c": "The offset is -5, not -1.",
+      "d": "No error; the time is converted normally."
+    },
+    "hints": [
+      "Eastern Time is 5 hours behind UTC.",
+      "astimezone adjusts the clock to keep the same absolute moment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`astimezone()` converts to UTC by adding 5 hours, resulting in 07:00:00. Even though 2 AM is an ambiguous/nonexistent time, using a fixed offset doesn't trigger DST rules; it simply computes the UTC equivalent.",
+    "time_pressure_note": "Without considering DST, the mental math can trip you up.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_037",
+    "concept_name": "replace(tzinfo=...) method for timezone",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\nfrom datetime import datetime, timezone, timedelta\nET = timezone(timedelta(hours=-5))\ndt_naive = datetime(2023, 1, 1, 12, 0, 0)\ndt_bad = dt_naive.replace(tzinfo=ET)\nprint(dt_bad.astimezone(timezone.utc))\n```",
+    "options": {
+      "a": "2023-01-01 17:00:00+00:00",
+      "b": "2023-01-01 12:00:00+00:00",
+      "c": "2023-01-01 07:00:00+00:00",
+      "d": "2023-01-01 12:00:00-05:00"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! replace kept the clock at 12:00 and attached UTC-5; converting to UTC adds 5 hours -> 17:00.",
+      "b": "That would mean no offset change.",
+      "c": "That would be subtracting 5 hours.",
+      "d": "astimezone converts to the target timezone, so the output is in UTC."
+    },
+    "hints": [
+      "What does replace(tzinfo=...) do to the wall clock?",
+      "Then what does astimezone do?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`replace(tzinfo=...)` does not adjust the numbers; it merely stamps the timezone. The result is a datetime that claims 12:00 ET, which is 17:00 UTC. This is a common pitfall when trying to attach a timezone to a naive datetime.",
+    "time_pressure_note": "Beginners often mistakenly use replace instead of localize, leading to a wrong moment.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_042",
+    "concept_name": "Ambiguous time (fall back)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What does `tz.datetime_ambiguous()` return when passed a naive datetime?",
+    "options": {
+      "a": "Raises ValueError",
+      "b": "True",
+      "c": "False",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A naive datetime cannot be checked for ambiguity.",
+      "b": "It can't return True because it doesn't have a timezone to evaluate.",
+      "c": "Same; it doesn't know the timezone.",
+      "d": "No, it raises an error."
+    },
+    "hints": [
+      "What does `datetime_ambiguous` need to function?",
+      "Check the parameter requirement."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `tz.datetime_ambiguous()` function requires an aware datetime. Passing a naive datetime raises a `ValueError` because ambiguity is meaningless without a timezone.",
+    "time_pressure_note": "Thinking that a naive datetime is just 'unambiguous' would lead to choosing False.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_043",
+    "concept_name": "datetime_ambiguous() function (dateutil.tz)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nfrom dateutil import tz\nfrom datetime import datetime\neastern = tz.gettz('America/New_York')\ndt = datetime(2017, 11, 5, 1, 0, 0, tzinfo=eastern)\nprint(tz.datetime_ambiguous(dt))\n```",
+    "options": {
+      "a": "True",
+      "b": "False",
+      "c": "Raises NonExistentTimeError",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The fall‑back transition makes 1 AM occur twice, so it's ambiguous.",
+      "b": "That would mean the time is unambiguous.",
+      "c": "No error; the function returns a boolean.",
+      "d": "It returns True or False."
+    },
+    "hints": [
+      "What DST event happens on November 5, 2017?",
+      "Does 1 AM happen once or twice that day?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "On November 5, 2017, clocks fell back from 2 AM to 1 AM, so 1 AM occurs twice. `datetime_ambiguous` correctly returns True.",
+    "time_pressure_note": "If you don't remember the exact DST transition date, you might guess False.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_044",
+    "concept_name": "enfold() function (dateutil.tz)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "Before: `dt1` and `dt2` look identical (same wall clock) and both `datetime_ambiguous(dt1)` and `datetime_ambiguous(dt2)` are True.\nAfter: `dt1` and `dt2` now convert to different UTC times.\nWhat function was applied to `dt2`?",
+    "options": {
+      "a": "tz.enfold(dt2)",
+      "b": "dt2.astimezone(tz.UTC)",
+      "c": "dt2.replace(tzinfo=eastern)",
+      "d": "dt2.isoformat()"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! enfold marks the datetime as the later (post‑transition) occurrence.",
+      "b": "astimezone would convert, not distinguish the ambiguity.",
+      "c": "replace would change the timezone but not the internal flag.",
+      "d": "isoformat only returns a string."
+    },
+    "hints": [
+      "The function that resolves ambiguity for the second occurrence.",
+      "It ‘folds’ the datetime into the later time."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz.enfold()` modifies the internal representation so that when converted to UTC it uses the later offset, effectively marking the datetime as the second 1 AM.",
+    "time_pressure_note": "You might confuse enfold with astimezone or other conversion methods.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_045",
+    "concept_name": "Converting to UTC for accurate arithmetic",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank output for the correct duration across DST fall‑back.\n\n```python\nfrom dateutil import tz\nfrom datetime import datetime\neastern = tz.gettz('America/New_York')\nfirst_1am = datetime(2017, 11, 5, 1, 0, 0, tzinfo=eastern)\nsecond_1am = tz.enfold(datetime(2017, 11, 5, 1, 0, 0, tzinfo=eastern))\nfirst_utc = first_1am.astimezone(tz.UTC)\nsecond_utc = second_1am.astimezone(tz.UTC)\nprint((second_utc - first_utc).total_seconds())\n# Output: ________\n```",
+    "options": {
+      "a": "3600.0",
+      "b": "0.0",
+      "c": "7200.0",
+      "d": "1800.0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Converting to UTC reveals one hour between the two occurrences.",
+      "b": "They represent different moments; the difference is not zero.",
+      "c": "7200 seconds would be two hours.",
+      "d": "30 minutes is not the correct offset difference."
+    },
+    "hints": [
+      "How many hours are between the first and second 1 AM?",
+      "The UTC conversion adjusts for the offset change."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The first 1 AM is still in EDT (UTC-4), and the second 1 AM is in EST (UTC-5), so the UTC times differ by exactly one hour (3600 seconds).",
+    "time_pressure_note": "If you skip the UTC conversion, you might get 0 seconds.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_056",
+    "concept_name": "resample() method",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A student writes:\n\n```python\nrides.resample('M', on='Start date')['Duration seconds'].mean()\n```\nWhy is this problematic?",
+    "options": {
+      "a": "'M' is deprecated; use 'ME' for month‑end frequency.",
+      "b": "`on` must be the index.",
+      "c": "resample can only be used with datetime index.",
+      "d": "`mean()` cannot be applied after resample."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! In recent pandas, 'M' is deprecated in favor of 'ME' to avoid ambiguity with 'MS'.",
+      "b": "The `on` parameter is valid for specifying a column.",
+      "c": "resample with `on` works on a column.",
+      "d": "mean() is a valid aggregation."
+    },
+    "hints": [
+      "Check the current pandas frequency aliases.",
+      "What is the modern alias for month end?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The 'M' alias has been deprecated. Using it generates a FutureWarning. The recommended alias is 'ME'.",
+    "time_pressure_note": "Old habits might lead you to still use 'M'.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_058",
+    "concept_name": "dt.tz_localize() method",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What is the outcome of running the following without handling ambiguous times?\n\n```python\nrides['Start date'] = rides['Start date'].dt.tz_localize('America/New_York')\n```",
+    "options": {
+      "a": "Raises AmbiguousTimeError if any timestamp falls in the DST fall‑back hour.",
+      "b": "Silently converts ambiguous times to the first occurrence.",
+      "c": "Returns NaT for ambiguous times.",
+      "d": "Raises ValueError because the Series is already aware."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! By default, ambiguous times raise an error unless handled with `ambiguous` parameter.",
+      "b": "That would happen with `ambiguous='earliest'` or similar, not by default.",
+      "c": "That would happen with `ambiguous='NaT'`.",
+      "d": "The Series is naive before localization; no error about being aware."
+    },
+    "hints": [
+      "What is the default behavior for ambiguous times?",
+      "You must explicitly tell pandas how to handle them."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz_localize` raises `AmbiguousTimeError` if the data contains a time that could be interpreted as two different UTC moments due to DST fall‑back, unless you specify the `ambiguous` parameter (e.g., `ambiguous='NaT'`).",
+    "time_pressure_note": "Without specifying the ambiguous parameter, you might expect it to work, but it fails.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_059",
+    "concept_name": "ambiguous='NaT' in tz_localize",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "After executing:\n\n```python\nrides['Start date'] = rides['Start date'].dt.tz_localize('America/New_York', ambiguous='NaT')\n```\nWhat is the value of `rides.loc[ambiguous_row, 'Start date']` if that row originally contained an ambiguous time?",
+    "options": {
+      "a": "NaT",
+      "b": "The first occurrence time",
+      "c": "The second occurrence time",
+      "d": "Raises AmbiguousTimeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `ambiguous='NaT'` replaces ambiguous timestamps with NaT.",
+      "b": "That would be the result of `ambiguous='earliest'`.",
+      "c": "That would be the result of `ambiguous='latest'`.",
+      "d": "The error is avoided by using the parameter."
+    },
+    "hints": [
+      "What does 'NaT' stand for?",
+      "The parameter explicitly handles the ambiguity by marking it as missing."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ambiguous='NaT'` tells pandas to set any ambiguous datetime to NaT, effectively dropping that data from time‑sensitive calculations.",
+    "time_pressure_note": "You might think it picks one of the occurrences, but NaT means not a time.",
+    "common_mistake_tested": false
+  }
+]

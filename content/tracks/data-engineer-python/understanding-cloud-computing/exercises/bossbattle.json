@@ -1,0 +1,1304 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_001",
+    "concept_name": "Cloud computing",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does cloud computing deliver over the internet with pay-as-you-go pricing?",
+    "options": {
+      "a": "Only storage services",
+      "b": "Technology services like compute, storage, and databases",
+      "c": "Physical servers shipped to your office",
+      "d": "Only software applications"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Cloud computing includes much more than storage, such as compute and databases.",
+      "b": "Correct! Cloud computing delivers a broad range of technology services on demand.",
+      "c": "Cloud providers do not ship physical servers; you access resources over the internet.",
+      "d": "While SaaS is part of cloud computing, the concept also includes IaaS and PaaS."
+    },
+    "hints": [
+      "Think about the full range of IT services available on demand.",
+      "The definition includes computing power, storage, databases, and networking."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud computing encompasses many service categories, all delivered over the internet with a flexible pricing model.",
+    "time_pressure_note": "Under time pressure, people may pick the most familiar cloud example (storage) rather than the full definition.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_001",
+    "concept_name": "Cloud computing",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "A team thinks cloud computing is identical to virtualization. Why is this incorrect?",
+    "options": {
+      "a": "Virtualization is only used in on-premises environments.",
+      "b": "Cloud computing relies on virtualization but adds on‑demand self‑service, broad network access, and measured service.",
+      "c": "Cloud computing does not use virtualization.",
+      "d": "Virtualization is the same as containerization."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Virtualization is used in both on-premises and cloud environments.",
+      "b": "Correct! Virtualization is a foundational technology, but cloud computing is a broader service model.",
+      "c": "Cloud computing almost always uses virtualization to manage resources.",
+      "d": "Virtualization and containerization are distinct technologies."
+    },
+    "hints": [
+      "Cloud computing includes management layers beyond just splitting a server.",
+      "Think about the NIST definition of cloud computing."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Virtualization enables resource pooling, but cloud computing also requires self-service, elasticity, and pay-per-use billing.",
+    "time_pressure_note": "Under pressure, the misconception that cloud = virtualization may lead to a quick wrong choice.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_002",
+    "concept_name": "On-premises computing",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT belong with the others?",
+    "options": {
+      "a": "Managing your own physical servers in a local data center",
+      "b": "Using AWS EC2 for virtual machines",
+      "c": "Owning and patching your own hardware",
+      "d": "Running workloads on servers you purchased"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "This is on-premises computing.",
+      "b": "Correct! AWS EC2 is a cloud service, unlike the other options which describe on-premises computing.",
+      "c": "This describes an on-premises responsibility.",
+      "d": "This is typical on-premises ownership."
+    },
+    "hints": [
+      "Look for the option that involves renting instead of owning.",
+      "On-premises means you own the hardware; cloud means you rent it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The odd one out is the cloud service (EC2), while the other three all describe on-premises computing characteristics.",
+    "time_pressure_note": "Time pressure might make you overlook the subtle 'using AWS' phrase.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_005",
+    "concept_name": "Virtualization",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A developer claims that because all workloads are now virtualized, physical servers are no longer needed. What is the flaw?",
+    "options": {
+      "a": "Virtual machines can run without any physical hardware.",
+      "b": "Virtualization still requires a physical host server underneath.",
+      "c": "Containers have replaced virtual machines entirely.",
+      "d": "Virtualization only works on mainframes."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "VMs run on hypervisors installed on physical hardware.",
+      "b": "Correct! Virtualization abstracts hardware but does not eliminate the need for physical servers.",
+      "c": "Containers and VMs coexist; containers are not a universal replacement.",
+      "d": "Virtualization is common on x86 servers, not just mainframes."
+    },
+    "hints": [
+      "Even serverless still uses physical servers somewhere.",
+      "Think about what a hypervisor runs on."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Virtualization splits physical servers into multiple virtual machines, but you still need the physical machines to run the hypervisor.",
+    "time_pressure_note": "The 'no physical hardware' myth is widespread and can trip up under time constraints.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_005",
+    "concept_name": "Virtualization",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "A physical server runs 5 virtual machines, each running an isolated application. The IT team replaces the server with a new model that has double the CPU cores. What changed?",
+    "options": {
+      "a": "The number of VMs increased.",
+      "b": "The hypervisor was replaced with a container engine.",
+      "c": "The capacity available to each VM can be increased (vertical scaling).",
+      "d": "The VMs now share a single OS kernel."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Replacing hardware does not automatically change the number of VMs.",
+      "b": "The scenario remains a virtualized environment, not containerization.",
+      "c": "Correct! More physical resources allow allocating more CPU/RAM to existing VMs, i.e., vertical scaling.",
+      "d": "VMs still run separate guest OSes, not a shared kernel."
+    },
+    "hints": [
+      "Think about the immediate effect of adding hardware resources.",
+      "The VMs are still isolated, but they can be allocated more power."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Replacing hardware with a more powerful server enables vertical scaling of the virtual machines, assuming the hypervisor can reallocate resources.",
+    "time_pressure_note": "Under time pressure, you might confuse physical hardware upgrade with horizontal scaling or re‑architecting.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_006",
+    "concept_name": "Scalability",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "An application can handle 100 requests/sec on a single server. The team adds a second identical server and a load balancer. The new total capacity is expected to be: _____ requests/sec.",
+    "options": {
+      "a": "100",
+      "b": "150",
+      "c": "200",
+      "d": "300"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Adding a second server does not leave capacity unchanged.",
+      "b": "Scalability often scales linearly, but 150 would imply only 50% extra, which is not typical.",
+      "c": "Correct! With effective load balancing, doubling the servers roughly doubles the capacity.",
+      "d": "300 would be triple, which is not supported by the given setup."
+    },
+    "hints": [
+      "Think of perfect linear scaling with identical servers.",
+      "Each server contributes its full capacity when load is distributed evenly."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Horizontal scaling, when properly load balanced, can linearly increase total throughput. 2 servers × 100 = 200 requests/sec.",
+    "time_pressure_note": "Under time pressure, you might guess a non-linear number, but the principle is straightforward.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_015",
+    "concept_name": "Cloud service models",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT one of the three primary cloud service models?",
+    "options": {
+      "a": "Infrastructure as a Service (IaaS)",
+      "b": "Platform as a Service (PaaS)",
+      "c": "Software as a Service (SaaS)",
+      "d": "Desktop as a Service (DaaS)"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "IaaS is one of the three main models.",
+      "b": "PaaS is a core model.",
+      "c": "SaaS is the third classic model.",
+      "d": "Correct! DaaS is a specific sub‑offering, not one of the primary three cloud service models."
+    },
+    "hints": [
+      "Recall the three models described in the course: IaaS, PaaS, SaaS.",
+      "DaaS is a specialisation, but the question asks for the primary categories."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The three foundational service models are IaaS, PaaS, and SaaS. DaaS is a type of cloud service but not a main category.",
+    "time_pressure_note": "DaaS sounds plausible but is not in the core trio.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_016",
+    "concept_name": "Infrastructure as a Service (IaaS)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "An organization deploys Windows Server on an AWS EC2 instance. They expect Microsoft to automatically patch the OS. What will likely happen?",
+    "options": {
+      "a": "AWS will auto‑update the Windows OS.",
+      "b": "Microsoft patches the OS directly on any cloud VM.",
+      "c": "The organization must manage OS patches themselves.",
+      "d": "The OS will never need patches because it's in the cloud."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Under IaaS, AWS manages the hypervisor, not the guest OS.",
+      "b": "Microsoft does not have direct access to the VM unless configured by the customer.",
+      "c": "Correct! IaaS customers are responsible for maintaining the operating system, including patches.",
+      "d": "All operating systems require security updates regardless of hosting location."
+    },
+    "hints": [
+      "Think about the shared responsibility model.",
+      "Who manages the 'inside' of a rented virtual server?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "IaaS gives you full control over the virtual machine, but that includes the responsibility to update and secure the OS.",
+    "time_pressure_note": "Under pressure, many assume the cloud provider handles everything, leading to this common mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_017",
+    "concept_name": "Platform as a Service (PaaS)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Before: Developers manually provisioned VMs, installed runtimes, and deployed apps. After: They use Google App Engine, pushing only application code. What changed?",
+    "options": {
+      "a": "The application now requires a full virtual machine per instance.",
+      "b": "The developers now manage the operating system.",
+      "c": "The platform manages the runtime and infrastructure, so developers focus on code.",
+      "d": "The application is now running on‑premises."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "App Engine abstracts away VMs; you don't manage instances directly.",
+      "b": "With PaaS, the provider manages the OS.",
+      "c": "Correct! PaaS shifts infrastructure management to the cloud provider.",
+      "d": "App Engine is a cloud service, not on‑premises."
+    },
+    "hints": [
+      "Think about the level of abstraction provided by PaaS.",
+      "The change eliminated the need to handle runtimes and servers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "PaaS environments like Google App Engine allow developers to deploy code without worrying about the underlying servers, OS, or middleware.",
+    "time_pressure_note": "Time pressure may cause you to confuse PaaS with IaaS or serverless.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_018",
+    "concept_name": "Software as a Service (SaaS)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What is a defining characteristic of SaaS?",
+    "options": {
+      "a": "Customers install the software on their own servers.",
+      "b": "The provider manages everything, and users access the software via the internet.",
+      "c": "Users must buy a license for each virtual machine.",
+      "d": "SaaS requires a dedicated private cloud."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "That describes on‑premises software, not SaaS.",
+      "b": "Correct! SaaS is a fully managed cloud application accessible over the web.",
+      "c": "SaaS typically uses subscription licensing, not per‑VM licensing.",
+      "d": "SaaS can run on public cloud; it doesn't require a private cloud."
+    },
+    "hints": [
+      "Think of Gmail or Office 365.",
+      "No installation, no maintenance—just use it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SaaS delivers complete, ready‑to‑use applications that are entirely managed by the provider.",
+    "time_pressure_note": "The simplicity of SaaS makes this an easy question even under pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_024",
+    "concept_name": "Public cloud",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT describe a public cloud?",
+    "options": {
+      "a": "Infrastructure shared by multiple organizations",
+      "b": "Owned and operated by a third‑party provider like AWS",
+      "c": "Dedicated to a single organization with exclusive access",
+      "d": "Accessible over the internet"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "That is a key feature of public cloud.",
+      "b": "That's typical for public cloud.",
+      "c": "Correct! That describes a private cloud, not a public one.",
+      "d": "Public clouds are generally internet‑accessible."
+    },
+    "hints": [
+      "Public cloud is shared, not exclusive.",
+      "Think of the opposite of a private cloud."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Public cloud infrastructure is provisioned for open use by multiple customers, whereas a private cloud is dedicated to a single organization.",
+    "time_pressure_note": "The word 'dedicated' is the giveaway, but under pressure you might miss it.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_025",
+    "concept_name": "Private cloud",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "A manager says, 'Our private cloud is less secure because we host it ourselves.' What is wrong with this statement?",
+    "options": {
+      "a": "Private clouds are always hosted by third parties.",
+      "b": "Security depends on implementation, not just who hosts it.",
+      "c": "Private clouds cannot use firewalls.",
+      "d": "Public cloud is always more secure."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Private clouds can be self‑hosted or hosted by a third party.",
+      "b": "Correct! Security is determined by configuration and practices, not the hosting location.",
+      "c": "Private clouds absolutely can use firewalls.",
+      "d": "Neither is inherently more secure; it depends on the security measures implemented."
+    },
+    "hints": [
+      "Security is a process, not a place.",
+      "Think about the shared responsibility model."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A well‑configured private cloud can be very secure. The statement incorrectly assumes self‑hosting automatically weakens security.",
+    "time_pressure_note": "The bias toward 'cloud = more secure' might lead to a wrong answer under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_034",
+    "concept_name": "Cloud architect",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A job description for a cloud architect lists 'migrating on‑premises databases to the cloud' as the primary duty. Why is this problematic?",
+    "options": {
+      "a": "Cloud architects only work with SaaS applications.",
+      "b": "Database migration is an operational task usually performed by cloud engineers.",
+      "c": "Cloud architects do not need to understand databases.",
+      "d": "Migrations are fully automated and require no architect."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Cloud architects design solutions across all models, not just SaaS.",
+      "b": "Correct! The architect designs the overall solution; the engineer executes migrations and builds.",
+      "c": "Architects must understand database technologies to design appropriate solutions.",
+      "d": "Migrations often require careful planning that an architect may contribute to, but the hands‑on work is engineering."
+    },
+    "hints": [
+      "Think about the architect vs. engineer distinction.",
+      "Who builds and who designs?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The cloud architect focuses on high‑level design, while the cloud engineer handles day‑to‑day implementation and migration tasks.",
+    "time_pressure_note": "Under time pressure, you might miss the nuance between designing and executing.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_035",
+    "concept_name": "Cloud engineer",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "A cloud engineer automates the provisioning of virtual machines using infrastructure as code. Which tool is most likely used?",
+    "options": {
+      "a": "A spreadsheet",
+      "b": "Terraform or AWS CloudFormation",
+      "c": "A physical server manual",
+      "d": "An email template"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Spreadsheets are not infrastructure‑as‑code tools.",
+      "b": "Correct! Infrastructure as code tools like Terraform and CloudFormation allow defining cloud resources in configuration files.",
+      "c": "That is not an automation tool.",
+      "d": "Email is not used to provision infrastructure."
+    },
+    "hints": [
+      "Think of declarative configuration files.",
+      "The engineer writes code that describes the desired state of the cloud resources."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud engineers often use IaC tools such as Terraform, CloudFormation, or Azure Resource Manager templates to automate infrastructure deployment.",
+    "time_pressure_note": "Under pressure, you might pick a non‑technical answer, but IaC is a standard practice.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_038",
+    "concept_name": "Major cloud providers",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "As of end 2023, the market shares of the top three cloud providers are: AWS _____%, Azure 24%, Google Cloud 11%.",
+    "options": {
+      "a": "15",
+      "b": "22",
+      "c": "31",
+      "d": "40"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "15% is far below AWS's actual share.",
+      "b": "22% is close to Azure's share, not AWS.",
+      "c": "Correct! AWS held 31% market share at the end of 2023.",
+      "d": "40% is too high; no single provider holds that much share."
+    },
+    "hints": [
+      "AWS is the market leader with about a third of the market.",
+      "The exact figure from the course is 31%."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AWS maintained its leadership with 31% market share, followed by Azure (24%) and Google Cloud (11%).",
+    "time_pressure_note": "Numbers are easy to mix up under pressure; remember AWS is first.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_039",
+    "concept_name": "Amazon Web Services (AWS)",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "Which AWS service would a data scientist use to build and train machine learning models?",
+    "options": {
+      "a": "Amazon S3",
+      "b": "Amazon EC2",
+      "c": "Amazon SageMaker",
+      "d": "Amazon RDS"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "S3 is an object storage service, not a machine learning platform.",
+      "b": "EC2 is a compute service; you could run ML on it, but SageMaker is purpose‑built.",
+      "c": "Correct! SageMaker is AWS's managed service for building, training, and deploying machine learning models.",
+      "d": "RDS is a relational database service."
+    },
+    "hints": [
+      "Look for the service name that hints at AI/ML.",
+      "The case study of NerdWallet used this service."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Amazon SageMaker simplifies the machine learning workflow, making it a go‑to service for data scientists on AWS.",
+    "time_pressure_note": "Under time pressure, you might confuse compute (EC2) with the specialized ML service.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_040",
+    "concept_name": "Microsoft Azure",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Before: Ottawa Hospital stored backups on physical tapes. After: They use Azure Site Recovery. What changed?",
+    "options": {
+      "a": "They moved from disaster recovery to backup.",
+      "b": "They now rely on cloud‑based disaster recovery instead of physical media.",
+      "c": "They eliminated all risk of data loss.",
+      "d": "They switched to a different cloud provider."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Azure Site Recovery is a disaster recovery solution, not just backup.",
+      "b": "Correct! The hospital adopted a cloud service for resilience, moving away from physical tapes.",
+      "c": "No solution eliminates all risk; it reduces it.",
+      "d": "They stayed with Azure; the change was in the service used."
+    },
+    "hints": [
+      "Think about the difference between backup tapes and cloud‑based replication.",
+      "The case study mentions disaster recovery for the hospital."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Ottawa Hospital case study highlights using Azure for disaster recovery, providing faster and more reliable protection than physical tapes.",
+    "time_pressure_note": "Under time pressure, you might miss the specific case study reference.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_003",
+    "concept_name": "Pay-as-you-go pricing",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "predict_error",
+    "question_text": "A team runs temporary dev servers on a pay‑as‑you‑go basis. Over a holiday weekend, they leave the servers running but idle. What will happen to costs?",
+    "options": {
+      "a": "Costs will pause because the servers are idle.",
+      "b": "They will be charged for the allocated resources regardless of usage.",
+      "c": "The provider will automatically stop the servers to save costs.",
+      "d": "Only storage costs will be incurred."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Idle resources still incur charges because they remain allocated.",
+      "b": "Correct! Pay‑as‑you‑go bills for the time resources exist, not just active compute cycles.",
+      "c": "Auto‑scaling rules must be configured; it is not automatic.",
+      "d": "Compute resources also incur costs while allocated."
+    },
+    "hints": [
+      "Think of an electricity meter—you pay for the connection even if no appliance is on.",
+      "The cloud provider does not know if the server is idle or not."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Under the pay‑as‑you‑go model, you pay for resource allocation, not just utilization. Idle VMs continue to bill until terminated.",
+    "time_pressure_note": "The 'pay‑as‑you‑go' name misleads people into thinking only usage counts, causing this common error under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_007",
+    "concept_name": "Vertical scaling",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A company expects exponential growth and decides to handle it only by upgrading their single server (vertical scaling). What bug will likely occur?",
+    "options": {
+      "a": "The server will automatically clone itself.",
+      "b": "They will eventually hit a hardware ceiling where further upgrades are impossible or too expensive.",
+      "c": "Vertical scaling requires rewriting the entire application.",
+      "d": "Adding more CPU reduces performance."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Servers do not clone automatically; that's horizontal scaling.",
+      "b": "Correct! Every physical server has a maximum capacity limit.",
+      "c": "Vertical scaling usually does not require application changes.",
+      "d": "Adding CPU improves performance, up to a point."
+    },
+    "hints": [
+      "There is a physical limit to how large a single machine can be.",
+      "Think about the 'scale up' ceiling."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Vertical scaling is constrained by the maximum specifications of a single server. At some point, further upgrades become cost‑prohibitive or impossible.",
+    "time_pressure_note": "Under pressure, you might assume scaling up can go on forever.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_008",
+    "concept_name": "Horizontal scaling",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A team adds two more application servers but does not set up a load balancer. What bug exists in this design?",
+    "options": {
+      "a": "The new servers will not turn on.",
+      "b": "Traffic will not be distributed; all requests still go to one server.",
+      "c": "The servers will automatically discover each other.",
+      "d": "The application will crash immediately."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The servers will power on, but they won't receive traffic unless routed.",
+      "b": "Correct! Without a load balancer, there is no mechanism to spread incoming requests across multiple servers.",
+      "c": "Automatic discovery is not a feature of horizontal scaling without configuration.",
+      "d": "The application may still run on a single server, but it won't scale out."
+    },
+    "hints": [
+      "Think about how a client knows which server to contact.",
+      "A load balancer is the traffic director."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Horizontal scaling requires a load balancer to distribute traffic evenly. Without it, the extra servers remain idle.",
+    "time_pressure_note": "Under time pressure, you might overlook the need for a load balancer.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_010",
+    "concept_name": "High Availability (HA)",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A bank advertises '100% uptime guaranteed' for its cloud‑based online banking. Why is this claim problematic?",
+    "options": {
+      "a": "Cloud providers cannot offer high availability.",
+      "b": "HA aims for minimal, not zero, downtime; absolute guarantees are unrealistic.",
+      "c": "The internet itself has no downtime.",
+      "d": "Redundancy eliminates all failure possibilities."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Cloud providers do offer HA, but not absolute zero downtime.",
+      "b": "Correct! High Availability systems strive for minimal downtime, but unforeseen failures can still occur.",
+      "c": "Internet outages can happen.",
+      "d": "Redundancy reduces, but does not eliminate, all risks."
+    },
+    "hints": [
+      "Even the best designs cannot promise perfection.",
+      "Think about the difference between 'high availability' and 'fault‑proof'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "High Availability means designing for minimal downtime, not zero. Absolute guarantees are misleading because no system is immune to all failures.",
+    "time_pressure_note": "Under pressure, '100% uptime' sounds plausible but is a common misunderstanding of HA.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_014",
+    "concept_name": "Redundancy",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Before: A single database server handles all transactions. After: Two synchronized database servers are deployed in different data centers with automatic failover. What changed?",
+    "options": {
+      "a": "The database became single‑point‑of‑failure.",
+      "b": "Redundancy was added to improve availability.",
+      "c": "The database now requires manual failover.",
+      "d": "The storage capacity doubled."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The opposite: single‑point‑of‑failure is mitigated.",
+      "b": "Correct! Adding a second synchronized server provides redundancy, so one can take over if the other fails.",
+      "c": "Automatic failover was implemented.",
+      "d": "Capacity may or may not double; the key change is availability."
+    },
+    "hints": [
+      "The goal was to survive a data center failure.",
+      "Think duplication for safety."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Redundancy duplicates critical components so that if one fails, another can seamlessly continue, enhancing high availability.",
+    "time_pressure_note": "Under time pressure, you might confuse redundancy with scaling.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_023",
+    "concept_name": "Cloud security",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A startup moves its application to the cloud and assumes the provider will handle all security. What bug does this reveal?",
+    "options": {
+      "a": "Cloud providers never offer security services.",
+      "b": "The startup ignores the shared responsibility model; they must secure their own data and configurations.",
+      "c": "Cloud data is automatically encrypted at rest.",
+      "d": "The application is now immune to attacks."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Providers offer many security tools, but responsibility is shared.",
+      "b": "Correct! The customer is responsible for securing their data, access controls, and application configurations.",
+      "c": "Encryption at rest must be enabled and configured by the customer.",
+      "d": "No application is immune; security requires continuous effort."
+    },
+    "hints": [
+      "Think of the shared responsibility model.",
+      "Who sets up firewalls and IAM roles?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud security follows a shared responsibility model: the provider secures the infrastructure, while the customer must secure their workloads and data.",
+    "time_pressure_note": "The myth that 'cloud = provider does everything' is a very common trap under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_023",
+    "concept_name": "Cloud security",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A team stores sensitive customer data on an S3 bucket but forgets to enable server‑side encryption. What is the likely risk?",
+    "options": {
+      "a": "AWS will automatically encrypt the data after 24 hours.",
+      "b": "Data at rest will remain unencrypted, violating data protection requirements.",
+      "c": "The bucket will be automatically deleted.",
+      "d": "The data is encrypted by default on all S3 buckets."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Encryption must be configured; it does not happen automatically on a delay.",
+      "b": "Correct! The shared responsibility model expects the customer to enable encryption for sensitive data.",
+      "c": "Buckets are not auto‑deleted due to missing encryption.",
+      "d": "S3 does not encrypt data by default; it requires enabling."
+    },
+    "hints": [
+      "Review the default settings of cloud storage services.",
+      "Encryption at rest is often a customer‑side configuration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Customers must implement security controls like encryption; providers supply the tools but not the automatic activation for all data.",
+    "time_pressure_note": "Assuming default security settings exist can lead to data exposure under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_026",
+    "concept_name": "Hybrid cloud",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT describe a hybrid cloud?",
+    "options": {
+      "a": "A mix of private and public cloud environments",
+      "b": "Workloads can move between private and public cloud",
+      "c": "Using AWS for compute and Azure for storage",
+      "d": "A network link connects private and public cloud resources"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "That is a defining trait of hybrid cloud.",
+      "b": "That's a key benefit of hybrid cloud.",
+      "c": "Correct! That describes multicloud (using multiple providers), not hybrid (mixing deployment models).",
+      "d": "That's a technical requirement for hybrid."
+    },
+    "hints": [
+      "Hybrid is about mixing deployment models, not necessarily providers.",
+      "Look for the option that mentions different cloud providers instead of different types of environments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Hybrid cloud combines public and private clouds, whereas multicloud involves multiple public cloud providers. Using both AWS and Azure is multicloud.",
+    "time_pressure_note": "The distinction between hybrid and multicloud is often confused under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_027",
+    "concept_name": "Cloud bursting",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A retailer expects a Black Friday traffic spike and plans to rely on cloud bursting without any extra configuration. What is the bug?",
+    "options": {
+      "a": "Cloud bursting works automatically for all applications.",
+      "b": "Cloud bursting requires prior network setup, orchestration, and application compatibility.",
+      "c": "Black Friday spikes are too small to need bursting.",
+      "d": "Bursting only works during business hours."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "This is the misconception; it does not happen automatically.",
+      "b": "Correct! Cloud bursting needs careful planning, including network connectivity and failover logic.",
+      "c": "Black Friday spikes can be massive, often exceeding private capacity.",
+      "d": "Bursting can happen anytime; timing isn't the issue."
+    },
+    "hints": [
+      "Think about what must happen when the private cloud hits capacity.",
+      "Automatic failover isn't magic; it requires configuration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud bursting is a hybrid cloud use case, but it is not automatic. It demands orchestration to redirect overflow traffic to the public cloud.",
+    "time_pressure_note": "The word 'bursting' suggests instant action, leading to the false assumption of automaticity.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_028",
+    "concept_name": "Multicloud",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Before: A company runs everything on AWS. After: They use AWS for hosting, Azure for backups, and Google Cloud for analytics. What changed?",
+    "options": {
+      "a": "They moved to a hybrid cloud.",
+      "b": "They adopted a multicloud strategy.",
+      "c": "They switched entirely to Google Cloud.",
+      "d": "They moved to a community cloud."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Hybrid cloud mixes public and private; this scenario uses only public clouds.",
+      "b": "Correct! Using multiple public cloud providers is the definition of multicloud.",
+      "c": "They still use AWS and Azure, not just Google.",
+      "d": "Community cloud is shared by a specific group, not multiple public providers."
+    },
+    "hints": [
+      "Count the number of public cloud providers.",
+      "Multicloud means more than one provider."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Multicloud involves distributing workloads across several cloud providers, often to avoid vendor lock‑in or to use best‑of‑breed services.",
+    "time_pressure_note": "Under time pressure, you might mistake this for hybrid, but note there is no private cloud.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_029",
+    "concept_name": "Community cloud",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which organisation would most likely use a community cloud?",
+    "options": {
+      "a": "A group of universities collaborating on research with shared data compliance needs",
+      "b": "A single startup hosting a web app",
+      "c": "A multinational using multiple public cloud providers",
+      "d": "A retailer using only AWS"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Community clouds serve multiple organizations with common goals, such as research consortia.",
+      "b": "A single startup would use a public or private cloud, not a community cloud.",
+      "c": "That describes multicloud, not community cloud.",
+      "d": "A single‑provider public cloud use is not community cloud."
+    },
+    "hints": [
+      "Think of a cloud shared by a specific group, not open to the public.",
+      "Community implies shared interests and compliance."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A community cloud is jointly used by organizations with similar requirements, such as government agencies or research institutions.",
+    "time_pressure_note": "Under pressure, you might pick any shared‑resource scenario, but the key is the defined community.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_031",
+    "concept_name": "General Data Protection Regulation (GDPR)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A Canadian e‑commerce site sells digital products to EU residents but does not implement GDPR consent banners. What risk do they face?",
+    "options": {
+      "a": "No risk, because they are not based in the EU.",
+      "b": "Fines up to €20 million or 4% of global annual revenue.",
+      "c": "Automatic blocking of their website in the EU.",
+      "d": "GDPR only applies to physical goods."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "GDPR applies to any organization processing EU residents' data, regardless of location.",
+      "b": "Correct! GDPR's extraterritorial scope means even non‑EU companies can face massive fines.",
+      "c": "Blocking is not automatic, but fines can be imposed.",
+      "d": "GDPR covers personal data, not specifically tied to physical goods."
+    },
+    "hints": [
+      "Think about GDPR's global reach.",
+      "The regulation protects EU data subjects, not companies."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "GDPR enforcement can extend worldwide. Fines are severe, making compliance critical for any business handling EU personal data.",
+    "time_pressure_note": "Under pressure, one might wrongly assume GDPR only applies to EU‑based businesses.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_031",
+    "concept_name": "General Data Protection Regulation (GDPR)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A company claims that anonymizing personal data makes them fully GDPR‑compliant. What bug is in this reasoning?",
+    "options": {
+      "a": "Anonymization alone may not be sufficient; the data must also be protected during processing.",
+      "b": "GDPR requires pseudonymization, not anonymization.",
+      "c": "Anonymization is impossible.",
+      "d": "GDPR does not mention data protection."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! GDPR requires a range of protections, including encryption and pseudonymization, and compliance is about ongoing practices, not just one technique.",
+      "b": "Pseudonymization is recommended but not the only requirement.",
+      "c": "It is possible but often complex; the error is assuming it solves everything.",
+      "d": "GDPR is heavily focused on data protection."
+    },
+    "hints": [
+      "Think about the full set of obligations under GDPR.",
+      "Anonymization is one tool, but compliance covers consent, breach notification, and more."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "GDPR compliance is holistic; relying solely on anonymization ignores obligations like data subject rights, breach notification, and lawful processing bases.",
+    "time_pressure_note": "The simplicity of 'just anonymize' is tempting under pressure but legally insufficient.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_033",
+    "concept_name": "Data protection regulations (other)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "A US hospital processes patient health records. Which regulation must it comply with, regardless of where its servers are located?",
+    "options": {
+      "a": "GDPR",
+      "b": "HIPAA",
+      "c": "LGPD",
+      "d": "PIPEDA"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "GDPR applies to EU data, not specifically to US health records.",
+      "b": "Correct! HIPAA governs the privacy and security of health information in the United States.",
+      "c": "LGPD is Brazil's data protection law.",
+      "d": "PIPEDA is Canada's private sector privacy law."
+    },
+    "hints": [
+      "Think of a US‑specific health data law.",
+      "The acronym stands for Health Insurance Portability and Accountability Act."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "HIPAA sets the standard for protecting sensitive patient data in the US. Cloud workloads handling PHI must comply.",
+    "time_pressure_note": "Under pressure, you might confuse international laws, but the keyword is 'US hospital'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_036",
+    "concept_name": "DevOps engineer",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A job title states 'DevOps Engineer' but the role only involves manually deploying code once a month. What is the bug?",
+    "options": {
+      "a": "DevOps engineers never deploy code.",
+      "b": "DevOps culture emphasizes automation and continuous delivery, not infrequent manual deployments.",
+      "c": "Manual deployment is the core of DevOps.",
+      "d": "DevOps is only about writing application code."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "They do deploy, but with automated pipelines.",
+      "b": "Correct! DevOps combines development and operations with a focus on automation, CI/CD, and rapid iteration.",
+      "c": "Manual deployment is the opposite of DevOps principles.",
+      "d": "DevOps spans both coding and operations automation."
+    },
+    "hints": [
+      "Think about what 'DevOps' culture really means.",
+      "Automation is a key practice."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A true DevOps role involves infrastructure as code, automated testing, and continuous deployment, not just occasional manual releases.",
+    "time_pressure_note": "The title alone can be misleading under time pressure; look for the practices.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_037",
+    "concept_name": "Security engineer (cloud)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A cloud security engineer only reviews firewall rules and never tests data encryption or IAM policies. What is the bug?",
+    "options": {
+      "a": "Security engineers should not handle firewalls.",
+      "b": "A security engineer's scope includes technical security assessment, encryption, and identity management, not just firewalls.",
+      "c": "Firewalls are not part of cloud security.",
+      "d": "IAM policies are the responsibility of the cloud architect."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Firewalls are part of their duties.",
+      "b": "Correct! Cloud security engineers are responsible for a wide range of protective measures, including data encryption and access control testing.",
+      "c": "Firewalls are a fundamental network security control.",
+      "d": "While architects may design IAM, security engineers test and enforce policies."
+    },
+    "hints": [
+      "Look for the breadth of the security engineer's role.",
+      "The course states they 'test and assess data security'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud security engineers specify technical security requirements, protect data, and assess the entire security posture, not just one aspect like firewalls.",
+    "time_pressure_note": "Under pressure, you might assume a narrow role, but the description clarifies breadth.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_041",
+    "concept_name": "Google Cloud",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which service is NOT associated with Google Cloud's key offerings?",
+    "options": {
+      "a": "BigQuery",
+      "b": "Anthos",
+      "c": "AWS SageMaker",
+      "d": "Cloud Storage"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "BigQuery is Google Cloud's data warehouse.",
+      "b": "Anthos is Google's hybrid and multicloud platform.",
+      "c": "Correct! SageMaker is an AWS service, not Google Cloud.",
+      "d": "Cloud Storage is Google's object storage."
+    },
+    "hints": [
+      "SageMaker is a machine learning service—recall which provider it belongs to.",
+      "Google Cloud's ML platform is AI Platform, not SageMaker."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SageMaker is Amazon's managed ML service. Google Cloud's ML offerings include AutoML and AI Platform.",
+    "time_pressure_note": "Under time pressure, you might mix up provider‑specific service names.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_042",
+    "concept_name": "Disaster recovery (cloud)",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Before: A company backs up its database nightly to an off‑site tape. After: It replicates data in real‑time to a cloud region and has automated failover scripts. What changed?",
+    "options": {
+      "a": "They moved from disaster recovery to backup.",
+      "b": "They replaced a simple backup with a comprehensive disaster recovery plan.",
+      "c": "They now have no backup at all.",
+      "d": "They stopped needing redundancy."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The new setup is disaster recovery, not just backup.",
+      "b": "Correct! Disaster recovery includes real‑time replication and the ability to failover, not just periodic backups.",
+      "c": "Real‑time replication is a form of backup.",
+      "d": "Redundancy is still critical; failover scripts ensure availability."
+    },
+    "hints": [
+      "Backup is a component of DR, not the whole plan.",
+      "Think about the ability to resume operations quickly."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Disaster recovery involves processes and tools to restore business operations, encompassing backup, replication, and failover procedures.",
+    "time_pressure_note": "Under time pressure, the subtle difference between backup and DR may be overlooked.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_044",
+    "concept_name": "Cloud Governance",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "A small startup uses cloud services with no governance policies, assuming it's only needed for large enterprises. What problem may arise?",
+    "options": {
+      "a": "Costs can escalate uncontrollably and security gaps may appear.",
+      "b": "The startup will automatically get enterprise discounts.",
+      "c": "Small teams are exempt from compliance regulations.",
+      "d": "Governance only applies to on‑premises infrastructure."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Without governance, there's no control over spending or security baselines, even for small teams.",
+      "b": "Enterprise discounts require negotiation, not automatic granting.",
+      "c": "Regulations like GDPR apply to any size company.",
+      "d": "Governance is equally important in the cloud."
+    },
+    "hints": [
+      "Think about the consequences of no rules for resource provisioning.",
+      "The common mistake is that governance is only for big companies."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Cloud governance establishes policies for cost, security, and compliance. Even small teams benefit from preventing sprawl and managing access.",
+    "time_pressure_note": "The assumption that 'we're too small to need governance' is a dangerous trap under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_046",
+    "concept_name": "SecOps",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a primary focus of SecOps?",
+    "options": {
+      "a": "Integrating security into daily operations",
+      "b": "Ensuring compliance with regulations",
+      "c": "Automating application code testing",
+      "d": "Protecting cloud infrastructure from threats"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "That is a core SecOps activity.",
+      "b": "Compliance is key in SecOps.",
+      "c": "Correct! Automating application code testing is more aligned with DevOps, not specifically SecOps.",
+      "d": "That is exactly what SecOps aims to do."
+    },
+    "hints": [
+      "SecOps is about security operations, not development.",
+      "Application testing is typically a DevOps pipeline activity."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SecOps focuses on security monitoring, incident response, and compliance, whereas DevOps includes CI/CD and automated testing.",
+    "time_pressure_note": "Under time pressure, you might confuse SecOps with DevOps, which both involve automation but with different goals.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_009",
+    "concept_name": "Elasticity",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "An e‑commerce platform sets up auto‑scaling rules to add instances when CPU exceeds 80%. During a flash sale, CPU spikes to 99%, but no new instances launch. What likely went wrong?",
+    "options": {
+      "a": "Elasticity doesn't work on public cloud.",
+      "b": "The auto‑scaling configuration may have a cool‑down period or insufficient warm‑up time, delaying the scale‑out.",
+      "c": "The application is stateless, which prevents auto‑scaling.",
+      "d": "Vertical scaling was triggered instead of horizontal."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Elasticity is a core cloud capability.",
+      "b": "Correct! Auto‑scaling often has constraints like cool‑down periods; a rapid spike can exceed the system's reaction time.",
+      "c": "Stateless applications are actually easier to auto‑scale.",
+      "d": "Vertical scaling does not add instances; this is a horizontal scaling mechanism."
+    },
+    "hints": [
+      "Think about the time it takes to spin up a new instance.",
+      "Auto‑scaling is not instantaneous."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Elasticity relies on properly configured scaling policies. Delays in detection, instance launch, and warm‑up can cause temporary under‑provisioning.",
+    "time_pressure_note": "Under pressure, you might assume auto‑scaling is magic and fails rarely.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_009",
+    "concept_name": "Elasticity",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "complete_output",
+    "question_text": "A system is designed to auto‑scale: when demand decreases, it should _____ the number of running instances to save cost.",
+    "options": {
+      "a": "increase",
+      "b": "decrease",
+      "c": "keep constant",
+      "d": "randomize"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Increasing would add more resources when demand is low, wasting money.",
+      "b": "Correct! Elasticity scales both up and down; decreasing instances reduces cost.",
+      "c": "Keeping constant does not reduce cost during low demand.",
+      "d": "Randomization is not a practical scaling policy."
+    },
+    "hints": [
+      "Think of a rubber band stretching and contracting.",
+      "Elasticity implies automatically adjusting to demand."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Elasticity ensures resources match current demand, scaling in (decreasing) when load drops to avoid paying for idle capacity.",
+    "time_pressure_note": "Under time pressure, you might forget that elasticity works in both directions.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_019",
+    "concept_name": "Function as a Service (FaaS)",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "A developer writes a FaaS function that processes a large video file, expecting it to run for 45 minutes. What error is likely to occur?",
+    "options": {
+      "a": "The function will auto‑scale to multiple instances.",
+      "b": "The function will hit the timeout limit and fail.",
+      "c": "The function will automatically switch to a container.",
+      "d": "FaaS does not support video processing."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Auto‑scaling doesn't extend the maximum execution time of a single invocation.",
+      "b": "Correct! FaaS platforms enforce maximum execution durations (e.g., 15 minutes), causing long‑running tasks to time out.",
+      "c": "FaaS does not magically switch execution models; you must design for the limits.",
+      "d": "FaaS can process video, but only if the task fits within the timeout."
+    },
+    "hints": [
+      "Check the typical timeout limits of serverless functions.",
+      "AWS Lambda maxes out at 15 minutes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "FaaS is built for short‑lived, event‑driven tasks. Long‑running jobs require other services like AWS Batch or containers.",
+    "time_pressure_note": "Ignoring timeout constraints is a classic FaaS mistake under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_041",
+    "concept_id": "concept_019",
+    "concept_name": "Function as a Service (FaaS)",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A team migrates a monolith that runs continuously as a background service to AWS Lambda. What is the bug?",
+    "options": {
+      "a": "Lambda cannot run any background processing.",
+      "b": "FaaS is designed for event‑driven, short‑lived functions, not persistent background services.",
+      "c": "Lambda only supports Python.",
+      "d": "Background services cannot run on any cloud."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Lambda can process background tasks, but they must be triggered and short.",
+      "b": "Correct! Serverless functions are not meant for always‑on processes; they execute and terminate.",
+      "c": "Lambda supports many languages.",
+      "d": "Background services can run on VMs or containers."
+    },
+    "hints": [
+      "Think about the execution model: triggered, run, stop.",
+      "A monolith expects to stay alive."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "FaaS is stateless and ephemeral. A persistent service that needs to run 24/7 is better suited for containers or virtual machines.",
+    "time_pressure_note": "Under pressure, the allure of serverless might overshadow architectural constraints.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_042",
+    "concept_id": "concept_020",
+    "concept_name": "Serverless computing",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A developer says, 'We don't need to worry about servers at all with serverless.' What is the bug?",
+    "options": {
+      "a": "Serverless functions cannot connect to databases.",
+      "b": "Servers still exist; they are abstracted away, but the provider manages them. The developer must still consider cold starts and limits.",
+      "c": "Serverless only works on‑premises.",
+      "d": "Serverless means all code runs on the client side."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Serverless functions can connect to databases normally.",
+      "b": "Correct! The term 'serverless' is a misnomer; physical servers are still involved, just hidden.",
+      "c": "Serverless is a cloud model.",
+      "d": "Serverless executes on the provider's infrastructure."
+    },
+    "hints": [
+      "Remember: 'serverless' does not literally mean no servers.",
+      "It's about abstraction, not elimination."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Serverless computing abstracts away infrastructure management, but the code still runs on servers. Developers must understand cold starts and execution limits.",
+    "time_pressure_note": "The term is incredibly misleading under time pressure, making this a crucial gotcha.",
+    "common_mistake_tested": true
+  }
+]

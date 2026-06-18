@@ -1,0 +1,174 @@
+{
+  "course_slug": "introduction-to-relational-databases-in-sql",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 3,
+  "challenges": [
+    {
+      "id": "dc_reldb_001",
+      "title": "Identify Primary Key Candidates",
+      "dataset_file": "professors.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001",
+        "concept_015"
+      ],
+      "context": "You are a database engineer designing a new relational database for university professors. Before designating a column as a Primary Key, you must verify if its values are unique and if there are duplicate records for professor names.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the dataset 'professors.csv' into a pandas DataFrame called `prof_df`.",
+          "variable_name": "prof_df",
+          "hint": "Use pd.read_csv('professors.csv')."
+        },
+        {
+          "step": 2,
+          "description": "Check if the 'email' column contains unique values by using the `.is_unique` attribute. Store this boolean value in `email_is_unique`.",
+          "variable_name": "email_is_unique",
+          "hint": "Access the 'email' Series and get its .is_unique property."
+        },
+        {
+          "step": 3,
+          "description": "Count the number of duplicate rows based on the combination of 'firstname' and 'lastname' columns. Use the `.duplicated()` method with the `subset` parameter and call `.sum()`. Store the result in `duplicate_names_count`.",
+          "variable_name": "duplicate_names_count",
+          "hint": "Call prof_df.duplicated(subset=['firstname', 'lastname']).sum()."
+        },
+        {
+          "step": 4,
+          "description": "Print 'Email is unique:' followed by `email_is_unique`, and print 'Duplicate names:' followed by `duplicate_names_count`.",
+          "variable_name": "print_output",
+          "hint": "Use print() to display the variables."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Your code goes here\n",
+      "solution_code": "import pandas as pd\n\nprof_df = pd.read_csv('professors.csv')\nemail_is_unique = prof_df['email'].is_unique\nduplicate_names_count = prof_df.duplicated(subset=['firstname', 'lastname']).sum()\nprint('Email is unique:', email_is_unique)\nprint('Duplicate names:', duplicate_names_count)",
+      "expected_output": "Email is unique: True\nDuplicate names: 1",
+      "output_description": "Outputs whether the email column is unique (True) and the count of duplicate name records (1).",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The file is named 'professors.csv'.",
+        "Use the `.duplicated()` method with the subset list containing 'firstname' and 'lastname'."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Verify uniqueness constraints on columns to evaluate their candidacy for primary keys.",
+      "pre_loaded_data": {}
+    },
+    {
+      "id": "dc_reldb_002",
+      "title": "Foreign Key Integrity Check",
+      "dataset_file": "professors.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 7,
+      "concepts_tested": [
+        "concept_036",
+        "concept_037"
+      ],
+      "context": "To maintain referential integrity, foreign keys in a child table must reference existing primary keys in the parent table. You need to write a script to find if any university shortname references in the professors table are invalid (do not exist in the universities table).",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the datasets 'professors.csv' into `prof_df` and 'universities.csv' into `univ_df`.",
+          "variable_name": "prof_df,univ_df",
+          "hint": "Use pd.read_csv() for both files."
+        },
+        {
+          "step": 2,
+          "description": "Identify all university shortnames in `prof_df` that do not exist in the 'id' column of `univ_df`. Store the unique invalid shortnames as a set or array in `invalid_keys`.",
+          "variable_name": "invalid_keys",
+          "hint": "Use prof_df[~prof_df['university_shortname'].isin(univ_df['id'])]['university_shortname'].unique()."
+        },
+        {
+          "step": 3,
+          "description": "Filter `prof_df` to select rows where 'university_shortname' is in `invalid_keys`. Store this DataFrame as `orphaned_professors`.",
+          "variable_name": "orphaned_professors",
+          "hint": "Filter prof_df using the isin() method on invalid_keys."
+        },
+        {
+          "step": 4,
+          "description": "Print the 'firstname' and 'lastname' columns of the `orphaned_professors` DataFrame.",
+          "variable_name": "print_output",
+          "hint": "Select the columns [['firstname', 'lastname']] and print."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Your code goes here\n",
+      "solution_code": "import pandas as pd\n\nprof_df = pd.read_csv('professors.csv')\nuniv_df = pd.read_csv('universities.csv')\ninvalid_keys = prof_df[~prof_df['university_shortname'].isin(univ_df['id'])]['university_shortname'].unique()\norphaned_professors = prof_df[prof_df['university_shortname'].isin(invalid_keys)]\nprint(orphaned_professors[['firstname', 'lastname']])",
+      "expected_output": "  firstname lastname\n5      Alan   Turing",
+      "output_description": "Displays the first name and last name of professors who reference non-existent university IDs.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `~` operator in pandas for logical NOT.",
+        "Check membership using `.isin()` with `univ_df['id']`."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Detect referential integrity violations in dataset relationships using pandas.",
+      "pre_loaded_data": {}
+    },
+    {
+      "id": "dc_reldb_003",
+      "title": "Analyze Many-to-Many Affiliations",
+      "dataset_file": "affiliations.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 6,
+      "concepts_tested": [
+        "concept_039",
+        "concept_040"
+      ],
+      "context": "Many-to-many relationships are resolved using junction tables. You need to analyze a junction table of professor affiliations to see how many unique professors are associated with each organization, and find the most common role.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the dataset 'affiliations.csv' into a DataFrame called `aff_df`.",
+          "variable_name": "aff_df",
+          "hint": "Use pd.read_csv('affiliations.csv')."
+        },
+        {
+          "step": 2,
+          "description": "Group `aff_df` by 'organization_id' and count the number of unique professors ('professor_id') for each organization. Store the Series in `org_counts`.",
+          "variable_name": "org_counts",
+          "hint": "Use aff_df.groupby('organization_id')['professor_id'].nunique()."
+        },
+        {
+          "step": 3,
+          "description": "Find the most common role in the 'role' column. Store it in `most_common_role`.",
+          "variable_name": "most_common_role",
+          "hint": "Use aff_df['role'].value_counts().idxmax()."
+        },
+        {
+          "step": 4,
+          "description": "Print `org_counts` and then print 'Most common role:' followed by `most_common_role`.",
+          "variable_name": "print_output",
+          "hint": "Print both variables to match the expected format."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Your code goes here\n",
+      "solution_code": "import pandas as pd\n\naff_df = pd.read_csv('affiliations.csv')\norg_counts = aff_df.groupby('organization_id')['professor_id'].nunique()\nmost_common_role = aff_df['role'].value_counts().idxmax()\nprint(org_counts)\nprint('Most common role:', most_common_role)",
+      "expected_output": "organization_id\nORG1    2\nORG2    1\nORG3    2\nORG4    1\nName: professor_id, dtype: int64\nMost common role: Researcher",
+      "output_description": "Displays unique professor counts per organization and the most frequent role held in the affiliations.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `.groupby()` followed by `.nunique()`.",
+        "Use `.value_counts().idxmax()` to find the mode of a categorical column."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Analyze junction table cardinality and attributes in a many-to-many relationship mapping.",
+      "pre_loaded_data": {}
+    }
+  ]
+}

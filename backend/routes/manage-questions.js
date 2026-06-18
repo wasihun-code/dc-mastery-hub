@@ -1,3 +1,4 @@
+import config from '../config.js'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
@@ -16,9 +17,7 @@ function getCourseFolder(courseSlug) {
   if (!course) return null
   const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   if (!track) return null
-  const contentFolder = process.env.CONTENT_FOLDER 
-    ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-    : DEFAULT_CONTENT_FOLDER
+  const contentFolder = config.CONTENT_PATH
   return path.join(contentFolder, 'tracks', track.slug, courseSlug)
 }
 

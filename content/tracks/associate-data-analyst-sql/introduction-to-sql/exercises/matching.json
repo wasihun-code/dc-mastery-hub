@@ -1,0 +1,383 @@
+{
+  "course_slug": "introduction-to-sql",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Database Basics & Data Types",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Relational database",
+          "match": "A database that defines relationships between tables.",
+          "wrong_matches": [
+            "The standard language for managing relational databases.",
+            "An object holding data in rows and columns."
+          ],
+          "feedback_correct": "Correct! A relational database links tables through keys.",
+          "feedback_wrong": "That’s a different concept. This describes SQL or a table."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Table",
+          "match": "An object holding data in rows and columns.",
+          "wrong_matches": [
+            "A single row of data, representing one observation.",
+            "A column in a table, representing an attribute."
+          ],
+          "feedback_correct": "Correct! Tables are the core storage structure in a database.",
+          "feedback_wrong": "That describes a record or a field, not the whole container."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Record (row)",
+          "match": "A single row of data, representing one observation.",
+          "wrong_matches": [
+            "A column in a table, representing an attribute.",
+            "A column that uniquely identifies each record."
+          ],
+          "feedback_correct": "Correct! A record holds all field values for one entity.",
+          "feedback_wrong": "That is a field or a key, not a row."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "Field (column)",
+          "match": "A column in a table, representing an attribute.",
+          "wrong_matches": [
+            "A column that uniquely identifies each record.",
+            "A connection between tables via shared columns."
+          ],
+          "feedback_correct": "Correct! A field defines a single property of the records.",
+          "feedback_wrong": "That is a key or a relationship definition."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "Unique Identifier / Key",
+          "match": "A column that uniquely identifies each record.",
+          "wrong_matches": [
+            "A connection between tables via shared columns.",
+            "The kind of data a column stores (e.g., integer, text)."
+          ],
+          "feedback_correct": "Correct! Keys ensure no duplicate rows.",
+          "feedback_wrong": "That describes a relationship or a data type."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "Relationship (table relationship)",
+          "match": "A connection between tables via shared columns.",
+          "wrong_matches": [
+            "A request for data or an operation written in SQL.",
+            "Reserved words like SELECT, FROM, WHERE."
+          ],
+          "feedback_correct": "Correct! Relationships link tables, often through foreign keys.",
+          "feedback_wrong": "That defines a query or keywords, not a table link."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "SQL (Structured Query Language)",
+          "match": "The standard language for managing relational databases.",
+          "wrong_matches": [
+            "A request for data or an operation written in SQL.",
+            "Reserved words like SELECT, FROM, WHERE."
+          ],
+          "feedback_correct": "Correct! SQL is used to create, query, and update databases.",
+          "feedback_wrong": "That is a query or keyword, not the language itself."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "A _____ is a request for data.",
+          "match": "A request for data or an operation written in SQL.",
+          "wrong_matches": [
+            "The standard language for managing relational databases.",
+            "Reserved words like SELECT, FROM, WHERE."
+          ],
+          "feedback_correct": "Correct! The blank is ‘query’.",
+          "feedback_wrong": "That describes SQL or keywords, not a query."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_009",
+          "term": "SELECT, FROM, and WHERE are examples of _____.",
+          "match": "Reserved words like SELECT, FROM, WHERE.",
+          "wrong_matches": [
+            "The standard language for managing relational databases.",
+            "A request for data or an operation written in SQL."
+          ],
+          "feedback_correct": "Correct! They are SQL keywords.",
+          "feedback_wrong": "That defines SQL or a query, not specific reserved words."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_018",
+          "term": "Data type",
+          "match": "The kind of data a column stores (e.g., integer, text).",
+          "wrong_matches": [
+            "Data type for text sequences.",
+            "Whole number data type."
+          ],
+          "feedback_correct": "Correct! Data types include INT, VARCHAR, NUMERIC, etc.",
+          "feedback_wrong": "Those are specific data types, not the general concept."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_019",
+          "term": "String",
+          "match": "Data type for text sequences.",
+          "wrong_matches": [
+            "Variable-length character type with max length.",
+            "Whole number data type."
+          ],
+          "feedback_correct": "Correct! Strings store characters and require quotes.",
+          "feedback_wrong": "That describes VARCHAR or integer, not plain text storage."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_020",
+          "term": "`VARCHAR(250)`",
+          "match": "Variable-length character type with max length.",
+          "wrong_matches": [
+            "Data type for text sequences.",
+            "Numbers with a fractional part, stored approximately."
+          ],
+          "feedback_correct": "Correct! VARCHAR requires a length parameter.",
+          "feedback_wrong": "That is a general string or a float description."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_021",
+          "term": "Integer",
+          "match": "Whole number data type.",
+          "wrong_matches": [
+            "Abbreviation for the integer data type.",
+            "Numbers with a fractional part, stored approximately."
+          ],
+          "feedback_correct": "Correct! Integer stores numbers without decimals.",
+          "feedback_wrong": "That’s the abbreviation INT or the float type."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_022",
+          "term": "`INT`",
+          "match": "Abbreviation for the integer data type.",
+          "wrong_matches": [
+            "Whole number data type.",
+            "Numbers with a fractional part, stored approximately."
+          ],
+          "feedback_correct": "Correct! INT is the standard SQL type for integers.",
+          "feedback_wrong": "That is the concept ‘integer’ or describes float."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_023",
+          "term": "Float",
+          "match": "Numbers with a fractional part, stored approximately.",
+          "wrong_matches": [
+            "Whole number data type.",
+            "Abbreviation for the integer data type."
+          ],
+          "feedback_correct": "Correct! Float is approximate; use NUMERIC for exact values.",
+          "feedback_wrong": "That describes integer types, not floating-point."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "SQL Statements & Operations",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_016",
+          "concept_id": "concept_010",
+          "term": "`SELECT card_num, name FROM patrons;`",
+          "match": "The SELECT keyword retrieves specified columns from a table.",
+          "wrong_matches": [
+            "The FROM keyword indicates the source table for a query.",
+            "The DISTINCT keyword returns only unique values, eliminating duplicates."
+          ],
+          "feedback_correct": "Correct! SELECT lists the columns to fetch.",
+          "feedback_wrong": "That defines FROM or DISTINCT, not the SELECT clause itself."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_011",
+          "term": "SELECT name _____ patrons",
+          "match": "The FROM keyword indicates the source table for a query.",
+          "wrong_matches": [
+            "The SELECT keyword retrieves specified columns from a table.",
+            "The keyword in PostgreSQL to restrict the number of rows returned."
+          ],
+          "feedback_correct": "Correct! The blank is FROM.",
+          "feedback_wrong": "That describes SELECT or LIMIT, not the table specification."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_012",
+          "term": "Result set",
+          "match": "The output of a SELECT query, a collection of rows and columns.",
+          "wrong_matches": [
+            "A virtual table defined by a saved SELECT query that updates dynamically.",
+            "A blueprint of the database design, showing tables and relationships."
+          ],
+          "feedback_correct": "Correct! The result set is the temporary table displayed.",
+          "feedback_wrong": "That defines a view or a schema, not the query output."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_013",
+          "term": "`SELECT * FROM books;`",
+          "match": "The asterisk symbol, used in SELECT to mean all columns.",
+          "wrong_matches": [
+            "The SELECT keyword retrieves specified columns from a table.",
+            "The SQL command to create a view, using AS before the SELECT."
+          ],
+          "feedback_correct": "Correct! * is the wildcard that selects every column.",
+          "feedback_wrong": "That defines SELECT or CREATE VIEW, not the asterisk."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_014",
+          "term": "SELECT name _____ first_name FROM employees;",
+          "match": "The AS keyword renames a column in the result set.",
+          "wrong_matches": [
+            "The asterisk symbol, used in SELECT to mean all columns.",
+            "The DISTINCT keyword returns only unique values, eliminating duplicates."
+          ],
+          "feedback_correct": "Correct! The blank is AS, used for aliasing.",
+          "feedback_wrong": "That describes the * wildcard or DISTINCT, not aliasing."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_015",
+          "term": "SELECT _____ year_hired FROM employees;",
+          "match": "The DISTINCT keyword returns only unique values, eliminating duplicates.",
+          "wrong_matches": [
+            "The AS keyword renames a column in the result set.",
+            "The keyword in PostgreSQL to restrict the number of rows returned."
+          ],
+          "feedback_correct": "Correct! The blank is DISTINCT.",
+          "feedback_wrong": "That describes AS or LIMIT, not distinct elimination."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_016",
+          "term": "View",
+          "match": "A virtual table defined by a saved SELECT query that updates dynamically.",
+          "wrong_matches": [
+            "The output of a SELECT query, a collection of rows and columns.",
+            "A blueprint of the database design, showing tables and relationships."
+          ],
+          "feedback_correct": "Correct! Views reflect current data from underlying tables.",
+          "feedback_wrong": "That describes a result set or a schema, not a view."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_017",
+          "term": "CREATE VIEW employee_hire_years AS SELECT ...",
+          "match": "The SQL command to create a view, using AS before the SELECT.",
+          "wrong_matches": [
+            "The SELECT keyword retrieves specified columns from a table.",
+            "A virtual table defined by a saved SELECT query that updates dynamically."
+          ],
+          "feedback_correct": "Correct! CREATE VIEW defines a new virtual table.",
+          "feedback_wrong": "That describes SELECT or the concept of a view, not the creation syntax."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_024",
+          "term": "`NUMERIC(5,2)`",
+          "match": "A data type that stores exact decimal numbers, with precision and scale.",
+          "wrong_matches": [
+            "A specific version of SQL, like PostgreSQL or T-SQL, with extensions.",
+            "A centralized computer that stores database files and provides data access."
+          ],
+          "feedback_correct": "Correct! NUMERIC(p,s) ensures exact decimal storage.",
+          "feedback_wrong": "That’s an SQL flavor or a server, not a numeric data type."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_025",
+          "term": "Schema",
+          "match": "A blueprint of the database design, showing tables and relationships.",
+          "wrong_matches": [
+            "A virtual table defined by a saved SELECT query that updates dynamically.",
+            "A centralized computer that stores database files and provides data access."
+          ],
+          "feedback_correct": "Correct! A schema is the structural plan of a database.",
+          "feedback_wrong": "That describes a view or a server, not the database design."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_026",
+          "term": "Server",
+          "match": "A centralized computer that stores database files and provides data access.",
+          "wrong_matches": [
+            "A blueprint of the database design, showing tables and relationships.",
+            "A virtual table defined by a saved SELECT query that updates dynamically."
+          ],
+          "feedback_correct": "Correct! The database is physically hosted on a server.",
+          "feedback_wrong": "That describes a schema or a view, not the hardware."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_027",
+          "term": "SQL flavor",
+          "match": "A specific version of SQL, like PostgreSQL or T-SQL, with extensions.",
+          "wrong_matches": [
+            "A free, open-source relational database system, using LIMIT.",
+            "A Microsoft database system using TOP instead of LIMIT."
+          ],
+          "feedback_correct": "Correct! Flavors share standards but add proprietary features.",
+          "feedback_wrong": "Those are specific database systems, not the general flavor concept."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_028",
+          "term": "`SELECT * FROM patrons LIMIT 3;`",
+          "match": "A free, open-source relational database system, using LIMIT.",
+          "wrong_matches": [
+            "A specific version of SQL, like PostgreSQL or T-SQL, with extensions.",
+            "A Microsoft database system using TOP instead of LIMIT."
+          ],
+          "feedback_correct": "Correct! PostgreSQL uses LIMIT for row restriction.",
+          "feedback_wrong": "That’s the generic flavor concept or SQL Server, not PostgreSQL."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_029",
+          "term": "`SELECT TOP(2) id, name FROM employees;`",
+          "match": "A Microsoft database system using TOP instead of LIMIT.",
+          "wrong_matches": [
+            "A specific version of SQL, like PostgreSQL or T-SQL, with extensions.",
+            "A free, open-source relational database system, using LIMIT."
+          ],
+          "feedback_correct": "Correct! SQL Server uses TOP to limit rows.",
+          "feedback_wrong": "That’s the flavor abstraction or PostgreSQL, not T-SQL."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_030",
+          "term": "SELECT * FROM books _____ 3;",
+          "match": "The keyword in PostgreSQL to restrict the number of rows returned.",
+          "wrong_matches": [
+            "The FROM keyword indicates the source table for a query.",
+            "A specific version of SQL, like PostgreSQL or T-SQL, with extensions."
+          ],
+          "feedback_correct": "Correct! The blank is LIMIT.",
+          "feedback_wrong": "That describes FROM or SQL flavors, not row limiting."
+        }
+      ]
+    }
+  ]
+}

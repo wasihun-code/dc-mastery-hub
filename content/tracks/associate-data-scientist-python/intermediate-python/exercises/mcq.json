@@ -1,0 +1,1359 @@
+{
+  "course_slug": "intermediate-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-11",
+  "version": 1,
+  "total_questions": 45,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_002",
+      "concept_name": "plt.plot()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have two lists: `year = [1950, 1970, 1990, 2010]` and `pop = [2.519, 3.692, 5.263, 6.972]`. Which code creates a line plot of population over year?",
+      "options": {
+        "a": "`plt.plot(pop, year)`",
+        "b": "`plt.scatter(year, pop)`",
+        "c": "`plt.plot(year, pop)`",
+        "d": "`plt.plot(year, pop)` followed by `plt.show()`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: The order of arguments is wrong. `plt.plot()` expects x first (year) then y (pop). Swapping them will put population on x-axis and year on y-axis.",
+        "b": "Incorrect: `plt.scatter()` creates a scatter plot with markers, not a line plot. The question asks for a line plot.",
+        "c": "Correct! `plt.plot(year, pop)` creates a line plot with year on x-axis and population on y-axis.",
+        "d": "Incorrect: While `plt.show()` is needed to display the plot, the question asks specifically for the line plot creation. The correct plotting command alone is `plt.plot(year, pop)`. Adding `plt.show()` is necessary but not part of the line plot command itself."
+      },
+      "hints": [
+        "Think about the order of arguments in `plt.plot()`: first the x-axis data, then y-axis data.",
+        "The function for line plots is `plot()`, not `scatter()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`plt.plot(year, pop)` correctly places year on the x-axis and population on the y-axis, creating a line plot. The function connects consecutive data points with lines. Remember `plt.show()` is required to display the plot, but it is a separate command.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_003",
+      "concept_name": "plt.scatter()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What is the key behavioral difference between `plt.plot()` and `plt.scatter()` when both are given the same x and y data?",
+      "options": {
+        "a": "`plt.scatter()` draws lines between points; `plt.plot()` does not.",
+        "b": "`plt.plot()` draws lines between points; `plt.scatter()` does not.",
+        "c": "`plt.scatter()` requires a separate `plt.show()` call; `plt.plot()` does not.",
+        "d": "`plt.plot()` can only accept lists; `plt.scatter()` can accept arrays."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: That is the opposite. `plt.plot()` connects points with lines; `plt.scatter()` shows only markers.",
+        "b": "Correct! `plt.plot()` draws lines between consecutive points, showing trends, while `plt.scatter()` shows only individual markers, useful for distributions.",
+        "c": "Incorrect: Both `plt.plot()` and `plt.scatter()` require `plt.show()` to display the plot. Neither automatically shows output.",
+        "d": "Incorrect: Both functions accept lists and NumPy arrays equally. The difference is not in data type but in whether lines are drawn."
+      },
+      "hints": [
+        "Recall the names: 'plot' implies lines connecting points, 'scatter' implies individual points scattered.",
+        "Check the documentation snippets from the course: `plt.plot()` creates a line plot; `plt.scatter()` has no connecting lines."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`plt.plot()` draws lines between data points, making it ideal for showing trends over time. `plt.scatter()` displays only markers without lines, better for showing the distribution of individual observations.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_004",
+      "concept_name": "plt.show()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "A student writes the following code but sees no plot appear. What is the most likely fix?\n\n```python\nimport matplotlib.pyplot as plt\nyear = [1950, 1970, 1990, 2010]\npop = [2.519, 3.692, 5.263, 6.972]\nplt.plot(year, pop)\n```",
+      "options": {
+        "a": "Change `plt.plot()` to `plt.scatter()`",
+        "b": "Add `plt.xlabel('Year')` before the plot",
+        "c": "Add `plt.show()` after the plot",
+        "d": "Swap the arguments to `plt.plot(pop, year)`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: Changing to `scatter` would still not display the plot. Both require `plt.show()` to render.",
+        "b": "Incorrect: Adding axis labels improves readability but does not cause the plot to appear. The missing `plt.show()` is the issue.",
+        "c": "Correct! `plt.show()` is necessary to display the figure. Without it, the plot is created only in memory and never shown.",
+        "d": "Incorrect: Swapping arguments would mislabel axes but still not display the plot. The root cause is the missing `plt.show()`."
+      },
+      "hints": [
+        "After plotting commands, you need a specific function to actually display the plot window.",
+        "The function name is very short: `plt.show()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In matplotlib, `plt.plot()` creates a plot object in memory, but nothing is shown until you call `plt.show()`. This is a very common beginner mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_005",
+      "concept_name": "Histogram",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You have a list of 1000 exam scores ranging from 0 to 100. You want to visualize how many students fall into each 10-point interval. What is the appropriate plot type?",
+      "options": {
+        "a": "Line plot",
+        "b": "Scatter plot",
+        "c": "Histogram",
+        "d": "Bar chart with each bar representing a single student"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: Line plots are for showing trends over ordered sequences (like time), not for distribution of values across bins.",
+        "b": "Incorrect: Scatter plots show individual points; with 1000 points, it would be overcrowded and not clearly show bin counts.",
+        "c": "Correct! A histogram divides data into bins (here 10-point intervals) and shows the count per bin, exactly what you need.",
+        "d": "Incorrect: A bar chart with one bar per student would be unreadable. Histograms aggregate data into bins automatically."
+      },
+      "hints": [
+        "Think about the plot that shows the frequency distribution of continuous data by grouping values into bins.",
+        "The matplotlib function is `plt.hist()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A histogram is designed to show the distribution of a dataset by dividing values into bins and counting frequencies. It is perfect for visualizing how data is spread across intervals.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_006",
+      "concept_name": "plt.hist()",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code for visualizing the distribution of `values = [0, 0.6, 1.4, 1.6, 2.2, 2.5, 2.6, 3.2, 3.5, 3.9, 4.2, 6]`?\n\n```python\nimport matplotlib.pyplot as plt\nplt.hist(values, bins=10)\nplt.show()\n```",
+      "options": {
+        "a": "The data range is only 0-6, so 10 bins is too many and will show random noise.",
+        "b": "`plt.hist()` cannot be used with lists; it requires a NumPy array.",
+        "c": "Missing `plt.xlabel()` and `plt.ylabel()`.",
+        "d": "`bins` parameter should be a list of bin edges, not an integer."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! With only 6 units of range (0 to 6), 10 bins creates bin widths of 0.6, causing many bins to be empty or have only one observation. This obscures the shape. A smaller number of bins (e.g., 3) would be better.",
+        "b": "Incorrect: `plt.hist()` accepts lists, Pandas Series, and NumPy arrays. No problem here.",
+        "c": "Incorrect: Labels are optional for basic visualization. The code would still produce a histogram, just without axis labels. The issue is the choice of bins.",
+        "d": "Incorrect: `bins` can be an integer (number of equal-width bins) or a sequence of edges. Both are valid."
+      },
+      "hints": [
+        "Consider the range of the data (0 to 6) and the number of bins (10). Each bin width is 0.6. How many observations per bin?",
+        "Too many bins can make the histogram look noisy and hide the underlying distribution. The course mentions 'choosing inappropriate number of bins' as a common mistake."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "For a small data range, using too many bins (here 10 bins for 0-6 range) results in bins that are too narrow, showing random fluctuations rather than the true distribution. A common recommendation is to use fewer bins, such as `bins=3` in this case.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_007",
+      "concept_name": "plt.xlabel()",
+      "chapter": 3,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "You have created a line plot of population over years. Which function adds the label 'Year' to the horizontal axis?",
+      "options": {
+        "a": "`plt.ylabel('Year')`",
+        "b": "`plt.title('Year')`",
+        "c": "`plt.xlabel('Year')`",
+        "d": "`plt.xticks('Year')`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: `plt.ylabel()` labels the y-axis (vertical). Year is typically on the x-axis.",
+        "b": "Incorrect: `plt.title()` adds a title to the plot, not an axis label.",
+        "c": "Correct! `plt.xlabel('Year')` sets the label for the x-axis.",
+        "d": "Incorrect: `plt.xticks()` sets tick locations and labels, not the axis label itself."
+      },
+      "hints": [
+        "The function name contains 'x' for the x-axis.",
+        "It follows the pattern `plt.x...` where 'x' stands for the horizontal axis."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`plt.xlabel()` is the correct function to set the label on the x-axis. `plt.ylabel()` sets the y-axis label, and `plt.title()` sets the plot title.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_009",
+      "concept_name": "plt.title()",
+      "chapter": 3,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "Which function would you use to give your plot the heading 'World Population Projections'?",
+      "options": {
+        "a": "`plt.xlabel('World Population Projections')`",
+        "b": "`plt.ylabel('World Population Projections')`",
+        "c": "`plt.title('World Population Projections')`",
+        "d": "`plt.text('World Population Projections')`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: `plt.xlabel()` labels the x-axis, not the title.",
+        "b": "Incorrect: `plt.ylabel()` labels the y-axis, not the title.",
+        "c": "Correct! `plt.title()` adds a title above the plot.",
+        "d": "Incorrect: `plt.text()` adds arbitrary text at specific coordinates, not a title."
+      },
+      "hints": [
+        "The function name is exactly what you want: 'title'.",
+        "It is called after plotting commands but before `plt.show()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`plt.title('World Population Projections')` places a descriptive title at the top of the plot, helping viewers understand what the plot represents.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_010",
+      "concept_name": "plt.yticks()",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "A student writes this code to customize the y-axis ticks:\n\n```python\nplt.yticks([0, 2, 4, 6, 8, 10], ['0', '2', '4', '6', '8'])\n```\nWhat error will occur?",
+      "options": {
+        "a": "No error, but the last tick will be missing.",
+        "b": "ValueError because the number of tick positions (6) does not match the number of labels (5).",
+        "c": "TypeError because labels must be numbers, not strings.",
+        "d": "The ticks will appear correctly but on the x-axis instead of y-axis."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Python will raise an error before any plot is shown. It does not silently drop ticks.",
+        "b": "Correct! `plt.yticks()` requires that the list of labels be the same length as the list of tick positions. Here 6 positions but only 5 labels raises a ValueError.",
+        "c": "Incorrect: Labels can be strings; that is a common use (e.g., '2B' for billions). The issue is the length mismatch.",
+        "d": "Incorrect: `plt.yticks()` explicitly affects the y-axis. The problem is the length mismatch, not axis confusion."
+      },
+      "hints": [
+        "Look at the two arguments: the first list has 6 elements, the second list has 5. `plt.yticks()` expects them to match.",
+        "The course mentions 'number of labels does not match number of ticks' as a common mistake."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`plt.yticks(ticks, labels)` requires that `ticks` and `labels` have the same length. Here `ticks` has 6 values but `labels` only has 5, causing a `ValueError`. To fix, either add a sixth label or remove one tick.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_011",
+      "concept_name": "Dictionary",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nworld = {\"afghanistan\":30.55, \"albania\":2.77, \"algeria\":39.21}\nprint(len(world))\n```",
+      "options": {
+        "a": "3",
+        "b": "6",
+        "c": "2",
+        "d": "KeyError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! `len()` returns the number of key-value pairs in the dictionary. There are three pairs.",
+        "b": "Incorrect: 6 would be the count if you added keys and values separately. `len()` counts pairs, not individual elements.",
+        "c": "Incorrect: The dictionary has three entries, not two.",
+        "d": "Incorrect: No KeyError occurs because `len()` does not access a specific key; it operates on the dictionary as a whole."
+      },
+      "hints": [
+        "`len()` on a dictionary returns the number of key-value pairs.",
+        "Count the entries between the curly braces."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The dictionary `world` contains three key-value pairs: 'afghanistan':30.55, 'albania':2.77, and 'algeria':39.21. `len(world)` returns 3.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_012",
+      "concept_name": "Key-Value Pair",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What happens when you create the following dictionary?\n\n```python\nduplicate = {\"a\": 1, \"a\": 2, \"b\": 3}\n```",
+      "options": {
+        "a": "SyntaxError due to duplicate keys.",
+        "b": "The dictionary becomes `{\"a\": 1, \"b\": 3}` and the second `\"a\"` is ignored.",
+        "c": "The dictionary becomes `{\"a\": 2, \"b\": 3}` (the last duplicate key overwrites earlier ones).",
+        "d": "A `KeyError` is raised when trying to access `\"a\"`."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: Python does not raise a SyntaxError for duplicate keys in a dictionary literal; it allows them but overwrites.",
+        "b": "Incorrect: The later key-value pair overwrites the earlier one, so `'a'` ends up with 2, not 1.",
+        "c": "Correct! When duplicate keys appear, the last assignment wins. The dictionary will be `{'a': 2, 'b': 3}`.",
+        "d": "Incorrect: No error occurs. Accessing `duplicate['a']` returns 2 without issue."
+      },
+      "hints": [
+        "Python processes dictionary literals from left to right. If a key appears more than once, what happens?",
+        "The course common mistakes: 'Using duplicate keys (last one overwrites)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, dictionary keys must be unique. If you specify the same key multiple times, the last key-value pair overwrites any previous ones. So `{\"a\": 1, \"a\": 2, \"b\": 3}` becomes `{\"a\": 2, \"b\": 3}`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_013",
+      "concept_name": "Dictionary access with []",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Given `world = {\"afghanistan\":30.55, \"albania\":2.77, \"algeria\":39.21}`, what happens when you run `world['canada']`?",
+      "options": {
+        "a": "Returns `None`",
+        "b": "Returns `0`",
+        "c": "Raises a `KeyError` because 'canada' is not a key",
+        "d": "Adds 'canada' with a default value of `0`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: Accessing a missing key with `[]` does not return `None`; it raises an error.",
+        "b": "Incorrect: No default zero is returned. The behavior is to raise an exception.",
+        "c": "Correct! If the key does not exist, Python raises a `KeyError`, which is a common runtime error.",
+        "d": "Incorrect: Square bracket access does not add keys automatically. Use assignment to add a key: `world['canada'] = 35.0`."
+      },
+      "hints": [
+        "What does the course say about `KeyError` when using dictionary access?",
+        "The code tries to retrieve a value for a key that does not exist."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using square brackets on a dictionary with a key that does not exist raises a `KeyError`. To avoid this, use the `in` operator to check existence first, or use `.get()` which returns `None` (or a default) instead of raising an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_014",
+      "concept_name": "Immutable keys",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Why does the following code raise a `TypeError`?\n\n```python\nmy_dict = {[1, 2]: 'list key'}\n```",
+      "options": {
+        "a": "Lists cannot be used as dictionary keys because they are mutable (unhashable).",
+        "b": "Dictionaries require string keys only.",
+        "c": "The syntax should use parentheses instead of brackets for the key.",
+        "d": "The value must be a number, not a string."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Dictionary keys must be immutable (hashable). Lists are mutable and thus cannot be hashed, causing `TypeError: unhashable type: 'list'`.",
+        "b": "Incorrect: Dictionary keys can be many immutable types: strings, numbers, tuples, etc. Not only strings.",
+        "c": "Incorrect: The key syntax uses brackets for list literals, but that's not the error. The error is about mutability.",
+        "d": "Incorrect: Values can be any type, including strings. The problem is the key, not the value."
+      },
+      "hints": [
+        "The error message says 'unhashable type'. What property of an object determines if it can be a key?",
+        "The course explicitly states: 'Dictionary keys must be immutable objects'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Dictionary keys must be immutable because their hash value must never change. Lists are mutable (you can change their contents), so they cannot be used as keys. Tuples, being immutable, can be keys.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_015",
+      "concept_name": "Adding key-value pair to dictionary",
+      "chapter": 5,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "You have an empty dictionary `data = {}`. Which code correctly adds a key 'age' with value 25?",
+      "options": {
+        "a": "`data.add('age', 25)`",
+        "b": "`data['age'] = 25`",
+        "c": "`data.append('age', 25)`",
+        "d": "`data = {'age': 25}` (but this creates a new dictionary, does not add to existing)"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Dictionaries do not have an `add` method for key-value pairs. Use square bracket assignment.",
+        "b": "Correct! Assigning to a new key using `data['age'] = 25` adds the key-value pair to the existing dictionary.",
+        "c": "Incorrect: `append` is for lists, not dictionaries.",
+        "d": "Incorrect: This reassigns `data` to a brand new dictionary, discarding the original empty dictionary. It does not add to the existing one."
+      },
+      "hints": [
+        "Use the same syntax as accessing a key, but with assignment.",
+        "The course example: `world[\"sealand\"] = 0.000027`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To add a new key-value pair to an existing dictionary, use `dict[key] = value`. If the key does not exist, it is added. If it already exists, the value is updated.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_016",
+      "concept_name": "Updating dictionary value",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What is the value of `world['albania']` after the following code runs?\n\n```python\nworld = {\"afghanistan\":30.55, \"albania\":2.77, \"algeria\":39.21}\nworld[\"albania\"] = 2.81\n```",
+      "options": {
+        "a": "2.77",
+        "b": "2.81",
+        "c": "`KeyError` because 'albania' is being reassigned",
+        "d": "`None`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: The assignment updates the existing key; the old value is replaced.",
+        "b": "Correct! The assignment `world[\"albania\"] = 2.81` updates the value for key 'albania' from 2.77 to 2.81.",
+        "c": "Incorrect: Updating an existing key does not cause an error. Only accessing a missing key with `[]` raises `KeyError`.",
+        "d": "Incorrect: The update changes the value; no `None` is involved."
+      },
+      "hints": [
+        "Assigning to an existing key changes its value, not adds a new pair.",
+        "The course concept 'Updating dictionary value' shows exactly this pattern."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When you assign a value to an existing key, the dictionary updates that key's value. The key 'albania' already existed, so its value changes from 2.77 to 2.81.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_017",
+      "concept_name": "del statement for dictionaries",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Given `world = {\"afghanistan\":30.55, \"albania\":2.77, \"algeria\":39.21}`, what happens when you run `del(world['sealand'])`?",
+      "options": {
+        "a": "The dictionary remains unchanged because 'sealand' does not exist.",
+        "b": "A `KeyError` is raised because 'sealand' is not a key.",
+        "c": "The key 'sealand' is added with a value of `None` and then deleted.",
+        "d": "The entire dictionary is deleted."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `del` does not silently ignore missing keys. It raises an error.",
+        "b": "Correct! `del` on a non-existent key raises `KeyError`, similar to accessing it with `[]`.",
+        "c": "Incorrect: `del` does not add keys. It only removes existing ones.",
+        "d": "Incorrect: That would require `del world` (without brackets and key)."
+      },
+      "hints": [
+        "Think about what happens when you try to delete a key that isn't present.",
+        "The course common mistakes: 'Using del on a key that does not exist (raises KeyError)'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `del` statement requires that the key exist; otherwise, it raises a `KeyError`. You should use the `in` operator to check for existence before deletion, or wrap in a try-except block.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_018",
+      "concept_name": "in operator for dictionaries",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What is the result of the following expression, given `world = {\"afghanistan\":30.55, \"albania\":2.77, \"algeria\":39.21}`?\n\n```python\n30.55 in world\n```",
+      "options": {
+        "a": "`True` because 30.55 is a value in the dictionary.",
+        "b": "`False` because the `in` operator checks keys, not values, and 30.55 is not a key.",
+        "c": "`True` if 30.55 is a key; otherwise `False`",
+        "d": "`TypeError` because `in` cannot be used with dictionaries."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `in` on a dictionary checks for membership in the keys, not the values. 30.55 is a value, not a key.",
+        "b": "Correct! `in` checks the dictionary's keys. Since 30.55 is not a key, it returns `False`.",
+        "c": "Misleading: While the statement is technically true (if it were a key it would be True), the key 30.55 is not present, so the result is `False`. The best answer is the explicit explanation.",
+        "d": "Incorrect: `in` is fully supported for dictionaries and checks keys."
+      },
+      "hints": [
+        "Does `in` check keys or values?",
+        "The course says: 'Checks if a key exists in a dictionary; returns boolean.' It does not check values."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `in` operator for dictionaries tests whether a given object is a key in the dictionary, not a value. Since `30.55` is a value, not a key, it returns `False`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_019",
+      "concept_name": "pandas DataFrame",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What is a key difference between a pandas DataFrame and a 2D NumPy array?",
+      "options": {
+        "a": "DataFrames can have column labels and different data types per column; NumPy arrays have a single data type.",
+        "b": "DataFrames are immutable; NumPy arrays are mutable.",
+        "c": "DataFrames cannot store missing values; NumPy arrays can.",
+        "d": "DataFrames are 1-dimensional; NumPy arrays are 2-dimensional."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! DataFrames support labeled axes (row and column labels) and can hold columns of different types (int, float, string, etc.). NumPy arrays have a homogeneous dtype and use integer indexing only.",
+        "b": "Incorrect: Both are mutable (you can change values in place). DataFrames are not immutable.",
+        "c": "Incorrect: Both can represent missing values (NaN in NumPy, NaN or None in pandas).",
+        "d": "Incorrect: DataFrames are 2-dimensional, just like 2D NumPy arrays. The difference is labeling and type heterogeneity."
+      },
+      "hints": [
+        "Think about the spreadsheet-like nature of DataFrames: column names, mixed types.",
+        "NumPy arrays require all elements to be the same type."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A pandas DataFrame is a 2D labeled data structure where each column can be a different data type. A NumPy array has a fixed data type for all elements. Additionally, DataFrames have labeled rows and columns, whereas NumPy arrays use integer positions.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_020",
+      "concept_name": "pd.read_csv()",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "A student runs `pd.read_csv('brics.csv', index_col = 0)` and finds that the first column of the CSV (which contains country codes) becomes the row labels. What would happen if they omitted `index_col = 0`?",
+      "options": {
+        "a": "The CSV would not load and raise an error.",
+        "b": "The first column would become a regular column named 'Unnamed: 0', and row labels would be default integers (0,1,2,...).",
+        "c": "The first column would be dropped entirely.",
+        "d": "The row labels would become the first row of data."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `pd.read_csv()` works fine without `index_col`; it simply does not use any column as row labels.",
+        "b": "Correct! Without `index_col`, pandas adds a default integer index (0,1,2,...). The first column of the CSV is read as a regular data column, often named 'Unnamed: 0' if the CSV has no header for that column.",
+        "c": "Incorrect: No column is dropped. The first column remains as data.",
+        "d": "Incorrect: The first row becomes column names if `header=0` (default). Row labels remain integers unless specified."
+      },
+      "hints": [
+        "What is the default behavior of `read_csv` regarding row indices?",
+        "The course mentions using `index_col` to specify which column becomes the index. Without it, pandas creates a default integer index."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`index_col` tells pandas which column to use as the row index. If omitted, pandas assigns a default integer index starting at 0. The first column of the CSV becomes a regular data column, not the index.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_021",
+      "concept_name": "pandas Series",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "After loading `brics = pd.read_csv('brics.csv', index_col=0)`, what is the type of `brics['country']`?",
+      "options": {
+        "a": "pandas DataFrame",
+        "b": "pandas Series",
+        "c": "numpy array",
+        "d": "Python list"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Selecting a single column with single brackets returns a Series, not a DataFrame. To get a DataFrame with one column, use double brackets: `brics[['country']]`.",
+        "b": "Correct! `brics['country']` selects the 'country' column as a pandas Series, a 1D labeled array.",
+        "c": "Incorrect: While a Series is backed by a NumPy array, the object itself is a pandas Series with additional methods and index.",
+        "d": "Incorrect: It is not a Python list; it's a pandas Series with an index."
+      },
+      "hints": [
+        "What does the course say about selecting a single column with `[]`?",
+        "It returns a 1D labeled array, not a 2D DataFrame."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When you use single square brackets on a DataFrame to select one column, the result is a pandas Series. A Series is like a single column with an index. To get a DataFrame with one column, use double brackets: `brics[['country']]`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_022",
+      "concept_name": "DataFrame column selection with []",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between `brics['country']` and `brics[['country']]`?",
+      "options": {
+        "a": "No difference; both return a DataFrame.",
+        "b": "`brics['country']` returns a Series; `brics[['country']]` returns a DataFrame with one column.",
+        "c": "`brics['country']` works only if 'country' is a string; `brics[['country']]` works with any type.",
+        "d": "`brics['country']` returns a list; `brics[['country']]` returns a Series."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: The return types are different. Single brackets yield a Series; double brackets yield a DataFrame.",
+        "b": "Correct! Single brackets with a column name return a Series. Double brackets (list of column names) return a DataFrame, even with one column.",
+        "c": "Incorrect: Both accept string column names. The difference is in the output structure.",
+        "d": "Incorrect: Neither returns a Python list. A Series is not a list; it's a pandas object."
+      },
+      "hints": [
+        "What does the course say about 'single vs double bracket'?",
+        "Double brackets select a subset of columns as a DataFrame."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`brics['country']` returns a pandas Series (1D). `brics[['country']]` returns a pandas DataFrame (2D) with a single column. This distinction matters when chaining operations that expect a DataFrame.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_023",
+      "concept_name": "DataFrame row slicing",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "If `brics` has 5 rows with integer index labels 0,1,2,3,4, what rows are returned by `brics[1:4]`?",
+      "options": {
+        "a": "Rows 1, 2, 3, 4",
+        "b": "Rows 1, 2, 3",
+        "c": "Rows 0, 1, 2, 3",
+        "d": "Rows 0, 1, 2"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Slicing with `[1:4]` stops at index 4 exclusive, so row 4 is not included.",
+        "b": "Correct! DataFrame slicing with integers uses Python's exclusive end convention: `[1:4]` includes rows with positions 1, 2, and 3 (0-indexed).",
+        "c": "Incorrect: That would be `[0:4]` or `[:4]`.",
+        "d": "Incorrect: That would be `[0:3]`."
+      },
+      "hints": [
+        "Remember that Python slicing excludes the end index.",
+        "The course says: 'Forgetting that end index is exclusive' is a common mistake."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "DataFrame row slicing using `[start:end]` works like Python list slicing: the start index is inclusive, the end index is exclusive. So `brics[1:4]` selects rows at positions 1, 2, and 3 (the second, third, and fourth rows if starting from 0).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_024",
+      "concept_name": "loc[] method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Given `brics` with index labels ['BR', 'RU', 'IN', 'CH', 'SA'], which code correctly selects rows with labels 'RU', 'IN', 'CH' and columns 'country' and 'capital'?",
+      "options": {
+        "a": "`brics.loc[1:3, ['country', 'capital']]`",
+        "b": "`brics.loc[['RU', 'IN', 'CH'], ['country', 'capital']]`",
+        "c": "`brics.iloc[['RU', 'IN', 'CH'], ['country', 'capital']]`",
+        "d": "`brics[['RU', 'IN', 'CH']][['country', 'capital']]`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `loc` uses label-based indexing, but `1:3` refers to integer positions, not labels. With labels ['BR','RU',...], `1:3` would raise an error because the index labels are not integers.",
+        "b": "Correct! `loc` takes row labels and column labels. `['RU','IN','CH']` are valid row labels, and `['country','capital']` are valid column labels.",
+        "c": "Incorrect: `iloc` uses integer positions, not labels. Passing string labels to `iloc` causes a `TypeError`.",
+        "d": "Incorrect: Chained indexing `brics[['RU','IN','CH']]` attempts to select rows by labels using `[]` on a DataFrame, which is not supported. `[]` on DataFrame selects columns, not rows."
+      },
+      "hints": [
+        "Which method is for label-based indexing?",
+        "The course distinguishes `loc` (labels) from `iloc` (integer positions)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`loc` is used for label-based selection. You pass the row labels (as a list) and column labels (as a list). `iloc` would require integer positions. `brics[['RU','IN','CH']]` would try to select columns named 'RU', etc., which likely don't exist.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_025",
+      "concept_name": "iloc[] method",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Assume `brics` has 5 rows (index positions 0-4) and columns at positions 0:'country', 1:'capital', 2:'area', 3:'population'. What does `brics.iloc[[1,2,3], [0,1]]` return?",
+      "options": {
+        "a": "Rows 1,2,3 and columns 0,1 (country and capital) as a DataFrame",
+        "b": "Rows 0,1,2 and columns 1,2",
+        "c": "Rows 'RU','IN','CH' and columns 'country','capital'",
+        "d": "A single value at row 1, column 0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! `iloc` uses zero-based integer positions. `[1,2,3]` selects rows at positions 1,2,3 (second, third, fourth rows). `[0,1]` selects columns at positions 0 and 1 (country and capital).",
+        "b": "Incorrect: That would be `iloc[0:3, 1:3]` or similar.",
+        "c": "Incorrect: `iloc` does not understand labels 'RU','IN','CH'. That is `loc`.",
+        "d": "Incorrect: Single value would be `iloc[1,0]`."
+      },
+      "hints": [
+        "`iloc` uses integer positions starting at 0. The first argument is row positions, second is column positions.",
+        "Row positions `[1,2,3]` are exclusive of 0 and 4."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`iloc` selects data by integer position. `brics.iloc[[1,2,3], [0,1]]` returns a DataFrame with rows at positions 1,2,3 and columns at positions 0 and 1. This is equivalent to the second, third, and fourth rows, and the first two columns (country and capital).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_026",
+      "concept_name": "Comparison operators",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with the following code snippet?\n\n```python\na = 10\nif a = 10:\n    print(\"a is ten\")\n```",
+      "options": {
+        "a": "The variable `a` is not defined before the if statement.",
+        "b": "The condition should be `a == 10` instead of `a = 10`.",
+        "c": "The print statement is missing parentheses.",
+        "d": "The if statement should end with a semicolon, not a colon."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `a` is defined as 10 on the previous line. That is not the error.",
+        "b": "Correct! Using `=` instead of `==` in a condition performs assignment, not comparison. This will raise a `SyntaxError` because assignment in a condition is not allowed.",
+        "c": "Incorrect: In Python 3, `print` requires parentheses, but the error occurs before that because the if condition is invalid.",
+        "d": "Incorrect: `if` statements use a colon, not a semicolon. A colon is correct here."
+      },
+      "hints": [
+        "What is the difference between `=` and `==`?",
+        "In conditions, you need the comparison operator, not the assignment operator."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The condition in an `if` statement must evaluate to a boolean. `a = 10` is an assignment, not a comparison. The correct comparison operator for equality is `==`. Using `=` in a condition raises a `SyntaxError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_027",
+      "concept_name": "Boolean operators (and, or, not)",
+      "chapter": 9,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What is the result of the following expression?\n\n```python\nnot True and False\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "SyntaxError",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Evaluate step by step. `not True` is `False`. Then `False and False` is `False`.",
+        "b": "Correct! `not True` evaluates to `False`. Then `False and False` evaluates to `False` because `and` requires both operands to be true.",
+        "c": "Incorrect: The syntax is valid. Operator precedence applies: `not` has higher precedence than `and`, so `not True` is evaluated first.",
+        "d": "Incorrect: Boolean expressions return `True` or `False`, not `None`."
+      },
+      "hints": [
+        "Remember operator precedence: `not` is evaluated before `and`.",
+        "First compute `not True`, then combine with `and False`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Operator precedence: `not` has higher precedence than `and`. So `not True and False` is equivalent to `(not True) and False` → `False and False` → `False`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_028",
+      "concept_name": "np.logical_and()",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "Given `import numpy as np` and `bmi = np.array([21.852, 20.975, 21.75, 24.747, 21.441])`, what is the output of `np.logical_and(bmi > 21, bmi < 22)`?",
+      "options": {
+        "a": "`array([True, False, True, False, True])`",
+        "b": "`array([True, True, True, True, True])`",
+        "c": "`array([False, False, False, False, False])`",
+        "d": "`True` (a single boolean)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Element-wise: 21.852>21 and <22 → True; 20.975>21 → False; 21.75>21 and <22 → True; 24.747>21 but not <22 → False; 21.441>21 and <22 → True.",
+        "b": "Incorrect: Not all values are between 21 and 22. For example, 20.975 is less than 21.",
+        "c": "Incorrect: Some values satisfy both conditions.",
+        "d": "Incorrect: `np.logical_and()` returns a boolean array of the same shape as the inputs, not a single scalar."
+      },
+      "hints": [
+        "`np.logical_and()` performs element-wise logical AND on two arrays of the same shape.",
+        "Check each element: is it greater than 21 AND less than 22?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.logical_and()` returns a boolean array where each element is `True` only if both conditions are `True` for that element. Here, the second element (20.975) is not >21, and the fourth (24.747) is not <22, so they are `False`. The others are `True`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_029",
+      "concept_name": "np.logical_or()",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run the following code?\n\n```python\nimport numpy as np\na = np.array([1, 2, 3])\nb = np.array([True, False])\nresult = np.logical_or(a, b)\n```",
+      "options": {
+        "a": "`result` becomes `array([ True,  True,  True])`",
+        "b": "`result` becomes `array([1, 2, 3])`",
+        "c": "A `ValueError` because the arrays have incompatible shapes",
+        "d": "A `TypeError` because `np.logical_or` only works with boolean arrays"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: NumPy cannot broadcast shapes (3,) and (2,) for logical operations because they are not compatible.",
+        "b": "Incorrect: `np.logical_or` returns boolean, not the original values.",
+        "c": "Correct! `np.logical_or` requires arrays of the same shape or broadcastable shapes. Here (3,) and (2,) cannot be broadcast because the smaller array's size (2) does not divide the larger (3) evenly for broadcasting rules.",
+        "d": "Incorrect: `np.logical_or` works with numeric arrays by treating non-zero as `True` and zero as `False`. The issue is shape mismatch, not type."
+      },
+      "hints": [
+        "What are the shapes of `a` and `b`? Can they be broadcast?",
+        "Broadcasting requires that trailing dimensions match or one is 1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.logical_or` expects arrays of compatible shapes for element-wise operation. `a.shape` is (3,), `b.shape` is (2,). For broadcasting, the smaller array's dimension must be 1 or match the larger. Neither is true here, so a `ValueError` about shape mismatch is raised.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_030",
+      "concept_name": "np.logical_not()",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nimport numpy as np\narr = np.array([True, False, True, False])\nresult = np.logical_not(arr)\nprint(result)\n```",
+      "options": {
+        "a": "`[False, True, False, True]`",
+        "b": "`[True, False, True, False]`",
+        "c": "`[False, False, False, False]`",
+        "d": "`[True, True, True, True]`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! `np.logical_not` negates each element: True becomes False, False becomes True.",
+        "b": "Incorrect: That is the original array, not the negated one.",
+        "c": "Incorrect: That would be all False, but negation of True is False, and negation of False is True, so we get alternating values.",
+        "d": "Incorrect: All True would require all original to be False, but they are not."
+      },
+      "hints": [
+        "`np.logical_not` returns the element-wise NOT of the input array.",
+        "Apply NOT to each boolean value."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.logical_not(arr)` applies logical NOT to each element, flipping `True` to `False` and `False` to `True`. So `[True, False, True, False]` becomes `[False, True, False, True]`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_031",
+      "concept_name": "if statement",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Why does the following code cause an `IndentationError`?\n\n```python\nx = 10\nif x > 5:\nprint(\"x is greater than 5\")\n```",
+      "options": {
+        "a": "The condition should be `x > 5:` without the colon.",
+        "b": "The print statement is not indented inside the if block.",
+        "c": "The variable `x` should be a string.",
+        "d": "The if statement must be followed by an else clause."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: The colon is required after the condition in an if statement.",
+        "b": "Correct! In Python, indentation defines code blocks. The print statement must be indented (usually 4 spaces) to be part of the if block.",
+        "c": "Incorrect: `x` can be an integer; that is fine.",
+        "d": "Incorrect: `else` is optional. The error is about indentation."
+      },
+      "hints": [
+        "Look at the whitespace before the `print` statement.",
+        "Python uses indentation to group statements, not braces."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python requires that the block of code inside an `if` statement be indented. The `print` line is not indented, so Python does not recognize it as part of the `if` block, causing an `IndentationError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_032",
+      "concept_name": "else clause",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this code?\n\n```python\nz = 4\nelse:\n    print(\"z is not even\")\nif z % 2 == 0:\n    print(\"z is even\")\n```",
+      "options": {
+        "a": "The `else` clause cannot come before the `if` statement.",
+        "b": "The modulo operator should be `%` not `%`? (it is correct)",
+        "c": "The print statements are swapped.",
+        "d": "The variable `z` should be defined after the if-else."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! An `else` clause must directly follow an `if` (or `elif`). It cannot appear before the `if`. This code will raise a `SyntaxError`.",
+        "b": "Incorrect: The modulo operator `%` is correctly used.",
+        "c": "Incorrect: Even if the statements were swapped, the `else` would still be misplaced.",
+        "d": "Incorrect: `z` is defined before the conditional, which is fine."
+      },
+      "hints": [
+        "The order of `if` and `else` matters. Which comes first?",
+        "`else` is an optional addition after an `if` block."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, an `else` clause cannot stand alone; it must be paired with an `if` statement that precedes it. Here, `else` appears before any `if`, causing a `SyntaxError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_033",
+      "concept_name": "elif clause",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What is the output of the following code?\n\n```python\na = 6\nif a % 2 == 0:\n    print(\"divisible by 2\")\nelif a % 3 == 0:\n    print(\"divisible by 3\")\nelif a % 6 == 0:\n    print(\"divisible by 6\")\n```",
+      "options": {
+        "a": "divisible by 2\n",
+        "b": "divisible by 2\ndivisible by 3\ndivisible by 6",
+        "c": "divisible by 6",
+        "d": "divisible by 3"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The first condition `a % 2 == 0` is true (6 is even), so the block under `if` executes, and the rest of the `elif` blocks are skipped. Only 'divisible by 2' prints.",
+        "b": "Incorrect: `elif` chains only execute the first true condition, not all. The program does not continue checking after the first match.",
+        "c": "Incorrect: Although 6 is divisible by 6, the earlier conditions are checked first. `a % 2 == 0` is true, so the `elif a % 6 == 0` is never reached.",
+        "d": "Incorrect: 6 % 3 == 0 is true, but it is not the first true condition. `a % 2 == 0` is true and comes first."
+      },
+      "hints": [
+        "How does an `if-elif-else` chain execute?",
+        "Only the block of the first true condition runs."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In an `if-elif-else` chain, Python evaluates conditions from top to bottom and executes the first block whose condition is `True`. Here, `a % 2 == 0` is `True` for a=6, so it prints 'divisible by 2' and skips all subsequent `elif` clauses.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_034",
+      "concept_name": "Modulo operator (%)",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which condition correctly checks if a number `x` is odd?",
+      "options": {
+        "a": "`x / 2 == 0`",
+        "b": "`x // 2 == 0`",
+        "c": "`x % 2 == 1`",
+        "d": "`x % 2 == 0`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: `/` performs division, returning a float. For odd numbers, e.g., 3/2 = 1.5, not 0.",
+        "b": "Incorrect: `//` is floor division. For odd numbers, e.g., 3//2 = 1, not 0. For even numbers, 4//2=2, not 0 either.",
+        "c": "Correct! The modulo operator `%` returns the remainder. An odd number divided by 2 leaves a remainder of 1.",
+        "d": "Incorrect: This checks for even numbers (remainder 0)."
+      },
+      "hints": [
+        "The modulo operator returns the remainder after division.",
+        "What remainder do odd numbers leave when divided by 2?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The modulo operator `%` gives the remainder. For any odd integer, `x % 2` equals 1. For even numbers, it equals 0. So `x % 2 == 1` correctly identifies odd numbers.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_035",
+      "concept_name": "Filtering DataFrame with boolean Series",
+      "chapter": 11,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "You have a DataFrame `gapminder` with columns 'country', 'year', 'life_exp', 'gdp_cap'. You want to select countries in Asia (continent code 'Asia') with life expectancy greater than 70. Which code does this correctly?",
+      "options": {
+        "a": "`gapminder[gapminder['cont'] == 'Asia' and gapminder['life_exp'] > 70]`",
+        "b": "`gapminder[(gapminder['cont'] == 'Asia') & (gapminder['life_exp'] > 70)]`",
+        "c": "`gapminder[gapminder['cont'] == 'Asia', gapminder['life_exp'] > 70]`",
+        "d": "`gapminder.loc[gapminder['cont'] == 'Asia', gapminder['life_exp'] > 70]`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Python's `and` operator does not work element-wise on pandas Series. This will raise a `ValueError` about ambiguous truth value. You must use `&` and parentheses.",
+        "b": "Correct! Use `&` for element-wise logical AND, with parentheses around each condition. This returns a boolean Series used to filter rows.",
+        "c": "Incorrect: `DataFrame[]` expects a boolean Series, not a tuple of conditions. The comma is invalid syntax.",
+        "d": "Incorrect: `loc` is used for label-based selection, but here you are passing a boolean Series for rows. That is allowed, but the second argument should be column labels, not a boolean Series. You need `gapminder.loc[gapminder['cont'] == 'Asia']` and then select columns, but the condition has two booleans."
+      },
+      "hints": [
+        "To combine two boolean conditions on a DataFrame, you need element-wise operators, not Python's `and`.",
+        "Use `&` for element-wise AND and wrap each condition in parentheses."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Filtering a DataFrame with multiple conditions requires element-wise logical operators: `&` for AND, `|` for OR. You must enclose each condition in parentheses because of operator precedence. The correct syntax is `df[(cond1) & (cond2)]`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_027", "concept_035"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_036",
+      "concept_name": "while loop",
+      "chapter": 12,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Why does the following loop run forever?\n\n```python\nerror = 50\nwhile error > 1:\n    print(error)\n```",
+      "options": {
+        "a": "The condition `error > 1` is never true because error is 50.",
+        "b": "The variable `error` is never updated inside the loop, so it stays 50 and the condition remains true forever.",
+        "c": "The print statement should be indented differently.",
+        "d": "The loop should use a `for` loop instead of `while`."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: error=50, so 50 > 1 is true. The loop condition is true initially.",
+        "b": "Correct! The loop body does not change `error`. It always remains 50, so `error > 1` is always true, causing an infinite loop. You need to update `error` inside the loop (e.g., `error = error / 4`).",
+        "c": "Incorrect: Indentation is fine; the print is inside the loop. The issue is missing update.",
+        "d": "Incorrect: Both loop types could work, but the problem is the missing update, not the loop type."
+      },
+      "hints": [
+        "Look at what changes inside the loop body.",
+        "The loop condition depends on `error`. Does `error` ever change?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A `while` loop continues as long as its condition is `True`. Here, `error` is never modified inside the loop, so it remains 50 and the condition `error > 1` never becomes `False`. This results in an infinite loop. To fix, update `error` (e.g., `error = error / 4`).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_037",
+      "concept_name": "for loop",
+      "chapter": 13,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is the problem with this code that attempts to remove even numbers from a list while iterating?\n\n```python\nnumbers = [1, 2, 3, 4, 5]\nfor num in numbers:\n    if num % 2 == 0:\n        numbers.remove(num)\n```",
+      "options": {
+        "a": "`remove()` does not work on lists; use `del` instead.",
+        "b": "Modifying a list while iterating over it can cause skipped elements or runtime errors.",
+        "c": "The condition should be `num % 2 == 1` to remove evens.",
+        "d": "The loop should use `range(len(numbers))` instead of iterating over elements."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `list.remove()` is valid, but the issue is the modification during iteration.",
+        "b": "Correct! When you remove an element from a list while iterating over it, the list size changes and the iterator may skip elements or cause unexpected behavior. It's safer to iterate over a copy.",
+        "c": "Incorrect: The condition `num % 2 == 0` correctly identifies evens. But the problem remains.",
+        "d": "Incorrect: Even with index-based iteration, modifying the list length during iteration is problematic. The core issue is mutation during iteration."
+      },
+      "hints": [
+        "What happens to the list's length and the loop's index when you remove an element?",
+        "The course mentions 'Modifying the list while iterating over it' as a common mistake."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Modifying a list (adding or removing elements) while iterating over it can lead to skipped elements or `IndexError`. The loop's internal index does not adjust for the removed element. It's better to iterate over a copy: `for num in numbers[:]:`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_038",
+      "concept_name": "enumerate()",
+      "chapter": 13,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nfam = [1.73, 1.68, 1.71, 1.89]\nfor index, height in enumerate(fam, start=1):\n    print(index, height)\n```",
+      "options": {
+        "a": "0 1.73\n1 1.68\n2 1.71\n3 1.89",
+        "b": "1 1.73\n2 1.68\n3 1.71\n4 1.89",
+        "c": "(0, 1.73)\n(1, 1.68)\n(2, 1.71)\n(3, 1.89)",
+        "d": "1.73 1\n1.68 2\n1.71 3\n1.89 4"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: That is the default behavior (start=0), but here `start=1` changes the starting index.",
+        "b": "Correct! `enumerate(fam, start=1)` yields pairs (1,1.73), (2,1.68), etc. The `print(index, height)` outputs them as shown.",
+        "c": "Incorrect: This output would be from `print(enumerate(fam))` without unpacking, but here we unpack index and height.",
+        "d": "Incorrect: The order is (index, value), not (value, index)."
+      },
+      "hints": [
+        "The `start` parameter changes the starting index value.",
+        "The first output pair will be `(1, 1.73)`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`enumerate(fam, start=1)` returns an iterator that produces `(1, 1.73)`, `(2, 1.68)`, `(3, 1.71)`, `(4, 1.89)`. The for loop unpacks these into `index` and `height` and prints them.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_040",
+      "concept_name": "dict.items() method",
+      "chapter": 14,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given `world = {\"afghanistan\":30.55, \"albania\":2.77}`, what does the following code print?\n\n```python\nfor key, value in world.items():\n    print(key, value)\n```",
+      "options": {
+        "a": "afghanistan 30.55\nalbania 2.77",
+        "b": "['afghanistan', 30.55]\n['albania', 2.77]",
+        "c": "(afghanistan, 30.55)\n(albania, 2.77)",
+        "d": "The code raises an error because `items()` does not support unpacking."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! `dict.items()` returns a view of (key, value) pairs. Iterating with `for key, value in world.items()` unpacks each pair and prints key followed by value.",
+        "b": "Incorrect: This would be the result if you printed the tuple directly without unpacking, but the loop unpacks into two variables.",
+        "c": "Incorrect: Similar to B, but with parentheses. Unpacking separates them.",
+        "d": "Incorrect: Unpacking works perfectly; each item is a tuple of two elements."
+      },
+      "hints": [
+        "What does `world.items()` return? How do you access key and value?",
+        "The course example shows `for key, value in world.items():`"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`world.items()` returns a sequence of (key, value) tuples. The `for` loop unpacks each tuple into `key` and `value` variables, which are then printed.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_041",
+      "concept_name": "np.nditer()",
+      "chapter": 14,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the order of printed values from this code?\n\n```python\nimport numpy as np\nmeas = np.array([[1.73, 1.68], [1.71, 1.89]])\nfor val in np.nditer(meas):\n    print(val)\n```",
+      "options": {
+        "a": "1.73, 1.68, 1.71, 1.89 (row-major order)",
+        "b": "1.73, 1.71, 1.68, 1.89 (column-major order)",
+        "c": "1.89, 1.71, 1.68, 1.73 (reverse row-major)",
+        "d": "Random order"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! `np.nditer` iterates in row-major (C-style) order by default: all elements of first row, then second row, etc.",
+        "b": "Incorrect: That would be Fortran-style (column-major), which is not the default.",
+        "c": "Incorrect: That is reverse order, not default.",
+        "d": "Incorrect: The order is deterministic, not random."
+      },
+      "hints": [
+        "NumPy arrays are stored in row-major order by default.",
+        "`np.nditer` traverses elements in memory order."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.nditer` iterates over the array in the standard C-style (row-major) order: first all elements of row 0, then row 1, etc. So it prints 1.73, 1.68, 1.71, 1.89.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_042",
+      "concept_name": "DataFrame iterrows() method",
+      "chapter": 15,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "Why is the following code inefficient and potentially problematic for large DataFrames?\n\n```python\nfor index, row in brics.iterrows():\n    brics.loc[index, 'new_col'] = row['area'] * 2\n```",
+      "options": {
+        "a": "`iterrows()` returns a copy, not a view, so modifying `row` does not affect the DataFrame.",
+        "b": "The code modifies the DataFrame while iterating, which can lead to unpredictable results.",
+        "c": "Using `iterrows()` is slow; vectorized operations like `brics['new_col'] = brics['area'] * 2` are much faster.",
+        "d": "All of the above."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Incorrect only: This is true, but not the only issue. The row is a copy, but the code uses `brics.loc[index, 'new_col']` to update, which works but is slow.",
+        "b": "Incorrect only: While modifying during iteration is generally discouraged, here it's assigning to a new column, which is less problematic but still slow. Not the main efficiency issue.",
+        "c": "Incorrect only: This is the primary efficiency point, but the other statements are also correct or partially correct.",
+        "d": "Correct! All statements are valid concerns: `iterrows()` returns copies, modifying while iterating can be risky, and vectorized operations are far more efficient."
+      },
+      "hints": [
+        "What does the course say about `iterrows()` performance?",
+        "Is there a vectorized alternative that would be faster?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`iterrows()` is slow for large DataFrames because it creates a Series for each row. Additionally, modifying the DataFrame during iteration is error-prone. The best practice is to use vectorized operations: `brics['new_col'] = brics['area'] * 2`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_043"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_043",
+      "concept_name": "DataFrame apply() method",
+      "chapter": 15,
+      "difficulty": "very_hard",
+      "question_subtype": "application",
+      "question_text": "You have a DataFrame `brics` with a column 'country' containing strings. You want to create a new column 'country_upper' with the uppercase version of each country name. Which method is most efficient and idiomatic?",
+      "options": {
+        "a": "`brics['country_upper'] = brics['country'].str.upper()`",
+        "b": "`brics['country_upper'] = brics['country'].apply(lambda x: x.upper())`",
+        "c": "Loop over rows with `iterrows()` and assign each value.",
+        "d": "`brics['country_upper'] = [x.upper() for x in brics['country']]`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The `.str` accessor provides vectorized string methods, which are highly optimized and fast. This is the idiomatic pandas way.",
+        "b": "Incorrect: `apply` with a lambda works but is slower than the vectorized `.str.upper()` because it applies the Python function to each element.",
+        "c": "Incorrect: Looping with `iterrows` is extremely slow for large DataFrames and should be avoided for simple transformations.",
+        "d": "Incorrect: List comprehension is faster than `iterrows` but still slower than the vectorized `.str.upper()` because it operates in Python space, not in optimized C code."
+      },
+      "hints": [
+        "Pandas has special vectorized string methods accessible via `.str`.",
+        "The goal is to avoid Python-level loops for performance."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "For string operations on a Series, the vectorized `.str` accessor is the most efficient and readable. `brics['country'].str.upper()` applies `upper()` to every element in C speed. `apply` or list comprehensions are slower because they use Python iteration.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_043"]
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_044",
+      "concept_name": "np.random.rand()",
+      "chapter": 16,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the shape of the output of `np.random.rand(3, 2)`?",
+      "options": {
+        "a": "A 1D array of length 6",
+        "b": "A 2D array with 3 rows and 2 columns",
+        "c": "A scalar (single random number)",
+        "d": "A 3D array with dimensions 3, 1, 2"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Passing two arguments to `np.random.rand` creates a 2D array of shape (3,2). To get a 1D array of length 6, you would use `np.random.rand(6)`.",
+        "b": "Correct! `np.random.rand(d0, d1)` returns an array of shape (d0, d1). Here it's (3,2), a 2D array.",
+        "c": "Incorrect: With no arguments, `np.random.rand()` returns a scalar. With arguments, it returns an array.",
+        "d": "Incorrect: That would be `np.random.rand(3,1,2)`."
+      },
+      "hints": [
+        "The arguments to `np.random.rand()` specify the dimensions of the output array.",
+        "Two arguments mean a 2D array."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.random.rand(3,2)` generates a 3x2 array (3 rows, 2 columns) filled with random numbers uniformly distributed between 0 and 1.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_042",
+      "concept_id": "concept_045",
+      "concept_name": "np.random.seed()",
+      "chapter": 16,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What will be the output of the following code?\n\n```python\nimport numpy as np\nnp.random.seed(123)\nprint(np.random.rand())\nnp.random.seed(123)\nprint(np.random.rand())\n```",
+      "options": {
+        "a": "Two different random numbers",
+        "b": "The same random number printed twice",
+        "c": "A TypeError because seed is set twice",
+        "d": "The first print gives a number, the second gives an error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: Setting the same seed before each call resets the random number generator to the same state, producing the same first random number.",
+        "b": "Correct! `np.random.seed(123)` initializes the generator. Calling it again with the same seed resets the generator to the same starting point, so the next `rand()` call returns the same value.",
+        "c": "Incorrect: You can set the seed multiple times; it does not cause an error.",
+        "d": "Incorrect: Both prints succeed and produce identical numbers."
+      },
+      "hints": [
+        "What does `np.random.seed()` do?",
+        "If you set the same seed again, the sequence of random numbers starts over."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.random.seed(123)` initializes the pseudorandom number generator. Calling it again with the same seed resets the generator to the same state, so the next call to `np.random.rand()` returns the same number as before.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_043",
+      "concept_id": "concept_046",
+      "concept_name": "np.random.randint()",
+      "chapter": 16,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which call to `np.random.randint` will generate random integers 0 or 1 only (for simulating a coin toss)?",
+      "options": {
+        "a": "`np.random.randint(0, 1)`",
+        "b": "`np.random.randint(0, 2)`",
+        "c": "`np.random.randint(1, 2)`",
+        "d": "`np.random.randint(1, 3)`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect: `randint(low, high)` generates integers from low (inclusive) to high (exclusive). `randint(0,1)` generates only 0 (since high=1 is exclusive).",
+        "b": "Correct! `randint(0,2)` generates integers 0 or 1, because the upper bound 2 is exclusive. This is the standard coin toss simulation.",
+        "c": "Incorrect: `randint(1,2)` generates only 1 (since 2 is exclusive).",
+        "d": "Incorrect: `randint(1,3)` generates 1 or 2, not 0 or 1."
+      },
+      "hints": [
+        "Remember that the `high` parameter is exclusive.",
+        "For a coin toss, you want two equally likely outcomes: 0 and 1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`np.random.randint(low, high)` returns integers in `[low, high)`. To get 0 or 1, set `low=0` and `high=2`. Then possible outputs are 0 and 1, each with equal probability.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_044",
+      "concept_id": "concept_047",
+      "concept_name": "Random walk simulation",
+      "chapter": 17,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "The following code simulates a random walk of 10 steps starting at 0, where each step is +1 (heads) or 0 (tails). What is the value of `tails[-1]` after the code runs?\n\n```python\nimport numpy as np\nnp.random.seed(123)\ntails = [0]\nfor x in range(10):\n    coin = np.random.randint(0, 2)\n    tails.append(tails[x] + coin)\n```",
+      "options": {
+        "a": "Depends on the random numbers, but with seed 123 it is deterministic",
+        "b": "0",
+        "c": "3",
+        "d": "10"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Vague: The output is deterministic given the seed. The correct numeric answer is known from the course example.",
+        "b": "Incorrect: The walk starts at 0, but after 10 steps with some heads, the final position is positive (since coin can be 1).",
+        "c": "Correct! According to the course code example, with `np.random.seed(123)`, the `tails` list becomes `[0, 0, 1, 1, 1, 1, 1, 2, 3, 3, 3]`, so `tails[-1]` is 3.",
+        "d": "Incorrect: That would require every coin toss to be 1, which is not the case with seed 123."
+      },
+      "hints": [
+        "This exact code appears in the course. The output is given in the code example.",
+        "Check the course example for 'Simulating a simple random walk'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The code runs a random walk with 10 steps. Using `np.random.seed(123)` ensures reproducibility. From the course example, the resulting `tails` list ends with 3, so `tails[-1]` equals 3.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_046", "concept_037"]
+    },
+    {
+      "id": "mcq_045",
+      "concept_id": "concept_048",
+      "concept_name": "Distribution of random walk endpoints",
+      "chapter": 18,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "You run 1000 simulations of a 10-step random walk (each step +1 or 0) and collect the final positions in `final_tails`. You then plot `plt.hist(final_tails, bins=10)`. What distribution do you expect the histogram to approximate?",
+      "options": {
+        "a": "Uniform distribution between 0 and 10",
+        "b": "Normal distribution (bell curve) centered around 5",
+        "c": "Binomial distribution with n=10, p=0.5, but shifted because each step is 0 or 1, so it's actually Binomial(10, 0.5)",
+        "d": "Exponential distribution"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect: Not all final positions are equally likely. The probability of 10 heads is much lower than 5 heads.",
+        "b": "Incorrect: For a small number of steps (10), the distribution is binomial, not normal. The normal approximation improves with more steps, but here it's clearly binomial.",
+        "c": "Correct! Each step is a Bernoulli trial with p=0.5 (since randint(0,2) gives 0 or 1 equally). The sum of 10 such trials follows a Binomial(10, 0.5) distribution. The histogram of endpoints approximates this.",
+        "d": "Incorrect: Exponential distribution is for waiting times, not for sums of independent Bernoulli trials."
+      },
+      "hints": [
+        "Each coin toss is independent with probability 0.5 for heads (1) and 0.5 for tails (0).",
+        "The final position is the total number of heads in 10 tosses."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The random walk endpoint is the sum of 10 independent Bernoulli trials with p=0.5. This sum follows a binomial distribution with parameters n=10 and p=0.5. The histogram of many such endpoints will approximate this binomial distribution.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_047", "concept_005"]
+    }
+  ]
+}

@@ -1,0 +1,1359 @@
+{
+  "course_slug": "introduction-to-importing-data-in-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 45,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "open()",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "Which of the following correctly opens the file `data.txt` for reading?",
+      "options": {
+        "a": "file = open('data.txt', 'r')",
+        "b": "file = open('data.txt', r)",
+        "c": "file = open('data.txt', 'read')",
+        "d": "file = open('data.txt', mode='read')"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The mode is specified as the string 'r'.",
+        "b": "Incorrect. `r` without quotes is treated as a variable name, not a valid mode string.",
+        "c": "Incorrect. `'read'` is not a valid file mode; use 'r' instead.",
+        "d": "Incorrect. The `mode` keyword expects a valid mode like 'r', not 'read'."
+      },
+      "hints": [
+        "Think about the standard file modes for reading.",
+        "The mode must be a short string, like 'r' for reading."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `open()` function requires the mode as a string. Valid modes include 'r' (read), 'w' (write), 'a' (append), and 'rb' (binary read). Using `r` without quotes or 'read' is incorrect.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "file.read()",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What does `file.read()` return when called on a text file?",
+      "options": {
+        "a": "A list of lines",
+        "b": "The entire file content as a single string",
+        "c": "The next line",
+        "d": "The first 5 characters"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That is the behavior of `readlines()`, not `read()`.",
+        "b": "Correct. `read()` returns the whole file as one string.",
+        "c": "Incorrect. That is the behavior of `readline()`, not `read()`.",
+        "d": "Incorrect. That would be `read(5)`, which specifies a size limit."
+      },
+      "hints": [
+        "Consider what happens when you call `read()` with no arguments.",
+        "The method reads everything from the current position to the end."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`file.read()` reads and returns the entire contents of the file as a single string. To read line by line, use `readline()` or iterate over the file object.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "file.close()",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "After you finish reading a file with `open()`, what should you do next to release system resources?",
+      "options": {
+        "a": "Delete the file object",
+        "b": "Call `file.close()`",
+        "c": "Call `file.flush()`",
+        "d": "Simply let the program end"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Deleting the variable does not close the underlying file handle.",
+        "b": "Correct. `close()` closes the file and frees resources.",
+        "c": "Incorrect. `flush()` writes buffered data but does not close the file.",
+        "d": "Incorrect. While the OS may close it on exit, it is best practice to close files explicitly."
+      },
+      "hints": [
+        "There is a method specifically for disconnecting from a file.",
+        "Leaving files open can cause data loss or memory issues."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`file.close()` closes the connection to the file, ensuring all data is written and resources are freed. It's essential to avoid resource leaks.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_004",
+      "concept_name": "with statement",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What is the problem with the following code?\n\n```python\nwith open('huck_finn.txt', 'r') as file:\nprint(file.read())\n```",
+      "options": {
+        "a": "The `with` statement is missing a colon.",
+        "b": "The `print` line is not indented inside the block.",
+        "c": "The file mode should be `'rb'` for text.",
+        "d": "`open()` cannot be used with `with`."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The colon is present after the `with` line.",
+        "b": "Correct. The `print` statement must be indented to be part of the context manager block.",
+        "c": "Incorrect. `'r'` is correct for reading text files.",
+        "d": "Incorrect. `open()` works perfectly with the `with` statement."
+      },
+      "hints": [
+        "Check the indentation rules for Python's compound statements.",
+        "The statements after a `with` line must be at a higher indentation level."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A `with` statement creates a context manager; its body must be indented. The `print` call is not indented, so it executes outside the context, after the file is already closed, causing an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_010",
+      "concept_name": "numpy.loadtxt()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have a tab-separated file `data.tsv`. Which parameter must you pass to `np.loadtxt()` to read it correctly?",
+      "options": {
+        "a": "sep='\\t'",
+        "b": "delimiter='\\t'",
+        "c": "delimiter='tab'",
+        "d": "skiprows=1"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `sep` is used by pandas, not by NumPy's `loadtxt`.",
+        "b": "Correct. The `delimiter` parameter accepts a string like `'\\t'` for tabs.",
+        "c": "Incorrect. `'tab'` is not a recognized delimiter; you must use the escape sequence `'\\t'`.",
+        "d": "Incorrect. `skiprows` controls which rows to ignore, not the field separator."
+      },
+      "hints": [
+        "NumPy's `loadtxt` uses a parameter named `delimiter`.",
+        "The tab character is represented as `'\\t'` in Python strings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`numpy.loadtxt()` accepts a `delimiter` parameter that specifies the field separator. For tab-separated files, use `delimiter='\\t'`. `sep` is a pandas parameter, and `skiprows` is for skipping header lines.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_011",
+      "concept_name": "numpy.genfromtxt()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "What advantage does `numpy.genfromtxt()` have over `numpy.loadtxt()`?",
+      "options": {
+        "a": "It handles missing data more gracefully.",
+        "b": "It reads CSV files faster.",
+        "c": "It returns a pandas DataFrame.",
+        "d": "It accepts a `delimiter` parameter."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `genfromtxt` is specifically designed to be more tolerant of missing or irregular data.",
+        "b": "Incorrect. `genfromtxt` is generally slower, not faster.",
+        "c": "Incorrect. It returns a NumPy array, not a DataFrame.",
+        "d": "Incorrect. Both functions support the `delimiter` parameter."
+      },
+      "hints": [
+        "Think about files that have blank cells or inconsistent formatting.",
+        "One of these functions is called 'gen' for a reason: it's more flexible."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`numpy.genfromtxt()` provides more robust handling of missing values, allowing the user to specify missing value markers and fill values. `loadtxt` expects clean numeric data and will raise errors on missing entries.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_015",
+      "concept_name": "Mixed datatypes",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Why does `numpy.loadtxt()` often fail when a CSV file contains both numeric and string columns?",
+      "options": {
+        "a": "NumPy arrays require all elements to be of the same data type.",
+        "b": "`loadtxt` cannot read strings at all.",
+        "c": "The delimiter must be a comma for mixed data.",
+        "d": "`loadtxt` does not support skipping headers in mixed files."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. NumPy arrays are homogeneous; a single string column forces the whole array to object dtype, which `loadtxt` may not handle by default.",
+        "b": "Incorrect. `loadtxt` can read strings if `dtype=str` is set, but that makes everything a string.",
+        "c": "Incorrect. The delimiter is independent of data types.",
+        "d": "Incorrect. `skiprows` works regardless of data types."
+      },
+      "hints": [
+        "Think about how NumPy arrays store data.",
+        "Mixing numbers and text in a single array causes a conflict."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "NumPy arrays are homogeneous, meaning all elements share the same data type. If a file mixes numbers and strings, `loadtxt` would need to convert everything to a common type (often object), which may fail or be inefficient. pandas is better for mixed types.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_017",
+      "concept_name": "DataFrame",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which statement best describes a pandas DataFrame?",
+      "options": {
+        "a": "A one-dimensional array with a single data type.",
+        "b": "A two-dimensional labeled data structure that can hold different data types per column.",
+        "c": "A special kind of NumPy array that supports labels.",
+        "d": "A dictionary of lists with no column names."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That describes a pandas Series or a 1D NumPy array.",
+        "b": "Correct. DataFrames are 2D, labeled, and each column can have its own dtype.",
+        "c": "Incorrect. DataFrames are built on top of NumPy but are distinct objects with richer functionality.",
+        "d": "Incorrect. DataFrames have row and column labels, not just a dictionary."
+      },
+      "hints": [
+        "DataFrames have rows and columns with names.",
+        "Unlike NumPy arrays, each column can store different types of data."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A DataFrame is the primary pandas data structure: a two-dimensional, size-mutable, potentially heterogeneous tabular data with labeled axes (rows and columns).",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_018",
+      "concept_name": "pandas.read_csv()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have a file `data.txt` with columns separated by semicolons and no header row. Which code correctly reads it into a DataFrame?",
+      "options": {
+        "a": "pd.read_csv('data.txt', sep=';', header=None)",
+        "b": "pd.read_csv('data.txt', delimiter=';')",
+        "c": "pd.read_csv('data.txt', sep=';', header=0)",
+        "d": "pd.read_csv('data.txt', delimiter=';', header=True)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The `sep` parameter sets the delimiter, and `header=None` ensures no row is treated as column names.",
+        "b": "Incorrect. Without `header=None`, the first row would be mistaken as the header.",
+        "c": "Incorrect. `header=0` explicitly tells pandas to use the first row as column names, which is wrong for a file with no header.",
+        "d": "Incorrect. `header` expects an integer or `None`, not a boolean."
+      },
+      "hints": [
+        "The `sep` (or `delimiter`) parameter defines the field separator.",
+        "When there is no header, you must tell pandas to not treat the first row as column names."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pd.read_csv()` defaults to treating the first row as the header. To read a headerless file, set `header=None`. Use `sep` (or `delimiter`) to specify the delimiter.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_020",
+      "concept_name": "DataFrame.to_numpy()",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "A DataFrame contains an integer column and a string column. What happens when you call `df.to_numpy()`?",
+      "options": {
+        "a": "It raises an error because NumPy cannot handle strings.",
+        "b": "It returns a NumPy array with `dtype=object`.",
+        "c": "It automatically drops the string column.",
+        "d": "It converts the integers to strings to keep the array homogeneous."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. No error is raised; conversion succeeds.",
+        "b": "Correct. Because columns have different types, the resulting array uses the generic `object` dtype to hold both.",
+        "c": "Incorrect. `to_numpy()` does not drop columns.",
+        "d": "Incorrect. It does not perform automatic type coercion to string; integers remain integers, but the array's dtype becomes object."
+      },
+      "hints": [
+        "NumPy arrays need a single data type for all elements.",
+        "When types differ, NumPy chooses a common supertype, often `object`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`DataFrame.to_numpy()` converts the DataFrame to a NumPy array. If columns have different dtypes, the array uses `dtype=object` because that can hold any Python object. The values themselves are not converted.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_021",
+      "concept_name": "Pickle / serialization",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You need to load a Python object that was previously saved to a file using `pickle`. Which file mode must you use when opening the file?",
+      "options": {
+        "a": "'r'",
+        "b": "'rb'",
+        "c": "'w'",
+        "d": "'wb'"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Pickled data is binary; 'r' is for text reading and will cause an error.",
+        "b": "Correct. The file must be opened in binary read mode.",
+        "c": "Incorrect. 'w' is for writing text, not reading, and would not work with pickle.",
+        "d": "Incorrect. 'wb' is for writing binary, but you want to read the pickle file."
+      },
+      "hints": [
+        "Pickle stores objects as a byte stream, not text.",
+        "The mode must start with 'r' for reading, and include 'b' for binary."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Pickled files are binary, so they must be opened with the 'rb' mode. Using 'r' would raise an error because it expects a text file.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_022",
+      "concept_name": "pickle.load()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given the following code, what does `data` contain?\n\n```python\nimport pickle\nwith open('pickled_fruit.pkl', 'rb') as file:\n    data = pickle.load(file)\n```",
+      "options": {
+        "a": "A string representation of the fruit dictionary",
+        "b": "The original Python object that was pickled",
+        "c": "Always a dictionary",
+        "d": "A list of fruit names"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `pickle.load` reconstructs the exact object, not its string form.",
+        "b": "Correct. It returns the exact object that was saved, whatever its type.",
+        "c": "Incorrect. The returned object can be any picklable type, not just a dict.",
+        "d": "Incorrect. The loaded object depends entirely on what was originally pickled."
+      },
+      "hints": [
+        "Pickle restores the object exactly as it was saved.",
+        "The type of the result is whatever was originally passed to `pickle.dump`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pickle.load()` deserializes the pickled byte stream and returns the original Python object, preserving its type and structure.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_024",
+      "concept_name": "pandas.ExcelFile",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You need to read multiple sheets from an Excel workbook `urbanpop.xlsx`. Which pandas class provides a convenient way to do this?",
+      "options": {
+        "a": "pd.read_csv()",
+        "b": "pd.ExcelFile",
+        "c": "pd.ExcelWriter",
+        "d": "pd.read_excel()"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `read_csv` is for CSV files, not Excel.",
+        "b": "Correct. `ExcelFile` encapsulates the workbook and allows you to parse individual sheets.",
+        "c": "Incorrect. `ExcelWriter` is for writing Excel files, not reading.",
+        "d": "Incorrect. While `read_excel` can read a sheet in one call, `ExcelFile` is better for reading multiple sheets because it opens the file once."
+      },
+      "hints": [
+        "Look for a pandas class that represents the entire workbook.",
+        "Once you have this object, you can access sheets by name or index."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pd.ExcelFile` wraps an Excel workbook, providing access to sheet names via `.sheet_names` and parsing via `.parse()`. It's efficient when you need to read multiple sheets.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_025",
+      "concept_name": "ExcelFile.sheet_names",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Given `data = pd.ExcelFile('urbanpop.xlsx')`, which line correctly retrieves the list of sheet names?",
+      "options": {
+        "a": "data.sheet_names()",
+        "b": "data.sheet_names",
+        "c": "data.get_sheet_names()",
+        "d": "data.sheets"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `sheet_names` is an attribute, not a method; no parentheses are needed.",
+        "b": "Correct. `sheet_names` is an attribute that returns a list of sheet names.",
+        "c": "Incorrect. There is no `get_sheet_names()` method on `ExcelFile`.",
+        "d": "Incorrect. `sheets` is not a valid attribute of `ExcelFile`."
+      },
+      "hints": [
+        "Think about whether you are accessing a property or calling a function.",
+        "Check the exact name used in the pandas documentation."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`ExcelFile.sheet_names` is an attribute, so you access it without parentheses. Calling it as a function would raise an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_026",
+      "concept_name": "ExcelFile.parse()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You have an `ExcelFile` object `xls`. How do you read the first sheet into a DataFrame?",
+      "options": {
+        "a": "xls.parse(0)",
+        "b": "xls.parse('Sheet1')",
+        "c": "xls.parse(sheet=0)",
+        "d": "xls.parse('0')"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Passing an integer index 0 reads the first sheet.",
+        "b": "Incorrect. This works only if the first sheet is named 'Sheet1', which is not guaranteed.",
+        "c": "Incorrect. `parse()` does not accept a `sheet` keyword argument.",
+        "d": "Incorrect. `'0'` is a string, not an integer index; it would look for a sheet named '0'."
+      },
+      "hints": [
+        "The `parse` method accepts either a sheet name (string) or a sheet index (integer).",
+        "To be generic, use the numeric index of the first sheet."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`ExcelFile.parse()` accepts an integer sheet index (0-based) or the exact sheet name as a string. Using `0` always refers to the first sheet, regardless of its name.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_028",
+      "concept_name": "sas7bdat.SAS7BDAT",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Which class is used to read a SAS dataset file (`urbanpop.sas7bdat`) into Python?",
+      "options": {
+        "a": "pd.read_stata",
+        "b": "SAS7BDAT",
+        "c": "pd.ExcelFile",
+        "d": "sqlalchemy.create_engine"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `pd.read_stata` is for Stata files (.dta), not SAS.",
+        "b": "Correct. `SAS7BDAT` from the `sas7bdat` package reads .sas7bdat files.",
+        "c": "Incorrect. `ExcelFile` is for Excel workbooks.",
+        "d": "Incorrect. `create_engine` is for SQL databases."
+      },
+      "hints": [
+        "This class comes from the `sas7bdat` package.",
+        "It is often used as a context manager: `with SAS7BDAT(...) as file:`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `SAS7BDAT` class from the `sas7bdat` library provides a context manager interface to read SAS dataset files and convert them to pandas DataFrames.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_029",
+      "concept_name": "SAS7BDAT.to_data_frame()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which method converts a `SAS7BDAT` object to a pandas DataFrame?",
+      "options": {
+        "a": "to_dataframe()",
+        "b": "to_data_frame()",
+        "c": "as_dataframe()",
+        "d": "to_df()"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The method uses an underscore between 'data' and 'frame'.",
+        "b": "Correct. The exact method name is `to_data_frame()`.",
+        "c": "Incorrect. `as_dataframe()` does not exist on this object.",
+        "d": "Incorrect. `to_df()` is not the method name."
+      },
+      "hints": [
+        "The method name follows the pattern `to_something`.",
+        "Pay attention to the underscore in the name."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The correct method is `to_data_frame()`. Misspelling it as `to_dataframe` (without underscore) or using other variations is a common mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_031",
+      "concept_name": "pandas.read_stata()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which pandas function reads a Stata `.dta` file into a DataFrame?",
+      "options": {
+        "a": "pd.read_stata()",
+        "b": "pd.read_dta()",
+        "c": "pd.read_sas()",
+        "d": "pd.read_spss()"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `pd.read_stata()` is the built-in pandas function for Stata files.",
+        "b": "Incorrect. `read_dta` does not exist; the function is `read_stata`.",
+        "c": "Incorrect. `read_sas` is for SAS files, not Stata.",
+        "d": "Incorrect. `read_spss` is for SPSS files, not Stata."
+      },
+      "hints": [
+        "The function name refers to the software, not the file extension.",
+        "The software is called Stata."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pandas.read_stata()` reads Stata .dta files. It is named after the software (Stata), not the file extension (.dta).",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_033",
+      "concept_name": "h5py",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You need to read a large hierarchical HDF5 file in Python. Which library is specifically designed for this?",
+      "options": {
+        "a": "scipy.io",
+        "b": "h5py",
+        "c": "pickle",
+        "d": "pandas"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `scipy.io` is for MATLAB files, not HDF5.",
+        "b": "Correct. `h5py` is the Python interface to the HDF5 binary data format.",
+        "c": "Incorrect. `pickle` is for Python object serialization.",
+        "d": "Incorrect. While pandas can read HDF5 files via `pd.read_hdf`, it uses `h5py` under the hood; `h5py` is the dedicated library."
+      },
+      "hints": [
+        "The library name reflects the file format: HDF5.",
+        "It provides a dictionary-like interface to explore groups and datasets."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`h5py` is the primary Python library for working with HDF5 files, offering low‑level and high‑level access to the file hierarchy.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_034",
+      "concept_name": "h5py.File()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "How do you open an existing HDF5 file named `data.hdf5` for reading with `h5py`?",
+      "options": {
+        "a": "h5py.open('data.hdf5', 'r')",
+        "b": "h5py.File('data.hdf5', 'r')",
+        "c": "h5py.load('data.hdf5')",
+        "d": "h5py.read('data.hdf5')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. There is no `h5py.open()` function; use `h5py.File()`.",
+        "b": "Correct. `h5py.File()` opens the file with the given mode ('r' for read).",
+        "c": "Incorrect. `load` is not an `h5py` function.",
+        "d": "Incorrect. `read` is not the correct function."
+      },
+      "hints": [
+        "The function to open an HDF5 file is `File`, similar to Python's built‑in `open`.",
+        "The second argument is the mode, like 'r' for reading."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`h5py.File()` is the constructor used to open or create HDF5 files. The second argument specifies the mode, with 'r' for reading.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_035",
+      "concept_name": "h5py group keys",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What type of object does the `.keys()` method return on an `h5py.File` or group?",
+      "options": {
+        "a": "list",
+        "b": "tuple",
+        "c": "iterator",
+        "d": "string"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. It does not return a list; you must convert it with `list()` if needed.",
+        "b": "Incorrect. It is not a tuple.",
+        "c": "Correct. `.keys()` returns an iterator-like object over the group and dataset names.",
+        "d": "Incorrect. It does not return a single string."
+      },
+      "hints": [
+        "You can loop over the result, but you can't index into it directly.",
+        "It behaves more like a generator than a container."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`h5py.File.keys()` (and group keys) returns a view object that is iterable but not a list. If you need a list, wrap it with `list()`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_037",
+      "concept_name": "scipy.io.loadmat()",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `scipy.io.loadmat('workspace.mat')` return?",
+      "options": {
+        "a": "A NumPy array",
+        "b": "A pandas DataFrame",
+        "c": "A dictionary",
+        "d": "A list"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. The result is a dictionary, not a bare array.",
+        "b": "Incorrect. It is not a DataFrame.",
+        "c": "Correct. The returned dictionary maps MATLAB variable names to their values (usually arrays).",
+        "d": "Incorrect. It does not return a list."
+      },
+      "hints": [
+        "MATLAB workspaces contain named variables.",
+        "The Python representation needs to map names to arrays."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`scipy.io.loadmat()` reads a .mat file and returns a dictionary where keys are the variable names and values are the corresponding NumPy arrays or MATLAB objects.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_038",
+      "concept_name": "Relational database",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which best describes a relational database?",
+      "options": {
+        "a": "A collection of unrelated flat files.",
+        "b": "Data organized into multiple tables linked by keys.",
+        "c": "A single large spreadsheet.",
+        "d": "A hierarchical file system."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. Flat files are standalone, not linked by keys.",
+        "b": "Correct. Tables in a relational database are connected through primary and foreign keys.",
+        "c": "Incorrect. Spreadsheets are not inherently relational.",
+        "d": "Incorrect. A file system is not a database."
+      },
+      "hints": [
+        "Think about how data can be split into separate, connected tables.",
+        "Relationships between tables are a defining feature."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A relational database structures data into tables (relations) where relationships are established through keys, allowing efficient querying with SQL.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_039",
+      "concept_name": "Table (database)",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "In a relational database, what does a table represent?",
+      "options": {
+        "a": "A single value.",
+        "b": "A collection of records of the same entity type.",
+        "c": "A relationship between databases.",
+        "d": "A primary key."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. A table contains many rows, not a single value.",
+        "b": "Correct. Each table typically models one entity, like Customers or Orders.",
+        "c": "Incorrect. Relationships are expressed through keys, not a whole table.",
+        "d": "Incorrect. A primary key is a column within a table."
+      },
+      "hints": [
+        "Consider what an entire table models—like all employees or all products.",
+        "Rows in a table share the same structure."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A database table is a structured collection of related data about a single entity type (e.g., a 'Products' table). Each row is a record, and columns are attributes.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_043",
+      "concept_name": "SELECT * FROM",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the SQL statement `SELECT * FROM Orders` do?",
+      "options": {
+        "a": "Returns all columns of all rows from the Orders table.",
+        "b": "Returns the first column of the Orders table.",
+        "c": "Creates a new table called Orders.",
+        "d": "Deletes all rows from Orders."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `*` selects all columns, and no WHERE clause means all rows.",
+        "b": "Incorrect. `*` means all columns, not just the first.",
+        "c": "Incorrect. This is a query, not a creation statement.",
+        "d": "Incorrect. `DELETE FROM Orders` would delete rows, not `SELECT`."
+      },
+      "hints": [
+        "The `*` is a wildcard meaning 'all columns'.",
+        "Without a `WHERE` clause, the query retrieves every row."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`SELECT * FROM table` retrieves every column for every row in the specified table.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_044",
+      "concept_name": "SQLAlchemy",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "What is the primary role of SQLAlchemy in a Python data workflow?",
+      "options": {
+        "a": "A database management system (RDBMS).",
+        "b": "A Python SQL toolkit and ORM for interacting with databases.",
+        "c": "A file format for storing tabular data.",
+        "d": "A visualization library."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. SQLAlchemy is not a database server; it connects to existing ones.",
+        "b": "Correct. It provides tools to work with databases, including an engine and ORM.",
+        "c": "Incorrect. SQLAlchemy does not define a file format.",
+        "d": "Incorrect. It is not a plotting library."
+      },
+      "hints": [
+        "SQLAlchemy allows you to execute SQL from Python.",
+        "It stands between your Python code and the actual database."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "SQLAlchemy is a Python library that provides a consistent API for connecting to various SQL databases, executing queries, and mapping objects to tables.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_045",
+      "concept_name": "create_engine()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Which of the following correctly creates an engine for a SQLite database named `Northwind.sqlite`?",
+      "options": {
+        "a": "create_engine('sqlite:///Northwind.sqlite')",
+        "b": "create_engine('sqlite:/Northwind.sqlite')",
+        "c": "create_engine('sqlite://Northwind.sqlite')",
+        "d": "create_engine('sqlite:////Northwind.sqlite')"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. SQLite URLs use three slashes after `sqlite:` for a relative path.",
+        "b": "Incorrect. One slash after `sqlite:` is not a valid connection string.",
+        "c": "Incorrect. Two slashes are incorrect for SQLite; three are required.",
+        "d": "Incorrect. Four slashes would point to an absolute path with extra slashes, likely wrong."
+      },
+      "hints": [
+        "The URL format for SQLite uses three forward slashes: `sqlite:///`.",
+        "Too many or too few slashes will cause a connection error."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The correct SQLite connection string is `'sqlite:///path'` with three slashes. One or two slashes are incorrect and will raise an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_046",
+      "concept_name": "engine.table_names()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `engine.table_names()` return?",
+      "options": {
+        "a": "A list of column names from a specific table.",
+        "b": "A list of all table names in the database.",
+        "c": "The names of the connected databases.",
+        "d": "A list of index names."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. To get column names, you would query a table's schema or use `ResultProxy.keys()`.",
+        "b": "Correct. It returns a list of all table names in the currently connected database.",
+        "c": "Incorrect. It does not list databases, only tables within one database.",
+        "d": "Incorrect. It does not return index names."
+      },
+      "hints": [
+        "This method is called on the engine object, not on a table.",
+        "Think about what information you need to know what tables exist."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`engine.table_names()` queries the database metadata and returns a list of all table names. Note that in recent SQLAlchemy versions this method is replaced by `inspect(engine).get_table_names()`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_047",
+      "concept_name": "engine.connect()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `engine.connect()` return?",
+      "options": {
+        "a": "A DataFrame containing all data.",
+        "b": "A connection object used to execute SQL.",
+        "c": "A ResultProxy object with query results.",
+        "d": "The engine itself."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `connect()` does not query data.",
+        "b": "Correct. It returns a connection through which you can execute statements.",
+        "c": "Incorrect. A ResultProxy is returned by `execute()`, not `connect()`.",
+        "d": "Incorrect. It does not return the engine."
+      },
+      "hints": [
+        "You need a connection before you can run a query.",
+        "The object returned allows you to call `.execute()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`engine.connect()` establishes a connection to the database and returns a `Connection` object. You can then call `.execute()` on it to run SQL.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_048",
+      "concept_name": "connection.execute()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "In SQLAlchemy, what does `con.execute(\"SELECT * FROM Orders\")` return?",
+      "options": {
+        "a": "A list of tuples.",
+        "b": "A ResultProxy object.",
+        "c": "A pandas DataFrame.",
+        "d": "A connection object."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. The list of tuples is obtained after calling `.fetchall()` on the result.",
+        "b": "Correct. `execute()` returns a `ResultProxy` that can be iterated or fetched.",
+        "c": "Incorrect. To get a DataFrame you need to pass the result to `pd.DataFrame` or use `pd.read_sql_query`.",
+        "d": "Incorrect. The connection object is separate."
+      },
+      "hints": [
+        "The returned object is a handle to the result set, not the data itself.",
+        "You need to call methods like `fetchall()` to retrieve the rows."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`connection.execute()` returns a `ResultProxy` that represents the results of the query. To access the data, you call `fetchone()`, `fetchmany()`, or `fetchall()`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_049",
+      "concept_name": "ResultProxy.fetchall()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `rs.fetchall()` return after executing a SELECT query?",
+      "options": {
+        "a": "A single row.",
+        "b": "A list of all remaining rows, each as a tuple.",
+        "c": "A pandas DataFrame.",
+        "d": "The column names."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That is `fetchone()`.",
+        "b": "Correct. It returns all remaining rows from the result set as a list of tuples.",
+        "c": "Incorrect. It does not return a DataFrame.",
+        "d": "Incorrect. Column names are obtained via `.keys()`."
+      },
+      "hints": [
+        "This method retrieves everything that hasn't been fetched yet.",
+        "Each row is represented as a tuple of column values."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`fetchall()` consumes the remaining rows from the ResultProxy and returns them as a list of tuples, where each tuple corresponds to a row.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_050",
+      "concept_name": "ResultProxy.fetchmany()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "If a query returns only 3 rows and you call `rs.fetchmany(size=5)`, what happens?",
+      "options": {
+        "a": "It raises an error because size > available rows.",
+        "b": "It returns the 3 available rows.",
+        "c": "It returns 5 rows by repeating the first row.",
+        "d": "It returns None."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. No error is raised; it simply returns fewer rows.",
+        "b": "Correct. `fetchmany` returns up to `size` rows, but if fewer are available, it returns what remains.",
+        "c": "Incorrect. It does not repeat rows.",
+        "d": "Incorrect. It does not return `None`."
+      },
+      "hints": [
+        "Think about what happens when you try to take more items than exist in a list.",
+        "`fetchmany` is designed to be safe for iterating over large results."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`fetchmany(size)` returns up to `size` rows, but if fewer than `size` rows remain, it returns the remaining rows without error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_051",
+      "concept_name": "ResultProxy.keys()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You have executed a query and want to use the column names as DataFrame column headers. When should you call `rs.keys()`?",
+      "options": {
+        "a": "After closing the connection.",
+        "b": "Before fetching the rows from the ResultProxy.",
+        "c": "Only after calling `fetchall()`.",
+        "d": "It doesn't matter when you call it."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. After closing, the result proxy is not usable.",
+        "b": "Correct. You should retrieve column names before consuming the result set.",
+        "c": "Incorrect. After `fetchall()`, the ResultProxy is exhausted and may not provide keys.",
+        "d": "Incorrect. Timing matters; calling after fetching can fail."
+      },
+      "hints": [
+        "The ResultProxy behaves like a stream; once you read all rows, some metadata may be lost.",
+        "Set the column names before you retrieve the data."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Call `rs.keys()` before fetching rows to safely obtain column names. After fetching all rows, the proxy is exhausted and may no longer have that information.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_052",
+      "concept_name": "pandas.read_sql_query()",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `pd.read_sql_query(\"SELECT * FROM Orders\", engine)` return?",
+      "options": {
+        "a": "A SQLAlchemy ResultProxy.",
+        "b": "A connection object.",
+        "c": "A pandas DataFrame.",
+        "d": "A list of rows."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. `read_sql_query` returns a DataFrame, not a ResultProxy.",
+        "b": "Incorrect. It does not return a connection.",
+        "c": "Correct. It executes the query and returns the result directly as a DataFrame.",
+        "d": "Incorrect. It returns a DataFrame, not a list."
+      },
+      "hints": [
+        "This function combines query execution and conversion in one step.",
+        "The output is the same type you would get from `pd.read_csv()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pandas.read_sql_query()` is a convenience function that sends the SQL to the database engine, fetches all rows, and returns them as a DataFrame with appropriate column names.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_012",
+      "concept_name": "skiprows parameter (loadtxt)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "You have a CSV file with a header line followed by 10 data rows. You run:\n\n```python\nimport numpy as np\ndata = np.loadtxt('file.csv', delimiter=',', skiprows=1)\nprint(data.shape)\n```\n\nWhat shape is printed?",
+      "options": {
+        "a": "(10,) or (10, N) depending on number of columns",
+        "b": "(9,) because the first data row is also skipped",
+        "c": "(11,) because the header is counted as data",
+        "d": "An error because `skiprows` must be 0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `skiprows=1` skips exactly one row (the header), leaving all 10 data rows.",
+        "b": "Incorrect. `skiprows` skips exactly that many rows, not an extra row.",
+        "c": "Incorrect. The header is skipped, so only 10 rows remain.",
+        "d": "Incorrect. `skiprows` can be any non‑negative integer."
+      },
+      "hints": [
+        "`skiprows` counts the number of rows to ignore, not the index to start at.",
+        "With `skiprows=1`, the first row of the file is completely omitted from the array."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `skiprows` parameter tells `loadtxt` to ignore that many leading rows. With `skiprows=1`, the header is ignored, and the 10 data rows form the array. The shape will be (10, columns).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_013",
+      "concept_name": "usecols parameter (loadtxt)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Your CSV has columns `ID`, `Age`, `Height`, `Weight` in that order. You want to read only `Age` and `Weight`. Which `usecols` argument is correct?",
+      "options": {
+        "a": "usecols=[1, 3]",
+        "b": "usecols=[2, 4]",
+        "c": "usecols=['Age', 'Weight']",
+        "d": "usecols=[0, 2]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Zero‑based indexing: Age is column index 1, Weight is index 3.",
+        "b": "Incorrect. That uses one‑based indexing; Python and NumPy use zero‑based.",
+        "c": "Incorrect. `usecols` only accepts integer indices, not column names.",
+        "d": "Incorrect. That would select `ID` (0) and `Height` (2), not the desired columns."
+      },
+      "hints": [
+        "In Python, the first column has index 0.",
+        "`usecols` works with numeric indices, not strings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`numpy.loadtxt` uses zero‑based column indexing. Age is index 1 and Weight is index 3. Using one‑based indices like [2,4] is a common off‑by‑one mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_014",
+      "concept_name": "dtype parameter (loadtxt)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the result of the following code?\n\n```python\nimport numpy as np\ndata = np.loadtxt('nums.txt', delimiter=',', dtype=str)\nresult = data + 10\n```",
+      "options": {
+        "a": "Adds 10 to every numeric element.",
+        "b": "Raises a TypeError because strings cannot be added to integers.",
+        "c": "Returns a new array with '10' appended to each string element.",
+        "d": "Converts the array back to numbers and then adds 10."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. With `dtype=str`, all elements are strings, not numbers.",
+        "b": "Correct. You cannot perform arithmetic between a string array and an integer.",
+        "c": "Incorrect. `+` between string and int is not defined, unlike string concatenation with string.",
+        "d": "Incorrect. No automatic conversion occurs."
+      },
+      "hints": [
+        "Setting `dtype=str` makes every element a string, regardless of the file content.",
+        "Arithmetic operations like `+` work on numbers, not strings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The array `data` has string dtype, so attempting to add an integer (`10`) results in a TypeError. To do arithmetic, the array must have a numeric dtype.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_030",
+      "concept_name": "Stata files",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You receive a data file from an economist. The file has the extension `.dta`. Which software originally created this file?",
+      "options": {
+        "a": "SAS",
+        "b": "Stata",
+        "c": "Excel",
+        "d": "MATLAB"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. SAS files use the `.sas7bdat` extension.",
+        "b": "Correct. `.dta` is the native data file format for Stata.",
+        "c": "Incorrect. Excel files use `.xlsx` or `.xls`.",
+        "d": "Incorrect. MATLAB files use `.mat`."
+      },
+      "hints": [
+        "The extension `.dta` stands for 'data', but it's associated with a specific statistical package.",
+        "This package is widely used in social sciences like economics."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Stata uses the `.dta` extension for its datasets. SAS uses `.sas7bdat`, Excel uses `.xlsx`, and MATLAB uses `.mat`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_032",
+      "concept_name": "HDF5 files",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is a defining feature of HDF5 files compared to simple flat files?",
+      "options": {
+        "a": "They can only store a single dataset.",
+        "b": "They support a hierarchical structure with groups and datasets.",
+        "c": "They are human‑readable text files.",
+        "d": "They are limited to small datasets."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. HDF5 is designed for multiple datasets and groups.",
+        "b": "Correct. HDF5 organizes data into groups (like folders) and datasets (like arrays).",
+        "c": "Incorrect. HDF5 is a binary format, not plain text.",
+        "d": "Incorrect. HDF5 can scale to exabytes."
+      },
+      "hints": [
+        "Think of HDF5 as a file system within a file, with directories and files.",
+        "It's optimized for large, complex numerical data."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "HDF5 files have a hierarchical layout that can contain groups (analogous to directories) and datasets (multidimensional arrays), enabling efficient storage of massive, structured data.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_036",
+      "concept_name": "MATLAB .mat files",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "After executing `mat = scipy.io.loadmat('workspace.mat')`, how would you access the variable `x` that was saved in the MATLAB workspace?",
+      "options": {
+        "a": "mat.x",
+        "b": "mat['x']",
+        "c": "mat[0]",
+        "d": "mat.get('x')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. `mat` is a dictionary, not an object with attribute access.",
+        "b": "Correct. `loadmat` returns a dictionary; use the variable name as the key.",
+        "c": "Incorrect. The dictionary is not indexed by position.",
+        "d": "Incorrect. While `dict.get` exists, the standard dictionary key access is `mat['x']`."
+      },
+      "hints": [
+        "The result is a dictionary, so you access items by key.",
+        "MATLAB variable names become string keys in the dictionary."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`scipy.io.loadmat()` returns a dictionary mapping variable names to NumPy arrays. Access `x` via `mat['x']`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_040",
+      "concept_name": "Primary key",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement about primary keys is always true?",
+      "options": {
+        "a": "They can contain NULL values.",
+        "b": "They can have duplicate values in different rows.",
+        "c": "They uniquely identify each row and cannot be NULL.",
+        "d": "They consist of exactly one column."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Incorrect. A primary key must be NOT NULL.",
+        "b": "Incorrect. Primary keys enforce uniqueness.",
+        "c": "Correct. A primary key uniquely identifies each record and cannot contain NULLs.",
+        "d": "Incorrect. A primary key can be a composite key (multiple columns)."
+      },
+      "hints": [
+        "Think about what is required for a key to uniquely identify a row.",
+        "NULL means unknown, so it cannot be part of a unique identifier."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A primary key constraint enforces both uniqueness and non‑nullability. Composite keys (multiple columns) are allowed.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_042",
+      "concept_id": "concept_041",
+      "concept_name": "Foreign key",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "A foreign key in one table typically references which of the following in another table?",
+      "options": {
+        "a": "Any column with the same data type.",
+        "b": "The primary key.",
+        "c": "A foreign key.",
+        "d": "A non‑key column."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. While it could technically reference a unique column, by convention and most often it references the primary key.",
+        "b": "Correct. A foreign key points to the primary key of another table to establish a relationship.",
+        "c": "Incorrect. It references the primary key, not a foreign key.",
+        "d": "Incorrect. It must reference a column with a unique constraint, typically the primary key."
+      },
+      "hints": [
+        "Foreign keys exist to link tables together.",
+        "They usually connect to the most important identifier of the related table."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A foreign key is a column (or columns) that refers to the primary key of another table, ensuring referential integrity. While it can reference any unique column, the primary key is the standard.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_043",
+      "concept_id": "concept_042",
+      "concept_name": "SQL (Structured Query Language)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Why is SQL considered a declarative language?",
+      "options": {
+        "a": "Because it uses explicit loops and conditionals to retrieve data.",
+        "b": "Because you describe what data you want, not how to get it.",
+        "c": "Because it must be compiled before execution.",
+        "d": "Because it only works on specific database systems."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That describes a procedural language; SQL does not have loops in its standard form.",
+        "b": "Correct. SQL statements define the result set, leaving the execution plan to the database engine.",
+        "c": "Incorrect. SQL is interpreted, not compiled.",
+        "d": "Incorrect. SQL is a standard language used across many database systems."
+      },
+      "hints": [
+        "In SQL, you specify the criteria for the data, not the steps to fetch it.",
+        "Contrast this with languages like Python where you loop over rows."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "SQL is declarative because you state the desired result (e.g., `SELECT ... WHERE`) and the database determines the most efficient way to retrieve it. Procedural languages require step‑by‑step instructions.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_044",
+      "concept_id": "concept_053",
+      "concept_name": "INNER JOIN",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does an `INNER JOIN` return when joining two tables?",
+      "options": {
+        "a": "All rows from both tables, regardless of matches.",
+        "b": "Only rows where the join condition is true in both tables.",
+        "c": "All rows from the left table, plus matching rows from the right.",
+        "d": "Every possible combination of rows from both tables."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. That is a `FULL OUTER JOIN`.",
+        "b": "Correct. `INNER JOIN` returns only the rows with matching values in both tables.",
+        "c": "Incorrect. That is a `LEFT JOIN`.",
+        "d": "Incorrect. That is a `CROSS JOIN`."
+      },
+      "hints": [
+        "The word 'inner' suggests only the overlapping parts of two sets.",
+        "Rows that don't satisfy the `ON` condition are excluded."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An `INNER JOIN` combines rows from two tables where the join condition evaluates to true. Rows without a match in the other table are omitted.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_045",
+      "concept_id": "concept_054",
+      "concept_name": "ON clause (SQL JOIN)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which `ON` clause correctly matches the `CustomerID` columns of the `Orders` and `Customers` tables?",
+      "options": {
+        "a": "ON Orders.CustomerID == Customers.CustomerID",
+        "b": "ON Orders.CustomerID = Customers.CustomerID",
+        "c": "ON Orders.CustomerID EQUALS Customers.CustomerID",
+        "d": "ON Orders.CustomerID IS Customers.CustomerID"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Incorrect. SQL uses a single `=` for equality, not `==`.",
+        "b": "Correct. The `ON` clause uses a single equals sign for comparisons.",
+        "c": "Incorrect. `EQUALS` is not a valid SQL operator.",
+        "d": "Incorrect. `IS` is used for `NULL` comparisons, not general equality."
+      },
+      "hints": [
+        "SQL's equality operator is different from Python's.",
+        "The keyword `IS` has a special, limited use in SQL."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In SQL, a single `=` performs equality comparison. Using `==` (Python‑style) or other operators would be a syntax error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    }
+  ]
+}

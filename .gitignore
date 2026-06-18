@@ -71,21 +71,13 @@ desktop.ini
 *.swo
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# PDFs and datasets (too large for git)
-# Keep folder structure, ignore file content
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-content/**/*.pdf
-content/**/*.csv
-content/**/*.json
-!content/**/track.json
-!content/**/README.md
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Temp files
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 tmp/
 temp/
 *.tmp
+/tmp/dc_challenge_*.py
+challenge_verification_report.md
 
 # Python virtual environment
 venv/

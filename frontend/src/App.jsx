@@ -54,8 +54,18 @@ export default function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [authState, setAuthState] = useState('login') // 'login' or 'signup'
+  
+  const [sidebarWidth, setSidebarWidth] = useState(() => {
+    return parseInt(localStorage.getItem('sidebarWidth')) || 240
+  })
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--sidebar-width', `${sidebarWidth}px`)
+    localStorage.setItem('sidebarWidth', sidebarWidth)
+  }, [sidebarWidth])
 
   const checkSession = async () => {
+    // ... rest of checkSession ...
     try {
       const res = await fetch('/api/auth/session')
       const data = await res.json()
@@ -138,9 +148,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      <Sidebar user={user} onLogout={handleLogout} />
+      <Sidebar user={user} onLogout={handleLogout} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} />
       <TopBar title={title} />
-      <main className="ml-16 md:ml-[240px] transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-8 pt-[88px]">
+      <main 
+        className="transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-8 pt-[88px]"
+        style={{ marginLeft: 'var(--sidebar-width)' }}
+      >
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/courses" element={<Tracks />} />

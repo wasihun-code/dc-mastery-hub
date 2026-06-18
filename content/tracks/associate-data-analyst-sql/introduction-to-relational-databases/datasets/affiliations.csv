@@ -1,0 +1,7 @@
+professor_id,organization_id,role
+1,ORG1,Researcher
+1,ORG2,Advisor
+2,ORG3,Professor
+3,ORG3,Consultant
+4,ORG4,Fellow
+5,ORG1,Researcher

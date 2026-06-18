@@ -1,3 +1,4 @@
+import config from '../config.js'
 import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
@@ -15,17 +16,13 @@ export function extractRawText(courseSlug) {
   
   const track = db.prepare('SELECT * FROM tracks WHERE id = ?').get(course.track_id)
 
-  const contentFolder = process.env.CONTENT_FOLDER 
-    ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-        ? process.env.CONTENT_FOLDER 
-        : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-    : path.resolve(__dirname, '../../content')
+  const contentFolder = config.CONTENT_PATH
     
   const courseFolder = path.join(contentFolder, 'tracks', track.slug, courseSlug)
   const slidesPdf = path.join(courseFolder, courseSlug + '.pdf')
   const glossaryPdf = path.join(courseFolder, courseSlug + '-glossary.pdf')
   
-  let pythonExe = process.env.PYTHON_EXECUTABLE || 'python3'
+  let pythonExe = config.PYTHON_PATH
   if (pythonExe.startsWith('.')) {
     pythonExe = path.resolve(process.cwd(), pythonExe)
   }

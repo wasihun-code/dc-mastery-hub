@@ -1,0 +1,1247 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_007",
+    "concept_name": "String data type",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Create a string variable named `ingredient_name` that stores the value 'pasta'.",
+    "code_template": "ingredient_name = \"_____\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pasta",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pasta", "2", "True", "[1,2,3]"],
+    "per_tile_feedback": {
+      "pasta": "Correct! 'pasta' is a string literal enclosed in quotes.",
+      "2": "That would create an integer, not a string. Strings need quotes.",
+      "True": "True is a Boolean, not a string. Without quotes it's not 'pasta'.",
+      "[1,2,3]": "That would create a list, not a string with the value 'pasta'."
+    },
+    "hints": [
+      "Strings are sequences of characters inside quotes.",
+      "The variable should hold the exact word that names the ingredient."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A string literal is created by surrounding text with quotes. Here we use double quotes, and 'pasta' is the desired value.",
+    "common_mistake_warning": "⚠️ Forgetting quotes would make Python think 'pasta' is a variable name."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_008",
+    "concept_name": "Integer data type",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Create an integer variable named `ingredient_quantity` with the value 2.",
+    "code_template": "ingredient_quantity = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "\"2\"", "2.0", "True"],
+    "per_tile_feedback": {
+      "2": "Correct! 2 is an integer because it's a whole number without quotes.",
+      "\"2\"": "Quotes make '2' a string, not an integer.",
+      "2.0": "2.0 is a float (it has a decimal point), not an integer.",
+      "True": "True is a Boolean, not the integer 2."
+    },
+    "hints": [
+      "Integers are whole numbers with no decimal point.",
+      "No quotation marks are needed for numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "An integer literal is written as a plain number. 2 without quotes creates an integer.",
+    "common_mistake_warning": "⚠️ Adding quotes around an integer makes it a string."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_004",
+    "concept_name": "print function",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Use the built-in print function to display the text 'Hello, world!'.",
+    "code_template": "_____(\"Hello, world!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "print",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["print", "type", "len", "str"],
+    "per_tile_feedback": {
+      "print": "Correct! print() is the built-in function for console output.",
+      "type": "type() returns the data type, it doesn't print the given text.",
+      "len": "len() returns the length of an object, not the output.",
+      "str": "str() converts to a string, it doesn't print anything."
+    },
+    "hints": [
+      "Which function do you use to display something on the screen?",
+      "It's the first function most Python learners encounter."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The print function is the standard way to output text or values to the console.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_015",
+    "concept_name": "type function",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Check the data type of the variable `ingredient_name` and display it using print.",
+    "code_template": "print(_____(ingredient_name))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "type",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["type", "print", "class", "str"],
+    "per_tile_feedback": {
+      "type": "Correct! type() returns the type of its argument.",
+      "print": "print() would try to print the function object, not the type.",
+      "class": "'class' is not a built-in function; type() is the correct one.",
+      "str": "str() converts to string, but won't tell you the type."
+    },
+    "hints": [
+      "You need a function that inspects what kind of object a variable is.",
+      "It's the function that returns something like <class 'str'>."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The type() function reveals the data type of its argument, useful for debugging.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_021",
+    "concept_name": ".replace() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Replace the substring 'George' with 'John' in the string `welcome_message`.",
+    "code_template": "welcome_message = welcome_message._____(\"George\", \"John\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "replace",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["replace", "substitute", "change", "swap"],
+    "per_tile_feedback": {
+      "replace": "Correct! .replace() is the string method for replacing substrings.",
+      "substitute": "There is no .substitute() method on strings.",
+      "change": "No built-in .change() method exists.",
+      "swap": ".swapcase() swaps case, not replace."
+    },
+    "hints": [
+      "String objects have a method starting with 'r' for this purpose.",
+      "You want to exchange one word for another."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The .replace() method returns a new string with replacements. It requires reassignment to update the variable.",
+    "common_mistake_warning": "⚠️ Forgetting to reassign the result of .replace() leaves the original string unchanged."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_022",
+    "concept_name": ".lower() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Convert the string `ingredient_name` to all lowercase letters and store it back in the same variable.",
+    "code_template": "ingredient_name = ingredient_name._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lower",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["lower", "tolower", "lowercase", "downcase"],
+    "per_tile_feedback": {
+      "lower": "Correct! .lower() returns the lowercased copy.",
+      "tolower": "No such method exists; it's not Python.",
+      "lowercase": "Python uses .lower(), not .lowercase().",
+      "downcase": "Not a valid method."
+    },
+    "hints": [
+      "Python strings have a method that starts with 'l' to convert case.",
+      "Look for the method that does the opposite of .upper()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The .lower() method creates a new string with all characters lowercase. Reassignment updates the variable.",
+    "common_mistake_warning": "⚠️ Strings are immutable – .lower() returns a new string; without reassignment the original stays unchanged."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_023",
+    "concept_name": ".upper() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Convert the string `ingredient_name` to all uppercase letters and reassign it.",
+    "code_template": "ingredient_name = ingredient_name._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "upper",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["upper", "toupper", "uppercase", "upcase"],
+    "per_tile_feedback": {
+      "upper": "Correct! .upper() returns the uppercased copy.",
+      "toupper": "No such method.",
+      "uppercase": "Python uses .upper(), not .uppercase().",
+      "upcase": "Not a valid method."
+    },
+    "hints": [
+      "The method name is the opposite of .lower().",
+      "It's called .upper()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".upper() returns a new string in uppercase. Reassignment stores the result.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_031",
+    "concept_name": ".values() method (dict)",
+    "chapter": 6,
+    "difficulty": "medium",
+    "task_description": "Print all the values stored in the dictionary `recipe`.",
+    "code_template": "print(recipe._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "values",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["values", "items", "keys", "list"],
+    "per_tile_feedback": {
+      "values": "Correct! .values() returns a view of all dictionary values.",
+      "items": ".items() returns key-value pairs, not just values.",
+      "keys": ".keys() returns the dictionary keys, not the values.",
+      "list": "list is a built-in function, not a dict method."
+    },
+    "hints": [
+      "You want the data that appears on the right side of the colons in the dictionary.",
+      "The method name describes what you are retrieving."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The .values() method gives access to all values in the dictionary, ideal for iterating.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_032",
+    "concept_name": ".keys() method (dict)",
+    "chapter": 6,
+    "difficulty": "medium",
+    "task_description": "Print all the keys from the dictionary `recipe`.",
+    "code_template": "print(recipe._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["keys", "values", "items", "get"],
+    "per_tile_feedback": {
+      "keys": "Correct! .keys() returns a view of all dictionary keys.",
+      "values": ".values() returns the values, not the keys.",
+      "items": ".items() returns key-value pairs, not just keys.",
+      "get": ".get() retrieves a single value by key, not all keys."
+    },
+    "hints": [
+      "You want the identifiers on the left side of the colons.",
+      "The method name is the plural of 'key'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".keys() provides the dictionary's keys, useful for membership checks and iteration.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_033",
+    "concept_name": ".items() method (dict)",
+    "chapter": 6,
+    "difficulty": "medium",
+    "task_description": "Print all key-value pairs from the dictionary `recipe`.",
+    "code_template": "print(recipe._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "items",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["items", "entries", "pairs", "couples"],
+    "per_tile_feedback": {
+      "items": "Correct! .items() returns a view of key-value tuples.",
+      "entries": "There is no .entries() method on dict.",
+      "pairs": "No .pairs() method exists.",
+      "couples": "Not a valid method."
+    },
+    "hints": [
+      "The method that returns key-value pairs shares its name with a word used for 'objects' or 'elements'.",
+      "It's the same method used in for loops to unpack both key and value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".items() is perfect for iterating over both keys and values simultaneously.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_038",
+    "concept_name": "Convert to set",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Convert the list `ingredients_list` to a set to obtain unique ingredients.",
+    "code_template": "unique_ingredients = _____(ingredients_list)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "set",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["set", "list", "tuple", "dict"],
+    "per_tile_feedback": {
+      "set": "Correct! set() creates a set, removing duplicates.",
+      "list": "list() would create another list, not a set.",
+      "tuple": "tuple() would create a tuple, not a set.",
+      "dict": "dict() creates a dictionary, not a set."
+    },
+    "hints": [
+      "You need a data type that automatically eliminates duplicates.",
+      "It's a built-in function named after the collection that stores unique values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The set() function transforms any iterable into a set, discarding repeated elements.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_040",
+    "concept_name": "sorted() function",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Print the set `ingredients` in sorted order.",
+    "code_template": "print(_____(ingredients))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sorted",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sorted", "sort", "order", "arrange"],
+    "per_tile_feedback": {
+      "sorted": "Correct! sorted() returns a new sorted list.",
+      "sort": "list.sort() sorts in place and returns None; it won't work on a set.",
+      "order": "No built-in function called order().",
+      "arrange": "Not a Python function."
+    },
+    "hints": [
+      "You need a built-in function that returns a sorted list from any iterable.",
+      "It's not a method, but a function you call with the collection as argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "sorted() works on any iterable and always returns a sorted list, useful for presenting set elements in order.",
+    "common_mistake_warning": "⚠️ sorted() returns a list, not a set – the output is a list."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_005",
+    "concept_name": "Code comment",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Add a comment that says 'This is a comment' before the print statement.",
+    "code_template": "_____ This is a comment\nprint(\"Hello, world!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "#",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["#", "//", "/*", "--"],
+    "per_tile_feedback": {
+      "#": "Correct! Python comments start with a hash symbol.",
+      "//": "// is used in languages like Java or C++; it's invalid in Python.",
+      "/*": "/* starts a block comment in some languages, not Python.",
+      "--": "Not a comment delimiter in Python."
+    },
+    "hints": [
+      "Python uses a single character to begin a comment line.",
+      "It's the same symbol used on social media for hashtags."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The # symbol tells Python to ignore the rest of the line, used for comments.",
+    "common_mistake_warning": "⚠️ Using // or /* for comments is a common cross‑language mistake."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_006",
+    "concept_name": "Variable",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Create a variable named `ingredient_name` with the value 'tomatoes'.",
+    "code_template": "_____ = \"tomatoes\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ingredient_name",
+        "answer_alternatives": ["ingredient_name"]
+      }
+    ],
+    "word_bank": ["ingredient_name", "ingredientName", "ingredient name", "var"],
+    "per_tile_feedback": {
+      "ingredient_name": "Correct! snake_case with underscore is the Python convention.",
+      "ingredientName": "camelCase is not standard in Python and may confuse readers.",
+      "ingredient name": "Spaces are not allowed in variable names.",
+      "var": "var is not the name specified; we need a descriptive name."
+    },
+    "hints": [
+      "Variable names in Python should be lowercase with underscores between words.",
+      "The name should describe what it holds, like an ingredient's name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Choosing meaningful, PEP 8 compliant names like ingredient_name improves readability.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_010",
+    "concept_name": "Printing variables",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "After assigning 'tomatoes' to `ingredient_name`, print its value.",
+    "code_template": "ingredient_name = \"tomatoes\"\nprint(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ingredient_name",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ingredient_name", "\"ingredient_name\"", "ingredientName", "name"],
+    "per_tile_feedback": {
+      "ingredient_name": "Correct! Pass the variable without quotes to print its value.",
+      "\"ingredient_name\"": "That would print the literal text 'ingredient_name', not the stored value.",
+      "ingredientName": "That variable is not defined; we used ingredient_name.",
+      "name": "No variable named 'name' exists."
+    },
+    "hints": [
+      "Use the exact variable name you defined.",
+      "Avoid quotes around the variable name inside print."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Printing a variable without quotes displays the value it holds.",
+    "common_mistake_warning": "⚠️ Putting quotes around the variable name prints the name, not the value."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_011",
+    "concept_name": "Updating variables",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Update `ingredient_quantity` from 1 to 3 and then print it.",
+    "code_template": "ingredient_quantity = 1\ningredient_quantity = _____\nprint(ingredient_quantity)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "3",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["3", "\"3\"", "3.0", "True"],
+    "per_tile_feedback": {
+      "3": "Correct! The integer 3 replaces the previous value.",
+      "\"3\"": "A string is not an integer; type matters.",
+      "3.0": "That's a float, not the integer 3.",
+      "True": "True is not the number 3."
+    },
+    "hints": [
+      "You need a whole number, not a string.",
+      "The new value should be 3."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Reassignment overwrites the old value; ingredient_quantity now holds 3.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_014",
+    "concept_name": "Boolean data type",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Set the variable `is_in_stock` to the Boolean value True.",
+    "code_template": "is_in_stock = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "True",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["True", "False", "true", "\"True\""],
+    "per_tile_feedback": {
+      "True": "Correct! True is a Boolean constant in Python.",
+      "False": "That would set it to False, not True.",
+      "true": "Python is case-sensitive; true is not defined.",
+      "\"True\"": "A string, not a Boolean."
+    },
+    "hints": [
+      "Booleans in Python are capitalised: True and False.",
+      "No quotes are needed around the Boolean literal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "True is a reserved keyword representing truth, no quotes needed.",
+    "common_mistake_warning": "⚠️ Using lowercase true/false will raise a NameError."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_018",
+    "concept_name": "Single and double quotes",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Assign the string containing the apostrophe `Chef's special seasoning` to `ingredient_name` using double quotes.",
+    "code_template": "ingredient_name = _____Chef's special seasoning_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"",
+        "answer_alternatives": ["\""]
+      },
+      {
+        "position": 2,
+        "answer": "\"",
+        "answer_alternatives": ["\""]
+      }
+    ],
+    "word_bank": ["\"", "'", "\"\"\"", "'''"],
+    "per_tile_feedback": {
+      "\"": "Correct! Double quotes allow apostrophes without escaping.",
+      "'": "Single quotes would conflict with the apostrophe, causing a SyntaxError.",
+      "\"\"\"": "Triple quotes are for multi‑line strings, not needed here.",
+      "'''": "Triple single quotes are also multi‑line, not needed."
+    },
+    "hints": [
+      "When a string contains a single quote, you can wrap it with a different quote type.",
+      "Choose the quote that doesn't appear inside the text."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using double quotes to wrap a string containing a single quote prevents premature termination of the string.",
+    "common_mistake_warning": "⚠️ Mismatched quotes or unescaped quotes cause SyntaxError."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_019",
+    "concept_name": "Multi-line strings",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create a multi-line string for recipe instructions and assign it to `recipe_instructions`.",
+    "code_template": "recipe_instructions = _____1. Bring a large pot of salted water to boil and cook pasta\n2. Heat olive oil in a pan and sauté minced garlic until fragrant_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"\"\"",
+        "answer_alternatives": ["\"\"\""]
+      },
+      {
+        "position": 2,
+        "answer": "\"\"\"",
+        "answer_alternatives": ["\"\"\""]
+      }
+    ],
+    "word_bank": ["\"\"\"", "'''", "\"", "'"],
+    "per_tile_feedback": {
+      "\"\"\"": "Correct! Triple double quotes enclose multi‑line strings.",
+      "'''": "Triple single quotes also work, but the example uses double quotes for consistency.",
+      "\"": "Single quotes don't span multiple lines.",
+      "'": "Single quotes can't handle multiple lines."
+    },
+    "hints": [
+      "Multi‑line strings are enclosed with three quote characters.",
+      "The opening and closing markers must be identical."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Triple‑quoted strings preserve line breaks exactly as written.",
+    "common_mistake_warning": "⚠️ Indentation inside triple quotes adds spaces to the string."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_024",
+    "concept_name": "List",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Create a list containing the strings 'pasta', 'tomatoes', and 'garlic'.",
+    "code_template": "ingredients = _____\"pasta\", \"tomatoes\", \"garlic\"_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[",
+        "answer_alternatives": ["["]
+      },
+      {
+        "position": 2,
+        "answer": "]",
+        "answer_alternatives": ["]"]
+      }
+    ],
+    "word_bank": ["[", "(", "{", "]"],
+    "per_tile_feedback": {
+      "[": "Correct! Lists use square brackets.",
+      "(": "Parentheses create a tuple, not a list.",
+      "{": "Curly braces create a set or dictionary, not a list.",
+      "]": "You need both opening and closing brackets; this is the closing one."
+    },
+    "hints": [
+      "Which pair of brackets defines a list?",
+      "Lists are created with square brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A list is a mutable, ordered collection defined with [ ].",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_025",
+    "concept_name": "List indexing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Access the first element of the list `ingredients`.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\"]\nprint(ingredients[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0",
+        "answer_alternatives": ["0"]
+      }
+    ],
+    "word_bank": ["0", "1", "-1", "first"],
+    "per_tile_feedback": {
+      "0": "Correct! Indexing starts at 0.",
+      "1": "Index 1 would give the second element ('tomatoes').",
+      "-1": "-1 gives the last element ('garlic').",
+      "first": "Must be an integer index, not a string."
+    },
+    "hints": [
+      "Python uses zero-based indexing.",
+      "What index does the first element have?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "List indices begin at 0; ingredients[0] returns 'pasta'.",
+    "common_mistake_warning": "⚠️ Forgetting that indices start at 0 is a classic off‑by‑one error."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_026",
+    "concept_name": "Negative indexing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Access the last element of `ingredients` using negative indexing.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\"]\nprint(ingredients[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-1",
+        "answer_alternatives": ["-1"]
+      }
+    ],
+    "word_bank": ["-1", "0", "3", "last"],
+    "per_tile_feedback": {
+      "-1": "Correct! -1 always refers to the last item.",
+      "0": "0 gives the first item.",
+      "3": "Index 3 is out of range (only 0‑2 exist).",
+      "last": "Must be an integer, not a word."
+    },
+    "hints": [
+      "Negative indices count from the end.",
+      "-1 is the index for the final element."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Negative indexing simplifies access to elements relative to the end of a sequence.",
+    "common_mistake_warning": "⚠️ Using -0 would give the first element, not the last."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_027",
+    "concept_name": "List slicing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Extract a sub‑list from `ingredients` containing elements at index 1 up to but not including index 3.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\nprint(ingredients[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1:3",
+        "answer_alternatives": ["1:3"]
+      }
+    ],
+    "word_bank": ["1:3", "0:2", "1:2", "2:4"],
+    "per_tile_feedback": {
+      "1:3": "Correct! Slices from index 1 to 3 (exclusive) gives ['tomatoes', 'garlic'].",
+      "0:2": "That would give first two elements.",
+      "1:2": "Only index 1, missing index 2.",
+      "2:4": "Indices 2 and 3, not what was asked."
+    },
+    "hints": [
+      "The start index is inclusive, the stop index is exclusive.",
+      "You need elements at positions 1 and 2."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slicing [1:3] includes indices 1 and 2, excluding 3.",
+    "common_mistake_warning": "⚠️ Forgetting that the stop index is exclusive leads to off‑by‑one errors."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_029",
+    "concept_name": "Dictionary",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Create a dictionary with key 'pasta' (value 500) and key 'tomatoes' (value 400).",
+    "code_template": "recipe = _____\"pasta\"_____ 500, \"tomatoes\": 400}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{",
+        "answer_alternatives": ["{"]
+      },
+      {
+        "position": 2,
+        "answer": ":",
+        "answer_alternatives": [":"]
+      }
+    ],
+    "word_bank": ["{", ":", "=", "["],
+    "per_tile_feedback": {
+      "{": "Correct! Dictionaries start with a curly brace.",
+      ":": "Correct! Keys and values are separated by a colon.",
+      "=": "= is used for assignment, not inside dict literals.",
+      "[": "Square brackets are for lists, not dictionaries."
+    },
+    "hints": [
+      "Dictionaries use curly braces and colons between keys and values.",
+      "Look at the syntax of the second key‑value pair for a hint."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The dictionary literal starts with { and each key‑value pair uses a colon.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_030",
+    "concept_name": "Access dictionary by key",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Print the value associated with the key 'pasta' from the dictionary `recipe`.",
+    "code_template": "recipe = {\"pasta\": 500, \"tomatoes\": 400}\nprint(recipe[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"pasta\"",
+        "answer_alternatives": ["\"pasta\"", "'pasta'"]
+      }
+    ],
+    "word_bank": ["\"pasta\"", "pasta", "'pasta'", "key"],
+    "per_tile_feedback": {
+      "\"pasta\"": "Correct! The key must be a string enclosed in quotes.",
+      "pasta": "Without quotes, Python looks for a variable named pasta, causing a NameError.",
+      "'pasta'": "Single quotes also work; essentially the same string.",
+      "key": "Not a valid key; the key must be the actual string."
+    },
+    "hints": [
+      "Dictionary keys must be given exactly as they appear.",
+      "String keys need quotation marks."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Square brackets with the exact key retrieve the corresponding value.",
+    "common_mistake_warning": "⚠️ Forgetting quotes around string keys leads to NameError."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_034",
+    "concept_name": "Add key-value pair to dict",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Add a new ingredient 'parmesan' with quantity 50 to the dictionary `recipe`.",
+    "code_template": "recipe = {\"pasta\": 500}\nrecipe[_____] = 50",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"parmesan\"",
+        "answer_alternatives": ["\"parmesan\"", "'parmesan'"]
+      }
+    ],
+    "word_bank": ["\"parmesan\"", "parmesan", "'parmesan'", "new_key"],
+    "per_tile_feedback": {
+      "\"parmesan\"": "Correct! Assigning to a new key adds it to the dict.",
+      "parmesan": "Without quotes, it's a variable, causing a NameError.",
+      "'parmesan'": "Also correct; the key is a string.",
+      "new_key": "This is a literal string, not the key 'parmesan'."
+    },
+    "hints": [
+      "Use square brackets with the new key and assign a value.",
+      "The key must be the exact string 'parmesan'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assignment to a non‑existent key creates a new entry in the dictionary.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_035",
+    "concept_name": "Update dictionary value",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Update the value of the key 'pasta' to 1000 in the dictionary `recipe`.",
+    "code_template": "recipe = {\"pasta\": 500}\nrecipe[_____] = 1000",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"pasta\"",
+        "answer_alternatives": ["\"pasta\"", "'pasta'"]
+      }
+    ],
+    "word_bank": ["\"pasta\"", "pasta", "'pasta'", "500"],
+    "per_tile_feedback": {
+      "\"pasta\"": "Correct! Assigning to an existing key overwrites the value.",
+      "pasta": "Without quotes, it's treated as a variable name.",
+      "'pasta'": "Single quotes also work.",
+      "500": "500 is the old value, not the key."
+    },
+    "hints": [
+      "Use the same key you want to modify.",
+      "The key is a string, not the current value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Reassigning a value to an existing key updates it.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_036",
+    "concept_name": "Duplicate keys in dictionary",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Complete the dictionary so that the key 'garlic' appears twice (the last value wins).",
+    "code_template": "recipe = {\"pasta\": 500, \"garlic\": 5, _____: 15}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"garlic\"",
+        "answer_alternatives": ["\"garlic\"", "'garlic'"]
+      }
+    ],
+    "word_bank": ["\"garlic\"", "garlic", "'garlic'", "\"parmesan\""],
+    "per_tile_feedback": {
+      "\"garlic\"": "Correct! Duplicate key; the last value (15) will overwrite 5.",
+      "garlic": "Without quotes, causes a NameError.",
+      "'garlic'": "Also correct.",
+      "\"parmesan\"": "That would add a different key, not a duplicate."
+    },
+    "hints": [
+      "Python dictionaries do not allow duplicate keys; the later value overwrites.",
+      "The key must be exactly the same as the earlier one."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Duplicate keys silently keep the last assigned value. Here recipe['garlic'] will be 15.",
+    "common_mistake_warning": "⚠️ Duplicate keys cause silent overwrite, potentially losing data."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_037",
+    "concept_name": "Set",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Create a set with the ingredients 'pasta', 'tomatoes', and 'pasta' (duplicates will be removed).",
+    "code_template": "ingredients = _____\"pasta\", \"tomatoes\", \"pasta\"_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{",
+        "answer_alternatives": ["{"]
+      },
+      {
+        "position": 2,
+        "answer": "}",
+        "answer_alternatives": ["}"]
+      }
+    ],
+    "word_bank": ["{", "(", "[", "}"],
+    "per_tile_feedback": {
+      "{": "Correct! Sets use curly braces (without colons).",
+      "(": "Parentheses create a tuple.",
+      "[": "Square brackets create a list.",
+      "}": "The closing brace completes the set."
+    },
+    "hints": [
+      "Sets are defined with curly brackets.",
+      "No colons are used, unlike dictionaries."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A set literal uses curly braces and automatically discards duplicate values.",
+    "common_mistake_warning": "⚠️ Forgetting that {} alone creates an empty dict, not an empty set."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_041",
+    "concept_name": "Tuple",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Create a tuple of serving sizes: 1, 2, 4.",
+    "code_template": "serving_sizes = _____1, 2, 4_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "(",
+        "answer_alternatives": ["("]
+      },
+      {
+        "position": 2,
+        "answer": ")",
+        "answer_alternatives": [")"]
+      }
+    ],
+    "word_bank": ["(", "[", "{", ")"],
+    "per_tile_feedback": {
+      "(": "Correct! Tuples are defined with parentheses.",
+      "[": "Square brackets create a list.",
+      "{": "Curly braces create a set or dict.",
+      ")": "The closing parenthesis."
+    },
+    "hints": [
+      "Tuples use round brackets.",
+      "They are immutable sequences."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuples are created by enclosing elements in parentheses.",
+    "common_mistake_warning": "⚠️ A single‑element tuple needs a trailing comma: (1,)."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_042",
+    "concept_name": "Tuple indexing",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Access the element at index 1 from the tuple `serving_sizes`.",
+    "code_template": "serving_sizes = (1, 2, 4)\nprint(serving_sizes[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1", "0", "2", "-1"],
+    "per_tile_feedback": {
+      "1": "Correct! Index 1 gives the second element (2).",
+      "0": "0 gives the first element (1).",
+      "2": "2 gives the third element (4).",
+      "-1": "-1 gives the last element (4)."
+    },
+    "hints": [
+      "Tuple indexing works the same as list indexing.",
+      "The second element has index 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuples are indexed identically to lists, starting at 0.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_047",
+    "concept_name": "Else statement",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Add an else clause that prints 'Not enough pasta.' when the if condition is false.",
+    "code_template": "if pasta_quantity >= required_quantity:\n    print(\"Enough pasta!\")\n_____:\n    print(\"Not enough pasta.\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "else",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["else", "elif", "else if", "otherwise"],
+    "per_tile_feedback": {
+      "else": "Correct! else catches all remaining cases.",
+      "elif": "elif requires a condition; else doesn't.",
+      "else if": "Python uses elif for 'else if'.",
+      "otherwise": "Not a Python keyword."
+    },
+    "hints": [
+      "The final catch‑all clause in an if‑chain.",
+      "It's spelled e‑l‑s‑e."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The else clause runs when no preceding if or elif condition was True.",
+    "common_mistake_warning": "⚠️ else does not take a condition; writing 'else condition:' is a syntax error."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_009",
+    "concept_name": "Variable assignment",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Assign the string 'tomatoes' to the variable `ingredient_name`.",
+    "code_template": "ingredient_name _____ \"tomatoes\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=", "==", ":=", "is"],
+    "per_tile_feedback": {
+      "=": "Correct! A single equals sign is the assignment operator.",
+      "==": "Double equals is comparison, not assignment – it would not store the value.",
+      ":=": "Walrus operator assigns and returns, but not plain assignment syntax here.",
+      "is": "'is' tests identity, not assignment."
+    },
+    "hints": [
+      "Which operator is used to store a value into a variable?",
+      "It's a single character."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The assignment operator = binds a value to a variable name.",
+    "common_mistake_warning": "⚠️ Confusing = (assignment) with == (equality) is a classic mistake."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_016",
+    "concept_name": "Arithmetic operators",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Perform addition: add 2 and 1.5 and print the result.",
+    "code_template": "print(2 _____ 1.5)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "/"],
+    "per_tile_feedback": {
+      "+": "Correct! + adds numbers.",
+      "-": "Subtraction would give 0.5, not addition.",
+      "*": "Multiplication gives 3.0, but the task is addition.",
+      "/": "Division gives about 1.333, not addition."
+    },
+    "hints": [
+      "You need the symbol for addition.",
+      "It's the same as in basic arithmetic."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The + operator performs arithmetic addition; 2 + 1.5 equals 3.5.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_017",
+    "concept_name": "String operators",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Concatenate the strings 'Hi' and 'There' and print the result.",
+    "code_template": "print(\"Hi\" _____ \"There\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "&"],
+    "per_tile_feedback": {
+      "+": "Correct! The + operator concatenates strings.",
+      "-": "Subtraction is not defined for strings.",
+      "*": "Multiplication repeats strings, not concatenation.",
+      "&": "& is bitwise AND, not string concatenation."
+    },
+    "hints": [
+      "Which operator joins two strings end‑to‑end?",
+      "It's the same symbol used for addition of numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When + is used with strings, it concatenates them. So 'Hi' + 'There' gives 'HiThere'.",
+    "common_mistake_warning": "⚠️ Forgetting that + doesn't add spaces – you must include them if needed."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_028",
+    "concept_name": "Step slicing",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Slice the list `ingredients` to get every second element starting from the beginning.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\nprint(ingredients[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "::2",
+        "answer_alternatives": ["::2"]
+      }
+    ],
+    "word_bank": ["::2", "0:2", "1::2", ":2"],
+    "per_tile_feedback": {
+      "::2": "Correct! ::2 slices the whole list with step 2, taking every second element.",
+      "0:2": "That slices indices 0 to 1, not every second.",
+      "1::2": "Starts at index 1 with step 2, missing the first element.",
+      ":2": "That is a slice up to index 2, not every second."
+    },
+    "hints": [
+      "The third part of the slice (after the second colon) is the step.",
+      "You want step=2, starting at the very beginning."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The slice [::2] means start at 0, go to the end, and step by 2, yielding ['pasta', 'garlic'].",
+    "common_mistake_warning": "⚠️ Forgetting the second colon or using the wrong step value leads to unexpected slices."
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_043",
+    "concept_name": "Comparison operators",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Check whether 2 is equal to 3 using a comparison operator.",
+    "code_template": "print(2 _____ 3)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "==",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["==", "=", "!=", "is"],
+    "per_tile_feedback": {
+      "==": "Correct! == tests equality, returning False.",
+      "=": "Assignment is not allowed in print; it would be a SyntaxError.",
+      "!=": "!= checks inequality, not equality.",
+      "is": "'is' tests identity, not value equality – though here it might give True, it's not the intended comparison."
+    },
+    "hints": [
+      "To check equality, you need two equals signs.",
+      "One equals sign is for assignment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The equality operator == compares values and returns a Boolean.",
+    "common_mistake_warning": "⚠️ Using = instead of == in comparisons is a common syntax error."
+  },
+  {
+    "id": "fitb_038",
+    "concept_id": "concept_044",
+    "concept_name": "String comparison",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Check if the string 'James' is greater than 'Brian' (lexicographic order).",
+    "code_template": "print(\"James\" _____ \"Brian\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ">",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [">", "<", ">=", "=="],
+    "per_tile_feedback": {
+      ">": "Correct! 'James' > 'Brian' is True because 'J' comes after 'B'.",
+      "<": "That would check if James is less than Brian, which is False.",
+      ">=": "That would be True, but specifically greater-than is asked.",
+      "==": "Equality would be False."
+    },
+    "hints": [
+      "Which operator tests 'greater than'?",
+      "Think about alphabetical order."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "String comparison uses Unicode order; 'J' has a higher code point than 'B', so the result is True.",
+    "common_mistake_warning": "⚠️ Lexicographic order is not based on string length."
+  },
+  {
+    "id": "fitb_039",
+    "concept_id": "concept_045",
+    "concept_name": "Conditional statement (if)",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Write an if statement that checks whether `pasta_quantity` is greater than or equal to `required_quantity`.",
+    "code_template": "_____ pasta_quantity >= required_quantity_____\n    print(\"Enough pasta!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["if", "elif", ":", ";"],
+    "per_tile_feedback": {
+      "if": "Correct! The if keyword starts a conditional block.",
+      "elif": "elif would be used after an initial if, not as the first condition.",
+      ":": "Correct! The colon is mandatory after the condition.",
+      ";": "A semicolon is not the correct syntax; Python uses a colon."
+    },
+    "hints": [
+      "The conditional keyword is three letters.",
+      "After the condition, you need a colon before the indented block."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The if statement requires the condition followed by a colon, and the indented body runs when True.",
+    "common_mistake_warning": "⚠️ Forgetting the colon after the condition causes a SyntaxError."
+  },
+  {
+    "id": "fitb_040",
+    "concept_id": "concept_049",
+    "concept_name": "For loop",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Write a for loop that iterates over the list `ingredients` and prints each element.",
+    "code_template": "_____ ingredient _____ ingredients_____\n    print(ingredient)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "in",
+        "answer_alternatives": []
+      },
+      {
+        "position": 3,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["for", "in", ":", "while"],
+    "per_tile_feedback": {
+      "for": "Correct! 'for' starts a definite loop.",
+      "in": "Correct! 'in' connects the loop variable to the iterable.",
+      ":": "Correct! The colon introduces the loop body.",
+      "while": "while is for conditional loops, not iterating over a list directly."
+    },
+    "hints": [
+      "The loop keyword for sequences is 'for'.",
+      "You need the membership word 'in' and a colon at the end."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The syntax 'for variable in iterable:' is the standard Python for loop.",
+    "common_mistake_warning": "⚠️ Forgetting the colon or misspelling 'for'/'in' causes SyntaxError."
+  }
+]

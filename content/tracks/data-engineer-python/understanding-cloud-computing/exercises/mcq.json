@@ -1,0 +1,947 @@
+{
+  "course_slug": "understanding-cloud-computing",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 31,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_004",
+      "concept_name": "Server",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "A small business needs a machine to host its internal website and respond to requests from employee browsers. Which term best describes this machine?",
+      "options": {
+        "a": "A data center",
+        "b": "A server",
+        "c": "A cloud management platform",
+        "d": "A hypervisor"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "A data center is a physical facility that houses servers, not the machine itself that provides services.",
+        "b": "Correct. A server is a computer or system that provides resources, data, or services to other computers over a network.",
+        "c": "A cloud management platform is software used to manage cloud resources; it is not the machine serving the website.",
+        "d": "A hypervisor is software that enables virtualization by splitting one physical server into multiple virtual machines."
+      },
+      "hints": [
+        "Think about the device that actually responds to client requests on a network.",
+        "This term is used for both physical machines and virtual instances that serve data."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A server is any computer or system that provides resources, data, or services to other computers over a network. In this scenario, the machine hosting the website functions as a server.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_021",
+      "concept_name": "XaaS (Anything as a Service)",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which statement best describes 'Anything as a Service' (XaaS)?",
+      "options": {
+        "a": "A specific cloud model that delivers virtual machines",
+        "b": "A synonym for serverless computing",
+        "c": "A type of disaster recovery service",
+        "d": "An umbrella term for any service delivered over the cloud"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "That describes Infrastructure as a Service (IaaS), not the general XaaS term.",
+        "b": "Serverless computing is a specific execution model; XaaS covers a much broader range of services.",
+        "c": "Disaster recovery can be offered as a service, but XaaS is the umbrella concept that includes many services.",
+        "d": "Correct. XaaS is the general term for any IT function delivered as a cloud service."
+      },
+      "hints": [
+        "XaaS stands for 'Anything as a Service' and is a high-level category.",
+        "It is not tied to a single offering like compute or storage."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "XaaS is a catch-all term that reflects the expansion of cloud services beyond the traditional IaaS, PaaS, and SaaS models. It includes any IT capability delivered via the cloud.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_001",
+      "concept_name": "Cloud computing",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "A startup plans to move its application from an on‑premises server to avoid large upfront hardware costs. Which characteristic of cloud computing directly addresses this goal?",
+      "options": {
+        "a": "Virtualization",
+        "b": "Pay‑as‑you‑go pricing",
+        "c": "Elasticity",
+        "d": "Horizontal scaling"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Virtualization improves resource efficiency but does not by itself change the pricing model to eliminate upfront costs.",
+        "b": "Correct. With pay‑as‑you‑go, the startup pays only for what it consumes, avoiding large capital expenditures.",
+        "c": "Elasticity refers to automatic scaling of resources, not directly to eliminating upfront hardware investment.",
+        "d": "Horizontal scaling adds more machines to share load; it does not remove the need for initial hardware spending."
+      },
+      "hints": [
+        "Focus on the financial model, not the technical ability to split resources.",
+        "Cloud computing offers a consumption‑based payment structure."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Pay‑as‑you‑go pricing means customers pay only for the resources they actually use, similar to an electricity bill. This eliminates the need for large upfront hardware purchases, which is a key cloud advantage.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_002",
+      "concept_name": "On-premises computing",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "A manager claims, 'Keeping our servers on‑premises is always more secure than moving to the cloud.' Which of the following best evaluates this statement?",
+      "options": {
+        "a": "True – on‑premises data centers have stronger physical controls.",
+        "b": "False – security depends on implementation; cloud can be equally or more secure with proper configuration.",
+        "c": "True – cloud providers have too many shared responsibilities.",
+        "d": "False – on‑premises infrastructure cannot be patched."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Physical controls can be strong in both environments; security is not inherently better on‑premises.",
+        "b": "Correct. Cloud security follows a shared responsibility model; with proper configuration, cloud environments can be very secure.",
+        "c": "The shared responsibility model clarifies obligations and does not automatically weaken security.",
+        "d": "On‑premises infrastructure can and must be patched; this claim is factually incorrect."
+      },
+      "hints": [
+        "Security is a process, not a feature of location.",
+        "Remember the shared responsibility model: both cloud providers and customers play a role."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The common mistake is thinking on‑premises is always more secure. In reality, security depends on how well the environment is configured and maintained. Cloud providers invest heavily in security, and customers must secure their own configurations.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_006",
+      "concept_name": "Scalability",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "How does scalability differ from elasticity?",
+      "options": {
+        "a": "Scalability is the ability to handle increased load; elasticity is the automatic scaling up or down based on demand.",
+        "b": "Scalability only refers to vertical scaling.",
+        "c": "Elasticity and scalability are synonyms.",
+        "d": "Scalability requires no configuration changes."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Scalability is the general capacity to grow; elasticity adds automatic, demand‑driven resource adjustment.",
+        "b": "Scalability includes both vertical (scale up) and horizontal (scale out) approaches.",
+        "c": "They are related but distinct: elasticity implies automatic and bidirectional scaling.",
+        "d": "Implementing scalability often requires architectural changes, such as adding load balancers for horizontal scaling."
+      },
+      "hints": [
+        "Think about whether the adjustment is manual or automatic.",
+        "Elasticity is often described as 'auto‑scaling'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Scalability is the system's ability to handle growing workloads by adding resources. Elasticity is a specific cloud capability that enables resources to be added or removed automatically in response to real‑time demand.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_011",
+      "concept_name": "Compute (cloud service)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "A developer needs to run a custom application on a virtual server in AWS. Which AWS service should they choose?",
+      "options": {
+        "a": "Amazon S3",
+        "b": "Amazon EC2",
+        "c": "Amazon RDS",
+        "d": "AWS Lambda"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Amazon S3 is an object storage service, not a compute service for running applications.",
+        "b": "Correct. Amazon EC2 provides resizable virtual servers, which is a core compute service.",
+        "c": "Amazon RDS is a managed relational database service.",
+        "d": "AWS Lambda is a serverless function service; it runs code without provisioning servers, but for a full virtual server, EC2 is the appropriate choice."
+      },
+      "hints": [
+        "Think about which service category is responsible for processing workloads.",
+        "The service name is an abbreviation of 'Elastic Compute Cloud'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Compute services are the 'brain' that process workloads. Amazon EC2 (Elastic Compute Cloud) is the primary AWS service for virtual servers, allowing users to run applications on scalable instances.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_039"
+      ]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_012",
+      "concept_name": "Storage (cloud service)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Azure Blob Storage is an example of which cloud service category?",
+      "options": {
+        "a": "Compute",
+        "b": "Storage",
+        "c": "Database",
+        "d": "Networking"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Compute services (like Azure Virtual Machines) run applications; Blob Storage saves files and data.",
+        "b": "Correct. Storage services save files and data; Azure Blob Storage is an object storage offering.",
+        "c": "Database services like Azure SQL Database manage structured data; Blob Storage handles unstructured data.",
+        "d": "Networking services connect resources; they do not store data."
+      },
+      "hints": [
+        "Look at the name: 'Storage' is a clue.",
+        "This service is comparable to Amazon S3."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Cloud storage services provide places to save files and data. Azure Blob Storage is Microsoft's object storage solution, similar to Amazon S3 and Google Cloud Storage.",
+      "common_mistake_tested": false,
+      "concepts_combined": [
+        "concept_040"
+      ]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_013",
+      "concept_name": "Database (cloud service)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which of the following is a managed relational database service offered by AWS?",
+      "options": {
+        "a": "Amazon S3",
+        "b": "Amazon EC2",
+        "c": "Amazon RDS",
+        "d": "AWS IAM"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Amazon S3 is object storage, not a database service.",
+        "b": "Amazon EC2 provides virtual servers, not a managed database.",
+        "c": "Correct. Amazon RDS (Relational Database Service) is a managed service for relational databases.",
+        "d": "AWS IAM manages identities and permissions, not databases."
+      },
+      "hints": [
+        "The acronym stands for Relational Database Service.",
+        "Managed database services reduce administrative overhead for tasks like backups and patching."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Cloud providers offer managed database services that handle maintenance tasks. Amazon RDS is a service that makes it easy to set up, operate, and scale a relational database in the cloud.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_015",
+      "concept_name": "Cloud service models",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "A company wants maximum control over the operating system and middleware while still using cloud infrastructure. Which service model should it choose?",
+      "options": {
+        "a": "Infrastructure as a Service (IaaS)",
+        "b": "Platform as a Service (PaaS)",
+        "c": "Software as a Service (SaaS)",
+        "d": "Function as a Service (FaaS)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. IaaS provides virtualized hardware; the customer manages everything above the hypervisor, including the OS and middleware.",
+        "b": "PaaS manages the OS and runtime; the customer only controls applications and data.",
+        "c": "SaaS is fully managed software; the customer has no control over the underlying infrastructure or OS.",
+        "d": "FaaS abstracts away servers entirely; the customer manages only code, not the OS."
+      },
+      "hints": [
+        "Think about the analogy: renting a car gives you full control of driving, while ride‑sharing eliminates many choices.",
+        "More control usually means more responsibility."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "IaaS offers the most control among the cloud service models because it provides virtualized computing resources, and the customer is responsible for the operating system, middleware, and applications. This is comparable to renting a car.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_018",
+      "concept_name": "Software as a Service (SaaS)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which of the following is the best example of Software as a Service (SaaS)?",
+      "options": {
+        "a": "Amazon EC2",
+        "b": "Google App Engine",
+        "c": "Gmail",
+        "d": "Azure Virtual Machines"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Amazon EC2 is Infrastructure as a Service (IaaS) – it provides virtual servers, not end‑user software.",
+        "b": "Google App Engine is a Platform as a Service (PaaS) for deploying applications.",
+        "c": "Correct. Gmail is a cloud‑delivered application managed entirely by the provider, fitting the SaaS model.",
+        "d": "Azure Virtual Machines is an IaaS offering, similar to EC2."
+      },
+      "hints": [
+        "SaaS applications are ready to use without installation or setup.",
+        "Think of the 'taking the bus' analogy – you just ride, someone else drives."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "SaaS delivers complete applications over the internet, managed entirely by the provider. Gmail is a classic example; users access it via a browser without managing any infrastructure.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_022",
+      "concept_name": "Reliability (cloud)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "A cloud provider promises high reliability. What technical mechanism most directly supports this promise?",
+      "options": {
+        "a": "Using a single, very powerful data center",
+        "b": "Replicating data across multiple data centers",
+        "c": "Offering the lowest latency network",
+        "d": "Eliminating all risk of data loss"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "A single data center is a single point of failure; high reliability requires redundancy.",
+        "b": "Correct. Replication across geographically distributed data centers ensures data remains safe even if one location fails.",
+        "c": "Low latency improves speed but does not directly ensure data durability or uptime.",
+        "d": "No provider can eliminate all risk; reliability reduces, not eliminates, the chance of data loss."
+      },
+      "hints": [
+        "Reliability is about surviving failures.",
+        "Think about what happens if one data center goes offline."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Cloud reliability is achieved through redundancy and replication. By copying data to multiple data centers, providers ensure that if one facility fails, data remains accessible and intact.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_024",
+      "concept_name": "Public cloud",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "An e‑commerce startup wants to use a cloud where infrastructure is shared among multiple tenants and accessible via the internet. Which deployment model fits?",
+      "options": {
+        "a": "Private cloud",
+        "b": "Public cloud",
+        "c": "Community cloud",
+        "d": "Hybrid cloud"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "A private cloud is dedicated to a single organization, not shared among multiple tenants.",
+        "b": "Correct. Public cloud infrastructure is shared and open for use by the general public, typically owned and managed by a provider like AWS, Azure, or GCP.",
+        "c": "A community cloud is shared by a specific group with common goals, not the general public.",
+        "d": "Hybrid cloud combines public and private environments; it is not a single model of shared infrastructure."
+      },
+      "hints": [
+        "Think about accessibility – is it open to everyone or restricted?",
+        "Shared infrastructure managed by a third‑party provider is a hallmark of this model."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Public cloud is a deployment model where services are delivered over the public internet and shared across multiple organizations. It is owned and operated by a cloud service provider.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_003",
+      "concept_name": "Pay-as-you-go pricing",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "A development team launches several test instances on a pay‑as‑you‑go plan. They finish testing but forget to terminate the instances over a long weekend. What happens?",
+      "options": {
+        "a": "They are charged for the idle resources.",
+        "b": "No charges accrue because the instances were not actively used.",
+        "c": "The cloud provider automatically detects inactivity and stops the instances for free.",
+        "d": "They are only billed for storage, not compute, during idle time."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Idle resources that are not de‑provisioned still incur costs because they remain allocated.",
+        "b": "This is a common mistake. Pay‑as‑you‑go charges for allocated resources, not just active usage.",
+        "c": "Cloud providers do not automatically stop instances based on inactivity; this must be configured.",
+        "d": "Compute instances generally incur costs for the time they exist, regardless of storage usage."
+      },
+      "hints": [
+        "Remember the electricity bill analogy – you pay for the connection even if you leave the lights off.",
+        "Think about what 'allocated' means versus 'utilized'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A frequent misunderstanding is that pay‑as‑you‑go only charges for active work. In reality, as long as a resource is provisioned, you pay for it, even if it sits idle. De‑provisioning is necessary to stop charges.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_005",
+      "concept_name": "Virtualization",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement correctly distinguishes virtualization from containerization?",
+      "options": {
+        "a": "Virtualization shares the host operating system kernel, while each container runs its own OS.",
+        "b": "Virtualization splits one physical server into multiple VMs with separate guest operating systems; containers share the host OS kernel.",
+        "c": "Containerization requires a hypervisor on every machine.",
+        "d": "Virtualization eliminates the need for any physical hardware."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is backwards. Containers share the host OS kernel; virtual machines each have their own guest OS.",
+        "b": "Correct. Virtual machines run complete operating systems on virtualized hardware, whereas containers share the underlying OS kernel.",
+        "c": "Containers do not require a hypervisor; they use the host OS's container engine.",
+        "d": "Virtualization still depends on physical servers; it does not remove the need for hardware."
+      },
+      "hints": [
+        "Think about whether the abstraction happens at the hardware level or the operating system level.",
+        "Containers are often associated with Docker; they are lighter weight than full virtual machines."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Virtualization creates multiple isolated virtual machines on a single physical server, each with its own operating system. Containerization virtualizes at the OS level, allowing multiple containers to share the same kernel while remaining isolated.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_007",
+      "concept_name": "Vertical scaling",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "An online store upgrades its single server to a much larger instance with more RAM and CPU to handle increasing traffic. What potential limitation should the team anticipate?",
+      "options": {
+        "a": "The application will automatically become distributed.",
+        "b": "The server has a finite maximum capacity, and further upgrades become extremely expensive.",
+        "c": "Vertical scaling requires rewriting the application's codebase.",
+        "d": "Adding RAM immediately improves load balancing."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Vertical scaling does not distribute the application; it remains on a single machine.",
+        "b": "Correct. Vertical scaling (scale up) is limited by physical hardware constraints and can become cost‑prohibitive at high specifications.",
+        "c": "Vertical scaling typically does not require code changes; it adds resources to the existing machine.",
+        "d": "Load balancing is needed for horizontal scaling, not vertical scaling."
+      },
+      "hints": [
+        "Think about the physical limits of a single computer.",
+        "This approach is often called 'scale up' – there's a ceiling."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Vertical scaling improves capacity by adding more resources to a single server, but every physical machine has a maximum. Eventually, costs rise dramatically and further scaling may require horizontal strategies.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_008",
+      "concept_name": "Horizontal scaling",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "A news website expects a sudden traffic surge. It adds more web servers and places a load balancer in front of them. What must be true for this to succeed?",
+      "options": {
+        "a": "The servers must share the same IP address.",
+        "b": "The application must be designed to run across multiple servers, and a load balancer distributes incoming requests.",
+        "c": "Horizontal scaling automatically distributes traffic without any additional configuration.",
+        "d": "All servers must be located in the same physical rack."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Servers need unique IP addresses; the load balancer uses its own IP to distribute traffic.",
+        "b": "Correct. Applications must support distributed execution, and a load balancer is required to share the workload.",
+        "c": "This is a common mistake. A load balancer and proper configuration are necessary; horizontal scaling is not automatically load‑balanced.",
+        "d": "Servers can be in different locations; cloud environments often span multiple availability zones."
+      },
+      "hints": [
+        "Think about how requests get distributed among multiple machines.",
+        "Not every application works in a distributed fashion without design changes."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Horizontal scaling (scaling out) adds more machines. To effectively share traffic, a load balancer is needed, and the application must be architected to run on multiple instances simultaneously, often managing state appropriately.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_010",
+      "concept_name": "High Availability (HA)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which statement about High Availability (HA) is correct?",
+      "options": {
+        "a": "HA means the system will never experience any downtime.",
+        "b": "HA is automatically guaranteed when you move to the cloud.",
+        "c": "HA only applies to database servers.",
+        "d": "HA is achieved through design patterns like redundancy and failover, aiming for minimal downtime."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "HA minimizes downtime but does not guarantee zero downtime. Failures can still occur.",
+        "b": "Moving to the cloud does not automatically provide HA; it must be architected.",
+        "c": "HA principles can be applied to any critical component, not just databases.",
+        "d": "Correct. High Availability is a design goal achieved by implementing redundancy, failover mechanisms, and careful planning."
+      },
+      "hints": [
+        "The goal is to keep services running, but absolute guarantees are unrealistic.",
+        "Think about what 'minimal downtime' implies."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "High Availability refers to designing systems that continue operating with minimal interruption. It requires intentional architecture, not just a cloud migration, and acknowledges that downtime can still happen.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_014",
+      "concept_name": "Redundancy",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "An architect duplicates critical application servers across two separate data centers. What is the primary goal of this design?",
+      "options": {
+        "a": "To eliminate all possible points of failure",
+        "b": "To improve reliability by ensuring one copy can take over if the other fails",
+        "c": "To reduce cloud storage costs",
+        "d": "To decrease network latency for all users"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Redundancy reduces risk but cannot eliminate every failure scenario (e.g., software bugs).",
+        "b": "Correct. Redundancy duplicates critical components so that if one fails, another can seamlessly continue operations.",
+        "c": "Redundancy increases resource usage, which may increase costs, not reduce them.",
+        "d": "Latency is more affected by geographic distance and network routes than by server duplication."
+      },
+      "hints": [
+        "The word 'redundant' implies having a spare.",
+        "Think about what happens if one data center goes offline."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Redundancy is the duplication of critical systems or data to improve reliability and availability. It ensures that if one component fails, another is ready to take over, reducing the impact of outages.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_016",
+      "concept_name": "Infrastructure as a Service (IaaS)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "A company runs a custom Linux application on an AWS EC2 instance. Who is responsible for applying security patches to the guest operating system?",
+      "options": {
+        "a": "AWS is fully responsible for all patching.",
+        "b": "The company is responsible for patching the OS.",
+        "c": "The hypervisor automatically patches the OS.",
+        "d": "No patching is required in a cloud environment."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is a common mistake. Under IaaS, the provider manages the physical hardware and hypervisor; the customer manages the virtual machine's OS.",
+        "b": "Correct. In the shared responsibility model for IaaS, the customer handles OS updates and security patches.",
+        "c": "The hypervisor does not manage the guest OS; patching must be done by the customer.",
+        "d": "Security patches are still necessary for any operating system, even in the cloud."
+      },
+      "hints": [
+        "Remember the 'renting a car' analogy – you maintain the car while the rental company owns the fleet.",
+        "Check where the line is drawn in the shared responsibility model."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "IaaS provides the infrastructure – servers, storage, networking – but the customer is responsible for everything above the hypervisor, including the operating system, middleware, and applications. OS patching is a customer duty.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_017",
+      "concept_name": "Platform as a Service (PaaS)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "A team chooses a PaaS like Google App Engine to speed up development. What potential risk should they be aware of?",
+      "options": {
+        "a": "They must manage the underlying virtual machines.",
+        "b": "The application may become tightly coupled to the platform's specific APIs, leading to vendor lock‑in.",
+        "c": "PaaS only supports applications written in Java.",
+        "d": "PaaS automatically scales without any configuration."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "In PaaS, the provider manages the infrastructure; the team does not handle VMs.",
+        "b": "Correct. PaaS solutions often provide proprietary services and APIs that can make it difficult to migrate to another platform later.",
+        "c": "PaaS supports many programming languages (Python, Node.js, Java, etc.), not just one.",
+        "d": "While many PaaS offerings support autoscaling, it usually requires configuration and may not be automatic for all workloads."
+      },
+      "hints": [
+        "Think about what 'platform' implies – you're building on someone else's foundation.",
+        "Consider the difficulty of moving an application built with platform‑specific services."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "PaaS provides a managed environment for developing and deploying applications, which accelerates development. However, reliance on platform‑specific features can create vendor lock‑in, making future migration challenging.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_023",
+      "concept_name": "Cloud security",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "In the AWS shared responsibility model, which security aspect is the provider's responsibility?",
+      "options": {
+        "a": "Encrypting data at rest on an EC2 instance",
+        "b": "Physical security of the data centers",
+        "c": "Managing IAM user permissions",
+        "d": "Configuring firewall rules on a virtual machine"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Data encryption at rest on an EC2 instance is the customer's responsibility, though AWS provides tools to assist.",
+        "b": "Correct. The cloud provider is responsible for the physical security of the facilities that house the hardware.",
+        "c": "Identity and access management (IAM) configuration is the customer's responsibility.",
+        "d": "Security groups and firewall rules on a VM are managed by the customer."
+      },
+      "hints": [
+        "Think about what the provider physically controls versus what the customer configures virtually.",
+        "The shared responsibility model draws a clear line between 'security of the cloud' and 'security in the cloud'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Under the shared responsibility model, cloud providers secure the physical infrastructure, including data center physical access. Customers are responsible for securing their data, applications, and access controls.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_025",
+      "concept_name": "Private cloud",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "How does a private cloud differ from traditional on‑premises infrastructure?",
+      "options": {
+        "a": "Private cloud is always cheaper.",
+        "b": "A private cloud uses virtualization and can be hosted off‑premises; on‑premises is physically located at the organization and may not use virtualization.",
+        "c": "Private cloud does not use any physical servers.",
+        "d": "On‑premises infrastructure is always more secure."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Cost depends on workload; private cloud is not inherently cheaper.",
+        "b": "Correct. Private cloud leverages virtualization and can be hosted by a third party, while on‑premises typically refers to physically local, non‑virtualized (or not cloud‑like) infrastructure.",
+        "c": "Even a private cloud runs on physical servers; virtualization abstracts them.",
+        "d": "Security depends on implementation, not just location."
+      },
+      "hints": [
+        "Think about who manages the hardware and where it is located.",
+        "Virtualization is a key technology that distinguishes cloud environments from simple local servers."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A private cloud uses virtualization to deliver on‑demand resources and can be hosted in a third‑party data center or on‑premises, but it is dedicated to a single organization. On‑premises computing often means owning and running physical servers without cloud‑style resource pooling.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_026",
+      "concept_name": "Hybrid cloud",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "An organization keeps sensitive financial data in a private cloud and runs customer‑facing applications in a public cloud, with a secure network linking them. This is an example of:",
+      "options": {
+        "a": "Multicloud",
+        "b": "Community cloud",
+        "c": "Hybrid cloud",
+        "d": "Cloud bursting"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Multicloud means using multiple cloud providers, not mixing deployment models (public and private).",
+        "b": "Community cloud is shared by a specific group with common interests, not a mix of public and private.",
+        "c": "Correct. Hybrid cloud combines public and private cloud environments, allowing workloads to move between them.",
+        "d": "Cloud bursting is a specific hybrid use case where private overflows to public, not the general architecture described."
+      },
+      "hints": [
+        "The key word is 'linking' public and private environments.",
+        "Don't confuse the number of providers with the type of deployment models."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Hybrid cloud is a mix of public and private cloud environments that interact via a network link, enabling data and services to be shared between them.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_029",
+      "concept_name": "Community cloud",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Several healthcare organizations collaborate to build a shared cloud environment that meets HIPAA compliance. Which deployment model is this?",
+      "options": {
+        "a": "Public cloud",
+        "b": "Private cloud",
+        "c": "Community cloud",
+        "d": "Hybrid cloud"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Public cloud is open to the general public, not restricted to a specific community.",
+        "b": "A private cloud is dedicated to one organization, not shared among several.",
+        "c": "Correct. A community cloud is shared by organizations with common goals or compliance requirements.",
+        "d": "Hybrid cloud combines public and private models, not necessarily sharing among multiple organizations."
+      },
+      "hints": [
+        "Think about a group with shared interests pooling resources.",
+        "The model is exclusive to that group, not open to everyone."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Community cloud infrastructure is provisioned for exclusive use by a specific community of organizations that have shared concerns (e.g., security, compliance, mission).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_032",
+      "concept_name": "Personal data (PII)",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "Under GDPR, which of the following is considered personal data?",
+      "options": {
+        "a": "Only a person's full name and national ID number",
+        "b": "An IP address associated with a user",
+        "c": "Anonymized aggregate statistics",
+        "d": "A company's registration number"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Personal data extends beyond obvious identifiers; IP addresses and location data also qualify.",
+        "b": "Correct. IP addresses can identify an individual and are explicitly considered personal data under GDPR.",
+        "c": "Truly anonymized data that cannot be linked back to an individual is not personal data.",
+        "d": "A company registration number belongs to a legal entity, not a living individual."
+      },
+      "hints": [
+        "Personal data includes anything that can identify a living person.",
+        "Think beyond obvious identifiers like name and social security number."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "GDPR defines personal data broadly. It includes any information relating to an identifiable living individual, such as name, email, IP address, and location data.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_033"
+      ]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_034",
+      "concept_name": "Cloud architect",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "During a cloud migration, which task is primarily the responsibility of a cloud architect rather than a cloud engineer?",
+      "options": {
+        "a": "Writing infrastructure‑as‑code templates",
+        "b": "Designing the overall cloud solution and selecting appropriate services",
+        "c": "Monitoring system performance after migration",
+        "d": "Migrating on‑premises databases to the cloud"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Writing infrastructure‑as‑code is typically an implementation task performed by cloud engineers or DevOps engineers.",
+        "b": "Correct. The cloud architect takes business requirements and designs the high‑level cloud infrastructure.",
+        "c": "Monitoring is an operational task often handled by cloud engineers or operations teams.",
+        "d": "Performing migrations is a hands‑on activity usually done by cloud engineers."
+      },
+      "hints": [
+        "Architects plan and design; engineers build and maintain.",
+        "Think about who creates the blueprint versus who constructs it."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A cloud architect is a solutions architect for the cloud who translates business needs into a technical design, ensuring scalability and cost optimization. Cloud engineers then build and maintain that design.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_035",
+      "concept_name": "Cloud engineer",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "A job posting for a cloud engineer includes 'designing the organization's multi‑year cloud strategy.' Why might this be inappropriate?",
+      "options": {
+        "a": "Cloud engineers only work with on‑premises infrastructure.",
+        "b": "Strategic design is typically the role of a cloud architect, not a cloud engineer.",
+        "c": "Cloud engineers cannot program.",
+        "d": "Cloud engineering is solely about cost management."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Cloud engineers work with cloud infrastructure, not exclusively on‑premises.",
+        "b": "Correct. Cloud architects are responsible for high‑level design and strategy; engineers focus on building, maintaining, and monitoring.",
+        "c": "Cloud engineers often use infrastructure as code, so programming skills are important.",
+        "d": "Cost management is one aspect, but cloud engineers handle many operational and automation tasks."
+      },
+      "hints": [
+        "Review the distinction between designing and building in cloud roles.",
+        "In smaller companies roles may overlap, but the core responsibility described fits the architect."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Cloud architects handle strategic design and planning. Cloud engineers are practitioners who build, maintain, and monitor cloud services, often migrating solutions and automating infrastructure.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_036",
+      "concept_name": "DevOps engineer",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which statement best describes the DevOps approach?",
+      "options": {
+        "a": "DevOps is a specific job title that replaces system administrators.",
+        "b": "DevOps combines software development and IT operations practices to automate infrastructure and accelerate delivery.",
+        "c": "DevOps is only about application coding.",
+        "d": "DevOps eliminates the need for any manual operations."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "DevOps is a culture and set of practices, not just a job title; it does not replace system administration but augments it with automation.",
+        "b": "Correct. DevOps integrates development and operations to improve collaboration and delivery speed through automation and infrastructure as code.",
+        "c": "DevOps involves both coding and operational tasks, not just coding.",
+        "d": "Manual operations are reduced but not eliminated; some processes still require human judgment."
+      },
+      "hints": [
+        "Think about the combination of 'development' and 'operations'.",
+        "It's about breaking down silos between teams."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "DevOps is both a cultural philosophy and a set of practices that unite software development and IT operations. DevOps engineers use infrastructure as code to automate provisioning, scaling, and recovery.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_037",
+      "concept_name": "Security engineer (cloud)",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "A cloud security engineer is tasked with protecting user data. Which activity falls within their typical role?",
+      "options": {
+        "a": "Building the physical security of a data center",
+        "b": "Defining technical security requirements and testing data protection measures",
+        "c": "Managing the company's payroll system",
+        "d": "Only handling compliance paperwork"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Physical data center security is the cloud provider's responsibility, not a customer‑side security engineer.",
+        "b": "Correct. Cloud security engineers specify security requirements, assess risks, and protect data from a technical perspective.",
+        "c": "Payroll management is outside the scope of a security engineer's technical duties.",
+        "d": "Compliance paperwork may be part of the role, but the primary focus is on technical security implementation and assessment."
+      },
+      "hints": [
+        "Security engineers focus on the technical aspects of protection.",
+        "The shared responsibility model guides their work."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Cloud security engineers are responsible for defining technical security requirements, testing data security, and protecting the organization's cloud infrastructure and data.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_038",
+      "concept_name": "Major cloud providers",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement about the major cloud providers is true?",
+      "options": {
+        "a": "Google Cloud has a larger market share than Microsoft Azure.",
+        "b": "AWS launched in 2006 and holds the largest market share (31%).",
+        "c": "Azure only supports Windows‑based workloads.",
+        "d": "AWS's main differentiator is deep integration with Microsoft Office."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Google Cloud had 11% market share at the end of 2023, behind Azure's 24%.",
+        "b": "Correct. AWS was the first major cloud provider (launched 2006) and leads with 31% market share.",
+        "c": "Azure supports a wide range of Linux distributions and open‑source tools.",
+        "d": "Deep Microsoft product integration is a strength of Azure, not AWS."
+      },
+      "hints": [
+        "Recall the timeline: which provider started the cloud infrastructure market?",
+        "Market share numbers from the course: AWS 31%, Azure 24%, GCP 11%."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Amazon Web Services pioneered the cloud infrastructure market in 2006 and remains the market leader. Azure and Google Cloud have significant shares, with Azure being a strong second due in part to its enterprise integrations.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_042",
+      "concept_name": "Disaster recovery (cloud)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the key difference between cloud disaster recovery and simple backup?",
+      "options": {
+        "a": "Disaster recovery includes failover processes and procedures to restore business operations, not just data copies.",
+        "b": "Backup is exactly the same as disaster recovery.",
+        "c": "Disaster recovery only applies after natural disasters.",
+        "d": "Backup is more expensive than disaster recovery."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Disaster recovery encompasses the full process of restoring systems and operations after an outage, whereas backup is just copying data.",
+        "b": "Backup is a component of disaster recovery, but DR also includes testing, failover, and recovery runbooks.",
+        "c": "Disaster recovery also covers human‑induced events like cyber‑attacks or accidental deletions.",
+        "d": "Costs vary; disaster recovery solutions may involve additional expenses beyond backup storage."
+      },
+      "hints": [
+        "Think about what happens after a failure – is restoring data files enough to get a system running again?",
+        "Consider the distinction between having a copy of data and having a runbook to restore server operations."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Disaster recovery involves the strategy and systems used to restore all operations, which includes servers, networking, and application logic. Backups are merely duplicates of data files stored elsewhere.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_042"
+      ]
+    }
+  ]
+}

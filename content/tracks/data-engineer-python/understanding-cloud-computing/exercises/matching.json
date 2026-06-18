@@ -1,0 +1,420 @@
+{
+  "course_slug": "understanding-cloud-computing",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Cloud Fundamentals",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_004",
+          "term": "Server",
+          "match": "A computer that provides resources or services to other computers over a network.",
+          "wrong_matches": [
+            "Delivery of IT services over internet with pay-as-you-go pricing.",
+            "Hosting and managing servers locally within an organization."
+          ],
+          "feedback_correct": "Correct! A server is exactly that – the machine that serves other computers.",
+          "feedback_wrong": "Incorrect. That match describes cloud computing or on-premises computing, not a single server.",
+          "difficulty": "easy"
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_001",
+          "term": "Cloud computing",
+          "match": "Delivery of IT services over internet with pay-as-you-go pricing.",
+          "wrong_matches": [
+            "A computer that provides resources or services to other computers over a network.",
+            "Hosting and managing servers locally within an organization."
+          ],
+          "feedback_correct": "Correct! Cloud computing delivers technology services on demand via the internet.",
+          "feedback_wrong": "Incorrect. That description refers to a server or on-premises computing, not cloud computing.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_002",
+          "term": "On-premises computing",
+          "match": "Hosting and managing servers locally within an organization.",
+          "wrong_matches": [
+            "A computer that provides resources or services to other computers over a network.",
+            "Delivery of IT services over internet with pay-as-you-go pricing."
+          ],
+          "feedback_correct": "Correct! On-premises means owning and running servers in your own facility.",
+          "feedback_wrong": "Incorrect. That is the definition of a server or cloud computing, not on-premises.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_005",
+          "term": "Virtualization",
+          "match": "Splits one physical server into multiple virtual machines.",
+          "wrong_matches": [
+            "Adding more machines to share the workload.",
+            "Auto-scaling resources up/down based on demand."
+          ],
+          "feedback_correct": "Correct! Virtualization partitions hardware to run isolated virtual servers.",
+          "feedback_wrong": "Incorrect. That describes horizontal scaling or elasticity, not virtualization.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_006",
+          "term": "Scalability",
+          "match": "Ability to handle growing workloads by adding resources.",
+          "wrong_matches": [
+            "Upgrading a single machine with more RAM or CPU.",
+            "Adding more machines to share the workload."
+          ],
+          "feedback_correct": "Correct! Scalability is the general capacity to grow to meet demand.",
+          "feedback_wrong": "Incorrect. That is a specific scaling method (vertical or horizontal), not the overall concept.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_007",
+          "term": "Vertical scaling",
+          "match": "Upgrading a single machine with more RAM or CPU.",
+          "wrong_matches": [
+            "Adding more machines to share the workload.",
+            "Auto-scaling resources up/down based on demand."
+          ],
+          "feedback_correct": "Correct! Vertical scaling means making a single server more powerful.",
+          "feedback_wrong": "Incorrect. That matches horizontal scaling or elasticity, not vertical scaling.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_008",
+          "term": "Horizontal scaling",
+          "match": "Adding more machines to share the workload.",
+          "wrong_matches": [
+            "Upgrading a single machine with more RAM or CPU.",
+            "Ability to handle growing workloads by adding resources."
+          ],
+          "feedback_correct": "Correct! Horizontal scaling spreads work across multiple servers.",
+          "feedback_wrong": "Incorrect. That is vertical scaling or the general concept of scalability.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_009",
+          "term": "Elasticity",
+          "match": "Auto-scaling resources up/down based on demand.",
+          "wrong_matches": [
+            "Upgrading a single machine with more RAM or CPU.",
+            "Adding more machines to share the workload."
+          ],
+          "feedback_correct": "Correct! Elasticity automatically adjusts capacity to match real-time load.",
+          "feedback_wrong": "Incorrect. That describes vertical or horizontal scaling, which may require manual intervention.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_011",
+          "term": "Amazon EC2",
+          "match": "Cloud compute service for virtual servers.",
+          "wrong_matches": [
+            "Cloud object storage service.",
+            "A computer that provides resources or services to other computers over a network."
+          ],
+          "feedback_correct": "Correct! EC2 is the primary compute service in AWS.",
+          "feedback_wrong": "Incorrect. That matches Amazon S3 (storage) or a generic server definition.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_012",
+          "term": "Amazon S3",
+          "match": "Cloud object storage service.",
+          "wrong_matches": [
+            "Cloud compute service for virtual servers.",
+            "Delivery of IT services over internet with pay-as-you-go pricing."
+          ],
+          "feedback_correct": "Correct! S3 stores objects like files and backups.",
+          "feedback_wrong": "Incorrect. That describes Amazon EC2 or cloud computing in general.",
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Service & Deployment Models",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_013",
+          "term": "Amazon RDS",
+          "match": "Managed relational database service.",
+          "wrong_matches": [
+            "Virtualized computing resources; you manage the OS and apps.",
+            "Cloud platform for developing and deploying applications."
+          ],
+          "feedback_correct": "Correct! RDS automates database administration tasks.",
+          "feedback_wrong": "Incorrect. That describes IaaS or PaaS, not a database service.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_014",
+          "term": "Redundancy",
+          "match": "Duplication of critical systems to improve availability.",
+          "wrong_matches": [
+            "Mix of public and private cloud linked together.",
+            "Using multiple cloud providers for different services."
+          ],
+          "feedback_correct": "Correct! Redundancy ensures a backup component takes over during failure.",
+          "feedback_wrong": "Incorrect. That describes hybrid or multicloud deployment strategies.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_016",
+          "term": "Infrastructure as a Service (IaaS)",
+          "match": "Virtualized computing resources; you manage the OS and apps.",
+          "wrong_matches": [
+            "Cloud platform for developing and deploying applications.",
+            "Cloud apps like Gmail, fully managed by provider."
+          ],
+          "feedback_correct": "Correct! IaaS gives you virtual hardware and you control the software stack.",
+          "feedback_wrong": "Incorrect. That is PaaS or SaaS, where more is managed by the provider.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_017",
+          "term": "Platform as a Service (PaaS)",
+          "match": "Cloud platform for developing and deploying applications.",
+          "wrong_matches": [
+            "Virtualized computing resources; you manage the OS and apps.",
+            "Serverless model to run code functions without managing servers."
+          ],
+          "feedback_correct": "Correct! PaaS provides a managed runtime so developers focus on code.",
+          "feedback_wrong": "Incorrect. That describes IaaS or FaaS, not a platform service.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_018",
+          "term": "Software as a Service (SaaS)",
+          "match": "Cloud apps like Gmail, fully managed by provider.",
+          "wrong_matches": [
+            "Virtualized computing resources; you manage the OS and apps.",
+            "Cloud platform for developing and deploying applications."
+          ],
+          "feedback_correct": "Correct! SaaS delivers ready-to-use software over the internet.",
+          "feedback_wrong": "Incorrect. That is IaaS or PaaS, not finished applications.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_019",
+          "term": "Function as a Service (FaaS)",
+          "match": "Serverless model to run code functions without managing servers.",
+          "wrong_matches": [
+            "Cloud platform for developing and deploying applications.",
+            "Cloud apps like Gmail, fully managed by provider."
+          ],
+          "feedback_correct": "Correct! FaaS executes event‑driven functions and scales automatically.",
+          "feedback_wrong": "Incorrect. That describes PaaS or SaaS, not function‑level execution.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_024",
+          "term": "Public cloud",
+          "match": "Shared cloud infrastructure accessible over the internet.",
+          "wrong_matches": [
+            "Cloud dedicated to a single organization, offering more control.",
+            "Mix of public and private cloud linked together."
+          ],
+          "feedback_correct": "Correct! Public cloud is owned by a provider and shared by many tenants.",
+          "feedback_wrong": "Incorrect. That describes private or hybrid cloud models.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_025",
+          "term": "Private cloud",
+          "match": "Cloud dedicated to a single organization, offering more control.",
+          "wrong_matches": [
+            "Shared cloud infrastructure accessible over the internet.",
+            "Using multiple cloud providers for different services."
+          ],
+          "feedback_correct": "Correct! Private cloud can be on‑premises or hosted, but is exclusive.",
+          "feedback_wrong": "Incorrect. That matches public cloud or multicloud.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_026",
+          "term": "Hybrid cloud",
+          "match": "Mix of public and private cloud linked together.",
+          "wrong_matches": [
+            "Using multiple cloud providers for different services.",
+            "Cloud dedicated to a single organization, offering more control."
+          ],
+          "feedback_correct": "Correct! Hybrid cloud allows data and apps to move between environments.",
+          "feedback_wrong": "Incorrect. That describes multicloud or a purely private cloud.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_028",
+          "term": "Multicloud",
+          "match": "Using multiple cloud providers for different services.",
+          "wrong_matches": [
+            "Mix of public and private cloud linked together.",
+            "Shared cloud infrastructure accessible over the internet."
+          ],
+          "feedback_correct": "Correct! Multicloud avoids vendor lock‑in by spreading workloads across providers.",
+          "feedback_wrong": "Incorrect. That is hybrid cloud or a single public cloud.",
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Cloud Strategy & Governance",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_029",
+          "term": "Community cloud",
+          "match": "Cloud shared by organizations with common compliance requirements.",
+          "wrong_matches": [
+            "Designs cloud solutions based on business requirements.",
+            "Builds, maintains, and monitors cloud infrastructure."
+          ],
+          "feedback_correct": "Correct! Community cloud serves a specific group with shared needs.",
+          "feedback_wrong": "Incorrect. That describes a cloud role, not an infrastructure model.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_030",
+          "term": "Latency",
+          "match": "Time delay between a request and the response.",
+          "wrong_matches": [
+            "Processes to restore systems after outages or disasters.",
+            "Combines software development and IT operations for automation."
+          ],
+          "feedback_correct": "Correct! Latency measures network delay, not throughput.",
+          "feedback_wrong": "Incorrect. That matches disaster recovery or DevOps, not network delay.",
+          "difficulty": "medium"
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_031",
+          "term": "GDPR",
+          "match": "EU law regulating personal data collection and processing.",
+          "wrong_matches": [
+            "Any information relating to an identifiable individual.",
+            "Processes to restore systems after outages or disasters."
+          ],
+          "feedback_correct": "Correct! GDPR imposes strict data protection rules with heavy fines.",
+          "feedback_wrong": "Incorrect. That is the definition of personal data (PII) or disaster recovery.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_032",
+          "term": "Personal data (PII)",
+          "match": "Any information relating to an identifiable individual.",
+          "wrong_matches": [
+            "EU law regulating personal data collection and processing.",
+            "Time delay between a request and the response."
+          ],
+          "feedback_correct": "Correct! PII includes names, emails, IP addresses, and more.",
+          "feedback_wrong": "Incorrect. That is GDPR or latency, not the definition of personal data.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_034",
+          "term": "Cloud architect",
+          "match": "Designs cloud solutions based on business requirements.",
+          "wrong_matches": [
+            "Builds, maintains, and monitors cloud infrastructure.",
+            "Combines software development and IT operations for automation."
+          ],
+          "feedback_correct": "Correct! Cloud architects create the high‑level blueprint.",
+          "feedback_wrong": "Incorrect. That describes a cloud engineer or DevOps engineer.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_035",
+          "term": "Cloud engineer",
+          "match": "Builds, maintains, and monitors cloud infrastructure.",
+          "wrong_matches": [
+            "Designs cloud solutions based on business requirements.",
+            "Combines software development and IT operations for automation."
+          ],
+          "feedback_correct": "Correct! Cloud engineers implement and operate the cloud environment.",
+          "feedback_wrong": "Incorrect. That is the architect or DevOps role.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_036",
+          "term": "DevOps engineer",
+          "match": "Combines software development and IT operations for automation.",
+          "wrong_matches": [
+            "Designs cloud solutions based on business requirements.",
+            "Builds, maintains, and monitors cloud infrastructure."
+          ],
+          "feedback_correct": "Correct! DevOps engineers use infrastructure as code to speed delivery.",
+          "feedback_wrong": "Incorrect. That describes a cloud architect or a cloud engineer.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_038",
+          "term": "Major cloud providers",
+          "match": "AWS, Microsoft Azure, and Google Cloud Platform.",
+          "wrong_matches": [
+            "Physical facility housing servers and cloud infrastructure.",
+            "Processes to restore systems after outages or disasters."
+          ],
+          "feedback_correct": "Correct! These three dominate the cloud infrastructure market.",
+          "feedback_wrong": "Incorrect. That describes a data center or disaster recovery, not providers.",
+          "difficulty": "hard"
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_042",
+          "term": "Disaster recovery (cloud)",
+          "match": "Processes to restore systems after outages or disasters.",
+          "wrong_matches": [
+            "AWS, Microsoft Azure, and Google Cloud Platform.",
+            "Cloud shared by organizations with common compliance requirements."
+          ],
+          "feedback_correct": "Correct! Disaster recovery includes failover, not just backups.",
+          "feedback_wrong": "Incorrect. That refers to major providers or community cloud, not recovery planning.",
+          "difficulty": "very_hard"
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_045",
+          "term": "Data center",
+          "match": "Physical facility housing servers and cloud infrastructure.",
+          "wrong_matches": [
+            "Cloud shared by organizations with common compliance requirements.",
+            "AWS, Microsoft Azure, and Google Cloud Platform."
+          ],
+          "feedback_correct": "Correct! Data centers host the physical hardware for cloud and on‑premises.",
+          "feedback_wrong": "Incorrect. That is community cloud or the list of major providers.",
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ]
+}

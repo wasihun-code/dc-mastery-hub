@@ -1,0 +1,1440 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_001",
+    "concept_name": "Matplotlib pyplot import",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Import matplotlib's pyplot subpackage using the standard alias 'plt'.",
+    "code_template": "_____ _____ _____ _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "import matplotlib.pyplot as plt",
+        "answer_alternatives": ["import matplotlib.pyplot as plt", "from matplotlib import pyplot as plt", "import matplotlib.pyplot as plt"]
+      }
+    ],
+    "word_bank": ["import matplotlib.pyplot as plt", "import matplotlib.pyplot", "import plt as matplotlib.pyplot", "from matplotlib import plot as plt", "import plt", "matplotlib.pyplot import as plt"],
+    "per_tile_feedback": {
+      "import matplotlib.pyplot as plt": "Correct! This imports pyplot with the standard alias plt.",
+      "import matplotlib.pyplot": "Incorrect: Missing the alias 'as plt'. You would need to type matplotlib.pyplot each time.",
+      "import plt as matplotlib.pyplot": "Incorrect: Syntax is wrong. The module comes first, then 'as' alias.",
+      "from matplotlib import plot as plt": "Incorrect: 'plot' is not a submodule; the correct subpackage is 'pyplot'.",
+      "import plt": "Incorrect: 'plt' is not a module name; you need to import 'matplotlib.pyplot'.",
+      "matplotlib.pyplot import as plt": "Incorrect: The 'import' keyword must come first."
+    },
+    "hints": [
+      "The standard convention is to import 'matplotlib.pyplot' and give it an alias of three letters.",
+      "The alias is 'plt'. The module name is 'matplotlib.pyplot'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct import is `import matplotlib.pyplot as plt`. This allows you to use `plt.plot()`, `plt.show()`, etc.",
+    "common_mistake_warning": "⚠️ Forgetting the 'as plt' leads to longer code; forgetting the import entirely causes NameError."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_002",
+    "concept_name": "plt.plot()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Create a line plot using the lists 'year' (x-axis) and 'pop' (y-axis).",
+    "code_template": "_____(_____, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.plot",
+        "answer_alternatives": ["plt.plot", "plot", "plt.plot()"]
+      },
+      {
+        "position": 2,
+        "answer": "year",
+        "answer_alternatives": ["year"]
+      },
+      {
+        "position": 3,
+        "answer": "pop",
+        "answer_alternatives": ["pop"]
+      }
+    ],
+    "word_bank": ["plt.plot", "year", "pop", "plt.scatter", "x", "y"],
+    "per_tile_feedback": {
+      "plt.plot": "Correct for blank 1: This is the line plot function.",
+      "year": "Correct for blank 2: The x-axis data should be 'year'.",
+      "pop": "Correct for blank 3: The y-axis data should be 'pop'.",
+      "plt.scatter": "Incorrect for blank 1: That creates a scatter plot, not a line plot.",
+      "x": "Incorrect: The variable name is 'year', not 'x'.",
+      "y": "Incorrect: The variable name is 'pop', not 'y'."
+    },
+    "hints": [
+      "The function name is 'plot' from the plt alias. First argument is x-axis data (year), second is y-axis (pop).",
+      "Remember the order: x then y."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.plot(year, pop)` creates a line plot with year on x-axis and population on y-axis.",
+    "common_mistake_warning": "⚠️ Passing arguments in wrong order (pop, year) will mislabel axes."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "plt.scatter()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Create a scatter plot of 'year' vs 'pop' with no connecting lines.",
+    "code_template": "_____(_____, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.scatter",
+        "answer_alternatives": ["plt.scatter", "scatter", "plt.scatter()"]
+      },
+      {
+        "position": 2,
+        "answer": "year",
+        "answer_alternatives": ["year"]
+      },
+      {
+        "position": 3,
+        "answer": "pop",
+        "answer_alternatives": ["pop"]
+      }
+    ],
+    "word_bank": ["plt.scatter", "plt.plot", "year", "pop", "x", "y"],
+    "per_tile_feedback": {
+      "plt.scatter": "Correct for blank 1: This creates a scatter plot with markers only.",
+      "plt.plot": "Incorrect for blank 1: That would create a line plot, not a scatter plot.",
+      "year": "Correct for blank 2: The x-axis data is 'year'.",
+      "pop": "Correct for blank 3: The y-axis data is 'pop'.",
+      "x": "Incorrect: Use the variable name 'year'.",
+      "y": "Incorrect: Use the variable name 'pop'."
+    },
+    "hints": [
+      "The function for scatter plots is 'scatter' from plt.",
+      "It takes the same two arguments as plot: x first, then y."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.scatter(year, pop)` draws a scatter plot with markers at each (year, pop) point. No lines are drawn between points.",
+    "common_mistake_warning": "⚠️ Using `scatter` when a line plot is better for showing trends."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_004",
+    "concept_name": "plt.show()",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Display the current figure after plotting commands.",
+    "code_template": "_____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.show",
+        "answer_alternatives": ["plt.show", "show", "plt.show()"]
+      }
+    ],
+    "word_bank": ["plt.show", "plt.display", "plt.plot", "show", "plt.figure", "plt.render"],
+    "per_tile_feedback": {
+      "plt.show": "Correct! This displays the current figure.",
+      "plt.display": "Incorrect: There is no `plt.display` function. Use `plt.show()`.",
+      "plt.plot": "Incorrect: `plt.plot` creates a plot but does not display it.",
+      "show": "Incorrect: Missing the `plt.` prefix; `show` alone is not defined.",
+      "plt.figure": "Incorrect: `plt.figure` creates a new figure but does not show it.",
+      "plt.render": "Incorrect: No such function in matplotlib."
+    },
+    "hints": [
+      "The function name is `show` and it belongs to the `plt` alias.",
+      "It takes no arguments and must be called after all plotting commands."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.show()` renders the plot to screen. Without it, nothing appears.",
+    "common_mistake_warning": "⚠️ Forgetting `plt.show()` results in no visible plot."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_006",
+    "concept_name": "plt.hist()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Plot a histogram of the list 'values' using 3 equal-width bins.",
+    "code_template": "plt.hist(values, _____=3)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "bins",
+        "answer_alternatives": ["bins", "bins="]
+      }
+    ],
+    "word_bank": ["bins", "bin", "nbins", "n_bins", "binsize", "n"],
+    "per_tile_feedback": {
+      "bins": "Correct! The `bins` parameter controls the number of equal-width bins.",
+      "bin": "Incorrect: The parameter name is 'bins' (plural).",
+      "nbins": "Incorrect: Not a valid parameter for `plt.hist`.",
+      "n_bins": "Incorrect: Not a valid parameter.",
+      "binsize": "Incorrect: The parameter is 'bins', not 'binsize'.",
+      "n": "Incorrect: 'n' is not a recognized parameter for histograms."
+    },
+    "hints": [
+      "The parameter that specifies the number of bins is the same as the word for 'containers'.",
+      "It is plural, and the course example uses `bins=3`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.hist(values, bins=3)` divides the data range into 3 equal-width bins. The `bins` parameter is essential for controlling histogram granularity.",
+    "common_mistake_warning": "⚠️ Not specifying `bins` when data range is large can obscure patterns."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_007",
+    "concept_name": "plt.xlabel()",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Add the label 'Year' to the x‑axis of the current plot.",
+    "code_template": "_____('Year')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.xlabel",
+        "answer_alternatives": ["plt.xlabel", "xlabel", "plt.xlabel"]
+      }
+    ],
+    "word_bank": ["plt.xlabel", "plt.ylabel", "plt.title", "xlabel", "plt.xlab", "plt.x_axis"],
+    "per_tile_feedback": {
+      "plt.xlabel": "Correct! This sets the x‑axis label.",
+      "plt.ylabel": "Incorrect: That sets the y‑axis label, not x.",
+      "plt.title": "Incorrect: That sets the plot title, not an axis label.",
+      "xlabel": "Incorrect: Missing the `plt.` prefix; `xlabel` alone is not defined.",
+      "plt.xlab": "Incorrect: The correct function is `plt.xlabel` (full word 'label').",
+      "plt.x_axis": "Incorrect: No such function; use `plt.xlabel`."
+    },
+    "hints": [
+      "The function name starts with 'x' to indicate the x‑axis, followed by 'label'.",
+      "It belongs to the `plt` alias."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.xlabel('Year')` adds a descriptive label to the horizontal axis.",
+    "common_mistake_warning": "⚠️ Calling `xlabel` after `show()` prevents the label from appearing."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_008",
+    "concept_name": "plt.ylabel()",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Add the label 'Population' to the y‑axis.",
+    "code_template": "_____('Population')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.ylabel",
+        "answer_alternatives": ["plt.ylabel", "ylabel", "plt.ylabel"]
+      }
+    ],
+    "word_bank": ["plt.ylabel", "plt.xlabel", "plt.title", "ylabel", "plt.ylab", "plt.y_axis"],
+    "per_tile_feedback": {
+      "plt.ylabel": "Correct! This sets the y‑axis label.",
+      "plt.xlabel": "Incorrect: That sets the x‑axis label.",
+      "plt.title": "Incorrect: That sets the title.",
+      "ylabel": "Incorrect: Missing `plt.` prefix.",
+      "plt.ylab": "Incorrect: The correct name is `plt.ylabel`.",
+      "plt.y_axis": "Incorrect: No such function."
+    },
+    "hints": [
+      "The function starts with 'y' for y‑axis, then 'label'.",
+      "It is called from `plt`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.ylabel('Population')` labels the vertical axis.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_009",
+    "concept_name": "plt.title()",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Give the current plot the title 'World Population Projections'.",
+    "code_template": "_____('World Population Projections')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "plt.title",
+        "answer_alternatives": ["plt.title", "title", "plt.title"]
+      }
+    ],
+    "word_bank": ["plt.title", "plt.xlabel", "plt.ylabel", "title", "plt.heading", "plt.suptitle"],
+    "per_tile_feedback": {
+      "plt.title": "Correct! This adds a title to the plot.",
+      "plt.xlabel": "Incorrect: That labels the x‑axis.",
+      "plt.ylabel": "Incorrect: That labels the y‑axis.",
+      "title": "Incorrect: Missing `plt.` prefix.",
+      "plt.heading": "Incorrect: No such function; use `plt.title`.",
+      "plt.suptitle": "Incorrect: That adds a centered title to the whole figure, but the standard is `plt.title` for the current axes."
+    },
+    "hints": [
+      "The function name is 'title' and it belongs to `plt`.",
+      "It takes a string as its argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.title('World Population Projections')` places a title above the plot.",
+    "common_mistake_warning": "⚠️ Calling `title` after `show()` prevents it from being displayed."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_010",
+    "concept_name": "plt.yticks()",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Set y‑axis tick positions to [0,2,4,6,8,10] with labels ['0','2B','4B','6B','8B','10B'].",
+    "code_template": "plt.yticks([0, 2, 4, 6, 8, 10], _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['0','2B','4B','6B','8B','10B']",
+        "answer_alternatives": ["['0','2B','4B','6B','8B','10B']", "['0','2B','4B','6B','8B','10B']"]
+      }
+    ],
+    "word_bank": ["['0','2B','4B','6B','8B','10B']", "['0','2B','4B','6B','8B']", "['0','2','4','6','8','10']", "['0','2B','4B','6B','8B','10']", "['0','2B','4B','6B','8B','10B']", "['0','2','4','6','8']"],
+    "per_tile_feedback": {
+      "['0','2B','4B','6B','8B','10B']": "Correct! The list of labels must match the tick positions in length.",
+      "['0','2B','4B','6B','8B']": "Incorrect: This has 5 labels but there are 6 tick positions; will cause ValueError.",
+      "['0','2','4','6','8','10']": "Incorrect: Labels should be '2B', '4B', etc. to indicate billions, but technically this would work if you changed the labels. However, the course example uses '2B'.",
+      "['0','2B','4B','6B','8B','10']": "Incorrect: Inconsistent formatting; '10' should be '10B' to match billions.",
+      "['0','2B','4B','6B','8B','10B']": "Duplicate of correct; feedback as correct.",
+      "['0','2','4','6','8']": "Incorrect: Wrong length and wrong format."
+    },
+    "hints": [
+      "The second argument to `plt.yticks` must have the same number of elements as the first argument (ticks).",
+      "Use the exact label strings from the course example: '0', '2B', '4B', '6B', '8B', '10B'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.yticks([0,2,4,6,8,10], ['0','2B','4B','6B','8B','10B'])` customizes y‑axis tick labels to show billions.",
+    "common_mistake_warning": "⚠️ Number of labels must equal number of ticks; otherwise ValueError."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_011",
+    "concept_name": "Dictionary",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Create a dictionary named 'world' with keys 'afghanistan', 'albania', 'algeria' and values 30.55, 2.77, 39.21 respectively.",
+    "code_template": "world = {_____: 30.55, 'albania': 2.77, 'algeria': 39.21}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'afghanistan'",
+        "answer_alternatives": ["'afghanistan'", "\"afghanistan\"", "afghanistan"]
+      }
+    ],
+    "word_bank": ["'afghanistan'", "afghanistan", "'afghan'", "'Afghanistan'", "'afghan'", "'afghanistan'"],
+    "per_tile_feedback": {
+      "'afghanistan'": "Correct! The key is a string 'afghanistan'.",
+      "afghanistan": "Incorrect: Without quotes, Python treats it as a variable name, not a string.",
+      "'afghan'": "Incorrect: The full country name is 'afghanistan'.",
+      "'Afghanistan'": "Incorrect: Capitalization matters; the course uses lowercase.",
+      "'afghan'": "Duplicate of above; incorrect.",
+      "'afghanistan'": "Correct (duplicate entry for tile)."
+    },
+    "hints": [
+      "Keys in this dictionary are country names as strings. The first key is 'afghanistan' (lowercase, with quotes).",
+      "The course example uses single quotes around the country name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The dictionary is defined with curly braces and colon-separated key-value pairs. The first key is the string 'afghanistan'.",
+    "common_mistake_warning": "⚠️ Forgetting quotes around string keys treats them as variables, causing NameError."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_012",
+    "concept_name": "Key-Value Pair",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Complete the dictionary by adding a key-value pair for 'algeria' with value 39.21.",
+    "code_template": "world = {'afghanistan': 30.55, 'albania': 2.77, _____}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'algeria': 39.21",
+        "answer_alternatives": ["'algeria': 39.21", "\"algeria\": 39.21", "'algeria':39.21"]
+      }
+    ],
+    "word_bank": ["'algeria': 39.21", "'algeria', 39.21", "'algeria' 39.21", "'algeria':39.21", "algeria: 39.21", "'algeria': 39.21"],
+    "per_tile_feedback": {
+      "'algeria': 39.21": "Correct! Key-value pair with colon separator.",
+      "'algeria', 39.21": "Incorrect: Missing colon; comma does not create a mapping.",
+      "'algeria' 39.21": "Incorrect: Missing colon; space alone is not enough.",
+      "'algeria':39.21": "Correct (space after colon is optional) – acceptable alternative.",
+      "algeria: 39.21": "Incorrect: Missing quotes around the key; 'algeria' would be interpreted as a variable.",
+      "'algeria': 39.21": "Duplicate correct."
+    },
+    "hints": [
+      "Separate the key and value with a colon.",
+      "The key is a string, so use quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A key-value pair is written as `key: value`. Here the key is `'algeria'` and the value is `39.21`.",
+    "common_mistake_warning": "⚠️ Forgetting the colon between key and value results in a SyntaxError."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_013",
+    "concept_name": "Dictionary access with []",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Access the value associated with key 'albania' from dictionary 'world'.",
+    "code_template": "world[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'albania'",
+        "answer_alternatives": ["'albania'", "\"albania\"", "albania"]
+      }
+    ],
+    "word_bank": ["'albania'", "albania", "'albania'", "'Albania'", "'albanian'", "\"albania\""],
+    "per_tile_feedback": {
+      "'albania'": "Correct! Square brackets with the key string return the value.",
+      "albania": "Incorrect: Without quotes, Python looks for a variable named 'albania', which likely doesn't exist.",
+      "'albania'": "Duplicate correct.",
+      "'Albania'": "Incorrect: Capitalization matters; the key is 'albania' (lowercase).",
+      "'albanian'": "Incorrect: The key is 'albania', not 'albanian'.",
+      "\"albania\"": "Correct! Double quotes are also acceptable for string keys."
+    },
+    "hints": [
+      "Dictionary keys are accessed using square brackets and the exact key string.",
+      "The key is 'albania' (lowercase, with quotes)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`world['albania']` retrieves the value 2.77. Using a nonexistent key raises KeyError.",
+    "common_mistake_warning": "⚠️ Missing quotes or misspelling the key leads to NameError or KeyError."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_015",
+    "concept_name": "Adding key-value pair to dictionary",
+    "chapter": 5,
+    "difficulty": "easy",
+    "task_description": "Add a new key 'sealand' with value 0.000027 to dictionary 'world'.",
+    "code_template": "world[_____] = 0.000027",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'sealand'",
+        "answer_alternatives": ["'sealand'", "\"sealand\"", "sealand"]
+      }
+    ],
+    "word_bank": ["'sealand'", "sealand", "'sealand'", "'Sealand'", "'sea-land'", "\"sealand\""],
+    "per_tile_feedback": {
+      "'sealand'": "Correct! Assignment to a new key adds the pair.",
+      "sealand": "Incorrect: Without quotes, it's a variable, not a string key.",
+      "'sealand'": "Duplicate correct.",
+      "'Sealand'": "Incorrect: Capitalization matters; key is 'sealand'.",
+      "'sea-land'": "Incorrect: Wrong spelling.",
+      "\"sealand\"": "Correct! Double quotes are fine."
+    },
+    "hints": [
+      "Use square brackets with the key on the left of assignment.",
+      "The key is a string; put it in quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`world['sealand'] = 0.000027` adds a new entry because the key did not exist previously.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_016",
+    "concept_name": "Updating dictionary value",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Update the value of key 'albania' to 2.81.",
+    "code_template": "world[_____] = 2.81",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'albania'",
+        "answer_alternatives": ["'albania'", "\"albania\"", "albania"]
+      }
+    ],
+    "word_bank": ["'albania'", "'albania'", "albania", "'Albania'", "'albanian'", "\"albania\""],
+    "per_tile_feedback": {
+      "'albania'": "Correct! Assigning to an existing key updates its value.",
+      "'albania'": "Duplicate correct.",
+      "albania": "Incorrect: Missing quotes.",
+      "'Albania'": "Incorrect: Capitalization mismatch; would create a new key instead of updating.",
+      "'albanian'": "Incorrect: Wrong key; would create a new key.",
+      "\"albania\"": "Correct! Double quotes also work."
+    },
+    "hints": [
+      "Use the same syntax as adding, but with an existing key.",
+      "The key is 'albania'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`world['albania'] = 2.81` changes the value from 2.77 to 2.81. If the key didn't exist, it would add it.",
+    "common_mistake_warning": "⚠️ Typo in key creates a new key instead of updating the intended one."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_017",
+    "concept_name": "del statement for dictionaries",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Delete the key 'sealand' from dictionary 'world'.",
+    "code_template": "_____(world['sealand'])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "del",
+        "answer_alternatives": ["del", "delete"]
+      }
+    ],
+    "word_bank": ["del", "delete", "remove", "pop", "del()", "clear"],
+    "per_tile_feedback": {
+      "del": "Correct! The `del` statement removes a key-value pair by key.",
+      "delete": "Incorrect: `delete` is not a Python keyword; `del` is correct.",
+      "remove": "Incorrect: `remove` is a list method, not for dict deletion.",
+      "pop": "Incorrect: `pop` removes and returns the value, but syntax is `world.pop('sealand')`, not `pop(world['sealand'])`.",
+      "del()": "Incorrect: Parentheses are not required; `del world['sealand']` or `del(world['sealand'])` are both acceptable, but `del()` as a function call is wrong.",
+      "clear": "Incorrect: `clear` removes all items, not a specific key."
+    },
+    "hints": [
+      "Use the `del` keyword followed by the dictionary access in brackets.",
+      "The syntax can be `del world['sealand']`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`del(world['sealand'])` removes the key 'sealand' and its value. If the key doesn't exist, a KeyError is raised.",
+    "common_mistake_warning": "⚠️ Using `del` on a non-existent key raises KeyError."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_018",
+    "concept_name": "in operator for dictionaries",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Check if key 'albania' exists in dictionary 'world'.",
+    "code_template": "'albania' _____ world",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "in",
+        "answer_alternatives": ["in"]
+      }
+    ],
+    "word_bank": ["in", "not in", "has_key", "contains", "is", "exists"],
+    "per_tile_feedback": {
+      "in": "Correct! The `in` operator checks for key existence.",
+      "not in": "Incorrect: That checks for absence, not presence.",
+      "has_key": "Incorrect: `has_key` is obsolete in Python 3; use `in`.",
+      "contains": "Incorrect: No such operator; use `in`.",
+      "is": "Incorrect: `is` checks identity, not membership.",
+      "exists": "Incorrect: Not an operator."
+    },
+    "hints": [
+      "The keyword to test membership in dictionaries is `in`.",
+      "It returns True if the key is present."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`'albania' in world` returns True if 'albania' is a key, False otherwise.",
+    "common_mistake_warning": "⚠️ `in` checks keys, not values."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_020",
+    "concept_name": "pd.read_csv()",
+    "chapter": 6,
+    "difficulty": "medium",
+    "task_description": "Read the CSV file 'brics.csv' into a DataFrame and use the first column as row index.",
+    "code_template": "brics = pd.read_csv('brics.csv', _____ = 0)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "index_col",
+        "answer_alternatives": ["index_col"]
+      }
+    ],
+    "word_bank": ["index_col", "index", "row_index", "col_index", "index_column", "index_col"],
+    "per_tile_feedback": {
+      "index_col": "Correct! The parameter `index_col` specifies which column to use as row labels.",
+      "index": "Incorrect: The parameter name is `index_col`, not `index`.",
+      "row_index": "Incorrect: Not a valid parameter.",
+      "col_index": "Incorrect: Not a valid parameter.",
+      "index_column": "Incorrect: The correct parameter is `index_col` (no 'umn').",
+      "index_col": "Duplicate correct."
+    },
+    "hints": [
+      "The parameter name is two words combined with an underscore: 'index' and 'col'.",
+      "Setting it to 0 uses the first column as the index."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`pd.read_csv('brics.csv', index_col=0)` loads the CSV and uses the first column (country codes) as the row index.",
+    "common_mistake_warning": "⚠️ Forgetting `index_col` creates an extra 'Unnamed: 0' column."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_022",
+    "concept_name": "DataFrame column selection with []",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Select the column 'country' from DataFrame 'brics' as a Series.",
+    "code_template": "brics[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'country'",
+        "answer_alternatives": ["'country'", "\"country\"", "country"]
+      }
+    ],
+    "word_bank": ["'country'", "country", "'country'", "['country']", "\"country\"", "['country']"],
+    "per_tile_feedback": {
+      "'country'": "Correct! Single brackets with a column name returns a Series.",
+      "country": "Incorrect: Without quotes, Python looks for a variable named 'country'.",
+      "'country'": "Duplicate correct.",
+      "['country']": "Incorrect: Double brackets would return a DataFrame, not a Series.",
+      "\"country\"": "Correct! Double quotes also work.",
+      "['country']": "Incorrect (duplicate)."
+    },
+    "hints": [
+      "Use single quotes around the column name inside single square brackets.",
+      "This returns a pandas Series, not a DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`brics['country']` returns a Series containing the 'country' column. To get a DataFrame, use double brackets: `brics[['country']]`.",
+    "common_mistake_warning": "⚠️ Using double brackets gives a DataFrame, which may break code expecting a Series."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_023",
+    "concept_name": "DataFrame row slicing",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Select rows with integer positions 1 through 3 (excluding position 4) from DataFrame 'brics'.",
+    "code_template": "brics[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1:4",
+        "answer_alternatives": ["1:4", "1:4"]
+      }
+    ],
+    "word_bank": ["1:4", "1:3", "0:3", "1:5", "[1:4]", "1,2,3"],
+    "per_tile_feedback": {
+      "1:4": "Correct! Slice `1:4` includes positions 1,2,3 (excludes 4).",
+      "1:3": "Incorrect: That would give positions 1 and 2 only, missing position 3.",
+      "0:3": "Incorrect: That would give positions 0,1,2, not 1,2,3.",
+      "1:5": "Incorrect: That includes position 4 as well (if exists), but the problem says exclude position 4.",
+      "[1:4]": "Incorrect: Extra brackets are not needed and would cause an error.",
+      "1,2,3": "Incorrect: This is not slice syntax; would be interpreted as a tuple."
+    },
+    "hints": [
+      "Use Python slice syntax `start:end` where end is exclusive.",
+      "Start at 1, end at 4."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`brics[1:4]` selects rows at index positions 1, 2, and 3 (the second, third, and fourth rows).",
+    "common_mistake_warning": "⚠️ Forgetting that the end index is exclusive leads to off-by-one errors."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_024",
+    "concept_name": "loc[] method",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Select rows with labels 'RU', 'IN', 'CH' and columns 'country', 'capital' from DataFrame 'brics'.",
+    "code_template": "brics.loc[_____ , _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['RU','IN','CH']",
+        "answer_alternatives": ["['RU','IN','CH']", "['RU', 'IN', 'CH']", "['RU','IN','CH']"]
+      },
+      {
+        "position": 2,
+        "answer": "['country','capital']",
+        "answer_alternatives": ["['country','capital']", "['country', 'capital']", "['country','capital']"]
+      }
+    ],
+    "word_bank": ["['RU','IN','CH']", "['country','capital']", "['RU','IN','CH']", "['country','capital']", "['BR','RU','IN']", "['area','population']"],
+    "per_tile_feedback": {
+      "['RU','IN','CH']": "Correct for first blank: list of row labels.",
+      "['country','capital']": "Correct for second blank: list of column labels.",
+      "['RU','IN','CH']": "Duplicate correct.",
+      "['country','capital']": "Duplicate correct.",
+      "['BR','RU','IN']": "Incorrect for first blank: includes 'BR' which is not requested.",
+      "['area','population']": "Incorrect for second blank: those are not the columns requested."
+    },
+    "hints": [
+      "`loc` takes row labels first, then column labels, both as lists.",
+      "Row labels: 'RU','IN','CH'. Column labels: 'country','capital'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`brics.loc[['RU','IN','CH'], ['country','capital']]` selects the specified rows and columns by label. `loc` is label-based.",
+    "common_mistake_warning": "⚠️ Using `loc` with integer positions (use `iloc` instead)."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_025",
+    "concept_name": "iloc[] method",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Select rows at positions 1,2,3 and columns at positions 0,1 from DataFrame 'brics'.",
+    "code_template": "brics.iloc[_____ , _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[1,2,3]",
+        "answer_alternatives": ["[1,2,3]", "[1, 2, 3]"]
+      },
+      {
+        "position": 2,
+        "answer": "[0,1]",
+        "answer_alternatives": ["[0,1]", "[0, 1]"]
+      }
+    ],
+    "word_bank": ["[1,2,3]", "[0,1]", "[1,2,3]", "[0,1]", "[0,1,2]", "[1,2,3,4]"],
+    "per_tile_feedback": {
+      "[1,2,3]": "Correct for first blank: integer positions 1,2,3.",
+      "[0,1]": "Correct for second blank: integer positions 0 and 1.",
+      "[1,2,3]": "Duplicate correct.",
+      "[0,1]": "Duplicate correct.",
+      "[0,1,2]": "Incorrect for second blank: that would select three columns, but only two are requested.",
+      "[1,2,3,4]": "Incorrect for first blank: includes position 4, not requested."
+    },
+    "hints": [
+      "`iloc` uses zero-based integer positions for both rows and columns.",
+      "Rows: 1,2,3. Columns: 0 and 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`brics.iloc[[1,2,3], [0,1]]` selects rows at positions 1,2,3 and columns at positions 0 and 1.",
+    "common_mistake_warning": "⚠️ Using `iloc` with labels instead of integer positions raises TypeError."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_026",
+    "concept_name": "Comparison operators",
+    "chapter": 8,
+    "difficulty": "medium",
+    "task_description": "Write a condition that checks if variable 'x' is not equal to 10.",
+    "code_template": "x _____ 10",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "!=",
+        "answer_alternatives": ["!="]
+      }
+    ],
+    "word_bank": ["!=", "<>", "not ==", "is not", "!==", "not="],
+    "per_tile_feedback": {
+      "!=": "Correct! `!=` is the not-equal operator in Python.",
+      "<>": "Incorrect: This is not valid in Python (used in some old languages).",
+      "not ==": "Incorrect: `not ==` is not a valid operator; use `!=`.",
+      "is not": "Incorrect: `is not` checks identity, not inequality of values.",
+      "!==": "Incorrect: No such operator in Python.",
+      "not=": "Incorrect: Not valid syntax."
+    },
+    "hints": [
+      "The not-equal operator is an exclamation point followed by an equals sign.",
+      "It is the opposite of `==`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`x != 10` evaluates to True if x is not equal to 10, False otherwise.",
+    "common_mistake_warning": "⚠️ Using `=` instead of `==` for comparison is a common error."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_027",
+    "concept_name": "Boolean operators (and, or, not)",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Combine two boolean variables 'is_sunny' and 'is_warm' to be True only when both are True.",
+    "code_template": "is_sunny _____ is_warm",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "and",
+        "answer_alternatives": ["and"]
+      }
+    ],
+    "word_bank": ["and", "or", "not", "&", "|", "&&"],
+    "per_tile_feedback": {
+      "and": "Correct! 'and' returns True only when both operands are True.",
+      "or": "Incorrect: 'or' returns True if at least one is True, not both.",
+      "not": "Incorrect: 'not' negates a single boolean, it doesn't combine two.",
+      "&": "Incorrect: '&' is bitwise AND; for booleans it works but is not the logical 'and' (and has different precedence).",
+      "|": "Incorrect: That is bitwise OR, not logical AND.",
+      "&&": "Incorrect: Not a valid Python operator."
+    },
+    "hints": [
+      "Use the keyword that requires both conditions to be true.",
+      "It is a three-letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`and` is the logical AND operator. It evaluates to True only if both `is_sunny` and `is_warm` are True.",
+    "common_mistake_warning": "⚠️ Using `&` instead of `and` on non-array values can work but changes precedence and is not idiomatic."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_028",
+    "concept_name": "np.logical_and()",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Element-wise logical AND on two NumPy arrays `a` and `b`.",
+    "code_template": "np._____(a, b)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "logical_and",
+        "answer_alternatives": ["logical_and"]
+      }
+    ],
+    "word_bank": ["logical_and", "logical_or", "logical_not", "and", "logical_and", "bitwise_and"],
+    "per_tile_feedback": {
+      "logical_and": "Correct! `np.logical_and(a, b)` returns element-wise AND.",
+      "logical_or": "Incorrect: That would be element-wise OR, not AND.",
+      "logical_not": "Incorrect: That negates a single array, not two.",
+      "and": "Incorrect: Python's `and` does not work element-wise on arrays.",
+      "logical_and": "Duplicate correct.",
+      "bitwise_and": "Incorrect: That would be `np.bitwise_and` or `&`, but the function is `logical_and`."
+    },
+    "hints": [
+      "The function name starts with `logical_` and ends with the operation.",
+      "For AND, the operation is 'and'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.logical_and(a, b)` performs element-wise logical AND, returning a boolean array.",
+    "common_mistake_warning": "⚠️ Forgetting to import numpy as np before using `np.logical_and()`."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_029",
+    "concept_name": "np.logical_or()",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Compute element-wise logical OR of NumPy arrays `x` and `y`.",
+    "code_template": "np._____(x, y)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "logical_or",
+        "answer_alternatives": ["logical_or"]
+      }
+    ],
+    "word_bank": ["logical_or", "logical_and", "logical_not", "or", "logical_or", "np.or"],
+    "per_tile_feedback": {
+      "logical_or": "Correct! `np.logical_or(x, y)` returns element-wise OR.",
+      "logical_and": "Incorrect: That would be AND, not OR.",
+      "logical_not": "Incorrect: That negates a single array.",
+      "or": "Incorrect: Python's `or` does not work element-wise on arrays.",
+      "logical_or": "Duplicate correct.",
+      "np.or": "Incorrect: No such function; use `np.logical_or` or `|`."
+    },
+    "hints": [
+      "The function name is `logical_` followed by the operation.",
+      "For OR, the operation is 'or'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.logical_or(x, y)` returns a boolean array where each element is True if at least one of the corresponding elements in x or y is True.",
+    "common_mistake_warning": "⚠️ Using `or` directly on arrays raises a ValueError."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_030",
+    "concept_name": "np.logical_not()",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Negate each element of NumPy array `arr` (element-wise NOT).",
+    "code_template": "np._____(arr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "logical_not",
+        "answer_alternatives": ["logical_not"]
+      }
+    ],
+    "word_bank": ["logical_not", "logical_and", "logical_or", "not", "invert", "np.not"],
+    "per_tile_feedback": {
+      "logical_not": "Correct! `np.logical_not(arr)` flips True to False and False to True.",
+      "logical_and": "Incorrect: That requires two arguments.",
+      "logical_or": "Incorrect: That requires two arguments.",
+      "not": "Incorrect: `not` does not work element-wise on arrays.",
+      "invert": "Incorrect: `np.invert` or `~` works for bitwise NOT, but `logical_not` is explicit.",
+      "np.not": "Incorrect: No such function."
+    },
+    "hints": [
+      "The function name includes `logical_` and then the negation word.",
+      "The word is 'not'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.logical_not(arr)` returns an array with each element negated (True becomes False, False becomes True).",
+    "common_mistake_warning": "⚠️ Using `not` on an array raises ValueError; use `np.logical_not` or `~`."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_031",
+    "concept_name": "if statement",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Write an if statement that prints 'Positive' when variable `num` is greater than 0.",
+    "code_template": "_____ num > 0:\n    print('Positive')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": ["if"]
+      }
+    ],
+    "word_bank": ["if", "elif", "else", "while", "for", "if"],
+    "per_tile_feedback": {
+      "if": "Correct! 'if' starts a conditional block.",
+      "elif": "Incorrect: 'elif' requires a preceding if.",
+      "else": "Incorrect: 'else' cannot be first.",
+      "while": "Incorrect: That starts a loop, not a conditional.",
+      "for": "Incorrect: That starts an iteration.",
+      "if": "Duplicate correct."
+    },
+    "hints": [
+      "The keyword for a conditional is three letters.",
+      "It must be followed by a condition and a colon."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`if num > 0:` checks the condition; if true, the indented block runs.",
+    "common_mistake_warning": "⚠️ Forgetting the colon after the condition leads to SyntaxError."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_032",
+    "concept_name": "else clause",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Complete the if-else block: if `score >= 60` print 'Pass', otherwise print 'Fail'.",
+    "code_template": "if score >= 60:\n    print('Pass')\n_____:\n    print('Fail')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "else",
+        "answer_alternatives": ["else"]
+      }
+    ],
+    "word_bank": ["else", "elif", "else if", "then", "otherwise", "else"],
+    "per_tile_feedback": {
+      "else": "Correct! 'else' runs when the if condition is False.",
+      "elif": "Incorrect: 'elif' requires a condition, but here no condition is needed.",
+      "else if": "Incorrect: Not valid Python; use 'elif' for condition or 'else' alone.",
+      "then": "Incorrect: Not a Python keyword.",
+      "otherwise": "Incorrect: Not a Python keyword.",
+      "else": "Duplicate correct."
+    },
+    "hints": [
+      "The clause that runs when the if condition is false has four letters.",
+      "It does not take a condition."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`else` provides an alternative block that executes when the preceding `if` condition is False.",
+    "common_mistake_warning": "⚠️ Indentation errors: `else` must align with the matching `if`."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_033",
+    "concept_name": "elif clause",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Add a condition that checks if `x` is exactly 0, after an initial if for `x > 0`.",
+    "code_template": "if x > 0:\n    print('positive')\n_____ x == 0:\n    print('zero')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "elif",
+        "answer_alternatives": ["elif"]
+      }
+    ],
+    "word_bank": ["elif", "else if", "else", "if", "elif", "elseif"],
+    "per_tile_feedback": {
+      "elif": "Correct! 'elif' stands for 'else if' and checks another condition if previous was False.",
+      "else if": "Incorrect: Write 'elif' without space.",
+      "else": "Incorrect: 'else' does not take a condition.",
+      "if": "Incorrect: Would create a separate if, not part of the chain.",
+      "elif": "Duplicate correct.",
+      "elseif": "Incorrect: Not valid Python; use 'elif'."
+    },
+    "hints": [
+      "It's a four-letter contraction of 'else if'.",
+      "It must be followed by a condition and colon."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`elif x == 0:` checks another condition only if the preceding `if` was False. Only the first true block executes.",
+    "common_mistake_warning": "⚠️ Writing 'else if' instead of 'elif' causes SyntaxError."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_034",
+    "concept_name": "Modulo operator (%)",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Write a condition that checks if integer `n` is odd.",
+    "code_template": "n _____ 2 == 1",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "%",
+        "answer_alternatives": ["%"]
+      }
+    ],
+    "word_bank": ["%", "/", "//", "mod", "%%", "rem"],
+    "per_tile_feedback": {
+      "%": "Correct! The modulo operator returns remainder.",
+      "/": "Incorrect: Division returns float, not remainder.",
+      "//": "Incorrect: Floor division returns integer quotient, not remainder.",
+      "mod": "Incorrect: 'mod' is not an operator in Python.",
+      "%%": "Incorrect: Not a valid operator.",
+      "rem": "Incorrect: Not an operator."
+    },
+    "hints": [
+      "The operator that gives remainder after division.",
+      "It is a single character, often called 'modulo'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`n % 2` gives 0 for even numbers, 1 for odd numbers. So `n % 2 == 1` is true for odd n.",
+    "common_mistake_warning": "⚠️ Confusing modulo with division; `%` gives remainder, not quotient."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_035",
+    "concept_name": "Filtering DataFrame with boolean Series",
+    "chapter": 11,
+    "difficulty": "very_hard",
+    "task_description": "Filter DataFrame `df` to rows where column 'age' is greater than 18.",
+    "code_template": "df[df['age'] _____ 18]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ">",
+        "answer_alternatives": [">"]
+      }
+    ],
+    "word_bank": [">", ">=", "<", "==", "!=", ">"],
+    "per_tile_feedback": {
+      ">": "Correct! Greater than operator selects rows with age > 18.",
+      ">=": "Incorrect: That would include age exactly 18, not just greater than.",
+      "<": "Incorrect: That would select ages less than 18.",
+      "==": "Incorrect: That would select only age exactly 18.",
+      "!=": "Incorrect: That would select all ages not equal to 18.",
+      ">": "Duplicate correct."
+    },
+    "hints": [
+      "Use the comparison operator for 'greater than'.",
+      "It is a single character."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df[df['age'] > 18]` returns a DataFrame with only rows where the 'age' column value is greater than 18.",
+    "common_mistake_warning": "⚠️ Forgetting that the boolean Series must have the same index as the DataFrame."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_036",
+    "concept_name": "while loop",
+    "chapter": 12,
+    "difficulty": "hard",
+    "task_description": "Write a while loop that runs as long as variable `count` is less than 5.",
+    "code_template": "_____ count < 5:\n    print(count)\n    count += 1",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "while",
+        "answer_alternatives": ["while"]
+      }
+    ],
+    "word_bank": ["while", "for", "if", "loop", "until", "while"],
+    "per_tile_feedback": {
+      "while": "Correct! 'while' repeats the block as long as condition is true.",
+      "for": "Incorrect: 'for' iterates over a sequence, not condition-based.",
+      "if": "Incorrect: 'if' runs once, not repeatedly.",
+      "loop": "Incorrect: Not a Python keyword.",
+      "until": "Incorrect: No 'until' loop in Python.",
+      "while": "Duplicate correct."
+    },
+    "hints": [
+      "The keyword for a condition-based loop has five letters.",
+      "It checks the condition before each iteration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`while count < 5:` repeatedly executes the indented block as long as the condition remains true.",
+    "common_mistake_warning": "⚠️ Forgetting to update the loop variable leads to infinite loop."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_037",
+    "concept_name": "for loop",
+    "chapter": 13,
+    "difficulty": "medium",
+    "task_description": "Iterate over list `fruits` and print each item.",
+    "code_template": "_____ fruit in fruits:\n    print(fruit)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": ["for"]
+      }
+    ],
+    "word_bank": ["for", "while", "foreach", "in", "for", "each"],
+    "per_tile_feedback": {
+      "for": "Correct! 'for' starts a loop over an iterable.",
+      "while": "Incorrect: 'while' uses a condition, not iteration over a sequence.",
+      "foreach": "Incorrect: Not a Python keyword.",
+      "in": "Incorrect: 'in' is part of the syntax but not the loop starter.",
+      "for": "Duplicate correct.",
+      "each": "Incorrect: Not a keyword."
+    },
+    "hints": [
+      "The three-letter keyword for iteration.",
+      "It is followed by a variable name, then 'in', then the iterable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`for fruit in fruits:` iterates over each element of the list `fruits`, assigning the current element to `fruit` each iteration.",
+    "common_mistake_warning": "⚠️ Modifying the list while iterating can cause skipped items."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_038",
+    "concept_name": "enumerate()",
+    "chapter": 13,
+    "difficulty": "medium",
+    "task_description": "Loop over list `names` with both index and value, starting index at 1.",
+    "code_template": "for i, name in _____(names, start=1):",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "enumerate",
+        "answer_alternatives": ["enumerate"]
+      }
+    ],
+    "word_bank": ["enumerate", "range", "zip", "enumerate", "iter", "enumerate"],
+    "per_tile_feedback": {
+      "enumerate": "Correct! `enumerate` yields index-value pairs.",
+      "range": "Incorrect: `range` generates numbers, not index-value pairs from a list.",
+      "zip": "Incorrect: `zip` combines multiple iterables.",
+      "enumerate": "Duplicate correct.",
+      "iter": "Incorrect: `iter` returns an iterator without indices.",
+      "enumerate": "Duplicate correct."
+    },
+    "hints": [
+      "The function name means 'to give a number to'.",
+      "It returns pairs of (index, item)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`enumerate(names, start=1)` returns an iterator of (index, name) pairs, where index starts at 1.",
+    "common_mistake_warning": "⚠️ Trying to unpack a single value when expecting two (e.g., `for i in enumerate(...)`)."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_039",
+    "concept_name": "Loop over string",
+    "chapter": 13,
+    "difficulty": "easy",
+    "task_description": "Iterate over each character in string `word` and print it.",
+    "code_template": "_____ ch in word:\n    print(ch)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": ["for"]
+      }
+    ],
+    "word_bank": ["for", "while", "for", "each", "in", "iter"],
+    "per_tile_feedback": {
+      "for": "Correct! `for` loops work directly on strings, iterating characters.",
+      "while": "Incorrect: `while` would require manual indexing.",
+      "for": "Duplicate correct.",
+      "each": "Incorrect: Not a Python keyword.",
+      "in": "Incorrect: 'in' is part of the syntax but not the loop starter.",
+      "iter": "Incorrect: `iter` returns an iterator but does not loop."
+    },
+    "hints": [
+      "The same keyword used for looping over lists works for strings.",
+      "It is three letters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Strings are iterable; `for ch in word:` iterates over each character in the string.",
+    "common_mistake_warning": "⚠️ Assuming string is modifiable (strings are immutable)."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_040",
+    "concept_name": "dict.items() method",
+    "chapter": 14,
+    "difficulty": "medium",
+    "task_description": "Iterate over dictionary `scores` to get both keys and values.",
+    "code_template": "for k, v in scores._____():",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "items",
+        "answer_alternatives": ["items"]
+      }
+    ],
+    "word_bank": ["items", "keys", "values", "entries", "items", "pairs"],
+    "per_tile_feedback": {
+      "items": "Correct! `.items()` returns (key, value) pairs.",
+      "keys": "Incorrect: `.keys()` returns only keys, not values.",
+      "values": "Incorrect: `.values()` returns only values.",
+      "entries": "Incorrect: No `.entries()` method; use `.items()`.",
+      "items": "Duplicate correct.",
+      "pairs": "Incorrect: No `.pairs()` method."
+    },
+    "hints": [
+      "The method name is plural for what you get.",
+      "It gives you both key and value in a tuple."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.items()` returns a view of key-value pairs, allowing unpacking into `k, v` in a for loop.",
+    "common_mistake_warning": "⚠️ Calling `.items()` but not unpacking into two variables leads to a single tuple."
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_041",
+    "concept_name": "np.nditer()",
+    "chapter": 14,
+    "difficulty": "medium",
+    "task_description": "Iterate over all elements of 2D NumPy array `matrix` in row-major order.",
+    "code_template": "for val in np._____(matrix):",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "nditer",
+        "answer_alternatives": ["nditer"]
+      }
+    ],
+    "word_bank": ["nditer", "iter", "ndenumerate", "nditer", "npiter", "nditerate"],
+    "per_tile_feedback": {
+      "nditer": "Correct! `np.nditer` efficiently iterates over array elements.",
+      "iter": "Incorrect: `iter` on a 2D array iterates over rows, not elements.",
+      "ndenumerate": "Incorrect: That yields index-value pairs, not just values.",
+      "nditer": "Duplicate correct.",
+      "npiter": "Incorrect: No such function.",
+      "nditerate": "Incorrect: Misspelled."
+    },
+    "hints": [
+      "The function name stands for 'n-dimensional iterator'.",
+      "It is a NumPy function, called as `np.nditer`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.nditer(matrix)` iterates over each element in row-major order, regardless of dimensions.",
+    "common_mistake_warning": "⚠️ Using `nditer` on a Python list (must be NumPy array)."
+  },
+  {
+    "id": "fitb_038",
+    "concept_id": "concept_042",
+    "concept_name": "DataFrame iterrows() method",
+    "chapter": 15,
+    "difficulty": "very_hard",
+    "task_description": "Iterate over DataFrame `df` rows, getting index and row as Series.",
+    "code_template": "for idx, row in df._____():",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "iterrows",
+        "answer_alternatives": ["iterrows"]
+      }
+    ],
+    "word_bank": ["iterrows", "itertuples", "iteritems", "iterrows", "iter", "rows"],
+    "per_tile_feedback": {
+      "iterrows": "Correct! `iterrows()` returns (index, Series) pairs.",
+      "itertuples": "Incorrect: Returns namedtuples, not Series.",
+      "iteritems": "Incorrect: For dictionaries, not DataFrames.",
+      "iterrows": "Duplicate correct.",
+      "iter": "Incorrect: `iter` on DataFrame iterates over column names.",
+      "rows": "Incorrect: No such method."
+    },
+    "hints": [
+      "The method name combines 'iterate' and 'rows'.",
+      "It returns each row as a Series."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.iterrows()` yields pairs of (index, row_series) for each row. Useful but slow for large DataFrames.",
+    "common_mistake_warning": "⚠️ Modifying the DataFrame while iterating can cause issues; prefer vectorized operations."
+  },
+  {
+    "id": "fitb_039",
+    "concept_id": "concept_043",
+    "concept_name": "DataFrame apply() method",
+    "chapter": 15,
+    "difficulty": "very_hard",
+    "task_description": "Apply function `func` to each column of DataFrame `df` (axis=0 is default).",
+    "code_template": "df._____(func)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "apply",
+        "answer_alternatives": ["apply"]
+      }
+    ],
+    "word_bank": ["apply", "map", "applymap", "apply", "transform", "aggregate"],
+    "per_tile_feedback": {
+      "apply": "Correct! `.apply()` applies a function along an axis.",
+      "map": "Incorrect: `.map()` works on Series, not whole DataFrame (element-wise).",
+      "applymap": "Incorrect: `.applymap()` applies element-wise to entire DataFrame.",
+      "apply": "Duplicate correct.",
+      "transform": "Incorrect: `.transform()` is similar but different semantics.",
+      "aggregate": "Incorrect: `.agg()` is for aggregation, not arbitrary functions."
+    },
+    "hints": [
+      "The method name is very general: 'apply'.",
+      "It can work row-wise with `axis=1`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.apply(func)` applies `func` to each column (default axis=0). Use `axis=1` for rows.",
+    "common_mistake_warning": "⚠️ Forgetting that `apply` is slower than vectorized operations."
+  },
+  {
+    "id": "fitb_040",
+    "concept_id": "concept_044",
+    "concept_name": "np.random.rand()",
+    "chapter": 16,
+    "difficulty": "medium",
+    "task_description": "Generate a 2x3 array of uniform random numbers between 0 and 1.",
+    "code_template": "np.random._____(2, 3)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "rand",
+        "answer_alternatives": ["rand"]
+      }
+    ],
+    "word_bank": ["rand", "randint", "random", "uniform", "rand", "ran"],
+    "per_tile_feedback": {
+      "rand": "Correct! `np.random.rand(2,3)` returns a 2x3 array of uniform [0,1).",
+      "randint": "Incorrect: `randint` returns integers, not floats.",
+      "random": "Incorrect: `np.random.random` also works but with different syntax (takes shape tuple).",
+      "uniform": "Incorrect: `uniform` requires low and high parameters.",
+      "rand": "Duplicate correct.",
+      "ran": "Incorrect: No such function."
+    },
+    "hints": [
+      "The function name is short for 'random' but without 'om'.",
+      "It takes dimensions as separate arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.random.rand(2,3)` generates a 2×3 array of floats uniformly distributed in [0,1).",
+    "common_mistake_warning": "⚠️ Forgetting that numbers are pseudo-random; use `seed` for reproducibility."
+  },
+  {
+    "id": "fitb_041",
+    "concept_id": "concept_045",
+    "concept_name": "np.random.seed()",
+    "chapter": 16,
+    "difficulty": "hard",
+    "task_description": "Set the random seed to 42 for reproducibility.",
+    "code_template": "np.random._____(42)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "seed",
+        "answer_alternatives": ["seed"]
+      }
+    ],
+    "word_bank": ["seed", "set_seed", "random_seed", "seed", "init", "randseed"],
+    "per_tile_feedback": {
+      "seed": "Correct! `np.random.seed(42)` initializes the generator.",
+      "set_seed": "Incorrect: No such function; use `seed`.",
+      "random_seed": "Incorrect: The method is `seed`.",
+      "seed": "Duplicate correct.",
+      "init": "Incorrect: Not a function.",
+      "randseed": "Incorrect: Not a function."
+    },
+    "hints": [
+      "The function name is a single word meaning 'to plant'.",
+      "It is called on `np.random`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.random.seed(42)` sets the starting point for random number generation, making results reproducible.",
+    "common_mistake_warning": "⚠️ Setting the seed inside a loop gives the same 'random' numbers each iteration."
+  },
+  {
+    "id": "fitb_042",
+    "concept_id": "concept_046",
+    "concept_name": "np.random.randint()",
+    "chapter": 16,
+    "difficulty": "medium",
+    "task_description": "Generate a random integer from 0 to 9 (inclusive) using NumPy.",
+    "code_template": "np.random._____(0, 10)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "randint",
+        "answer_alternatives": ["randint"]
+      }
+    ],
+    "word_bank": ["randint", "rand", "random_integers", "randint", "randrange", "choice"],
+    "per_tile_feedback": {
+      "randint": "Correct! `np.random.randint(0,10)` returns integers from 0 to 9.",
+      "rand": "Incorrect: `rand` returns floats, not integers.",
+      "random_integers": "Incorrect: Deprecated; use `randint`.",
+      "randint": "Duplicate correct.",
+      "randrange": "Incorrect: That is Python's `random.randrange`, not NumPy's.",
+      "choice": "Incorrect: `choice` selects from a list, not a range."
+    },
+    "hints": [
+      "The function name combines 'random' and 'integer'.",
+      "The high bound is exclusive."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`np.random.randint(0,10)` returns a random integer in [0,10).",
+    "common_mistake_warning": "⚠️ Forgetting that the high bound is exclusive (e.g., `randint(0,2)` gives 0 or 1)."
+  },
+  {
+    "id": "fitb_043",
+    "concept_id": "concept_047",
+    "concept_name": "Random walk simulation",
+    "chapter": 17,
+    "difficulty": "very_hard",
+    "task_description": "Simulate a 10‑step random walk starting at 0, where each step adds a coin toss (0 or 1).",
+    "code_template": "tails = [0]\nfor x in range(10):\n    coin = np.random.randint(0, 2)\n    tails.append(tails[x] _____ coin)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": ["+"]
+      }
+    ],
+    "word_bank": ["+", "-", "*", "/", "//", "+"],
+    "per_tile_feedback": {
+      "+": "Correct! Add the coin result (0 or 1) to the previous total.",
+      "-": "Incorrect: Subtraction would reduce the walk, not a typical random walk.",
+      "*": "Incorrect: Multiplication would not accumulate steps.",
+      "/": "Incorrect: Division would not simulate step accumulation.",
+      "//": "Incorrect: Floor division not appropriate.",
+      "+": "Duplicate correct."
+    },
+    "hints": [
+      "Each step adds the coin toss to the current position.",
+      "The operator is the most basic arithmetic addition."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tails.append(tails[x] + coin)` adds the coin outcome (0 or 1) to the previous total, simulating a cumulative sum.",
+    "common_mistake_warning": "⚠️ Not updating the list properly (e.g., using `tails.append(coin)` instead of accumulating)."
+  },
+  {
+    "id": "fitb_044",
+    "concept_id": "concept_048",
+    "concept_name": "Distribution of random walk endpoints",
+    "chapter": 18,
+    "difficulty": "very_hard",
+    "task_description": "After collecting many random walk endpoints in list `final_tails`, plot a histogram with 10 bins.",
+    "code_template": "plt._____(final_tails, bins=10)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "hist",
+        "answer_alternatives": ["hist"]
+      }
+    ],
+    "word_bank": ["hist", "bar", "plot", "scatter", "histogram", "hist"],
+    "per_tile_feedback": {
+      "hist": "Correct! `plt.hist` creates a histogram of the distribution.",
+      "bar": "Incorrect: `plt.bar` is for categorical bar charts, not histograms.",
+      "plot": "Incorrect: `plt.plot` creates a line plot, not a histogram.",
+      "scatter": "Incorrect: `plt.scatter` shows individual points, not frequency distribution.",
+      "histogram": "Incorrect: The function is `hist`, not `histogram`.",
+      "hist": "Duplicate correct."
+    },
+    "hints": [
+      "The function is the same one used for histograms earlier.",
+      "It is a three-letter abbreviation of 'histogram'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`plt.hist(final_tails, bins=10)` plots the distribution of endpoint frequencies, approximating a binomial distribution.",
+    "common_mistake_warning": "⚠️ Using too few simulations leads to a noisy histogram; use at least 1000 walks."
+  }
+]

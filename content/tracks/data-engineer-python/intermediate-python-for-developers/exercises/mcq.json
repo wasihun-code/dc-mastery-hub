@@ -1,0 +1,1210 @@
+{
+  "course_slug": "python-for-developers-combined",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_005",
+      "concept_name": "Code comment",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following correctly creates a single‑line code comment in Python?",
+      "options": {
+        "a": "// This is a comment",
+        "b": "<!-- This is a comment -->",
+        "c": "# This is a comment",
+        "d": "/* This is a comment */"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "In Python, `//` is used for floor division, not for comments. Comments in Python start with a `#`.",
+        "b": "`<!-- ... -->` is an HTML/XML comment. Python does not recognize this syntax.",
+        "c": "Correct. The `#` character marks the rest of the line as a comment, ignored by the interpreter.",
+        "d": "`/* ... */` is a multi‑line comment in C/Java, but Python only has the `#` syntax (though triple‑quoted strings can act as docstrings, not comments)."
+      },
+      "hints": [
+        "Think about the character that Python ignores from that point to the end of the line.",
+        "It is a single character, not a pair of characters, and it is not used for division."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, the hash symbol `#` starts a comment. Everything after `#` on that line is ignored by the interpreter. Other languages use different symbols, but Python's design is intentionally simple.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_008",
+      "concept_name": "Integer data type",
+      "chapter": 2,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following values is an integer in Python?",
+      "options": {
+        "a": "3.14",
+        "b": "\"42\"",
+        "c": "42",
+        "d": "True"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`3.14` contains a decimal point, so it is a `float`, not an integer.",
+        "b": "Quotes create a string. Even though it looks like a number, `\"42\"` is a `str`.",
+        "c": "Correct. `42` has no decimal point and is a whole number, so it is an `int`.",
+        "d": "`True` is a boolean (`bool`), which is a subclass of `int` in Python (True == 1) but conceptually it is a distinct type."
+      },
+      "hints": [
+        "Integers are whole numbers without a decimal point.",
+        "Look for the value that does not have quotes or a dot."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python integers are whole numbers written without a decimal point. For example, `42`, `-7`, and `0` are integers. `3.14` is a float, `\"42\"` is a string, and `True` is a boolean.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_016",
+      "concept_name": "Arithmetic operators",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nprint(5 + 2 * 3)\n```",
+      "options": {
+        "a": "21",
+        "b": "11",
+        "c": "16",
+        "d": "10"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would be the result of `(5 + 2) * 3`. But multiplication has higher precedence than addition, so `2 * 3` is performed first.",
+        "b": "Correct. Multiplication (`2 * 3 = 6`) happens before addition, so `5 + 6 = 11`.",
+        "c": "That would be `5 + 2 = 7` then `7 * 3 = 21`? No, that's not correct order. Or maybe `5 * 2 + 3`? Not this.",
+        "d": "That would be `5 + 2 * 3` misinterpreted as `5 + (2 * 3) / something`? No."
+      },
+      "hints": [
+        "Remember operator precedence: multiplication and division happen before addition and subtraction.",
+        "Calculate `2 * 3` first, then add 5."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python follows standard arithmetic precedence: `*` and `/` have higher precedence than `+` and `-`. So `2 * 3` is evaluated first, giving 6, then `5 + 6` gives 11.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_017",
+      "concept_name": "String operators",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\nprint(\"Hi\" * 3)\n```",
+      "options": {
+        "a": "HiHiHi",
+        "b": "Hi3",
+        "c": "Hi Hi Hi",
+        "d": "TypeError: can't multiply sequence by non-int"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The `*` operator repeats a string the given number of times, so `\"Hi\" * 3` produces `\"HiHiHi\"`.",
+        "b": "`*` does not insert the number; it repeats the whole string. That would be `\"Hi\" + str(3)`.",
+        "c": "Multiplication does not add spaces. Concatenation with `+` would also not add spaces unless explicit.",
+        "d": "`*` works with a string and an integer. This is a valid operation in Python."
+      },
+      "hints": [
+        "The `*` operator on a string and an integer repeats the string.",
+        "There are no spaces added automatically."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `*` operator, when used with a string and an integer, repeats the string that many times, concatenating the copies. So `\"Hi\" * 3` results in `\"HiHiHi\"`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_040",
+      "concept_name": "sorted() function",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\ningredients = {\"garlic\", \"basil\", \"pasta\"}\nprint(sorted(ingredients))\n```",
+      "options": {
+        "a": "['basil', 'garlic', 'pasta']",
+        "b": "['garlic', 'basil', 'pasta']",
+        "c": "{'basil', 'garlic', 'pasta'}",
+        "d": "TypeError: 'set' object is not subscriptable"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `sorted()` returns a new **list** with the elements of the set in alphabetical order. Sets are unordered, but `sorted()` imposes order.",
+        "b": "That is the original order of the set (which is arbitrary), but `sorted()` always returns sorted order, not the arbitrary order.",
+        "c": "`sorted()` always returns a list, not a set. Converting back to a set would lose order.",
+        "d": "`sorted()` works on any iterable, including sets. It does not raise a TypeError."
+      },
+      "hints": [
+        "`sorted()` works on any iterable and returns a **list** in ascending order.",
+        "Sets are unordered; `sorted()` creates a predictable order."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `sorted()` built-in function takes any iterable (like a set) and returns a new list containing all items in sorted order. For strings, it sorts lexicographically. The output is a list: `['basil', 'garlic', 'pasta']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_043",
+      "concept_name": "Comparison operators",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nprint(5 >= 5)\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "5",
+        "d": "None"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `5 >= 5` is true because 5 is greater than or equal to 5 (they are equal).",
+        "b": "`5 >= 5` includes equality, so it is true. `5 > 5` would be false.",
+        "c": "Comparison operators always return a boolean (`True` or `False`), not the numeric value.",
+        "d": "No, `>=` returns a boolean, not `None`."
+      },
+      "hints": [
+        "`>=` means 'greater than or equal to'.",
+        "When both numbers are equal, `>=` returns `True`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The expression `5 >= 5` evaluates to `True` because 5 is equal to 5, satisfying the 'greater than or equal' condition. Comparison operators always produce boolean values.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_044",
+      "concept_name": "String comparison",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\nprint(\"apple\" > \"Banana\")\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "TypeError",
+        "d": "ValueError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. String comparison is lexicographic based on Unicode code points. Uppercase letters have lower code points than lowercase letters. `'B'` (66) vs `'a'` (97), so `'a' > 'B'` because 97 > 66. Thus `\"apple\" > \"Banana\"` is True.",
+        "b": "It is not False; the first character `'a'` (97) is greater than `'B'` (66), so `\"apple\"` is considered greater.",
+        "c": "You can compare strings using comparison operators; it does not raise a TypeError.",
+        "d": "No ValueError; the comparison is valid."
+      },
+      "hints": [
+        "String comparison uses the Unicode values of characters. Uppercase letters come before lowercase letters.",
+        "Compare the first differing character: `'a'` vs `'B'`. Which has a higher Unicode number?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python compares strings lexicographically (dictionary order) using Unicode code points. Uppercase letters (A-Z) have code points 65-90, lowercase (a-z) have 97-122. Since `'a'` (97) > `'B'` (66), the whole string `\"apple\"` is considered greater than `\"Banana\"`, so the output is `True`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_045",
+      "concept_name": "Conditional statement (if)",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ntomatoes = 10\nif tomatoes > 5:\n    print(\"Enough\")\nprint(\"Done\")\n```",
+      "options": {
+        "a": "Enough\nDone",
+        "b": "Done",
+        "c": "Enough",
+        "d": "Nothing (indentation error)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The condition `tomatoes > 5` is true (10 > 5), so the indented block executes, printing `Enough`. Then after the if block, the unindented `print(\"Done\")` executes, printing `Done`.",
+        "b": "That would happen if the condition were false, but here it is true.",
+        "c": "This would be the output if `print(\"Done\")` were inside the if block or if the program stopped, but it is outside.",
+        "d": "The code is correctly indented. There is no indentation error."
+      },
+      "hints": [
+        "Only the line after `if` that is indented belongs to the condition.",
+        "The last `print` is not indented, so it runs regardless of the condition."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `if` condition checks if `tomatoes > 5`. Since 10 > 5, the indented block runs, printing `\"Enough\"`. Then execution continues with the next line that is not indented, printing `\"Done\"`. So the output is two lines: `Enough` followed by `Done`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_046",
+      "concept_name": "Elif statement",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed?\n\n```python\ntemp = 20\nif temp > 30:\n    print(\"Hot\")\nelif temp > 15:\n    print(\"Warm\")\nelif temp > 10:\n    print(\"Cool\")\nelse:\n    print(\"Cold\")\n```",
+      "options": {
+        "a": "Hot",
+        "b": "Warm",
+        "c": "Cool",
+        "d": "Cold"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The condition `temp > 30` is false (20 > 30 false), so it moves to the next `elif`.",
+        "b": "Correct. The first condition fails, but `temp > 15` is true (20 > 15), so `\"Warm\"` is printed and the rest of the elif/else chain is skipped.",
+        "c": "Even though 20 > 10 is also true, the `elif` chain stops at the first true condition. So `Cool` is not printed.",
+        "d": "`Cold` is only printed if all conditions are false, which is not the case here."
+      },
+      "hints": [
+        "`elif` conditions are checked in order, and only the first true block executes.",
+        "Check `temp > 30`: false. Then check `temp > 15`: true → print `Warm` and exit."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `if-elif-else` chain evaluates conditions sequentially. The first condition `temp > 30` is false (20 is not >30). The second condition `temp > 15` is true, so the block under that `elif` executes, printing `Warm`. The remaining conditions are not evaluated.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_047",
+      "concept_name": "Else statement",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does this code output?\n\n```python\nx = 5\nif x > 10:\n    print(\"A\")\nelse:\n    print(\"B\")\nprint(\"C\")\n```",
+      "options": {
+        "a": "B\nC",
+        "b": "C",
+        "b_dup": "B",
+        "c": "A\nC",
+        "d": "A\nB\nC"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `x > 10` is false, so the `else` block executes, printing `B`. Then after the `if-else`, `print(\"C\")` runs, printing `C`. Output: `B` then `C`.",
+        "b": "That would be the case if `print(\"B\")` were not there, but the else block runs.",
+        "c": "`A` would only print if condition were true, which it isn't.",
+        "d": "Only one branch (if or else) executes, not both."
+      },
+      "hints": [
+        "The `else` block runs when the `if` condition is false.",
+        "The last `print` is outside the `if-else`, so it always runs."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Since `x = 5` and the condition `x > 10` is false, the code inside the `else` block executes, printing `B`. After the conditional block, the final `print(\"C\")` runs regardless. So the output is `B` followed by `C` on separate lines.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_048",
+      "concept_name": "Indentation",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Which of the following will cause an `IndentationError`?",
+      "options": {
+        "a": "```python\nif True:\nprint(\"Hello\")\n```",
+        "b": "```python\nif True:\n    print(\"Hello\")\n```",
+        "c": "```python\nif True:\n    print(\"Hello\")\n    print(\"World\")\n```",
+        "d": "```python\nif True:\n    print(\"Hello\")\n  print(\"World\")\n```"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. After the colon, the next line must be indented. Here it is not, causing `IndentationError`.",
+        "b": "This is correct: the `print` is indented (typically 4 spaces). No error.",
+        "c": "Both prints are indented consistently, so no error.",
+        "d": "While mixing indentation levels (4 spaces then 2 spaces) is bad practice, Python allows it as long as the same block stays consistent. Here the second `print` is less indented, so it ends the `if` block, but not an `IndentationError` (it will run conditionally). The first `print` is indented, second is not, so the second runs after the if. No IndentationError."
+      },
+      "hints": [
+        "After a line ending with a colon, Python expects an indented block.",
+        "If the next line is not indented at all, that's an IndentationError."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, indentation defines code blocks. After an `if` statement (or any colon), the following line must be indented. Option A has no indentation, causing an `IndentationError`. The other options have proper or consistent indentation.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_049",
+      "concept_name": "For loop",
+      "chapter": 9,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\"]\nfor i in ingredients:\n    print(i)\n```",
+      "options": {
+        "a": "pasta\ntomatoes\ngarlic",
+        "b": "['pasta', 'tomatoes', 'garlic']",
+        "c": "0\n1\n2",
+        "d": "pasta tomatoes garlic"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The loop iterates over each element of the list and prints it on a separate line.",
+        "b": "That would be printing the whole list, not iterating. The loop prints each element individually.",
+        "c": "That would be using `range(len(ingredients))` and printing the index, not the value.",
+        "d": "`print(i)` without extra arguments prints each on a new line by default. This output suggests `print(i, end=' ')`."
+      },
+      "hints": [
+        "The loop variable `i` takes on each value in the list, one by one.",
+        "Each `print(i)` outputs the value followed by a newline."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `for` loop iterates over the list `ingredients`. In each iteration, the variable `i` is assigned the next element, and `print(i)` outputs that element followed by a newline. So the output is each ingredient on its own line.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_027",
+      "concept_name": "List slicing",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]\nprint(ingredients[1:4])\n```",
+      "options": {
+        "a": "['tomatoes', 'garlic', 'basil']",
+        "b": "['tomatoes', 'garlic', 'basil', 'olive oil']",
+        "c": "['pasta', 'tomatoes', 'garlic']",
+        "d": "['garlic', 'basil', 'olive oil']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Slice `[start:end]` includes elements from index `start` (1) up to but **excluding** index `end` (4). Indices 1,2,3 give `'tomatoes'`, `'garlic'`, `'basil'`.",
+        "b": "This includes index 4 (`'olive oil'`), but the stop index is exclusive, so index 4 is not included.",
+        "c": "This would be `[0:3]` or `[:3]`, not `[1:4]`.",
+        "d": "This would be `[2:5]` or `[2:]` up to index 5, not `[1:4]`."
+      },
+      "hints": [
+        "List slicing uses `[start:stop]` where `stop` is exclusive.",
+        "Indices: 0:pasta, 1:tomatoes, 2:garlic, 3:basil, 4:olive oil, 5:salt. So from 1 to 4 exclusive gives indices 1,2,3."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The slice `[1:4]` returns a new list containing elements from index 1 up to but not including index 4. Index 1 is `'tomatoes'`, index 2 is `'garlic'`, index 3 is `'basil'`. So the output is `['tomatoes', 'garlic', 'basil']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_036",
+      "concept_name": "Duplicate keys in dictionary",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `recipe[\"garlic\"]` after this code?\n\n```python\nrecipe = {\"pasta\": 500, \"garlic\": 5, \"garlic\": 15}\n```",
+      "options": {
+        "a": "5",
+        "b": "15",
+        "c": "[5, 15]",
+        "d": "KeyError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The second `\"garlic\": 15` overwrites the first `\"garlic\": 5`. Only the last assignment remains.",
+        "b": "Correct. Dictionaries cannot have duplicate keys. When you provide two identical keys, the later value overwrites the earlier one. No error occurs.",
+        "c": "Dictionaries do not store multiple values for the same key. The key can have only one value.",
+        "d": "The key exists because it was defined, so no KeyError."
+      },
+      "hints": [
+        "What happens when you try to use the same key twice in a dictionary literal?",
+        "The key `\"garlic\"` appears twice. The last value wins."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python dictionaries do not allow duplicate keys. If you specify the same key multiple times in a literal or through assignment, the most recent value overwrites the earlier ones. Here, `\"garlic\"` is first set to 5, then immediately overwritten with 15. So `recipe[\"garlic\"]` is 15.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_039",
+      "concept_name": "Set limitations",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run this code?\n\n```python\ningredients = {\"pasta\", \"tomatoes\", \"garlic\"}\nprint(ingredients[1])\n```",
+      "options": {
+        "a": "Prints `tomatoes`",
+        "b": "Prints `garlic`",
+        "c": "Raises `TypeError: 'set' object is not subscriptable`",
+        "d": "Prints the set in order: `pasta` then `tomatoes` then `garlic`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Sets are unordered and do not support indexing. You cannot access an element by position.",
+        "b": "Same as above; indexing a set is not allowed.",
+        "c": "Correct. Sets are not subscriptable. Trying to use `[1]` on a set raises a `TypeError`.",
+        "d": "Sets do not maintain a defined order, and even if they did, they cannot be indexed."
+      },
+      "hints": [
+        "What type of object is `ingredients`? Does it support indexing with square brackets?",
+        "Look back at the properties of sets: they are unordered and do not have indices."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Sets are unordered collections with no index positions. Attempting to access an element by index (e.g., `my_set[0]`) raises a `TypeError: 'set' object is not subscriptable`. To access elements, you must iterate over the set or convert it to a list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_056",
+      "concept_name": "While loop",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ncount = 2\nwhile count < 6:\n    print(count)\n    count += 2\n```",
+      "options": {
+        "a": "2\n4\n6",
+        "b": "2\n4",
+        "c": "4\n6",
+        "d": "2\n3\n4\n5"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The loop stops when `count` is no longer less than 6. After printing 4, `count` becomes 6, then the condition `6 < 6` is false, so 6 is not printed.",
+        "b": "Correct. Start count=2 → print 2, count=4; condition 4<6 true → print 4, count=6; condition 6<6 false → loop ends. Output: 2 and 4 on separate lines.",
+        "c": "This would happen if you printed after incrementing, or started at 4.",
+        "d": "This would be from incrementing by 1, not 2."
+      },
+      "hints": [
+        "The loop condition is checked before each iteration, including before the first iteration.",
+        "When `count` becomes 6, is 6 < 6? No, so the loop does not execute again."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The while loop runs as long as `count < 6`. Initially `count = 2`, prints 2, then adds 2 → 4. `4 < 6` true, prints 4, adds 2 → 6. Now `6 < 6` false, so the loop exits. Output is `2` and `4` each on a new line.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_058",
+      "concept_name": "break keyword",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed?\n\n```python\nfor i in range(5):\n    if i == 3:\n        break\n    print(i)\n```",
+      "options": {
+        "a": "0 1 2",
+        "b": "0 1 2 3",
+        "c": "0 1 2 3 4",
+        "d": "0 1 2 (then error)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The loop prints `i` for values 0,1,2. When `i` becomes 3, `break` exits the loop immediately, so 3 and 4 are not printed.",
+        "b": "This would happen if `break` were after the `print`, or if condition was `i > 3`.",
+        "c": "That's the full range without break.",
+        "d": "No error; break is valid inside a loop."
+      },
+      "hints": [
+        "`break` stops the entire loop immediately, skipping any remaining iterations.",
+        "When `i` equals 3, the condition `i == 3` is true, so `break` runs before printing."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `for` loop iterates `i` from 0 to 4. For each iteration, it checks if `i == 3`. When `i = 0,1,2`, the condition is false, so `print(i)` executes. When `i = 3`, the condition is true, `break` runs, and the loop terminates immediately. Thus, only 0, 1, and 2 are printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_059",
+      "concept_name": "in keyword",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code output?\n\n```python\nrecipe = {\"pasta\": 500, \"tomatoes\": 400, \"garlic\": 15}\nprint(\"garlic\" in recipe)\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "TypeError",
+        "d": "15"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `in` on a dictionary checks for membership in the **keys** by default. `\"garlic\"` is a key, so it returns `True`.",
+        "b": "`\"garlic\"` is a key, so it exists. If you wanted to check values, you would need `\"garlic\" in recipe.values()`.",
+        "c": "`in` is valid with dictionaries; it does not raise an error.",
+        "d": "`in` returns a boolean, not the value."
+      },
+      "hints": [
+        "Does `in` check keys or values?",
+        "The dictionary has a key `\"garlic\"`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When using the `in` operator with a dictionary, Python checks whether the given item exists among the dictionary's **keys**. Since `\"garlic\"` is a key in the `recipe` dictionary, the expression evaluates to `True`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_060",
+      "concept_name": "not keyword",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the result of this code?\n\n```python\npantry = [\"flour\", \"sugar\", \"olive oil\"]\nprint(\"salt\" not in pantry)\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "None",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `\"salt\" not in pantry` checks if `\"salt\"` is **not** present. Since `\"salt\"` is not in the list, the expression returns `True`.",
+        "b": "That would be `\"salt\" in pantry`, which is false because salt is not there.",
+        "c": "`not in` returns a boolean, not `None`.",
+        "d": "`in` and `not in` work with lists; no TypeError."
+      },
+      "hints": [
+        "`not in` is the opposite of `in`.",
+        "Is `\"salt\"` an element of the list `pantry`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `not in` operator returns `True` if the value is **not** found in the sequence. Here, `\"salt\"` is not in the list `pantry`, so `\"salt\" not in pantry` evaluates to `True`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_061",
+      "concept_name": "and keyword",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this print?\n\n```python\npasta = 600\nolive_oil = 30\nif pasta >= 500 and olive_oil >= 30:\n    print(\"OK\")\nelse:\n    print(\"Not OK\")\n```",
+      "options": {
+        "a": "OK",
+        "b": "Not OK",
+        "c": "Nothing",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `pasta >= 500` is true (600>=500) and `olive_oil >= 30` is true (30>=30). Both are true, so the `and` condition is true, printing `OK`.",
+        "b": "That would happen if at least one condition were false, but both are true.",
+        "c": "The `if-else` always prints something because there's a print in both branches.",
+        "d": "Comparisons and `and` are valid with integers; no TypeError."
+      },
+      "hints": [
+        "`and` returns `True` only if both operands are true.",
+        "Check each comparison individually."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `and` operator combines two boolean expressions. Both `pasta >= 500` (600 >= 500 is True) and `olive_oil >= 30` (30 >= 30 is True) evaluate to True. Therefore the whole condition is True, and the `if` block executes, printing `OK`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_062",
+      "concept_name": "or keyword",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed?\n\n```python\nhas_pasta = False\nhas_tomatoes = True\nif has_pasta or has_tomatoes:\n    print(\"Make sauce\")\nelse:\n    print(\"Need ingredients\")\n```",
+      "options": {
+        "a": "Make sauce",
+        "b": "Need ingredients",
+        "c": "False",
+        "d": "True"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `or` returns `True` if at least one operand is `True`. Here `has_tomatoes` is `True`, so the condition is true and `Make sauce` prints.",
+        "b": "This would happen only if both were false.",
+        "c": "The condition is a boolean, but the `print` statement prints the string, not the boolean.",
+        "d": "Similarly, it prints the string literal, not `True`."
+      },
+      "hints": [
+        "`or` is true if either side is true.",
+        "`has_tomatoes` is true, so the whole condition is true."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `or` operator evaluates to `True` if at least one of its operands is `True`. Since `has_tomatoes` is `True`, the condition `has_pasta or has_tomatoes` is `True`, so the `if` block executes, printing `Make sauce`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_063",
+      "concept_name": "+= operator",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `message` after this code?\n\n```python\nmessage = \"Hello\"\nmessage += \" World\"\n```",
+      "options": {
+        "a": "\"Hello World\"",
+        "b": "\"Hello\"",
+        "c": "\"World\"",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `+=` on a string concatenates the right operand and assigns the result. So `message` becomes `\"Hello\" + \" World\" = \"Hello World\"`.",
+        "b": "This would be if the `+=` didn't happen or if it were assignment without addition.",
+        "c": "That would be `message = \"World\"`, not concatenation.",
+        "d": "Strings support `+=` (concatenation), so no TypeError."
+      },
+      "hints": [
+        "`+=` is an augmented assignment operator. For strings, it means concatenation.",
+        "The original string is `\"Hello\"`, and you add `\" World\"` to it."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `+=` operator adds the right operand to the left variable and assigns the result. For strings, `+=` performs concatenation. So `message += \" World\"` is equivalent to `message = message + \" World\"`, resulting in `\"Hello World\"`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_064",
+      "concept_name": "-= operator",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the final value of `count`?\n\n```python\ncount = 10\ncount -= 3\n```",
+      "options": {
+        "a": "7",
+        "b": "10",
+        "c": "13",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `count -= 3` subtracts 3 from `count` and assigns the result: 10 - 3 = 7.",
+        "b": "This would be if no subtraction occurred.",
+        "c": "That would be `+= 3`, not `-=`.",
+        "d": "Integers support `-=`, no error."
+      },
+      "hints": [
+        "`-=` subtracts the right value from the variable.",
+        "Calculate 10 - 3."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `-=` operator subtracts the right operand from the left variable and assigns the result. `count -= 3` is equivalent to `count = count - 3`, which gives 10 - 3 = 7.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_065",
+      "concept_name": ".append() method (list)",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nshopping_list = []\nresult = shopping_list.append(\"pasta\")\nprint(result)\n```",
+      "options": {
+        "a": "['pasta']",
+        "b": "None",
+        "c": "pasta",
+        "d": "TypeError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is the value of `shopping_list` after the append, but `.append()` returns `None`, not the list. The variable `result` gets `None`.",
+        "b": "Correct. The `.append()` method modifies the list **in place** and returns `None`. So `result` is `None` and that is printed.",
+        "c": "`.append()` does not return the element added.",
+        "d": "`.append()` is a valid method; it does not raise an error, though it returns `None`."
+      },
+      "hints": [
+        "What does the `.append()` method return?",
+        "It modifies the list but returns `None`, not the new list."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `.append()` method adds an element to the end of a list and returns `None`. It modifies the list in place. Here, `result` gets the return value `None`, so `print(result)` outputs `None`. The list `shopping_list` becomes `[\"pasta\"]`, but that is not printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_070",
+      "concept_name": "round() function",
+      "chapter": 13,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of `round(2.675, 2)` in Python?",
+      "options": {
+        "a": "2.68",
+        "b": "2.67",
+        "c": "2.68",
+        "d": "2.7"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Many expect 2.68 due to standard rounding, but Python uses 'bankers rounding' (round half to even). 2.675 is exactly halfway, and the nearest even digit in the hundredths place is 7 (since 2.67). So it rounds to 2.67.",
+        "b": "Correct. Due to floating-point representation and Python's round-half-to-even rule, `round(2.675, 2)` yields 2.67.",
+        "c": "This is a duplicate option (should be different). Actually, the correct is 2.67. But note: due to floating-point, 2.675 is not exactly representable; the actual value is slightly less, so it rounds down.",
+        "d": "That would be rounding to one decimal place: `round(2.675, 1)` is 2.7."
+      },
+      "hints": [
+        "Python's `round()` uses 'bankers rounding' for ties (round to nearest even).",
+        "Also, floating-point numbers may not be exact. 2.675 is actually stored as a value slightly less than 2.675."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python's `round()` function uses round-half-to-even (also called bankers rounding) for ties. Moreover, due to binary floating-point representation, the decimal 2.675 cannot be represented exactly; it is stored as a value slightly less than 2.675. As a result, `round(2.675, 2)` returns 2.67, not 2.68.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_084",
+      "concept_name": "pip",
+      "chapter": 15,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You want to install the `pandas` package on your system. Which command is the recommended way to ensure you install it for the correct Python environment?",
+      "options": {
+        "a": "pip install pandas",
+        "b": "python3 -m pip install pandas",
+        "c": "install pandas",
+        "d": "python install pandas"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "While often works, on systems with multiple Python versions, `pip` might refer to a different environment. It is safer to use `python -m pip`.",
+        "b": "Correct. Using `python -m pip` ensures that you are using the `pip` associated with the `python` interpreter currently in scope, avoiding environment mismatches.",
+        "c": "`install` is not a Python command; pip is required.",
+        "d": "`python install` is not a valid command. The correct module invocation is `python -m pip install`."
+      },
+      "hints": [
+        "You need to invoke the `pip` module through the Python interpreter to be certain of the environment.",
+        "The command starts with `python -m` followed by `pip install`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The recommended practice is to use `python -m pip install <package>` because it guarantees that you are using the pip version associated with the Python interpreter you are currently using. This avoids problems on systems with multiple Python installations where the `pip` command might point to a different environment.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_088",
+      "concept_name": "DataFrame (pandas)",
+      "chapter": 15,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given `import pandas as pd`, what is the output of this code?\n\n```python\ndata = {\"name\": [\"Alice\", \"Bob\"], \"age\": [25, 30]}\ndf = pd.DataFrame(data)\nprint(df)\n```",
+      "options": {
+        "a": "   name  age\n0  Alice   25\n1    Bob   30",
+        "b": "{'name': ['Alice', 'Bob'], 'age': [25, 30]}",
+        "c": "[[Alice, 25], [Bob, 30]]",
+        "d": "Error: pandas not installed"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `pd.DataFrame` from a dictionary of lists creates a DataFrame with column names from dictionary keys and rows from the lists.",
+        "b": "That is the original dictionary, not the DataFrame representation.",
+        "c": "That would be a list of lists, not a DataFrame's string output.",
+        "d": "Assuming pandas is installed, this code runs. The question doesn't say it's missing."
+      },
+      "hints": [
+        "A DataFrame is a 2D labeled data structure. It prints as a table with column names and row indices.",
+        "The dictionary keys become column names."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `pd.DataFrame` constructor converts a dictionary of lists into a DataFrame where each key becomes a column name and the corresponding list provides the column values. The output is a nicely formatted table with row indices (0,1) and the columns `name` and `age`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_089",
+      "concept_name": "pd.read_csv() function",
+      "chapter": 15,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You try to read a CSV file using `pd.read_csv(\"sales.csv\")` but get a `FileNotFoundError`. Which of the following is the most likely cause?",
+      "options": {
+        "a": "The file `sales.csv` does not exist in the current working directory.",
+        "b": "The `pandas` package is not installed.",
+        "c": "The CSV file contains invalid data.",
+        "d": "You forgot to import `pandas` as `pd`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `FileNotFoundError` specifically means the file path could not be found. The most common reason is that the file is not in the current working directory or the path is incorrect.",
+        "b": "If pandas were not installed, you would get an `ImportError` or `ModuleNotFoundError`, not `FileNotFoundError`.",
+        "c": "Invalid data would cause a `ParserError` or other parsing error, not `FileNotFoundError`.",
+        "d": "If you forgot to import, you would get a `NameError: name 'pd' is not defined` before even calling `read_csv`."
+      },
+      "hints": [
+        "Read the error name carefully: `FileNotFoundError` is about the file system.",
+        "The file path is relative; is the file in the same directory as your script?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A `FileNotFoundError` occurs when the file specified does not exist at the given path. The most likely cause is that `sales.csv` is not present in the current working directory. You should check the file location or provide an absolute path.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_108",
+      "concept_name": "lambda function",
+      "chapter": 20,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which of the following is a valid lambda function that squares its input?",
+      "options": {
+        "a": "lambda x: x**2",
+        "b": "def lambda(x): return x**2",
+        "c": "lambda x: return x**2",
+        "d": "lambda(x): x**2"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. A lambda function is defined with `lambda` keyword, parameters, a colon, and a single expression which is implicitly returned.",
+        "b": "`lambda` cannot be used as a function name; also `def` is for named functions.",
+        "c": "Lambda expressions cannot contain `return` statements; the expression is automatically returned.",
+        "d": "Parentheses are not required around the parameter list unless there are multiple parameters or you need to disambiguate; but `lambda(x): x**2` is invalid because the colon cannot follow the closing parenthesis directly. Correct syntax: `lambda x: x**2`."
+      },
+      "hints": [
+        "Lambda functions are anonymous, one-line functions.",
+        "The syntax is: `lambda arguments: expression`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A lambda function is defined using the keyword `lambda`, followed by parameters, a colon, and a single expression. The expression is evaluated and returned. The correct syntax to square a number is `lambda x: x**2`. No `return` statement or parentheses around the lambda keyword.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_110",
+      "concept_name": "map() function",
+      "chapter": 20,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code output?\n\n```python\nnums = [1, 2, 3]\nresult = map(lambda x: x * 2, nums)\nprint(result)\n```",
+      "options": {
+        "a": "[2, 4, 6]",
+        "b": "<map object at 0x...>",
+        "c": "2\n4\n6",
+        "d": "TypeError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`map()` returns an iterator, not a list. To get a list, you would need `list(map(...))`.",
+        "b": "Correct. `map()` returns an iterator (map object), and printing it shows its memory address, not the contents.",
+        "c": "That would be if you iterated over the map object and printed each element.",
+        "d": "No error; `map()` is a built-in function and works."
+      },
+      "hints": [
+        "What does `map()` return? Check the course content: it returns an iterator.",
+        "Printing an iterator directly does not show its elements."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `map()` function returns an iterator (specifically a `map` object) that yields results lazily. When you print the iterator itself, you get a representation like `<map object at 0x...>`. To see the elements, you need to convert it to a list or iterate over it.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_112",
+      "concept_name": "ValueError",
+      "chapter": 21,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Which line of code will raise a `ValueError`?",
+      "options": {
+        "a": "int(\"hello\")",
+        "b": "5 + \"2\"",
+        "c": "my_dict = {}; my_dict['missing']",
+        "d": "len(5)"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `int(\"hello\")` tries to convert a non-numeric string to an integer, raising `ValueError` because the value is inappropriate for the type.",
+        "b": "This raises a `TypeError` because you cannot add an int and a str.",
+        "c": "This raises a `KeyError` because the key does not exist.",
+        "d": "`len(5)` raises a `TypeError` because an integer is not iterable."
+      },
+      "hints": [
+        "`ValueError` occurs when a function receives an argument of the correct type but an inappropriate value.",
+        "Which operation involves a valid type but an invalid value?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`ValueError` is raised when a function gets an argument of the right type but the value is not appropriate. `int(\"hello\")` has the correct type (string) but the string `\"hello\"` cannot be converted to an integer, so a `ValueError` occurs. The other options raise `TypeError` or `KeyError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_114",
+      "concept_name": "KeyError",
+      "chapter": 21,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Assuming `import pandas as pd` and `df = pd.DataFrame({'A': [1,2]})`, which statement raises a `KeyError`?",
+      "options": {
+        "a": "df['B']",
+        "b": "df[0]",
+        "c": "df['A']",
+        "d": "df.iloc[0]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Accessing a column that does not exist in a DataFrame raises a `KeyError`.",
+        "b": "Using `df[0]` with an integer is interpreted as column access by name; if there is no column named 0, it also raises a `KeyError`. However, the question expects the most obvious: accessing non-existent column `'B'`.",
+        "c": "Column 'A' exists, so no error.",
+        "d": "`.iloc[0]` accesses by integer position, not label, so it returns the first row, no `KeyError`."
+      },
+      "hints": [
+        "A `KeyError` happens when you try to access a key that does not exist in a dictionary or a pandas DataFrame column label.",
+        "Which column name is not in the DataFrame?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In pandas, accessing a DataFrame column using `df['col_name']` raises a `KeyError` if the column name does not exist. Since the DataFrame has only column 'A', accessing `df['B']` causes a `KeyError`. The other options either work or raise different error types.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_028",
+      "concept_name": "Step slicing",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ningredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]\nprint(ingredients[::2])\n```",
+      "options": {
+        "a": "['pasta', 'garlic', 'olive oil']",
+        "b": "['pasta', 'tomatoes', 'garlic', 'basil', 'olive oil', 'salt']",
+        "c": "['tomatoes', 'basil', 'salt']",
+        "d": "['olive oil', 'garlic', 'pasta']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `[::2]` means start at the beginning, go to the end, with a step of 2. This selects every second element: indices 0,2,4 -> pasta, garlic, olive oil.",
+        "b": "That would be the whole list (step = 1).",
+        "c": "That would be indices 1,3,5 (step 2 starting at 1).",
+        "d": "That would be a reverse step (e.g., `[::-1]` then step 2, or something else)."
+      },
+      "hints": [
+        "Step slicing syntax: `[start:stop:step]`. When start and stop are omitted, they default to beginning and end.",
+        "With step 2, you skip one element between picks."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The slice `[::2]` takes all elements from the list (from beginning to end) with a step of 2. This means it includes elements at indices 0, 2, 4, ... So the result is `['pasta', 'garlic', 'olive oil']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_054",
+      "concept_name": "Conditionals inside for loops",
+      "chapter": 9,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this code output?\n\n```python\nquantities = [1000, 40, 30, 15]\nfor qty in quantities:\n    if qty > 500:\n        print(\"Plenty\")\n    elif qty >= 100:\n        print(\"Enough\")\n    else:\n        print(\"Low\")\n```",
+      "options": {
+        "a": "Plenty\\nLow\\nLow\\nLow",
+        "b": "Plenty\\nEnough\\nLow\\nLow",
+        "c": "Plenty\\nLow\\nEnough\\nLow",
+        "d": "Enough\\nLow\\nLow\\nLow"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. 1000 > 500 → 'Plenty'; 40 not >500 and not >=100 → 'Low'; 30 → 'Low'; 15 → 'Low'. So output: Plenty, Low, Low, Low.",
+        "b": "This would require the second element (40) to be >=100, but it's not.",
+        "c": "This would require the third element (30) to be >=100, but it's not.",
+        "d": "The first element is 1000, which prints 'Plenty', not 'Enough'."
+      },
+      "hints": [
+        "Evaluate each quantity one by one using the if-elif-else chain.",
+        "Check the condition: first >500, then >=100, else."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The loop iterates over each quantity. For 1000, the first condition `qty > 500` is true, so 'Plenty' is printed and the rest of the chain is skipped. For 40, `>500` false, `>=100` false (40<100), so 'Low' is printed. Similarly for 30 and 15, both fall into the else block, printing 'Low'. Thus the output is 'Plenty', 'Low', 'Low', 'Low'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_066",
+      "concept_name": "Building a workflow",
+      "chapter": 11,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "You have a recipe dictionary `recipe` (keys: ingredients, values: needed quantities) and a pantry set `pantry` (ingredients you have). Which code correctly builds a list `shopping_list` of ingredients you need to buy (ingredients not in pantry)?",
+      "options": {
+        "a": "```python\nshopping_list = []\nfor ingredient in recipe:\n    if ingredient not in pantry:\n        shopping_list.append(ingredient)\n```",
+        "b": "```python\nshopping_list = recipe.values() - pantry\n```",
+        "c": "```python\nshopping_list = [ingredient for ingredient in recipe if ingredient in pantry]\n```",
+        "d": "```python\nshopping_list = []\nfor ingredient in pantry:\n    if ingredient not in recipe:\n        shopping_list.append(ingredient)\n```"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Iterates over recipe keys (ingredients), checks if missing from pantry using `not in`, and appends to shopping list.",
+        "b": "`recipe.values()` returns quantities, not ingredients. Sets cannot be subtracted from values directly; also pantry is a set of ingredients, not quantities.",
+        "c": "This would create a list of ingredients that are **in** the pantry, not missing.",
+        "d": "This iterates over pantry items, not recipe, and checks if they are missing from recipe – that gives extra items you have but don't need, not what you need to buy."
+      },
+      "hints": [
+        "You need to check each ingredient required by the recipe.",
+        "The condition should be: ingredient not in pantry (i.e., missing)."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The correct workflow is to iterate over the recipe's keys (ingredients needed), test membership in the pantry set, and if the ingredient is not present, add it to the shopping list. Option A does exactly that. The other options either iterate incorrectly or use the wrong logic.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_059", "concept_065", "concept_049", "concept_045"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_106",
+      "concept_name": "*args (arbitrary positional arguments)",
+      "chapter": 19,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ndef average(*args):\n    return sum(args) / len(args)\n\nprint(average(2, 4, 6, 8))\n```",
+      "options": {
+        "a": "5.0",
+        "b": "20",
+        "c": "[2,4,6,8]",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `*args` collects all positional arguments into a tuple (2,4,6,8). Sum is 20, length is 4, average = 5.0.",
+        "b": "That's the sum, not the average.",
+        "c": "That would be the tuple of args, but the function returns the average.",
+        "d": "No TypeError; *args allows any number of arguments."
+      },
+      "hints": [
+        "`*args` gathers extra positional arguments into a tuple.",
+        "Average = sum of numbers divided by count."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The parameter `*args` collects any number of positional arguments into a tuple named `args`. Here, `average(2,4,6,8)` results in `args = (2,4,6,8)`. The function returns `sum(args)/len(args) = 20/4 = 5.0`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_107",
+      "concept_name": "**kwargs (arbitrary keyword arguments)",
+      "chapter": 19,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed?\n\n```python\ndef display(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}={value}\")\n\ndisplay(name=\"Alice\", age=30)\n```",
+      "options": {
+        "a": "name=Alice\\nage=30",
+        "b": "{'name': 'Alice', 'age': 30}",
+        "c": "('name', 'Alice')\\n('age', 30)",
+        "d": "TypeError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `**kwargs` collects keyword arguments into a dictionary. Iterating over `kwargs.items()` yields key-value pairs, printed as `key=value`.",
+        "b": "That would be printing `kwargs` directly, but the code prints each item on a separate line.",
+        "c": "That would be printing the tuple from `kwargs.items()`, but the f-string formats as `key=value`.",
+        "d": "No error; the function accepts any number of keyword arguments."
+      },
+      "hints": [
+        "`**kwargs` becomes a dictionary of keyword arguments.",
+        "The loop uses `.items()` to get key-value pairs."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `**kwargs` parameter collects all keyword arguments into a dictionary. When `display(name=\"Alice\", age=30)` is called, `kwargs` becomes `{'name': 'Alice', 'age': 30}`. The loop iterates over the items and prints each key and value separated by an equals sign. So the output is two lines: `name=Alice` and `age=30`.",
+      "common_mistake_tested": false,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_111",
+      "concept_name": "TypeError",
+      "chapter": 21,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "Which code will raise a `TypeError`?",
+      "options": {
+        "a": "```python\n\"Hello\" + 5\n```",
+        "b": "```python\nint(\"123\")\n```",
+        "c": "```python\nmy_list = [1,2,3]\nmy_list[3]\n```",
+        "d": "```python\nmy_dict = {}\nmy_dict['missing']\n```"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Adding a string and an integer is a type mismatch, raising `TypeError: can only concatenate str (not \"int\") to str`.",
+        "b": "This converts a valid numeric string to int; no error.",
+        "c": "Indexing beyond list length raises an `IndexError`, not `TypeError`.",
+        "d": "Accessing a missing key raises a `KeyError`."
+      },
+      "hints": [
+        "`TypeError` occurs when an operation is applied to an object of inappropriate type.",
+        "Which operation mixes incompatible types?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A `TypeError` is raised when an operation or function is applied to an object of an inappropriate type. Adding a string (`\"Hello\"`) and an integer (`5`) is not allowed because they are different types and the `+` operator expects both operands to be strings (for concatenation) or both numbers (for addition). This results in a `TypeError`. The other options raise `IndexError` or `KeyError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_115",
+      "concept_name": "try-except block",
+      "chapter": 22,
+      "difficulty": "very_hard",
+      "question_subtype": "scenario",
+      "question_text": "You want to convert user input to an integer, but if the input cannot be converted, you want to set the value to 0. Which code achieves this correctly and safely?",
+      "options": {
+        "a": "```python\ntry:\n    value = int(user_input)\nexcept:\n    value = 0\n```",
+        "b": "```python\ntry:\n    value = int(user_input)\nexcept ValueError:\n    value = 0\n```",
+        "c": "```python\nif not user_input.isdigit():\n    value = 0\nelse:\n    value = int(user_input)\n```",
+        "d": "```python\nvalue = int(user_input) if user_input.isdigit() else 0\n```"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Bare `except` catches all exceptions (including KeyboardInterrupt, SystemExit), which is dangerous and not recommended. It works for this case but is bad practice.",
+        "b": "Correct. It specifically catches `ValueError` (which occurs when the string cannot be converted) and sets value to 0. This is safe and follows best practices.",
+        "c": "Using `.isdigit()` fails for negative numbers or floats. Not robust.",
+        "d": "Same issue as C; also uses a conditional expression that still calls `int` on invalid input if `.isdigit()` passes? Actually it only calls int when isdigit true, but isdigit fails for negative sign. So not robust."
+      },
+      "hints": [
+        "Only handle the specific exception you expect: `ValueError` from `int()`.",
+        "Avoid bare except clauses."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The best practice is to catch only the specific exception you expect. `int(user_input)` raises `ValueError` when the input cannot be converted to an integer. Using `except ValueError:` handles that error and sets `value = 0`. A bare `except:` would catch any exception, including ones you might not want to suppress (e.g., `KeyboardInterrupt`). The `.isdigit()` approach fails for negative numbers and floats.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_116",
+      "concept_name": "raise statement",
+      "chapter": 22,
+      "difficulty": "very_hard",
+      "question_subtype": "application",
+      "question_text": "You are writing a function that expects a positive integer. Which code correctly raises a `ValueError` with a custom message if the input is not positive?",
+      "options": {
+        "a": "```python\ndef check_positive(n):\n    if n <= 0:\n        raise ValueError(\"Number must be positive\")\n```",
+        "b": "```python\ndef check_positive(n):\n    if n <= 0:\n        raise \"Number must be positive\"\n```",
+        "c": "```python\ndef check_positive(n):\n    if n <= 0:\n        print(\"Number must be positive\")\n        exit()\n```",
+        "d": "```python\ndef check_positive(n):\n    if n <= 0:\n        ValueError(\"Number must be positive\")\n```"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The `raise` statement followed by an exception class and an optional message constructs and raises the exception. This is the proper way to signal an error.",
+        "b": "Raising a string directly is not allowed in Python 3; you must raise an exception instance. This would cause a `TypeError`.",
+        "c": "Printing and exiting is not the same as raising an exception; it terminates the program and does not allow the caller to handle the error.",
+        "d": "Creating a `ValueError` instance without `raise` does nothing; the exception is not raised."
+      },
+      "hints": [
+        "`raise` must be followed by an exception class or instance.",
+        "You need to use the `raise` keyword, not just create the exception."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `raise` statement is used to throw an exception. To raise a `ValueError` with a custom message, you write `raise ValueError(\"message\")`. Option A does exactly that. Option B raises a string (invalid), option C prints and exits (not an exception), and option D creates a `ValueError` object but does not raise it.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    }
+  ]
+}

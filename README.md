@@ -1,41 +1,93 @@
 # DC Mastery Hub
 
-DC Mastery Hub is a personalized learning mastery system for DataCamp data science courses. It is designed to organize course slides and datasets, then later generate exercises, quizzes, and games for deep mastery of Python, SQL, pandas, statistics, machine learning, and data engineering.
+A full-stack learning application designed to help students master DataCamp data science courses through targeted exercises, flashcards, quizzes, and interactive Python/SQL dataset challenges.
 
-## Tech Stack
+![DC Mastery Hub Screenshot](placeholder.png)
 
-- Frontend: React 18, Vite, Tailwind CSS
-- Backend: Node.js, Express
-- Database: none yet
+## 🚀 Tech Stack
 
-## Installation
+- **Frontend:** React 18, Vite, Tailwind CSS, Recharts, Lucide React
+- **Backend:** Node.js, Express.js
+- **Database:** SQLite (via `better-sqlite3` - synchronous API)
+- **Challenge Execution:** Python 3.8+ (stateless subprocess sandboxing)
 
-Install dependencies in each package:
+## 📋 Prerequisites
 
-```bash
-npm install
-cd frontend && npm install
-cd ../backend && npm install
+- **Node.js:** v18 or later
+- **Python:** v3.8 or later
+- **Python Packages:** `pandas`, `numpy` (install via `pip install pandas numpy`)
+
+## 🛠️ Quick Start (Development)
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/dc-mastery-hub.git
+    cd dc-mastery-hub
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    cd frontend && npm install
+    cd ../backend && npm install
+    ```
+
+3.  **Configure Environment:**
+    Copy `backend/.env.example` to `backend/.env` and fill in the required values.
+
+4.  **Run in development mode:**
+    ```bash
+    npm run dev
+    ```
+
+## 🏗️ Production Build
+
+To prepare the application for production:
+
+1.  **Build the frontend:**
+    ```bash
+    npm run build
+    ```
+
+2.  **Start the production server:**
+    ```bash
+    npm start
+    ```
+
+## 🔐 Environment Variables
+
+The application uses the following environment variables (defined in `backend/.env`):
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `PORT` | The port the backend server will listen on. | `3001` |
+| `NODE_ENV` | Set to `production` for live deployments. | `development` |
+| `SESSION_SECRET` | Secret key for session signing (64+ chars recommended). | `change_me` |
+| `DB_PATH` | Path to the SQLite database file. | `./db/mastery.db` |
+| `CONTENT_PATH` | Root directory for course content and datasets. | `./content` |
+| `PYTHON_PATH` | Path to the Python 3 executable. | `python3` |
+| `CHALLENGE_TIMEOUT_MS` | Maximum execution time for Python challenges. | `15000` |
+| `FRONTEND_URL` | The URL of the frontend (for CORS if needed). | `http://localhost:5173` |
+
+## 📁 Folder Structure
+
+```text
+dc-mastery-hub/
+├── backend/          # Express.js API, SQLite database, and Python sandbox
+├── content/          # Course content, datasets, and generated exercises
+├── frontend/         # React/Vite application
+├── project/          # Tooling, migration scripts, and verification reports
+└── README.md         # This file
 ```
 
-## How to Run
+## 🧪 Dataset Challenges
 
-From the project root:
+Dataset challenges utilize a **stateless architecture**. When a user submits a solution:
+1.  The backend dynamically generates a temporary Python script.
+2.  Data dependencies (CSVs, Pickle files, SQLite) are resolved from the `content/` folder.
+3.  The student's code is appended and executed within a isolated subprocess.
+4.  Results are verified against predefined validation rules and returned to the frontend.
 
-```bash
-npm run dev
-```
+## 📄 License
 
-The frontend runs with Vite and proxies `/api` requests to the backend on `localhost:3001`.
-
-## Folder Structure
-
-- `backend/`: Express server and future backend routes/services.
-- `frontend/`: React 18 + Vite app with the dark layout shell and route placeholders.
-- `content/tracks/`: Future location for stored DataCamp course tracks and materials.
-- `data/`: Future location for local app data.
-- `.env.example`: Environment variable template.
-
-## Step Status
-
-Step 1 of multi-step build - layout only.
+MIT License - see [LICENSE](LICENSE) for details.

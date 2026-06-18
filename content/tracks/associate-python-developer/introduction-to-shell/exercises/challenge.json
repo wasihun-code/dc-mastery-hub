@@ -1,0 +1,183 @@
+{
+  "course_slug": "introduction-to-shell",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 3,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Identify Failed Shell Commands",
+      "dataset_file": "shell_logs.csv",
+      "difficulty": "easy",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_001",
+        "concept_002"
+      ],
+      "context": "As a system administrator, you need to monitor security and operational logs. Analyze the shell log dataset to find all commands that returned a non-zero exit code, indicating execution failure.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV dataset 'shell_logs.csv' using pandas into a DataFrame named 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('shell_logs.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Filter the DataFrame to find all rows where 'exit_code' is not equal to 0. Store the result in a variable named 'failed_cmds'.",
+          "variable_name": "failed_cmds",
+          "hint": "Subset df using a boolean condition: `df[df['exit_code'] != 0]`."
+        },
+        {
+          "step": 3,
+          "description": "Print the 'failed_cmds' DataFrame.",
+          "variable_name": "",
+          "hint": "Use `print(failed_cmds)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load the CSV\ndf = None\n\n# Step 2: Filter where exit_code is not 0\nfailed_cmds = None\n\n# Step 3: Print result\nprint(failed_cmds)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        },
+        "shell_logs": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('shell_logs.csv')\nfailed_cmds = df[df['exit_code'] != 0]\nprint(failed_cmds)",
+      "expected_output": "             timestamp       command   user  exit_code\n2  2026-06-15 10:02:45  cat auth.log  admin          1\n4  2026-06-15 10:06:12       sudo su  guest          1",
+      "output_description": "DataFrame containing only the failed commands with non-zero exit codes.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `!= 0` in your boolean filtering statement.",
+        "Remember to print the filtered DataFrame directly."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Load a CSV file, apply simple filter criteria, and display the result."
+    },
+    {
+      "id": "dc_002",
+      "title": "Count Admin User Commands",
+      "dataset_file": "shell_logs.csv",
+      "difficulty": "easy",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_002",
+        "concept_003"
+      ],
+      "context": "You want to find the number of times the user 'admin' executed a shell command in this session to audit privileges.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV dataset 'shell_logs.csv' into a DataFrame named 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('shell_logs.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Filter the DataFrame where 'user' is equal to 'admin' and find the length of the filtered DataFrame. Store this count in a variable named 'admin_count'.",
+          "variable_name": "admin_count",
+          "hint": "You can use `len(df[df['user'] == 'admin'])`."
+        },
+        {
+          "step": 3,
+          "description": "Print 'admin_count'.",
+          "variable_name": "",
+          "hint": "Use `print(admin_count)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load the CSV\ndf = None\n\n# Step 2: Count admin commands\nadmin_count = None\n\n# Step 3: Print result\nprint(admin_count)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        },
+        "shell_logs": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('shell_logs.csv')\nadmin_count = len(df[df['user'] == 'admin'])\nprint(admin_count)",
+      "expected_output": "6",
+      "output_description": "The count of commands run by the user admin.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Compare the 'user' column to 'admin'.",
+        "Use `len()` to get the number of rows matching the query."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Filter by categorical value and count occurrences."
+    },
+    {
+      "id": "dc_003",
+      "title": "Most Frequent Shell Command",
+      "dataset_file": "shell_logs.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_001",
+        "concept_004"
+      ],
+      "context": "To optimize the shell environment, identify the most commonly executed command name from the logs.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load 'shell_logs.csv' into 'df'.",
+          "variable_name": "df",
+          "hint": "Use `pd.read_csv('shell_logs.csv')`."
+        },
+        {
+          "step": 2,
+          "description": "Find the most frequent command name under the 'command' column. Store the command string in a variable named 'top_command'.",
+          "variable_name": "top_command",
+          "hint": "Use `df['command'].value_counts().idxmax()`."
+        },
+        {
+          "step": 3,
+          "description": "Print 'top_command'.",
+          "variable_name": "",
+          "hint": "Use `print(top_command)`."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load CSV\ndf = None\n\n# Step 2: Find top command\ntop_command = None\n\n# Step 3: Print result\nprint(top_command)\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        },
+        "shell_logs": {
+          "type": "csv",
+          "path": "shell_logs.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ndf = pd.read_csv('shell_logs.csv')\ntop_command = df['command'].value_counts().idxmax()\nprint(top_command)",
+      "expected_output": "ls -la",
+      "output_description": "The command string that occurs most frequently in the log.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use `.value_counts()` on the 'command' column.",
+        "Call `.idxmax()` on the value counts series to retrieve the name of the most frequent item."
+      ],
+      "answer_reveal_after": 3,
+      "learning_outcome": "Use pandas value_counts and index extraction to find mode value."
+    }
+  ]
+}

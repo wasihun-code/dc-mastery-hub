@@ -1,0 +1,842 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_001",
+    "concept_name": "INNER JOIN",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Write a query that returns all columns from both tables for countries where a president and prime minister share the same country name.",
+    "code_template": "SELECT *\nFROM presidents\n_____ prime_ministers\nON presidents.country = prime_ministers.country;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INNER JOIN",
+        "answer_alternatives": ["JOIN"]
+      }
+    ],
+    "word_bank": ["INNER JOIN", "LEFT JOIN", "CROSS JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "INNER JOIN": "Correct. INNER JOIN returns only rows where the condition matches in both tables.",
+      "LEFT JOIN": "LEFT JOIN would keep all presidents, not just those with a matching prime minister.",
+      "CROSS JOIN": "CROSS JOIN would produce a Cartesian product, not filtering by matching country.",
+      "FULL JOIN": "FULL JOIN would return all rows from both tables, even unmatched ones, which is not required."
+    },
+    "hints": [
+      "Which join type keeps only matching rows?",
+      "The description says 'share the same country name' – that implies a match in both tables."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "INNER JOIN (or just JOIN) is the correct join type to return rows that exist in both tables based on the matching country column.",
+    "common_mistake_warning": "⚠️ Using LEFT JOIN or RIGHT JOIN would include rows without a match, which is not the intent here."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_002",
+    "concept_name": "ON clause",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Join the 'presidents' table with 'prime_ministers' where the countries match. Fill in the missing part of the join condition.",
+    "code_template": "SELECT *\nFROM presidents\nINNER JOIN prime_ministers\n_____ presidents.country = prime_ministers.country;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ON",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ON", "WHERE", "USING", "AND"],
+    "per_tile_feedback": {
+      "ON": "Correct. The ON clause specifies the join condition.",
+      "WHERE": "WHERE is used to filter rows after the join, not to define the join condition.",
+      "USING": "USING is a shorthand when the column name is identical in both tables, but the syntax would be USING (country) without table prefixes.",
+      "AND": "AND can be used inside ON to combine multiple conditions, but the keyword ON itself must be present first."
+    },
+    "hints": [
+      "Which keyword introduces the condition that pairs rows from two tables?",
+      "The condition begins immediately after the second table name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The ON clause is mandatory for an INNER JOIN (unless USING is used) to specify how rows are matched.",
+    "common_mistake_warning": "⚠️ Using WHERE instead of ON for the join condition can cause logical errors or be invalid syntax in some contexts."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "USING clause",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Use the shorthand join condition because both tables have the column 'country' with the same name.",
+    "code_template": "SELECT *\nFROM presidents\nINNER JOIN prime_ministers _____ (country);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "USING",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["USING", "ON", "WHERE", "WITH"],
+    "per_tile_feedback": {
+      "USING": "Correct. USING is used when the join column names are identical; it simplifies the syntax.",
+      "ON": "ON requires table-qualified column names, like ON presidents.country = prime_ministers.country.",
+      "WHERE": "WHERE cannot be used to specify the join column directly; it would not work syntactically here.",
+      "WITH": "WITH is not a valid join clause keyword."
+    },
+    "hints": [
+      "Which keyword allows you to list the common column in parentheses without table prefixes?",
+      "The column appears in parentheses right after the keyword."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "USING (column) is the shorthand for a join when the column name exists in both tables. It automatically matches on that column and merges the result.",
+    "common_mistake_warning": "⚠️ USING only works when the column name is identical in both tables; otherwise ON must be used."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_004",
+    "concept_name": "Table alias",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Assign the alias 'p1' to the 'presidents' table and then use it to qualify the country column in the SELECT.",
+    "code_template": "SELECT p1.country\nFROM presidents _____ p1\nINNER JOIN prime_ministers AS p2 ON p1.country = p2.country;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS",
+        "answer_alternatives": [" "]
+      }
+    ],
+    "word_bank": ["AS", "TO", "=", "IS"],
+    "per_tile_feedback": {
+      "AS": "Correct. AS is used to assign an alias (or you can simply use a space).",
+      "TO": "TO is not valid SQL for table aliasing.",
+      "=": "= is used for comparisons, not aliasing.",
+      "IS": "IS is used for null checks, not for aliasing."
+    },
+    "hints": [
+      "What keyword gives a temporary name to a table?",
+      "Aliases can be assigned with or without the AS keyword, but AS is explicit."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Table aliases are defined using AS (optional) and allow you to refer to the table with a shorter name throughout the query.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_009",
+    "concept_name": "LEFT JOIN",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Write a query that shows all prime ministers and, where available, the president of the same country. Use table aliases p1 and p2.",
+    "code_template": "SELECT p1.country, prime_minister, president\nFROM prime_ministers AS p1\n_____ presidents AS p2 USING(country);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "LEFT JOIN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["LEFT JOIN", "INNER JOIN", "RIGHT JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "LEFT JOIN": "Correct. LEFT JOIN keeps all rows from the left table (prime_ministers) and matches from the right table where possible.",
+      "INNER JOIN": "INNER JOIN would exclude prime ministers who don't have a matching president.",
+      "RIGHT JOIN": "RIGHT JOIN would keep all presidents, not all prime ministers.",
+      "FULL JOIN": "FULL JOIN would return all rows from both tables, including presidents without prime ministers, which is not the requirement."
+    },
+    "hints": [
+      "Which join type preserves all rows from the first (left) table?",
+      "The left table is 'prime_ministers' – so you need a join that keeps all its rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LEFT JOIN ensures that every row from the left table (prime_ministers) appears in the result, with NULLs in the president column when no match exists.",
+    "common_mistake_warning": "⚠️ Confusing LEFT JOIN with INNER JOIN will omit unmatched prime ministers."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_010",
+    "concept_name": "RIGHT JOIN",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Display all presidents and, if they have one, their corresponding prime minister. Use the same table aliases.",
+    "code_template": "SELECT p1.country, prime_minister, president\nFROM prime_ministers AS p1\n_____ presidents AS p2 USING(country);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "RIGHT JOIN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["RIGHT JOIN", "LEFT JOIN", "INNER JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "RIGHT JOIN": "Correct. RIGHT JOIN keeps all rows from the right table (presidents) and matches from the left where possible.",
+      "LEFT JOIN": "LEFT JOIN would keep all prime ministers, not all presidents.",
+      "INNER JOIN": "INNER JOIN would exclude presidents without a prime minister.",
+      "FULL JOIN": "FULL JOIN would include prime ministers without presidents as well, which is more than requested."
+    },
+    "hints": [
+      "The right table is 'presidents' – which join keeps all its rows?",
+      "RIGHT JOIN preserves the right table's rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "RIGHT JOIN returns all rows from the right table (presidents), with NULLs in the left table's columns for non-matching rows.",
+    "common_mistake_warning": "⚠️ RIGHT JOIN can always be rewritten as LEFT JOIN by swapping table order; many developers prefer LEFT JOIN for clarity."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_011",
+    "concept_name": "FULL JOIN",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Show all countries that have either a prime minister or a president (or both). Fill in the join type.",
+    "code_template": "SELECT p1.country AS country, prime_minister, president\nFROM prime_ministers AS p1\n_____ presidents AS p2 ON p1.country = p2.country;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "FULL JOIN",
+        "answer_alternatives": ["FULL OUTER JOIN"]
+      }
+    ],
+    "word_bank": ["FULL JOIN", "LEFT JOIN", "RIGHT JOIN", "UNION"],
+    "per_tile_feedback": {
+      "FULL JOIN": "Correct. FULL JOIN returns all rows from both tables, filling NULLs where there is no match.",
+      "LEFT JOIN": "LEFT JOIN would miss presidents without a prime minister.",
+      "RIGHT JOIN": "RIGHT JOIN would miss prime ministers without a president.",
+      "UNION": "UNION combines result sets vertically, not side by side."
+    },
+    "hints": [
+      "You need rows from both tables even if there's no match. Which join does that?",
+      "FULL JOIN combines LEFT and RIGHT JOIN effects."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "FULL JOIN (or FULL OUTER JOIN) returns all rows from both tables, merging where possible and filling NULLs for missing columns on either side.",
+    "common_mistake_warning": "⚠️ FULL JOIN can return a large number of rows if many are unmatched on both sides; use carefully."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_012",
+    "concept_name": "CROSS JOIN",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Create a list of all possible pairings between Asian prime ministers and South American presidents. Fill in the join type.",
+    "code_template": "SELECT prime_minister, president\nFROM prime_ministers AS p1\n_____ presidents AS p2\nWHERE p1.continent IN ('Asia') AND p2.continent IN ('South America');",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "CROSS JOIN",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["CROSS JOIN", "INNER JOIN", "LEFT JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "CROSS JOIN": "Correct. CROSS JOIN creates a Cartesian product, pairing every row from the first table with every row from the second.",
+      "INNER JOIN": "INNER JOIN requires a join condition, and would not produce all combinations.",
+      "LEFT JOIN": "LEFT JOIN would only pair based on a condition, not all combinations.",
+      "FULL JOIN": "FULL JOIN also needs a condition and would not give every pair."
+    },
+    "hints": [
+      "You want every possible combination, not just matches on a key. Which join gives that?",
+      "CROSS JOIN is the SQL equivalent of a Cartesian product."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "CROSS JOIN pairs every row from the left table with every row from the right table, resulting in N × M rows before filtering.",
+    "common_mistake_warning": "⚠️ CROSS JOIN on large tables can produce millions of rows; always filter with WHERE if needed."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_013",
+    "concept_name": "SELF JOIN",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Join the prime_ministers table to itself to find pairs of countries from the same continent, excluding self-pairings. Fill in the join type.",
+    "code_template": "SELECT p1.country AS country1, p2.country AS country2, p1.continent\nFROM prime_ministers AS p1\n_____ prime_ministers AS p2\nON p1.continent = p2.continent AND p1.country <> p2.country;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INNER JOIN",
+        "answer_alternatives": ["JOIN"]
+      }
+    ],
+    "word_bank": ["INNER JOIN", "LEFT JOIN", "SELF JOIN", "CROSS JOIN"],
+    "per_tile_feedback": {
+      "INNER JOIN": "Correct. A SELF JOIN is simply an INNER JOIN (or any join type) where the same table is used with different aliases.",
+      "LEFT JOIN": "LEFT JOIN could be used but would include rows with no match, which is not desired here.",
+      "SELF JOIN": "SELF JOIN is not a keyword; it's a concept of joining a table to itself using any join type.",
+      "CROSS JOIN": "CROSS JOIN would not use the ON condition and would pair all rows."
+    },
+    "hints": [
+      "What type of join would you normally use to pair matching rows from two tables?",
+      "Even though it's the same table, you still need a join keyword like INNER JOIN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A self-join is implemented using INNER JOIN (or another join type) with the same table aliased twice. The keyword is still INNER JOIN.",
+    "common_mistake_warning": "⚠️ Forgetting to exclude self-pairings (p1.country <> p2.country) is a common mistake that results in a country paired with itself."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": "UNION",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Combine a list of monarchs and prime ministers into a single list of leaders, removing any duplicates.",
+    "code_template": "SELECT monarch AS leader, country FROM monarchs\n_____\nSELECT prime_minister, country FROM prime_ministers;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "UNION",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["UNION", "UNION ALL", "INTERSECT", "EXCEPT"],
+    "per_tile_feedback": {
+      "UNION": "Correct. UNION combines the two queries and removes duplicate rows.",
+      "UNION ALL": "UNION ALL would keep duplicates, such as if a person is both a monarch and a prime minister.",
+      "INTERSECT": "INTERSECT would return only rows that appear in both tables.",
+      "EXCEPT": "EXCEPT would return rows from the first query that are not in the second."
+    },
+    "hints": [
+      "You need to combine results and eliminate duplicates. Which set operation does that?",
+      "UNION without ALL automatically deduplicates."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "UNION stacks the results of two queries and applies DISTINCT to remove duplicate rows.",
+    "common_mistake_warning": "⚠️ Using UNION ALL when you need distinct results can cause unexpected duplicate rows."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_015",
+    "concept_name": "UNION ALL",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Combine the lists of monarchs and prime ministers, keeping all rows even if a person appears in both tables.",
+    "code_template": "SELECT monarch AS leader, country FROM monarchs\n_____\nSELECT prime_minister, country FROM prime_ministers;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "UNION ALL",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["UNION ALL", "UNION", "INTERSECT", "EXCEPT"],
+    "per_tile_feedback": {
+      "UNION ALL": "Correct. UNION ALL concatenates the results without removing duplicates.",
+      "UNION": "UNION would remove duplicates, which would lose the fact that a person appears in both roles.",
+      "INTERSECT": "INTERSECT would return only rows appearing in both tables, not a combination.",
+      "EXCEPT": "EXCEPT would subtract one set from the other, not combine them."
+    },
+    "hints": [
+      "You want all rows, including duplicates. Which variation of UNION keeps everything?",
+      "UNION ALL preserves every row from both queries."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "UNION ALL simply appends the rows of the second query to the first, without any duplicate elimination, so each occurrence is retained.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_016",
+    "concept_name": "INTERSECT",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Find the countries that have both a prime minister and a president.",
+    "code_template": "SELECT country FROM prime_ministers\n_____\nSELECT country FROM presidents;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INTERSECT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["INTERSECT", "UNION", "UNION ALL", "EXCEPT"],
+    "per_tile_feedback": {
+      "INTERSECT": "Correct. INTERSECT returns only the rows that are common to both queries.",
+      "UNION": "UNION would combine all countries from both tables, not just the common ones.",
+      "UNION ALL": "UNION ALL would list all countries, including duplicates, not just the overlap.",
+      "EXCEPT": "EXCEPT would return countries that have one role but not the other, the opposite of what's needed."
+    },
+    "hints": [
+      "You need the intersection of two sets of countries. Which operation finds the overlap?",
+      "INTERSECT returns rows present in both result sets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "INTERSECT performs a set intersection, returning distinct rows that appear in the results of both queries.",
+    "common_mistake_warning": "⚠️ INTERSECT removes duplicates; if a country appears multiple times in one table, it still appears only once in the result."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_017",
+    "concept_name": "EXCEPT",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Find monarchs who are not also prime ministers (based on name and country).",
+    "code_template": "SELECT monarch, country FROM monarchs\n_____\nSELECT prime_minister, country FROM prime_ministers;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "EXCEPT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["EXCEPT", "UNION", "INTERSECT", "UNION ALL"],
+    "per_tile_feedback": {
+      "EXCEPT": "Correct. EXCEPT returns rows from the first query that are not in the second.",
+      "UNION": "UNION combines all rows, not subtracting.",
+      "INTERSECT": "INTERSECT would find those who are both, the opposite.",
+      "UNION ALL": "UNION ALL would keep all rows, not removing any."
+    },
+    "hints": [
+      "You need rows that are in the first table but not in the second. Which operation subtracts?",
+      "EXCEPT acts like a set difference: first minus second."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "EXCEPT returns distinct rows that appear in the result of the first query but not in the result of the second query.",
+    "common_mistake_warning": "⚠️ The order of queries matters: A EXCEPT B is different from B EXCEPT A."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_018",
+    "concept_name": "Semi join",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "List the presidents of countries that gained independence before 1800, without duplicating rows or adding columns from the states table.",
+    "code_template": "SELECT president, country, continent\nFROM presidents\nWHERE country _____ (SELECT country FROM states WHERE indep_year < 1800);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IN",
+        "answer_alternatives": ["= ANY"]
+      }
+    ],
+    "word_bank": ["IN", "NOT IN", "EXISTS", "= ALL"],
+    "per_tile_feedback": {
+      "IN": "Correct. IN with a subquery acts as a semi join, filtering rows from the outer table that match any value in the subquery result.",
+      "NOT IN": "NOT IN would give an anti join, returning countries that did NOT gain independence before 1800.",
+      "EXISTS": "EXISTS could work with a correlated subquery, but the syntax here requires a condition like WHERE EXISTS (SELECT ... WHERE states.country = presidents.country).",
+      "= ALL": "= ALL would require the country to equal every value in the subquery, which is impossible unless all rows are the same."
+    },
+    "hints": [
+      "Which operator checks if a value appears in a list returned by a subquery?",
+      "You want to keep rows where country matches any of the subquery results."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The IN operator with a subquery implements a semi join: it returns rows from the outer table that have a matching value in the subquery result, without including any columns from the inner table.",
+    "common_mistake_warning": "⚠️ If the subquery returns NULL, IN can produce unexpected results; always ensure the subquery filters out NULLs if necessary."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_019",
+    "concept_name": "Anti join",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "List presidents of American countries that gained independence after 1800. (The subquery returns countries with independence before 1800.)",
+    "code_template": "SELECT country, president\nFROM presidents\nWHERE continent LIKE '%America'\n  AND country _____ (SELECT country FROM states WHERE indep_year < 1800);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "NOT IN",
+        "answer_alternatives": ["<> ALL"]
+      }
+    ],
+    "word_bank": ["NOT IN", "IN", "EXISTS", "NOT EXISTS"],
+    "per_tile_feedback": {
+      "NOT IN": "Correct. NOT IN with a subquery creates an anti join, returning rows whose country is not in the subquery list.",
+      "IN": "IN would return countries that gained independence before 1800, the opposite.",
+      "EXISTS": "EXISTS would be used differently: WHERE NOT EXISTS (SELECT 1 FROM states WHERE states.country = presidents.country AND indep_year < 1800).",
+      "NOT EXISTS": "NOT EXISTS could achieve the same result, but the syntax is different and would require a correlation."
+    },
+    "hints": [
+      "You want to exclude rows that match the subquery. Which operator negates IN?",
+      "The condition should be true for countries that are NOT in the early independence list."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NOT IN filters out rows where the column value is found in the subquery result, effectively performing an anti join.",
+    "common_mistake_warning": "⚠️ NOT IN fails dangerously when the subquery contains NULL; the entire condition becomes UNKNOWN, returning no rows. Use NOT EXISTS for safety."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_020",
+    "concept_name": "Subquery",
+    "chapter": 6,
+    "difficulty": "medium",
+    "task_description": "Find all countries whose GDP per capita is greater than the global average GDP per capita.",
+    "code_template": "SELECT country_name, gdp_percapita\nFROM countries\nJOIN economies ON countries.code = economies.code\nWHERE gdp_percapita > (SELECT _____ FROM economies);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AVG(gdp_percapita)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["AVG(gdp_percapita)", "SUM(gdp_percapita)", "MAX(gdp_percapita)", "gdp_percapita"],
+    "per_tile_feedback": {
+      "AVG(gdp_percapita)": "Correct. AVG computes the average, which is compared to each row's value.",
+      "SUM(gdp_percapita)": "SUM would give the total, not the average, so the comparison would be meaningless.",
+      "MAX(gdp_percapita)": "MAX would compare against the highest value, which is a different analysis.",
+      "gdp_percapita": "A bare column reference would not work; a single value must be returned."
+    },
+    "hints": [
+      "Which aggregate function calculates the mean?",
+      "The subquery must return one value to compare against each row."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A scalar subquery in the WHERE clause can provide a single aggregated value (like the global average) to filter rows in the outer query.",
+    "common_mistake_warning": "⚠️ Ensure the subquery returns exactly one row; if no rows are present, AVG returns NULL, and the comparison will fail to return any row."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_021",
+    "concept_name": "WHERE clause (with subqueries)",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Use a subquery to implement a semi join that lists presidents from countries with an independence year before 1800.",
+    "code_template": "SELECT president, country, continent\nFROM presidents\n_____ country IN (SELECT country FROM states WHERE indep_year < 1800);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "WHERE",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["WHERE", "AND", "HAVING", "ON"],
+    "per_tile_feedback": {
+      "WHERE": "Correct. The WHERE clause filters the rows of the outer query based on the condition.",
+      "AND": "AND can be used within a WHERE clause but not as the clause itself.",
+      "HAVING": "HAVING is for filtering groups after aggregation, not raw rows.",
+      "ON": "ON is for join conditions, not general row filtering."
+    },
+    "hints": [
+      "Which clause introduces a condition that filters rows before any aggregation?",
+      "The condition with IN comes after the table name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The WHERE clause is the correct place for a semi join condition using IN with a subquery. It restricts the outer table to rows that satisfy the condition.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_022",
+    "concept_name": "Subquery in SELECT clause",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "For each continent, display the number of monarchs that belong to that continent. The subquery must be correlated and placed in the SELECT list.",
+    "code_template": "SELECT DISTINCT continent,\n       (SELECT COUNT(*) FROM monarchs\n        WHERE monarchs.continent = states.continent) AS monarch_count\nFROM states;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "COUNT(*)",
+        "answer_alternatives": ["COUNT(1)"]
+      }
+    ],
+    "word_bank": ["COUNT(*)", "AVG(*)", "SUM(*)", "continent"],
+    "per_tile_feedback": {
+      "COUNT(*)": "Correct. COUNT(*) counts the number of rows in the subquery result for each continent.",
+      "AVG(*)": "AVG(*) is not valid; AVG requires a numeric column.",
+      "SUM(*)": "SUM(*) is not valid; SUM requires a numeric column.",
+      "continent": "A column name alone would not aggregate; it would return multiple values causing an error."
+    },
+    "hints": [
+      "What aggregate function counts the number of rows?",
+      "The subquery must return a single number per continent."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A scalar subquery in the SELECT list with COUNT(*) and a correlation condition returns the count of monarchs for each continent row by row.",
+    "common_mistake_warning": "⚠️ The subquery must return exactly one value per outer row; otherwise the query will fail."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_023",
+    "concept_name": "Subquery in FROM clause",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Use a subquery in the FROM clause to get continents and their most recent independence year, then display them.",
+    "code_template": "SELECT DISTINCT monarchs.continent, sub.most_recent\nFROM monarchs,\n     (SELECT continent, MAX(indep_year) AS most_recent\n      FROM states\n      GROUP BY continent) _____\nWHERE monarchs.continent = sub.continent\nORDER BY continent;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS sub",
+        "answer_alternatives": ["sub"]
+      }
+    ],
+    "word_bank": ["AS sub", "sub", "AS t", "t"],
+    "per_tile_feedback": {
+      "AS sub": "Correct. The subquery in the FROM clause must be given an alias, here 'sub'.",
+      "sub": "The alias must be introduced, typically with AS; 'sub' alone without AS would be a syntax error in some dialects.",
+      "AS t": "Any alias name works, but the reference in the WHERE clause uses 'sub', so the alias must be 'sub'.",
+      "t": "Alias name must match the reference 'sub' and be defined correctly."
+    },
+    "hints": [
+      "The subquery is a derived table; what is missing after the closing parenthesis?",
+      "Derived tables always require an alias."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Every subquery in the FROM clause must be aliased. The alias is then used to refer to its columns in the outer query.",
+    "common_mistake_warning": "⚠️ Forgetting the alias is a syntax error; the query will not run."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_025",
+    "concept_name": "Multiple joins (chaining)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Join three tables: prime_ministers, presidents, and prime_minister_terms to show country, president, prime minister, and start year. Fill in the missing join keyword.",
+    "code_template": "SELECT p1.country, p1.continent, president, prime_minister, pm_start\nFROM prime_ministers AS p1\nINNER JOIN presidents AS p2 USING(country)\n_____ prime_minister_terms AS p3 USING(prime_minister);",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INNER JOIN",
+        "answer_alternatives": ["JOIN"]
+      }
+    ],
+    "word_bank": ["INNER JOIN", "LEFT JOIN", "CROSS JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "INNER JOIN": "Correct. This chains another inner join to include the terms table.",
+      "LEFT JOIN": "LEFT JOIN would keep all prime ministers even if they have no term record, but that's not required here.",
+      "CROSS JOIN": "CROSS JOIN would produce a Cartesian product, not matching on prime_minister.",
+      "FULL JOIN": "FULL JOIN would return rows from both sides regardless of matches, not appropriate."
+    },
+    "hints": [
+      "You need to add another table via a matching condition; which join type keeps only rows that match in all three tables?",
+      "The chain continues with another INNER JOIN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Multiple joins can be chained together, each with its own join condition. INNER JOIN ensures that only rows with matches in all three tables are returned.",
+    "common_mistake_warning": "⚠️ Be careful to join on the correct columns after a previous join; column names may have shifted."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_026",
+    "concept_name": "Joining on multiple keys",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Join left_table and right_table where both the 'id' and 'date' columns must match. Fill in the logical operator.",
+    "code_template": "SELECT *\nFROM left_table\nINNER JOIN right_table\n    ON left_table.id = right_table.id\n    _____ left_table.date = right_table.date;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AND",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["AND", "OR", "WHERE", "ON"],
+    "per_tile_feedback": {
+      "AND": "Correct. AND combines multiple equality checks so that both must be true for a match.",
+      "OR": "OR would match rows where either condition is true, potentially creating many unwanted pairs.",
+      "WHERE": "WHERE is for filtering after the join, not for specifying join conditions.",
+      "ON": "ON has already been used; you don't repeat it for additional conditions."
+    },
+    "hints": [
+      "What keyword connects multiple conditions that all must be true?",
+      "You need both id AND date to be equal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Joining on multiple keys uses AND to enforce that all specified columns match simultaneously.",
+    "common_mistake_warning": "⚠️ Using OR instead of AND will create a union of matches, likely producing incorrect results."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_027",
+    "concept_name": "DISTINCT",
+    "chapter": 6,
+    "difficulty": "easy",
+    "task_description": "Return a list of unique continents from the states table.",
+    "code_template": "SELECT _____ continent FROM states;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "DISTINCT",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["DISTINCT", "UNIQUE", "ALL", "DIFFERENT"],
+    "per_tile_feedback": {
+      "DISTINCT": "Correct. DISTINCT removes duplicate rows.",
+      "UNIQUE": "UNIQUE is not a SQL keyword for this purpose; DISTINCT is correct.",
+      "ALL": "ALL is the default and returns all rows, including duplicates.",
+      "DIFFERENT": "DIFFERENT is not a valid SQL keyword."
+    },
+    "hints": [
+      "Which keyword follows SELECT to eliminate duplicate rows?",
+      "It's often used with aggregate functions but can also apply directly to columns."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT DISTINCT column returns each unique value of the column exactly once.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_028",
+    "concept_name": "NULL in joins",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Find prime ministers whose country does not have a president (no match in the presidents table). Fill in the correct NULL check.",
+    "code_template": "SELECT p1.country, prime_minister\nFROM prime_ministers p1\nLEFT JOIN presidents p2 ON p1.country = p2.country\nWHERE president _____ NULL;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "IS",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["IS", "=", "IS NOT", "!="],
+    "per_tile_feedback": {
+      "IS": "Correct. IS NULL is the proper way to check for NULL values.",
+      "=": "= NULL never returns true; any comparison with = and NULL yields UNKNOWN.",
+      "IS NOT": "IS NOT NULL would find rows where a president exists, opposite of the requirement.",
+      "!=": "!= NULL also never returns true for the same reason as = NULL."
+    },
+    "hints": [
+      "What is the correct SQL syntax to check if a column has a NULL value?",
+      "Use IS, not equals, to compare with NULL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL indicates missing data. To test for NULL, you must use IS NULL or IS NOT NULL; standard comparison operators do not work with NULL.",
+    "common_mistake_warning": "⚠️ The mistake of using '= NULL' is extremely common; it silently fails because no row satisfies the condition."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_029",
+    "concept_name": "Set operation column requirements",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Ensure the UNION between two queries works by making the number and types of columns match. Fill in the correct number of columns.",
+    "code_template": "SELECT code, year, income_group FROM economies2015\nUNION\nSELECT code, year, _____ FROM economies2019;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "income_group",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["income_group", "gross_savings", "code", "year"],
+    "per_tile_feedback": {
+      "income_group": "Correct. The columns must match in number and type; the third column in the first query is income_group, so the second query must provide a compatible column, also income_group.",
+      "gross_savings": "gross_savings is numeric, while income_group is string; types don't match, causing an error.",
+      "code": "code would duplicate the column, but more importantly it would cause a type mismatch because the third column in the first query is income_group (string) vs code (string) – types match, but the position would be duplicate. However, UNION doesn't check column names, just positions. So code in third position would work if types match, but it's semantically wrong to put code there. The column must correspond to income_group to maintain meaning. The question expects the matching column from the same table.",
+      "year": "year is numeric, but the third column in the first query is string; type mismatch."
+    },
+    "hints": [
+      "The first query selects three columns: code, year, income_group. What should the third column be in the second query?",
+      "The columns must have compatible data types in the same order."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "For UNION to work, both queries must have the same number of columns, and corresponding columns must have compatible data types. The third column in the first query is income_group (string), so the second query must also provide a string column in the same position.",
+    "common_mistake_warning": "⚠️ Mismatching column types (e.g., integer vs text) will cause a syntax error."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_030",
+    "concept_name": "Cartesian product",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Accidentally, you wrote a join without a condition. Fill in the missing keyword that turns it from a cross join into an inner join.",
+    "code_template": "SELECT *\nFROM table1\n_____ table2\nON table1.id = table2.id;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "INNER JOIN",
+        "answer_alternatives": ["JOIN"]
+      }
+    ],
+    "word_bank": ["INNER JOIN", "CROSS JOIN", "LEFT JOIN", "FULL JOIN"],
+    "per_tile_feedback": {
+      "INNER JOIN": "Correct. INNER JOIN with the ON condition avoids the Cartesian product.",
+      "CROSS JOIN": "CROSS JOIN would produce a Cartesian product even with the ON clause (which would then be an error or ignored).",
+      "LEFT JOIN": "LEFT JOIN would keep all rows from the left table, not necessarily matching both ways.",
+      "FULL JOIN": "FULL JOIN would keep unmatched rows from both sides, not restricting to matches."
+    },
+    "hints": [
+      "What join type requires a matching condition and returns only combined rows?",
+      "You want to pair rows based on the id column, not all possible combinations."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without an ON clause, an INNER JOIN defaults to a Cartesian product (like CROSS JOIN). Adding the ON condition restricts the result to matching rows.",
+    "common_mistake_warning": "⚠️ Forgetting the ON clause is a frequent error that can produce a huge result set unintentionally."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_031",
+    "concept_name": "Column alias",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Rename the 'country' column to 'nation' in the output of this query on the presidents table.",
+    "code_template": "SELECT country _____ nation\nFROM presidents;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "AS",
+        "answer_alternatives": [" "]
+      }
+    ],
+    "word_bank": ["AS", "TO", "=", "IS"],
+    "per_tile_feedback": {
+      "AS": "Correct. The AS keyword is used to alias a column.",
+      "TO": "TO is not valid for column aliasing.",
+      "=": "= is used for comparisons, not aliasing.",
+      "IS": "IS is used for null checks, not for aliasing."
+    },
+    "hints": [
+      "What keyword can you use to give a column a temporary name in the result set?",
+      "Column aliases are often introduced with AS."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Column aliases are defined using AS (optional) and rename the column in the output.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_034",
+    "concept_name": "Join (general)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Write a basic join that combines rows from two tables on a condition.",
+    "code_template": "SELECT *\nFROM table1\n_____ table2 ON table1.id = table2.id;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "JOIN",
+        "answer_alternatives": ["INNER JOIN"]
+      }
+    ],
+    "word_bank": ["JOIN", "UNION", "EXCEPT", "INTERSECT"],
+    "per_tile_feedback": {
+      "JOIN": "Correct. JOIN (or INNER JOIN) is the keyword to combine tables based on a condition.",
+      "UNION": "UNION combines result sets vertically, not side by side.",
+      "EXCEPT": "EXCEPT subtracts one result set from another.",
+      "INTERSECT": "INTERSECT finds common rows between two result sets."
+    },
+    "hints": [
+      "Which SQL operation merges columns from different tables?",
+      "The keyword is simply JOIN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The JOIN keyword (often INNER JOIN) is used to combine rows from two tables based on a related column.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_035",
+    "concept_name": "FROM clause",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Specify the source table for this query on presidents.",
+    "code_template": "SELECT country, continent\n_____ presidents;",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "FROM",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["FROM", "WHERE", "SELECT", "INTO"],
+    "per_tile_feedback": {
+      "FROM": "Correct. FROM indicates the table from which to retrieve data.",
+      "WHERE": "WHERE is for filtering rows, not specifying the table.",
+      "SELECT": "SELECT is already used to list columns; FROM is needed after it.",
+      "INTO": "INTO is for creating a new table, not for retrieving data."
+    },
+    "hints": [
+      "After SELECT, which clause tells the database which table to use?",
+      "The clause that lists the data sources is always FROM."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The FROM clause is mandatory in a SELECT statement to specify the source table(s).",
+    "common_mistake_warning": null
+  }
+]

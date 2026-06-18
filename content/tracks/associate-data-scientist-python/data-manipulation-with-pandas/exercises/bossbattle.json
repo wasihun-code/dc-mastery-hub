@@ -1,0 +1,932 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_005",
+    "concept_name": ".head()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "complete_output",
+    "question_text": "What is the output of the following code?\n\n```python\nimport pandas as pd\npets = pd.DataFrame({\n    'name': ['Max', 'Bella', 'Charlie'],\n    'weight_kg': [15, 22, 18]\n})\nprint(pets.head(2))\n```",
+    "options": {
+      "a": "      name  weight_kg\n0     Max         15\n1   Bella         22",
+      "b": "   name  weight_kg\n1   Bella         22\n2 Charlie         18",
+      "c": "      name  weight_kg\n0     Max         15\n1   Bella         22\n2 Charlie         18",
+      "d": "name         Max\nweight_kg     15\nName: 0, dtype: object"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `head(2)` returns only the first two rows.",
+      "b": "That would be the last two rows (tail), not head.",
+      "c": "`head()` without argument returns 5 rows, but here only 2 were specified.",
+      "d": "That's the format of a Series, not a DataFrame slice."
+    },
+    "hints": [
+      "`head(n)` shows the first n rows of the DataFrame.",
+      "Count the rows: how many were requested?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.head(2)` returns the first two rows of the DataFrame, preserving the column structure.",
+    "time_pressure_note": "Beginners often confuse `head` and `tail` under time pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_006",
+    "concept_name": ".info()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\ninfo_df = dogs.info()\nprint(info_df.columns)\n```",
+    "options": {
+      "a": "`info_df` is None because `.info()` prints output and returns None.",
+      "b": "`.info()` does not exist; use `.describe()` instead.",
+      "c": "The parentheses are missing in `.info`.",
+      "d": "`.columns` is not an attribute of a DataFrame."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `.info()` returns None, so calling `.columns` on None raises an AttributeError.",
+      "b": "`.info()` exists and is commonly used for inspection.",
+      "c": "Parentheses are present and correct.",
+      "d": "`.columns` is a valid attribute, but `info_df` is not a DataFrame."
+    },
+    "hints": [
+      "What does `.info()` actually return?",
+      "Think about whether you can assign its result to a variable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.info()` prints a summary to the console and returns `None`. Assigning it to a variable and then trying to use it as a DataFrame is a common mistake.",
+    "time_pressure_note": "Under time pressure, you might forget that `.info()` is for printing, not for returning a DataFrame.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_007",
+    "concept_name": ".shape",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "What will be printed?\n\n```python\nimport pandas as pd\ndf = pd.DataFrame({'A': [1,2], 'B': [3,4], 'C': [5,6]})\nprint(df.shape)\n```",
+    "options": {
+      "a": "(2, 3)",
+      "b": "(3, 2)",
+      "c": "6",
+      "d": "[2 rows x 3 columns]"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The tuple is (rows, columns) → 2 rows, 3 columns.",
+      "b": "That would be columns then rows, which is incorrect.",
+      "c": "`.size` returns total elements, not `.shape`.",
+      "d": "That's a human-readable representation, not the actual output."
+    },
+    "hints": [
+      "`.shape` returns a tuple of (number of rows, number of columns).",
+      "Count the rows and columns in the DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.shape` returns a tuple (2, 3) because the DataFrame has 2 rows and 3 columns.",
+    "time_pressure_note": "The order of rows and columns is often reversed under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_008",
+    "concept_name": ".describe()",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Given the following DataFrame:\n\n```python\n# BEFORE\n   weight_kg  height_cm\n0       24.0       56.0\n1       22.0       43.0\n2       18.0       46.0\n```\n\nAfter running a single line of code, you see this summary:\n\n```\n       weight_kg  height_cm\ncount        3.0        3.0\nmean         21.3       48.3\nstd          3.1        6.8\n...\n```\n\nWhich line was executed?",
+    "options": {
+      "a": "`dogs.describe()`",
+      "b": "`dogs.info()`",
+      "c": "`dogs.head()`",
+      "d": "`dogs.shape`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `.describe()` provides count, mean, std, etc.",
+      "b": "`.info()` gives column info, not statistics.",
+      "c": "`.head()` shows rows, not a summary table.",
+      "d": "`.shape` returns a tuple, not a table."
+    },
+    "hints": [
+      "The output shows statistics like count, mean, and standard deviation.",
+      "Which method generates summary statistics?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The displayed table is the typical output of `.describe()`, which summarizes numeric columns.",
+    "time_pressure_note": "Mixing up `.describe()` with `.info()` is a classic time‑pressure error.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_013",
+    "concept_name": "subsetting columns",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the type of the object returned by the following code?\n\n```python\ndogs[['name', 'weight_kg']]\n```",
+    "options": {
+      "a": "pandas DataFrame",
+      "b": "pandas Series",
+      "c": "list",
+      "d": "tuple"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Double brackets return a DataFrame even for multiple columns.",
+      "b": "A single column returns a Series; here it's a list of columns.",
+      "c": "Pandas returns its own objects, not a plain Python list.",
+      "d": "No tuple is involved."
+    },
+    "hints": [
+      "How many pairs of brackets are used?",
+      "Selecting multiple columns always gives a DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using double brackets `[['col1','col2']]` returns a DataFrame containing those columns.",
+    "time_pressure_note": "Under pressure, many forget that a single column returns a Series.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_017",
+    "concept_name": "adding a new column",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Before: `dogs` has columns `name`, `weight_kg`. After: `dogs` now also has a column `bmi` with calculated values. Which line was added?",
+    "options": {
+      "a": "`dogs['bmi'] = dogs['weight_kg'] / (dogs['height_cm']/100)**2`",
+      "b": "`dogs.bmi = dogs.weight_kg / (dogs.height_cm/100)**2`",
+      "c": "`dogs.add_column('bmi', ...)`",
+      "d": "`dogs.insert('bmi', ...)`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! This line adds the column in‑place.",
+      "b": "Dot notation can't create new columns; it only accesses existing ones.",
+      "c": "`add_column` is not a valid DataFrame method.",
+      "d": "`insert` exists but requires a location index, and isn't the typical way."
+    },
+    "hints": [
+      "To add a column, assign to a new column name using square brackets.",
+      "Dot notation won't create a new column; it will raise an AttributeError."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding a new column is done with `df['new_col'] = expression`. This modifies the DataFrame in place.",
+    "time_pressure_note": "The dot notation confusion is a common speed trap.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_019",
+    "concept_name": ".mean()",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Given the DataFrame:\n\n```python\n   name  weight_kg  height_cm\n0   Max         24         56\n1  Bella        22         43\n2 Charlie       18         46\n```\n\nWhat is the output of `dogs.mean()`?",
+    "options": {
+      "a": "weight_kg    21.333333\nheight_cm    48.333333\ndtype: float64",
+      "b": "weight_kg    21.333333\ndtype: float64",
+      "c": "name          NaN\nweight_kg    21.333333\nheight_cm    48.333333\ndtype: float64",
+      "d": "Error: cannot compute mean on strings"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Non‑numeric columns are silently dropped; the result is the mean of each numeric column.",
+      "b": "It would return one value only if you had selected a single column.",
+      "c": "Non‑numeric columns are excluded, not shown as NaN.",
+      "d": "No error is raised; the string column is simply ignored."
+    },
+    "hints": [
+      "`.mean()` on a DataFrame computes the mean of every numeric column.",
+      "What happens to the `name` column?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.mean()` returns a Series with the mean of each numeric column, ignoring non‑numeric ones.",
+    "time_pressure_note": "Many learners expect a NaN row for the string column and choose incorrectly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_020",
+    "concept_name": ".median()",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does `dogs['weight_kg'].median()` return for the series `[24, 22, 18, 100]`?",
+    "options": {
+      "a": "23.0",
+      "b": "41.0",
+      "c": "22.0",
+      "d": "24.0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Sorted: [18,22,24,100] → median = (22+24)/2 = 23.0.",
+      "b": "That is the mean, not the median.",
+      "c": "22 is the lower middle if we didn't average two middle values.",
+      "d": "24 is just the first value; not the median."
+    },
+    "hints": [
+      "Median of an even number of values is the average of the two middle numbers.",
+      "Sort the series first."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The median is 23.0, computed by sorting and averaging the two central values.",
+    "time_pressure_note": "Under time, many forget to average the two middle values.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_026",
+    "concept_name": ".value_counts()",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "A Series `colors` contains: `['red', 'blue', 'red', 'green', 'red']`. What does `colors.value_counts(normalize=True)` return for `'red'`?",
+    "options": {
+      "a": "0.6",
+      "b": "3",
+      "c": "0.333...",
+      "d": "2"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 'red' appears 3/5 = 0.6.",
+      "b": "3 is the count, not the proportion.",
+      "c": "That would be 1/3, not 3/5.",
+      "d": "2 is the count of another color."
+    },
+    "hints": [
+      "`normalize=True` gives relative frequencies.",
+      "Count how many times 'red' appears and divide by total."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With `normalize=True`, the value is the proportion: 3/5 = 0.6.",
+    "time_pressure_note": "Mistaking proportion for count is a quick error under pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_012",
+    "concept_name": ".sort_values()",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\ndogs.sort_values('weight_kg', ascending=False)\nprint(dogs['name'])\n```\n(expecting names sorted from heaviest to lightest)",
+    "options": {
+      "a": "The sorted result is not stored; `dogs` remains unsorted.",
+      "b": "`ascending=False` sorts from lightest to heaviest.",
+      "c": "`sort_values` can only be used on indices.",
+      "d": "The column name should be a list."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `sort_values` returns a new DataFrame; the original is unchanged.",
+      "b": "`ascending=False` sorts descending (heaviest first).",
+      "c": "It sorts by column values, not indices.",
+      "d": "A string column name is acceptable."
+    },
+    "hints": [
+      "Does `sort_values` modify the DataFrame in place?",
+      "Check whether the result is assigned back to `dogs`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The sorted DataFrame is returned but never assigned, so `dogs` remains unsorted. Use `dogs = dogs.sort_values(...)`.",
+    "time_pressure_note": "Forgetting to assign the result is one of the most common mistakes in pandas.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_014",
+    "concept_name": "Boolean indexing",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "predict_error",
+    "question_text": "What error or unexpected result does this code produce?\n\n```python\ndogs[dogs['height_cm'] > 50 and dogs['weight_kg'] < 30]\n```",
+    "options": {
+      "a": "ValueError: The truth value of a Series is ambiguous.",
+      "b": "It filters correctly using the `and` operator.",
+      "c": "TypeError: `>` not supported between 'Series' and 'int'",
+      "d": "It returns an empty DataFrame."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `and` cannot be used with Series; it tries to evaluate the whole Series as a boolean.",
+      "b": "`and` does not work element‑wise; `&` must be used.",
+      "c": "Comparisons like `>` are fine.",
+      "d": "It doesn't filter; it raises an error."
+    },
+    "hints": [
+      "Can you use Python's `and`/`or` with pandas Series?",
+      "Think about what error you get when using `and` on arrays."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using `and` between two boolean Series causes `ValueError` because pandas cannot determine the truth value of a Series unambiguously. Use `&` with parentheses.",
+    "time_pressure_note": "The `and` vs `&` confusion is a classic speed trap.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_016",
+    "concept_name": ".isin()",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "What is the output of this code?\n\n```python\ncolors = pd.Series(['red', 'blue', 'red', 'green'])\nprint(colors.isin(['red', 'green']))\n```",
+    "options": {
+      "a": "0     True\n1    False\n2     True\n3     True\ndtype: bool",
+      "b": "0     True\n1    False\n2     True\n3    False\ndtype: bool",
+      "c": "['red', 'green']",
+      "d": "Series of counts: red 2, green 1"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 'red' and 'green' match, 'blue' does not.",
+      "b": "Position 3 is 'green', so it should be True.",
+      "c": "`.isin()` returns a Boolean Series, not a list.",
+      "d": "That would be `.value_counts()`."
+    },
+    "hints": [
+      "Each element is checked against the list.",
+      "What is the result for 'green' at position 3?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`isin` returns a Boolean Series where each entry indicates membership in the list.",
+    "time_pressure_note": "Looking quickly, you might miss the 'green' at the end.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_015",
+    "concept_name": "mask",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A learner writes:\n\n```python\nmask = df['col'] > 10  # df has index [0,1,2]\nother_df = df2[mask]   # df2 has index [10,11,12]\n```\nWhat is the issue?",
+    "options": {
+      "a": "The mask aligns by index, so the result may contain NaN for mismatched indices.",
+      "b": "The mask must be of the same length, but it works anyway.",
+      "c": "`mask` must be a list, not a Series.",
+      "d": "Boolean indexing can only be used on the same DataFrame."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The mask's index is [0,1,2], but df2's index is [10,11,12]; alignment yields NaN rows.",
+      "b": "It works but yields NaN where indices don't match.",
+      "c": "A Boolean Series is the standard mask format.",
+      "d": "It can be used on any DataFrame, but alignment matters."
+    },
+    "hints": [
+      "Boolean indexing in pandas aligns by index labels, not position.",
+      "What happens when indices are different?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The mask is applied by aligning the indices. If the indices don't match, the result contains NaN for rows that don't align, which is often unexpected.",
+    "time_pressure_note": "Many assume Boolean filtering is positional, not label‑based.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_018",
+    "concept_name": "chaining operations",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Which line in the chain causes an error?\n\n```python\n(dogs[dogs['bmi'] < 100]\n .sort_values('height_cm', ascending=False)\n .head(3))\n .shape()\n```",
+    "options": {
+      "a": "`.shape()` – `.shape` is an attribute, not a method.",
+      "b": "`.head(3)` – it should be `head(3)`?",
+      "c": "`.sort_values` – missing argument.",
+      "d": "`.bmi` – column doesn't exist."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `.shape` is accessed without parentheses; `shape()` raises TypeError.",
+      "b": "`.head(3)` is valid.",
+      "c": "`sort_values` is correctly used.",
+      "d": "Assuming the column exists, it's fine."
+    },
+    "hints": [
+      "What is the difference between an attribute and a method?",
+      "Does `.shape` need parentheses?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.shape` is an attribute, so using parentheses results in an error.",
+    "time_pressure_note": "Under chaining, it's easy to mistake an attribute for a method.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_021",
+    "concept_name": ".agg()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is NOT a valid way to use `.agg()` on a DataFrame?",
+    "options": {
+      "a": "`df.agg(['mean', 'sum'])`",
+      "b": "`df.agg({'col1': 'mean', 'col2': 'sum'})`",
+      "c": "`df.agg(np.mean, np.sum)`",
+      "d": "`df.agg('mean')`"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Valid: returns a DataFrame with multiple stats per column.",
+      "b": "Valid: column‑specific aggregation via dict.",
+      "c": "Invalid: you cannot pass multiple functions as separate arguments.",
+      "d": "Valid: applies `mean` to all numeric columns."
+    },
+    "hints": [
+      "How many arguments does `.agg()` accept?",
+      "Check the documentation for passing multiple functions."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.agg()` can take a function, a list of functions, or a dict, but not multiple functions as separate arguments.",
+    "time_pressure_note": "Passing multiple functions incorrectly is a common syntax slip.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_022",
+    "concept_name": ".cumsum()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when you run `dogs.cumsum()` on a DataFrame containing a column of strings?",
+    "options": {
+      "a": "TypeError: cumsum not supported for strings.",
+      "b": "The string column is ignored, and cumsum is applied to numeric columns only.",
+      "c": "All values are concatenated as strings.",
+      "d": "The DataFrame is sorted and then cumsum applied."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `.cumsum()` requires numeric data and raises an error if non‑numeric columns exist.",
+      "b": "Unlike `.mean()`, `.cumsum()` does not skip non‑numeric columns on a DataFrame.",
+      "c": "No automatic string concatenation.",
+      "d": "No sorting occurs."
+    },
+    "hints": [
+      "What does cumsum do to non‑numeric types?",
+      "Unlike some other methods, cumsum on a DataFrame doesn't silently ignore strings."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`DataFrame.cumsum()` expects all columns to be numeric; a string column raises TypeError.",
+    "time_pressure_note": "Under pressure, you might expect it to behave like `.mean()` and skip strings.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_027",
+    "concept_name": ".groupby()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug in this code attempting to get the average weight per color?\n\n```python\ngroups = dogs.groupby('color')\nprint(groups.mean())\n```",
+    "options": {
+      "a": "No bug; this code correctly prints the mean of each numeric column per group.",
+      "b": "`groups` is a GroupBy object; you must call `.mean()` without assigning first.",
+      "c": "`.mean()` can only be called on a Series, not a GroupBy object.",
+      "d": "The column name must be a list: `['color']`."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The code is valid; assigning the GroupBy object is fine and calling `.mean()` works.",
+      "b": "Assigning the GroupBy object to `groups` is perfectly valid.",
+      "c": "`.mean()` works on GroupBy objects to compute group means.",
+      "d": "A string column name is accepted."
+    },
+    "hints": [
+      "Does `groupby` return a DataFrame or a special object?",
+      "Can you store the result of `groupby` in a variable?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "There is no bug. The code correctly computes group means after storing the GroupBy object.",
+    "time_pressure_note": "Many think you must chain directly; storing a GroupBy object is fine.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_028",
+    "concept_name": ".pivot_table()",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What will this pivot table show for the 'Black' row?\n\n```python\ndogs.pivot_table(values='weight_kg', index='color', aggfunc='sum')\n```\nData: Black: 29, 30; Brown: 24, 24, 17.",
+    "options": {
+      "a": "59",
+      "b": "29.5",
+      "c": "2",
+      "d": "30"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `aggfunc='sum'` adds the values: 29+30=59.",
+      "b": "That would be the mean, not sum.",
+      "c": "That would be the count.",
+      "d": "That's just the maximum."
+    },
+    "hints": [
+      "Which aggregation function is specified?",
+      "Add up the weights for the 'Black' group."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With `aggfunc='sum'`, the pivot table sums the values for each group.",
+    "time_pressure_note": "People often forget they set `sum` and default to `mean` in their head.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_029",
+    "concept_name": ".set_index()",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "`dogs` originally has a default integer index. After one line of code, `dogs` now has `name` as the index. Which line was executed? (Assume the change is permanent.)",
+    "options": {
+      "a": "`dogs.set_index('name', inplace=True)`",
+      "b": "`dogs = dogs.set_index('name')`",
+      "c": "`dogs.index = dogs['name']`",
+      "d": "All of the above work."
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "This works because `inplace=True` modifies the DataFrame.",
+      "b": "This works by reassigning the returned DataFrame.",
+      "c": "This directly assigns the index, though less common, it works.",
+      "d": "Correct! All three approaches successfully set the index."
+    },
+    "hints": [
+      "There are multiple ways to change the index.",
+      "Think about in‑place operations versus reassignment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "All three methods are valid ways to change the index permanently.",
+    "time_pressure_note": "In a hurry, you might think only one method works.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_030",
+    "concept_name": ".reset_index()",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "After running `dogs.reset_index(drop=True)`, what happens to the old index?",
+    "options": {
+      "a": "It is discarded completely.",
+      "b": "It becomes the first column with the name 'index'.",
+      "c": "It is still there but hidden.",
+      "d": "It is converted to a tuple."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `drop=True` removes the old index.",
+      "b": "That happens without `drop=True` (default).",
+      "c": "It is truly removed from the DataFrame.",
+      "d": "No tuple conversion."
+    },
+    "hints": [
+      "What does the `drop` parameter control?",
+      "If `drop=True`, is the index kept?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`drop=True` prevents the old index from being added as a column, discarding it entirely.",
+    "time_pressure_note": "Forgetting the `drop` parameter is a common omission.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_031",
+    "concept_name": ".loc[]",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What's wrong with this code?\n\n```python\ndogs = dogs.set_index('name')\ndogs.loc[0:2]  # intending to get first three rows\n```",
+    "options": {
+      "a": "The index is now labels like 'Bella', so `0:2` will look for those labels, not positions.",
+      "b": "`.loc` cannot slice at all.",
+      "c": "The slice should be `0:3` to get three rows.",
+      "d": "`.loc` only works with column names."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! After setting a string index, `0` and `2` are treated as label values, not positions.",
+      "b": "`.loc` can slice with labels.",
+      "c": "Even `0:3` would look for labels, not positions.",
+      "d": "`.loc` works on rows and columns."
+    },
+    "hints": [
+      "What is the current index type?",
+      "Does `.loc` use labels or positions?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When the index is changed to strings, integer slicing with `.loc` looks for those exact string labels, which likely don't exist. Use `.iloc` for positional access.",
+    "time_pressure_note": "After setting an index, people still think in terms of default integer positions.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_032",
+    "concept_name": ".iloc[]",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Given the DataFrame `dogs` with rows 0..4, what does `dogs.iloc[1:4, 0:2]` return?",
+    "options": {
+      "a": "Rows at positions 1,2,3 and columns 0,1.",
+      "b": "Rows at positions 1,2,3,4 and columns 0,1.",
+      "c": "Rows at positions 1,2 and columns 0,1.",
+      "d": "An error because slices must be inclusive."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `.iloc` uses half‑open intervals: 1:4 gives 1,2,3; 0:2 gives 0,1.",
+      "b": "The stop index is exclusive, so 4 is not included.",
+      "c": "1:4 includes 3 as well.",
+      "d": "No error; `.iloc` slicing is exclusive."
+    },
+    "hints": [
+      "`.iloc` slicing is like Python list slicing: start inclusive, stop exclusive.",
+      "Count the indices: 1,2,3 for rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.iloc[1:4,0:2]` selects rows at integer positions 1,2,3 and columns 0,1.",
+    "time_pressure_note": "Confusing `.iloc` exclusive slicing with `.loc` inclusive slicing is common.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_044",
+    "concept_name": ".dropna()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which statement about `.dropna()` is FALSE?",
+    "options": {
+      "a": "It can drop columns with any missing values when `axis=1`.",
+      "b": "By default, it drops rows where any value is NaN.",
+      "c": "It modifies the original DataFrame in place unless `inplace=True`.",
+      "d": "The `subset` parameter limits the columns considered when dropping rows."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "True: `axis=1` drops columns.",
+      "b": "True: `how='any'` is the default.",
+      "c": "False: By default, it returns a new DataFrame and does NOT modify in place.",
+      "d": "True: `subset` restricts which columns to check for NaN."
+    },
+    "hints": [
+      "What does `.dropna()` return?",
+      "Does it change the original without `inplace=True`?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.dropna()` returns a new DataFrame by default; it does not modify the original unless `inplace=True` is specified.",
+    "time_pressure_note": "Forgetting that `.dropna()` returns a new object is a classic mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_045",
+    "concept_name": ".fillna()",
+    "chapter": 4,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "What value does `df['temp'].fillna(0, inplace=True)` leave in a cell that originally contained NaN?",
+    "options": {
+      "a": "0",
+      "b": "The previous non‑NaN value (forward fill)",
+      "c": "The average of the column",
+      "d": "NaN"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `fillna(0)` replaces NaN with 0.",
+      "b": "That would be `method='ffill'`.",
+      "c": "That would be `fillna(df['temp'].mean())`.",
+      "d": "NaN is replaced, not kept."
+    },
+    "hints": [
+      "The argument to `fillna` is the replacement value.",
+      "What number is passed as the fill value?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing `0` fills every NaN with 0.",
+    "time_pressure_note": "Under stress, you might confuse `fillna` with `ffill`.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_059",
+    "concept_name": "apply()",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does `df['weight_kg'].apply(lambda x: x*2)` return when `weight_kg` has values [24, 22, 18]?",
+    "options": {
+      "a": "A Series: [48, 44, 36].",
+      "b": "A scalar: 128.",
+      "c": "A DataFrame with one column.",
+      "d": "The original column unchanged."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `apply` returns a Series with the transformed values.",
+      "b": "`apply` returns a Series, not a scalar.",
+      "c": "It returns a Series, not a DataFrame.",
+      "d": "It does not modify in place; it returns a new Series."
+    },
+    "hints": [
+      "`apply` executes the function on each element.",
+      "Does it return a single value or the same number of values?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`apply` on a Series returns a Series with the result of the function applied element‑wise.",
+    "time_pressure_note": "People confuse `apply` with `agg` and expect a scalar.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_034",
+    "concept_name": "multi‑level index (hierarchical index)",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug in this attempt to select all rows where the inner index level 'name' is 'Bella'?\n\n```python\ndf = dogs.set_index(['color', 'name'])\ndf.loc['Bella']\n```",
+    "options": {
+      "a": "`df.loc['Bella']` tries to match the outer index level 'color', not the inner level 'name'.",
+      "b": "`.loc` cannot be used with a MultiIndex at all.",
+      "c": "The string must be a list: `['Bella']`.",
+      "d": "The index must be sorted first."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! To access an inner level, use a tuple: `df.loc[(slice(None), 'Bella')]`.",
+      "b": "`.loc` works with MultiIndex using tuples.",
+      "c": "It would still target the outer level.",
+      "d": "Sorting is not the issue here."
+    },
+    "hints": [
+      "With a MultiIndex, which level does a single label target?",
+      "How do you specify an inner level value?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A single label passed to `.loc` on a MultiIndex always targets the first (outer) level. For inner levels, use a tuple with `slice(None)` for outer levels.",
+    "time_pressure_note": "MultiIndex slicing is a common pain point under timed conditions.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_036",
+    "concept_name": "slicing by dates",
+    "chapter": 3,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "A DataFrame has a string index of dates like '2014-08-25', but the index is unsorted. What happens when you run `df.loc['2014':'2016']`?",
+    "options": {
+      "a": "It likely raises a KeyError or PerformanceWarning because label slicing requires a sorted index.",
+      "b": "It works perfectly, returning all rows with years 2014–2016.",
+      "c": "It sorts the index automatically.",
+      "d": "It returns an empty DataFrame."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Unsorted label slicing is not reliable and may produce warnings or errors.",
+      "b": "It would only work if the index were sorted.",
+      "c": "Automatic sorting does not happen.",
+      "d": "It doesn't return empty; it raises an error."
+    },
+    "hints": [
+      "What requirement does label‑based slicing have?",
+      "Think about the index order."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Label‑based slicing with `.loc` requires the index to be sorted. An unsorted index leads to a KeyError or PerformanceWarning.",
+    "time_pressure_note": "Under time, you might forget to sort the index first.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_053",
+    "concept_name": ".quantile()",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "What is the output of `pd.Series([10, 20, 30, 40]).quantile(0.25)`?",
+    "options": {
+      "a": "17.5",
+      "b": "15.0",
+      "c": "20.0",
+      "d": "25.0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The 0.25 quantile of [10,20,30,40] using linear interpolation is 17.5.",
+      "b": "That would be a different interpolation method.",
+      "c": "The 0.25 quantile is not 20.",
+      "d": "That is the 0.5 quantile (median)."
+    },
+    "hints": [
+      "The 0.25 quantile is the first quartile.",
+      "Compute the value at the 25% mark of the sorted data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "By default, `quantile` uses linear interpolation, so the 0.25 quantile of four numbers is between the first and second value.",
+    "time_pressure_note": "Quickly estimating quantiles can lead to off‑by‑one mistakes.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_057",
+    "concept_name": "margins in pivot_table",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "In a pivot table with `aggfunc='mean'` and `margins=True`, what does the 'All' column show for a row?",
+    "options": {
+      "a": "The mean of all values in that row.",
+      "b": "The sum of all values in that row.",
+      "c": "The count of non‑NaN values in that row.",
+      "d": "The median of the values in that row."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Margins use the same `aggfunc` (mean) as the rest of the table.",
+      "b": "It would be sum only if `aggfunc='sum'`.",
+      "c": "Count would be if `aggfunc='count'`.",
+      "d": "No median unless specified."
+    },
+    "hints": [
+      "Margins are not always sums; they follow the aggregation function.",
+      "What is the `aggfunc` set to?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Margins in pivot tables are computed using the same aggregation function. If `aggfunc='mean'`, the margin is the mean.",
+    "time_pressure_note": "Many incorrectly assume margins always show sums.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_058",
+    "concept_name": "fill_value in pivot_table",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "A pivot table originally had NaN in some cells. After adding `fill_value=0` to the `pivot_table()` call, those cells now show 0. Has the underlying data used for aggregation changed?",
+    "options": {
+      "a": "No, only the display is affected; aggregations are still computed on the original data (with NaN).",
+      "b": "Yes, NaN are now treated as 0 in the aggregation.",
+      "c": "The original DataFrame is modified to replace NaN with 0.",
+      "d": "It depends on the `aggfunc`."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! `fill_value` only affects the output table, not the underlying calculations.",
+      "b": "It does not change the data used for aggregation.",
+      "c": "`fill_value` does not alter the original DataFrame.",
+      "d": "No, `aggfunc` does not change this behavior."
+    },
+    "hints": [
+      "Does `fill_value` affect the source data or just the printed table?",
+      "Think about the order of operations: aggregation then fill."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`fill_value` simply replaces NaN in the final pivot table for cosmetic purposes; the aggregation still treats NaN as missing.",
+    "time_pressure_note": "Confusing display‑only changes with data manipulation is a subtle trap.",
+    "common_mistake_tested": true
+  }
+]

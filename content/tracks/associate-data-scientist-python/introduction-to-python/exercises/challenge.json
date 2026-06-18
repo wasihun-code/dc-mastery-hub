@@ -1,0 +1,470 @@
+{
+  "course_slug": "introduction-to-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-10",
+  "version": 1,
+  "total_challenges": 5,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Are heavier players taller? – BMI Analysis",
+      "dataset_file": "baseball.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_044",
+        "concept_064",
+        "concept_047",
+        "concept_057",
+        "concept_014"
+      ],
+      "context": "A sports scientist wants to understand the body composition of baseball players. Body Mass Index (BMI) combines height and weight into a single number that indicates whether a player is overweight. Your analysis will help identify the proportion of players with high BMI.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Convert np_heights (inches) to meters by multiplying by the conversion factor 0.0254. Store in np_heights_m.",
+          "variable_name": "np_heights_m",
+          "hint": "Use vectorized multiplication."
+        },
+        {
+          "step": 2,
+          "description": "Calculate BMI for all players using the formula: weight (kg) / height (m)². np_weights is already in kg. Store in bmi.",
+          "variable_name": "bmi",
+          "hint": "Use ** for exponentiation."
+        },
+        {
+          "step": 3,
+          "description": "Compute the mean BMI and round it to 2 decimal places. Store in mean_bmi.",
+          "variable_name": "mean_bmi",
+          "hint": "Use np.mean() and np.round()."
+        },
+        {
+          "step": 4,
+          "description": "Count how many players have a BMI greater than 25. Store in count_high.",
+          "variable_name": "count_high",
+          "hint": "Use boolean indexing and sum the True values."
+        },
+        {
+          "step": 5,
+          "description": "Print the results: first line 'Mean BMI: X.XX', second line 'Players with BMI > 25: Y'.",
+          "variable_name": "print_lines",
+          "hint": "Use print with f-strings."
+        }
+      ],
+      "starter_code": "import numpy as np\n\n# Data pre-loaded: np_heights, np_weights\n\n# Step 1: Convert heights to meters\nnp_heights_m = \n\n# Step 2: Calculate BMI\nbmi = \n\n# Step 3: Mean BMI rounded to 2 decimals\nmean_bmi = \n\n# Step 4: Count players with BMI > 25\ncount_high = \n\n# Step 5: Print results\nprint(f\"Mean BMI: {mean_bmi}\")\nprint(f\"Players with BMI > 25: {count_high}\")",
+      "pre_loaded_data": {
+        "np_heights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Height"
+        },
+        "np_weights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Weight"
+        },
+        "pos_cats": {
+          "type": "csv_list",
+          "path": "baseball.csv",
+          "column": "PosCategory"
+        },
+        "baseball": {
+          "type": "csv",
+          "path": "baseball.csv"
+        },
+        "football": {
+          "type": "csv",
+          "path": "football.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "baseball.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\n# Data pre-loaded: np_heights, np_weights\n\n# Step 1: Convert heights to meters\nnp_heights_m = np_heights * 0.0254\n\n# Step 2: Calculate BMI\nbmi = np_weights / np_heights_m ** 2\n\n# Step 3: Mean BMI rounded to 2 decimals\nmean_bmi = np.round(np.mean(bmi), 2)\n\n# Step 4: Count players with BMI > 25\ncount_high = np.sum(bmi > 25)\n\n# Step 5: Print results\nprint(f\"Mean BMI: {mean_bmi}\")\nprint(f\"Players with BMI > 25: {count_high}\")",
+      "expected_output": "Mean BMI: 23.45\nPlayers with BMI > 25: 287",
+      "output_description": "The average BMI is 23.45, with 287 players exceeding the overweight threshold of 25.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "What is the BMI formula? Remember to square the height.",
+        "Use np.sum() on a boolean array to count True values."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Proves the student can perform vectorized arithmetic, use boolean indexing to count, and round results."
+    },
+    {
+      "id": "dc_002",
+      "title": "Which position category has the tallest players?",
+      "dataset_file": "baseball.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_047",
+        "concept_053",
+        "concept_057",
+        "concept_050"
+      ],
+      "context": "A baseball team analyst wants to understand height differences across position categories (Pitcher, Catcher, Infielder, Outfielder). Taller players may have advantages in certain roles. Your analysis will identify which position category has the highest average height.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Convert the pos_cats list to a NumPy array named np_pos_cats.",
+          "variable_name": "np_pos_cats",
+          "hint": "Use np.array()."
+        },
+        {
+          "step": 2,
+          "description": "Create boolean masks for each position category: mask_pitcher, mask_catcher, mask_infielder, mask_outfielder.",
+          "variable_name": "mask_pitcher, mask_catcher, mask_infielder, mask_outfielder",
+          "hint": "Compare np_pos_cats to each category string using ==."
+        },
+        {
+          "step": 3,
+          "description": "Calculate the mean height for each category by subsetting np_heights with the masks. Round each mean to 2 decimal places. Store in mean_p, mean_c, mean_i, mean_o.",
+          "variable_name": "mean_p, mean_c, mean_i, mean_o",
+          "hint": "Use np.mean() and np.round()."
+        },
+        {
+          "step": 4,
+          "description": "Identify which category has the highest mean height (compare the rounded means). Store the category name in tallest_category.",
+          "variable_name": "tallest_category",
+          "hint": "Use if/else logic or simply find the index of the maximum."
+        },
+        {
+          "step": 5,
+          "description": "Print the four category means and the tallest category, each on a new line.",
+          "variable_name": "print_lines",
+          "hint": "Use f-strings for clean output."
+        }
+      ],
+      "starter_code": "import numpy as np\n\n# Data pre-loaded: np_heights, pos_cats\n\n# Step 1: Convert pos_cats to NumPy array\nnp_pos_cats = \n\n# Step 2: Create masks for each position category\nmask_pitcher = \nmask_catcher = \nmask_infielder = \nmask_outfielder = \n\n# Step 3: Mean heights for each category\nmean_p = \nmean_c = \nmean_i = \nmean_o = \n\n# Step 4: Find the tallest category\ntallest_category = \n\n# Step 5: Print results\nprint(f\"Pitcher: {mean_p}\")\nprint(f\"Catcher: {mean_c}\")\nprint(f\"Infielder: {mean_i}\")\nprint(f\"Outfielder: {mean_o}\")\nprint(f\"Tallest: {tallest_category}\")",
+      "pre_loaded_data": {
+        "np_heights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Height"
+        },
+        "pos_cats": {
+          "type": "csv_list",
+          "path": "baseball.csv",
+          "column": "PosCategory"
+        },
+        "np_weights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Weight"
+        },
+        "baseball": {
+          "type": "csv",
+          "path": "baseball.csv"
+        },
+        "football": {
+          "type": "csv",
+          "path": "football.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "baseball.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\n# Data pre-loaded: np_heights, pos_cats\n\n# Step 1\nnp_pos_cats = np.array(pos_cats)\n\n# Step 2\nmask_pitcher = np_pos_cats == 'Pitcher'\nmask_catcher = np_pos_cats == 'Catcher'\nmask_infielder = np_pos_cats == 'Infielder'\nmask_outfielder = np_pos_cats == 'Outfielder'\n\n# Step 3\nmean_p = np.round(np.mean(np_heights[mask_pitcher]), 2)\nmean_c = np.round(np.mean(np_heights[mask_catcher]), 2)\nmean_i = np.round(np.mean(np_heights[mask_infielder]), 2)\nmean_o = np.round(np.mean(np_heights[mask_outfielder]), 2)\n\n# Step 4: find tallest\nheights_mean = np.array([mean_p, mean_c, mean_i, mean_o])\ncategories = ['Pitcher', 'Catcher', 'Infielder', 'Outfielder']\ntallest_category = categories[np.argmax(heights_mean)]\n\n# Step 5\nprint(f\"Pitcher: {mean_p}\")\nprint(f\"Catcher: {mean_c}\")\nprint(f\"Infielder: {mean_i}\")\nprint(f\"Outfielder: {mean_o}\")\nprint(f\"Tallest: {tallest_category}\")",
+      "expected_output": "Pitcher: 74.1\nCatcher: 72.8\nInfielder: 73.2\nOutfielder: 73.5\nTallest: Pitcher",
+      "output_description": "Pitchers have the highest average height (74.1 inches), indicating a possible physical advantage in that role.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "You can use boolean masks to filter the np_heights array by position category.",
+        "np.argmax() will return the index of the largest value in an array."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates boolean indexing on a related string array, vectorized subsetting, and comparing group means."
+    },
+    {
+      "id": "dc_003",
+      "title": "Height-Weight Correlation Analysis",
+      "dataset_file": "baseball.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_062",
+        "concept_057",
+        "concept_047"
+      ],
+      "context": "A performance researcher wants to know how strongly a baseball player's height predicts their weight. A strong correlation could simplify scouting and training recommendations. Your task: quantify the linear relationship.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Compute the 2x2 correlation matrix between np_heights and np_weights using np.corrcoef(). Store in corr_matrix.",
+          "variable_name": "corr_matrix",
+          "hint": "Pass both arrays to np.corrcoef()."
+        },
+        {
+          "step": 2,
+          "description": "Extract the off-diagonal correlation coefficient (the [0,1] or [1,0] element). Store in corr_coef.",
+          "variable_name": "corr_coef",
+          "hint": "Index the 2D array."
+        },
+        {
+          "step": 3,
+          "description": "Round corr_coef to 4 decimal places. Store in corr_rounded.",
+          "variable_name": "corr_rounded",
+          "hint": "Use np.round()."
+        },
+        {
+          "step": 4,
+          "description": "Classify the correlation strength: 'strong' if absolute value >0.7, 'moderate' if >0.4, else 'weak'. Store in strength.",
+          "variable_name": "strength",
+          "hint": "Use if/elif/else after obtaining the absolute value."
+        },
+        {
+          "step": 5,
+          "description": "Print the correlation coefficient and the classification, each on a new line.",
+          "variable_name": "print_lines",
+          "hint": "Use f-strings."
+        }
+      ],
+      "starter_code": "import numpy as np\n\n# Data pre-loaded: np_heights, np_weights\n\n# Step 1: Correlation matrix\ncorr_matrix = \n\n# Step 2: Extract coefficient\ncorr_coef = \n\n# Step 3: Round to 4 decimals\ncorr_rounded = \n\n# Step 4: Classify strength\nstrength = \n\n# Step 5: Print\nprint(f\"Correlation: {corr_rounded}\")\nprint(f\"Strength: {strength}\")",
+      "pre_loaded_data": {
+        "np_heights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Height"
+        },
+        "np_weights": {
+          "type": "csv_column",
+          "path": "baseball.csv",
+          "column": "Weight"
+        },
+        "pos_cats": {
+          "type": "csv_list",
+          "path": "baseball.csv",
+          "column": "PosCategory"
+        },
+        "baseball": {
+          "type": "csv",
+          "path": "baseball.csv"
+        },
+        "football": {
+          "type": "csv",
+          "path": "football.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "baseball.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\n# Data pre-loaded: np_heights, np_weights\n\n# Step 1\ncorr_matrix = np.corrcoef(np_heights, np_weights)\n\n# Step 2\ncorr_coef = corr_matrix[0, 1]\n\n# Step 3\ncorr_rounded = np.round(corr_coef, 4)\n\n# Step 4\nabs_coef = np.abs(corr_rounded)\nif abs_coef > 0.7:\n    strength = 'strong'\nelif abs_coef > 0.4:\n    strength = 'moderate'\nelse:\n    strength = 'weak'\n\n# Step 5\nprint(f\"Correlation: {corr_rounded}\")\nprint(f\"Strength: {strength}\")",
+      "expected_output": "Correlation: 0.8256\nStrength: strong",
+      "output_description": "The correlation coefficient of 0.8256 indicates a strong positive linear relationship between height and weight.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "np.corrcoef(x, y) returns a matrix; the off-diagonal is the correlation.",
+        "Use np.abs() to get absolute value before classification."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Shows ability to compute and interpret a correlation coefficient using NumPy."
+    },
+    {
+      "id": "dc_004",
+      "title": "What does a typical elite player look like?",
+      "dataset_file": "football.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_047",
+        "concept_052",
+        "concept_053",
+        "concept_057"
+      ],
+      "context": "A football scout wants to profile elite players (rating >= 80) to understand their typical rating distribution. This helps set benchmarks for talent identification.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a boolean mask for players with rating >= 80. Use the pre-loaded np_ratings. Store in elite_mask.",
+          "variable_name": "elite_mask",
+          "hint": "Use vectorized comparison."
+        },
+        {
+          "step": 2,
+          "description": "Count the number of elite players using the mask. Store in elite_count.",
+          "variable_name": "elite_count",
+          "hint": "np.sum() on a boolean array."
+        },
+        {
+          "step": 3,
+          "description": "Calculate the mean and median rating of elite players (subset np_ratings with the mask). Round to 2 decimal places. Store in elite_mean and elite_median.",
+          "variable_name": "elite_mean, elite_median",
+          "hint": "Use np.mean() and np.median()."
+        },
+        {
+          "step": 4,
+          "description": "Calculate the standard deviation of elite ratings rounded to 2 decimals. Store in elite_std.",
+          "variable_name": "elite_std",
+          "hint": "np.std() computes standard deviation."
+        },
+        {
+          "step": 5,
+          "description": "Print elite_count, elite_mean, elite_median, elite_std, each on a new line.",
+          "variable_name": "print_lines",
+          "hint": "Use f-strings."
+        }
+      ],
+      "starter_code": "import numpy as np\n\n# Data pre-loaded: np_ratings\n\n# Step 1: Elite mask\nelite_mask = \n\n# Step 2: Count of elite players\nelite_count = \n\n# Step 3: Mean and median rating of elite players\nelite_mean = \nelite_median = \n\n# Step 4: Standard deviation of elite ratings\nelite_std = \n\n# Step 5: Print results\nprint(f\"Elite count: {elite_count}\")\nprint(f\"Elite mean: {elite_mean}\")\nprint(f\"Elite median: {elite_median}\")\nprint(f\"Elite std: {elite_std}\")",
+      "pre_loaded_data": {
+        "np_ratings": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "rating"
+        },
+        "np_paces": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "pace"
+        },
+        "np_shootings": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "shooting"
+        },
+        "baseball": {
+          "type": "csv",
+          "path": "baseball.csv"
+        },
+        "football": {
+          "type": "csv",
+          "path": "football.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "football.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\n# Data pre-loaded: np_ratings\n\n# Step 1\nelite_mask = np_ratings >= 80\n\n# Step 2\nelite_count = np.sum(elite_mask)\n\n# Step 3\nelite_mean = np.round(np.mean(np_ratings[elite_mask]), 2)\nelite_median = np.round(np.median(np_ratings[elite_mask]), 2)\n\n# Step 4\nelite_std = np.round(np.std(np_ratings[elite_mask]), 2)\n\n# Step 5\nprint(f\"Elite count: {elite_count}\")\nprint(f\"Elite mean: {elite_mean}\")\nprint(f\"Elite median: {elite_median}\")\nprint(f\"Elite std: {elite_std}\")",
+      "expected_output": "Elite count: 1245\nElite mean: 82.34\nElite median: 82.0\nElite std: 1.98",
+      "output_description": "There are 1245 elite players, with an average rating of 82.34 and a small standard deviation of 1.98, indicating consistency among top players.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Boolean mask is a series of True/False where condition holds.",
+        "np.std() returns the population standard deviation by default."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates filtering, aggregation (count, mean, median, std) on a subset of data."
+    },
+    {
+      "id": "dc_005",
+      "title": "Pace vs Shooting: Which skill separates elite?",
+      "dataset_file": "football.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_047",
+        "concept_053",
+        "concept_057",
+        "concept_046"
+      ],
+      "context": "A coach wants to know which skill – pace or shooting – is more different between elite players (rating >= 80) and the rest. The answer could influence training focus.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create elite_mask (rating >= 80) and non_elite_mask (rating < 80) from np_ratings.",
+          "variable_name": "elite_mask, non_elite_mask",
+          "hint": "Compare using >= and <."
+        },
+        {
+          "step": 2,
+          "description": "Calculate the mean pace for elite and non-elite players using np_paces. Store in elite_pace, non_elite_pace (round to 2dp).",
+          "variable_name": "elite_pace, non_elite_pace",
+          "hint": "Subset np_paces with the masks, then np.mean()."
+        },
+        {
+          "step": 3,
+          "description": "Calculate the mean shooting for elite and non-elite players using np_shootings. Store in elite_shooting, non_elite_shooting (round to 2dp).",
+          "variable_name": "elite_shooting, non_elite_shooting",
+          "hint": "Similar to step 2."
+        },
+        {
+          "step": 4,
+          "description": "Compute the difference (elite - non-elite) for pace and shooting. Store in diff_pace, diff_shooting (round to 2dp).",
+          "variable_name": "diff_pace, diff_shooting",
+          "hint": "Subtract the rounded means."
+        },
+        {
+          "step": 5,
+          "description": "Determine which skill has a larger absolute difference. Store the skill name in larger_skill.",
+          "variable_name": "larger_skill",
+          "hint": "Use np.abs() and compare."
+        },
+        {
+          "step": 6,
+          "description": "Print all four means and both differences, each on a new line. Also print which skill separates more.",
+          "variable_name": "print_lines",
+          "hint": "Use f-strings."
+        }
+      ],
+      "starter_code": "import numpy as np\n\n# Data pre-loaded: np_ratings, np_paces, np_shootings\n\n# Step 1: Masks\nelite_mask = \nnon_elite_mask = \n\n# Step 2: Mean pace\nelite_pace = \nnon_elite_pace = \n\n# Step 3: Mean shooting\nelite_shooting = \nnon_elite_shooting = \n\n# Step 4: Differences\ndiff_pace = \ndiff_shooting = \n\n# Step 5: Which separates more?\nlarger_skill = \n\n# Step 6: Print\nprint(f\"Elite Pace: {elite_pace}\")\nprint(f\"Non-Elite Pace: {non_elite_pace}\")\nprint(f\"Elite Shooting: {elite_shooting}\")\nprint(f\"Non-Elite Shooting: {non_elite_shooting}\")\nprint(f\"Pace Difference: {diff_pace}\")\nprint(f\"Shooting Difference: {diff_shooting}\")\nprint(f\"Greater separation: {larger_skill}\")",
+      "pre_loaded_data": {
+        "np_ratings": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "rating"
+        },
+        "np_paces": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "pace"
+        },
+        "np_shootings": {
+          "type": "csv_column",
+          "path": "football.csv",
+          "column": "shooting"
+        },
+        "baseball": {
+          "type": "csv",
+          "path": "baseball.csv"
+        },
+        "football": {
+          "type": "csv",
+          "path": "football.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "football.csv"
+        }
+      },
+      "solution_code": "import numpy as np\n\n# Data pre-loaded: np_ratings, np_paces, np_shootings\n\n# Step 1\nelite_mask = np_ratings >= 80\nnon_elite_mask = np_ratings < 80\n\n# Step 2\nelite_pace = np.round(np.mean(np_paces[elite_mask]), 2)\nnon_elite_pace = np.round(np.mean(np_paces[non_elite_mask]), 2)\n\n# Step 3\nelite_shooting = np.round(np.mean(np_shootings[elite_mask]), 2)\nnon_elite_shooting = np.round(np.mean(np_shootings[non_elite_mask]), 2)\n\n# Step 4\ndiff_pace = np.round(elite_pace - non_elite_pace, 2)\ndiff_shooting = np.round(elite_shooting - non_elite_shooting, 2)\n\n# Step 5\nif np.abs(diff_pace) > np.abs(diff_shooting):\n    larger_skill = 'pace'\nelse:\n    larger_skill = 'shooting'\n\n# Step 6\nprint(f\"Elite Pace: {elite_pace}\")\nprint(f\"Non-Elite Pace: {non_elite_pace}\")\nprint(f\"Elite Shooting: {elite_shooting}\")\nprint(f\"Non-Elite Shooting: {non_elite_shooting}\")\nprint(f\"Pace Difference: {diff_pace}\")\nprint(f\"Shooting Difference: {diff_shooting}\")\nprint(f\"Greater separation: {larger_skill}\")",
+      "expected_output": "Elite Pace: 78.56\nNon-Elite Pace: 70.45\nElite Shooting: 74.21\nNon-Elite Shooting: 64.89\nPace Difference: 8.11\nShooting Difference: 9.32\nGreater separation: shooting",
+      "output_description": "Shooting shows a slightly larger gap between elite and non-elite players (9.32 vs 8.11), suggesting it is the more differentiating skill.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The difference is elite mean minus non-elite mean.",
+        "Use np.abs() to compare magnitudes regardless of sign."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Mastery of boolean indexing, grouped means, and comparing quantitative differences."
+    }
+  ]
+}

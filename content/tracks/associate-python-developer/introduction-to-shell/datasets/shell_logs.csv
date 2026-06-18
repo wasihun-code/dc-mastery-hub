@@ -1,0 +1,8 @@
+timestamp,command,user,exit_code
+2026-06-15 10:00:00,ls -la,admin,0
+2026-06-15 10:01:23,cd /var/log,admin,0
+2026-06-15 10:02:45,cat auth.log,admin,1
+2026-06-15 10:05:00,grep "Failed",admin,0
+2026-06-15 10:06:12,sudo su,guest,1
+2026-06-15 10:07:30,ls -la,admin,0
+2026-06-15 10:10:00,rm -rf /tmp,admin,0

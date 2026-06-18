@@ -1,0 +1,450 @@
+{
+  "course_slug": "python-for-developers-combined",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 35,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Data Types & Variables",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_006",
+          "term": "Variable",
+          "match": "A named storage location that holds a value (e.g., `ingredient_name = \"tomatoes\"`)",
+          "wrong_matches": [
+            "A function that prints output to the console",
+            "A data structure for key-value pairs"
+          ],
+          "feedback_correct": "Correct. A variable is a named reference to a value, created with assignment.",
+          "feedback_wrong": "Incorrect. That describes something else in Python."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_007",
+          "term": "String data type",
+          "match": "Text enclosed in quotes, e.g., `\"pasta\"`",
+          "wrong_matches": [
+            "Whole numbers like 42",
+            "True or False values"
+          ],
+          "feedback_correct": "Correct. Strings represent text and are created with single or double quotes.",
+          "feedback_wrong": "Incorrect. That is a different data type."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_008",
+          "term": "Integer data type",
+          "match": "Whole numbers without a decimal point, e.g., `500`",
+          "wrong_matches": [
+            "Numbers with decimals like 3.14",
+            "A sequence of characters"
+          ],
+          "feedback_correct": "Correct. Integers are whole numbers (positive, negative, or zero).",
+          "feedback_wrong": "Incorrect. That matches another numeric type."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_009",
+          "term": "Variable assignment",
+          "match": "Using `=` to bind a value to a name, e.g., `servings = 4`",
+          "wrong_matches": [
+            "Comparing two values with `==`",
+            "Printing a variable's value"
+          ],
+          "feedback_correct": "Correct. The assignment operator `=` stores the right-hand value into the left-hand variable.",
+          "feedback_wrong": "Incorrect. That is a different operation."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_010",
+          "term": "Printing variables",
+          "match": "`print(variable_name)` displays the value stored in the variable",
+          "wrong_matches": [
+            "`type(variable_name)` returns the data type",
+            "`input(variable_name)` reads user input"
+          ],
+          "feedback_correct": "Correct. `print()` outputs the variable's value to the console.",
+          "feedback_wrong": "Incorrect. That function does something else."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_012",
+          "term": "Variable naming convention",
+          "match": "Use `snake_case` (all lowercase with underscores) for variable names per PEP 8",
+          "wrong_matches": [
+            "Use `camelCase` for variable names",
+            "Use `PascalCase` for variables"
+          ],
+          "feedback_correct": "Correct. PEP 8 recommends `snake_case` for variable and function names.",
+          "feedback_wrong": "Incorrect. That is not the recommended convention in Python."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_013",
+          "term": "Float data type",
+          "match": "A number with a decimal point, e.g., `1.5`",
+          "wrong_matches": [
+            "A whole number like 42",
+            "A boolean value True/False"
+          ],
+          "feedback_correct": "Correct. Floats represent real numbers and contain a decimal point.",
+          "feedback_wrong": "Incorrect. That describes an integer or boolean."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_014",
+          "term": "Boolean data type",
+          "match": "`True` or `False` values, often the result of comparison operators",
+          "wrong_matches": [
+            "Integer values 1 and 0",
+            "Strings \"True\" and \"False\""
+          ],
+          "feedback_correct": "Correct. Booleans are `True` and `False` (capitalized).",
+          "feedback_wrong": "Incorrect. That is a different representation."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_024",
+          "term": "List",
+          "match": "Ordered, mutable collection created with square brackets, e.g., `[\"pasta\", \"tomatoes\"]`",
+          "wrong_matches": [
+            "Unordered, immutable collection created with curly braces",
+            "Key-value pairs created with curly braces"
+          ],
+          "feedback_correct": "Correct. Lists are ordered and mutable, defined with `[]`.",
+          "feedback_wrong": "Incorrect. That describes a set or dictionary."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_029",
+          "term": "Dictionary",
+          "match": "Key-value pairs enclosed in `{}` with colons, e.g., `{\"pasta\": 500}`",
+          "wrong_matches": [
+            "A list of values separated by commas",
+            "An immutable sequence in parentheses"
+          ],
+          "feedback_correct": "Correct. Dictionaries map keys to values using `{key: value}` syntax.",
+          "feedback_wrong": "Incorrect. That syntax creates a different data structure."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_037",
+          "term": "Set",
+          "match": "Unordered, unique elements enclosed in `{}` without colons, e.g., `{\"pasta\", \"garlic\"}`",
+          "wrong_matches": [
+            "Ordered collection with duplicates allowed",
+            "Key-value pairs"
+          ],
+          "feedback_correct": "Correct. Sets use curly braces with comma-separated elements and no colons.",
+          "feedback_wrong": "Incorrect. That describes a list or dictionary."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_041",
+          "term": "Tuple",
+          "match": "Immutable, ordered sequence created with parentheses, e.g., `(1, 2, 4)`",
+          "wrong_matches": [
+            "Mutable list with square brackets",
+            "Unordered set with curly braces"
+          ],
+          "feedback_correct": "Correct. Tuples are immutable and defined with `()`.",
+          "feedback_wrong": "Incorrect. That is a different sequence type."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Control Flow & Loops",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_045",
+          "term": "Conditional statement (if)",
+          "match": "`if condition:` followed by an indented block that runs when condition is True",
+          "wrong_matches": [
+            "`elif condition:` runs when previous conditions are false",
+            "`else:` runs when no condition is true"
+          ],
+          "feedback_correct": "Correct. The `if` statement is the basic conditional.",
+          "feedback_wrong": "Incorrect. That is another part of conditional chains."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_046",
+          "term": "Elif statement",
+          "match": "Short for 'else if', checks a condition only if previous `if`/`elif` conditions were false",
+          "wrong_matches": [
+            "Runs unconditionally after an `if`",
+            "Exits a loop immediately"
+          ],
+          "feedback_correct": "Correct. `elif` allows multiple conditional branches.",
+          "feedback_wrong": "Incorrect. That describes a different control flow keyword."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_047",
+          "term": "Else statement",
+          "match": "Optional block after `if`/`elif` that runs when all preceding conditions are false",
+          "wrong_matches": [
+            "Must have a condition after it",
+            "Runs only if the `if` condition is true"
+          ],
+          "feedback_correct": "Correct. `else` catches the default case.",
+          "feedback_wrong": "Incorrect. That misrepresents the `else` behavior."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_048",
+          "term": "Indentation",
+          "match": "Python uses spaces or tabs to define code blocks; inconsistent indentation raises `IndentationError`",
+          "wrong_matches": [
+            "Curly braces `{}` mark blocks like in C",
+            "Keywords `begin` and `end` mark blocks"
+          ],
+          "feedback_correct": "Correct. Indentation is syntactically significant in Python.",
+          "feedback_wrong": "Incorrect. That is how other languages handle blocks."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_049",
+          "term": "For loop",
+          "match": "Iterates over an iterable, executing the indented block for each item: `for item in list:`",
+          "wrong_matches": [
+            "Loops while a condition is true",
+            "Loops a fixed number of times using a counter"
+          ],
+          "feedback_correct": "Correct. `for` loops iterate over sequences.",
+          "feedback_wrong": "Incorrect. That describes a `while` loop or `range()`."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_052",
+          "term": "Looping through dictionaries",
+          "match": "Use `for key in dict:` for keys, `for value in dict.values():` for values, or `for key, value in dict.items():` for both",
+          "wrong_matches": [
+            "`for item in dict:` gives both key and value",
+            "`for key, value in dict:` is invalid without `.items()`"
+          ],
+          "feedback_correct": "Correct. Dictionaries require specific methods to iterate over keys, values, or items.",
+          "feedback_wrong": "Incorrect. That would raise an error or give wrong results."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_053",
+          "term": "range() function",
+          "match": "Generates a sequence of numbers; `range(start, stop)` includes `start` but excludes `stop`",
+          "wrong_matches": [
+            "`range(stop)` includes `stop`",
+            "`range()` returns a list"
+          ],
+          "feedback_correct": "Correct. `range()` produces numbers up to but not including the stop value.",
+          "feedback_wrong": "Incorrect. That is a common misconception about `range()`."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_054",
+          "term": "Conditionals inside for loops",
+          "match": "Nested `if-elif-else` inside a `for` loop to process each element differently based on its value",
+          "wrong_matches": [
+            "Using `break` to exit the loop early",
+            "Using `continue` to skip an iteration"
+          ],
+          "feedback_correct": "Correct. Conditionals inside loops allow element‑wise decision making.",
+          "feedback_wrong": "Incorrect. That is a different loop control statement."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_056",
+          "term": "While loop",
+          "match": "Repeatedly executes a block as long as a condition is true; condition checked before each iteration",
+          "wrong_matches": [
+            "Iterates a fixed number of times",
+            "Always runs at least once"
+          ],
+          "feedback_correct": "Correct. `while` loops are condition‑controlled.",
+          "feedback_wrong": "Incorrect. That describes a `for` loop or a `do-while` (which Python lacks)."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_058",
+          "term": "break keyword",
+          "match": "Exits the innermost loop immediately, skipping the remaining iterations",
+          "wrong_matches": [
+            "Skips to the next iteration of the loop",
+            "Exits the entire program"
+          ],
+          "feedback_correct": "Correct. `break` terminates the loop entirely.",
+          "feedback_wrong": "Incorrect. That is the behavior of `continue` or `exit()`."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_059",
+          "term": "in keyword",
+          "match": "Checks membership in a sequence or mapping; for dictionaries, checks keys by default",
+          "wrong_matches": [
+            "Checks values in a dictionary by default",
+            "Checks if a variable exists"
+          ],
+          "feedback_correct": "Correct. `in` returns `True` if the value is found.",
+          "feedback_wrong": "Incorrect. That is a common misunderstanding about `in` on dictionaries."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_061",
+          "term": "and keyword",
+          "match": "Logical AND: returns `True` only if both operands are true; short‑circuits on first false",
+          "wrong_matches": [
+            "Returns `True` if at least one operand is true",
+            "Performs bitwise AND"
+          ],
+          "feedback_correct": "Correct. `and` requires both conditions to be true.",
+          "feedback_wrong": "Incorrect. That is the behavior of `or` or bitwise `&`."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Functions, Modules & Error Handling",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_025",
+          "concept_id": "concept_094",
+          "term": "def keyword",
+          "match": "Used to define a custom function: `def function_name():` followed by an indented block",
+          "wrong_matches": [
+            "Used to call a function",
+            "Used to import a module"
+          ],
+          "feedback_correct": "Correct. `def` starts a function definition.",
+          "feedback_wrong": "Incorrect. That is a different keyword or operation."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_095",
+          "term": "return statement",
+          "match": "Exits a function and optionally passes a value back to the caller; without `return`, the function returns `None`",
+          "wrong_matches": [
+            "Prints a value to the console",
+            "Raises an exception"
+          ],
+          "feedback_correct": "Correct. `return` sends a value out of the function.",
+          "feedback_wrong": "Incorrect. That is the behavior of `print()` or `raise`."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_096",
+          "term": "Custom function",
+          "match": "A reusable block defined with `def` that performs a specific task, e.g., `def average(values):`",
+          "wrong_matches": [
+            "A built‑in function like `len()`",
+            "An anonymous lambda function"
+          ],
+          "feedback_correct": "Correct. Custom functions are user‑defined with `def`.",
+          "feedback_wrong": "Incorrect. That is a different kind of function."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_108",
+          "term": "lambda function",
+          "match": "Anonymous, single‑expression function defined with `lambda`, e.g., `lambda x: x**2`",
+          "wrong_matches": [
+            "A named function with multiple statements",
+            "A function that modifies global variables"
+          ],
+          "feedback_correct": "Correct. Lambdas are concise, anonymous, and limited to one expression.",
+          "feedback_wrong": "Incorrect. That describes a standard `def` function."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_110",
+          "term": "map() function",
+          "match": "Applies a function to every item of an iterable and returns an iterator",
+          "wrong_matches": [
+            "Returns a list of results immediately",
+            "Filters items based on a condition"
+          ],
+          "feedback_correct": "Correct. `map()` returns an iterator; use `list()` to materialize.",
+          "feedback_wrong": "Incorrect. That is the behavior of `filter()` or a list comprehension."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_106",
+          "term": "*args (arbitrary positional arguments)",
+          "match": "Collects extra positional arguments into a tuple; defined as `*args` in the function signature",
+          "wrong_matches": [
+            "Collects keyword arguments into a dictionary",
+            "Unpacks a list into arguments when calling"
+          ],
+          "feedback_correct": "Correct. `*args` gathers positional arguments as a tuple.",
+          "feedback_wrong": "Incorrect. That describes `**kwargs` or argument unpacking in calls."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_107",
+          "term": "**kwargs (arbitrary keyword arguments)",
+          "match": "Collects extra keyword arguments into a dictionary; defined as `**kwargs`",
+          "wrong_matches": [
+            "Collects positional arguments into a tuple",
+            "Used to define default arguments"
+          ],
+          "feedback_correct": "Correct. `**kwargs` gathers keyword arguments as a dict.",
+          "feedback_wrong": "Incorrect. That describes `*args` or default arguments."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_111",
+          "term": "TypeError",
+          "match": "Raised when an operation is applied to an object of inappropriate type, e.g., `\"Hello\" + 5`",
+          "wrong_matches": [
+            "Raised when a key is missing from a dictionary",
+            "Raised when a value is valid type but invalid value"
+          ],
+          "feedback_correct": "Correct. `TypeError` indicates a type mismatch.",
+          "feedback_wrong": "Incorrect. That is `KeyError` or `ValueError`."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_112",
+          "term": "ValueError",
+          "match": "Raised when a function gets the right type but an inappropriate value, e.g., `int(\"hello\")`",
+          "wrong_matches": [
+            "Raised when a variable is not defined",
+            "Raised when an index is out of range"
+          ],
+          "feedback_correct": "Correct. `ValueError` signals a bad value of a correct type.",
+          "feedback_wrong": "Incorrect. That is `NameError` or `IndexError`."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_114",
+          "term": "KeyError",
+          "match": "Raised when accessing a dictionary (or pandas DataFrame) with a key that does not exist",
+          "wrong_matches": [
+            "Raised when a list index is out of bounds",
+            "Raised when a variable is not found"
+          ],
+          "feedback_correct": "Correct. `KeyError` means the key is missing.",
+          "feedback_wrong": "Incorrect. That is `IndexError` or `NameError`."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_115",
+          "term": "try-except block",
+          "match": "Allows handling of exceptions gracefully, preventing program termination: `try:` block then `except:`",
+          "wrong_matches": [
+            "Raises a new exception",
+            "Defines a new function"
+          ],
+          "feedback_correct": "Correct. `try-except` catches and handles exceptions.",
+          "feedback_wrong": "Incorrect. That is `raise` or `def`."
+        }
+      ]
+    }
+  ]
+}

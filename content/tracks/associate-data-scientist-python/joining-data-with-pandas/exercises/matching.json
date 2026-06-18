@@ -1,0 +1,426 @@
+{
+  "course_slug": "joining-data-with-pandas",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_pairs": 33,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Join Types and Relationships",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_002",
+          "term": "Inner join",
+          "match": "Returns only rows with matching keys in both tables.",
+          "wrong_matches": [
+            "Every row in the left table is related to exactly one row in the right table.",
+            "Returns all rows from the left table and matching rows from the right, NaN for no match."
+          ],
+          "feedback_correct": "Correct! An inner join performs an intersection on keys.",
+          "feedback_wrong": "Not quite — that describes a one‑to‑one relationship or a left join, not an inner join."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_003",
+          "term": "One‑to‑one relationship",
+          "match": "Every row in the left table is related to exactly one row in the right table.",
+          "wrong_matches": [
+            "Returns only rows with matching keys in both tables.",
+            "Every row in the left table is related to one or more rows in the right table."
+          ],
+          "feedback_correct": "Correct! Keys are unique in both tables.",
+          "feedback_wrong": "Incorrect — that's either an inner join or a one‑to‑many relationship."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_004",
+          "term": "One‑to‑many relationship",
+          "match": "Every row in the left table relates to one or more rows in the right table.",
+          "wrong_matches": [
+            "Every row in the left table is related to exactly one row in the right table.",
+            "Returns all rows from the right table and matching rows from the left."
+          ],
+          "feedback_correct": "Correct! Right‑side keys are not unique.",
+          "feedback_wrong": "Think about the multiplicity of matches on the right side."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_008",
+          "term": "Left join",
+          "match": "Returns all rows from the left table and matching right rows, NaN otherwise.",
+          "wrong_matches": [
+            "Returns only rows with matching keys in both tables.",
+            "Returns all rows from both tables, NaN for no match."
+          ],
+          "feedback_correct": "Correct! how='left' preserves left table intact.",
+          "feedback_wrong": "That's an inner or outer join, not a left join."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_009",
+          "term": "Right join",
+          "match": "Returns all rows from the right table and matching left rows, NaN otherwise.",
+          "wrong_matches": [
+            "Returns all rows from the left table and matching right rows, NaN otherwise.",
+            "A join of a table with itself, using suffixes to distinguish columns."
+          ],
+          "feedback_correct": "Correct! It's the mirror of a left join.",
+          "feedback_wrong": "Not exactly — that describes a left join or a self join."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_010",
+          "term": "Outer join",
+          "match": "Returns all rows from both tables, filling NaN where there is no match.",
+          "wrong_matches": [
+            "Returns all rows from the left table and matching right rows, NaN otherwise.",
+            "Filters left table to rows that have a match in the right table."
+          ],
+          "feedback_correct": "Correct! A full union of keys with missing values as NaN.",
+          "feedback_wrong": "That is a left join or a semi join."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_016",
+          "term": "Semi join",
+          "match": "Filters the left table to rows with a match in the right table, returning only left columns.",
+          "wrong_matches": [
+            "Filters the left table to rows with no match in the right table.",
+            "Merges a table to itself using left_on and right_on."
+          ],
+          "feedback_correct": "Correct! Achieved via .isin() on the matching keys.",
+          "feedback_wrong": "An anti join returns non‑matches; a self join is a different operation."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_018",
+          "term": "Anti join",
+          "match": "Returns left rows with no match in the right table, using left join + indicator + filter.",
+          "wrong_matches": [
+            "Filters the left table to rows with a match in the right table.",
+            "Returns all rows from both tables, NaN for no match."
+          ],
+          "feedback_correct": "Correct! You need indicator=True to identify 'left_only' rows.",
+          "feedback_wrong": "That describes a semi join or an outer join."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_012",
+          "term": "sequels.merge(sequels, left_on='sequel', right_on='id', suffixes=('_org','_seq'))",
+          "match": "Self join linking each movie to its sequel by matching sequel id to movie id.",
+          "wrong_matches": [
+            "Merging a table to itself using the same column as key.",
+            "Uses pd.merge_ordered for time‑series data."
+          ],
+          "feedback_correct": "Correct! This is a self join with appropriate suffixes.",
+          "feedback_wrong": "That's not a simple same‑key merge; it uses left_on/right_on, not merge_ordered."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_032",
+          "term": "Wide format",
+          "match": "Each row is one subject, columns are different attributes.",
+          "wrong_matches": [
+            "Each observation is a separate row, with variable and value columns.",
+            "Data sorted by time column for merging."
+          ],
+          "feedback_correct": "Correct! Human‑readable, but often needs melting for analysis.",
+          "feedback_wrong": "That's long format or a time‑series attribute."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_033",
+          "term": "Long format",
+          "match": "Each row is one observation of a variable, with variable‑name and value columns.",
+          "wrong_matches": [
+            "Each row is one subject, columns are different attributes.",
+            "Used for horizontal concatenation with pd.concat."
+          ],
+          "feedback_correct": "Correct! The tidy format preferred by plotting libraries.",
+          "feedback_wrong": "That describes wide format or a concat operation."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Merge Parameters and Advanced Joins",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_012",
+          "concept_id": "concept_001",
+          "term": "wards.merge(census, on='ward')",
+          "match": "Inner merge of two DataFrames on a common column.",
+          "wrong_matches": [
+            "pd.concat with ignore_index=True.",
+            "Left join using left_on and right_on."
+          ],
+          "feedback_correct": "Correct! The default merge is an inner join.",
+          "feedback_wrong": "Not concat or left join — those are different operations."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_005",
+          "term": "suffixes=('_ward','_cen')",
+          "match": "Rename overlapping non‑key columns with the given tuple.",
+          "wrong_matches": [
+            "Specify different key column names.",
+            "Add an indicator column to show row source."
+          ],
+          "feedback_correct": "Correct! The tuple must contain exactly two strings.",
+          "feedback_wrong": "That describes left_on/right_on or the indicator parameter."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_006",
+          "term": "grants.merge(licenses, on=['address','zip'])",
+          "match": "Merge using a composite key of two columns.",
+          "wrong_matches": [
+            "Chain a second merge after the first.",
+            "Set left_index=True and right_on to use the index."
+          ],
+          "feedback_correct": "Correct! All listed columns must match for a row to be included.",
+          "feedback_wrong": "That's chaining merges or index merging."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_007",
+          "term": "grants.merge(licenses, ...) \\\n .merge(wards, on='ward')",
+          "match": "Chain two merges together, the second using the result of the first.",
+          "wrong_matches": [
+            "Self‑join a table with itself.",
+            "Use pd.merge_asof for nearest matching."
+          ],
+          "feedback_correct": "Correct! The backslash enables line continuation.",
+          "feedback_wrong": "That's a self join or merge_asof."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_011",
+          "term": "left_on='id', right_on='movie_id'",
+          "match": "Specify different key column names in left and right DataFrames.",
+          "wrong_matches": [
+            "Rename overlapping columns with suffixes.",
+            "Set the index as the join key."
+          ],
+          "feedback_correct": "Correct! Used when column names differ.",
+          "feedback_wrong": "That describes suffixes or left_index."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_013",
+          "term": "movies.merge(taglines, on='id', how='left') (when id is the index)",
+          "match": "Merge using a named index level as the join key.",
+          "wrong_matches": [
+            "Merge using left_index=True and right_on.",
+            "Use pd.merge_ordered to sort results."
+          ],
+          "feedback_correct": "Correct! If the index has the same name as a column, on= can reference it.",
+          "feedback_wrong": "Not exactly; left_index=True is for index‑only merges, not using on."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_014",
+          "term": "samuel.merge(casts, on=['movie_id','cast_id'])",
+          "match": "Merge on a MultiIndex with exactly matching level names and order.",
+          "wrong_matches": [
+            "Concatenate two DataFrames vertically.",
+            "Use .query() to filter rows."
+          ],
+          "feedback_correct": "Correct! MultiIndex merges require level name alignment.",
+          "feedback_wrong": "That's concat or query."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_015",
+          "term": "left_index=True, right_on='movie_id'",
+          "match": "Use the left DataFrame's index and a column from the right as keys.",
+          "wrong_matches": [
+            "Set how='outer' to keep all rows.",
+            "Drop duplicate rows after concatenation."
+          ],
+          "feedback_correct": "Correct! left_index=True takes the index as the key.",
+          "feedback_wrong": "That describes join type or duplicate handling."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_019",
+          "term": "indicator=True",
+          "match": "Add a '_merge' column showing row origin ('both','left_only','right_only').",
+          "wrong_matches": [
+            "Check that the merge is one‑to‑one.",
+            "Fill missing values forward in time series."
+          ],
+          "feedback_correct": "Correct! Essential for anti joins.",
+          "feedback_wrong": "That describes the validate parameter or ffill."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_024",
+          "term": "validate='one_to_one'",
+          "match": "Raise MergeError if keys are not unique in both tables.",
+          "wrong_matches": [
+            "Add an indicator column.",
+            "Reset the index after concatenation."
+          ],
+          "feedback_correct": "Correct! validate enforces the expected relationship.",
+          "feedback_wrong": "That's indicator or ignore_index."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_026",
+          "term": "pd.merge_ordered(aapl, mcd, on='date', suffixes=('_aapl','_mcd'))",
+          "match": "Perform an ordered outer join, sorting results by the key column.",
+          "wrong_matches": [
+            "Perform a left join that matches on the nearest timestamp.",
+            "Concatenate with keys to create a MultiIndex."
+          ],
+          "feedback_correct": "Correct! Default how='outer', result is sorted.",
+          "feedback_wrong": "That's merge_asof or concat."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_028",
+          "term": "pd.merge_asof(visa, ibm, on='date_time')",
+          "match": "Match each left row to the nearest previous right row (backward).",
+          "wrong_matches": [
+            "Forward fill missing values in an ordered merge.",
+            "Use .query() to select rows by condition."
+          ],
+          "feedback_correct": "Correct! merge_asof requires sorted keys.",
+          "feedback_wrong": "That's ffill or query."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_029",
+          "term": "direction='forward' in merge_asof",
+          "match": "Match each left key to the first right key ≥ the left key.",
+          "wrong_matches": [
+            "Match to the closest key regardless of order.",
+            "Set how='left' in a standard merge."
+          ],
+          "feedback_correct": "Correct! This uses future data (beware of leakage).",
+          "feedback_wrong": "That describes 'nearest' direction or how='left'."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Data Manipulation and Reshaping",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_025",
+          "concept_id": "concept_017",
+          "term": "genres['gid'].isin(genres_tracks['gid'])",
+          "match": "Return a boolean Series indicating membership of each gid in the other Series.",
+          "wrong_matches": [
+            "Filter the DataFrame to rows where gid matches.",
+            "Add a column showing the source of each row after a merge."
+          ],
+          "feedback_correct": "Correct! isin() creates a mask for filtering.",
+          "feedback_wrong": "That's direct filtering or the indicator parameter."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_020",
+          "term": "pd.concat([inv_jan, inv_feb, inv_mar], ignore_index=True)",
+          "match": "Stack DataFrames vertically and reset row index.",
+          "wrong_matches": [
+            "Stack DataFrames vertically with original indices kept.",
+            "Merge on a common column with a left join."
+          ],
+          "feedback_correct": "Correct! ignore_index=True creates a fresh integer index.",
+          "feedback_wrong": "That's concat without ignore_index or a merge."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_021",
+          "term": "ignore_index=True in pd.concat",
+          "match": "Discard old indices and assign a new 0‑based integer index.",
+          "wrong_matches": [
+            "Add labels to identify source DataFrames.",
+            "Keep only columns present in all DataFrames."
+          ],
+          "feedback_correct": "Correct! Essential when original indices are meaningless.",
+          "feedback_wrong": "That describes the keys parameter or join='inner'."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_022",
+          "term": "keys=['jan','feb','mar'] in pd.concat",
+          "match": "Create a MultiIndex with a top‑level label for each original DataFrame.",
+          "wrong_matches": [
+            "Reset the index to a continuous integer.",
+            "Verify that the concatenated index is unique."
+          ],
+          "feedback_correct": "Correct! keys creates a hierarchical index.",
+          "feedback_wrong": "That's ignore_index or verify_integrity."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_023",
+          "term": "join='inner' in pd.concat",
+          "match": "Keep only columns that exist in all concatenated DataFrames.",
+          "wrong_matches": [
+            "Keep all columns, filling missing with NaN.",
+            "Concatenate along columns instead of rows."
+          ],
+          "feedback_correct": "Correct! An intersection of columns.",
+          "feedback_wrong": "That describes join='outer' or axis=1."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_025",
+          "term": "verify_integrity=True in pd.concat",
+          "match": "Raise ValueError if the resulting index contains duplicates.",
+          "wrong_matches": [
+            "Drop duplicate rows from the DataFrame.",
+            "Check that the merge is one‑to‑one."
+          ],
+          "feedback_correct": "Correct! Protects against accidental duplicate row labels.",
+          "feedback_wrong": "That's drop_duplicates or validate in merge."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_030",
+          "term": "stocks.query('nike >= 90')",
+          "match": "Filter rows where column 'nike' is at least 90 using a string expression.",
+          "wrong_matches": [
+            "Select a subset of columns by name.",
+            "Unpivot wide data into long format."
+          ],
+          "feedback_correct": "Correct! .query() works like a SQL WHERE clause.",
+          "feedback_wrong": "That's column selection or .melt()."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_031",
+          "term": "social_fin.melt(id_vars=['financial','company'], value_vars=['2018','2017'], var_name='year', value_name='dollars')",
+          "match": "Convert wide data to long format, creating 'year' and 'dollars' columns.",
+          "wrong_matches": [
+            "Stack DataFrames vertically.",
+            "Merge on multiple columns with custom suffixes."
+          ],
+          "feedback_correct": "Correct! melt() unpivots selected columns into rows.",
+          "feedback_wrong": "That's concat or merge."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_027",
+          "term": "fill_method='ffill' in merge_ordered",
+          "match": "Forward fill missing values using the last valid observation.",
+          "wrong_matches": [
+            "Backward fill missing values.",
+            "Drop rows with any missing values."
+          ],
+          "feedback_correct": "Correct! Beginning NaNs remain because there's no prior value.",
+          "feedback_wrong": "That's bfill or dropna."
+        }
+      ]
+    }
+  ]
+}

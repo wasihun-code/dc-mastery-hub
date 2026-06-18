@@ -1,0 +1,1130 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_004",
+    "concept_name": "print function",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "You want to display the string \"Hello, world!\" to the console. Use the appropriate built-in function.",
+    "code_template": "_____(\"Hello, world!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "print",
+        "answer_alternatives": ["Print", "PRINT"]
+      }
+    ],
+    "word_bank": ["print", "input", "str", "output"],
+    "per_tile_feedback": {
+      "print": "Correct. `print()` is the Python function that outputs text to the console.",
+      "input": "`input()` reads from the user, it does not display a fixed string.",
+      "str": "`str()` converts a value to a string but does not produce output.",
+      "output": "There is no built-in function named `output` in Python."
+    },
+    "hints": [
+      "This function writes text to the console and is often the first function you learn.",
+      "It is the same function used in the course's 'Hello, world!' example."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`print()` is the built-in function that outputs strings and other objects to the standard output (usually the console).",
+    "common_mistake_warning": "⚠️ `print` must be followed by parentheses even when printing a simple string."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_005",
+    "concept_name": "Code comment",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "You want to add a single-line comment before a print statement. Write the correct symbol to start a comment.",
+    "code_template": "_____ The below is a print function\nprint(\"Hello, world!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "#",
+        "answer_alternatives": ["hash"]
+      }
+    ],
+    "word_bank": ["#", "//", "/*", "--"],
+    "per_tile_feedback": {
+      "#": "Correct. In Python, `#` starts a single‑line comment. Everything after it on that line is ignored.",
+      "//": "`//` is the floor division operator, not a comment marker.",
+      "/*": "`/*` begins a multi‑line comment in C/Java, but Python uses `#` for comments.",
+      "--": "`--` is not a comment syntax; it might be used in SQL or as a decrement operator in other languages."
+    },
+    "hints": [
+      "The comment symbol is the same as the 'hash' or 'pound' character.",
+      "It is the only way to write a single‑line comment in Python."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Python comments start with the `#` character. The interpreter ignores all text from `#` to the end of the line.",
+    "common_mistake_warning": "⚠️ Do not put a space between `#` and the comment text; it is optional but common to put one space."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_009",
+    "concept_name": "Variable assignment",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a variable named `servings` and assign it the integer value 4. Use the assignment operator.",
+    "code_template": "servings _____ 4",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=", "==", ":=", "=>"],
+    "per_tile_feedback": {
+      "=": "Correct. The single equals sign is the assignment operator in Python.",
+      "==": "`==` is the equality comparison operator, used to check if two values are equal, not for assignment.",
+      ":=": "`:=` is the walrus operator (assignment expression) introduced in Python 3.8; it assigns but also returns the value, and is not the standard assignment operator.",
+      "=>": "`=>` is not a Python operator; it is used in some other languages for lambda syntax."
+    },
+    "hints": [
+      "Think of the operator that stores a value into a variable.",
+      "The same operator used in the course example: `ingredient_name = \"tomatoes\"`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, `=` is the assignment operator. It binds the value on the right to the variable name on the left.",
+    "common_mistake_warning": "⚠️ Do not confuse `=` (assignment) with `==` (equality comparison)."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_010",
+    "concept_name": "Printing variables",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "You have a variable `ingredient_name` containing the string \"tomatoes\". Print its value using the `print()` function.",
+    "code_template": "ingredient_name = \"tomatoes\"\n_____(ingredient_name)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "print",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["print", "printf", "echo", "display"],
+    "per_tile_feedback": {
+      "print": "Correct. `print()` outputs the value of the variable to the console.",
+      "printf": "`printf` is not a built-in function in Python; it is from C.",
+      "echo": "`echo` is used in shell scripting and PHP, not in Python.",
+      "display": "There is no `display` function for simple console output; it might be used in Jupyter, but not in standard Python."
+    },
+    "hints": [
+      "The function is the same one used to output strings.",
+      "You pass the variable name as the argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`print(variable)` outputs the value stored in the variable. In this case, it prints `tomatoes` (without quotes).",
+    "common_mistake_warning": "⚠️ Do not put quotes around the variable name; that would print the name instead of its value."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_015",
+    "concept_name": "type function",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "You have a variable `ingredient_quantity` that holds the integer 2. Use the built-in function to check its data type and print the result.",
+    "code_template": "ingredient_quantity = 2\nprint(_____(ingredient_quantity))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "type",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["type", "kind", "datatype", "class"],
+    "per_tile_feedback": {
+      "type": "Correct. `type()` returns the type of an object, e.g., `<class 'int'>`.",
+      "kind": "`kind` is not a Python built-in function.",
+      "datatype": "No function named `datatype` exists in Python.",
+      "class": "`class` is a keyword used to define classes, not a function to check type."
+    },
+    "hints": [
+      "The function that returns the data type of a variable.",
+      "The course example: `print(type(ingredient_name))`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`type()` is the built-in function that returns the data type of the given object. With an integer, it prints `<class 'int'>`.",
+    "common_mistake_warning": "⚠️ `type()` returns a type object, not a string; but printing it shows a readable representation."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_016",
+    "concept_name": "Arithmetic operators",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Compute the sum of 2 and 1.5 using the correct arithmetic operator.",
+    "code_template": "print(2 _____ 1.5)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "/"],
+    "per_tile_feedback": {
+      "+": "Correct. `+` adds the two numbers, producing 3.5.",
+      "-": "`-` subtracts, giving 0.5, not the sum.",
+      "*": "`*` multiplies, giving 3.0, not the sum.",
+      "/": "`/` divides, giving 1.333..., not the sum."
+    },
+    "hints": [
+      "You need the operator that adds numbers together.",
+      "The same operator used in the course snippet: `2 + 1.5`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `+` operator performs addition. `2 + 1.5` evaluates to `3.5`. The other operators do different arithmetic.",
+    "common_mistake_warning": "⚠️ `+` also concatenates strings; make sure both operands are numbers when you intend addition."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_017",
+    "concept_name": "String operators",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Concatenate the strings `\"Hi\"` and `\"There\"` without any extra spaces.",
+    "code_template": "print(\"Hi\" _____ \"There\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "*", "&", "."],
+    "per_tile_feedback": {
+      "+": "Correct. For strings, `+` concatenates them, producing `\"HiThere\"`.",
+      "*": "`*` repeats a string; `\"Hi\" * \"There\"` would be invalid (needs an integer).",
+      "&": "`&` is a bitwise AND operator, not valid for strings.",
+      ".": "`.` is not a string operator; it is used for attribute access."
+    },
+    "hints": [
+      "The operator that joins strings together.",
+      "The course example: `\"Hi\" + \"There\"` gives `\"HiThere\"`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `+` operator when used with strings performs concatenation. `\"Hi\" + \"There\"` results in `\"HiThere\"`.",
+    "common_mistake_warning": "⚠️ Concatenation does not add spaces; you must include them explicitly in the strings."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_018",
+    "concept_name": "Single and double quotes",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Create a string that contains an apostrophe, such as `\"Chef's special seasoning\"`. Choose the appropriate quote type to avoid escaping.",
+    "code_template": "ingredient_name = _____Chef's special seasoning_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"",
+        "answer_alternatives": ["\""]
+      },
+      {
+        "position": 2,
+        "answer": "\"",
+        "answer_alternatives": ["\""]
+      }
+    ],
+    "word_bank": ["\"", "'", "\\\"", "'''"],
+    "per_tile_feedback": {
+      "\"": "Correct. Double quotes allow an apostrophe inside without escaping.",
+      "'": "Single quotes would cause a `SyntaxError` because the apostrophe would be interpreted as the closing quote.",
+      "\\\"": "Backslash-double-quote is an escape sequence; it would produce a double-quote character inside a double-quoted string, but you need the outer quotes.",
+      "'''": "Triple quotes are used for multi-line strings; they would work but are not the simplest choice here."
+    },
+    "hints": [
+      "You need a quote character that does not conflict with the apostrophe inside.",
+      "The course recommends using double quotes when the string contains an apostrophe."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using double quotes `\"` around the string allows the single quote (apostrophe) to appear without escaping. The string becomes `\"Chef's special seasoning\"`.",
+    "common_mistake_warning": "⚠️ Mixing quote types (e.g., starting with single and ending with double) causes a `SyntaxError`."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_020",
+    "concept_name": "Method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "You have a string variable `text = \"hello\"`. Call the method that converts all characters to uppercase. Use dot notation.",
+    "code_template": "text = \"hello\"\nresult = text_____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".upper",
+        "answer_alternatives": ["upper"]
+      }
+    ],
+    "word_bank": [".upper", ".lower", ".capitalize", "upper"],
+    "per_tile_feedback": {
+      ".upper": "Correct. `.upper()` is the string method that returns an uppercase version.",
+      ".lower": "`.lower()` converts to lowercase, not uppercase.",
+      ".capitalize": "`.capitalize()` capitalizes only the first character, not the whole string.",
+      "upper": "Missing the dot: `upper()` would be interpreted as a function call, but there is no built-in `upper()` function. You need the method syntax with a dot."
+    },
+    "hints": [
+      "Methods are called with a dot after the variable name.",
+      "The method that makes all letters uppercase is `.upper()`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.upper()` is a string method that returns a new string with all alphabetic characters converted to uppercase. It must be called with the dot syntax: `text.upper()`.",
+    "common_mistake_warning": "⚠️ Methods require parentheses after the method name, even if no arguments."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_021",
+    "concept_name": ".replace() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Replace `\"George\"` with `\"John\"` in the string variable `welcome_message`. Since strings are immutable, reassign the result back to the variable.",
+    "code_template": "welcome_message = \"Welcome to the recipe scaler, George\"\nwelcome_message = welcome_message._____(\"George\", \"John\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "replace",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["replace", "substitute", "swap", "change"],
+    "per_tile_feedback": {
+      "replace": "Correct. `.replace(old, new)` returns a new string with all occurrences of `old` replaced by `new`.",
+      "substitute": "There is no `.substitute()` method for strings; `str.replace()` is the correct method.",
+      "swap": "`.swapcase()` swaps case; not for substring replacement.",
+      "change": "No `.change()` method exists."
+    },
+    "hints": [
+      "The method name is the same as the action: to replace a substring.",
+      "The course example uses `welcome_message.replace(\"George\", \"John\")`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.replace(old, new)` returns a new string with all occurrences of `old` replaced by `new`. Since strings are immutable, you must reassign the result to a variable (often the same name).",
+    "common_mistake_warning": "⚠️ Without reassignment, the original string remains unchanged because `.replace()` returns a new string."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_024",
+    "concept_name": "List",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Create a list named `ingredients` containing the strings `\"pasta\"`, `\"tomatoes\"`, and `\"garlic\"`.",
+    "code_template": "ingredients = _____\"pasta\", \"tomatoes\", \"garlic\"_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "]",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["[", "]", "(", ")", "{"],
+    "per_tile_feedback": {
+      "[": "Correct. Square brackets start a list literal.",
+      "]": "Correct. Square brackets close the list.",
+      "(": "Parentheses create a tuple, which is immutable and would be `(\"pasta\", \"tomatoes\", \"garlic\")`.",
+      ")": "Parentheses close a tuple, not a list.",
+      "{": "Curly braces create a dictionary (if with colons) or a set (if without colons)."
+    },
+    "hints": [
+      "Lists are created with square brackets.",
+      "The elements are separated by commas."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "List literals use square brackets `[]`. The correct syntax is `[\"pasta\", \"tomatoes\", \"garlic\"]`.",
+    "common_mistake_warning": "⚠️ Do not use parentheses `()` for lists; that creates a tuple, which is immutable."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_025",
+    "concept_name": "List indexing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "You have a list `ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]`. Access the third element (`\"garlic\"`) using its index.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\"]\nthird_ingredient = ingredients[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3"],
+    "per_tile_feedback": {
+      "0": "Index 0 gives `'pasta'` (first element), not `'garlic'`.",
+      "1": "Index 1 gives `'tomatoes'` (second element).",
+      "2": "Correct. Python uses zero‑based indexing, so index 2 is the third element: `'garlic'`.",
+      "3": "Index 3 gives `'basil'` (fourth element)."
+    },
+    "hints": [
+      "List indices start at 0 for the first element.",
+      "Count: index 0 = first, index 1 = second, index 2 = third."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With zero‑based indexing, the third element is at index 2. So `ingredients[2]` returns `\"garlic\"`.",
+    "common_mistake_warning": "⚠️ Off‑by‑one errors are common: the first element is index 0, not 1."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_026",
+    "concept_name": "Negative indexing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "From the list `ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]`, access the last element using a negative index.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]\nlast = ingredients[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["-0", "-1", "-2", "-6"],
+    "per_tile_feedback": {
+      "-0": "`-0` is the same as `0` (first element), not the last.",
+      "-1": "Correct. Index `-1` always refers to the last element of the list.",
+      "-2": "`-2` gives the second‑last element (`'olive oil'`), not the last.",
+      "-6": "`-6` gives the first element (since the list has 6 elements, `-6` wraps around to index 0)."
+    },
+    "hints": [
+      "Negative indices count from the end.",
+      "The very last element is at `-1`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Negative indexing starts from the end: `-1` is the last element, `-2` the second‑last, etc. So `ingredients[-1]` returns `\"salt\"`.",
+    "common_mistake_warning": "⚠️ `-0` is not a negative index; it equals `0`."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_027",
+    "concept_name": "List slicing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "From the list `ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]`, get a sublist containing `[\"tomatoes\", \"garlic\", \"basil\"]`. Use slicing with a start and stop index.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]\nsublist = ingredients[_____:_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "4",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3", "4", "5"],
+    "per_tile_feedback": {
+      "1": "Correct. Start at index 1 (second element: `'tomatoes'`).",
+      "4": "Correct. Stop at index 4 (excluded), so indices 1,2,3 are included.",
+      "0": "Start index 0 would include `'pasta'` as well.",
+      "2": "Start index 2 would skip `'tomatoes'`, giving `['garlic', 'basil']`.",
+      "3": "Stop index 3 would give up to index 2, missing `'basil'`.",
+      "5": "Stop index 5 would include `'olive oil'` at index 4."
+    },
+    "hints": [
+      "Slicing uses `[start:stop]` where `stop` is exclusive.",
+      "`'tomatoes'` is at index 1, `'basil'` is at index 3, so you want to include indices 1,2,3; `stop` must be 4."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ingredients[1:4]` includes indices 1 (`'tomatoes'`), 2 (`'garlic'`), and 3 (`'basil'`). Index 4 (`'olive oil'`) is excluded. This matches the desired sublist.",
+    "common_mistake_warning": "⚠️ The end index is exclusive. To include element at index `n`, the slice must end at `n+1`."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_028",
+    "concept_name": "Step slicing",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "From the list `ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]`, extract every second element (indices 0,2,4). Use the step parameter.",
+    "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\", \"basil\", \"olive oil\", \"salt\"]\nevery_second = ingredients[_____:_____:_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "",
+        "answer_alternatives": [" "]
+      },
+      {
+        "position": 2,
+        "answer": "",
+        "answer_alternatives": [" "]
+      },
+      {
+        "position": 3,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "5", "1", "2", "3", ""],
+    "per_tile_feedback": {
+      "": "Leaving start and stop blank defaults to beginning and end. Correct for this pattern.",
+      "0": "Using start 0 is also acceptable, but the blank is expecting the simplest form (empty). However, both work. For a tile, empty string is the intended tile for these blanks.",
+      "2": "Correct. Step 2 selects every second element.",
+      "1": "Step 1 would give every element (the whole list).",
+      "3": "Step 3 would give indices 0,3 only, not every second."
+    },
+    "hints": [
+      "You need three values separated by colons: `[start:stop:step]`.",
+      "To go from beginning to end, omit start and stop (leave empty)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ingredients[::2]` starts at the beginning, goes to the end, and takes every 2nd element (step=2). The result is `['pasta', 'garlic', 'olive oil']`.",
+    "common_mistake_warning": "⚠️ Step cannot be zero; `[::0]` raises a `ValueError`."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_029",
+    "concept_name": "Dictionary",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Create a dictionary named `recipe` with keys `\"pasta\"`, `\"tomatoes\"`, and `\"garlic\"` and corresponding integer values 500, 400, and 15.",
+    "code_template": "recipe = {_____\"pasta\": 500, \"tomatoes\": 400, \"garlic\": 15_____}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "",
+        "answer_alternatives": [" "]
+      },
+      {
+        "position": 2,
+        "answer": "",
+        "answer_alternatives": [" "]
+      }
+    ],
+    "word_bank": ["{", "}", "[", "]", "(", ")"],
+    "per_tile_feedback": {
+      "{": "Correct. Curly braces start a dictionary literal.",
+      "}": "Correct. Curly braces close the dictionary.",
+      "[": "Square brackets start a list, not a dictionary.",
+      "]": "Square brackets close a list.",
+      "(": "Parentheses start a tuple.",
+      ")": "Parentheses close a tuple."
+    },
+    "hints": [
+      "Dictionaries use curly braces `{}` and colons between keys and values.",
+      "The syntax is like `{key: value, key: value}`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Dictionary literals are enclosed in curly braces `{}`. Each entry is a key followed by a colon and a value, entries separated by commas.",
+    "common_mistake_warning": "⚠️ Empty curly braces `{}` create a dictionary, not a set. Use `set()` for an empty set."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_030",
+    "concept_name": "Access dictionary by key",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Given the dictionary `recipe = {\"pasta\": 500, \"tomatoes\": 400}`, retrieve the value for the key `\"pasta\"` and store it in a variable `pasta_qty`.",
+    "code_template": "recipe = {\"pasta\": 500, \"tomatoes\": 400}\npasta_qty = recipe[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"pasta\"",
+        "answer_alternatives": ["'pasta'"]
+      }
+    ],
+    "word_bank": ["\"pasta\"", "pasta", "0", "\"tomatoes\""],
+    "per_tile_feedback": {
+      "\"pasta\"": "Correct. The key is the string `\"pasta\"`; using quotes is necessary.",
+      "pasta": "Missing quotes: `pasta` would be interpreted as a variable name, not the string key. Unless `pasta` is defined, this would raise a `NameError`.",
+      "0": "Index `0` is for lists, not dictionaries. This would raise a `KeyError`.",
+      "\"tomatoes\"": "That would retrieve the value for `\"tomatoes\"` (400), not `\"pasta\"`."
+    },
+    "hints": [
+      "Access dictionary values by placing the key in square brackets.",
+      "String keys must be quoted."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To access a value by key, use `dict[key]`. Here, `recipe[\"pasta\"]` returns 500.",
+    "common_mistake_warning": "⚠️ Forgetting quotes around string keys is a common `NameError`."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_031",
+    "concept_name": ".values() method (dict)",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "You have a dictionary `recipe = {\"pasta\": 500, \"tomatoes\": 400}`. Get a view of all the values using the appropriate method.",
+    "code_template": "recipe = {\"pasta\": 500, \"tomatoes\": 400}\nvalues_view = recipe._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "values",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["values", "keys", "items", "get"],
+    "per_tile_feedback": {
+      "values": "Correct. `.values()` returns a view of the dictionary's values.",
+      "keys": "`.keys()` returns a view of the keys, not the values.",
+      "items": "`.items()` returns a view of key‑value pairs as tuples.",
+      "get": "`.get()` is a method to retrieve a value by key, not to get all values."
+    },
+    "hints": [
+      "The method name is plural and describes what it returns.",
+      "In the course example: `print(recipe.values())`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.values()` returns a dynamic view object containing all the values in the dictionary. It reflects changes to the dictionary.",
+    "common_mistake_warning": "⚠️ `.values()` does not return a list; use `list(recipe.values())` if you need a list."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_032",
+    "concept_name": ".keys() method (dict)",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "From the dictionary `recipe = {\"pasta\": 500, \"tomatoes\": 400}`, get a view of all the keys.",
+    "code_template": "recipe = {\"pasta\": 500, \"tomatoes\": 400}\nkeys_view = recipe._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["keys", "values", "items", "get"],
+    "per_tile_feedback": {
+      "keys": "Correct. `.keys()` returns a view of the dictionary's keys.",
+      "values": "`.values()` returns values, not keys.",
+      "items": "`.items()` returns key‑value pairs.",
+      "get": "`.get()` retrieves a single value by key."
+    },
+    "hints": [
+      "This method returns only the keys, not the values.",
+      "The course example: `print(recipe.keys())`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.keys()` returns a view object containing all the keys. In this case, it would be `dict_keys(['pasta', 'tomatoes'])`.",
+    "common_mistake_warning": "⚠️ Iterating directly over a dictionary iterates over keys; you don't always need `.keys()`, but it's explicit."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_033",
+    "concept_name": ".items() method (dict)",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Loop through the dictionary `recipe = {\"pasta\": 500, \"tomatoes\": 400}` to print each key and its value. Use the method that returns key‑value pairs as tuples.",
+    "code_template": "recipe = {\"pasta\": 500, \"tomatoes\": 400}\nfor key, value in recipe._____():\n    print(key, value)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "items",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["items", "keys", "values", "pairs"],
+    "per_tile_feedback": {
+      "items": "Correct. `.items()` yields `(key, value)` tuples.",
+      "keys": "`.keys()` yields only keys, causing `ValueError` if you try to unpack into two variables.",
+      "values": "`.values()` yields only values, also causing unpacking error.",
+      "pairs": "There is no `.pairs()` method for dictionaries."
+    },
+    "hints": [
+      "The method that gives both key and value in each iteration.",
+      "The course example: `for item, qty in ingredients.items():`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.items()` returns a view of key‑value pairs. When used in a `for` loop with two variables, it unpacks each tuple into `key` and `value`.",
+    "common_mistake_warning": "⚠️ Forgetting `.items()` and iterating directly over the dict gives only keys."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_034",
+    "concept_name": "Add key-value pair to dict",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "You have a dictionary `recipe = {\"pasta\": 500}`. Add a new key `\"garlic\"` with the value 15.",
+    "code_template": "recipe = {\"pasta\": 500}\nrecipe[_____] = 15",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"garlic\"",
+        "answer_alternatives": ["'garlic'"]
+      }
+    ],
+    "word_bank": ["\"garlic\"", "garlic", "\"pasta\"", "15"],
+    "per_tile_feedback": {
+      "\"garlic\"": "Correct. Assigning to a new key adds it to the dictionary.",
+      "garlic": "Missing quotes: `garlic` would be interpreted as a variable name, not a string key.",
+      "\"pasta\"": "Using `\"pasta\"` would update the existing value of `\"pasta\"` to 15, not add `\"garlic\"`.",
+      "15": "Keys can be strings, numbers, etc., but here we want the key `\"garlic\"`. Using 15 as a key would add key 15 with value 15, which is not the desired outcome."
+    },
+    "hints": [
+      "Use the same assignment syntax as updating, but with a key that doesn't exist yet.",
+      "The key must be quoted because it is a string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assigning to a dictionary with a new key: `dict[new_key] = value` adds that key‑value pair. Here, `recipe[\"garlic\"] = 15` adds `\"garlic\": 15`.",
+    "common_mistake_warning": "⚠️ If the key already exists, assignment will overwrite the existing value, not create a duplicate."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_035",
+    "concept_name": "Update dictionary value",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Given `recipe = {\"pasta\": 500, \"garlic\": 15}`, update the value of `\"pasta\"` to 1000.",
+    "code_template": "recipe = {\"pasta\": 500, \"garlic\": 15}\nrecipe[_____] = 1000",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"pasta\"",
+        "answer_alternatives": ["'pasta'"]
+      }
+    ],
+    "word_bank": ["\"pasta\"", "\"garlic\"", "pasta", "500"],
+    "per_tile_feedback": {
+      "\"pasta\"": "Correct. Assigning to an existing key updates its value.",
+      "\"garlic\"": "That would update `\"garlic\"` to 1000, not `\"pasta\"`.",
+      "pasta": "Missing quotes: `pasta` would be a variable; if not defined, a `NameError`.",
+      "500": "The key `500` does not exist; this would add a new key `500` with value 1000."
+    },
+    "hints": [
+      "Use the same assignment syntax as adding, but with an existing key.",
+      "The key must match exactly, including case and quotes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To update a value, assign a new value to an existing key: `recipe[\"pasta\"] = 1000` changes the value from 500 to 1000.",
+    "common_mistake_warning": "⚠️ There is no separate 'update' operator; assignment works for both adding and updating."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_037",
+    "concept_name": "Set",
+    "chapter": 7,
+    "difficulty": "hard",
+    "concept_name": "Set",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Create a set named `ingredients` using curly braces, containing `\"pasta\"`, `\"tomatoes\"`, and `\"pasta\"` (the duplicate will be removed automatically).",
+    "code_template": "ingredients = _____\"pasta\", \"tomatoes\", \"pasta\"_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "}",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["{", "}", "[", "]", "(", ")"],
+    "per_tile_feedback": {
+      "{": "Correct. Curly braces without colons create a set.",
+      "}": "Correct. Closing brace.",
+      "[": "Square brackets would create a list, which allows duplicates and preserves order.",
+      "]": "Closing bracket for a list.",
+      "(": "Parentheses would create a tuple, which is immutable and allows duplicates.",
+      ")": "Closing parenthesis."
+    },
+    "hints": [
+      "Sets use curly braces `{}` but without colons.",
+      "Duplicates are automatically removed."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Set literals are enclosed in curly braces with comma‑separated elements. `{\"pasta\", \"tomatoes\", \"pasta\"}` is equivalent to `{\"pasta\", \"tomatoes\"}` because duplicates are ignored.",
+    "common_mistake_warning": "⚠️ Empty curly braces `{}` create a dictionary, not a set. Use `set()` for an empty set."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_038",
+    "concept_name": "Convert to set",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "You have a list `ingredients_list = [\"pasta\", \"tomatoes\", \"garlic\", \"pasta\"]`. Convert it to a set to remove duplicates using the built-in `set()` function.",
+    "code_template": "ingredients_list = [\"pasta\", \"tomatoes\", \"garlic\", \"pasta\"]\nunique_ingredients = _____(ingredients_list)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "set",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["set", "list", "tuple", "dict"],
+    "per_tile_feedback": {
+      "set": "Correct. `set()` converts an iterable to a set, removing duplicates.",
+      "list": "`list()` would convert to a list, preserving duplicates.",
+      "tuple": "`tuple()` would create a tuple, also preserving duplicates.",
+      "dict": "`dict()` would try to create a dictionary from pairs, which would fail here."
+    },
+    "hints": [
+      "The function name is the same as the data type you want.",
+      "It takes an iterable (like a list) and returns a set."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`set(ingredients_list)` returns a set containing the unique elements from the list. Duplicates are removed.",
+    "common_mistake_warning": "⚠️ Order is not preserved; sets are unordered."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_040",
+    "concept_name": "sorted() function",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "You have a set `ingredients = {\"pasta\", \"tomatoes\", \"garlic\"}`. Sort its elements alphabetically and return a list. Use the built-in function that returns a sorted list.",
+    "code_template": "ingredients = {\"pasta\", \"tomatoes\", \"garlic\"}\nsorted_list = _____(ingredients)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sorted",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sorted", "sort", "order", "arrange"],
+    "per_tile_feedback": {
+      "sorted": "Correct. `sorted()` returns a new sorted list from any iterable.",
+      "sort": "`.sort()` is a list method that sorts in‑place; it doesn't work on sets and doesn't return a list from a set.",
+      "order": "No built-in function named `order`.",
+      "arrange": "No such function."
+    },
+    "hints": [
+      "This function does not modify the original iterable.",
+      "The course example: `print(sorted(ingredients))`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`sorted()` takes any iterable (set, list, etc.) and returns a list with the elements in ascending order. For a set of strings, it returns a list sorted alphabetically.",
+    "common_mistake_warning": "⚠️ `sorted()` returns a list, not a set. It does not modify the original."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_041",
+    "concept_name": "Tuple",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Create a tuple named `serving_sizes` containing the integers 1, 2, 4, 6, and 8. Use parentheses.",
+    "code_template": "serving_sizes = _____1, 2, 4, 6, 8_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "(",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": ")",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["(", ")", "[", "]", "{", "}"],
+    "per_tile_feedback": {
+      "(": "Correct. Parentheses create a tuple.",
+      ")": "Correct. Closing parenthesis.",
+      "[": "Square brackets would create a list, which is mutable.",
+      "]": "Closing bracket for list.",
+      "{": "Curly braces would create a set (without colons) or dict (with colons).",
+      "}": "Closing brace."
+    },
+    "hints": [
+      "Tuples are immutable sequences, usually written with parentheses.",
+      "Even without parentheses, commas define a tuple, but parentheses are standard."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuple literals use parentheses: `(1, 2, 4, 6, 8)`. Tuples are immutable and ordered.",
+    "common_mistake_warning": "⚠️ A single‑element tuple requires a trailing comma: `(1,)`. Otherwise, it's just parentheses around an integer."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_042",
+    "concept_name": "Tuple indexing",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Given `serving_sizes = (1, 2, 4, 6, 8)`, access the element `2` using its index.",
+    "code_template": "serving_sizes = (1, 2, 4, 6, 8)\nsecond = serving_sizes[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3"],
+    "per_tile_feedback": {
+      "0": "Index 0 gives the first element, 1, not 2.",
+      "1": "Correct. `2` is at index 1 (zero‑based indexing).",
+      "2": "Index 2 gives 4.",
+      "3": "Index 3 gives 6."
+    },
+    "hints": [
+      "Tuple indexing is the same as list indexing: zero‑based.",
+      "The second element is at index 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuples are indexed starting at 0. The element `2` is the second element, so its index is 1. `serving_sizes[1]` returns 2.",
+    "common_mistake_warning": "⚠️ Tuples are immutable; you cannot assign to an index, but you can read from it."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_053",
+    "concept_name": "range() function",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Create a range that produces the numbers 1, 2, 3, 4, 5 (inclusive of 1, exclusive of 6). Use the `range()` function with two arguments.",
+    "code_template": "for i in range(_____, _____):\n    print(i)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "6",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "5", "6", "10"],
+    "per_tile_feedback": {
+      "1": "Correct. Start at 1.",
+      "6": "Correct. Stop at 6 (exclusive), so last number is 5.",
+      "0": "Starting at 0 would include 0, which is not desired.",
+      "5": "Stop at 5 would give only 1 through 4.",
+      "10": "Stop at 10 would give 1..9, too many."
+    },
+    "hints": [
+      "`range(start, stop)` includes `start` but excludes `stop`.",
+      "To get 1 through 5, `stop` must be 6."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`range(1, 6)` produces the numbers 1, 2, 3, 4, 5. The stop value 6 is not included.",
+    "common_mistake_warning": "⚠️ `range(1, 5)` would produce 1,2,3,4 (missing 5)."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_054",
+    "concept_name": "Conditionals inside for loops",
+    "chapter": 9,
+    "difficulty": "very_hard",
+    "task_description": "Write a loop that iterates over `quantities = [1000, 40, 30, 15]` and prints `\"Plenty\"` for >500, `\"Enough\"` for >=100, otherwise `\"Low\"`. Fill in the blanks for the conditional statement inside the loop.",
+    "code_template": "quantities = [1000, 40, 30, 15]\nfor qty in quantities:\n    if qty > 500:\n        print(\"Plenty\")\n    _____ qty >= 100:\n        print(\"Enough\")\n    _____:\n        print(\"Low\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "elif",
+        "answer_alternatives": ["else if"]
+      },
+      {
+        "position": 2,
+        "answer": "else",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["elif", "else", "if", "then"],
+    "per_tile_feedback": {
+      "elif": "Correct. `elif` checks an additional condition only if previous conditions were false.",
+      "else": "`else` cannot have a condition; `else qty >= 100:` is a syntax error.",
+      "if": "Using `if` would create a separate independent condition, not a chain. It would print both `Enough` and `Low` for `40`? Actually it would print `Low` also for that case because the second `if` would execute regardless.",
+      "then": "`then` is not a Python keyword."
+    },
+    "hints": [
+      "The second branch should only execute if the first condition is false, and it has its own condition.",
+      "The third branch has no condition and runs when all previous are false."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `if-elif-else` chain correctly checks conditions in order. `elif` stands for 'else if', and `else` catches all remaining cases.",
+    "common_mistake_warning": "⚠️ Indentation must be consistent; `elif` and `else` align with the `if`."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_056",
+    "concept_name": "While loop",
+    "chapter": 10,
+    "difficulty": "very_hard",
+    "task_description": "Write a while loop that prints numbers from 1 to 3. Initialize `count = 1` and increment it each iteration. Fill in the condition and the increment statement.",
+    "code_template": "count = 1\nwhile count _____ 4:\n    print(count)\n    count _____ 1",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "<",
+        "answer_alternatives": ["<="]
+      },
+      {
+        "position": 2,
+        "answer": "+=",
+        "answer_alternatives": ["="]
+      }
+    ],
+    "word_bank": ["<", "<=", ">", "+=", "=", "-="],
+    "per_tile_feedback": {
+      "<": "Correct. `count < 4` will run for count = 1,2,3 and stop when count=4.",
+      "<=": "`<=3` or `<=4`? `<=4` would run for count=4 as well, printing 1,2,3,4. But the desired output is 1-3. For 1-3, `<4` is correct. However, the course might expect `<=3`. But using `<=3` works. We'll accept `<4` as the typical pattern.",
+      "+=": "Correct. `count += 1` increments count by 1 each iteration.",
+      "=": "`count = 1` would reset count to 1 each iteration, infinite loop.",
+      ">": "`count > 4` would be false initially, so loop never runs.",
+      "-=": "`count -= 1` would decrement, causing infinite loop or never reaching condition."
+    },
+    "hints": [
+      "The loop should continue as long as count is less than the stop value (4).",
+      "Increment using an augmented assignment operator."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The while loop condition `count < 4` runs for 1,2,3. `count += 1` increments. Output: 1,2,3.",
+    "common_mistake_warning": "⚠️ Forgetting to increment leads to an infinite loop."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_066",
+    "concept_name": "Building a workflow",
+    "chapter": 11,
+    "difficulty": "very_hard",
+    "task_description": "You have a recipe dictionary `recipe` (ingredient → quantity) and a pantry set `pantry` (ingredients you have). Build a shopping list by appending ingredients not in the pantry. Fill in the missing pieces.",
+    "code_template": "shopping_list = []\nfor ingredient, qty_needed in recipe._____():\n    if ingredient _____ pantry:\n        shopping_list.append(ingredient)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "items",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "not in",
+        "answer_alternatives": ["not in"]
+      }
+    ],
+    "word_bank": ["items", "keys", "values", "in", "not in", "not"],
+    "per_tile_feedback": {
+      "items": "Correct. `.items()` returns key‑value pairs to iterate over both.",
+      "keys": "`.keys()` would only give ingredients, not quantities. Works for membership but the variable name `qty_needed` would then be the key (a string), causing confusion.",
+      "values": "`.values()` gives only quantities, not ingredients.",
+      "not in": "Correct. `if ingredient not in pantry` adds missing ingredients.",
+      "in": "`if ingredient in pantry` would add only ingredients already present, the opposite.",
+      "not": "`not` alone is a logical operator, but `not in` is the membership operator."
+    },
+    "hints": [
+      "You need both key and value from the dictionary, so use `.items()`.",
+      "The condition should be true when the ingredient is missing from pantry."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The workflow iterates over recipe items, checks membership in pantry, and appends missing ingredients to shopping list. This is the exact pattern from the course.",
+    "common_mistake_warning": "⚠️ Using `.keys()` would not unpack correctly if you also have `qty_needed`; you would get a `ValueError`."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_106",
+    "concept_name": "*args (arbitrary positional arguments)",
+    "chapter": 19,
+    "difficulty": "very_hard",
+    "task_description": "Define a function `sum_all` that takes any number of positional arguments and returns their sum. Use `*args` as the parameter.",
+    "code_template": "def sum_all(_____):\n    return sum(args)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*args",
+        "answer_alternatives": ["*args"]
+      }
+    ],
+    "word_bank": ["*args", "**kwargs", "args", "list"],
+    "per_tile_feedback": {
+      "*args": "Correct. `*args` collects all extra positional arguments into a tuple named `args`.",
+      "**kwargs": "`**kwargs` collects keyword arguments, not positional ones.",
+      "args": "Without the asterisk, `args` is a regular positional parameter, not a variable-length argument.",
+      "list": "`list` is a type, not a parameter pattern for variable arguments."
+    },
+    "hints": [
+      "The star before the parameter name is essential.",
+      "The conventional name is `args`, but any name after the star works."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`*args` allows the function to accept any number of positional arguments, which are accessible as a tuple inside the function.",
+    "common_mistake_warning": "⚠️ The star must be placed before the parameter name: `*args`, not `args*`."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_107",
+    "concept_name": "**kwargs (arbitrary keyword arguments)",
+    "chapter": 19,
+    "difficulty": "very_hard",
+    "task_description": "Define a function `print_info` that takes any number of keyword arguments and prints them as `key = value`. Use `**kwargs` as the parameter.",
+    "code_template": "def print_info(_____):\n    for key, value in kwargs.items():\n        print(f\"{key} = {value}\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "**kwargs",
+        "answer_alternatives": ["**kwargs"]
+      }
+    ],
+    "word_bank": ["**kwargs", "*kwargs", "kwargs", "**args"],
+    "per_tile_feedback": {
+      "**kwargs": "Correct. `**kwargs` collects keyword arguments into a dictionary.",
+      "*kwargs": "`*kwargs` would collect positional arguments into a tuple, not keyword args.",
+      "kwargs": "Without the double star, `kwargs` is a regular parameter expecting a single argument.",
+      "**args": "`**args` would work (the name is a convention), but the conventional name is `kwargs`. The blank expects `**kwargs` per course content."
+    },
+    "hints": [
+      "Two asterisks are used for arbitrary keyword arguments.",
+      "Inside the function, it becomes a dictionary."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`**kwargs` collects any number of keyword arguments into a dictionary, accessible via the parameter name (usually `kwargs`).",
+    "common_mistake_warning": "⚠️ The order of parameters must be: normal arguments, `*args`, default arguments, `**kwargs`."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_108",
+    "concept_name": "lambda function",
+    "chapter": 20,
+    "difficulty": "very_hard",
+    "task_description": "Create a lambda function that takes one argument `x` and returns `x` squared. Assign it to a variable `square`.",
+    "code_template": "square = _____ x: x**2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lambda",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["lambda", "def", "lambda:", "lambda x"],
+    "per_tile_feedback": {
+      "lambda": "Correct. The `lambda` keyword creates an anonymous function.",
+      "def": "`def` defines a named function; it cannot be used inline like this.",
+      "lambda:": "The colon is part of the syntax, but the keyword alone is `lambda`; `lambda:` would be missing the parameter.",
+      "lambda x": "That would be part of the expression, but the blank expects just the keyword."
+    },
+    "hints": [
+      "The keyword for an anonymous function is the same as the mathematical term for an unnamed function.",
+      "It is followed by parameters, a colon, and an expression."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`lambda x: x**2` defines a lambda that squares its input. The keyword `lambda` is required.",
+    "common_mistake_warning": "⚠️ Lambda bodies must be a single expression; you cannot use statements like `return`."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_115",
+    "concept_name": "try-except block",
+    "chapter": 22,
+    "difficulty": "very_hard",
+    "task_description": "Write a `try-except` block that attempts to convert `user_input` to an integer. If a `ValueError` occurs, set `value = 0`. Fill in the keywords.",
+    "code_template": "try:\n    value = int(user_input)\n_____ ValueError:\n    value = 0",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "except",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["except", "catch", "finally", "else"],
+    "per_tile_feedback": {
+      "except": "Correct. `except` catches the specified exception.",
+      "catch": "`catch` is not a Python keyword; Python uses `except`.",
+      "finally": "`finally` is used for cleanup code that runs regardless, but it cannot catch exceptions.",
+      "else": "`else` in a try block runs if no exception occurs, not for catching."
+    },
+    "hints": [
+      "The keyword that handles exceptions in Python is `except`.",
+      "It is followed by the exception type to catch."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `try-except` block uses `except` to catch specific exceptions. Here, `except ValueError:` catches only `ValueError` and runs the indented block.",
+    "common_mistake_warning": "⚠️ Avoid bare `except:`; always specify the exception type when possible."
+  }
+]

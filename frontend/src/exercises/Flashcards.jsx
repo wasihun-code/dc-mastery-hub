@@ -8,10 +8,12 @@ import {
   Check,
   CreditCard,
   Zap,
-  Trash2
+  Trash2,
+  Edit2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
 import { getSessionLimit } from '../services/settingsService';
+import EditQuestionModal from '../components/EditQuestionModal';
 
 export default function Flashcards() {
   const { courseSlug } = useParams();
@@ -23,6 +25,7 @@ export default function Flashcards() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isReplaying, setIsReplaying] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState(null);
   
   const [isFlipped, setIsFlipped] = useState(false);
   const [showHint, setShowHint] = useState(false);
@@ -486,14 +489,24 @@ export default function Flashcards() {
           </div>
         {/* Left Sidebar Controls Container */}
         <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg w-[220px] text-left select-none animate-in fade-in slide-in-from-bottom-2`}>
-          {/* Delete Card Button */}
-          <button
-            type="button"
-            onClick={() => handleDeleteCard(cards[currentIndex]?.id)}
-            className="w-full bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20 mb-1"
-          >
-            <Trash2 size={14} /> Delete Card
-          </button>
+          <div className="flex gap-2 mb-1">
+            {/* Edit Card Button */}
+            <button
+              type="button"
+              onClick={() => setEditingQuestion(cards[currentIndex])}
+              className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
+            >
+              <Edit2 size={12} /> Edit
+            </button>
+            {/* Delete Card Button */}
+            <button
+              type="button"
+              onClick={() => handleDeleteCard(cards[currentIndex]?.id)}
+              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
+            >
+              <Trash2 size={12} /> Delete
+            </button>
+          </div>
 
           <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
             <div className="flex items-center gap-2">
@@ -552,6 +565,19 @@ export default function Flashcards() {
               </div>
             </div>
           </div>
+        )}
+
+        {editingQuestion && (
+          <EditQuestionModal
+            courseSlug={courseSlug}
+            exerciseType="flashcards"
+            questionData={editingQuestion}
+            onClose={() => setEditingQuestion(null)}
+            onSave={(updatedCard) => {
+              setCards(prev => prev.map(c => c.id === updatedCard.id ? updatedCard : c));
+              setEditingQuestion(null);
+            }}
+          />
         )}
       </div>
     );

@@ -1,0 +1,1127 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_003",
+    "concept_name": "year attribute (date)",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Print the year from the date object d (which is set to October 7, 2016).",
+    "code_template": "d = date(2016, 10, 7)\nprint(d._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "year",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["year", "month", "day", "weekday"],
+    "per_tile_feedback": {
+      "year": "Correct! The `year` attribute returns the four‑digit year.",
+      "month": "`month` returns 10, not 2016.",
+      "day": "`day` returns 7, not the year.",
+      "weekday": "`weekday` is a method, not an attribute, and returns a day‑of‑week integer."
+    },
+    "hints": [
+      "You need to access the year component of the date.",
+      "The code is accessing an attribute, not calling a method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`d.year` is an immutable attribute. Date objects store year, month, day, and you access them directly.",
+    "common_mistake_warning": "⚠️ Don't use parentheses – `year` is an attribute, not a method."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_012",
+    "concept_name": "Adding timedelta to date",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Shift d1 by the timedelta td and print the resulting date.",
+    "code_template": "d1 = date(2017, 11, 5)\ntd = timedelta(days=29)\nprint(d1 _____ td)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "/"],
+    "per_tile_feedback": {
+      "+": "Correct! Adding a timedelta to a date yields a new date that many days later.",
+      "-": "Subtracting would move the date backward, giving a date earlier than d1.",
+      "*": "Multiplication is not defined for dates and timedeltas.",
+      "/": "Division is not defined for dates and timedeltas."
+    },
+    "hints": [
+      "You want to move forward in time by 29 days.",
+      "The operator for adding durations is the same as for numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`date + timedelta` returns a new date shifted by the duration.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_002",
+    "concept_name": "date() constructor",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Create a date object for October 7, 2016 and assign it to d.",
+    "code_template": "from datetime import date\nd = _____(2016, 10, 7)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "date",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["date", "datetime", "timedelta", "time"],
+    "per_tile_feedback": {
+      "date": "Correct! `date` is the constructor for a calendar date.",
+      "datetime": "`datetime` would also contain time components, which aren't needed here.",
+      "timedelta": "`timedelta` represents a duration, not a point on the calendar.",
+      "time": "`time` only stores hours/minutes/seconds, not a full date."
+    },
+    "hints": [
+      "The module you imported contains the `date` class.",
+      "You need a class that accepts year, month, day."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `date` class from `datetime` is imported and called with (year, month, day).",
+    "common_mistake_warning": "⚠️ Month‑day‑year order is not accepted; the constructor expects year first."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_006",
+    "concept_name": "weekday() method",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Print the integer representing the weekday of d (where d is October 7, 2016).",
+    "code_template": "from datetime import date\nd = date(2016, 10, 7)\nprint(d._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "weekday",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["weekday", "isoweekday", "day", "ctime"],
+    "per_tile_feedback": {
+      "weekday": "Correct! `weekday()` returns 0 for Monday to 6 for Sunday.",
+      "isoweekday": "`isoweekday()` returns 1–7, with Monday=1.",
+      "day": "`day` is an attribute, not a method, and gives the day of month.",
+      "ctime": "`ctime()` returns a string like 'Fri Oct  7 00:00:00 2016', not a number."
+    },
+    "hints": [
+      "You need a method that returns the day of the week as an integer.",
+      "The method name is a single word, not camelCase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`weekday()` is the standard method for a Monday‑based integer (0‑6).",
+    "common_mistake_warning": "⚠️ Forgetting the parentheses gives the method object itself, not the integer."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_008",
+    "concept_name": "Subtracting dates -> timedelta",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Compute the number of days between d2 and d1 using subtraction, then access the days attribute of the resulting timedelta.",
+    "code_template": "d1 = date(2017, 11, 5)\nd2 = date(2017, 12, 4)\ndelta = d2 - d1\nprint(delta._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "days",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["days", "seconds", "total_seconds", "hours"],
+    "per_tile_feedback": {
+      "days": "Correct! `.days` returns the whole number of days in the timedelta.",
+      "seconds": "`.seconds` only gives the seconds component (0‑86399), not the total days.",
+      "total_seconds": "`total_seconds()` is a method, not an attribute, and returns the complete duration in seconds.",
+      "hours": "timedelta does not have an `hours` attribute."
+    },
+    "hints": [
+      "The result of subtraction is a timedelta.",
+      "You want the number of whole days, not the seconds component."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Subtracting two dates yields a timedelta. Its `.days` attribute gives the number of whole days.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_014",
+    "concept_name": "isoformat() method (date)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Convert the date d to its ISO 8601 string representation.",
+    "code_template": "d = date(2017, 11, 5)\nprint(d._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "isoformat",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["isoformat", "strftime", "strptime", "ctime"],
+    "per_tile_feedback": {
+      "isoformat": "Correct! Returns a string like '2017-11-05'.",
+      "strftime": "`strftime` requires a format string; without one it would error.",
+      "strptime": "`strptime` parses a string, but it's a class method, not called on a date instance.",
+      "ctime": "`ctime` returns something like 'Sun Nov  5 00:00:00 2017', not ISO format."
+    },
+    "hints": [
+      "The method name starts with 'iso'.",
+      "It doesn't need any arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`isoformat()` outputs the date in YYYY‑MM‑DD format, conforming to ISO 8601.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_017",
+    "concept_name": "ISO 8601 format",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Given the list some_dates containing '2000-01-01' and '1999-12-31', print the list sorted in chronological order.",
+    "code_template": "some_dates = ['2000-01-01', '1999-12-31']\nprint(_____(some_dates))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sorted",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sorted", "min", "max", "sum"],
+    "per_tile_feedback": {
+      "sorted": "Correct! `sorted()` returns a new list sorted alphabetically, which for ISO dates gives chronological order.",
+      "min": "`min` returns only the earliest date, not the whole sorted list.",
+      "max": "`max` returns the latest date, not a sorted list.",
+      "sum": "`sum` cannot be applied to a list of strings."
+    },
+    "hints": [
+      "You want to sort the list, not find a single extreme.",
+      "A built‑in function that returns a new sorted list."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because ISO 8601 strings are designed so that lexicographic order equals chronological order, `sorted()` works directly.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_022",
+    "concept_name": "isoformat() for datetime",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Convert the datetime dt to its ISO 8601 string.",
+    "code_template": "from datetime import datetime\ndt = datetime(2017, 12, 30, 15, 19, 13)\nprint(dt._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "isoformat",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["isoformat", "strftime", "strptime", "timestamp"],
+    "per_tile_feedback": {
+      "isoformat": "Correct! Returns '2017-12-30T15:19:13'.",
+      "strftime": "`strftime` needs a format string; without one it would error.",
+      "strptime": "`strptime` parses strings, not called on a datetime instance.",
+      "timestamp": "`timestamp()` returns a Unix timestamp, not a string."
+    },
+    "hints": [
+      "The output should include a 'T' between date and time.",
+      "The method name is the same as for date."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`isoformat()` works on both date and datetime objects, including the time part with a 'T' separator.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_028",
+    "concept_name": "Adding/subtracting timedelta to datetime",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a timedelta of one day and add it to the datetime start.",
+    "code_template": "from datetime import datetime, timedelta\nstart = datetime(2017, 10, 8, 23, 46, 47)\ndelta = _____(days=1)\nprint(start + delta)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "timedelta",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["timedelta", "datetime", "date", "time"],
+    "per_tile_feedback": {
+      "timedelta": "Correct! A timedelta represents the duration to add.",
+      "datetime": "`datetime` would create a new point in time, not a duration.",
+      "date": "`date` doesn't accept a `days` argument.",
+      "time": "`time` is not a duration."
+    },
+    "hints": [
+      "You need to create a duration object.",
+      "The constructor accepts `days` as an argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timedelta(days=1)` creates a one‑day duration. Adding it to a datetime shifts the date by one day.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_019",
+    "concept_name": "datetime() constructor",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a datetime object for October 1, 2017 at 15:23:25.",
+    "code_template": "from datetime import datetime\ndt = _____(2017, 10, 1, 15, 23, 25)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "datetime",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["datetime", "date", "time", "timedelta"],
+    "per_tile_feedback": {
+      "datetime": "Correct! `datetime` accepts year, month, day, hour, minute, second.",
+      "date": "`date` does not accept time arguments.",
+      "time": "`time` is for time‑of‑day only, not a full date.",
+      "timedelta": "`timedelta` is a duration, not a point in time."
+    },
+    "hints": [
+      "You need a class that stores both date and time.",
+      "The constructor expects at least the year, month, day."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`datetime` combines date and time. The hour 15 represents 3 PM in 24‑hour format.",
+    "common_mistake_warning": "⚠️ Using 3 for 3 PM instead of 15 – the hour is in 24‑hour format."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_020",
+    "concept_name": "replace() method (datetime)",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Round down the datetime dt to the hour by setting minutes and seconds to zero.",
+    "code_template": "from datetime import datetime\ndt = datetime(2017, 10, 1, 15, 23, 25)\ndt_hr = dt._____(minute=0, second=0, microsecond=0)\nprint(dt_hr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "replace",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["replace", "astimezone", "strftime", "strptime"],
+    "per_tile_feedback": {
+      "replace": "Correct! Returns a new datetime with the specified fields changed.",
+      "astimezone": "`astimezone` converts timezones, not individual time components.",
+      "strftime": "`strftime` produces a string, not a datetime.",
+      "strptime": "`strptime` parses strings, not modify an existing datetime."
+    },
+    "hints": [
+      "The method returns a new datetime, leaving the original unchanged.",
+      "You are replacing parts of the datetime."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`replace()` creates a new datetime with specified fields overridden. The original dt is immutable.",
+    "common_mistake_warning": "⚠️ Forgetting to assign the result back – `replace` doesn't modify in place."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_015",
+    "concept_name": "strftime() method (date)",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Use strftime to extract the four-digit year from the date d.",
+    "code_template": "d = date(2017, 1, 5)\nprint(d._____(\"_____\"))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "strftime",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "%Y",
+        "answer_alternatives": ["%y"]
+      }
+    ],
+    "word_bank": ["strftime", "strptime", "isoformat", "%Y", "%y", "%M"],
+    "per_tile_feedback": {
+      "strftime": "Correct method to format a date as a string.",
+      "strptime": "`strptime` parses strings into dates, not the reverse.",
+      "isoformat": "`isoformat` doesn't accept a format string.",
+      "%Y": "Correct code for a four‑digit year.",
+      "%y": "Gives a two‑digit year (17), not the full 2017.",
+      "%M": "`%M` is minutes; for a date it would produce '00' and doesn't extract year."
+    },
+    "hints": [
+      "The method name means 'string format time'.",
+      "The format code for a four‑digit year starts with %."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`d.strftime(\"%Y\")` returns the year as a string. `%Y` is the directive for the full year.",
+    "common_mistake_warning": "⚠️ Using `%y` gives a two‑digit year; `%Y` gives the full 2017."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_016",
+    "concept_name": "Format codes %Y, %m, %d",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Complete the format string so that d.strftime returns the ISO date '2017-01-05'.",
+    "code_template": "d = date(2017, 1, 5)\nprint(d._____(\"%Y-_____-%d\"))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "strftime",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "%m",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["strftime", "isoformat", "%m", "%M", "%d"],
+    "per_tile_feedback": {
+      "strftime": "Correct method for formatting.",
+      "isoformat": "`isoformat` doesn't accept a format string.",
+      "%m": "Correct – produces a two‑digit month (01).",
+      "%M": "`%M` is minutes, not month; it would show '00'.",
+      "%d": "`%d` is for day, but the blank is for the month part of the format."
+    },
+    "hints": [
+      "The month needs to be zero‑padded to two digits.",
+      "The correct directive is lowercase, not uppercase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`%m` outputs the month as a zero‑padded decimal number, while `%d` is the day.",
+    "common_mistake_warning": "⚠️ `%M` is minutes, not month. The month code is lowercase `%m`."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_021",
+    "concept_name": "strftime() for datetime with time codes",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Format dt as a string showing 24‑hour time: '2017-12-30 15:19:13'.",
+    "code_template": "dt = datetime(2017, 12, 30, 15, 19, 13)\nprint(dt._____(\"%Y-%m-%d _____:%M:%S\"))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "strftime",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "%H",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["strftime", "strptime", "%H", "%I", "%M"],
+    "per_tile_feedback": {
+      "strftime": "Correct method for formatting.",
+      "strptime": "Parses strings, doesn't format them.",
+      "%H": "Correct – 24‑hour format, giving '15' for 3 PM.",
+      "%I": "12‑hour format, giving '03', but the required output has '15'.",
+      "%M": "Minutes, not hours; the blank is for the hour component."
+    },
+    "hints": [
+      "You need the 24‑hour hour directive.",
+      "The hour is 15, so the directive must produce that."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`%H` gives the hour in 24‑hour format (00‑23). Using `%I` would give 12‑hour format.",
+    "common_mistake_warning": "⚠️ `%I` yields 12‑hour clock; `%H` yields 24‑hour."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_023",
+    "concept_name": "strptime() function (datetime)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Parse the string '12/30/2017 15:19:13' into a datetime using the correct format string.",
+    "code_template": "from datetime import datetime\ndt = datetime._____(\"12/30/2017 15:19:13\", \"%m/_____/%Y %H:%M:%S\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "strptime",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "%d",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["strptime", "strftime", "%d", "%m", "%y"],
+    "per_tile_feedback": {
+      "strptime": "Correct method for parsing a string into a datetime.",
+      "strftime": "`strftime` formats a datetime to string, not the reverse.",
+      "%d": "Correct – matches the day position (30).",
+      "%m": "Already used before the slash; using it again would expect month twice.",
+      "%y": "Two‑digit year; the string has a four‑digit year."
+    },
+    "hints": [
+      "The method name starts with 'strp'.",
+      "The format must match the string exactly."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`strptime` requires an exact match between the string and the format codes. `%d` corresponds to the day.",
+    "common_mistake_warning": "⚠️ A mismatch in format causes a ValueError."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_024",
+    "concept_name": "fromtimestamp() class method",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Convert the Unix timestamp 1514647153 to a datetime using the appropriate class method.",
+    "code_template": "timestamp = 1514647153\ndt = datetime._____(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "fromtimestamp",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "timestamp",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["fromtimestamp", "utcfromtimestamp", "strptime", "timestamp"],
+    "per_tile_feedback": {
+      "fromtimestamp": "Correct! Converts a Unix timestamp to local naive datetime.",
+      "utcfromtimestamp": "Returns UTC naive datetime, but the variable name suggests local time.",
+      "strptime": "Parses string, not numeric timestamps.",
+      "timestamp": "This is the variable holding the timestamp; not a method."
+    },
+    "hints": [
+      "The method is a class method of datetime.",
+      "It takes the timestamp variable as argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`datetime.fromtimestamp(ts)` returns the local date and time corresponding to that Unix timestamp.",
+    "common_mistake_warning": "⚠️ The timestamp must be in seconds; milliseconds cause wrong results."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_025",
+    "concept_name": "total_seconds() method (timedelta)",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Compute the total number of seconds between start and end, using subtraction and the appropriate method.",
+    "code_template": "from datetime import datetime\nstart = datetime(2017, 10, 8, 23, 46, 47)\nend = datetime(2017, 10, 9, 0, 10, 57)\nduration = end - start\nprint(duration._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "total_seconds",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["total_seconds", "seconds", "days", "microseconds"],
+    "per_tile_feedback": {
+      "total_seconds": "Correct! Returns the complete duration in seconds (including fractional part).",
+      "seconds": "`.seconds` only returns the seconds component (0‑86399), not the full 1450 seconds.",
+      "days": "`.days` would give 0 because it's less than a day.",
+      "microseconds": "`.microseconds` gives the microsecond component, not total seconds."
+    },
+    "hints": [
+      "You need the entire duration, not just the seconds component.",
+      "The method name starts with 'total'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`total_seconds()` returns the total duration as a float, including days and seconds.",
+    "common_mistake_warning": "⚠️ `.seconds` does not include days – use `.total_seconds()` for the full duration."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_027",
+    "concept_name": "Negative timedelta",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Create a timedelta that represents one week earlier.",
+    "code_template": "from datetime import timedelta\ndelta = _____(weeks=_____1)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "timedelta",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "-",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["timedelta", "-", "+", "datetime"],
+    "per_tile_feedback": {
+      "timedelta": "Correct class for durations.",
+      "-": "Correct! Negative weeks gives a backward duration.",
+      "+": "Positive would create a forward duration, not 'earlier'.",
+      "datetime": "`datetime` is a point in time, not a duration."
+    },
+    "hints": [
+      "You need a negative duration.",
+      "The class constructor accepts keyword arguments."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timedelta(weeks=-1)` creates a duration of minus one week, moving backward when added.",
+    "common_mistake_warning": "⚠️ Subtracting a positive timedelta is often clearer than creating a negative one."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_029",
+    "concept_name": "Naive datetime",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Check if a datetime is naive by inspecting its tzinfo attribute.",
+    "code_template": "dt = datetime(2017, 12, 30, 15, 9, 3)\nprint(dt._____ is _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tzinfo",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "None",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["tzinfo", "None", "utc", "timezone"],
+    "per_tile_feedback": {
+      "tzinfo": "Correct attribute holding timezone info.",
+      "None": "Correct! A naive datetime has `tzinfo` equal to `None`.",
+      "utc": "`utc` is a timezone object, not the absence of one.",
+      "timezone": "`timezone` is a class, not a specific value."
+    },
+    "hints": [
+      "The attribute that stores the timezone information.",
+      "A naive datetime has no timezone, so what value does that attribute hold?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Naive datetimes have `tzinfo=None`. Checking it reveals whether the datetime is timezone‑aware.",
+    "common_mistake_warning": "⚠️ `None` is not the same as the string 'None'."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_030",
+    "concept_name": "Aware datetime",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Create an aware datetime for December 30, 2017 15:09:03 in Eastern Time (ET), using the tzinfo parameter.",
+    "code_template": "from datetime import datetime, timezone, timedelta\nET = timezone(timedelta(hours=-5))\ndt = datetime(2017, 12, 30, 15, 9, 3, _____=ET)\nprint(dt.tzinfo)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tzinfo",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["tzinfo", "tz", "timezone", "offset"],
+    "per_tile_feedback": {
+      "tzinfo": "Correct parameter name to pass a timezone object.",
+      "tz": "`datetime` does not accept `tz` as a keyword.",
+      "timezone": "This would assign a class, not a specific timezone instance.",
+      "offset": "The parameter is not called `offset`."
+    },
+    "hints": [
+      "Look at the keyword used in the datetime constructor.",
+      "The parameter name matches the attribute name for the timezone."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `tzinfo` parameter sets the timezone, making the datetime aware.",
+    "common_mistake_warning": "⚠️ The clock time must be correct for the given offset; otherwise the represented moment is wrong."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_032",
+    "concept_name": "UTC offset",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Create a timezone object representing UTC‑5 using the timezone class and a timedelta.",
+    "code_template": "ET = _____(_____(hours=-5))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "timezone",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "timedelta",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["timezone", "timedelta", "datetime", "date"],
+    "per_tile_feedback": {
+      "timezone": "Correct! The outer constructor creates a fixed‑offset timezone.",
+      "timedelta": "Correct! The inner argument is a timedelta defining the offset.",
+      "datetime": "`datetime` is a point in time, not an offset.",
+      "date": "`date` can't represent hours."
+    },
+    "hints": [
+      "The outer class represents a timezone.",
+      "The inner argument is a duration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timezone(timedelta(hours=-5))` constructs a timezone with a fixed UTC‑5 offset.",
+    "common_mistake_warning": "⚠️ Passing an integer instead of a timedelta raises TypeError."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_033",
+    "concept_name": "timezone class (datetime)",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Import the timezone class and create a fixed UTC+5:30 offset.",
+    "code_template": "from datetime import _____, timedelta\ntz = _____(timedelta(hours=5, minutes=30))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "timezone",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "timezone",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["timezone", "datetime", "tz", "time"],
+    "per_tile_feedback": {
+      "timezone": "Correct for both blanks: you import `timezone` and then call it.",
+      "datetime": "`datetime` is a different class.",
+      "tz": "No `tz` class exists in `datetime`.",
+      "time": "`time` is for time‑of‑day, not timezones."
+    },
+    "hints": [
+      "The class name is the same for both blanks.",
+      "It's part of the `datetime` module."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`timezone` is a class used for fixed offsets. You import it and call it with a timedelta.",
+    "common_mistake_warning": "⚠️ `datetime.timezone` cannot handle DST transitions; use `dateutil.tz` for that."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_039",
+    "concept_name": "tz.gettz() function",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Retrieve a DST‑aware timezone object for America/New_York.",
+    "code_template": "from dateutil import tz\neastern = _____('America/New_York')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tz.gettz",
+        "answer_alternatives": ["gettz"]
+      }
+    ],
+    "word_bank": ["tz.gettz", "gettz", "tz.timezone", "tz.zone"],
+    "per_tile_feedback": {
+      "tz.gettz": "Correct! Uses the tz database to get the timezone.",
+      "gettz": "If imported directly, `gettz` would work, but the import is `from dateutil import tz`, so you must prefix with `tz.`.",
+      "tz.timezone": "`timezone` is not a function in `tz`.",
+      "tz.zone": "No such function."
+    },
+    "hints": [
+      "You need to call a function from the `tz` module.",
+      "The function name starts with 'get'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz.gettz('Continent/City')` returns a timezone object that correctly handles historical DST changes.",
+    "common_mistake_warning": "⚠️ The string is case‑sensitive; 'america/new_york' fails."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_041",
+    "concept_name": "EST vs EDT (Eastern Time)",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Create fixed timezone objects for Eastern Standard Time (EST) and Eastern Daylight Time (EDT) with their correct UTC offsets.",
+    "code_template": "from datetime import timezone, timedelta\nEST = timezone(timedelta(hours=_____))\nEDT = timezone(timedelta(hours=_____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-5",
+        "answer_alternatives": ["-5"]
+      },
+      {
+        "position": 2,
+        "answer": "-4",
+        "answer_alternatives": ["-4"]
+      }
+    ],
+    "word_bank": ["-5", "-4", "5", "4"],
+    "per_tile_feedback": {
+      "-5": "Correct for EST, which is behind UTC by 5 hours.",
+      "-4": "Correct for EDT, which is behind UTC by 4 hours.",
+      "5": "Positive offset would be ahead of UTC, not Eastern Time.",
+      "4": "Positive offset would be ahead of UTC."
+    },
+    "hints": [
+      "Eastern Time is behind UTC, so offsets are negative.",
+      "During DST, the offset is one hour less negative."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "EST is UTC‑5, EDT is UTC‑4. The switch happens during daylight saving.",
+    "common_mistake_warning": "⚠️ Using a fixed offset doesn't automatically apply DST; use `dateutil.tz` for that."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_047",
+    "concept_name": "pd.read_csv() with parse_dates",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Load the CSV file 'capital-onebike.csv' and ensure the 'Start date' and 'End date' columns are parsed as datetime.",
+    "code_template": "rides = pd.read_csv('capital-onebike.csv', _____=['Start date', 'End date'])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "parse_dates",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["parse_dates", "parse_dates=True", "dtype", "date_parser"],
+    "per_tile_feedback": {
+      "parse_dates": "Correct! Accepts a list of column names.",
+      "parse_dates=True": "This would try to parse dates automatically, but may fail; specifying columns is more reliable.",
+      "dtype": "`dtype` is for specifying data types, not for parsing dates.",
+      "date_parser": "`date_parser` can be used with `parse_dates`, but not alone."
+    },
+    "hints": [
+      "The parameter that tells pandas which columns are datetime.",
+      "It expects a list, even for a single column."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`parse_dates` is the correct parameter. Providing a list of column names parses them as datetime during loading.",
+    "common_mistake_warning": "⚠️ Passing a single string, e.g., `parse_dates='Start date'`, may not work as expected – always use a list."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_050",
+    "concept_name": "dt accessor",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Extract the year from the 'Start date' column using the dt accessor.",
+    "code_template": "rides['Start date']_____year",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".dt.",
+        "answer_alternatives": [".dt"]
+      }
+    ],
+    "word_bank": [".dt.", ".year", ".dt", ".str."],
+    "per_tile_feedback": {
+      ".dt.": "Correct! The dt accessor provides datetime properties, and `.year` is the attribute.",
+      ".year": "Missing the `.dt` accessor; the Series doesn't have a `.year` attribute.",
+      ".dt": "`rides['Start date'].dt` alone doesn't retrieve the year; you need `.dt.year`.",
+      ".str.": "The `.str` accessor is for string methods, not datetime."
+    },
+    "hints": [
+      "You need an accessor that bridges between a datetime Series and its attributes.",
+      "The accessor is two lowercase letters preceded by a dot."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `.dt` accessor must be used before datetime attributes like `.year`, `.month`, etc.",
+    "common_mistake_warning": "⚠️ Forgetting `.dt` raises AttributeError because Series has no `.year`."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_051",
+    "concept_name": "dt.total_seconds() on timedelta series",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Convert the timedelta Series 'Duration' to total seconds as floats.",
+    "code_template": "rides['Duration']._____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dt.total_seconds()",
+        "answer_alternatives": ["dt.total_seconds", "total_seconds()"]
+      }
+    ],
+    "word_bank": ["dt.total_seconds()", "total_seconds()", "seconds", "dt.seconds"],
+    "per_tile_feedback": {
+      "dt.total_seconds()": "Correct! Uses the dt accessor and calls the method.",
+      "total_seconds()": "Missing `.dt` – Series doesn't have a `.total_seconds()` method.",
+      "seconds": "Returns only the seconds component, not the total.",
+      "dt.seconds": "Returns a Series of seconds components, not the total duration."
+    },
+    "hints": [
+      "You need the dt accessor before the method.",
+      "The method name starts with 'total'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "For a timedelta Series, use `.dt.total_seconds()` to get the duration in seconds.",
+    "common_mistake_warning": "⚠️ `.dt.seconds` gives only the seconds component (0‑59), not the total."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_036",
+    "concept_name": "astimezone() method",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Convert the Eastern Time aware datetime dt_et to UTC, adjusting the clock time.",
+    "code_template": "from datetime import datetime, timezone, timedelta\nET = timezone(timedelta(hours=-5))\ndt_et = datetime(2017, 12, 30, 15, 9, 3, tzinfo=ET)\ndt_utc = dt_et._____(timezone._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "astimezone",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "utc",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["astimezone", "replace", "utc", "UTC"],
+    "per_tile_feedback": {
+      "astimezone": "Correct method for converting between timezones.",
+      "replace": "`replace` would change the tzinfo without adjusting the clock, giving a wrong UTC time.",
+      "utc": "Correct attribute on `timezone` giving the UTC timezone object.",
+      "UTC": "`timezone.utc` is the correct way; `UTC` is not defined unless imported from `dateutil`."
+    },
+    "hints": [
+      "You need a method that 'converts' the timezone.",
+      "The target timezone is accessed via `timezone.utc`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`astimezone()` converts to a new timezone, adjusting the wall time. `replace(tzinfo=...)` would keep the same clock numbers, misrepresenting the moment.",
+    "common_mistake_warning": "⚠️ Using `replace` instead of `astimezone` is a classic mistake."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_037",
+    "concept_name": "replace(tzinfo=...) method for timezone",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Dangerously attach UTC timezone to a naive datetime without adjusting the clock, using replace.",
+    "code_template": "dt_naive = datetime(2017, 12, 30, 15, 9, 3)\ndt_wrong = dt_naive._____(_____=timezone.utc)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "replace",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "tzinfo",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["replace", "astimezone", "tzinfo", "utc"],
+    "per_tile_feedback": {
+      "replace": "Correct method for replacing attributes.",
+      "astimezone": "`astimezone` requires an already‑aware datetime.",
+      "tzinfo": "Correct keyword argument for setting the timezone.",
+      "utc": "`utc` is the value, but the parameter name is `tzinfo`."
+    },
+    "hints": [
+      "This method returns a new datetime with the specified field changed.",
+      "The parameter name matches the attribute you want to set."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`replace(tzinfo=...)` changes the timezone without recalculating the absolute moment. It's rarely what you want.",
+    "common_mistake_warning": "⚠️ The resulting datetime now claims to be UTC, but the clock is still the original local time – a wrong absolute moment."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_042",
+    "concept_name": "Ambiguous time (fall back)",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Check if the datetime dt (on the DST fall‑back day) is ambiguous.",
+    "code_template": "from dateutil import tz\nfrom datetime import datetime\neastern = tz.gettz('America/New_York')\ndt = datetime(2017, 11, 5, 1, 0, 0, tzinfo=eastern)\nprint(tz._____(dt))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "datetime_ambiguous",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["datetime_ambiguous", "enfold", "ambiguous", "is_ambiguous"],
+    "per_tile_feedback": {
+      "datetime_ambiguous": "Correct function that returns True for ambiguous times.",
+      "enfold": "`enfold` marks a datetime as the later occurrence, it doesn't test ambiguity.",
+      "ambiguous": "No such function.",
+      "is_ambiguous": "Not a real function in `tz`."
+    },
+    "hints": [
+      "The function name describes what it checks.",
+      "It's a function in the `tz` module."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz.datetime_ambiguous()` returns True if the local time is ambiguous due to a DST fall‑back.",
+    "common_mistake_warning": "⚠️ Passing a naive datetime raises ValueError."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_044",
+    "concept_name": "enfold() function (dateutil.tz)",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Mark first_1am as the second occurrence of the ambiguous time using enfold.",
+    "code_template": "second_1am = tz._____(first_1am)\nprint(second_1am)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "enfold",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["enfold", "unfold", "resolve", "fix_ambiguous"],
+    "per_tile_feedback": {
+      "enfold": "Correct function that marks the datetime as the later occurrence.",
+      "unfold": "Does not exist; the opposite is not a function.",
+      "resolve": "Not a function in `dateutil.tz`.",
+      "fix_ambiguous": "Not a real function."
+    },
+    "hints": [
+      "The function name suggests 'wrapping' or 'folding' the time into the second slot.",
+      "It's a function from `dateutil.tz`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz.enfold(dt)` flags the ambiguous datetime as the post‑transition instance, so that conversion to UTC gives the later hour.",
+    "common_mistake_warning": "⚠️ `enfold` doesn't change the clock time; it only adjusts the internal representation for UTC conversion."
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_045",
+    "concept_name": "Converting to UTC for accurate arithmetic",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Convert the ambiguous datetimes to UTC before subtraction to obtain the correct one‑hour difference.",
+    "code_template": "first_utc = first_1am.astimezone(tz.UTC)\nsecond_utc = second_1am.astimezone(tz.UTC)\ndelta = second_utc - first_utc\nprint(delta.total_seconds())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "UTC",
+        "answer_alternatives": ["utc"]
+      }
+    ],
+    "word_bank": ["UTC", "utc", "GMT", "Zulu"],
+    "per_tile_feedback": {
+      "UTC": "Correct attribute on `tz` for the UTC timezone.",
+      "utc": "`timezone.utc` is for `datetime.timezone`; here we use `tz.UTC`.",
+      "GMT": "Not defined on `tz`; use `tz.UTC`.",
+      "Zulu": "Not a valid attribute."
+    },
+    "hints": [
+      "The `tz` module provides a constant for UTC.",
+      "It's uppercase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Converting both to UTC guarantees that the subtraction reflects the true elapsed time across the DST boundary.",
+    "common_mistake_warning": "⚠️ Subtracting aware datetimes directly can give an off‑by‑one‑hour error."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_058",
+    "concept_name": "dt.tz_localize() method",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Localize the naive 'Start date' column to US Eastern Time, setting ambiguous times to NaT.",
+    "code_template": "rides['Start date'] = rides['Start date'].dt._____('America/New_York', ambiguous=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tz_localize",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "NaT",
+        "answer_alternatives": ["'NaT'"]
+      }
+    ],
+    "word_bank": ["tz_localize", "tz_convert", "NaT", "None"],
+    "per_tile_feedback": {
+      "tz_localize": "Correct method for attaching a timezone to naive datetimes.",
+      "tz_convert": "`tz_convert` is for already‑aware Series.",
+      "NaT": "Correct sentinel value for Not a Time.",
+      "None": "`None` is not a valid option; use `'NaT'`."
+    },
+    "hints": [
+      "You are adding timezone awareness for the first time.",
+      "The parameter value is a special pandas constant for missing times."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`tz_localize` assigns a timezone to naive timestamps. `ambiguous='NaT'` handles the fall‑back ambiguity by setting those to NaT.",
+    "common_mistake_warning": "⚠️ Using `tz_convert` on a naive Series raises an error."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_060",
+    "concept_name": "dt.tz_convert() method",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Convert the already‑localized 'Start date' column to UTC.",
+    "code_template": "rides['Start date'] = rides['Start date'].dt._____('UTC')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "tz_convert",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["tz_convert", "tz_localize", "astimezone", "to_utc"],
+    "per_tile_feedback": {
+      "tz_convert": "Correct! Converts timezone of an aware Series.",
+      "tz_localize": "Localize is only for naive timestamps.",
+      "astimezone": "`astimezone` is a method on a single Timestamp, not on a Series.",
+      "to_utc": "Not a real method."
+    },
+    "hints": [
+      "The column already has a timezone; you want to change it.",
+      "The method name contains 'convert'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dt.tz_convert()` changes the timezone of an aware datetime Series, adjusting the displayed times.",
+    "common_mistake_warning": "⚠️ Attempting `tz_convert` on a naive Series raises an error."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_062",
+    "concept_name": "shift() method (Pandas)",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Shift the 'End date' column down by one row, leaving the first element as NaT.",
+    "code_template": "rides['End date']_____(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".shift",
+        "answer_alternatives": [".shift"]
+      },
+      {
+        "position": 2,
+        "answer": "1",
+        "answer_alternatives": ["1"]
+      }
+    ],
+    "word_bank": [".shift", ".lag", "1", "2"],
+    "per_tile_feedback": {
+      ".shift": "Correct method for shifting data.",
+      ".lag": "No such method in pandas.",
+      "1": "Correct number of periods to shift.",
+      "2": "Would shift by two rows, but the task asks for one row."
+    },
+    "hints": [
+      "The method moves the data, not the index.",
+      "The argument is the number of rows to shift."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`shift(1)` moves each value one row down, making the first position NaT.",
+    "common_mistake_warning": "⚠️ `shift` modifies data alignment, not the index."
+  }
+]

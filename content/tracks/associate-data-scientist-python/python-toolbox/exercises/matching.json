@@ -1,0 +1,510 @@
+{
+  "course_slug": "python-toolbox",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_pairs": 40,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Iterables and Iterators",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Iterable",
+          "match": "An object that has an iter() method, e.g. list, string.",
+          "wrong_matches": [
+            "A control flow statement that iterates over items of an iterable.",
+            "An object with a next() method that yields values one by one."
+          ],
+          "feedback_correct": "Correct! An iterable is any object that can be turned into an iterator with iter().",
+          "feedback_wrong": "That's not the definition of an iterable – think about what iter() can be called on."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_027",
+          "term": "for loop",
+          "match": "A control flow statement that iterates over items of an iterable.",
+          "wrong_matches": [
+            "An object that has an iter() method, e.g. list, string.",
+            "An object with a next() method that yields values one by one."
+          ],
+          "feedback_correct": "Yes! The for loop is Python's basic iteration construct.",
+          "feedback_wrong": "That describes an iterator or iterable, not the loop itself."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_001",
+          "term": "for char in 'Data':",
+          "match": "Iterating over a string, which is an iterable.",
+          "wrong_matches": [
+            "Creates an iterator from a string.",
+            "Returns an iterator from the iterable word."
+          ],
+          "feedback_correct": "Right! The string 'Data' is iterable, and the for loop goes through each character.",
+          "feedback_wrong": "This code iterates directly, not explicitly calling iter()."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_003",
+          "term": "iter([1,2,3])",
+          "match": "Creates an iterator from a list.",
+          "wrong_matches": [
+            "Retrieves the next element from an iterator.",
+            "Built-in function to obtain the next value."
+          ],
+          "feedback_correct": "Correct! iter() turns an iterable (like a list) into an iterator.",
+          "feedback_wrong": "iter() doesn't retrieve elements; it creates the iterator that can then be used with next()."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "next(it) when exhausted raises _____",
+          "match": "StopIteration",
+          "wrong_matches": [
+            "TypeError",
+            "Returns None"
+          ],
+          "feedback_correct": "Yes! StopIteration signals the end of the iteration.",
+          "feedback_wrong": "When an iterator is empty, next() raises StopIteration, not a TypeError or None."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_002",
+          "term": "next(it)",
+          "match": "Returns the next element from iterator it.",
+          "wrong_matches": [
+            "Creates an iterator from an iterable.",
+            "An object with a next() method that yields values one by one."
+          ],
+          "feedback_correct": "Exactly! next(it) advances the iterator and returns the current value.",
+          "feedback_wrong": "next() consumes the iterator, it doesn't create one."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_002",
+          "term": "'D'",
+          "match": "next(it) after it = iter('Data')",
+          "wrong_matches": [
+            "print(*it) with it = iter('Data')",
+            "next(it) when it = iter('Data') (second call)"
+          ],
+          "feedback_correct": "Right! The first next(it) returns the first character.",
+          "feedback_wrong": "That output comes from a different operation on the iterator."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_004",
+          "term": "'a'",
+          "match": "next(it) after already calling next() once on iter('Data')",
+          "wrong_matches": [
+            "next(it) when it = iter('Data') (first call)",
+            "print(*it) with it = iter('Data')"
+          ],
+          "feedback_correct": "Yes! After consuming 'D', the next() returns 'a'.",
+          "feedback_wrong": "The second next() gives the second character, not the first."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_006",
+          "term": "D a t a",
+          "match": "print(*it) with it = iter('Data')",
+          "wrong_matches": [
+            "next(it) after it = iter('Data')",
+            "for char in 'Data': print(char, end=' ')"
+          ],
+          "feedback_correct": "Correct! The splat operator * unpacks the iterator into separate arguments, printing space-separated.",
+          "feedback_wrong": "That output comes from the splat operator on an iterator, not a simple next() or a regular for loop."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Loops and Built-in Functions",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_010",
+          "concept_id": "concept_007",
+          "term": "enumerate(avengers)",
+          "match": "Returns (index, value) pairs starting at 0.",
+          "wrong_matches": [
+            "Combines iterables element-wise into tuples.",
+            "Unpacks each zip tuple into variables z1 and z2."
+          ],
+          "feedback_correct": "Yes! enumerate() adds a counter to the iteration.",
+          "feedback_wrong": "That describes zip() or its unpacking, not enumerate()."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_008",
+          "term": "zip(avengers, names)",
+          "match": "Combines iterables element-wise into tuples.",
+          "wrong_matches": [
+            "Returns (index, value) pairs starting at 0.",
+            "Unpacks each zip tuple into variables z1 and z2."
+          ],
+          "feedback_correct": "Right! zip() pairs the i-th element from each iterable.",
+          "feedback_wrong": "zip() merges multiple iterables, not a single one with an index."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_009",
+          "term": "for z1, z2 in zip(avengers, names):",
+          "match": "Unpacks each zip tuple into variables z1 and z2.",
+          "wrong_matches": [
+            "Combines iterables element-wise into tuples.",
+            "Returns (index, value) pairs starting at 0."
+          ],
+          "feedback_correct": "Exactly! The loop header automatically destructures each tuple.",
+          "feedback_wrong": "That's the zip() call itself or enumerate(), not the unpacking syntax."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_024",
+          "term": "7 % 3",
+          "match": "Returns remainder 1.",
+          "wrong_matches": [
+            "Returns remainder 0.",
+            "Checks if a number is even."
+          ],
+          "feedback_correct": "Yes! The modulo operator % gives the remainder of division.",
+          "feedback_wrong": "7 % 3 is 1, not 0."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_010",
+          "term": "pd.read_csv('data.csv', _____=1000)",
+          "match": "chunksize",
+          "wrong_matches": [
+            "nrows",
+            "iterator"
+          ],
+          "feedback_correct": "Correct! chunksize=1000 makes read_csv return an iterator of DataFrames.",
+          "feedback_wrong": "The parameter is specifically named chunksize."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_007",
+          "term": "10 hawkeye",
+          "match": "for index, value in enumerate(avengers, start=10): print(index, value)",
+          "wrong_matches": [
+            "for index, value in enumerate(avengers): print(index, value)",
+            "for z1, z2 in zip(avengers, names): print(z1, z2)"
+          ],
+          "feedback_correct": "Right! start=10 makes the first index 10, so output is '10 hawkeye'.",
+          "feedback_wrong": "That output comes from enumerate with a custom start, not default 0."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_008",
+          "term": "[('hawkeye','barton'), ('iron man','stark')]",
+          "match": "list(zip(avengers, names))",
+          "wrong_matches": [
+            "list(enumerate(avengers))",
+            "list(zip(avengers, names, strict=True))"
+          ],
+          "feedback_correct": "Yes! list() collects all zip tuples into a list of pairs.",
+          "feedback_wrong": "That's the list of zipped pairs, not an enumerate output."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_010",
+          "term": "TextFileReader object",
+          "match": "Returned by pd.read_csv('data.csv', chunksize=1000)",
+          "wrong_matches": [
+            "Returned by iter([1,2,3])",
+            "Returned by enumerate(avengers)"
+          ],
+          "feedback_correct": "Correct! With chunksize, read_csv returns a TextFileReader iterator.",
+          "feedback_wrong": "That's the iterator type returned by chunked read_csv."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_025",
+          "term": "def raise_both(value1, value2)_____",
+          "match": "Missing colon causes SyntaxError.",
+          "wrong_matches": [
+            "Missing parentheses.",
+            "Missing return statement."
+          ],
+          "feedback_correct": "Exactly! A function header must end with a colon.",
+          "feedback_wrong": "The syntax error here is the missing colon, not parentheses or return."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Comprehensions and Generators",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_019",
+          "concept_id": "concept_011",
+          "term": "new_nums = [num + 1 for num in nums]",
+          "match": "List comprehension adding 1 to each element.",
+          "wrong_matches": [
+            "Generator expression adding 1 to each element.",
+            "A for loop that builds a list."
+          ],
+          "feedback_correct": "Right! It's a list comprehension that transforms nums.",
+          "feedback_wrong": "The square brackets make it a list comprehension, not a generator."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_021",
+          "term": "(n for n in range(20) if n % 3 == 0)",
+          "match": "Generator filtering multiples of 3.",
+          "wrong_matches": [
+            "List comprehension filtering multiples of 3.",
+            "Generator expression without filtering."
+          ],
+          "feedback_correct": "Yes! Parentheses and if filter create a generator that yields numbers divisible by 3.",
+          "feedback_wrong": "The parentheses indicate a generator expression, not a list."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_011",
+          "term": "[for num in range(5) num]",
+          "match": "SyntaxError: for before output expression.",
+          "wrong_matches": [
+            "SyntaxError: missing closing bracket.",
+            "Runs but produces an empty list."
+          ],
+          "feedback_correct": "Correct! The output expression must come before the for clause.",
+          "feedback_wrong": "The error is about the order of parts, not brackets."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_012",
+          "term": "When to use a for loop instead of a list comprehension?",
+          "match": "When logic is complex or involves side effects like printing.",
+          "wrong_matches": [
+            "When you need a new list.",
+            "When memory is critical."
+          ],
+          "feedback_correct": "Exactly! List comprehensions are for building lists, not for actions.",
+          "feedback_wrong": "A for loop is better when you need side effects, not just generating a list."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_013",
+          "term": "[0, 1, 2, 3, 4]",
+          "match": "[i for i in range(5)]",
+          "wrong_matches": [
+            "[i for i in range(1,5)]",
+            "list(range(1,5))"
+          ],
+          "feedback_correct": "Yes! range(5) yields 0..4, so the comprehension copies them.",
+          "feedback_wrong": "range(5) starts at 0, not 1."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_014",
+          "term": "[(i,j) for i in range(2) _____]",
+          "match": "for j in range(2)",
+          "wrong_matches": [
+            "for j in range(3)",
+            "for j in range(2)]"
+          ],
+          "feedback_correct": "Correct! The inner for clause completes the nested comprehension.",
+          "feedback_wrong": "The inner loop must match the intended range for the pairs."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_015",
+          "term": "[x if x % 2 == 0 for x in range(10)]",
+          "match": "SyntaxError: if filter must be after for.",
+          "wrong_matches": [
+            "Runs and returns only even numbers.",
+            "SyntaxError: missing else."
+          ],
+          "feedback_correct": "Right! The filter if must be placed after the for, not before.",
+          "feedback_wrong": "This misplaced if causes a SyntaxError, not a filtered list."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_016",
+          "term": "[num ** 2 if num % 2 == 0 else _____ for num in range(5)]",
+          "match": "0",
+          "wrong_matches": [
+            "num",
+            "None"
+          ],
+          "feedback_correct": "Yes! The ternary expression returns 0 for odd numbers.",
+          "feedback_wrong": "The else part gives the value for odd numbers, which is 0 in the course example."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_017",
+          "term": "{num: -num for num in range(5)}",
+          "match": "Creates dict mapping number to negative.",
+          "wrong_matches": [
+            "Creates list of tuples.",
+            "Generator that yields key-value pairs."
+          ],
+          "feedback_correct": "Correct! The curly braces and key:value syntax make it a dict comprehension.",
+          "feedback_wrong": "Curly braces denote a dictionary, not a list or generator."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_018",
+          "term": "(x for x in range(3))",
+          "match": "Generator expression, not a list.",
+          "wrong_matches": [
+            "List comprehension, creates list in memory.",
+            "Tuple comprehension."
+          ],
+          "feedback_correct": "Yes! Parentheses create a generator expression.",
+          "feedback_wrong": "Python has no tuple comprehension; parentheses alone make a generator."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_019",
+          "term": "Generator computes values on demand.",
+          "match": "Lazy evaluation – computation deferred until iteration.",
+          "wrong_matches": [
+            "Eager evaluation – all values computed immediately.",
+            "Caching mechanism."
+          ],
+          "feedback_correct": "Right! Lazy evaluation means values are produced only when requested.",
+          "feedback_wrong": "Lazy evaluation is the opposite of computing everything up front."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_020",
+          "term": "MemoryError",
+          "match": "list(range(10**9)) may cause this; generator expression does not.",
+          "wrong_matches": [
+            "list(gen) does not cause this.",
+            "Generator expression raises this."
+          ],
+          "feedback_correct": "Yes! A huge list comprehension can run out of memory, but a generator stays small.",
+          "feedback_wrong": "Only materializing a giant list (not a generator) risks MemoryError."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_020",
+          "term": "list(gen) exhausts generator.",
+          "match": "Calling list() on a generator defeats memory advantage.",
+          "wrong_matches": [
+            "list() on a generator is safe for memory.",
+            "list(gen) returns the generator unchanged."
+          ],
+          "feedback_correct": "Correct! list(gen) forces all values into memory, canceling the benefit.",
+          "feedback_wrong": "list() materializes all elements, potentially causing high memory usage."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_022",
+          "term": "[0, 1, 2]",
+          "match": "list(num_sequence(3)) where num_sequence is a generator function.",
+          "wrong_matches": [
+            "list(range(3))",
+            "list(num_sequence(4))"
+          ],
+          "feedback_correct": "Yes! The generator function yields 0, 1, 2 and list() collects them.",
+          "feedback_wrong": "The output depends on the generator's logic and argument."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_022",
+          "term": "def gen(): yield 1; return; yield 2",
+          "match": "return stops generator prematurely; yield 2 unreachable.",
+          "wrong_matches": [
+            "yield 2 is executed after return.",
+            "The generator yields 1, then 2."
+          ],
+          "feedback_correct": "Right! The return statement terminates the generator, so yield 2 never runs.",
+          "feedback_wrong": "return immediately ends the generator, making later yields dead code."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_023",
+          "term": "yield vs return",
+          "match": "yield pauses function, return ends it.",
+          "wrong_matches": [
+            "Both pause the function.",
+            "Both return a value and end the function."
+          ],
+          "feedback_correct": "Exactly! yield keeps the function's state, allowing later resumption.",
+          "feedback_wrong": "Only yield pauses; return terminates the function permanently."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_023",
+          "term": "yield i",
+          "match": "Keyword that makes function a generator, producing i.",
+          "wrong_matches": [
+            "print(i)",
+            "return i"
+          ],
+          "feedback_correct": "Yes! yield turns a function into a generator and hands back i.",
+          "feedback_wrong": "Only yield makes a generator; print just displays, return ends."
+        },
+        {
+          "id": "match_036",
+          "concept_id": "concept_026",
+          "term": "File closed before generator exhausted.",
+          "match": "Raises ValueError on further iteration.",
+          "wrong_matches": [
+            "Generator automatically reopens file.",
+            "Silently yields empty strings."
+          ],
+          "feedback_correct": "Correct! Attempting to read from a closed file inside a generator raises an error.",
+          "feedback_wrong": "The generator cannot reopen the file; it will raise an exception."
+        },
+        {
+          "id": "match_037",
+          "concept_id": "concept_015",
+          "term": "[0, 4, 16, 36, 64]",
+          "match": "[num * 2 for num in range(10) if num % 2 == 0]",
+          "wrong_matches": [
+            "[num ** 2 for num in range(10) if num % 2 == 0]",
+            "[num * 2 for num in range(10)]"
+          ],
+          "feedback_correct": "Right! Filter evens, then double them.",
+          "feedback_wrong": "The output is from doubling evens, not squaring or processing all."
+        },
+        {
+          "id": "match_038",
+          "concept_id": "concept_016",
+          "term": "[0, 0, 4, 0, 16]",
+          "match": "[num ** 2 if num % 2 == 0 else 0 for num in range(5)]",
+          "wrong_matches": [
+            "[num ** 2 for num in range(5) if num % 2 == 0]",
+            "[num ** 2 for num in range(5)]"
+          ],
+          "feedback_correct": "Exactly! The ternary puts squares for evens, 0 for odds.",
+          "feedback_wrong": "This list includes zeros for odd numbers; a filter would drop them."
+        },
+        {
+          "id": "match_039",
+          "concept_id": "concept_018",
+          "term": "<generator object <genexpr> at 0x...>",
+          "match": "print(gen) where gen = (x for x in range(3))",
+          "wrong_matches": [
+            "print(list(gen))",
+            "print(type(gen))"
+          ],
+          "feedback_correct": "Yes! Printing the generator object directly shows its representation.",
+          "feedback_wrong": "That's the default representation of a generator, not its contents or type."
+        },
+        {
+          "id": "match_040",
+          "concept_id": "concept_014",
+          "term": "[(0, 6), (0, 7), (1, 6), (1, 7)]",
+          "match": "[(num1, num2) for num1 in range(0,2) for num2 in range(6,8)]",
+          "wrong_matches": [
+            "[(num1, num2) for num2 in range(6,8) for num1 in range(0,2)]",
+            "[(num1, num2) for num1 in range(2) for num2 in range(6,9)]"
+          ],
+          "feedback_correct": "Correct! The outer loop over num1, inner over num2 produces these pairs.",
+          "feedback_wrong": "Swapping the for clauses changes the ordering, and different ranges give different pairs."
+        }
+      ]
+    }
+  ]
+}

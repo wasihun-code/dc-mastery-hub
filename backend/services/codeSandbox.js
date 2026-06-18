@@ -1,8 +1,10 @@
-import { execSync } from 'child_process'
+import config from '../config.js'
+import { spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
 import { fileURLToPath } from 'url'
+import Database from 'better-sqlite3'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -27,8 +29,6 @@ function checkSecurity(code) {
   }
   return null
 }
-
-import Database from 'better-sqlite3'
 
 export function runSql(code) {
   // SQL Sandbox using an in-memory SQLite database
@@ -75,24 +75,154 @@ export function runSql(code) {
   }
 }
 
+export function runDatasetChallenge(solutionCode, preLoadedData, validationRules, datasetsAbsolutePath, userId, challengeId) {
+  const securityViolation = checkSecurity(solutionCode)
+  if (securityViolation) return securityViolation
+
+  let setupCode = ''
+  if (preLoadedData) {
+    for (const [key, value] of Object.entries(preLoadedData)) {
+      const absPath = value.path ? path.join(datasetsAbsolutePath, value.path) : ''
+      
+      if (value.type === 'csv' && value.path) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df\n`
+      } else if (value.type === 'csv_column' && value.path && value.column) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df[${JSON.stringify(value.column)}].values\n`
+      } else if (value.type === 'csv_list' && value.path && value.column) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df[${JSON.stringify(value.column)}].tolist()\n`
+      } else if (value.type === 'pickle' && value.path) {
+        setupCode += `${key} = pd.read_pickle(r'${absPath}')\n`
+      } else if (value.type === 'sqlite' && value.path) {
+        setupCode += `${key} = sqlite3.connect(r'${absPath}')\n`
+      } else if (value.type === 'dataframe' && value.data) {
+        setupCode += `${key} = pd.DataFrame(${JSON.stringify(value.data)})\n`
+      } else if (value.type === 'value') {
+        setupCode += `${key} = ${JSON.stringify(value.data)}\n`
+      }
+    }
+  }
+
+  let validationCode = ''
+  if (validationRules && Array.isArray(validationRules)) {
+    for (const rule of validationRules) {
+      validationCode += `
+try:
+    _check = bool(${rule.check})
+    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": _check, "message": ${JSON.stringify(rule.message)}})
+except Exception as e:
+    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": False, "message": f"Error: {str(e)}"})
+`
+    }
+  }
+
+  const scriptContent = `
+# === AUTO-GENERATED CHALLENGE SANDBOX ===
+import pandas as pd
+import numpy as np
+import sqlite3, os, json, sys
+
+# --- PRE-LOADED VARIABLES ---
+${setupCode}
+
+# --- USER SOLUTION ---
+${solutionCode}
+
+# --- VALIDATION ---
+_results = []
+${validationCode}
+print(json.dumps(_results))
+`
+
+  const tmpPath = path.join(os.tmpdir(), `dc_challenge_${userId}_${challengeId}_${Date.now()}.py`)
+  fs.writeFileSync(tmpPath, scriptContent)
+
+  const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
+  const pythonExe = fs.existsSync(venvPython) ? venvPython : (config.PYTHON_PATH)
+
+  const startTime = Date.now()
+  let stdout = ''
+  let stderr = ''
+  let results = []
+  let success = false
+  let passed = 0
+  let total = validationRules ? validationRules.length : 0
+
+  try {
+    const result = spawnSync(pythonExe, [tmpPath], {
+      timeout: config.CHALLENGE_TIMEOUT_MS,
+      encoding: 'utf-8',
+      cwd: datasetsAbsolutePath,
+      env: { PATH: process.env.PATH }
+    })
+
+    stdout = result.stdout || ''
+    stderr = result.stderr || ''
+
+    if (result.error) {
+      if (result.error.code === 'ETIMEDOUT') {
+        stderr = 'Execution timed out.'
+      } else {
+        stderr = result.error.message
+      }
+    } else if (result.status !== 0) {
+      // Script failed
+    } else {
+      // Try parsing stdout for JSON results
+      const lines = stdout.trim().split('\n')
+      if (lines.length > 0) {
+        try {
+          const lastLine = lines[lines.length - 1]
+          results = JSON.parse(lastLine)
+          if (Array.isArray(results)) {
+            passed = results.filter(r => r.passed).length
+            success = passed === total
+          }
+        } catch (e) {
+          stderr += '\nFailed to parse validation results: ' + e.message
+        }
+      }
+    }
+
+  } catch (err) {
+    stderr = err.message
+  } finally {
+    try {
+      if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath)
+    } catch (e) {}
+  }
+
+  const executionTime = Date.now() - startTime
+
+  return {
+    success,
+    passed,
+    total,
+    results,
+    stdout,
+    stderr,
+    executionTime
+  }
+}
+
 export function runCode(code, datasetPaths) {
+  // Legacy code sandbox - keep it for other components if needed, or remove if unused.
   const securityViolation = checkSecurity(code)
   if (securityViolation) return securityViolation
 
-  // Create a temp directory
   let tmpDir;
   try {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dc-sandbox-'))
   } catch (err) {
-    return {
-      success: false,
-      output: '',
-      error: 'Failed to create sandbox environment.'
-    }
+    return { success: false, output: '', error: 'Failed to create sandbox environment.' }
   }
 
   try {
-    // Copy dataset files into temp directory
     for (const datasetPath of datasetPaths) {
       if (fs.existsSync(datasetPath)) {
         const fileName = path.basename(datasetPath)
@@ -100,7 +230,6 @@ export function runCode(code, datasetPaths) {
       }
     }
 
-    // Build wrapper Python script
     const safeTmpDir = JSON.stringify(tmpDir)
     const scriptContent = `
 import pandas as pd
@@ -110,14 +239,12 @@ warnings.filterwarnings('ignore')
 import os
 os.chdir(${safeTmpDir})
 
-# Preload baseball dataset variables
 if os.path.exists('baseball.csv'):
     df_baseball = pd.read_csv('baseball.csv')
     np_heights = df_baseball['Height'].values
     np_weights = df_baseball['Weight'].values
     pos_cats = df_baseball['PosCategory'].tolist()
 
-# Preload football dataset variables
 if os.path.exists('football.csv'):
     df_football = pd.read_csv('football.csv', skipinitialspace=True)
     df_football.columns = df_football.columns.str.strip()
@@ -127,7 +254,6 @@ if os.path.exists('football.csv'):
 
 ${code}
 
-# Inspect variables at the end
 import json
 try:
     user_vars = {}
@@ -152,20 +278,23 @@ except:
     const scriptPath = path.join(tmpDir, 'solution.py')
     fs.writeFileSync(scriptPath, scriptContent)
 
-    // Execute the script
     const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
-    const pythonExe = fs.existsSync(venvPython) ? venvPython : (process.env.PYTHON_EXECUTABLE || 'python3')
+    const pythonExe = fs.existsSync(venvPython) ? venvPython : (config.PYTHON_PATH)
     
-    const output = execSync(
-      `"${pythonExe}" "${scriptPath}"`,
-      {
+    // We use child_process.spawnSync here instead of execSync for consistency
+    const result = spawnSync(pythonExe, [scriptPath], {
         timeout: 10000,
-        maxBuffer: 1024 * 1024,
+        encoding: 'utf-8',
         env: { PATH: process.env.PATH }
-      }
-    )
-    
-    let outputStr = output.toString()
+    })
+
+    let outputStr = result.stdout || ''
+    if (result.error && result.error.code === 'ETIMEDOUT') {
+        throw new Error("Code timed out after 10 seconds.")
+    } else if (result.stderr) {
+        throw new Error(result.stderr)
+    }
+
     let vars = {}
     const varsMatch = outputStr.match(/__DC_VARS_START__(.*?)__DC_VARS_END__/)
     if (varsMatch) {
@@ -175,102 +304,69 @@ except:
       outputStr = outputStr.replace(/__DC_VARS_START__(.*?)__DC_VARS_END__/, '')
     }
 
-    return {
-      success: true,
-      output: outputStr.trim(),
-      error: null,
-      vars
-    }
+    return { success: true, output: outputStr.trim(), error: null, vars }
   } catch (err) {
-    let errorText = err.stderr ? err.stderr.toString().trim() : err.message
-    // Sanitize the traceback to hide the internal server temp path and wrapper script name
+    let errorText = err.message
     errorText = errorText.replace(new RegExp(tmpDir + '/solution.py', 'g'), 'script.py')
-    
-    return {
-      success: false, 
-      output: '',
-      error: errorText,
-      vars: {}
-    }
+    return { success: false, output: '', error: errorText, vars: {} }
   } finally {
-    // Clean up temp directory
-    try { 
-      fs.rmSync(tmpDir, { recursive: true }) 
-    } catch(e) {}
+    try { fs.rmSync(tmpDir, { recursive: true }) } catch(e) {}
   }
 }
 
-export function runShellCommand(historyCode, command, datasetPaths) {
-  const securityViolation = checkSecurity(command)
+export function runShellCommand(historyCode, command, preLoadedData, datasetsAbsolutePath, userId, challengeId) {
+  const securityViolation = checkSecurity(command) || checkSecurity(historyCode)
   if (securityViolation) return securityViolation
 
-  // Create a temp directory
-  let tmpDir;
-  try {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dc-sandbox-'))
-  } catch (err) {
-    return {
-      success: false,
-      output: '',
-      error: 'Failed to create sandbox environment.'
+  let setupCode = ''
+  if (preLoadedData) {
+    for (const [key, value] of Object.entries(preLoadedData)) {
+      const absPath = value.path ? path.join(datasetsAbsolutePath, value.path) : ''
+      
+      if (value.type === 'csv' && value.path) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df\n`
+      } else if (value.type === 'csv_column' && value.path && value.column) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df[${JSON.stringify(value.column)}].values\n`
+      } else if (value.type === 'csv_list' && value.path && value.column) {
+        setupCode += `_df = pd.read_csv(r'${absPath}', skipinitialspace=True)\n`
+        setupCode += `_df.columns = _df.columns.str.strip()\n`
+        setupCode += `${key} = _df[${JSON.stringify(value.column)}].tolist()\n`
+      } else if (value.type === 'pickle' && value.path) {
+        setupCode += `${key} = pd.read_pickle(r'${absPath}')\n`
+      } else if (value.type === 'sqlite' && value.path) {
+        setupCode += `${key} = sqlite3.connect(r'${absPath}')\n`
+      } else if (value.type === 'dataframe' && value.data) {
+        setupCode += `${key} = pd.DataFrame(${JSON.stringify(value.data)})\n`
+      } else if (value.type === 'value') {
+        setupCode += `${key} = ${JSON.stringify(value.data)}\n`
+      }
     }
   }
 
-  try {
-    // Copy dataset files into temp directory
-    for (const datasetPath of datasetPaths) {
-      if (fs.existsSync(datasetPath)) {
-        const fileName = path.basename(datasetPath)
-        fs.copyFileSync(datasetPath, path.join(tmpDir, fileName))
-      }
-    }
-
-    // Build wrapper Python script for shell execution
-    const safeTmpDir = JSON.stringify(tmpDir)
-    const scriptContent = `
+  const scriptContent = `
+# === AUTO-GENERATED SHELL SANDBOX ===
 import pandas as pd
 import numpy as np
-import warnings
-warnings.filterwarnings('ignore')
-import os
-os.chdir(${safeTmpDir})
+import sqlite3, os, json, sys
 
-# Preload baseball dataset variables
-if os.path.exists('baseball.csv'):
-    df_baseball = pd.read_csv('baseball.csv')
-    np_heights = df_baseball['Height'].values
-    np_weights = df_baseball['Weight'].values
-    pos_cats = df_baseball['PosCategory'].tolist()
+# --- PRE-LOADED VARIABLES ---
+${setupCode}
 
-# Preload football dataset variables
-if os.path.exists('football.csv'):
-    df_football = pd.read_csv('football.csv', skipinitialspace=True)
-    df_football.columns = df_football.columns.str.strip()
-    np_ratings = df_football['rating'].values
-    np_paces = pd.to_numeric(df_football['pace'], errors='coerce').fillna(0).values
-    np_shootings = pd.to_numeric(df_football['shooting'], errors='coerce').fillna(0).values
+# --- HISTORY ---
+${historyCode}
 
-# Run history code
-history_code = ${JSON.stringify(historyCode)}
-if history_code:
-    exec(history_code, globals())
+# --- COMMAND ---
+${command}
 
-# Run shell command
-cmd = ${JSON.stringify(command)}
-if cmd:
-    try:
-        res = eval(cmd, globals())
-        if res is not None:
-            print(repr(res))
-    except SyntaxError:
-        exec(cmd, globals())
-
-# Inspect variables at the end
 import json
 try:
     user_vars = {}
     for k, v in list(globals().items()):
-        if k.startswith('_') or k in ['pd', 'np', 'warnings', 'os', 'history_code', 'cmd', 'res', 'json', 'user_vars', 'k', 'v', 'scriptContent', 'scriptPath', 'expected_code', 'solution_code', 'datasetFile', 'datasetPath', 'fileName']:
+        if k.startswith('_') or k in ['pd', 'np', 'os', 'json', 'sys', 'user_vars', 'k', 'v']:
             continue
         try:
             if hasattr(v, 'shape'):
@@ -287,23 +383,28 @@ try:
 except:
     pass
 `
-    const scriptPath = path.join(tmpDir, 'shell_cmd.py')
-    fs.writeFileSync(scriptPath, scriptContent)
 
-    // Execute the script
-    const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
-    const pythonExe = fs.existsSync(venvPython) ? venvPython : (process.env.PYTHON_EXECUTABLE || 'python3')
-    
-    const output = execSync(
-      `"${pythonExe}" "${scriptPath}"`,
-      {
-        timeout: 5000,
-        maxBuffer: 1024 * 1024,
-        env: { PATH: process.env.PATH }
-      }
-    )
-    
-    let outputStr = output.toString()
+  const tmpPath = path.join(os.tmpdir(), `dc_shell_${userId}_${challengeId}_${Date.now()}.py`)
+  fs.writeFileSync(tmpPath, scriptContent)
+
+  const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
+  const pythonExe = fs.existsSync(venvPython) ? venvPython : (config.PYTHON_PATH)
+
+  try {
+    const result = spawnSync(pythonExe, [tmpPath], {
+      timeout: config.CHALLENGE_TIMEOUT_MS,
+      encoding: 'utf-8',
+      cwd: datasetsAbsolutePath,
+      env: { PATH: process.env.PATH }
+    })
+
+    let outputStr = result.stdout || ''
+    let errorStr = result.stderr || ''
+
+    if (result.error && result.error.code === 'ETIMEDOUT') {
+        errorStr = "Execution timed out."
+    }
+
     let vars = {}
     const varsMatch = outputStr.match(/__DC_VARS_START__(.*?)__DC_VARS_END__/)
     if (varsMatch) {
@@ -313,26 +414,16 @@ except:
       outputStr = outputStr.replace(/__DC_VARS_START__(.*?)__DC_VARS_END__/, '')
     }
 
-    return {
-      success: true,
-      output: outputStr.trim(),
-      error: null,
-      vars
+    return { 
+      success: result.status === 0 && !errorStr, 
+      output: outputStr.trim(), 
+      error: errorStr.trim() || null, 
+      vars 
     }
   } catch (err) {
-    let errorText = err.stderr ? err.stderr.toString().trim() : err.message
-    errorText = errorText.replace(new RegExp(tmpDir + '/shell_cmd.py', 'g'), 'shell.py')
-    
-    return {
-      success: false, 
-      output: '',
-      error: errorText,
-      vars: {}
-    }
+    return { success: false, output: '', error: err.message, vars: {} }
   } finally {
-    // Clean up temp directory
-    try { 
-      fs.rmSync(tmpDir, { recursive: true }) 
-    } catch(e) {}
+    try { fs.unlinkSync(tmpPath) } catch (e) {}
   }
 }
+

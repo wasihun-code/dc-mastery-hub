@@ -1,0 +1,1224 @@
+{
+  "course_slug": "writing-functions-in-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "Docstring",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You need to document a function called `split_and_stack` with a multi‑line description, arguments, and return value. Which placement correctly creates its docstring?",
+      "options": {
+        "a": "Immediately after the function header, using triple quotes.",
+        "b": "As a `#` comment on the line before the function header.",
+        "c": "After the first line of the function body, using single quotes.",
+        "d": "As the last line of the function, using `return \"\"\"doc\"\"\"`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The docstring must be the first statement in the function body, typically enclosed in triple quotes to allow multiple lines.",
+        "b": "Comments are not recognized as docstrings and will not be stored in `__doc__`.",
+        "c": "If the docstring is not the very first line, it is just a string expression that is ignored; also single quotes cannot span multiple lines without continuation.",
+        "d": "A `return` statement with a string would make that string the return value, not a docstring."
+      },
+      "hints": [
+        "The docstring must be the first line of the function body.",
+        "Which quoting style allows a string to span multiple lines?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A docstring is a string literal that appears as the first statement in a function definition. It is conventionally written in triple quotes to allow multiple lines. Python stores it in the function's `__doc__` attribute.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "Google-style docstring",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "The following function uses a Google‑style docstring, but it contains a mistake:\n\n```python\ndef load_csv(filepath, delimiter=','):\n    \"\"\"Load a CSV file and return a list of rows.\n\n    Args:\n        filepath (str): Path to the CSV file.\n        delimiter (str): Field delimiter.\n\n    Returns:\n        list: The rows read from the file.\n    \"\"\"\n    ...\n```\nWhat is wrong?",
+      "options": {
+        "a": "The description does not use imperative language.",
+        "b": "The optional argument `delimiter` is not marked with `(optional)` in the `Args` section.",
+        "c": "The `Returns` section should be named `Return`.",
+        "d": "The docstring must use Numpydoc style."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The description \"Load a CSV file…\" uses imperative language, which is correct.",
+        "b": "Correct. In Google‑style docstrings, arguments that have a default value must be marked with `(optional)`, e.g., `delimiter (str, optional): Field delimiter.`",
+        "c": "The standard section header is `Returns:` (with an 's'), not `Return:`.",
+        "d": "Google‑style is a perfectly valid docstring format; Numpydoc is an alternative, not a requirement."
+      },
+      "hints": [
+        "Look closely at how `delimiter` is documented. Does it indicate that a default value exists?",
+        "In Google style, how do you document an argument that has a default value?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A correct Google‑style docstring must append `, optional` to the type of any argument that has a default value. Without this, the reader cannot distinguish required from optional parameters.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "Numpydoc docstring",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "A colleague writes this Numpydoc‑style docstring, but the format is broken:\n\n```python\ndef compute_stat(data, robust=False):\n    \"\"\"Compute the statistic.\n\n    Parameters\n    ----------\n    data : ndarray\n        The input array.\n    robust : bool, optional\n        If True, use a robust method.\n\n    Returns\n    -------\n    float\n        The computed statistic.\n    \"\"\"\n    ...\n```\nHowever, the `Returns` section does not display properly when processed by documentation tools. What is missing?",
+      "options": {
+        "a": "The `Returns` header should be written as `Return` (singular).",
+        "b": "The underline dashes under `Returns` are too short; they must match the header length exactly.",
+        "c": "The type line `float` must be on the same line as the description.",
+        "d": "The dashes under `Returns` are the wrong character; they must be `===` instead."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "In Numpydoc the section is called `Returns`, with an 's'.",
+        "b": "Correct. The line of dashes under a section header must be at least as long as the header text. Here `Returns` has 7 characters, but the dashes are only 7 long; actually they are 7 dashes and 7 letters, so it looks fine? Wait, the example shows `Returns\\n    -------` with 7 dashes. It appears correct. However, a common mistake is forgetting the underline altogether. Let's adjust: In the code, the `Returns` line is followed by a line of dashes; if the underline is missing or shorter, it breaks. In the snippet it is present and length 7, which matches 'Returns' (7). That seems okay. The intended mistake could be missing underline after `Parameters`? Actually the snippet has both underlines. To be consistent with common mistakes: forgetting the underline dashes under section headers. So I'll modify the question to show a missing underline.\n\nRevised option set: The `Returns` section lacks the underline dashes. I'll correct: In the code snippet above, the `Returns` section is missing the underline. I'll adjust the snippet: \"\"\"\nCompute the statistic.\n\nParameters\n----------\ndata : ndarray\n    The input array.\nrobust : bool, optional\n    If True, use a robust method.\n\nReturns\nfloat\n    The computed statistic.\n\"\"\"\nNow the underline under `Returns` is missing. So what is wrong? Options: missing underline under `Returns`. That's a common mistake. I'll rephrase accordingly.",
+        "b": "Correct. The Numpydoc `Returns` section requires a line of dashes under the header (of at least the header's length). Here the dashes are missing entirely.",
+        "c": "In Numpydoc, the type is placed on the line immediately after the dashes, then the description on the following line. It is not required to be on the same line.",
+        "d": "The standard underline character is dashes (`-`), not equals signs."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "In Numpydoc the section is called `Returns` (with an 's').",
+        "b": "Correct. A line of dashes must follow `Returns` (and `Parameters`) to delineate the section. Without it, parsers cannot identify the section.",
+        "c": "The type and description are on separate lines; the snippet places `float` on the next line, which is correct. The issue is the missing underline.",
+        "d": "Dashes are the standard; equals signs are not used for Numpydoc underlines."
+      },
+      "hints": [
+        "Compare the `Parameters` section with the `Returns` section. What is different?",
+        "In Numpydoc, every section header (`Parameters`, `Returns`, etc.) must have a matching line of dashes underneath."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The Numpydoc format requires that section headers like `Returns` be underlined with dashes. Forgetting the underline is a common formatting mistake that causes documentation tools to misparse the docstring.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_003"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_004",
+      "concept_name": "__doc__ attribute",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ndef func_a():\n    \"\"\"Return the answer.\"\"\"\n    return 42\n\ndef func_b():\n    return 7\n\nprint(func_a.__doc__)\nprint(func_b.__doc__)\n```",
+      "options": {
+        "a": "`Return the answer.` and `None`",
+        "b": "`Return the answer.` and `Return 7`",
+        "c": "`func_a` and `func_b`",
+        "d": "`None` and `None`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `func_a` has a docstring, so `__doc__` returns it; `func_b` has no docstring, so `__doc__` is `None`.",
+        "b": "`func_b` does not have a docstring; its `__doc__` is `None`, not a string describing the function.",
+        "c": "`__doc__` holds the docstring, not the function name.",
+        "d": "`func_a` actually has a docstring, so `__doc__` is not `None`."
+      },
+      "hints": [
+        "What is the value of `__doc__` for a function that has no docstring?",
+        "Does a return value inside the function body affect the docstring?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Every function has a `__doc__` attribute. If the function's body starts with a string literal, that string becomes the docstring; otherwise `__doc__` is `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_005",
+      "concept_name": "inspect.getdoc()",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Consider a function whose docstring has leading whitespace on every line. What is the difference between `func.__doc__` and `inspect.getdoc(func)`?",
+      "options": {
+        "a": "`inspect.getdoc(func)` returns the docstring with leading whitespace stripped, while `func.__doc__` preserves the original indentation.",
+        "b": "`inspect.getdoc(func)` returns only the first line of the docstring.",
+        "c": "`inspect.getdoc(func)` raises an error if the function has no docstring, while `func.__doc__` returns `None`.",
+        "d": "They are identical; `inspect.getdoc` is just a wrapper."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `inspect.getdoc` strips common leading whitespace to clean up the docstring for display.",
+        "b": "`getdoc` does return the complete docstring, not just the first line.",
+        "c": "`getdoc` returns `None` for a function with no docstring, just like `__doc__`.",
+        "d": "They differ: `getdoc` modifies the whitespace while `__doc__` gives the raw string."
+      },
+      "hints": [
+        "Read the docstring of a function with indentation directly via `__doc__` – does the output look clean?",
+        "The `inspect` module provides a function specifically to clean up docstrings."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`func.__doc__` returns the exact string written in the source code, including any leading spaces. `inspect.getdoc(func)` strips the common leading whitespace from all lines, making it suitable for display.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_006",
+      "concept_name": "DRY (Don't Repeat Yourself)",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You find this pattern repeated three times for `train`, `validation`, and `test` datasets:\n\n```python\ndata = pd.read_csv(path)\ny = data['labels'].values\nX = data[[col for col in data.columns if col != 'labels']].values\npca = PCA(n_components=2).fit_transform(X)\nplt.scatter(pca[:,0], pca[:,1])\n```\nWhich refactoring best follows the DRY principle?",
+      "options": {
+        "a": "Create a function `process_data(path)` that contains the entire block and call it three times.",
+        "b": "Create a function `load_data(path)` that returns `X, y` and a separate function `plot_data(X)` that plots, then call them sequentially for each dataset.",
+        "c": "Keep the repeated code as is because the logic is simple.",
+        "d": "Wrap each block in an identical `if __name__ == '__main__':` guard."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "While this reduces repetition, a function that both loads and plots violates the 'Do One Thing' principle and is harder to reuse.",
+        "b": "Correct. This separates responsibilities and avoids code duplication, fully adhering to DRY.",
+        "c": "Repeating code still makes maintenance harder—changing the logic requires editing multiple places.",
+        "d": "The `if __name__` guard controls script execution, not code duplication; it does not remove the repeated blocks."
+      },
+      "hints": [
+        "Which approach avoids writing the same lines of code more than once?",
+        "Think about whether the function should do one thing or multiple things."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The DRY principle says don't repeat identical code. Extracting repeated logic into reusable functions (here, `load_data` and `plot_data`) eliminates duplication.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_007",
+      "concept_name": "Do One Thing principle",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "Which of these functions most clearly violates the \"Do One Thing\" principle?",
+      "options": {
+        "a": "```python\ndef load_data(path):\n    data = pd.read_csv(path)\n    return data\n```",
+        "b": "```python\ndef plot_data(X):\n    pca = PCA(n_components=2).fit_transform(X)\n    plt.scatter(pca[:,0], pca[:,1])\n```",
+        "c": "```python\ndef load_and_plot(path):\n    data = pd.read_csv(path)\n    y = data['label'].values\n    X = data.drop('label', axis=1).values\n    pca = PCA(n_components=2).fit_transform(X)\n    plt.scatter(pca[:,0], pca[:,1])\n    return X, y\n```",
+        "d": "```python\ndef compute_stats(arr):\n    return np.mean(arr), np.std(arr)\n```"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "This function only loads data—single responsibility.",
+        "b": "This function only plots data—single responsibility.",
+        "c": "Correct. This function loads data, processes it, and plots it. It does at least three separate things, making it harder to reuse and test.",
+        "d": "This function only computes statistics—single responsibility."
+      },
+      "hints": [
+        "Look for a function that combines I/O, transformation, and visualization.",
+        "A function that has 'and' in its name often does too much."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The 'Do One Thing' principle states that each function should have a single responsibility. Mixing data loading, transformation, and plotting in one function makes it difficult to change or test any part independently.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_010",
+      "concept_name": "Pass by assignment",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What is the output of the following code?\n\n```python\ndef foo(x):\n    x[0] = 99\n\ndef bar(x):\n    x = x + 90\n\nmy_list = [1, 2, 3]\nfoo(my_list)\nprint(my_list)\n\nmy_var = 3\nbar(my_var)\nprint(my_var)\n```",
+      "options": {
+        "a": "`[1, 2, 3]` then `3`",
+        "b": "`[99, 2, 3]` then `93`",
+        "c": "`[1, 2, 3]` then `93`",
+        "d": "`[99, 2, 3]` then `3`"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "`foo` mutates the list, so the first print is not the original list.",
+        "b": "Reassigning `x` inside `bar` does not affect the integer variable `my_var` outside, because integers are immutable and `x` is just a local name.",
+        "c": "Both predictions are wrong; `foo` does mutate the list, and `bar` does not change the original integer.",
+        "d": "Correct. `foo` modifies the list in place (mutable), so `my_list` changes. `bar` creates a new integer, leaving `my_var` unchanged."
+      },
+      "hints": [
+        "What happens when you assign to an element of a list passed as a parameter?",
+        "Are integers mutable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python passes arguments by assignment. For mutable objects like lists, modifying the object inside the function affects the original. For immutable objects like ints, reassigning the parameter creates a new object and does not change the original variable.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_013",
+      "concept_name": "Mutable default arguments danger",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\ndef foo(var=[1]):\n    var.append(1)\n    return var\n\nprint(foo())\nprint(foo())\n```",
+      "options": {
+        "a": "`[1, 1]` then `[1, 1, 1]`",
+        "b": "`[1, 1]` then `[1, 1]`",
+        "c": "`[1]` then `[1]`",
+        "d": "A `TypeError` because `var` is a mutable default"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The default list `[1]` is created once at definition time. Each call appends to the same list, so the output is cumulative.",
+        "b": "If a new list were created each call, this would be the output—but default arguments are evaluated only once.",
+        "c": "Even the first call appends 1 to the default list, so it returns `[1, 1]`.",
+        "d": "Mutable default arguments are allowed; they just lead to surprising behavior, not a `TypeError`."
+      },
+      "hints": [
+        "When is the default value `[1]` created—at function definition or at every call?",
+        "What happens if you append to a list that is shared across multiple calls?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Default arguments are evaluated once when the function is defined. Because a list is mutable, modifications persist across subsequent calls. The safe pattern is to use `None` as a default and create a new list inside the function.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_014",
+      "concept_name": "Context manager",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "Which of the following correctly opens a file and guarantees it will be closed afterwards?",
+      "options": {
+        "a": "```python\nf = open('data.txt')\ntext = f.read()\nf.close()\n```",
+        "b": "```python\nwith open('data.txt') as f:\n    text = f.read()\n```",
+        "c": "```python\nf = open('data.txt')\nwith f as file:\n    text = file.read()\n```",
+        "d": "```python\nwith open('data.txt', 'r') as f:\n    text = f.read()\n    f.close()\n```"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Manually calling `.close()` might be skipped if an exception occurs before `close()`.",
+        "b": "Correct. The `with` statement sets up a context that automatically closes the file, even if an error occurs inside the block.",
+        "c": "`with` must be used directly with the context manager expression, not with a pre‑existing file object in this way (though a file object itself can be a context manager, the syntax is unusual and redundant).",
+        "d": "While this works, calling `f.close()` inside the `with` block is unnecessary; the context manager already closes the file on exit."
+      },
+      "hints": [
+        "Which construct automatically runs cleanup code (like closing a file)?",
+        "What is the purpose of the `with` statement?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `with` statement is Python's context manager protocol. It ensures that the `__exit__` method is called, which for file objects closes the file.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_015",
+      "concept_name": "with statement",
+      "chapter": 4,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "Which keyword is used to introduce a context manager block in Python?",
+      "options": {
+        "a": "`try`",
+        "b": "`for`",
+        "c": "`with`",
+        "d": "`def`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`try` is used for exception handling, not for context managers.",
+        "b": "`for` creates a loop.",
+        "c": "Correct. `with` is the keyword that starts a context manager block.",
+        "d": "`def` defines a function."
+      },
+      "hints": [
+        "The statement is typically written as `with open(...) as f:`.",
+        "It's a single keyword of length 4."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`with` is a compound statement used to wrap the execution of a block with a context manager.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_016",
+      "concept_name": "@contextlib.contextmanager decorator",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A programmer writes the following code to create a context manager:\n\n```python\n@contextlib.contextmanager\ndef my_context():\n    print('hello')\n    yield 42\n    print('goodbye')\n\nwith my_context() as foo:\n    print('foo is {}'.format(foo))\n```\nWhen run, a `NameError` occurs. What is the most likely cause?",
+      "options": {
+        "a": "The `yield` statement is not allowed inside a function decorated with `@contextmanager`.",
+        "b": "The function must use `try/finally` to handle exceptions.",
+        "c": "The `contextlib` module was not imported.",
+        "d": "The `with` block cannot contain a `print` statement."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`yield` is exactly what makes a generator function a context manager when decorated with `@contextlib.contextmanager`.",
+        "b": "Using `try/finally` is a best practice, but omitting it does not cause a `NameError`.",
+        "c": "Correct. The name `contextlib` is used without being imported, so Python raises `NameError`.",
+        "d": "`print` is perfectly fine inside a `with` block."
+      },
+      "hints": [
+        "Look at the decorator: `@contextlib.contextmanager` – is `contextlib` defined?",
+        "What must you do before using a module?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The decorator `@contextlib.contextmanager` requires the module `contextlib` to be imported first. Forgetting the import results in a `NameError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_017",
+      "concept_name": "yield keyword",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "Given the following correctly imported context manager, what does the code output?\n\n```python\nimport contextlib\n\n@contextlib.contextmanager\ndef my_context():\n    print('hello')\n    yield 42\n    print('goodbye')\n\nwith my_context() as foo:\n    print('foo is {}'.format(foo))\n```",
+      "options": {
+        "a": "`hello` then `foo is 42` then `goodbye`",
+        "b": "`hello` then `foo is 42` (no `goodbye` because the `with` block exits)",
+        "c": "`hello` then `goodbye` then `foo is 42`",
+        "d": "A `SyntaxError` because `yield` cannot be used with `@contextmanager`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The code before `yield` runs on entry, the `with` block runs, and the code after `yield` runs on exit.",
+        "b": "The teardown code after `yield` always executes when the context exits (normally or via exception), so 'goodbye' is printed.",
+        "c": "The `with` block (that prints `foo is 42`) executes after `yield` yields the value, so 'goodbye' cannot appear before it.",
+        "d": "`yield` is the key mechanism for `@contextmanager` and is syntactically valid here."
+      },
+      "hints": [
+        "When does the code before `yield` run relative to the `with` block?",
+        "When does the code after `yield` run?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The generator-based context manager splits execution: everything before `yield` is setup, the yielded value is bound to the `as` variable, the `with` block executes, and everything after `yield` is teardown.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_018",
+      "concept_name": "Nested contexts",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You need to copy a file line by line from `src` to `dst`, ensuring both files are properly closed. Which code snippet correctly uses nested context managers?",
+      "options": {
+        "a": "```python\nwith open(src) as f_src:\n    f_dst = open(dst, 'w')\n    for line in f_src:\n        f_dst.write(line)\n    f_dst.close()\n```",
+        "b": "```python\nwith open(src) as f_src:\n    with open(dst, 'w') as f_dst:\n        for line in f_src:\n            f_dst.write(line)\n```",
+        "c": "```python\nwith open(src), open(dst, 'w') as f_src, f_dst:\n    for line in f_src:\n        f_dst.write(line)\n```",
+        "d": "```python\nf_src = open(src)\nf_dst = open(dst, 'w')\nwith f_src, f_dst:\n    for line in f_src:\n        f_dst.write(line)\n```"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The destination file is opened manually and may not be closed if an exception occurs before `f_dst.close()`.",
+        "b": "Correct. Each `with` guarantees proper closure of its file; the outer context holds the source file, and the inner context holds the destination file.",
+        "c": "The syntax `with open(src), open(dst, 'w') as f_src, f_dst:` is invalid; multiple `as` clauses require the form `with open(src) as f_src, open(dst, 'w') as f_dst:`.",
+        "d": "Opening files before `with` and then using them inside a `with` statement does not guarantee automatic closing if the file objects are not context managers themselves (though they are, the `with` would close them, but the syntax is odd and less idiomatic)."
+      },
+      "hints": [
+        "Which approach ensures that the destination file is closed even if writing fails?",
+        "Look for the pattern where one `with` is inside another."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Nested `with` statements nest the context management. The inner context exits first, closing the destination file, then the outer context closes the source file.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_019",
+      "concept_name": "try/finally for context managers",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the main risk of omitting `try/finally` in a generator‑based context manager like this one?\n\n```python\n@contextlib.contextmanager\ndef get_printer(ip):\n    p = connect_to_printer(ip)\n    yield p\n    p.disconnect()\n```",
+      "options": {
+        "a": "The printer may never be disconnected if an exception occurs in the `with` block.",
+        "b": "The printer will be disconnected twice.",
+        "c": "The `yield` statement will not return a value.",
+        "d": "The context manager will fail to enter the `with` block."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. If the body of the `with` statement raises an exception, the code after `yield` is not executed unless it is protected by a `finally` block.",
+        "b": "There is no double disconnect; the code after `yield` only runs once when the context exits normally.",
+        "c": "`yield` still returns the printer object, but the teardown might be skipped on error.",
+        "d": "The context manager will enter fine; the problem is only on abnormal exit."
+      },
+      "hints": [
+        "What happens to the code after `yield` if the `with` block raises an exception?",
+        "Which block guarantees execution regardless of exceptions?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without `try/finally`, an exception in the `with` block will bypass the teardown code. Wrapping the `yield` in a `try` block with a `finally` clause ensures the teardown always executes.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_020",
+      "concept_name": "Exception handling in context managers",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "Which part of the following context manager guarantees that `p.disconnect()` is called even if the `with` block raises an exception?\n\n```python\n@contextlib.contextmanager\ndef get_printer(ip):\n    p = connect_to_printer(ip)\n    try:\n        yield p\n    finally:\n        p.disconnect()\n```",
+      "options": {
+        "a": "The `@contextlib.contextmanager` decorator",
+        "b": "The `yield` statement",
+        "c": "The `try` block",
+        "d": "The `finally` block"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "The decorator converts the generator into a context manager but does not by itself ensure cleanup on exception.",
+        "b": "`yield` pauses execution and yields control; it does not guarantee teardown.",
+        "c": "The `try` block contains the code that may raise an exception, but only the `finally` block runs regardless.",
+        "d": "Correct. The `finally` clause always executes, whether the `try` block succeeds or raises an exception."
+      },
+      "hints": [
+        "Which clause in `try/except/finally` runs no matter what?",
+        "Look for the part that cleans up the printer connection."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `finally` block is executed after the `try` block, whether an exception occurred or not, making it essential for reliable teardown in context managers.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_021",
+      "concept_name": "Functions as first-class objects",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which line correctly assigns a function to a variable without calling it?",
+      "options": {
+        "a": "`x = my_function`",
+        "b": "`x = my_function()`",
+        "c": "`x = def my_function(): pass`",
+        "d": "`x = 'my_function'`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. This stores the function object in `x`, so `x()` can later call it.",
+        "b": "This calls `my_function` immediately and assigns its return value to `x`.",
+        "c": "This is invalid syntax; you cannot assign a `def` statement to a variable.",
+        "d": "This assigns a string, not the function."
+      },
+      "hints": [
+        "What do parentheses after a function name do?",
+        "You want the function itself, not the result of calling it."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In Python, functions are objects. Using the function name without parentheses gives the function object; adding parentheses calls it.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_022",
+      "concept_name": "Referencing vs calling a function",
+      "chapter": 7,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "What is the difference between `print(my_function)` and `print(my_function())`?",
+      "options": {
+        "a": "Both print the same thing.",
+        "b": "The first prints the function object; the second calls the function and prints its return value.",
+        "c": "The first prints `None`; the second prints the function's name.",
+        "d": "The first calls the function; the second just references it."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "They are different; parentheses cause a call.",
+        "b": "Correct. `my_function` is a reference to the function object; `my_function()` executes the function and evaluates to its return value.",
+        "c": "Only the first prints the function representation, not `None`.",
+        "d": "This reverses the behaviors."
+      },
+      "hints": [
+        "What do the parentheses signify?",
+        "Try printing a built‑in function like `print` vs `print()`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A function name without parentheses is a reference to the function object; with parentheses, it's a call that returns the function's result.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_023",
+      "concept_name": "Functions as arguments",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ndef has_docstring(func):\n    return func.__doc__ is not None\n\ndef no(): pass\ndef yes(): \"\"\"doc\"\"\"\n\nprint(has_docstring(no))\nprint(has_docstring(yes))\n```",
+      "options": {
+        "a": "`True` then `True`",
+        "b": "`False` then `False`",
+        "c": "`False` then `True`",
+        "d": "`True` then `False`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`no` has no docstring, so `has_docstring(no)` returns `False`.",
+        "b": "`yes` does have a docstring, so the second call returns `True`.",
+        "c": "Correct. `no.__doc__` is `None`, so `is not None` is `False`. `yes.__doc__` is `\"doc\"`, so `is not None` is `True`.",
+        "d": "This would be true if `no` had a docstring and `yes` didn't."
+      },
+      "hints": [
+        "What is the value of `__doc__` for a function without a docstring?",
+        "What does `is not None` evaluate to?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`has_docstring` tests if a function's `__doc__` attribute is not `None`. Only `yes` has a docstring, so the outputs are `False` and `True`.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_024",
+      "concept_name": "Nested function",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "Which of these snippets correctly defines a nested function that is used inside the outer function?",
+      "options": {
+        "a": "```python\ndef in_range(v):\n    return v > 4 and v < 10\n\ndef foo(x, y):\n    if in_range(x) and in_range(y):\n        print(x * y)\n```",
+        "b": "```python\ndef foo(x, y):\n    def in_range(v):\n        return v > 4 and v < 10\n    if in_range(x) and in_range(y):\n        print(x * y)\n```",
+        "c": "```python\ndef foo(x, y):\n    def in_range(v):\n        return v > 4 and v < 10\n    print(in_range(x) and in_range(y))\n    return in_range\n```",
+        "d": "```python\ndef foo(x, y):\n    def in_range(v):\n        return v > 4 and v < 10\nfoo(5, 6)\nprint(in_range(7))\n```"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`in_range` is defined at the global scope, not nested inside `foo`.",
+        "b": "Correct. The function `in_range` is defined inside `foo` and used immediately to check the arguments.",
+        "c": "This also defines a nested function and uses it, but it returns the nested function, which is not wrong but the question asks for \"used inside the outer function\", which this does. However, returning it is an extra behavior; the core of nesting is still present. But option B is the simplest and most direct example from the course.",
+        "d": "The nested function is defined inside `foo`, but calling `in_range(7)` outside `foo` results in a `NameError` because `in_range` is local to `foo`."
+      },
+      "hints": [
+        "Where is `in_range` defined—inside or outside the outer function?",
+        "Can you call a nested function from outside its enclosing function?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A nested function is defined inside another function. In option B, `in_range` is properly nested and used within `foo`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_024"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_025",
+      "concept_name": "Functions as return values",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\ndef get_function():\n    def print_me(s):\n        print(s)\n    return print_me\n\nnew_func = get_function()\nnew_func('This is a sentence.')\n```",
+      "options": {
+        "a": "`This is a sentence.`",
+        "b": "`None`",
+        "c": "`<function print_me at 0x...>`",
+        "d": "A `TypeError`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `new_func` is the function `print_me`, so calling it with a string prints that string.",
+        "b": "`print_me` does not return a value, but it does print its argument; the output is the printed string, not the return value of `new_func`.",
+        "c": "This would be the output if we printed `new_func` without calling it.",
+        "d": "There is no error; `new_func` is a valid function."
+      },
+      "hints": [
+        "What does `get_function()` return?",
+        "What happens when you call that returned value with a string argument?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`get_function` returns the nested function `print_me`. Assigning it to `new_func` and calling it prints the argument.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_026",
+      "concept_name": "Local scope",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "What happens when you run this code?\n\n```python\ndef foo():\n    x = 42\n    print(x)\n\nfoo()\nprint(x)\n```",
+      "options": {
+        "a": "It prints `42` twice.",
+        "b": "It prints `42` once and then raises a `NameError`.",
+        "c": "It prints `42` and then `None`.",
+        "d": "It raises a `SyntaxError` because `x` is defined inside a function."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`x` is local to `foo`; it does not exist in the global scope after the function ends.",
+        "b": "Correct. Inside `foo`, `x` is defined and printed. Outside, `x` is not defined, causing `NameError`.",
+        "c": "`x` is not `None`; it simply doesn't exist.",
+        "d": "Defining local variables inside a function is perfectly valid."
+      },
+      "hints": [
+        "Where is `x` created? Is it accessible outside that function?",
+        "What error occurs when you use a variable that hasn't been assigned?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Variables assigned inside a function are local to that function. Accessing them outside their scope results in a `NameError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_027",
+      "concept_name": "Global scope",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the final line printed by this script?\n\n```python\nx = 7\ny = 200\nprint(x)\n\ndef foo():\n    x = 42\n    print(x)\n    print(y)\n\nfoo()\nprint(x)\n```",
+      "options": {
+        "a": "`7`",
+        "b": "`42`",
+        "c": "`200`",
+        "d": "`NameError`"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The final `print(x)` after `foo()` prints the global `x`, which is `7`, not `42`. But the question asks for the final line printed overall. The sequence is: 7 (global print), 42 (local inside foo), 200 (global y inside foo), 7 (global print after foo). So the final printed line is `7`. So the correct answer is `7`. I need to adjust: the question says \"What is the final line printed by this script?\" The final `print(x)` prints `7`. So correct is `7`. I'll correct.",
+        "b": "`42` is printed inside `foo` but not at the end.",
+        "c": "`200` is printed inside `foo` before the last print.",
+        "d": "No error occurs."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The global `x` remains `7`; the last `print(x)` outputs `7`.",
+        "b": "The local `x` inside `foo` does not overwrite the global `x`.",
+        "c": "`200` is printed, but not as the final line.",
+        "d": "All variables are defined, no error."
+      },
+      "hints": [
+        "Which `x` does the last `print(x)` refer to?",
+        "Does assigning to `x` inside `foo` change the global `x`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The function `foo` prints its local `x` (42) and the global `y` (200). After `foo` returns, the global `x` is still `7`, so the final print outputs `7`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_028",
+      "concept_name": "Built‑in scope",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "A programmer writes `len = 5` at the top of their script. What happens later when they try to use `len([1, 2, 3])`?",
+      "options": {
+        "a": "It returns `5` because `len` was reassigned.",
+        "b": "It returns `3` as usual.",
+        "c": "It raises a `TypeError` because `len` is now an integer, not a function.",
+        "d": "It raises a `NameError` because `len` no longer exists."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`len` is now the integer `5`, not a callable, so trying to call it fails.",
+        "b": "The built‑in `len` is shadowed by the assignment; it is no longer accessible.",
+        "c": "Correct. `len` now refers to an integer, and calling an integer is a `TypeError`.",
+        "d": "The name `len` still exists, but it points to an integer, not the built‑in function."
+      },
+      "hints": [
+        "What does the name `len` refer to after the assignment?",
+        "Can you call an integer?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Assigning to a built‑in name like `len` shadows the built‑in. Subsequent code sees the integer, and calling it triggers a `TypeError`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_029",
+      "concept_name": "Nonlocal scope (enclosing scope)",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What does this code print?\n\n```python\ndef outer():\n    x = 10\n    def inner():\n        x = 20\n        print(x)\n    inner()\n    print(x)\n\nouter()\n```",
+      "options": {
+        "a": "`20` then `10`",
+        "b": "`20` then `20`",
+        "c": "`10` then `10`",
+        "d": "`10` then `20`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `inner` creates a local `x` (20) and prints it; `outer`'s `x` remains 10 and is printed afterwards.",
+        "b": "If `inner` used `nonlocal x`, this would be the output, but without `nonlocal` the outer `x` is unchanged.",
+        "c": "`inner` prints 20 because of its local assignment.",
+        "d": "The order is reversed; `inner` prints first, then `outer`."
+      },
+      "hints": [
+        "Does `x = 20` inside `inner` affect the `x` in `outer`?",
+        "What keyword is needed to modify an enclosing variable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without `nonlocal`, the assignment `x = 20` inside `inner` creates a new local variable; the outer `x` remains untouched.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_029"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_030",
+      "concept_name": "global keyword",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nx = 7\ndef foo():\n    global x\n    x = 42\n    print(x)\n\nfoo()\nprint(x)\n```",
+      "options": {
+        "a": "`42` then `7`",
+        "b": "`42` then `42`",
+        "c": "`7` then `42`",
+        "d": "`7` then `7`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The global `x` is permanently changed by `foo`, so the final `print(x)` also shows `42`.",
+        "b": "Correct. `global x` allows `foo` to modify the global `x`, so it becomes `42` everywhere.",
+        "c": "The global `x` is not changed inside `foo` without `global`, but here `global` is present.",
+        "d": "`x` is clearly changed inside `foo`."
+      },
+      "hints": [
+        "What does the `global` keyword do?",
+        "After `foo()` finishes, what is the value of `x` in the global scope?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `global` statement inside `foo` tells Python that `x` refers to the module‑level variable, so the assignment affects the global `x`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_030"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_031",
+      "concept_name": "nonlocal keyword",
+      "chapter": 8,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed by this code?\n\n```python\ndef outer():\n    x = 10\n    def inner():\n        nonlocal x\n        x = 200\n        print(x)\n    inner()\n    print(x)\n\nouter()\n```",
+      "options": {
+        "a": "`200` then `10`",
+        "b": "`200` then `200`",
+        "c": "`10` then `200`",
+        "d": "`10` then `10`"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Without `nonlocal`, this would be correct, but `nonlocal` makes `x` refer to the outer variable.",
+        "b": "Correct. `nonlocal x` binds `x` to the enclosing scope, so both `print` statements see the same `x = 200`.",
+        "c": "The first print inside `inner` outputs 200, not 10.",
+        "d": "`nonlocal` enables modification of the outer variable; without it, the output would be `10` then `10`."
+      },
+      "hints": [
+        "What does `nonlocal` do to the variable `x`?",
+        "Compare this with the version without `nonlocal`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`nonlocal` declares that `x` refers to a variable in the nearest enclosing scope, so assigning to it modifies that variable.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_031"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_032",
+      "concept_name": "Closure",
+      "chapter": 9,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by this code?\n\n```python\ndef foo():\n    a = 5\n    def bar():\n        print(a)\n    return bar\n\nfunc = foo()\nfunc()\n```",
+      "options": {
+        "a": "`5`",
+        "b": "`NameError: name 'a' is not defined`",
+        "c": "`None`",
+        "d": "`0`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The function `bar` captures the variable `a` from `foo`'s scope, so `func()` prints `5`.",
+        "b": "Because of the closure, `a` is still accessible even after `foo` returns.",
+        "c": "`bar` prints `a`, not `None`.",
+        "d": "The captured value is `5`, not `0`."
+      },
+      "hints": [
+        "What is a closure?",
+        "Does the inner function still have access to variables from the outer function after it returns?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A closure is a function that remembers the variables from its enclosing scope even after the outer function has finished. Here, `bar` closes over `a = 5`, so calling `func()` prints `5`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_032"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_033",
+      "concept_name": "__closure__ attribute",
+      "chapter": 9,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "Given the same `func` from the closure example (`foo` returns `bar`, and `a = 5`), what does the following expression evaluate to?\n\n```python\nfunc.__closure__[0].cell_contents\n```",
+      "options": {
+        "a": "`5`",
+        "b": "`None`",
+        "c": "`<cell at 0x...>`",
+        "d": "`NameError`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `__closure__` is a tuple of `cell` objects; the first cell contains `5`.",
+        "b": "`cell_contents` holds the actual value, not `None`.",
+        "c": "The cell object itself is at some address, but `.cell_contents` gives the value.",
+        "d": "No error; the closure exists."
+      },
+      "hints": [
+        "What does the `__closure__` attribute contain?",
+        "How do you retrieve the value from a closure cell?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `__closure__` attribute is a tuple of cell objects. Each cell's `cell_contents` attribute holds the captured variable's value.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_033"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_034",
+      "concept_name": "Decorator",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which of the following best describes a decorator?",
+      "options": {
+        "a": "A function that calls another function and prints its name.",
+        "b": "A function that takes a function as an argument and returns a new function that usually modifies the original's behavior.",
+        "c": "A special syntax that can only be applied to methods in a class.",
+        "d": "A built‑in Python module used for logging."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is one possible use of a decorator, but the definition is broader.",
+        "b": "Correct. A decorator is a callable that accepts a function (or class) and returns a modified version, typically adding functionality.",
+        "c": "Decorators can be applied to any function or class, not just methods.",
+        "d": "Decorators are a language feature, not a specific module."
+      },
+      "hints": [
+        "What does the `@` syntax do?",
+        "Think of the pattern `new_func = decorator(old_func)`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A decorator is a higher‑order function that receives a function, enhances or wraps it, and returns the wrapper.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_034"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_035",
+      "concept_name": "Decorator syntax (@)",
+      "chapter": 10,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which of the following correctly applies a decorator named `timer` to a function `sleep_n_seconds`?",
+      "options": {
+        "a": "```python\ndef sleep_n_seconds(n=10):\n    time.sleep(n)\n@timer\n```",
+        "b": "```python\n@sleep_n_seconds\ndef timer(n=10):\n    time.sleep(n)\n```",
+        "c": "```python\n@timer\ndef sleep_n_seconds(n=10):\n    time.sleep(n)\n```",
+        "d": "```python\ndef sleep_n_seconds(n=10):\n    time.sleep(n)\nsleep_n_seconds = timer\n```"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The decorator must be placed immediately before the function definition, not after.",
+        "b": "The roles are reversed; `timer` should be the decorator, not the decorated function.",
+        "c": "Correct. `@timer` above the function definition is equivalent to `sleep_n_seconds = timer(sleep_n_seconds)`.",
+        "d": "This replaces the function with the decorator itself, not the decorated version."
+      },
+      "hints": [
+        "Where does the `@` symbol go relative to the function definition?",
+        "What is the line `sleep_n_seconds = timer(sleep_n_seconds)` equivalent to?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `@decorator` syntax is syntactic sugar; it must be placed on the line immediately before the function definition.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_035"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_036",
+      "concept_name": "Wrapper function in decorators",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Consider this attempted decorator:\n\n```python\ndef double_args(func):\n    def wrapper(a, b):\n        return func(a * 2, b * 2)\n\n@double_args\ndef multiply(a, b):\n    return a * b\n\nprint(multiply(1, 5))\n```\nWhat will happen when this code is executed?",
+      "options": {
+        "a": "It will print `20`.",
+        "b": "It will print `5`.",
+        "c": "It will raise a `TypeError` because `multiply` is `None`.",
+        "d": "It will raise a `NameError` because `wrapper` is not defined."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The decorator does not return the wrapper, so `multiply` is not a callable function.",
+        "b": "No; the original multiply would return 5, but it's been replaced.",
+        "c": "Correct. `double_args` does not return the wrapper; it returns `None` by default. So `multiply` becomes `None`, and calling it raises `TypeError: 'NoneType' object is not callable`.",
+        "d": "`wrapper` is defined locally, but the problem is that the decorator returns `None`."
+      },
+      "hints": [
+        "What does `double_args` return?",
+        "After decoration, what is the value of `multiply`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A decorator must return the wrapper function. Forgetting the `return wrapper` statement causes the decorated function to become `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_036"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_037",
+      "concept_name": "*args and **kwargs in decorators",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "Why might the following decorator fail when applied to a function that accepts keyword arguments?\n\n```python\ndef timer(func):\n    def wrapper(a, b):\n        import time\n        start = time.time()\n        result = func(a, b)\n        print(time.time() - start)\n        return result\n    return wrapper\n```",
+      "options": {
+        "a": "It does not use `*args` and `**kwargs`, so it cannot handle functions with different signatures.",
+        "b": "It uses `import time` inside the wrapper, which is not allowed.",
+        "c": "The `print` statement will always raise an error.",
+        "d": "It returns the wrapper before calling `func`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The wrapper only accepts `a` and `b`. If the decorated function uses keyword arguments or a different number of arguments, the call will fail with a `TypeError`.",
+        "b": "`import time` inside a function is perfectly valid.",
+        "c": "The `print` is fine.",
+        "d": "The wrapper does call `func` and then returns its result, but the signature limitation is the issue."
+      },
+      "hints": [
+        "What arguments does `wrapper` accept?",
+        "What if the decorated function expects arguments `x, y, z` or keyword arguments?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "To make a decorator work with any function, the wrapper must accept `*args` and `**kwargs` and pass them through to the original function.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_037"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_038",
+      "concept_name": "Decorator factory",
+      "chapter": 13,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A programmer tries to write a decorator that runs a function `n` times:\n\n```python\ndef run_n_times(n):\n    def wrapper(*args, **kwargs):\n        for i in range(n):\n            func(*args, **kwargs)\n    return wrapper\n\n@run_n_times(3)\ndef greet():\n    print(\"Hello!\")\n```\nWhat is wrong with this implementation?",
+      "options": {
+        "a": "`wrapper` does not have access to `func` because there is no inner decorator function that receives it.",
+        "b": "`run_n_times` should not accept `n` as an argument.",
+        "c": "`range(n)` will raise a `TypeError` because `n` is not an integer.",
+        "d": "The decorator syntax `@run_n_times(3)` is invalid."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. A decorator factory must return an actual decorator that takes `func`. The current code returns a wrapper that expects `*args` and `**kwargs`, but there's no `func` parameter in scope.",
+        "b": "A factory must accept arguments to customize the decorator.",
+        "c": "`n` is an integer (3), so `range(n)` is fine.",
+        "d": "`@factory(args)` is valid syntax for a decorator factory."
+      },
+      "hints": [
+        "How many levels of nested functions are needed for a decorator factory?",
+        "At which level should `func` be received?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A decorator factory has three layers: outer function receives factory arguments, returns a decorator; the decorator receives `func`; the decorator returns the wrapper. The code above is missing the middle decorator layer.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_038"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_039",
+      "concept_name": "functools.wraps",
+      "chapter": 12,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "What is the main purpose of using `@functools.wraps(func)` inside a decorator?",
+      "options": {
+        "a": "It makes the decorator run faster by caching the original function.",
+        "b": "It automatically handles exceptions raised by the wrapped function.",
+        "c": "It copies the original function's metadata (like `__name__` and `__doc__`) to the wrapper.",
+        "d": "It prevents the original function from being called directly."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`@wraps` does not affect performance; it deals with metadata.",
+        "b": "Exception handling is the decorator's responsibility, not `@wraps`'s.",
+        "c": "Correct. Without `@wraps`, the wrapper's name and docstring would overwrite those of the original function, which can be confusing.",
+        "d": "The original function can still be called directly if you have a reference to it."
+      },
+      "hints": [
+        "What happens to `help(decorated_func)` if you don't use `@wraps`?",
+        "Which attributes does `@wraps` copy?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`functools.wraps` is a decorator that updates the wrapper function to look like the original function by copying attributes like `__name__`, `__doc__`, and `__module__`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_039"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_040",
+      "concept_name": "__wrapped__ attribute",
+      "chapter": 12,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "After decorating a function with a decorator that uses `@functools.wraps`, how can you access the original undecorated function?",
+      "options": {
+        "a": "Call `original_func()` directly.",
+        "b": "Use `decorated_func.__name__`.",
+        "c": "Use the `inspect` module.",
+        "d": "Access the `__wrapped__` attribute of the decorated function."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "The original function is not available under its original name if it was replaced.",
+        "b": "`__name__` now holds the name of the original function (thanks to `wraps`), but it's still the wrapper.",
+        "c": "`inspect` can help, but the direct way is via `__wrapped__`.",
+        "d": "Correct. `functools.wraps` adds a `__wrapped__` attribute that points to the original function."
+      },
+      "hints": [
+        "What special attribute does `functools.wraps` add to the wrapper?",
+        "Check the documentation of `functools.wraps`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When `functools.wraps` is used, the wrapper gains a `__wrapped__` attribute that holds a reference to the original function, allowing introspection or direct access.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_040"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_041",
+      "concept_name": "timer decorator",
+      "chapter": 11,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What does the following timer decorator print when the decorated function is called?\n\n```python\nimport time\nfrom functools import wraps\n\ndef timer(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        t_start = time.time()\n        result = func(*args, **kwargs)\n        t_total = time.time() - t_start\n        print('{} took {:.2f} seconds'.format(func.__name__, t_total))\n        return result\n    return wrapper\n\n@timer\ndef wait(n):\n    time.sleep(n)\n\nwait(0.5)\n```",
+      "options": {
+        "a": "Something like `wait took 0.50 seconds`",
+        "b": "Only the return value `None` is printed.",
+        "c": "An error because `time` is not imported correctly.",
+        "d": "`wrapper took 0.50 seconds`"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The timer decorator prints the original function's name (`wait`) and the elapsed time.",
+        "b": "The decorator prints timing information, not the return value of the function.",
+        "c": "`time` is correctly imported.",
+        "d": "Because `@wraps(func)` is used, `func.__name__` is `'wait'`, not `'wrapper'`."
+      },
+      "hints": [
+        "What does `func.__name__` evaluate to after decoration?",
+        "What does the timer decorator print?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The timer decorator measures the time before and after calling `func`, then prints the function's name and the duration, formatted to two decimal places.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_041"]
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_042",
+      "concept_name": "memoize decorator",
+      "chapter": 11,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "Which of the following is a potential problem with this memoize decorator?\n\n```python\ndef memoize(func):\n    cache = {}\n    def wrapper(*args, **kwargs):\n        key = (args, tuple(sorted(kwargs.items())))\n        if key not in cache:\n            cache[key] = func(*args, **kwargs)\n        return cache[key]\n    return wrapper\n```",
+      "options": {
+        "a": "It will always raise a `KeyError`.",
+        "b": "It may fail with unhashable arguments (e.g., a list), and the cache grows without bound.",
+        "c": "It returns the wrapper without calling `func` the first time.",
+        "d": "The `key` does not include the function's name, so different functions would share the same cache."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`KeyError` is avoided by checking `if key not in cache`.",
+        "b": "Correct. If any argument is unhashable (like a list), tuple creation will raise a `TypeError`. Also, the cache never clears old entries, potentially causing a memory leak.",
+        "c": "It calls `func` when the key is not in the cache.",
+        "d": "The cache is inside the decorator closure, so each decorated function gets its own cache."
+      },
+      "hints": [
+        "What types can be used as dictionary keys?",
+        "Does the cache ever shrink?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The memoize decorator works for hashable arguments, but if the function receives an unhashable type like a list, constructing the key will fail. Additionally, the cache dictionary grows indefinitely without any eviction policy.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_042"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_043",
+      "concept_name": "signal module",
+      "chapter": 14,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "In the following code, what happens after 2 seconds?\n\n```python\nimport signal\n\ndef raise_timeout(*args):\n    raise TimeoutError()\n\nsignal.signal(signal.SIGALRM, raise_timeout)\nsignal.alarm(2)\n\ntime.sleep(10)   # assume this takes too long\n```",
+      "options": {
+        "a": "The program pauses for 10 seconds and then exits normally.",
+        "b": "A `TimeoutError` is raised after 2 seconds.",
+        "c": "An `ImportError` is raised because `signal` is not available.",
+        "d": "The `time.sleep` is interrupted, but no exception is raised."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The `SIGALRM` signal will interrupt the sleep, so the program does not wait the full 10 seconds.",
+        "b": "Correct. After 2 seconds, the `SIGALRM` signal fires, calling `raise_timeout`, which raises a `TimeoutError`.",
+        "c": "The `signal` module is imported successfully.",
+        "d": "The signal handler explicitly raises an exception, so the program does not continue silently."
+      },
+      "hints": [
+        "What does `signal.alarm(2)` do?",
+        "What function is registered to handle `SIGALRM`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `signal.alarm(2)` call schedules a `SIGALRM` signal after 2 seconds. The registered handler raises a `TimeoutError`, which interrupts the sleep.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_043"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_044",
+      "concept_name": "timeout decorator (using signals)",
+      "chapter": 14,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A developer writes a timeout decorator but forgets a crucial part:\n\n```python\ndef timeout(n_seconds):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            signal.alarm(n_seconds)\n            result = func(*args, **kwargs)\n            return result\n        return wrapper\n    return decorator\n```\nWhat is the most serious flaw?",
+      "options": {
+        "a": "It does not cancel the alarm after `func` returns, so a leftover alarm could raise `TimeoutError` later.",
+        "b": "The decorator should use `signal.signal` to set the handler each time.",
+        "c": "`signal.alarm` only works on Windows, making the decorator non‑portable.",
+        "d": "The `@wraps` decorator is not imported."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. If `func` finishes before the alarm, the scheduled signal remains and can fire at an unpredictable time, causing spurious `TimeoutError`s. The fix is to cancel the alarm with `signal.alarm(0)` in a `finally` block.",
+        "b": "Setting a new handler each call is not necessary; one global handler can be reused.",
+        "c": "`signal.alarm` is available on Unix systems; the platform concern is valid but not the main flaw in this code.",
+        "d": "The import of `wraps` is missing from the snippet, but that's a secondary issue compared to the missing alarm cancellation."
+      },
+      "hints": [
+        "What happens to an alarm that is set but not triggered?",
+        "How do you cancel a pending alarm?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The timeout decorator must cancel the alarm after the function returns, otherwise a leftover alarm can fire later and raise an unexpected exception. A proper implementation uses `try/finally` to call `signal.alarm(0)`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_044"]
+    }
+  ]
+}

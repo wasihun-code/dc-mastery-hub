@@ -1,0 +1,1059 @@
+{
+  "course_slug": "joining-data-in-sql",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_questions": 35,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "INNER JOIN",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is true about the result of this query?\n\n```sql\nSELECT *\nFROM presidents\nINNER JOIN prime_ministers\nON presidents.country = prime_ministers.country;\n```",
+      "options": {
+        "a": "All presidents are included, with NULLs for prime_minister where no match exists.",
+        "b": "The result contains exactly one row for every country that appears in both tables.",
+        "c": "Rows where the country appears in only one table are omitted from the output.",
+        "d": "The output has the same number of rows as the larger of the two tables."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "That describes a LEFT JOIN, not INNER JOIN. INNER JOIN excludes rows without a match in both tables.",
+        "b": "If a country appears multiple times in one table and once in the other, INNER JOIN can produce multiple rows for that country (one‑to‑many).",
+        "c": "Correct. INNER JOIN returns only rows where the join condition is satisfied in both tables; unmatched rows are dropped.",
+        "d": "An INNER JOIN can return fewer rows than either table, or more if there are multiple matches."
+      },
+      "hints": [
+        "Think about what happens to a president whose country is not in the prime_ministers table.",
+        "INNER JOIN discards rows that do not satisfy the ON condition."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "INNER JOIN keeps only the rows for which the ON condition is true in both tables. Rows from either table that lack a partner are excluded entirely. This is a foundational property that distinguishes INNER from outer joins.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "ON clause",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "The following query is meant to join `presidents` with `prime_ministers` on the country column. Why does it fail?\n\n```sql\nSELECT *\nFROM presidents\nINNER JOIN prime_ministers\nON presidents.country = country;\n```",
+      "options": {
+        "a": "The ON clause must come before the second table name.",
+        "b": "The column name `country` exists in both tables, making it ambiguous without a table qualifier.",
+        "c": "INNER JOIN requires the USING keyword when the column names match.",
+        "d": "The join condition must be placed in a WHERE clause, not in ON."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The syntax order is correct: `table1 JOIN table2 ON condition`.",
+        "b": "Correct. Because both tables have a `country` column, the unqualified `country` is ambiguous. You must write `prime_ministers.country` or use an alias.",
+        "c": "USING is a shorthand when column names match, but ON is perfectly valid when you qualify the columns.",
+        "d": "The join condition should go in ON; WHERE is for filtering rows after the join."
+      },
+      "hints": [
+        "Look at the right side of the ON condition – could the database tell which table’s `country` is meant?",
+        "When the same column name appears in both tables, you need to specify the table."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "An ambiguous column reference in the ON clause causes an error. The fix is to qualify the column with the table name: `ON presidents.country = prime_ministers.country`. This is a common beginner mistake when table names are omitted.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "USING clause",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What is the effect of using `USING(country)` in a join between `presidents` and `prime_ministers`?\n\n```sql\nSELECT *\nFROM presidents\nINNER JOIN prime_ministers\nUSING (country);\n```",
+      "options": {
+        "a": "Only the `country` column appears once in the result, even though it exists in both tables.",
+        "b": "The query fails because `country` must be written as `presidents.country`.",
+        "c": "All columns from both tables are kept, with `country` appearing twice.",
+        "d": "USING works only with LEFT JOIN, not INNER JOIN."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. With USING, the join column appears only once in the output, and you can reference it without a table qualifier.",
+        "b": "USING is designed for the case where column names match; no table prefix is needed inside the parentheses.",
+        "c": "That happens with ON – USING merges the identical column into one occurrence.",
+        "d": "USING works with INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN."
+      },
+      "hints": [
+        "Think about how USING simplifies the column list when both tables share a column name.",
+        "USING merges the join column – what does that mean for the output?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "USING is a syntactic shortcut when the join column name is identical in both tables. It automatically merges that column into one copy in the result set and eliminates the need for table qualifiers in the condition.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_003"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_004",
+      "concept_name": "Table alias",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You need to join `presidents` (alias `p1`) and `prime_ministers` (alias `p2`) on `country`. Which snippet correctly uses table aliases?",
+      "options": {
+        "a": "```sql\nSELECT p2.country, prime_minister\nFROM presidents AS p1\nINNER JOIN prime_ministers AS p2\nON p1.country = p2.country;\n```",
+        "b": "```sql\nSELECT p2.country, prime_minister\nFROM presidents p1\nINNER JOIN prime_ministers p2\nON p1.country = p2.country;\n```",
+        "c": "```sql\nSELECT p2.country, prime_minister\nFROM presidents AS p1\nINNER JOIN prime_ministers AS p2\nON presidents.country = prime_ministers.country;\n```",
+        "d": "Both a and b are correct."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "This is valid: `AS` is explicitly used for the aliases.",
+        "b": "This is also valid: the `AS` keyword is optional; you can omit it.",
+        "c": "This works, but it does not actually use the aliases in the ON clause – it still uses the full table names. The question asks for correct alias usage, which both a and b demonstrate.",
+        "d": "Correct. Both a and b are syntactically correct ways to assign table aliases; `AS` is optional."
+      },
+      "hints": [
+        "Does SQL require the `AS` keyword when giving a table alias?",
+        "Check whether the alias is used consistently in the ON clause."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Table aliases can be defined with or without the `AS` keyword. Once defined, you should use the alias to qualify column names. Both forms are standard and interchangeable.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_005",
+      "concept_name": "Key (primary key)",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "In the database, `countries.code` is a primary key, while `cities.country_code` is a foreign key. How does using `code` vs `country_code` in a join affect the result?",
+      "options": {
+        "a": "Joining on a primary key always returns fewer rows than joining on a non‑key column.",
+        "b": "A join on a primary key ensures that each row from the primary‑key table appears at most once in the result (if the foreign key is unique), preventing accidental duplication.",
+        "c": "The join condition must always use the primary key column; otherwise the query is invalid.",
+        "d": "Using a primary key in the join guarantees that every row from both tables will be matched."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Not necessarily; it depends on the number of matching foreign‑key rows. One country can have many cities, resulting in more rows.",
+        "b": "Correct. A primary key is unique, so each value from that table matches at most once (unless the foreign key is not unique, then one‑to‑many). It protects against unintended row multiplication from duplicates on the key side.",
+        "c": "You can join on any column, but using a key is best practice to ensure reliable matching.",
+        "d": "The join still only matches rows that satisfy the condition; unmatched rows are excluded (INNER JOIN) or NULL‑filled (outer joins)."
+      },
+      "hints": [
+        "What property must a primary key have?",
+        "Think about what could go wrong if you join on a non‑unique column from the reference table."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Primary keys enforce uniqueness. When you join a table on its primary key, each value appears only once, so you won’t inadvertently multiply rows due to duplicate values on that side. This is essential for correct join logic.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_006",
+      "concept_name": "One-to-many relationship",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "The table `countries` has one row per country. The table `cities` has many rows per country (one per city). If you run:\n\n```sql\nSELECT c.country_name, ci.name\nFROM countries c\nINNER JOIN cities ci ON c.code = ci.country_code;\n```\nWhat can you expect about the number of rows returned?",
+      "options": {
+        "a": "Exactly one row per country, because each country can only appear once.",
+        "b": "One row for every city, with the country name repeated for each city in that country.",
+        "c": "The same number of rows as the `countries` table, because duplicate city entries are removed.",
+        "d": "A cross join of the two tables, because INNER JOIN without DISTINCT behaves like CROSS JOIN."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would be true if the relationship were one‑to‑one. Here, one country matches many cities, so the country row is repeated.",
+        "b": "Correct. The join duplicates the country information for each matching city, producing a row for every city.",
+        "c": "The join expands rows; the country side is duplicated for every matching city, so the result may have many more rows than the `countries` table.",
+        "d": "INNER JOIN does not become a cross join; it matches rows based on the ON condition, even though it may produce many rows."
+      },
+      "hints": [
+        "If a country has 5 cities, how many times should its name appear in the result?",
+        "INNER JOIN repeats parent‑table columns for each matching child row."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a one‑to‑many relationship, the join causes the columns from the ‘one’ side to be repeated for every matching row on the ‘many’ side. The result set size equals the number of rows in the ‘many’ table that satisfy the condition.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_007",
+      "concept_name": "One-to-one relationship",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Suppose `individuals` and `fingerprints` have a true one‑to‑one relationship on `passport_no`, and every individual has a fingerprint record. What does this query return?\n\n```sql\nSELECT i.name, f.fingerprint_data\nFROM individuals i\nLEFT JOIN fingerprints f ON i.passport_no = f.passport_no\nWHERE f.fingerprint_data IS NULL;\n```",
+      "options": {
+        "a": "All individuals, because LEFT JOIN always returns the left table rows.",
+        "b": "No rows, because every individual has a matching fingerprint.",
+        "c": "Only individuals whose fingerprints have NULL data.",
+        "d": "A syntax error – you cannot use IS NULL on a join result column."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "LEFT JOIN does return all left rows, but the WHERE clause filters out rows where `fingerprint_data` is not NULL. Since every individual has a fingerprint, no rows satisfy the IS NULL condition.",
+        "b": "Correct. Because the relationship is one‑to‑one and complete, every left row has a match, so `fingerprint_data` is never NULL for any individual. The WHERE clause eliminates all rows, leaving an empty result.",
+        "c": "There are no individuals with missing fingerprints in this dataset, so no row qualifies.",
+        "d": "Using IS NULL after an outer join is perfectly legal and often used to find unmatched rows."
+      },
+      "hints": [
+        "Think about the effect of the WHERE clause on the rows returned by the LEFT JOIN.",
+        "If every individual has exactly one fingerprint, will `fingerprint_data` ever be NULL?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a complete one‑to‑one relationship, the foreign‑key side has a match for every primary‑key row. Therefore, an outer join followed by `IS NULL` on the right‑side column will find no rows, because no right‑side values are missing.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007", "concept_009"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_008",
+      "concept_name": "Many-to-many relationship",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "You have `countries` and `languages` tables. A country can speak many languages, and a language can be spoken in many countries. To list each country with its official languages, which approach is correct?",
+      "options": {
+        "a": "```sql\nSELECT c.country_name, l.name\nFROM countries c\nINNER JOIN languages l ON c.code = l.code\nWHERE l.official = TRUE;\n```",
+        "b": "```sql\nSELECT c.country_name, l.name\nFROM countries c\nINNER JOIN languages l ON c.code = l.code\nWHERE l.official = TRUE\nGROUP BY c.country_name, l.name;\n```",
+        "c": "Join `countries` directly to `languages` on `code`; no junction table is needed because `languages` already contains the country code.",
+        "d": "Join `countries` to `languages` using `code`, filter `official = TRUE`, and optionally use DISTINCT if duplicates might occur; no junction table is required because `languages` already holds the country–language pairs."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "This query can return correct rows, but without DISTINCT or proper grouping, duplicates could appear if the same language is official and also has multiple entries. Option d explains the full correct approach.",
+        "b": "GROUP BY would work, but it's unnecessary if you use DISTINCT. The standard many‑to‑many pattern doesn’t require GROUP BY simply to list pairs.",
+        "c": "This statement describes the correct join. However, the question asks for the correct approach, and option d provides a full explanation including the potential need for DISTINCT.",
+        "d": "Correct. The `languages` table itself acts as the junction table because it contains the foreign keys `code` and `lang_id`. An INNER JOIN with filtering and possible DISTINCT is the right way to retrieve the many‑to‑many relationship."
+      },
+      "hints": [
+        "Look at the columns of the `languages` table – what foreign keys does it contain?",
+        "A many‑to‑many relationship often uses a junction table. Is `languages` itself serving as that junction?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In this dataset, the `languages` table already pairs countries and languages (via `code` and `lang_id`). It functions as the bridge for the many‑to‑many relationship. A simple INNER JOIN with the filter on `official` is correct, and DISTINCT can guard against any duplicate rows.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_008"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_009",
+      "concept_name": "LEFT JOIN",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "The `prime_ministers` table contains 10 rows. The `presidents` table contains 7 rows. Not all countries have both a prime minister and a president. What does this query return?\n\n```sql\nSELECT p1.country, prime_minister, president\nFROM prime_ministers AS p1\nLEFT JOIN presidents AS p2 USING(country);\n```",
+      "options": {
+        "a": "Exactly the 7 countries that have both a prime minister and a president.",
+        "b": "All 10 prime minister rows; for countries without a president, the president column is NULL.",
+        "c": "All 10 prime minister rows plus extra rows for presidents with no matching prime minister.",
+        "d": "A cartesian product of the two tables, returning 70 rows."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That describes an INNER JOIN, not a LEFT JOIN.",
+        "b": "Correct. LEFT JOIN keeps every row from the left table (`prime_ministers`). Where no matching president exists, the president column is NULL.",
+        "c": "LEFT JOIN does not add rows from the right table that lack a match; that would require a FULL JOIN.",
+        "d": "A LEFT JOIN with a proper ON/USING condition does not produce a cartesian product."
+      },
+      "hints": [
+        "Which table is on the left side of the JOIN?",
+        "What happens to a left‑table row that has no match in the right table?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "LEFT JOIN preserves all rows from the left table and fills columns from the right table with NULL when there is no match. Here, the left table is `prime_ministers`, so all 10 prime minister rows appear, with presidents shown only for matching countries.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_010",
+      "concept_name": "RIGHT JOIN",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```sql\nSELECT p1.country, prime_minister, president\nFROM prime_ministers AS p1\nRIGHT JOIN presidents AS p2 USING(country);\n```\nIf `presidents` has 7 rows and `prime_ministers` 10 rows, which statement is correct?",
+      "options": {
+        "a": "The output contains all 10 prime ministers, with NULLs for presidents that are missing.",
+        "b": "The output contains all 7 presidents; prime minister is NULL for countries that have a president but no prime minister.",
+        "c": "The output is the same as a FULL JOIN because all rows from both tables appear.",
+        "d": "The query fails because RIGHT JOIN cannot be used with USING."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That describes a LEFT JOIN with `prime_ministers` as the left table. Here the left table is `prime_ministers`, but RIGHT JOIN preserves the right table.",
+        "b": "Correct. RIGHT JOIN keeps every row from the right table (`presidents`). For countries where no prime minister exists, the prime minister column is NULL.",
+        "c": "A RIGHT JOIN only guarantees all rows from the right table, not the left. FULL JOIN would return all unmatched rows from both sides.",
+        "d": "RIGHT JOIN works with USING just like LEFT JOIN does."
+      },
+      "hints": [
+        "Which table is the ‘right’ table in this query?",
+        "RIGHT JOIN returns all rows from the right table – what happens to left‑table columns when there's no match?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "RIGHT JOIN is the mirror of LEFT JOIN: it preserves every row from the right table and fills left‑table columns with NULL when no match exists. Here, all presidents appear, with prime minister data only for matching countries.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_011",
+      "concept_name": "FULL JOIN",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Two tables: `monarchs` (4 rows) and `prime_ministers` (10 rows). Some individuals appear in both (e.g., Hassanal Bolkiah is both a monarch and a prime minister). What does the following return?\n\n```sql\nSELECT country, monarch, prime_minister\nFROM monarchs\nFULL JOIN prime_ministers USING(country);\n```",
+      "options": {
+        "a": "Only rows where the country has both a monarch and a prime minister.",
+        "b": "All distinct countries from either table. For a country with both roles, the row contains both columns; for a country with only one role, the other column is NULL.",
+        "c": "A cross join of the two tables, producing 40 rows.",
+        "d": "Exactly 14 rows – every row from both tables appears exactly once."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That is an INNER JOIN, not FULL JOIN.",
+        "b": "Correct. FULL JOIN returns all countries that exist in either table. When a match exists, both columns are filled; otherwise, the missing side is NULL.",
+        "c": "A FULL JOIN does not produce a Cartesian product; it matches on the join condition.",
+        "d": "FULL JOIN may return more or fewer than the sum of rows, because matching rows are merged into one row. The exact count depends on how many unique countries exist across both tables."
+      },
+      "hints": [
+        "What does FULL JOIN combine?",
+        "Consider a country that only appears in one table – how will it appear in the result?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "FULL JOIN merges the results of LEFT JOIN and RIGHT JOIN. It shows every country that appears in at least one of the tables. Where a country exists in both, the columns from both tables are populated; where only one has data, the other’s columns are NULL.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_012",
+      "concept_name": "CROSS JOIN",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "The `prime_ministers` table has 10 rows, `presidents` 7. What does the following query produce?\n\n```sql\nSELECT prime_minister, president\nFROM prime_ministers\nCROSS JOIN presidents;\n```",
+      "options": {
+        "a": "70 rows – every prime minister paired with every president.",
+        "b": "Only rows where the two persons come from the same country.",
+        "c": "10 rows, one per prime minister, with a random president assigned.",
+        "d": "An error because CROSS JOIN must have an ON clause."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. CROSS JOIN returns the Cartesian product: 10 × 7 = 70 combinations.",
+        "b": "That would require a join condition (INNER JOIN). CROSS JOIN has no condition and pairs everything with everything.",
+        "c": "CROSS JOIN pairs every left row with every right row; there are no arbitrary assignments.",
+        "d": "CROSS JOIN does not require an ON clause; adding one would make it an INNER JOIN."
+      },
+      "hints": [
+        "What does Cartesian product mean?",
+        "CROSS JOIN lacks a join condition – how does that affect the number of output rows?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "CROSS JOIN deliberately creates all possible combinations between the two tables. Without a WHERE filter, the result size is the product of the row counts.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_012"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_013",
+      "concept_name": "SELF JOIN",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this query return?\n\n```sql\nSELECT p1.country AS country1, p2.country AS country2, p1.continent\nFROM prime_ministers AS p1\nINNER JOIN prime_ministers AS p2\n    ON p1.continent = p2.continent\n    AND p1.country <> p2.country;\n```",
+      "options": {
+        "a": "A list of all possible pairs of distinct countries that share a continent, including both (A,B) and (B,A).",
+        "b": "Each country paired with itself once.",
+        "c": "A list of countries paired only with their immediate alphabetical neighbor on the same continent.",
+        "d": "An error because you cannot join a table to itself."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The condition `p1.country <> p2.country` eliminates self‑pairs. The join on continent creates all distinct cross‑pairings of countries within each continent, resulting in both orders.",
+        "b": "Self‑pairs are excluded by `p1.country <> p2.country`.",
+        "c": "There is no ordering condition; all distinct pairs on the same continent appear.",
+        "d": "Self joins are allowed by using different aliases for the same table."
+      },
+      "hints": [
+        "What is the purpose of `p1.country <> p2.country`?",
+        "If a continent has three countries, how many unordered pairs are there? What about ordered pairs?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A self‑join using different aliases treats the same table as if it were two separate tables. The inequality condition removes rows where a country is paired with itself, and the continent equality ensures only intra‑continent pairs appear. Both (A,B) and (B,A) are returned because the join does not enforce an order.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_014",
+      "concept_name": "UNION",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "You run:\n\n```sql\nSELECT monarch AS leader, country FROM monarchs\nUNION\nSELECT prime_minister, country FROM prime_ministers;\n```\nIf Hassanal Bolkiah appears in both tables with the same country, how many times does his row appear in the result?",
+      "options": {
+        "a": "Twice, because UNION ALL would be needed to remove duplicates.",
+        "b": "Once, because UNION removes duplicate rows.",
+        "c": "Zero, because UNION excludes rows that appear in both tables.",
+        "d": "The query fails because the column names differ in the two SELECTs."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "UNION (without ALL) explicitly eliminates duplicates. UNION ALL would keep both occurrences.",
+        "b": "Correct. UNION combines the two results and then removes duplicate rows, so each distinct (leader, country) appears only once.",
+        "c": "That is the behavior of EXCEPT, not UNION.",
+        "d": "The column names in the first SELECT define the output names; the second SELECT only needs matching data types and positions."
+      },
+      "hints": [
+        "What is the key difference between UNION and UNION ALL?",
+        "If the same person is both monarch and prime minister, does the combination (person, country) change?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "UNION deduplicates the entire row across both queries. Because Hassanal Bolkiah’s row is identical in both sources, it appears only once in the final result.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_015",
+      "concept_name": "UNION ALL",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "How does `UNION ALL` differ from `UNION` when used to combine two queries that each return 100 rows with 50 identical rows?",
+      "options": {
+        "a": "UNION ALL returns 200 rows; UNION returns 150 rows.",
+        "b": "UNION ALL returns 150 rows; UNION returns 100 rows.",
+        "c": "UNION ALL removes duplicates; UNION keeps them.",
+        "d": "Both return the same result set because the number of columns matches."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. UNION ALL keeps every row, so 100 + 100 = 200. UNION removes duplicates, so the 50 identical rows from each set are merged, leaving 100 + (100−50) = 150 distinct rows.",
+        "b": "This is backwards; UNION ALL keeps all rows, so the total is higher, not lower.",
+        "c": "It is the opposite: UNION removes duplicates; UNION ALL preserves them.",
+        "d": "Column matching is required for both, but the handling of duplicates is what makes the result set size different."
+      },
+      "hints": [
+        "How does each operation treat duplicate rows?",
+        "If you need a complete inventory including repeated entries, which one would you use?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "UNION ALL simply appends the rows of the second query to the first, preserving all duplicates. UNION performs an additional step to eliminate duplicate rows.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_016",
+      "concept_name": "INTERSECT",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Table `A` contains (1, 'x'), (2, 'y'), (3, 'z'). Table `B` contains (2, 'y'), (4, 'w'). What does the following return?\n\n```sql\nSELECT * FROM A INTERSECT SELECT * FROM B;\n```",
+      "options": {
+        "a": "(2, 'y')",
+        "b": "(1, 'x'), (2, 'y'), (3, 'z'), (4, 'w')",
+        "c": "An error because INTERSECT requires the tables to have the same primary key.",
+        "d": "(1, 'x'), (3, 'z')"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. INTERSECT returns only rows that appear in both result sets. (2, 'y') is the only common row.",
+        "b": "This would be the result of UNION ALL, not INTERSECT.",
+        "c": "INTERSECT does not require primary keys; it compares entire rows.",
+        "d": "Those rows are in A but not in B – that would be EXCEPT."
+      },
+      "hints": [
+        "Does INTERSECT find rows that exist in both queries?",
+        "Think about which row appears in both A and B."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "INTERSECT returns the intersection of two row sets. Only rows that are present in both A and B are included.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_017",
+      "concept_name": "EXCEPT",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Using the same tables A and B as above, what does `SELECT * FROM A EXCEPT SELECT * FROM B;` return?",
+      "options": {
+        "a": "(2, 'y')",
+        "b": "(1, 'x'), (3, 'z')",
+        "c": "(1, 'x'), (3, 'z'), (4, 'w')",
+        "d": "An empty set because A and B have different row counts."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That row exists in both tables, so it is subtracted and not returned.",
+        "b": "Correct. EXCEPT returns rows from the first query that do not appear in the second. (2, 'y') is removed because it is in B.",
+        "c": "(4, 'w') is from B and never appears in A, so it cannot be in A EXCEPT B.",
+        "d": "Row counts do not matter; EXCEPT compares the actual row values."
+      },
+      "hints": [
+        "EXCEPT subtracts the second result set from the first. Which rows are in A but not in B?",
+        "Think about set subtraction."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "EXCEPT effectively performs a set difference. It returns all distinct rows from the left query that are not found in the right query.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_018",
+      "concept_name": "Semi join",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "The `states` table contains an `indep_year` column. What does this query return?\n\n```sql\nSELECT president, country, continent\nFROM presidents\nWHERE country IN (SELECT country FROM states WHERE indep_year < 1800);\n```",
+      "options": {
+        "a": "All presidents, with an extra column showing the country’s independence year.",
+        "b": "Only the presidents whose country gained independence before 1800.",
+        "c": "All presidents and, for those whose country is in the subquery result, the `indep_year` is added; otherwise NULL.",
+        "d": "Every country from the `states` table, joined with its president if one exists."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The query does not bring any column from `states` into the SELECT list. It only filters presidents. That would require a join, not a semi join.",
+        "b": "Correct. The subquery in WHERE IN acts as a filter (semi join): it returns only those presidents whose country is among the ones that gained independence before 1800.",
+        "c": "The query does not add columns from `states`. It is a filter, not a join that adds columns.",
+        "d": "The outer query selects from `presidents`, not `states`, and the WHERE condition restricts rows, not expands them."
+      },
+      "hints": [
+        "Does the SELECT list include any column from the `states` table?",
+        "IN with a subquery typically implements a semi join – what does that mean for the output columns?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A semi join returns rows from the outer table that have a matching value in the inner table, without including any columns from the inner table. This query is a classic example: it lists presidents but only those whose country meets the independence‑year condition.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_018",
+      "concept_name": "Semi join",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A colleague writes this query to find European countries that have a monarch:\n\n```sql\nSELECT country_name\nFROM countries\nWHERE country_name IN (SELECT country FROM monarchs WHERE continent = 'Europe');\n```\nWhy might this return an empty result even though European monarchs exist in the `monarchs` table?",
+      "options": {
+        "a": "The subquery is missing a join condition between `countries` and `monarchs`.",
+        "b": "The column `country` in `monarchs` might contain NULL values, and IN with a subquery containing NULL can cause the entire condition to become unknown.",
+        "c": "Semi joins cannot be used with IN; they require EXISTS.",
+        "d": "The `continent` filter should be in the outer query, not inside the subquery."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The subquery is self‑contained and does not need a join to the outer table; it returns a list of country names.",
+        "b": "Correct. If the subquery returns any NULL in the `country` column, the `IN` condition may evaluate to NULL instead of TRUE, causing no rows to be returned. This is a notorious pitfall of NOT IN, but it also affects IN if the outer value doesn’t appear and a NULL exists – the result may be empty.",
+        "c": "Semi joins are commonly implemented with IN or EXISTS.",
+        "d": "The continent filter correctly belongs in the subquery to identify European monarchs."
+      },
+      "hints": [
+        "What happens if the subquery’s `country` column contains a NULL?",
+        "Read about the behavior of IN with a list that includes NULL."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "If the subquery returns NULL among its country values, the IN operator may fail to return TRUE for values that should match, because the comparison with NULL yields UNKNOWN. This can cause the entire WHERE clause to filter out all rows. Using `EXISTS` with a correlated subquery is safer.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018", "concept_028"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_019",
+      "concept_name": "Anti join",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "The `monarchs` table has 4 rows, one of which is (NULL, 'Europe', 'Some Monarch') – a country with NULL. What happens when you run?\n\n```sql\nSELECT country\nFROM prime_ministers\nWHERE country NOT IN (SELECT country FROM monarchs);\n```",
+      "options": {
+        "a": "All prime minister countries that are not in the monarchs table are returned, ignoring the NULL.",
+        "b": "The result is empty because the subquery contains a NULL.",
+        "c": "Only the prime minister countries that are also monarchs are returned.",
+        "d": "An error occurs because NOT IN does not allow a subquery."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That would be true if there were no NULLs in the subquery result. The presence of a NULL changes the behavior drastically.",
+        "b": "Correct. When the subquery returns a NULL, NOT IN evaluates to UNKNOWN for every row, so no rows satisfy the WHERE clause, resulting in an empty set.",
+        "c": "That would be a semi join, not an anti join.",
+        "d": "NOT IN works with subqueries; the issue is semantic, not syntactic."
+      },
+      "hints": [
+        "What is the logic of `x NOT IN (1, 2, NULL)`?",
+        "NOT IN returns TRUE only if the value is not equal to any element and there are no NULLs in the list. If a NULL exists, the result is never TRUE."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The NOT IN operator is notoriously dangerous when the subquery contains NULLs. Because `x NOT IN (..., NULL)` is equivalent to `x <> ... AND x <> NULL`, which always evaluates to UNKNOWN, the entire condition yields UNKNOWN for every row, effectively returning an empty result. This is why anti joins are often better expressed with NOT EXISTS.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019", "concept_028"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_019",
+      "concept_name": "Anti join",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A query meant to find countries that have a president but no prime minister:\n\n```sql\nSELECT country\nFROM presidents\nWHERE country NOT IN (SELECT country FROM prime_ministers WHERE country IS NOT NULL);\n```\nThe prime_ministers table has a row where country is NULL. Will this query work reliably?",
+      "options": {
+        "a": "Yes, because the subquery filters out NULLs explicitly.",
+        "b": "No, because even with the filter, NOT IN can still be affected if the outer table has NULLs.",
+        "c": "Yes, the query is completely safe.",
+        "d": "No, because NOT IN cannot be used with subqueries on columns that may be NULL in the outer table."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. By adding `WHERE country IS NOT NULL` inside the subquery, you eliminate the NULL from the list, so NOT IN will behave as expected.",
+        "b": "Once the subquery no longer contains NULL, NOT IN works correctly. NULLs in the outer table’s `country` column would simply be excluded because `NULL NOT IN (non‑null list)` is UNKNOWN.",
+        "c": "It works precisely because the dangerous NULL has been filtered out. Without that filter, it would be unreliable.",
+        "d": "NOT IN can be used safely if you ensure the subquery does not return NULL."
+      },
+      "hints": [
+        "What does the inner WHERE clause do?",
+        "After the filter, can the subquery still contain a NULL?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Filtering out NULLs inside the subquery makes NOT IN safe. The lesson is that you must guard against NULLs when using NOT IN. Alternatively, NOT EXISTS avoids this problem entirely.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_020",
+      "concept_name": "Subquery",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "You need to list all countries whose GDP per capita is above the worldwide average. Which approach uses a subquery correctly?",
+      "options": {
+        "a": "```sql\nSELECT country_name, gdp_percapita\nFROM countries\nJOIN economies ON countries.code = economies.code\nWHERE gdp_percapita > AVG(gdp_percapita);\n```",
+        "b": "```sql\nSELECT country_name, gdp_percapita\nFROM countries\nJOIN economies ON countries.code = economies.code\nWHERE gdp_percapita > (SELECT AVG(gdp_percapita) FROM economies);\n```",
+        "c": "```sql\nSELECT country_name, gdp_percapita\nFROM countries\nWHERE gdp_percapita > (SELECT AVG(gdp_percapita) FROM countries);\n```",
+        "d": "```sql\nSELECT country_name, gdp_percapita\nFROM countries, economies\nWHERE gdp_percapita > (SELECT AVG(gdp_percapita) FROM economies WHERE code = countries.code);\n```"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`AVG` is an aggregate function and cannot be used directly in a WHERE clause without a subquery or GROUP BY.",
+        "b": "Correct. The scalar subquery computes the overall average GDP per capita, and each row’s `gdp_percapita` is compared against that single value.",
+        "c": "`gdp_percapita` is not a column in the `countries` table; it’s in `economies`. This query would fail.",
+        "d": "This would produce a correlated subquery that returns the average for only the current country, not the global average."
+      },
+      "hints": [
+        "Where is the `gdp_percapita` column located?",
+        "A subquery in the WHERE clause can return a single value for comparison – what aggregation would give the global average?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A scalar subquery in the WHERE clause can provide a value (the global average) to compare each row against. The correct version joins `countries` with `economies` to access `gdp_percapita` and uses an uncorrelated subquery for the average.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_020",
+      "concept_name": "Subquery",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "This query is intended to find countries that have a population larger than that of any single country in Asia. What is wrong?\n\n```sql\nSELECT country_name\nFROM countries\nWHERE (SELECT size FROM populations\n       WHERE country_code = countries.code AND year = 2015)\n      > (SELECT MAX(size) FROM populations\n         JOIN countries ON populations.country_code = countries.code\n         WHERE continent = 'Asia');\n```",
+      "options": {
+        "a": "The subquery in the WHERE clause might return multiple rows, causing an error.",
+        "b": "The inner subquery uses `MAX(size)`, which cannot be compared with a subquery result.",
+        "c": "The correlated subquery should use `continent = 'Asia'` directly, not a join.",
+        "d": "The query is syntactically correct but may be inefficient; it should use `ANY`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The subquery `(SELECT size FROM populations WHERE ...)` could return more than one row if there are multiple population entries for that country (e.g., different years, although filtered for 2015, but if multiple rows exist for the same year, it could still happen). However, the real danger is that if the filter doesn’t guarantee a single row, the scalar subquery will fail. In this case, the structure is safe because `country_code` and `year` should uniquely identify a row, but the question is about potential issues – and a common mistake is forgetting that a scalar subquery must return exactly one row.",
+        "b": "`MAX(size)` returns a scalar; comparing a scalar with another scalar is fine.",
+        "c": "The join is needed to filter by continent, so it is correct.",
+        "d": "Efficiency is not the primary problem; the query may work if the first subquery guarantees a single row. But the prompt is about what is wrong, and option a highlights the most frequent pitfall: assuming a scalar subquery always returns one row."
+      },
+      "hints": [
+        "What must be true about a subquery that is used as a single value?",
+        "Check if the subquery could potentially return more than one row."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A scalar subquery (used in a comparison) must return exactly one value. If the data allows multiple rows for the same country and year, the query will raise an error. Ensuring the subquery returns a single row (e.g., by using `MAX` or proper filters) is crucial.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_021",
+      "concept_name": "WHERE clause (with subqueries)",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does the following query return?\n\n```sql\nSELECT country\nFROM presidents\nWHERE country IN (SELECT country FROM states WHERE indep_year > 1900);\n```\n(The `states` table contains independence years for countries.)",
+      "options": {
+        "a": "All presidents, because the subquery returns a list of all countries.",
+        "b": "Presidents of countries that gained independence after 1900.",
+        "c": "An error: subquery cannot be used with IN when the outer table has a different column name.",
+        "d": "Only the countries that have both a president and an independence year after 1900, but without any president name."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The subquery filters to only countries with `indep_year > 1900`, not all countries.",
+        "b": "Correct. The WHERE IN implements a semi join, filtering `presidents` to those whose country appears in the subquery result.",
+        "c": "Column names do not need to match; the subquery just returns a list of values to compare with `country`.",
+        "d": "The SELECT clause includes `country`, not the president name, but that's what was written. The logic of filtering is correct."
+      },
+      "hints": [
+        "Read the subquery: which countries does it return?",
+        "What does `country IN (subquery result)` do to the outer rows?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using IN with a subquery in the WHERE clause is a common way to perform a semi join. It restricts the outer query to rows that have a match in the inner query’s result.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_021", "concept_018"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_022",
+      "concept_name": "Subquery in SELECT clause",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "Consider:\n\n```sql\nSELECT DISTINCT continent,\n       (SELECT COUNT(*)\n        FROM monarchs\n        WHERE monarchs.continent = states.continent) AS monarch_count\nFROM states;\n```\nWhat does the scalar subquery count?",
+      "options": {
+        "a": "The total number of monarchs in the entire world.",
+        "b": "For each continent, the number of monarchs whose continent matches that continent.",
+        "c": "The number of states that have at least one monarch.",
+        "d": "The query fails because the subquery references `states.continent` without a join."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The subquery is correlated: `monarchs.continent = states.continent` limits the count to the current row’s continent.",
+        "b": "Correct. This is a correlated scalar subquery in the SELECT list; for each row from `states`, it counts the monarchs in the same continent.",
+        "c": "It counts monarchs, not states.",
+        "d": "The correlation `states.continent` is allowed because the outer query is processing rows from `states`; this is a correlated subquery."
+      },
+      "hints": [
+        "Look at the WHERE clause inside the subquery – what does it compare?",
+        "Correlated subqueries can reference columns from the outer query."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A subquery in the SELECT list that references the outer query is evaluated once for each outer row. Here, for each continent that appears in `states`, it computes the count of monarchs from that same continent.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_022", "concept_024"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_023",
+      "concept_name": "Subquery in FROM clause",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with this query?\n\n```sql\nSELECT continent, most_recent\nFROM (SELECT continent, MAX(indep_year) AS most_recent\n      FROM states\n      GROUP BY continent)\nORDER BY continent;\n```",
+      "options": {
+        "a": "The subquery in the FROM clause must be given an alias.",
+        "b": "You cannot use ORDER BY on a column from a subquery.",
+        "c": "GROUP BY inside a subquery is not allowed.",
+        "d": "The subquery must include all columns used in the outer SELECT."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. In standard SQL, every derived table (subquery in FROM) must have an alias. This query lacks `AS sub` or similar after the closing parenthesis.",
+        "b": "ORDER BY works perfectly on columns produced by a subquery, provided the subquery has an alias.",
+        "c": "GROUP BY is allowed in subqueries; it’s a common pattern for aggregation.",
+        "d": "The outer SELECT can choose any columns that the subquery exposes."
+      },
+      "hints": [
+        "What is the SQL requirement for a subquery used as a table source?",
+        "Remember the syntax: `FROM (subquery) AS alias`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A subquery in the FROM clause is treated as a temporary table and must be given an alias. The correct syntax would end with `) AS sub` (or similar) before ORDER BY.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_024",
+      "concept_name": "Correlated subquery",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "This query intends to find presidents whose country’s independence year is greater than the average independence year of all countries on the same continent. What does it actually do?\n\n```sql\nSELECT president, country\nFROM presidents\nWHERE country IN (SELECT country FROM states s2\n                  WHERE indep_year > (SELECT AVG(indep_year)\n                                     FROM states s3\n                                     WHERE s3.continent = s2.continent));\n```",
+      "options": {
+        "a": "It works as intended; the inner correlated subquery computes the continent‑specific average.",
+        "b": "It fails because `s2.continent` is not accessible inside the innermost subquery.",
+        "c": "It returns all presidents regardless of independence year.",
+        "d": "It finds presidents of countries whose independence year is above the global average, not continental."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The innermost subquery is correlated with `s2` from the middle subquery, so it calculates the average for the same continent. The logic is sound.",
+        "b": "Correlation can span multiple levels; `s2.continent` is available because it is part of the same query statement.",
+        "c": "The WHERE condition filters based on the subquery result.",
+        "d": "The correlation `s3.continent = s2.continent` ties the average to each continent, not the global average."
+      },
+      "hints": [
+        "Which subquery references `s2`?",
+        "Trace the correlation: does it properly restrict the average to the continent of the current `s2` row?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "This is a valid use of correlated subqueries across two levels. The innermost query computes the average `indep_year` for the continent of the current `s2` row. Then the middle query selects those countries whose independence year exceeds that average. Finally, the outer query finds presidents from those countries.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_024"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_025",
+      "concept_name": "Multiple joins (chaining)",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "You have tables: `prime_ministers` (country, pm), `presidents` (country, president), `prime_minister_terms` (pm, start_year). You want each country’s prime minister, president, and the year the prime minister started. Which query chains two inner joins correctly?",
+      "options": {
+        "a": "```sql\nSELECT p.country, pm.prime_minister, pr.president, t.pm_start\nFROM prime_ministers pm\nINNER JOIN presidents pr ON pm.country = pr.country\nINNER JOIN prime_minister_terms t ON pm.prime_minister = t.prime_minister;\n```",
+        "b": "```sql\nSELECT p.country, pm.prime_minister, pr.president, t.pm_start\nFROM prime_ministers pm\nINNER JOIN presidents pr USING(country)\nINNER JOIN prime_minister_terms t ON pm.prime_minister = t.prime_minister;\n```",
+        "c": "```sql\nSELECT p.country, pm.prime_minister, pr.president, t.pm_start\nFROM prime_ministers pm\nJOIN presidents pr ON pm.country = pr.country\nJOIN prime_minister_terms t WHERE pm.prime_minister = t.prime_minister;\n```",
+        "d": "Both a and b are correct."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "This is valid: it chains two INNER JOINs with ON conditions.",
+        "b": "This is also valid: it uses USING for the first join and ON for the second. Both produce the same rows.",
+        "c": "The second condition is in WHERE, but for an INNER JOIN that is logically equivalent. However, the syntax `JOIN ... WHERE` without an ON clause for the second join would cause a cross join error in standard SQL. Option c is therefore incorrect.",
+        "d": "Correct. Both a and b correctly chain the joins using proper join conditions."
+      },
+      "hints": [
+        "Can you mix USING and ON in the same query?",
+        "Check the syntax of the second join in option c – does it have an ON clause?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Both a and b correctly chain multiple joins. Option a uses explicit ON for each join; option b uses USING for the first join and ON for the second, which is perfectly legal. The alias usage is also correct.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_026",
+      "concept_name": "Joining on multiple keys",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Two tables have a composite key: `id` and `date`. What does this query return?\n\n```sql\nSELECT *\nFROM left_table\nINNER JOIN right_table\n    ON left_table.id = right_table.id\n    AND left_table.date = right_table.date;\n```",
+      "options": {
+        "a": "All rows from `left_table` paired with any row from `right_table` that matches on `id` only.",
+        "b": "Only rows where both `id` and `date` match between the two tables.",
+        "c": "A Cartesian product of rows that share the same `id`.",
+        "d": "An error because you cannot have multiple conditions in an ON clause."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The AND condition requires both `id` and `date` to match. Matching only on `id` would be a separate join condition.",
+        "b": "Correct. The AND ensures that both columns must be equal for a row to be included.",
+        "c": "That would happen if you only joined on `id` and there were multiple dates per id.",
+        "d": "Multiple conditions connected with AND are standard and valid."
+      },
+      "hints": [
+        "How does AND change the join condition?",
+        "Think about what must be true for a pair of rows to satisfy both equalities."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Joining on multiple keys with AND makes the join more selective. Only rows that agree on all listed columns are matched.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_027",
+      "concept_name": "DISTINCT",
+      "chapter": 6,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What does `SELECT DISTINCT continent FROM states;` return?",
+      "options": {
+        "a": "All rows from the states table, because DISTINCT only removes duplicate columns.",
+        "b": "Each continent name exactly once, even if it appears in multiple states.",
+        "c": "The query fails because DISTINCT must come after the column list.",
+        "d": "The continent that appears the most times."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "DISTINCT removes duplicate rows, not columns.",
+        "b": "Correct. DISTINCT eliminates duplicate rows, so each continent is listed only once.",
+        "c": "The syntax is correct: SELECT DISTINCT column FROM table.",
+        "d": "DISTINCT does not choose the most frequent value; it returns all unique values."
+      },
+      "hints": [
+        "What is the purpose of the DISTINCT keyword?",
+        "If a continent appears five times, how many times will it appear in the result?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "DISTINCT removes duplicate rows from the result set. Applied to a single column, it returns each unique value exactly once.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_028",
+      "concept_name": "NULL in joins",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "You want to find prime ministers whose country does not have a president (no match in `presidents`). You write:\n\n```sql\nSELECT p1.country, prime_minister\nFROM prime_ministers p1\nLEFT JOIN presidents p2 ON p1.country = p2.country\nWHERE president = NULL;\n```\nWhy does this return no rows?",
+      "options": {
+        "a": "NULL cannot be compared with =; you must use `IS NULL`.",
+        "b": "A LEFT JOIN never produces NULLs; you need a RIGHT JOIN.",
+        "c": "The WHERE clause eliminates all rows because every president column has a value.",
+        "d": "You must use `WHERE p2.president IS NULL` and also include `p2.country IS NULL`."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. In SQL, `= NULL` is never true; you must use `IS NULL` to test for NULL.",
+        "b": "A LEFT JOIN does produce NULLs in right‑table columns when there is no match.",
+        "c": "If there is no match, the president column will be NULL, but the condition `= NULL` fails to detect it.",
+        "d": "`WHERE president IS NULL` is sufficient; checking `country IS NULL` is unnecessary."
+      },
+      "hints": [
+        "What is the correct way to check if a column is NULL?",
+        "Does `= NULL` ever return TRUE?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The proper way to filter for missing matches in an outer join is `WHERE right_table.column IS NULL`. Using `= NULL` is a classic mistake because NULL comparisons yield UNKNOWN, not TRUE.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_029",
+      "concept_name": "Set operation column requirements",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "Which of the following attempts to use UNION will fail?",
+      "options": {
+        "a": "```sql\nSELECT name, city_proper_pop FROM cities\nUNION\nSELECT country_name, surface_area FROM countries;\n```",
+        "b": "```sql\nSELECT code, year FROM economies2015\nUNION\nSELECT code, year FROM economies2019;\n```",
+        "c": "```sql\nSELECT country AS name, continent AS region FROM monarchs\nUNION\nSELECT name, continent FROM prime_ministers;\n```",
+        "d": "```sql\nSELECT code, income_group, gross_savings FROM economies2015\nUNION\nSELECT code, income_group, gross_savings FROM economies2019;\n```"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The first query returns a numeric column (`city_proper_pop`), but the second returns a string column (`continent`). The data types do not match, causing an error.",
+        "b": "Both queries return the same columns with compatible types; this UNION works.",
+        "c": "Column names are aliased but the underlying types are strings in both queries; the UNION succeeds.",
+        "d": "All three columns have matching types across the two queries; this is valid."
+      },
+      "hints": [
+        "For UNION, what must be true about the columns in each SELECT?",
+        "Check the data types of the corresponding columns in the two queries."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "UNION requires that the number of columns and their data types are compatible across all combined queries. A numeric column cannot be matched with a string column in the same position.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_029"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_030",
+      "concept_name": "Cartesian product",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Accidentally omitting the ON clause when writing an INNER JOIN will result in:",
+      "options": {
+        "a": "An error message because ON is mandatory.",
+        "b": "The query behaving like a CROSS JOIN (Cartesian product).",
+        "c": "The query returning zero rows.",
+        "d": "The database automatically using the primary key for the join."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "In many SQL dialects, omitting the ON clause does not produce an error; it defaults to a cross join.",
+        "b": "Correct. Without an ON clause, an INNER JOIN produces every possible combination of rows from the two tables, which is a Cartesian product.",
+        "c": "It will return the product of the row counts, not zero rows, unless one table is empty.",
+        "d": "There is no automatic key detection; the condition must be explicit."
+      },
+      "hints": [
+        "What does an INNER JOIN without a condition do?",
+        "Think about what happens when you multiply two sets – every row from the first paired with every row from the second."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Forgetting the ON clause turns an intended INNER JOIN into an implicit CROSS JOIN. The result is a Cartesian product, which can produce a huge number of rows unexpectedly.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_030"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_031",
+      "concept_name": "Column alias",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "```sql\nSELECT country AS nation, prime_minister AS leader\nFROM prime_ministers;\n```\nWhat does this query produce?",
+      "options": {
+        "a": "The original column names `country` and `prime_minister` appear in the output.",
+        "b": "The output columns are named `nation` and `leader`.",
+        "c": "The query fails because `AS` is only allowed for table aliases.",
+        "d": "The output has one column named `nation` containing both country and prime minister values."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The alias renames the columns in the result set; the original names are replaced.",
+        "b": "Correct. Column aliases with AS change the column headings in the output.",
+        "c": "AS works for both table and column aliases.",
+        "d": "Each alias applies to only one column; the output still has two separate columns."
+      },
+      "hints": [
+        "What does a column alias do?",
+        "Look at the AS keyword – which new name is assigned to which column?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Column aliases provide temporary names for the output columns, making the result more readable. They do not change the underlying data.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_031"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_001",
+      "concept_name": "INNER JOIN",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "The `presidents` table has 7 rows, `prime_ministers` 10 rows, and they share 4 common countries. How many rows does `SELECT * FROM presidents INNER JOIN prime_ministers ON presidents.country = prime_ministers.country;` return?",
+      "options": {
+        "a": "4",
+        "b": "7",
+        "c": "10",
+        "d": "It depends on whether some countries appear multiple times in either table."
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "If each shared country appears exactly once in both tables, there would be 4 rows. But without knowing the actual data, we can’t assume that.",
+        "b": "INNER JOIN does not return all rows from the left table; only matches.",
+        "c": "Similarly, not all rows from the right table are guaranteed.",
+        "d": "Correct. The number of output rows equals the sum over each country of (president rows for that country × prime_minister rows for that country). If any country has multiple presidents or multiple prime ministers, the count will be higher than the number of shared distinct countries."
+      },
+      "hints": [
+        "What if one country has two presidents and one prime minister?",
+        "INNER JOIN multiplies rows for each matching combination."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "INNER JOIN returns every matching pair. The exact row count depends on the number of rows per country in both tables, not just the number of distinct matching keys.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001", "concept_006"]
+    }
+  ]
+}

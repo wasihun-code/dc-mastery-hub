@@ -1,0 +1,1209 @@
+{
+  "course_slug": "regular-expressions-in-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 40,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "String",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "error",
+      "question_text": "Which of the following is NOT a valid string literal in Python?",
+      "options": {
+        "a": "\"Hello there\"",
+        "b": "'Hello there'",
+        "c": "\"Hello there'",
+        "d": "\"\"\"Hello there\"\"\""
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Double quotes are allowed and correctly matched; this is a valid string.",
+        "b": "Single quotes are allowed and correctly matched; this is a valid string.",
+        "c": "The opening double quote is not matched by the closing single quote, making this invalid syntax.",
+        "d": "Triple double quotes are perfectly valid and often used for multiline strings."
+      },
+      "hints": [
+        "Check the opening and closing quote characters.",
+        "Python requires that a string starts and ends with the same type of quote."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python recognizes strings enclosed in matching single ('...') or double (\"...\") quotes. Mismatched quotes like \"Hello there' cause a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "len() function",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What does `print(len('Awesome day'))` output?",
+      "options": {
+        "a": "10",
+        "b": "11",
+        "c": "12",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This ignores the space character; spaces count as characters.",
+        "b": "Correct – the string contains 11 characters including the space.",
+        "c": "This would count the outer quotes or an extra character; quotes are not part of the string length.",
+        "d": "No error occurs; len() works fine on strings."
+      },
+      "hints": [
+        "Spaces are characters too.",
+        "Count every character between the quotes, including the space."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "'Awesome day' has 10 letters and 1 space, total 11 characters. len() returns the number of characters in the string.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_004",
+      "concept_name": "String concatenation",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nmy_string1 = \"Awesome day\"\nmy_string2 = \"for biking\"\nprint(my_string1 + my_string2)\n```",
+      "options": {
+        "a": "Awesome day for biking",
+        "b": "Awesome dayfor biking",
+        "c": "Awesome day biking",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would require an extra space inside the concatenation expression; `+` does not add a space automatically.",
+        "b": "Correct – the two strings are joined directly without any added separator.",
+        "c": "The word 'for' is completely missing; no such replacement happens.",
+        "d": "No error occurs; concatenation works as long as both operands are strings."
+      },
+      "hints": [
+        "The `+` operator joins the exact characters in each string.",
+        "No space is inserted unless you explicitly add one."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "String concatenation with `+` joins strings exactly as they are, resulting in 'Awesome dayfor biking'. Missing the space is a very common beginner mistake.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_005",
+      "concept_name": "String indexing",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "Given `s = 'Python'`, what does `print(s[1])` output?",
+      "options": {
+        "a": "P",
+        "b": "y",
+        "c": "t",
+        "d": "h"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "'P' is at index 0, not index 1. Python uses zero-based indexing.",
+        "b": "Correct – index 1 points to the second character, 'y'.",
+        "c": "'t' would be at index 2.",
+        "d": "'h' would be at index 3."
+      },
+      "hints": [
+        "Python indexing starts at 0.",
+        "The first character is `s[0]`, so `s[1]` is the second character."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python strings are zero-indexed: `s[0]` is 'P', `s[1]` is 'y'. Confusing 1-based indexing leads to the wrong character.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_006",
+      "concept_name": "String slicing",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `my_string[5:8]` return if `my_string = 'Awesome day'`?",
+      "options": {
+        "a": "me",
+        "b": "me d",
+        "c": "me ",
+        "d": " me"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Missing the trailing space; the slice includes the character at index 7, which is a space.",
+        "b": "The end index is exclusive, so index 8 ('d') is not included.",
+        "c": "Correct – the slice picks characters at indices 5, 6, and 7: 'm', 'e', and a space.",
+        "d": "Index 5 is 'm', not a space."
+      },
+      "hints": [
+        "Remember that slicing `[start:end]` includes the start index but excludes the end index.",
+        "Indices: 0 A,1 w,2 e,3 s,4 o,5 m,6 e,7 (space),8 d, …"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The slice `my_string[5:8]` returns characters at positions 5,6,7 → 'm','e',' '. The common mistake is assuming the end index is inclusive, which would incorrectly include 'd'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_007",
+      "concept_name": "Stride in slicing",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `print(my_string[0:6:2])` output if `my_string = 'Awesome day'`?",
+      "options": {
+        "a": "Awe",
+        "b": "Aeo",
+        "c": "Asm",
+        "d": "Ae"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "'Awe' would be the result of a normal slice without stride, or with stride 1.",
+        "b": "Correct – with stride 2, the characters at indices 0, 2, and 4 are taken: 'A', 'e', 'o'.",
+        "c": "Index 3 is 's', not included in this slice.",
+        "d": "This includes only indices 0 and 2; the stride continues while staying within the bounds."
+      },
+      "hints": [
+        "A stride of 2 means 'take every second character'.",
+        "Start at index 0, then 2, then 4, stop before index 6."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`my_string[0:6:2]` returns characters from index 0 to 5 with a step of 2: indices 0,2,4 → 'A','e','o' → 'Aeo'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_008",
+      "concept_name": ".lower() method",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "```python\nmy_string = 'HELLO'\nmy_string.lower()\nprint(my_string)\n```\nWhat is printed?",
+      "options": {
+        "a": "HELLO",
+        "b": "hello",
+        "c": "None",
+        "d": "Error"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `.lower()` returns a new string; it does not modify the original `my_string` in place.",
+        "b": "This would be true only if the return value were assigned back to `my_string`.",
+        "c": "`.lower()` returns a string, not `None`.",
+        "d": "No error occurs; the method executes fine but the result is ignored."
+      },
+      "hints": [
+        "Strings in Python are immutable.",
+        "What does `.lower()` return, and does it change the original variable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "String methods like `.lower()` return a new string, leaving the original unchanged. Without reassignment (`my_string = my_string.lower()`), `my_string` stays 'HELLO'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_008"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_011",
+      "concept_name": ".split() method",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does `'a-b-c-d'.split('-', maxsplit=2)` return?",
+      "options": {
+        "a": "['a', 'b', 'c', 'd']",
+        "b": "['a', 'b', 'c-d']",
+        "c": "['a', 'b-c-d']",
+        "d": "['a-b', 'c', 'd']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is the result of splitting without any limit on the number of splits.",
+        "b": "Correct – `maxsplit=2` limits the splitting to the first two hyphens; the remainder stays together.",
+        "c": "Only one split would occur if `maxsplit=1` were used.",
+        "d": "Splitting always happens from the left; 'a-b' would not appear this way."
+      },
+      "hints": [
+        "`maxsplit` limits how many times the string is split from the left.",
+        "With two splits, the first two separators are used; the rest of the string becomes one piece."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`'a-b-c-d'.split('-', maxsplit=2)` splits at the first two hyphens, producing `['a', 'b', 'c-d']`. The `maxsplit` parameter prevents further splitting of 'c-d'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_014",
+      "concept_name": ".join() method",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which call correctly joins the list `['a', 'b', 'c']` into a single string separated by hyphens?",
+      "options": {
+        "a": "'-'.join(['a', 'b', 'c'])",
+        "b": "['a', 'b', 'c'].join('-')",
+        "c": "join('-', ['a', 'b', 'c'])",
+        "d": "str.join('-', ['a', 'b', 'c'])"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the string that will be the separator (the hyphen) calls `.join()` with the list as argument.",
+        "b": "Lists do not have a `.join()` method; you must call `.join()` on the separator string.",
+        "c": "There is no built-in `join()` function; the method belongs to the string class.",
+        "d": "The syntax is wrong; `str.join()` is an unbound method that requires an instance, but the correct usage is `separator.join(iterable)`."
+      },
+      "hints": [
+        "The separator string is the one that 'knows' how to join.",
+        "Think: which object provides the glue between the elements?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.join()` is a string method: `separator.join(iterable)`. Calling it on the hyphen string correctly inserts it between each list element.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_018",
+      "concept_name": ".find() method",
+      "chapter": 3,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "```python\nmy_string = \"Where's Waldo?\"\nprint(my_string.find('Wenda'))\n```\nWhat is the output?",
+      "options": {
+        "a": "-1",
+        "b": "None",
+        "c": "ValueError",
+        "d": "0"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `.find()` returns -1 when the substring is not present.",
+        "b": "`.find()` never returns `None`; it always returns an integer index or -1.",
+        "c": "`.find()` does not raise an exception; that is the behavior of `.index()`.",
+        "d": "0 would mean the substring was found at the very beginning, which is not true here."
+      },
+      "hints": [
+        "What does `.find()` return when it fails to locate the substring?",
+        "This is different from `.index()`, which raises an error on failure."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.find('Wenda')` returns -1 because 'Wenda' is not in the string. Unlike `.index()`, `.find()` does not raise an exception on failure.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_022",
+      "concept_name": "String formatting (str.format)",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What happens when you run `print('{} {}'.format('one'))`?",
+      "options": {
+        "a": "one {}",
+        "b": "one one",
+        "c": "IndexError",
+        "d": "TypeError"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "A missing argument does not leave a literal '{}'; that would require escaping the braces.",
+        "b": "The single argument would not be duplicated to fill two placeholders.",
+        "c": "Correct – there are two placeholders but only one argument, causing an IndexError.",
+        "d": "No type mismatch occurs; the error is about the number of arguments."
+      },
+      "hints": [
+        "Count the number of placeholders and the number of arguments.",
+        "What kind of error does Python raise when an index is out of range?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`str.format` expects as many positional arguments as there are empty `{}` placeholders. Supplying fewer raises an IndexError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_025",
+      "concept_name": "Named placeholders",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "error",
+      "question_text": "What error does `print('{name} is here'.format(nam='Alice'))` cause?",
+      "options": {
+        "a": "KeyError",
+        "b": "IndexError",
+        "c": "TypeError",
+        "d": "ValueError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the placeholder `{name}` expects a keyword argument `name`, but only `nam` was provided.",
+        "b": "No positional indexing is used, so an IndexError is not relevant.",
+        "c": "TypeError would occur with incompatible types, not with missing keyword names.",
+        "d": "ValueError is not the typical error for mismatched names in formatting."
+      },
+      "hints": [
+        "Check the spelling of the placeholder and the keyword argument.",
+        "Mismatched names lead to a lookup error."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`.format()` raises a KeyError when a placeholder name does not match any keyword argument. Here `name` is missing.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_028",
+      "concept_name": "f-string (formatted string literal)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nprice = 10\nprint('Price: ${price}')\n```\nWhat is the output?",
+      "options": {
+        "a": "Price: $10",
+        "b": "Price: ${price}",
+        "c": "SyntaxError",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be the output if the string were an f-string (i.e., `f'Price: ${price}'`), but it is not.",
+        "b": "Correct – without the `f` prefix, curly braces are treated as literal characters, so the variable is not substituted.",
+        "c": "No syntax error occurs; the string is a normal string, not a broken f-string.",
+        "d": "No runtime error is raised; it simply prints the literal text."
+      },
+      "hints": [
+        "Look closely at the string prefix.",
+        "Curly braces are only special if the string begins with `f`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Missing the `f` prefix means the string is a regular string, so `${price}` is printed literally. This is a common mistake when switching between formatting styles.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_033",
+      "concept_name": "Escape sequences in f-strings",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run the following?\n\n```python\nname = 'Alice'\nprint(f'Hello {name\\n}')\n```",
+      "options": {
+        "a": "Hello Alice (followed by a newline)",
+        "b": "Hello Alice",
+        "c": "SyntaxError",
+        "d": "Hello {name\n}"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The backslash-newline inside the braces is not allowed; the code does not execute.",
+        "b": "No newline would appear, but the code fails before printing.",
+        "c": "Correct – backslashes are not permitted inside the expression part of an f-string, causing a SyntaxError.",
+        "d": "Without the `f` prefix this would print literally, but with `f` it's a syntax error."
+      },
+      "hints": [
+        "What characters are forbidden inside the curly braces of an f-string?",
+        "A backslash followed by a newline is an escape, but that's illegal here."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In f-strings, backslash escapes cannot appear inside the expression braces. `\\n` inside `{name\\n}` triggers a SyntaxError.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_033"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_039",
+      "concept_name": "Regular expression (regex)",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.search('\\bcat\\b', 'my cat'))\n```\nWhat does this print? (Pattern is NOT a raw string.)",
+      "options": {
+        "a": "A match object for the word 'cat'",
+        "b": "None (no match)",
+        "c": "A match object for '\\bcat\\b'",
+        "d": "SyntaxError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Word boundaries are represented by `\\b` in regex, but here the backslashes are interpreted differently.",
+        "b": "Correct – without a raw string, `\\b` becomes the backspace character, so the pattern looks for backspace‑cat‑backspace, which is not present.",
+        "c": "The pattern does not match literal backslashes; the backslashes are consumed during string parsing.",
+        "d": "No syntax error occurs; the regex runs but fails to match."
+      },
+      "hints": [
+        "What does `\\b` mean in a Python string that is not a raw string?",
+        "Non-raw string escape sequences are processed before the regex engine sees the pattern."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a non-raw string, `\\b` is interpreted as the backspace character (ASCII 8). The regex engine receives `<backspace>cat<backspace>`, which does not appear in 'my cat'. Hence, no match is found.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_039", "concept_044"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_041",
+      "concept_name": "re.findall()",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'aa', 'aaa'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['aa', 'aa']",
+        "b": "['aaa']",
+        "c": "['aa']",
+        "d": "[]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`findall` returns non-overlapping matches; 'aa' cannot be matched twice overlapping.",
+        "b": "The whole string 'aaa' is not a match for the pattern 'aa'.",
+        "c": "Correct – the first non-overlapping match is the first two 'a's; after that, only one 'a' remains, which is too short.",
+        "d": "There is at least one match of 'aa' in 'aaa'."
+      },
+      "hints": [
+        "`findall` never returns overlapping matches.",
+        "After consuming the first match, what substring remains?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`re.findall(r'aa', 'aaa')` finds one match at index 0-1, then continues from index 2, where only 'a' remains – insufficient for a second match. Result: `['aa']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_041"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_042",
+      "concept_name": "re.split()",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.split(r'(,)', 'one,two,three'))\n```\nWhat is the output?",
+      "options": {
+        "a": "['one', 'two', 'three']",
+        "b": "['one', ',', 'two', ',', 'three']",
+        "c": "['one,', 'two,', 'three']",
+        "d": "['one', 'two,three']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be the result if the capturing parentheses were omitted, i.e., `r','`.",
+        "b": "Correct – the capturing group preserves the delimiters in the output list.",
+        "c": "Splitting on a comma removes the delimiter, not appends it; this is not how `split` works.",
+        "d": "Using maxsplit=1 could produce something like this, but no limit is given."
+      },
+      "hints": [
+        "What happens when the split pattern contains a capturing group?",
+        "The group captures are inserted between the split parts."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When the pattern passed to `re.split` includes a capturing group, the captured text is also included in the result list. `r'(,)'` captures each comma, yielding `['one', ',', 'two', ',', 'three']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_042"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_043",
+      "concept_name": "re.sub()",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.sub(r'(\\w+) \\1', r'\\1', 'I wish you a happy happy birthday!'))\n```\nWhat is output?",
+      "options": {
+        "a": "I wish you a happy birthday!",
+        "b": "I wish you a birthday!",
+        "c": "I wish you a happy happy birthday!",
+        "d": "Error"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the backreference `\\1` matches the repeated word, and the substitution retains only one occurrence.",
+        "b": "Only the duplicated word is removed; the first occurrence remains.",
+        "c": "No substitution occurred; this would happen if the pattern didn't match.",
+        "d": "The code is syntactically and semantically correct."
+      },
+      "hints": [
+        "`\\1` matches the exact text captured by the first group.",
+        "The replacement `r'\\1'` keeps that captured word and removes the duplicate."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The pattern `(\\w+) \\1` matches a word followed by a space and the same word again. Replacing with just the captured word (`\\1`) removes the duplicate.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_043", "concept_071"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_044",
+      "concept_name": "\\d metacharacter",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nresult = re.findall('\\d', 'a1b2')\nprint(result)\n```\nWhat is printed? (Pattern is NOT a raw string.)",
+      "options": {
+        "a": "['1', '2']",
+        "b": "[]",
+        "c": "['d']",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be correct with `r'\\d'`; without `r`, the string is not a digit pattern.",
+        "b": "Correct – `'\\d'` is just the literal character `d` when not raw, so no digits are found.",
+        "c": "The pattern becomes `d`, so it matches the character `d`, but there is no `d` in 'a1b2'.",
+        "d": "No error occurs; the regex engine simply looks for `d`."
+      },
+      "hints": [
+        "What does `\\d` mean in a regular Python string without an `r` prefix?",
+        "Escape sequences in non-raw strings may not be what you expect."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without a raw string, `'\\d'` is interpreted as the literal character `d`. Since there are no `d` characters in 'a1b2', the result is an empty list.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_044", "concept_039"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_046",
+      "concept_name": "\\w metacharacter",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'\\w', 'a1_!'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['a', '1', '_']",
+        "b": "['a', '1', '_', '!']",
+        "c": "['a', '1']",
+        "d": "['a']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `\\w` matches letters, digits, and underscores, so 'a', '1', and '_' are returned.",
+        "b": "'!' is not a word character; `\\w` excludes punctuation.",
+        "c": "This omits the underscore, which is included in `\\w`.",
+        "d": "Only letters? No, `\\w` also matches digits and underscores."
+      },
+      "hints": [
+        "`\\w` stands for 'word character' – what does that include besides letters?",
+        "Does `\\w` match an underscore?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`\\w` matches any letter (a-z, A-Z), digit (0-9), or underscore `_`. In 'a1_!', it matches 'a', '1', and '_', but not '!'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_046"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_048",
+      "concept_name": "\\s metacharacter",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'\\s', 'a b\\tc\\nd'))\n```\nWhat is the output?",
+      "options": {
+        "a": "[' ']",
+        "b": "[' ', '\\t', '\\n']",
+        "c": "[' ', '\\t']",
+        "d": "[' ']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`\\s` matches more than just spaces; tabs and newlines are also whitespace.",
+        "b": "Correct – the string contains a space, a tab, and a newline, all matched by `\\s`.",
+        "c": "The newline `\\n` is also whitespace and would be included.",
+        "d": "Only the space? But there is a tab and a newline as well."
+      },
+      "hints": [
+        "`\\s` means 'any whitespace character'.",
+        "Which characters count as whitespace in Python regex?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`\\s` matches space, tab, newline, carriage return, and other Unicode whitespace. The string 'a b\\tc\\nd' contains a space, a tab (`\\t`), and a newline (`\\n`), so all three are returned.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_048"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_050",
+      "concept_name": "Quantifier +",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'\\d+', 'abc'))\n```\nWhat does it output?",
+      "options": {
+        "a": "[]",
+        "b": "['']",
+        "c": "None",
+        "d": "['abc']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `+` requires at least one digit; since there are none, the result is an empty list.",
+        "b": "`+` cannot match an empty string; it requires one or more occurrences.",
+        "c": "`findall` never returns `None`; it returns an empty list on no match.",
+        "d": "`\\d` does not match letters, so 'abc' is not a match."
+      },
+      "hints": [
+        "`+` means 'one or more'.",
+        "If there are zero digits, what does `+` match?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`\\d+` requires at least one digit. The string 'abc' contains no digits, so `findall` returns an empty list.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_050"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_051",
+      "concept_name": "Quantifier *",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'\\d*', 'abc'))\n```\nWhat is the output?",
+      "options": {
+        "a": "['', '', '', '']",
+        "b": "[]",
+        "c": "['']",
+        "d": "['abc']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `*` matches zero or more digits, so it matches the empty string before each character and at the end.",
+        "b": "`*` can match zero-length strings, so there are matches.",
+        "c": "There is more than one empty match; `findall` returns all non-overlapping matches.",
+        "d": "`\\d` does not match letters, so 'abc' is never matched as a whole."
+      },
+      "hints": [
+        "`*` means 'zero or more'.",
+        "Where can a pattern match zero characters in the string?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`\\d*` matches zero or more digits. In 'abc', it matches the empty string at position 0, after 'a', after 'b', and after 'c' (four times). Hence `['', '', '', '']`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_051"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_052",
+      "concept_name": "Quantifier ?",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'a+?', 'aaaa'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['aaaa']",
+        "b": "['a', 'a', 'a', 'a']",
+        "c": "['a', 'aa', 'aaa', 'aaaa']",
+        "d": "['a']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is the greedy match; the `?` after `+` makes it lazy.",
+        "b": "Correct – lazy `+?` matches as few characters as possible, giving four separate 'a' matches.",
+        "c": "`findall` returns non-overlapping matches; after the first 'a', the next search starts after that character.",
+        "d": "Lazy still allows multiple matches; it doesn't stop after the first."
+      },
+      "hints": [
+        "`+?` is a lazy quantifier – what does it try to match first?",
+        "Once it matches the minimum, where does the regex engine continue?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`a+?` matches one or more 'a's, but as few as possible. On 'aaaa', it matches the first 'a', then moves past it and matches the next, resulting in four separate 'a's.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_052"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_053",
+      "concept_name": "Quantifier {n}",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.search(r'\\d{3}', '12'))\n```\nWhat is the result?",
+      "options": {
+        "a": "None",
+        "b": "<re.Match object; span=(0, 2), match='12'>",
+        "c": "re.error",
+        "d": "<re.Match object; span=(0, 3), match='123'>"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `{3}` requires exactly three digits, but only two are present.",
+        "b": "`{3}` does not mean 'up to 3'; it means exactly 3.",
+        "c": "No syntax error; the pattern is valid, just not matched.",
+        "d": "The string does not contain three consecutive digits."
+      },
+      "hints": [
+        "What does `{3}` specify exactly?",
+        "Does '12' contain three digits in a row?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`\\d{3}` requires exactly three digits in a row. The string '12' only has two, so `search` returns `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_053"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_054",
+      "concept_name": "Quantifier {n,m}",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run `re.search(r'\\d{5,3}', '123')`?",
+      "options": {
+        "a": "re.error is raised",
+        "b": "TypeError is raised",
+        "c": "Returns None",
+        "d": "No match is returned"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the quantifier `{5,3}` is invalid because the lower bound is greater than the upper bound.",
+        "b": "This is a regex compilation error, not a Python TypeError.",
+        "c": "The pattern is never compiled, so no matching occurs.",
+        "d": "The regex module refuses to compile the invalid quantifier."
+      },
+      "hints": [
+        "What must be true about the numbers inside `{n,m}`?",
+        "Look at the order of the numbers."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`{5,3}` is an invalid quantifier because the minimum cannot be greater than the maximum. Python's `re` module raises a `re.error` during compilation.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_054"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_055",
+      "concept_name": "Greedy matching",
+      "chapter": 8,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'<p>.+</p>', '<p>hello</p><p>world</p>'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['<p>hello</p>', '<p>world</p>']",
+        "b": "['<p>hello</p><p>world</p>']",
+        "c": "['<p>hello</p>']",
+        "d": "[]"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This would be the result using a lazy quantifier (`+?`), not the greedy `+`.",
+        "b": "Correct – greedy `.+` stretches from the first `<p>` to the last `</p>`, consuming the entire middle.",
+        "c": "The greedy quantifier doesn't stop at the first `</p>`; it continues to the last.",
+        "d": "The pattern does match, just more than expected."
+      },
+      "hints": [
+        "What does greedy matching try to maximise?",
+        "Does `.+` stop at the first possible closing tag, or does it go further?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The greedy `.+` matches as much as possible. It matches from the first `<p>` to the last `</p>`, capturing everything in between as a single match.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_055"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_056",
+      "concept_name": "Non-greedy (lazy) matching",
+      "chapter": 8,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'<p>.+?</p>', '<p>hello</p><p>world</p>'))\n```\nWhat is the output?",
+      "options": {
+        "a": "['<p>hello</p>', '<p>world</p>']",
+        "b": "['<p>hello</p><p>world</p>']",
+        "c": "['<p>hello</p>']",
+        "d": "[]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the lazy `+?` matches as few characters as needed, so each pair of tags is found separately.",
+        "b": "This is the greedy result; the `?` after `+` changes the matching to lazy.",
+        "c": "The pattern continues scanning and finds the second `<p>...</p>` as well.",
+        "d": "Matches exist; the lazy quantifier does not prevent matching."
+      },
+      "hints": [
+        "`+?` means 'one or more, but as few as possible'.",
+        "After matching the first closing `</p>`, where does the search continue?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The lazy `.+?` expands only as far as necessary to reach the first `</p>`, producing two separate matches.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_056"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_057",
+      "concept_name": "re.search() vs re.match()",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.match(r'\\d+', 'abc123'))\n```\nWhat is printed?",
+      "options": {
+        "a": "None",
+        "b": "<re.Match object; span=(3, 6), match='123'>",
+        "c": "<re.Match object; span=(0, 3), match='abc'>",
+        "d": "SyntaxError"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `match` only checks at the start of the string; no digits at the start, so it returns `None`.",
+        "b": "`search` would find the digits later, but `match` requires them at position 0.",
+        "c": "The pattern `\\d+` does not match letters, and it never tries beyond the start.",
+        "d": "The regex is valid; the issue is where matching begins."
+      },
+      "hints": [
+        "`re.match` is anchored at the beginning of the string.",
+        "Does the string start with a digit?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`re.match` only matches at the very start of the string. Since 'abc123' starts with letters, `\\d+` fails immediately and returns `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_057"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_058",
+      "concept_name": "Dot (.) metacharacter",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'.+', 'line1\\nline2'))\n```\nWhat does it output?",
+      "options": {
+        "a": "['line1', 'line2']",
+        "b": "['line1\\nline2']",
+        "c": "['line1']",
+        "d": "Error"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the dot does not match newline by default, so `.+` stops at the newline, resulting in two separate matches.",
+        "b": "This would happen if the `re.DOTALL` flag were used.",
+        "c": "After the first match, the engine continues and can match 'line2' separately.",
+        "d": "No error occurs."
+      },
+      "hints": [
+        "Which character does `.` normally exclude?",
+        "How does the presence of a newline affect the match?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `.` matches any character except newline (`\\n`). Therefore, `.+` matches 'line1', then 'line2' as separate matches, producing a list of two strings.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_058"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_061",
+      "concept_name": "Escaping special characters",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.split(r'\\.\\s', 'a. b. c'))\n```\nWhat does it print?",
+      "options": {
+        "a": "['a', ' b', ' c']",
+        "b": "['a', 'b', 'c']",
+        "c": "['a.', 'b.', 'c']",
+        "d": "['a', 'b', 'c'] with leading spaces"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The delimiter `. ` is removed entirely; the spaces are part of the delimiter and not kept.",
+        "b": "Correct – splitting on a literal dot followed by a space removes both, leaving the letters.",
+        "c": "The dot and space are the split pattern, so they are not included in the result.",
+        "d": "The spaces are consumed by the pattern; no leading spaces remain."
+      },
+      "hints": [
+        "`\\.` matches a literal dot, and `\\s` matches the space.",
+        "What does `split` do with the matching delimiter?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The pattern `\\.\\s` matches a period followed by a space. `re.split` removes these delimiters, returning the parts: 'a', 'b', 'c'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_061"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_062",
+      "concept_name": "Alternation (|) operator",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'cat|dog food', 'cat food dog food'))\n```\nWhat is the output?",
+      "options": {
+        "a": "['cat', 'dog food']",
+        "b": "['cat food', 'dog food']",
+        "c": "['cat', 'dog']",
+        "d": "['cat food', 'dog']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – `cat` is an alternative, as is `dog food`. The string contains both: `cat` (from 'cat food') and `dog food` as a whole.",
+        "b": "`cat food` is not a single alternative because the `|` splits at a lower precedence without parentheses.",
+        "c": "`dog food` is a complete alternative, so the word `dog` alone is not matched when followed by ` food`.",
+        "d": "The alternative `dog food` takes precedence over `dog` alone."
+      },
+      "hints": [
+        "The `|` operator splits the entire expression into two alternatives.",
+        "What are the two alternatives in `cat|dog food`?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Without parentheses, `cat|dog food` matches either `cat` or `dog food`. In 'cat food dog food', `cat` matches first, then `dog food`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_062"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_063",
+      "concept_name": "Character set []",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following regular expressions matches a digit or a literal hyphen?",
+      "options": {
+        "a": "[0-9-]",
+        "b": "[0\\-9]",
+        "c": "[-0-9]",
+        "d": "Both [0-9-] and [-0-9]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "[0-9-] is valid; the hyphen at the end is treated as a literal hyphen. But option d notes this is not the only one.",
+        "b": "Inside a character set, `\\-` is unnecessary but still matches a hyphen; however, `[0\\-9]` matches '0', '-', or '9', not the range 0-9.",
+        "c": "[-0-9] also works because the hyphen at the start is literal. However, d correctly states both are valid.",
+        "d": "Correct – placing the hyphen at the start or end of a character set makes it a literal hyphen, so both [0-9-] and [-0-9] match a digit or '-'."
+      },
+      "hints": [
+        "Where can you place a hyphen inside brackets to make it literal?",
+        "A hyphen at the very start or very end loses its special range meaning."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In a character set, a hyphen is treated literally if it is placed as the first or last character, or is escaped. Both `[0-9-]` and `[-0-9]` correctly match any digit or '-'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_063"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_064",
+      "concept_name": "Negated character set [^]",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'[a^b]', 'a^b'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['a', 'b']",
+        "b": "['^']",
+        "c": "['a', '^', 'b']",
+        "d": "[]"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The character set also includes `^` because it is not at the beginning; `^` is not a negation here.",
+        "b": "The set matches any of the characters 'a', '^', or 'b', so it matches all of them.",
+        "c": "Correct – the caret is inside the set but not first, so it is treated as a literal `^`.",
+        "d": "The set matches all three characters present in the string."
+      },
+      "hints": [
+        "When is `^` treated as negation inside `[]`?",
+        "The caret must be the very first character after the opening bracket to negate the set."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Inside `[a^b]`, the caret is not at the start, so it is a literal '^'. The set matches 'a', '^', or 'b', returning all three.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_064"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_065",
+      "concept_name": "Capturing group",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nmatch = re.search(r'(\\d{2})-(\\d{2})-(\\d{4})', '12-03-2008')\nprint(match.group(0))\n```\nWhat is printed?",
+      "options": {
+        "a": "12",
+        "b": "12-03-2008",
+        "c": "None",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`group(0)` returns the entire match, not the first captured group. That would be `group(1)`.",
+        "b": "Correct – group 0 is the whole substring that matched the pattern.",
+        "c": "The match succeeded, so `group(0)` is not `None`.",
+        "d": "The method exists and works fine."
+      },
+      "hints": [
+        "What does group number 0 represent?",
+        "Captured groups are numbered starting at 1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`match.group(0)` returns the entire match (`'12-03-2008'`). Individual groups start at index 1.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_065"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_068",
+      "concept_name": "Capturing repeated group",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'(\\d)+', '8755'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['8', '7', '5', '5']",
+        "b": "['8755']",
+        "c": "['5']",
+        "d": "['8']"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`findall` with a capturing group returns only the captured text, but the quantifier `+` repeats the group and captures only the last repetition.",
+        "b": "The entire string is not captured; the capturing group only saves one character per iteration.",
+        "c": "Correct – `(\\d)+` captures one digit at a time, but only the final capture (the last '5') is kept.",
+        "d": "The quantifier `+` causes the group to be repeated, and the last repetition overwrites previous captures."
+      },
+      "hints": [
+        "When a quantifier is outside a capturing group, what does the group capture?",
+        "The group captures the last match of the repetition."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In `(\\d)+`, the group is repeated by `+`, and each repetition overwrites the capture. After the string '8755', the group captures only the last digit, '5'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_068"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_071",
+      "concept_name": "Backreference (numbered)",
+      "chapter": 12,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.search(r'(\\d+) \\1', '123 124'))\n```\nWhat does this print?",
+      "options": {
+        "a": "<re.Match object; span=(0, 7), match='123 123'>",
+        "b": "None",
+        "c": "<re.Match object; span=(0, 7), match='123 124'>",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`\\1` requires the exact same text as captured by group 1, so '123' does not equal '124'.",
+        "b": "Correct – backreference `\\1` expects '123 123', but the string contains '123 124', so no match.",
+        "c": "The pattern explicitly uses a backreference, which enforces identical captured text.",
+        "d": "The regex is valid; it simply fails to match."
+      },
+      "hints": [
+        "What does `\\1` match?",
+        "It must match the exact substring captured earlier, not just the pattern."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`(\\d+) \\1` matches a number, a space, and the same number again. '123 124' does not contain the same number twice, so `search` returns `None`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_071"]
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_074",
+      "concept_name": "Positive lookahead (?=...)",
+      "chapter": 13,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'\\w+\\.txt(?=\\stransferred)', 'tweets.txt transferred, mypass.txt transferred, keywords.txt error'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['tweets.txt', 'mypass.txt']",
+        "b": "['tweets.txt', 'mypass.txt', 'keywords.txt']",
+        "c": "['tweets.txt', 'mypass.txt', 'transferred']",
+        "d": "[]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – the positive lookahead ensures the filename is followed by ' transferred', without including it in the match.",
+        "b": "'keywords.txt' is not followed by ' transferred', so it is excluded.",
+        "c": "The lookahead does not consume 'transferred'; it only checks its presence.",
+        "d": "Two files meet the condition."
+      },
+      "hints": [
+        "Lookahead checks what follows without including it in the match.",
+        "Only files followed by a specific word are captured."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`(?=\\stransferred)` asserts that the file name must be followed by a space and 'transferred'. It excludes 'keywords.txt' because it is followed by ' error'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_074"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_076",
+      "concept_name": "Positive lookbehind (?<=...)",
+      "chapter": 13,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'(?<=Member:\\s)\\w+\\s\\w+', 'Member: Angus Young, Member: Chris Slade, Past: Malcolm Young'))\n```\nWhat is the output?",
+      "options": {
+        "a": "['Angus Young', 'Chris Slade']",
+        "b": "['Member: Angus Young', 'Member: Chris Slade']",
+        "c": "['Angus Young', 'Chris Slade', 'Malcolm Young']",
+        "d": "['Angus Young']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – lookbehind asserts that the names are preceded by 'Member: ', without including that prefix.",
+        "b": "The lookbehind is zero-width, so it does not consume 'Member: '.",
+        "c": "'Malcolm Young' is preceded by 'Past: ', not 'Member: ', so it is excluded.",
+        "d": "Both 'Member: ' entries produce a match."
+      },
+      "hints": [
+        "Lookbehind checks what comes before, without consuming characters.",
+        "Only names directly after 'Member: ' should appear."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`(?<=Member:\\s)` ensures the match is preceded by 'Member: ' and a space. It correctly extracts 'Angus Young' and 'Chris Slade' while ignoring 'Malcolm Young'.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_076"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_077",
+      "concept_name": "Negative lookbehind (?<!...)",
+      "chapter": 13,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "```python\nimport re\nprint(re.findall(r'(?<!brown\\s)(cat|dog)', 'My white cat sat... my brown dog was lying'))\n```\nWhat is printed?",
+      "options": {
+        "a": "['cat']",
+        "b": "['dog']",
+        "c": "['cat', 'dog']",
+        "d": "[]"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct – 'cat' is not preceded by 'brown ', so it matches. 'dog' is preceded by 'brown ', so it is excluded.",
+        "b": "'dog' is rejected by the negative lookbehind because it is preceded by 'brown '.",
+        "c": "The negative lookbehind prevents 'dog' from matching.",
+        "d": "At least 'cat' matches the pattern."
+      },
+      "hints": [
+        "Negative lookbehind rejects matches that follow a certain pattern.",
+        "Look at what comes just before 'cat' and 'dog'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`(?<!brown\\s)` asserts that the match must not be preceded by 'brown ' and a space. 'cat' is preceded by 'white ', so it matches; 'dog' is preceded by 'brown ', so it is excluded.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_077"]
+    }
+  ]
+}

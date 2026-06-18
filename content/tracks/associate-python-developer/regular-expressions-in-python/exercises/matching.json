@@ -1,0 +1,390 @@
+{
+  "course_slug": "regular-expressions-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "String Methods & Formatting",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_003",
+          "term": "str() function",
+          "match": "Converts an object to its string representation",
+          "wrong_matches": [
+            "Capitalizes first character, lowercases rest",
+            "Splits string at line boundaries"
+          ],
+          "feedback_correct": "Correct – `str()` returns the string form of any object.",
+          "feedback_wrong": "No, that describes a different method or function."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_010",
+          "term": "my_string.capitalize()",
+          "match": "Capitalizes first character, lowercases rest",
+          "wrong_matches": [
+            "Removes leading and trailing whitespace",
+            "Returns index or raises ValueError if not found"
+          ],
+          "feedback_correct": "Right – `.capitalize()` makes the first letter uppercase and the rest lowercase.",
+          "feedback_wrong": "That's not what `.capitalize()` does."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_013",
+          "term": "my_string.splitlines()",
+          "match": "Splits string at line boundaries",
+          "wrong_matches": [
+            "Converts an object to its string representation",
+            "Filled in order by positional arguments"
+          ],
+          "feedback_correct": "Yes – `.splitlines()` handles `\\n`, `\\r\\n`, etc., returning a list of lines.",
+          "feedback_wrong": "This method is about line breaks, not that."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_015",
+          "term": "my_string.strip()",
+          "match": "Removes leading and trailing whitespace",
+          "wrong_matches": [
+            "Capitalizes first character, lowercases rest",
+            "Uses repr() to include quotes in output"
+          ],
+          "feedback_correct": "Correct – `.strip()` cleans whitespace from both ends.",
+          "feedback_wrong": "That's not a stripping operation."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_019",
+          "term": "my_string._____('Wenda')",
+          "match": "Returns index or raises ValueError if not found",
+          "wrong_matches": [
+            "Removes leading and trailing whitespace",
+            "Splits string at line boundaries"
+          ],
+          "feedback_correct": "Right – the blank should be `index`, which raises `ValueError` on missing substring.",
+          "feedback_wrong": "No, that method doesn't raise an error for missing substrings."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_023",
+          "term": "{} and {} in .format()",
+          "match": "Filled in order by positional arguments",
+          "wrong_matches": [
+            "Access dict values in .format() without quotes around key",
+            "Simpler formatting with $ placeholders"
+          ],
+          "feedback_correct": "Yes – empty braces are replaced by the arguments in the order they appear.",
+          "feedback_wrong": "That's a different placeholder style."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_026",
+          "term": "{data[tool]} in .format()",
+          "match": "Access dict values in .format() without quotes around key",
+          "wrong_matches": [
+            "Filled in order by positional arguments",
+            "Formats datetime using strftime codes"
+          ],
+          "feedback_correct": "Correct – inside `.format()` placeholders, dictionary keys are written without quotes.",
+          "feedback_wrong": "That's not about dictionary access in formatting."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_029",
+          "term": "f'{name!r}'",
+          "match": "Uses repr() to include quotes in output",
+          "wrong_matches": [
+            "Capitalizes first character, lowercases rest",
+            "Simpler formatting with $ placeholders"
+          ],
+          "feedback_correct": "Right – `!r` calls `repr()`, so the string appears with quotes.",
+          "feedback_wrong": "That conversion flag does something else."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_031",
+          "term": "f'{my_today:%B %d, %Y}'",
+          "match": "Formats datetime using strftime codes",
+          "wrong_matches": [
+            "Access dict values in .format() without quotes around key",
+            "Uses repr() to include quotes in output"
+          ],
+          "feedback_correct": "Yes – datetime objects accept `strftime` format codes directly in f‑strings.",
+          "feedback_wrong": "That's not a date formatting expression."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_036",
+          "term": "Template('$title')",
+          "match": "Simpler formatting with $ placeholders",
+          "wrong_matches": [
+            "Filled in order by positional arguments",
+            "Formats datetime using strftime codes"
+          ],
+          "feedback_correct": "Correct – `string.Template` uses `$name` instead of braces.",
+          "feedback_wrong": "No, that's another formatting mechanism."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Regex Metacharacters & Quantifiers",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_040",
+          "term": "import re",
+          "match": "Python's built-in module for regular expressions",
+          "wrong_matches": [
+            "Matches any non-digit character",
+            "Matches as many characters as possible"
+          ],
+          "feedback_correct": "Right – `re` provides `findall`, `search`, `sub`, etc.",
+          "feedback_wrong": "That describes a metacharacter or behavior, not the module."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_045",
+          "term": "re.findall(r'\\D', '123')",
+          "match": "Matches any non-digit character",
+          "wrong_matches": [
+            "Matches any non-word character",
+            "Matches any non-whitespace character"
+          ],
+          "feedback_correct": "Correct – `\\D` is the opposite of `\\d`.",
+          "feedback_wrong": "`\\D` stands for non-digit, not that."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_047",
+          "term": "re.findall(r'\\W', 'a!')",
+          "match": "Matches any non-word character",
+          "wrong_matches": [
+            "Matches any non-digit character",
+            "Matches either 'cat' or 'dog'"
+          ],
+          "feedback_correct": "Yes – `\\W` matches everything except letters, digits, and underscore.",
+          "feedback_wrong": "No, `\\W` is for non-word characters."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_049",
+          "term": "re.sub(r'ice\\Scream', 'ice cream', 'ice- cream')",
+          "match": "Matches any non-whitespace character",
+          "wrong_matches": [
+            "Matches any non-word character",
+            "Matches as many characters as possible"
+          ],
+          "feedback_correct": "Correct – `\\S` matches the hyphen, allowing the replacement to work.",
+          "feedback_wrong": "`\\S` stands for non‑space, not that."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_055",
+          "term": "Output: ['<p>hello</p><p>world</p>']",
+          "match": "Greedy matching of .+ takes the longest possible span",
+          "wrong_matches": [
+            "Matches as few characters as possible",
+            "Finds first occurrence anywhere"
+          ],
+          "feedback_correct": "Right – greedy quantifiers consume as much text as they can.",
+          "feedback_wrong": "That output is a result of greedy matching."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_056",
+          "term": "Output: ['<p>hello</p>', '<p>world</p>']",
+          "match": "Lazy matching with .+? matches as few characters as possible",
+          "wrong_matches": [
+            "Greedy matching of .+ takes the longest possible span",
+            "Matches any character except newline"
+          ],
+          "feedback_correct": "Correct – adding `?` makes the quantifier lazy, producing separate tags.",
+          "feedback_wrong": "That output is a result of lazy, not greedy matching."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_057",
+          "term": "re.search() vs re.match()",
+          "match": "search anywhere, match only at start of string",
+          "wrong_matches": [
+            "Returns entire match text",
+            "Matches either 'cat' or 'dog'"
+          ],
+          "feedback_correct": "Yes – `search` scans the whole string; `match` is anchored to position 0.",
+          "feedback_wrong": "That's not the difference between these functions."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_062",
+          "term": "re.findall(r'cat|dog', 'cat dog')",
+          "match": "Matches either 'cat' or 'dog'",
+          "wrong_matches": [
+            "Matches any character except those listed",
+            "Matches as many characters as possible"
+          ],
+          "feedback_correct": "Right – the `|` operator alternates between two subpatterns.",
+          "feedback_wrong": "`|` means 'or', not a character class."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_064",
+          "term": "re.findall(r'[^0-9]+', 'www.99.com')",
+          "match": "Matches any character except digits",
+          "wrong_matches": [
+            "Matches any character except newline",
+            "Matches either 'cat' or 'dog'"
+          ],
+          "feedback_correct": "Correct – `[^0-9]` negates the digit range.",
+          "feedback_wrong": "That's a different kind of set or expression."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_066",
+          "term": "match.group(0)",
+          "match": "Returns entire match text",
+          "wrong_matches": [
+            "search anywhere, match only at start",
+            "Matches as few characters as possible"
+          ],
+          "feedback_correct": "Yes – `group(0)` (or `group()`) returns the whole matched substring.",
+          "feedback_wrong": "No, `group(0)` isn't about search position or quantifier behavior."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Advanced Groups & Lookarounds",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_067",
+          "term": "Output: ['5'] from re.findall(r'(\\d)+', '8755')",
+          "match": "Quantifier on a capturing group captures only the last repetition",
+          "wrong_matches": [
+            "Captures text and assigns it a name",
+            "Asserts that pattern does not follow"
+          ],
+          "feedback_correct": "Right – the group is overwritten each time, leaving only the final digit.",
+          "feedback_wrong": "That behavior is about named groups or lookahead, not repeated capturing."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_070",
+          "term": "re.findall(r'(\\d+)\\s(cat|dog)', '2 cats 1 dog')",
+          "match": "Parentheses scope the alternation so only 'cat' or 'dog' is captured",
+          "wrong_matches": [
+            "Asserts that pattern precedes",
+            "Matches a literal dot character"
+          ],
+          "feedback_correct": "Correct – `(cat|dog)` limits the `|` to just those two words.",
+          "feedback_wrong": "That's not how scoped alternation works."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_072",
+          "term": "(?P<city>[A-Za-z]+) in regex",
+          "match": "Captures text and assigns it a name",
+          "wrong_matches": [
+            "Quantifier on a capturing group captures only the last repetition",
+            "Asserts that pattern does not precede"
+          ],
+          "feedback_correct": "Yes – `(?P<name>...)` creates a named capturing group.",
+          "feedback_wrong": "No, that's not a named group."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_073",
+          "term": "re.sub(r'...', r'\\g<word>', '...')",
+          "match": "Backreference to a named group in substitution",
+          "wrong_matches": [
+            "Captures text and assigns it a name",
+            "Asserts that pattern does not follow"
+          ],
+          "feedback_correct": "Correct – `\\g<name>` refers to a named captured group.",
+          "feedback_wrong": "That syntax is for a named group definition or a lookahead, not a backreference in replacement."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_075",
+          "term": "re.findall(r'\\w+\\.txt(?!\\stransferred)', '...')",
+          "match": "Negative lookahead – asserts that ' transferred' does NOT follow",
+          "wrong_matches": [
+            "Asserts that pattern precedes",
+            "Matches a literal dot character"
+          ],
+          "feedback_correct": "Right – `(?!...)` is a zero‑width negative lookahead.",
+          "feedback_wrong": "That's a lookbehind or escaping, not negative lookahead."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_076",
+          "term": "(?<=Member:\\s)\\w+",
+          "match": "Positive lookbehind – asserts that 'Member: ' precedes the match",
+          "wrong_matches": [
+            "Asserts that pattern does not follow",
+            "Captures text and assigns it a name"
+          ],
+          "feedback_correct": "Correct – `(?<=...)` checks what comes before without consuming it.",
+          "feedback_wrong": "That's a lookahead or a capturing group, not a lookbehind."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_077",
+          "term": "(?<!brown\\s)(cat|dog)",
+          "match": "Negative lookbehind – excludes matches preceded by 'brown '",
+          "wrong_matches": [
+            "Positive lookbehind – asserts that 'Member: ' precedes the match",
+            "Negative lookahead – asserts that ' transferred' does NOT follow"
+          ],
+          "feedback_correct": "Yes – `(?<!...)` ensures the match is not preceded by the given pattern.",
+          "feedback_wrong": "That's a different lookaround direction."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_001",
+          "term": "'hello' or \"hello\"",
+          "match": "A sequence of characters enclosed in quotes",
+          "wrong_matches": [
+            "Pattern describing text to match",
+            "Matches a literal dot character"
+          ],
+          "feedback_correct": "Right – strings are the basic Python text type.",
+          "feedback_wrong": "That's a regex or an escape, not a string literal."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_039",
+          "term": "r'\\d+'",
+          "match": "Pattern describing text to match using metacharacters",
+          "wrong_matches": [
+            "A sequence of characters enclosed in quotes",
+            "Asserts that pattern does not follow"
+          ],
+          "feedback_correct": "Correct – a raw string regex uses metacharacters like `\\d`.",
+          "feedback_wrong": "That's a plain string or a lookaround, not a regex pattern."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_061",
+          "term": "\\. in regex",
+          "match": "Matches a literal dot character",
+          "wrong_matches": [
+            "Matches any character except newline",
+            "Asserts that pattern precedes"
+          ],
+          "feedback_correct": "Yes – escaping with backslash makes the dot literal.",
+          "feedback_wrong": "An unescaped dot means something else."
+        }
+      ]
+    }
+  ]
+}

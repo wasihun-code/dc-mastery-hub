@@ -1,0 +1,76 @@
+{
+  "course_slug": "introduction-to-git",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 1,
+  "challenges": [
+    {
+      "id": "dc_git_001",
+      "title": "Analyze Repository Contribution Metrics",
+      "dataset_file": "git_commit_log.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_001",
+        "concept_002",
+        "concept_009"
+      ],
+      "context": "You are a DevOps engineer analyzing contribution metrics for a repository. You have a log of recent commits including author, lines added, and lines deleted. You want to compute the net code change (added minus deleted) per author and identify the top contributor by net changes.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Construct a pandas DataFrame named `df` from the pre-loaded lists `commit_authors`, `commit_messages`, `lines_added`, and `lines_deleted`. Use the column keys 'author', 'message', 'added', and 'deleted'.",
+          "variable_name": "df",
+          "hint": "Pass a dictionary to pd.DataFrame()."
+        },
+        {
+          "step": 2,
+          "description": "Create a new column in `df` named 'net_changes' by subtracting 'deleted' from 'added'.",
+          "variable_name": "df['net_changes']",
+          "hint": "Subtract the 'deleted' Series from 'added'."
+        },
+        {
+          "step": 3,
+          "description": "Group `df` by 'author' and sum the 'net_changes' column to find total contributions. Store the resulting Series in `author_contributions`.",
+          "variable_name": "author_contributions",
+          "hint": "Use df.groupby('author')['net_changes'].sum()."
+        },
+        {
+          "step": 4,
+          "description": "Find the author with the highest net changes. Store their name in `top_contributor`.",
+          "variable_name": "top_contributor",
+          "hint": "Use author_contributions.idxmax()."
+        },
+        {
+          "step": 5,
+          "description": "Print `author_contributions` and then print `top_contributor`.",
+          "variable_name": "print_output",
+          "hint": "Call print(author_contributions) and print(top_contributor)."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Pre-loaded lists:\n# commit_authors = [\"Alice\", \"Bob\", \"Alice\", \"Charlie\", \"Bob\", \"Alice\", \"Charlie\"]\n# commit_messages = [\"Fix bug #12\", \"Update README\", \"Add test cases\", \"Refactor auth #45\", \"Fix typo\", \"Optimize db #89\", \"Initial commit\"]\n# lines_added = [12, 2, 45, 120, 1, 80, 500]\n# lines_deleted = [5, 0, 10, 45, 1, 4, 0]\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "git_commit_log.csv"
+        }
+      },
+      "solution_code": "commit_authors = ['Alice', 'Bob', 'Charlie']\ncommit_messages = ['msg1', 'msg2', 'msg3']\nlines_added = [128, 5, 600]\nlines_deleted = [10, 3, 25]\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'author': commit_authors,\n    'message': commit_messages,\n    'added': lines_added,\n    'deleted': lines_deleted\n})\ndf['net_changes'] = df['added'] - df['deleted']\nauthor_contributions = df.groupby('author')['net_changes'].sum()\ntop_contributor = author_contributions.idxmax()\nprint(author_contributions)\nprint(top_contributor)",
+      "expected_output": "author\nAlice      118\nBob          2\nCharlie    575\nName: net_changes, dtype: int64\nCharlie",
+      "output_description": "Total net line changes grouped by author, with Charlie being the top contributor with 575 net line changes.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Create the DataFrame using a dictionary where keys map to the pre-loaded lists.",
+        "Group by 'author', select 'net_changes', and call .sum()."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates analyzing git repository metrics by computing author-level change volume using Pandas."
+    }
+  ]
+}

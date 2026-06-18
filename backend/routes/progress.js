@@ -1,3 +1,4 @@
+import config from '../config.js'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
@@ -70,9 +71,7 @@ export function recalculateMastery(courseId, userId) {
   const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   const trackSlug = track ? track.slug : ''
 
-  const contentFolder = process.env.CONTENT_FOLDER 
-    ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-    : DEFAULT_CONTENT_FOLDER;
+  const contentFolder = config.CONTENT_PATH
 
   const conceptIdsSet = new Set()
   const conceptIdMap = new Map()
@@ -353,19 +352,14 @@ export function recalculateMastery(courseId, userId) {
   }
 
   // Calculate incorrect review score (percentage of cleared incorrect attempts)
-  const incorrectCount = db.prepare(`
-    SELECT COUNT(DISTINCT a.question_id || '-' || a.exercise_type) AS count
-    FROM exercise_attempts a
-    JOIN (
-      SELECT exercise_type, question_id, MAX(attempted_at) as max_attempted_at
-      FROM exercise_attempts
-      WHERE course_id = ? AND user_id = ? AND question_id IS NOT NULL
-      GROUP BY exercise_type, question_id
-    ) sub ON a.exercise_type = sub.exercise_type 
-          AND a.question_id = sub.question_id 
-          AND a.attempted_at = sub.max_attempted_at
-    WHERE a.was_correct = 0
-  `).get(courseId, userId).count
+  const incorrectCountRow = db.prepare(`
+    SELECT COUNT(DISTINCT question_id || '-' || exercise_type) as count
+    FROM exercise_attempts
+    WHERE user_id = ? AND course_id = ? AND was_correct = 0
+    AND exercise_type IN ('quiz','fillblank','bossbattle','flashcard','matching')
+  `).get(userId, courseId)
+  const incorrectCount = incorrectCountRow.count || 0
+
 
   const totalAttemptedQuestions = db.prepare(`
     SELECT COUNT(DISTINCT question_id || '-' || exercise_type) AS count
@@ -747,9 +741,7 @@ router.get('/progress/exercise-stats/:courseSlug', (req, res, next) => {
       return res.status(404).json({ error: 'Course not found' })
     }
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
     const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
 
     // 1. MCQ questions available (prioritize mcq.json on disk)
@@ -1055,9 +1047,7 @@ router.get('/progress/course-concepts-mastery/:courseId', (req, res, next) => {
     const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
     const trackSlug = track ? track.slug : ''
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
     const exercisesDir = path.join(contentFolder, 'tracks', trackSlug, course.slug, 'exercises')
 
     const concepts = db.prepare('SELECT id, name, definition, category, difficulty FROM concepts WHERE course_id = ? ORDER BY id ASC').all(courseId)
@@ -1198,9 +1188,7 @@ router.get('/progress/incorrect-questions/:courseSlug', (req, res, next) => {
       GROUP BY question_id, exercise_type
     `).all(userId, course.id)
 
-    const contentFolder = process.env.CONTENT_FOLDER 
-      ? (path.isAbsolute(process.env.CONTENT_FOLDER) ? process.env.CONTENT_FOLDER : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-      : DEFAULT_CONTENT_FOLDER;
+    const contentFolder = config.CONTENT_PATH
     const exercisesDir = path.join(contentFolder, 'tracks', course.track_slug, course.slug, 'exercises')
 
     // Read all exercise JSON files to create detail maps

@@ -1,0 +1,902 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_004",
+    "concept_name": "pwd",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Print the full path of the current working directory.",
+    "code_template": "_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "pwd",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["pwd", "ls", "cd", "dir"],
+    "per_tile_feedback": {
+      "pwd": "Correct! pwd stands for 'print working directory' and displays the absolute path.",
+      "ls": "ls lists files and folders, not the current path.",
+      "cd": "cd changes the directory, it does not print the current location.",
+      "dir": "dir is a Windows command for listing directory contents, not for printing the working directory."
+    },
+    "hints": [
+      "Remember that the command is an acronym for 'print working directory'.",
+      "It is a three‑letter command, not related to listing files."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pwd outputs the absolute path of the current directory, helping you know exactly where you are in the filesystem.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_005",
+    "concept_name": "ls",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "List the files and directories in the current folder.",
+    "code_template": "_____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ls",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ls", "pwd", "list", "show"],
+    "per_tile_feedback": {
+      "ls": "Correct! ls lists the contents of the current directory.",
+      "pwd": "pwd prints the working directory path, not its contents.",
+      "list": "list is not a valid shell command.",
+      "show": "show is not a standard command for listing files."
+    },
+    "hints": [
+      "This two‑letter command is short for 'list'.",
+      "It shows the names of files and subdirectories, not the path."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ls lists files and directories. By default it hides files whose names start with a dot; use ls -a to include them.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_006",
+    "concept_name": "cd",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Change the current working directory to the folder named archive.",
+    "code_template": "_____ archive",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "cd",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["cd", "mv", "chdir", "goto"],
+    "per_tile_feedback": {
+      "cd": "Correct! cd stands for 'change directory' and moves the shell into the archive folder.",
+      "mv": "mv is used to move or rename files, not to change the shell's working directory.",
+      "chdir": "chdir is a Windows command; on Unix-like systems the command is cd.",
+      "goto": "goto is not a shell command for changing directories."
+    },
+    "hints": [
+      "The command is two letters, an abbreviation of 'change directory'.",
+      "You use it to navigate into subdirectories."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "cd archive moves the shell's current location into the archive folder. Without arguments, cd goes to the home directory.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_007",
+    "concept_name": "git --version",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Check the installed version of Git.",
+    "code_template": "git _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "--version",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["--version", "version", "-v", "--ver"],
+    "per_tile_feedback": {
+      "--version": "Correct! The double‑dash flag is the standard way to display the Git version.",
+      "version": "Without the dashes, 'git version' is not a recognized Git subcommand.",
+      "-v": "The -v flag is not used by Git for version information.",
+      "--ver": "The correct long flag is --version, not --ver."
+    },
+    "hints": [
+      "Many command‑line tools use --version to show their version number.",
+      "It requires two dashes before the word 'version'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git --version prints the installed Git version, e.g., 'git version 2.46.0'. Using 'git version' without dashes is a common mistake.",
+    "common_mistake_warning": "⚠️ Writing 'git version' without dashes will produce an error."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_010",
+    "concept_name": "git init",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a new Git repository inside a directory named mental-health-workspace.",
+    "code_template": "git init _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "mental-health-workspace",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["mental-health-workspace", "my-project", "repo", "."],
+    "per_tile_feedback": {
+      "mental-health-workspace": "Correct! The argument is the name of the directory to create and initialize.",
+      "my-project": "This would create a repository named 'my-project', not the required 'mental-health-workspace'.",
+      "repo": "The name must match the exact project directory.",
+      ".": "A dot initializes the current directory, not a new one."
+    },
+    "hints": [
+      "Use the exact name from the course: the project is about mental health in tech.",
+      "The directory will be created and a hidden .git folder placed inside it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git init mental-health-workspace creates the folder and turns it into a Git repository.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_010",
+    "concept_name": "git init",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Convert the current directory into a Git repository.",
+    "code_template": "git _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "init",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["init", "create", "start", "repo"],
+    "per_tile_feedback": {
+      "init": "Correct! git init without a directory name initializes the current folder.",
+      "create": "There is no 'git create' command.",
+      "start": "Git does not have a 'start' subcommand.",
+      "repo": "'git repo' is not a valid command."
+    },
+    "hints": [
+      "The command is short for 'initialize'.",
+      "It creates the hidden .git folder in the current directory."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git init (without arguments) turns the present working directory into a Git repository by creating the .git subfolder.",
+    "common_mistake_warning": "⚠️ Running git init inside an existing repository creates nested repos, causing confusion."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_011",
+    "concept_name": "git status",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Check the current state of the repository to see which files are tracked, modified, or untracked.",
+    "code_template": "git _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "status",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["status", "log", "check", "diff"],
+    "per_tile_feedback": {
+      "status": "Correct! git status shows the working tree status and staging area.",
+      "log": "git log shows commit history, not the current file states.",
+      "check": "'git check' is not a command.",
+      "diff": "git diff shows changes, but status gives an overview of all files."
+    },
+    "hints": [
+      "You run this frequently to see what's changed since the last commit.",
+      "It lists untracked files and files that are staged."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git status displays the current branch, changes to be committed, changes not staged, and untracked files.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_011",
+    "concept_name": "git status",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the hint that appears in git status output when untracked files are present.",
+    "code_template": "nothing added to commit but untracked files present (use \"git add\" to _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "track",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["track", "commit", "stage", "ignore"],
+    "per_tile_feedback": {
+      "track": "Correct! The status message suggests using 'git add' to begin tracking the files.",
+      "commit": "Adding does not commit directly; it only stages.",
+      "stage": "The message specifically says 'to track', not 'to stage'.",
+      "ignore": "You would use .gitignore to ignore files, not 'git add'."
+    },
+    "hints": [
+      "The full message says: use \"git add <file>...\" to include in what will be committed, which is also called 'tracking'.",
+      "The blank is the action Git performs on previously untracked files when you run git add."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The status message reads 'nothing added to commit but untracked files present (use \"git add\" to track)'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_014",
+    "concept_name": "git add",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Stage the file README.md for the next commit.",
+    "code_template": "git add _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "README.md",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["README.md", ".", "*", "add"],
+    "per_tile_feedback": {
+      "README.md": "Correct! Only this file will be staged.",
+      ".": "The dot stages all files in the current directory, not just README.md.",
+      "*": "The wildcard * may not match hidden files and is less precise.",
+      "add": "You cannot write 'git add add' – the argument must be a file path."
+    },
+    "hints": [
+      "Use the exact filename from the course example.",
+      "The file is a Markdown readme."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git add README.md stages that single file, preparing its current contents for the next commit.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": "git add",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Stage all new and modified files in the current directory and its subdirectories.",
+    "code_template": "git add _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [".", "*", "--all", "-A"],
+    "per_tile_feedback": {
+      ".": "Correct! The dot tells Git to stage everything from the current directory downwards, respecting .gitignore.",
+      "*": "The shell expands * before Git sees it, potentially missing dotfiles.",
+      "--all": "--all is not used with git add; it is a flag for git commit.",
+      "-A": "-A is not a valid short flag for git add."
+    },
+    "hints": [
+      "Think of the symbol that represents the current directory.",
+      "The course uses a single punctuation character for this."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git add . recursively adds all changes in the current directory and below, while ignoring files listed in .gitignore.",
+    "common_mistake_warning": "⚠️ Using 'git add *' can behave differently because the shell expands the wildcard before Git processes it."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_015",
+    "concept_name": "git commit",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Commit the staged changes with the exact message 'Adding a README.'",
+    "code_template": "git commit -m \"_____\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Adding a README.",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["Adding a README.", "Add README", "Added README", "Update readme"],
+    "per_tile_feedback": {
+      "Adding a README.": "Correct! The course example uses exactly this message.",
+      "Add README": "The message in the course is 'Adding a README.', not 'Add README'.",
+      "Added README": "The tense does not match the course example.",
+      "Update readme": "This does not describe the specific action performed."
+    },
+    "hints": [
+      "Look at the commit message in the code example from Chapter 3.",
+      "The message begins with 'Adding' and ends with a period."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git commit -m \"Adding a README.\" creates a new snapshot with that log message, using the -m flag to supply the message inline.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_015",
+    "concept_name": "git commit",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Create a commit with the message 'Fix typos' without being dropped into a text editor.",
+    "code_template": "git commit _____ \"Fix typos\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-m",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["-m", "--msg", "-a", "-e"],
+    "per_tile_feedback": {
+      "-m": "Correct! The -m flag lets you provide the commit message directly on the command line.",
+      "--msg": "The correct long flag is --message, but the course uses the short -m.",
+      "-a": "-a automatically stages modified tracked files, but does not supply a message.",
+      "-e": "-e forces the editor to open even when -m is used; it does not help skip the editor."
+    },
+    "hints": [
+      "The flag is a single hyphen followed by a letter.",
+      "It stands for 'message'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git commit -m \"message\" creates a commit with that message, bypassing the default text editor.",
+    "common_mistake_warning": "⚠️ Omitting the -m flag will open the configured editor, which can confuse beginners."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_017",
+    "concept_name": "Commit hash",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Using the output of git log below, run a command to view the details of the commit that has the hash starting with ad8acfe.",
+    "code_template": "git log --oneline\nad8acfe Add README\ncb33c18 Update data\n\ngit show _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ad8acfe",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ad8acfe", "cb33c18", "HEAD", "main"],
+    "per_tile_feedback": {
+      "ad8acfe": "Correct! That is the shortened commit hash of the first entry, which identifies the commit.",
+      "cb33c18": "That hash belongs to the second commit, not the one you want to inspect.",
+      "HEAD": "HEAD would show the latest commit, which is cb33c18, not ad8acfe.",
+      "main": "main is a branch name, not a specific commit hash."
+    },
+    "hints": [
+      "Use the shortened hash from the log output, not a branch name.",
+      "The commit you want is the one with the message 'Add README'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Git can reference commits by their unique hash. Even a short prefix like ad8acfe is enough to identify the commit, as long as it's unambiguous.",
+    "common_mistake_warning": "⚠️ The hash is deterministic and not random; the same content always produces the same hash."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_021",
+    "concept_name": "git log",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Display the full commit history of the repository.",
+    "code_template": "git _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "log",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["log", "history", "commits", "show"],
+    "per_tile_feedback": {
+      "log": "Correct! git log shows the commit history in reverse chronological order.",
+      "history": "There is no 'git history' command.",
+      "commits": "'git commits' is not a valid command.",
+      "show": "git show displays a single commit, not the whole history."
+    },
+    "hints": [
+      "The command is three letters.",
+      "It's the primary way to review past snapshots."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git log opens a pager (like less) that lists commits with their hashes, authors, dates, and messages. Press q to exit.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_021",
+    "concept_name": "git log",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Complete the author name from a git log entry.",
+    "code_template": "commit ad8acfef94cb924444c488132bdef7c54b9bcac68\nAuthor: _____ <repl@datacamp.com>\nDate:   Wed Jul 24 07:48:27 2022 +0000",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Rep Loop",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["Rep Loop", "Repl User", "DataCamp", "Git User"],
+    "per_tile_feedback": {
+      "Rep Loop": "Correct! The course output consistently uses 'Rep Loop' as the author name.",
+      "Repl User": "The email domain is repl@datacamp.com, but the display name is 'Rep Loop'.",
+      "DataCamp": "This is the organisation, not the author name.",
+      "Git User": "This is a generic placeholder, not the actual author from the course example."
+    },
+    "hints": [
+      "The name appears in the git log output from Chapter 4.",
+      "It consists of two words, starting with 'Rep'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The git log output shows the commit author. In the course examples, the author is consistently 'Rep Loop'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_022",
+    "concept_name": "git log -n",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Show only the three most recent commits.",
+    "code_template": "git log _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-3",
+        "answer_alternatives": ["-n 3"]
+      }
+    ],
+    "word_bank": ["-3", "-n 3", "--max 3", "--last 3"],
+    "per_tile_feedback": {
+      "-3": "Correct! The course uses the compact -<number> syntax.",
+      "-n 3": "This is also valid and means the same thing; both are accepted.",
+      "--max 3": "--max is not a recognized git log option.",
+      "--last 3": "--last is not a valid flag for git log."
+    },
+    "hints": [
+      "The flag is a hyphen directly followed by a number.",
+      "In Chapter 5, the example uses 'git log -3'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git log -3 restricts the output to the three latest commits. The syntax -<n> is a shortcut.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_023",
+    "concept_name": "git log --since",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "List all commits made after April 2, 2024.",
+    "code_template": "git log --since='_____'",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Apr 2 2024",
+        "answer_alternatives": ["2024-04-02"]
+      }
+    ],
+    "word_bank": ["Apr 2 2024", "April 2, 2024", "2024-04-02", "2 Apr 2024"],
+    "per_tile_feedback": {
+      "Apr 2 2024": "Correct! The course example uses this exact date format.",
+      "April 2, 2024": "The course format does not include a comma; this might still work but is not the exact example.",
+      "2024-04-02": "Git accepts this ISO format, so it's a valid alternative.",
+      "2 Apr 2024": "Git understands many date formats, but the course example is 'Apr 2 2024'."
+    },
+    "hints": [
+      "The course shows the date as 'Apr 2 2024' without a comma.",
+      "The month is abbreviated to three letters, followed by the day and year."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git log --since='Apr 2 2024' shows commits on or after that date. Git accepts various natural language formats.",
+    "common_mistake_warning": "⚠️ Ambiguous formats like '07-04-2024' can be misinterpreted depending on locale."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_024",
+    "concept_name": "git log --until",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Display commits made between April 2 and April 11, 2024.",
+    "code_template": "git log --since='Apr 2 2024' --until='_____'",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Apr 11 2024",
+        "answer_alternatives": ["2024-04-11"]
+      }
+    ],
+    "word_bank": ["Apr 11 2024", "Apr 10 2024", "2024-04-11", "11 Apr 2024"],
+    "per_tile_feedback": {
+      "Apr 11 2024": "Correct! This matches the course example for the end of the range.",
+      "Apr 10 2024": "The course example uses April 11, not April 10.",
+      "2024-04-11": "Git accepts this ISO format, so it's a valid alternative.",
+      "11 Apr 2024": "Git may understand this, but the exact course format is 'Apr 11 2024'."
+    },
+    "hints": [
+      "The course example uses the same format as --since.",
+      "The day is 11, not 10."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git log --until='Apr 11 2024' limits the history to commits up to that date. Combined with --since, it creates a date window.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_026",
+    "concept_name": "git diff",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "See the unstaged changes made to report.md since the last commit.",
+    "code_template": "git _____ report.md",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "diff",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["diff", "show", "status", "changes"],
+    "per_tile_feedback": {
+      "diff": "Correct! git diff compares the working file to the version in the last commit.",
+      "show": "git show displays a commit, not working directory differences.",
+      "status": "git status reports which files have changed, not the actual line differences.",
+      "changes": "There is no 'git changes' command."
+    },
+    "hints": [
+      "The command stands for 'difference'.",
+      "It outputs lines prefixed with + and -."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git diff report.md shows the exact lines added and removed in the unstaged version of the file.",
+    "common_mistake_warning": "⚠️ git diff without --staged only shows unstaged changes."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_026",
+    "concept_name": "git diff",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "In the diff output below, what does the '+' indicate?\n\n-TODO: write executive summary.\n+TODO: cite funding sources.",
+    "code_template": "The line starting with '+' is _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "added",
+        "answer_alternatives": ["an addition"]
+      }
+    ],
+    "word_bank": ["added", "removed", "modified", "unchanged"],
+    "per_tile_feedback": {
+      "added": "Correct! Lines with '+' are new additions.",
+      "removed": "Removed lines are prefixed with '-'.",
+      "modified": "A modification is shown as a removal of the old line and an addition of the new line.",
+      "unchanged": "Unchanged lines appear without a prefix in the context."
+    },
+    "hints": [
+      "Lines starting with '-' are deletions.",
+      "Lines starting with '+' are the opposite."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In unified diff output, '+' marks lines that have been added, while '-' marks lines that have been removed.",
+    "common_mistake_warning": "⚠️ A single modification is represented as a delete and an add pair."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_027",
+    "concept_name": "git diff --staged",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Compare the staged version of report.md to the last commit.",
+    "code_template": "git diff _____ report.md",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "--staged",
+        "answer_alternatives": ["--cached"]
+      }
+    ],
+    "word_bank": ["--staged", "--cached", "--stage", "-s"],
+    "per_tile_feedback": {
+      "--staged": "Correct! --staged shows the difference between the staging area and HEAD.",
+      "--cached": "This is a synonym for --staged and is also valid.",
+      "--stage": "--stage is not a recognized flag; the correct long form is --staged.",
+      "-s": "The short flag -s is not used for --staged."
+    },
+    "hints": [
+      "The flag begins with '--st' and tells Git to look at the staging area.",
+      "Without this flag, git diff only shows unstaged changes."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git diff --staged (or --cached) compares what is staged to the last commit, showing exactly what will be committed.",
+    "common_mistake_warning": "⚠️ Forgetting the --staged flag will show no output if the changes have already been staged."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_029",
+    "concept_name": "HEAD~ syntax",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Compare the previous commit to the current commit using relative references.",
+    "code_template": "git diff HEAD~1 _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "HEAD",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["HEAD", "HEAD~0", "HEAD~2", "main"],
+    "per_tile_feedback": {
+      "HEAD": "Correct! HEAD is the current commit, while HEAD~1 is its parent.",
+      "HEAD~0": "HEAD~0 is not a valid reference; HEAD~1 is the parent.",
+      "HEAD~2": "That would compare two commits back to two commits back, not the current one.",
+      "main": "main is a branch name, not a relative reference to the current commit."
+    },
+    "hints": [
+      "HEAD without a tilde points to where you currently are.",
+      "The command should show the difference between the parent and the current commit."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git diff HEAD~1 HEAD shows what changed between the previous commit and the latest one.",
+    "common_mistake_warning": "⚠️ Order matters: git diff HEAD HEAD~1 would show the reverse of the changes."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_025",
+    "concept_name": "git show",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "View the full details (metadata and patch) of the commit identified by the hash c27fa856.",
+    "code_template": "git _____ c27fa856",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "show",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["show", "log", "diff", "detail"],
+    "per_tile_feedback": {
+      "show": "Correct! git show displays the commit object and its diff.",
+      "log": "git log shows the entire history, not a single commit.",
+      "diff": "git diff compares two commits, but a single hash doesn't provide the other commit.",
+      "detail": "There is no 'git detail' command."
+    },
+    "hints": [
+      "You need to inspect one specific commit, not the whole history.",
+      "The command is four letters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git show <commit> presents the metadata (author, date, message) and the changes introduced by that commit.",
+    "common_mistake_warning": "⚠️ Confusing git show with git log or git diff is a common mistake."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_030",
+    "concept_name": "git revert",
+    "chapter": 7,
+    "difficulty": "very_hard",
+    "task_description": "Undo the most recent commit by creating a new commit that reverses its changes.",
+    "code_template": "git _____ HEAD",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "revert",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["revert", "undo", "reset", "checkout"],
+    "per_tile_feedback": {
+      "revert": "Correct! git revert creates a new commit that inverts the target commit's changes.",
+      "undo": "There is no 'git undo' command.",
+      "reset": "git reset can discard commits, but it rewrites history and does not create a new safe commit.",
+      "checkout": "git checkout can switch branches or restore files, but it does not create a revert commit."
+    },
+    "hints": [
+      "The command starts with 'rev' and preserves the original commit in history.",
+      "It's the safe way to undo a public commit."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git revert HEAD computes the inverse of the latest commit and records it as a new commit, leaving all history intact.",
+    "common_mistake_warning": "⚠️ git revert does not delete the original commit; it adds a new one."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_030",
+    "concept_name": "git revert",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Revert the commit with the hash 35f4b4d.",
+    "code_template": "git revert _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "35f4b4d",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["35f4b4d", "HEAD", "HEAD~1", "main"],
+    "per_tile_feedback": {
+      "35f4b4d": "Correct! The hash from the course identifies the commit to revert.",
+      "HEAD": "HEAD would revert the latest commit, not the specific one with that hash.",
+      "HEAD~1": "That refers to the parent commit, not 35f4b4d.",
+      "main": "main is a branch, not a commit hash."
+    },
+    "hints": [
+      "Use the exact hash shown in the task description.",
+      "It's a 7-character hexadecimal string."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git revert <commit> creates a new commit that undoes the changes from that commit. You can reference it by its full or abbreviated hash.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_031",
+    "concept_name": "git revert --no-edit",
+    "chapter": 7,
+    "difficulty": "very_hard",
+    "task_description": "Revert the latest commit without being prompted to edit the commit message.",
+    "code_template": "git revert --no-edit _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "HEAD",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["HEAD", "HEAD~1", "main", "."],
+    "per_tile_feedback": {
+      "HEAD": "Correct! HEAD refers to the most recent commit.",
+      "HEAD~1": "That would revert the parent commit, not the latest.",
+      "main": "main is a branch name, but HEAD already points to the latest commit on the current branch.",
+      ".": "A dot is not a valid commit reference."
+    },
+    "hints": [
+      "You need to reference the latest commit.",
+      "The symbolic reference that means 'current commit'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git revert --no-edit HEAD creates a revert commit for HEAD using the default revert message, skipping the editor.",
+    "common_mistake_warning": "⚠️ Using --no-edit when you want to customize the message is a common oversight."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_032",
+    "concept_name": "git revert -n",
+    "chapter": 7,
+    "difficulty": "very_hard",
+    "task_description": "Apply the inverse of the latest commit's changes to the working directory and staging area, but do not create a commit.",
+    "code_template": "git revert -n _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "HEAD",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["HEAD", "HEAD~1", "main", "."],
+    "per_tile_feedback": {
+      "HEAD": "Correct! The -n flag applies the revert changes without committing.",
+      "HEAD~1": "This would target the parent commit, not the latest.",
+      "main": "main is a branch name; HEAD is already pointing to it.",
+      ".": "A dot is not a commit reference."
+    },
+    "hints": [
+      "-n stands for '--no-commit'.",
+      "You need to specify which commit to revert; the current commit is the target."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git revert -n HEAD stages the reverse of the latest commit but stops before creating a commit, allowing review or combination with other changes.",
+    "common_mistake_warning": "⚠️ Forgetting to follow up with a commit leaves the revert changes staged but unsaved."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_033",
+    "concept_name": "git checkout (restore file)",
+    "chapter": 7,
+    "difficulty": "very_hard",
+    "task_description": "Restore the file report.md to its state from the previous commit.",
+    "code_template": "git checkout HEAD~1 -- _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "report.md",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["report.md", "README.md", "summary_statistics.csv", "."],
+    "per_tile_feedback": {
+      "report.md": "Correct! This is the file we want to restore.",
+      "README.md": "The task specifies report.md, not README.md.",
+      "summary_statistics.csv": "This is a different file from the course examples.",
+      ".": "A dot would try to restore a directory, not a single file."
+    },
+    "hints": [
+      "Use the exact filename from the task description.",
+      "The double dash -- separates the commit reference from the file path."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git checkout <commit> -- <file> overwrites the working copy of the file with the version from that commit.",
+    "common_mistake_warning": "⚠️ Forgetting the -- separator can cause Git to misinterpret the file name as a branch name."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_034",
+    "concept_name": "git restore --staged",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Remove summary_statistics.csv from the staging area but keep its changes in the working directory.",
+    "code_template": "git _____ --staged summary_statistics.csv",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "restore",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["restore", "reset", "remove", "unstage"],
+    "per_tile_feedback": {
+      "restore": "Correct! git restore --staged unstages the file.",
+      "reset": "git reset can also unstage files, but the course teaches git restore --staged as the modern method.",
+      "remove": "There is no 'git remove --staged' command.",
+      "unstage": "Git does not have an 'unstage' subcommand."
+    },
+    "hints": [
+      "The command starts with 'res' and is the newer way to unstage files.",
+      "It is used with the --staged flag to target the staging area."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git restore --staged <file> moves a file out of the staging area, leaving the working directory unchanged.",
+    "common_mistake_warning": "⚠️ Without --staged, git restore would discard your working changes entirely."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_034",
+    "concept_name": "git restore --staged",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Unstage only the file summary_statistics.csv using the restore command.",
+    "code_template": "git restore --staged _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "summary_statistics.csv",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["summary_statistics.csv", "report.md", ".", "--all"],
+    "per_tile_feedback": {
+      "summary_statistics.csv": "Correct! This is the file to unstage.",
+      "report.md": "The task asks for summary_statistics.csv.",
+      ".": "A dot would unstage all files, not just the specified one.",
+      "--all": "This is not a valid file path; you need the filename."
+    },
+    "hints": [
+      "Use the exact filename from the task.",
+      "The command ends with the file you want to unstage."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "git restore --staged summary_statistics.csv removes that specific file from the staging area, so it will not be included in the next commit.",
+    "common_mistake_warning": null
+  }
+]

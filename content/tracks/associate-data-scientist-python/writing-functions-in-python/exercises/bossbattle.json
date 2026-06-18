@@ -1,0 +1,1242 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_011",
+    "concept_name": "Immutable data types",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these data types is immutable?",
+    "options": {
+      "a": "list",
+      "b": "dict",
+      "c": "set",
+      "d": "int"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "list is mutable; you can change its elements in place.",
+      "b": "dict is mutable; you can add or remove key-value pairs.",
+      "c": "set is mutable; you can add or remove elements.",
+      "d": "Correct. int is immutable; arithmetic operations create new int objects."
+    },
+    "hints": [
+      "Mutable types can be modified after creation.",
+      "Think about which type cannot be changed once created."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Immutable types cannot be changed after they are created. int, float, bool, str, tuple, and frozenset are immutable, while list, dict, set, and bytearray are mutable.",
+    "time_pressure_note": "Under time pressure, people often confuse the mutability of list vs tuple.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_012",
+    "concept_name": "Mutable data types",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is mutable?",
+    "options": {
+      "a": "tuple",
+      "b": "str",
+      "c": "int",
+      "d": "list"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "tuple is immutable; once created, its elements cannot be changed.",
+      "b": "str is immutable; you cannot modify a character in place.",
+      "c": "int is immutable; operations produce new integers.",
+      "d": "Correct. list is mutable; you can append, remove, or change elements."
+    },
+    "hints": [
+      "Mutable objects can be modified after creation.",
+      "Which of these is the only collection that allows in-place modifications?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A list is a mutable sequence, meaning its contents can be altered after the list is created.",
+    "time_pressure_note": "Rush may lead to mistakenly thinking tuples are mutable.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_001",
+    "concept_name": "Docstring",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "What is the output of this code?\n\n```python\ndef greet(name):\n    \"\"\"Return a friendly greeting.\"\"\"\n    return f\"Hello {name}\"\n\nprint(greet.__doc__)\n```",
+    "options": {
+      "a": "`Hello name`",
+      "b": "`Return a friendly greeting.`",
+      "c": "`None`",
+      "d": "`<function greet at 0x...>`"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "That would be the return value of the function, not the docstring.",
+      "b": "Correct. The docstring is stored in __doc__ and printed.",
+      "c": "__doc__ is not None when a docstring is present.",
+      "d": "That's the representation of the function object, not its docstring."
+    },
+    "hints": [
+      "What does a function's __doc__ attribute contain?",
+      "Look for the string immediately after the function header."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When a string literal appears as the first statement in a function, it becomes the function's docstring, accessible via __doc__.",
+    "time_pressure_note": "People may confuse the docstring with the return value or function name.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_002",
+    "concept_name": "Google-style docstring",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this Google-style docstring?\n\n```python\ndef compute(x, y=10):\n    \"\"\"Compute the result.\n\n    Args:\n        x (int): First number.\n        y (int): Second number.\n\n    Returns:\n        int\n    \"\"\"\n    return x + y\n```",
+    "options": {
+      "a": "The 'Args' section should be named 'Parameters'.",
+      "b": "The optional argument 'y' is not marked with '(optional)'.",
+      "c": "The description must be a single line.",
+      "d": "The 'Returns' section requires a description."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Google-style uses 'Args', not 'Parameters'. That's Numpydoc.",
+      "b": "Correct. Arguments with default values must be annotated with ', optional'.",
+      "c": "The description can be multi-line.",
+      "d": "A description in the Returns section is optional; here it's just the type."
+    },
+    "hints": [
+      "Look at the argument that has a default value.",
+      "Google-style requires a special marker for optional parameters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In a Google-style docstring, every argument that has a default value must be marked with ', optional' after its type.",
+    "time_pressure_note": "It's easy to overlook the missing '(optional)' when scanning quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_003",
+    "concept_name": "Numpydoc docstring",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these docstring snippets is NOT valid Numpydoc?",
+    "options": {
+      "a": "```\nParameters\n----------\nx : int\n    Input value.\n```",
+      "b": "```\nReturns\n-------\nint\n    The result.\n```",
+      "c": "```\nArgs:\n    x (int): Input value.\n```",
+      "d": "```\nOther Parameters\n----------------\nverbose : bool\n    Flag.\n```"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "This is a correctly formatted Numpydoc Parameters section.",
+      "b": "This is a correctly formatted Numpydoc Returns section.",
+      "c": "Correct. This is Google-style, not Numpydoc.",
+      "d": "This is a valid Numpydoc section (Other Parameters)."
+    },
+    "hints": [
+      "Numpydoc uses underlines with dashes.",
+      "Google-style uses 'Args' and 'Returns' without underlines."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Numpydoc requires section headers with dashed underlines; Google-style uses different headers and no underlines.",
+    "time_pressure_note": "Quick scanning may miss the absence of underlines.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_006",
+    "concept_name": "DRY (Don't Repeat Yourself)",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Which line of the refactored code eliminated the duplication?\n\nBEFORE:\n```\ntrain = pd.read_csv('train.csv')\ntrain_pca = PCA(2).fit_transform(train)\nplt.scatter(train_pca[:,0], train_pca[:,1])\n\nval = pd.read_csv('validation.csv')\nval_pca = PCA(2).fit_transform(val)\nplt.scatter(val_pca[:,0], val_pca[:,1])\n```\n\nAFTER:\n```\ndef process(path):\n    df = pd.read_csv(path)\n    return PCA(2).fit_transform(df)\nplt.scatter(process('train.csv')[:,0], process('train.csv')[:,1])\nplt.scatter(process('validation.csv')[:,0], process('validation.csv')[:,1])\n```",
+    "options": {
+      "a": "Adding 'def process(path):'",
+      "b": "Using PCA(2).fit_transform(df) inside the function",
+      "c": "Calling plt.scatter with process() instead of raw data",
+      "d": "Defining the function and calling it twice with different paths"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The function definition abstracts the repeated logic.",
+      "b": "That's part of the abstraction but not the key change.",
+      "c": "That's a consequence, not the change that removed duplication.",
+      "d": "The elimination happened by creating the function, not just calling it."
+    },
+    "hints": [
+      "What was the core change that allowed the repeated block to become one line?",
+      "Look for a new code block that didn't exist before."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The DRY principle is applied by extracting the repeated code into a function, then calling that function with different inputs.",
+    "time_pressure_note": "People may focus on the calls instead of the definition.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_007",
+    "concept_name": "Do One Thing principle",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which function violates the 'Do One Thing' principle?",
+    "options": {
+      "a": "```python\ndef load_data(path):\n    return pd.read_csv(path)\n```",
+      "b": "```python\ndef plot_data(df):\n    plt.scatter(df[:,0], df[:,1])\n```",
+      "c": "```python\ndef load_and_plot(path):\n    df = pd.read_csv(path)\n    plt.scatter(df[:,0], df[:,1])\n```",
+      "d": "```python\ndef compute_stats(arr):\n    return np.mean(arr)\n```"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "This function only loads data.",
+      "b": "This function only plots data.",
+      "c": "Correct. It loads and plots, mixing I/O and visualization.",
+      "d": "This function only computes statistics."
+    },
+    "hints": [
+      "Look for a function that performs two unrelated actions.",
+      "The name might give it away."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The 'Do One Thing' principle says each function should have a single responsibility. load_and_plot combines data loading and plotting.",
+    "time_pressure_note": "People might quickly skim and not notice the dual responsibility.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_010",
+    "concept_name": "Pass by assignment",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\ndef modify(lst, num):\n    lst.append(99)\n    num = num + 100\n\nmy_list = [1, 2]\nmy_num = 5\nmodify(my_list, my_num)\nprint(my_list)\nprint(my_num)\n```",
+    "options": {
+      "a": "`[1, 2, 99]` then `105`",
+      "b": "`[1, 2]` then `5`",
+      "c": "`[1, 2, 99]` then `5`",
+      "d": "`[1, 2]` then `105`"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "num is reassigned locally and does not affect my_num.",
+      "b": "The list is mutated inside the function.",
+      "c": "Correct. The list is mutated, but my_num remains 5.",
+      "d": "The list is mutated, and the integer remains unchanged."
+    },
+    "hints": [
+      "What happens to a list when you append inside a function?",
+      "What happens when you reassign an integer parameter?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Python passes by assignment. Modifying a mutable object like a list affects the original; reassigning an immutable parameter does not.",
+    "time_pressure_note": "Under time pressure, people may mistakenly think both change or both stay the same.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_014",
+    "concept_name": "Context manager",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Given a file 'data.txt' containing \"Python\", what is printed?\n\n```python\nwith open('data.txt') as f:\n    content = f.read()\n    print(len(content))\n```",
+    "options": {
+      "a": "`6`",
+      "b": "`Python`",
+      "c": "`5`",
+      "d": "`0`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. 'Python' has 6 characters.",
+      "b": "The code prints the length, not the content.",
+      "c": "Length of 'Python' is 6, not 5.",
+      "d": "The file is not empty."
+    },
+    "hints": [
+      "What does len() return for a string?",
+      "Count the characters in 'Python'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The with statement opens the file, reads its contents into content, and prints the number of characters. 'Python' has 6 characters.",
+    "time_pressure_note": "It's easy to miscount characters or misinterpret len().",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_015",
+    "concept_name": "with statement",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this code do?\n\n```python\nwith open('log.txt', 'w') as f:\n    f.write('started')\n```",
+    "options": {
+      "a": "Writes 'started' to log.txt and automatically closes it.",
+      "b": "Reads 'started' from log.txt.",
+      "c": "Appends 'started' to log.txt.",
+      "d": "Prints 'started' to the console."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The with block ensures the file is closed after writing.",
+      "b": "The mode is 'w' (write), not 'r'.",
+      "c": "Mode 'w' truncates the file, not appends.",
+      "d": "Write writes to the file, not the console."
+    },
+    "hints": [
+      "Look at the open mode.",
+      "What does the with statement guarantee?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`with open(..., 'w')` opens the file for writing, calls f.write, and then the context manager automatically closes the file.",
+    "time_pressure_note": "It's easy to miss the mode and think it appends.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_021",
+    "concept_name": "Functions as first-class objects",
+    "chapter": 7,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Which line converted the code from printing directly to storing a function and calling it later?\n\nBEFORE:\n```\nprint('Hello')\n```\n\nAFTER:\n```\nsay = print\nsay('Hello')\n```",
+    "options": {
+      "a": "`say = print`",
+      "b": "`say('Hello')`",
+      "c": "`print('Hello')`",
+      "d": "Both lines together"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. This assigns the function object to say.",
+      "b": "This line calls the stored function, but the change was the assignment.",
+      "c": "That line was removed.",
+      "d": "The key change is the assignment that enables later calling."
+    },
+    "hints": [
+      "Which line enables the reuse of the function?",
+      "Look for where a variable receives a function object."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assigning a function to a variable without calling it stores the function object, making it a first-class citizen.",
+    "time_pressure_note": "People might think the call line is the change.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_022",
+    "concept_name": "Referencing vs calling a function",
+    "chapter": 7,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\ndef add(x, y):\n    return x + y\n\noperation = add\nresult = operation(2, 3)\nprint(result)\n```",
+    "options": {
+      "a": "`5`",
+      "b": "`<function add at 0x...>`",
+      "c": "`None`",
+      "d": "`23`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. operation is a reference to add, and calling it returns the sum.",
+      "b": "If we printed operation without parentheses, we'd see the function object.",
+      "c": "The function returns the sum, not None.",
+      "d": "No string concatenation; it's numeric addition."
+    },
+    "hints": [
+      "What does operation(2,3) evaluate to?",
+      "Is operation a reference or a call?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "operation = add stores the function, and operation(2,3) calls it, returning 5.",
+    "time_pressure_note": "One might accidentally read operation as a string concatenation.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_026",
+    "concept_name": "Local scope",
+    "chapter": 8,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error will this code raise?\n\n```python\ndef secret():\n    code = 1234\n\nsecret()\nprint(code)\n```",
+    "options": {
+      "a": "NameError: name 'code' is not defined",
+      "b": "TypeError: 'code' is not callable",
+      "c": "ValueError: local variable referenced before assignment",
+      "d": "SyntaxError: invalid syntax"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. code is local to secret and does not exist in the global scope.",
+      "b": "The error is not about calling; code is never defined globally.",
+      "c": "This error occurs inside a function when a variable is used before assignment, not here.",
+      "d": "The syntax is valid."
+    },
+    "hints": [
+      "Where is 'code' defined?",
+      "Can you access a variable outside the function where it was defined?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Variables assigned inside a function are local. The global scope does not know about them, so print(code) raises a NameError.",
+    "time_pressure_note": "It's tempting to think a function's local variables persist after the call.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_028",
+    "concept_name": "Built‑in scope",
+    "chapter": 8,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What happens after this code runs?\n\n```python\nlen = 5\nprint(len([1, 2, 3]))\n```",
+    "options": {
+      "a": "Prints `5`",
+      "b": "Prints `3`",
+      "c": "Raises a TypeError because len is now an integer",
+      "d": "Raises a NameError because len is overwritten"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "len is an integer, not a function, so it cannot be called.",
+      "b": "The built-in len is no longer accessible.",
+      "c": "Correct. len now holds the integer 5, so calling it fails.",
+      "d": "The name len still exists, but it's no longer a function."
+    },
+    "hints": [
+      "What does len refer to after the assignment?",
+      "Can you call an integer?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assigning to a built-in name shadows the original. Here, len becomes an integer, and calling it raises TypeError: 'int' object is not callable.",
+    "time_pressure_note": "Many believe the assignment silently fails or that the built-in is restored.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_008",
+    "concept_name": "Code smell",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is NOT a code smell?",
+    "options": {
+      "a": "Identical code blocks repeated three times.",
+      "b": "A function that reads a file, processes data, and sends an email.",
+      "c": "Using a descriptive function name like 'compute_average'.",
+      "d": "Hard-coded file paths in multiple places."
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Code repetition is a smell (violates DRY).",
+      "b": "A function doing many things smells of single responsibility violation.",
+      "c": "Correct. Descriptive naming is good practice, not a smell.",
+      "d": "Hard-coded values that should be parameters or constants are a smell."
+    },
+    "hints": [
+      "Code smells indicate potential problems.",
+      "Look for good coding practices."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Code smells are indicators of possible issues. Descriptive names are a sign of clean code, not a smell.",
+    "time_pressure_note": "Under pressure, one might overthink and consider good names as a smell.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_009",
+    "concept_name": "Refactoring",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "A function originally had 20 lines of repeated logic. After refactoring, the main code is only 2 lines. What MUST have changed?",
+    "options": {
+      "a": "The original logic was replaced with a call to a new helper function.",
+      "b": "All variable names were shortened.",
+      "c": "The entire function was rewritten in C.",
+      "d": "The function now prints instead of returning."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Refactoring abstracts repeated logic into separate functions.",
+      "b": "Renaming alone doesn't reduce lines significantly.",
+      "c": "Rewriting in C is not refactoring; it's reimplementation.",
+      "d": "Changing to print doesn't reduce line count."
+    },
+    "hints": [
+      "What technique removes repetition?",
+      "Think of DRY principle."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Refactoring improves code without changing its external behavior. Extracting a helper function is a classic refactoring step.",
+    "time_pressure_note": "People might think variable renaming counts as refactoring line reduction.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_013",
+    "concept_name": "Mutable default arguments danger",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this function?\n\n```python\ndef add_item(item, bag=[]):\n    bag.append(item)\n    return bag\n```",
+    "options": {
+      "a": "bag.append(item) should be bag = [item].",
+      "b": "The default list is shared across calls, causing items to accumulate.",
+      "c": "bag must be declared as nonlocal.",
+      "d": "The function cannot have a mutable default argument at all."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "bag.append(item) is correct for adding to the list; the problem is the default itself.",
+      "b": "Correct. The same list object is used for every call without an argument.",
+      "c": "nonlocal applies to enclosing scopes, not default arguments.",
+      "d": "Mutable defaults are allowed, but they are evaluated once at definition."
+    },
+    "hints": [
+      "When is the default value [] created?",
+      "What happens if you call add_item(1) twice?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Default arguments are evaluated only once. A mutable default like a list persists across calls, leading to unexpected accumulation.",
+    "time_pressure_note": "The bug is subtle because the function seems correct on a single call.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_016",
+    "concept_name": "@contextlib.contextmanager decorator",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code cause?\n\n```python\n@contextlib.contextmanager\ndef my_ctx():\n    print('setup')\n    yield\n    print('teardown')\n```",
+    "options": {
+      "a": "TypeError: generator object expected",
+      "b": "NameError: name 'contextlib' is not defined",
+      "c": "SyntaxError: yield outside function",
+      "d": "AttributeError: module 'contextlib' has no attribute 'contextmanager'"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The function is a generator, but the error occurs earlier.",
+      "b": "Correct. contextlib is not imported; the name is undefined.",
+      "c": "yield is inside a function, so it's valid.",
+      "d": "contextmanager exists in contextlib."
+    },
+    "hints": [
+      "Check if the module is imported.",
+      "What happens when you use a name that hasn't been defined?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The decorator references contextlib without an import, resulting in a NameError. You must import contextlib before using it.",
+    "time_pressure_note": "People may focus on the yield and miss the missing import.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_017",
+    "concept_name": "yield keyword",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is printed by this correctly imported context manager?\n\n```python\nimport contextlib\n@contextlib.contextmanager\ndef printer():\n    print('A')\n    yield 'B'\n    print('C')\n\nwith printer() as p:\n    print(p)\n```",
+    "options": {
+      "a": "`A` then `B` then `C`",
+      "b": "`A` then `C` then `B`",
+      "c": "`B` only",
+      "d": "`A` then `B`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Setup runs first, then the with block, then teardown.",
+      "b": "Teardown runs after the with block, not before.",
+      "c": "The setup and teardown also print.",
+      "d": "The teardown print('C') also executes after the block."
+    },
+    "hints": [
+      "When does the code after yield execute?",
+      "Trace the execution order step by step."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In a generator-based context manager, code before yield is setup, the yielded value is bound to 'p', the with block runs, then code after yield runs.",
+    "time_pressure_note": "It's easy to forget the teardown step under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_018",
+    "concept_name": "Nested contexts",
+    "chapter": 6,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "After executing this code, in what order are the files closed?\n\n```python\nwith open('a.txt') as f1:\n    with open('b.txt') as f2:\n        print(f1.read(), f2.read())\n```",
+    "options": {
+      "a": "b.txt closes first, then a.txt.",
+      "b": "a.txt closes first, then b.txt.",
+      "c": "Both close simultaneously.",
+      "d": "Neither closes automatically."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Inner context exits first, closing the inner file.",
+      "b": "Outer context exits after inner, so outer closes after inner.",
+      "c": "Contexts are exited one at a time.",
+      "d": "Both are closed automatically by the with statement."
+    },
+    "hints": [
+      "Which with block finishes first?",
+      "Think about the stack-like behavior of nested contexts."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Nested with statements exit from the innermost outward. So b.txt is closed, then a.txt.",
+    "time_pressure_note": "Under pressure, the order can be confused.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_019",
+    "concept_name": "try/finally for context managers",
+    "chapter": 6,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What will happen if the code inside 'with' raises an exception in this context manager?\n\n```python\nimport contextlib\n@contextlib.contextmanager\ndef connect(ip):\n    p = open_connection(ip)\n    yield p\n    p.close()\n```",
+    "options": {
+      "a": "The connection will be closed before the exception is raised.",
+      "b": "The connection will not be closed because the teardown is skipped.",
+      "c": "A SyntaxError will occur.",
+      "d": "The exception will be silently ignored."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Without a finally block, an exception skips the code after yield.",
+      "b": "Correct. The close() call after yield is skipped on exception.",
+      "c": "There is no syntax error.",
+      "d": "The exception propagates, but the teardown doesn't execute."
+    },
+    "hints": [
+      "What happens to the code after yield if an exception occurs in the with block?",
+      "What construct guarantees execution?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without try/finally, any exception in the with block will bypass the teardown code after yield, leaving the connection open.",
+    "time_pressure_note": "The missing finally is easy to overlook; the code looks almost right.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_023",
+    "concept_name": "Functions as arguments",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\ndef is_positive(n):\n    return n > 0\n\nnumbers = [-2, 0, 3]\nresult = list(filter(is_positive, numbers))\nprint(result)\n```",
+    "options": {
+      "a": "`[3]`",
+      "b": "`[True, False, True]`",
+      "c": "`[-2, 0, 3]`",
+      "d": "`[False, False, True]`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. filter keeps elements where is_positive is True, so only 3.",
+      "b": "filter returns the elements, not the boolean results.",
+      "c": "filter removes those that don't meet the condition.",
+      "d": "filter returns the elements, not the booleans."
+    },
+    "hints": [
+      "What does filter() return?",
+      "The function is passed as an argument; how is it used?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "filter(func, iterable) applies func to each element and keeps those where func returns True. is_positive(3) is True, so 3 is kept.",
+    "time_pressure_note": "One might confuse filter with map or expect booleans.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_024",
+    "concept_name": "Nested function",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when this code is run?\n\n```python\ndef outer():\n    def inner():\n        print('hidden')\n\ninner()\n```",
+    "options": {
+      "a": "It prints 'hidden'.",
+      "b": "NameError: name 'inner' is not defined",
+      "c": "SyntaxError: nested function cannot be called globally",
+      "d": "TypeError: 'function' object is not callable"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "inner is defined inside outer, not globally.",
+      "b": "Correct. inner only exists inside outer's local scope.",
+      "c": "There is no syntax error; the call is invalid due to scope.",
+      "d": "inner is a function, but the error is that it's undefined in the global scope."
+    },
+    "hints": [
+      "Where is inner defined?",
+      "Can you access a nested function from outside its enclosing function?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A function defined inside another is local to that enclosing function. Calling it from the global scope raises a NameError.",
+    "time_pressure_note": "The error message might be misread as the function not existing at all.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_025",
+    "concept_name": "Functions as return values",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the output?\n\n```python\ndef make_multiplier(factor):\n    def multiplier(x):\n        return x * factor\n    return multiplier\n\ndouble = make_multiplier(2)\nprint(double(5))\n```",
+    "options": {
+      "a": "`10`",
+      "b": "`25`",
+      "c": "`<function multiplier at 0x...>`",
+      "d": "`7`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. double is a function that multiplies by 2, so 5*2=10.",
+      "b": "5*2 is 10, not 25.",
+      "c": "If we printed double without calling, we'd see the function.",
+      "d": "This would be addition, but it's multiplication."
+    },
+    "hints": [
+      "What does make_multiplier(2) return?",
+      "Then call that returned function with 5."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "make_multiplier returns a closure that multiplies by factor. Calling double(5) returns 10.",
+    "time_pressure_note": "Under pressure, one might forget the extra call or miscalculate.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_027",
+    "concept_name": "Global scope",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the final value of count?\n\n```python\ncount = 10\n\ndef increment():\n    count = count + 1\n\nincrement()\nprint(count)\n```",
+    "options": {
+      "a": "`10`",
+      "b": "`11`",
+      "c": "`UnboundLocalError`",
+      "d": "`NameError`"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "The code doesn't reach the print; it raises an error.",
+      "b": "Without global, count is local and uninitialized when reading.",
+      "c": "Correct. Trying to read a local variable before assigning raises UnboundLocalError.",
+      "d": "NameError would occur if the variable didn't exist at all."
+    },
+    "hints": [
+      "Inside increment, is count global or local?",
+      "What happens when you read a variable before assigning in the same scope?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because of the assignment, count is treated as local. But the right-hand side tries to read it before assignment, causing UnboundLocalError.",
+    "time_pressure_note": "People often expect NameError or think it works.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_029",
+    "concept_name": "Nonlocal scope (enclosing scope)",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\ndef outer():\n    x = 'outer'\n    def inner():\n        x = 'inner'\n        print(x)\n    inner()\n    print(x)\n\nouter()\n```",
+    "options": {
+      "a": "`inner` then `outer`",
+      "b": "`inner` then `inner`",
+      "c": "`outer` then `inner`",
+      "d": "`outer` then `outer`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. inner creates a local x that shadows the outer x.",
+      "b": "Without nonlocal, the outer x is not modified.",
+      "c": "The inner print happens first, outputting 'inner'.",
+      "d": "The inner function prints its local x."
+    },
+    "hints": [
+      "Does the assignment inside inner affect the outer x?",
+      "Without nonlocal, a new local variable is created."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because nonlocal is not used, the inner function's x is local, leaving the outer x unchanged.",
+    "time_pressure_note": "Quick reading may miss the missing nonlocal keyword.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_030",
+    "concept_name": "global keyword",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "What must be added to make the final print output 100?\n\n```python\nx = 10\ndef update():\n    # missing line\n    x = 100\nupdate()\nprint(x)\n```",
+    "options": {
+      "a": "`global x` on the line before x = 100",
+      "b": "`nonlocal x` on the line before x = 100",
+      "c": "`x = global x`",
+      "d": "Nothing; it already prints 100"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. global x declares that x refers to the global variable.",
+      "b": "nonlocal is for enclosing scopes, not global.",
+      "c": "Invalid syntax.",
+      "d": "Without global, the assignment creates a local x, and global x remains 10."
+    },
+    "hints": [
+      "Which keyword lets a function modify a global variable?",
+      "It's not nonlocal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The global keyword tells Python that x inside the function refers to the module-level variable, allowing reassignment.",
+    "time_pressure_note": "Confusing global and nonlocal is common under time constraints.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_031",
+    "concept_name": "nonlocal keyword",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What will happen if you try to use `nonlocal x` at the module level (outside any function)?",
+    "options": {
+      "a": "SyntaxError: no binding for nonlocal 'x' found",
+      "b": "NameError: name 'x' is not defined",
+      "c": "It works and creates a global variable.",
+      "d": "TypeError: nonlocal cannot be used at module level"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. nonlocal requires an enclosing function scope; at the top level, it's a syntax error.",
+      "b": "The error is syntactical, not a runtime NameError.",
+      "c": "nonlocal does not create globals.",
+      "d": "The error is SyntaxError, not TypeError."
+    },
+    "hints": [
+      "Can nonlocal be used outside a nested function?",
+      "What error occurs when nonlocal has no enclosing variable?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The nonlocal statement only works inside a nested function, targeting variables in an enclosing function scope. At module level, there is no enclosing scope, causing SyntaxError.",
+    "time_pressure_note": "Many assume nonlocal can be used anywhere like global.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_032",
+    "concept_name": "Closure",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\ndef make_counter(start):\n    count = start\n    def counter():\n        nonlocal count\n        count += 1\n        return count\n    return counter\n\nc1 = make_counter(10)\nprint(c1())\nprint(c1())\n```",
+    "options": {
+      "a": "`11` then `12`",
+      "b": "`11` then `11`",
+      "c": "`10` then `11`",
+      "d": "`UnboundLocalError`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The closure updates the captured count variable.",
+      "b": "Without nonlocal, count would be local; with nonlocal, it persists.",
+      "c": "The first call returns start+1 = 11, not start.",
+      "d": "nonlocal ensures count is bound to the enclosing scope."
+    },
+    "hints": [
+      "What is a closure?",
+      "Does the inner function modify the outer variable?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The closure captures count from make_counter. Using nonlocal, each call increments the same variable, producing 11 then 12.",
+    "time_pressure_note": "Without tracing, one might think count resets each call.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_033",
+    "concept_name": "__closure__ attribute",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\ndef capture(val):\n    def inner():\n        return val\n    return inner\n\nf = capture(42)\nprint(f.__closure__[0].cell_contents)\n```",
+    "options": {
+      "a": "`42`",
+      "b": "`<cell at 0x...>`",
+      "c": "`None`",
+      "d": "`0`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. cell_contents holds the captured value 42.",
+      "b": "Without .cell_contents, you'd see the cell object.",
+      "c": "A cell with a value is not None.",
+      "d": "The value is 42, not 0."
+    },
+    "hints": [
+      "What does __closure__ store?",
+      "How do you extract the value from a cell?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The __closure__ attribute is a tuple of cell objects. Each cell's cell_contents attribute holds the captured variable's value.",
+    "time_pressure_note": "One might forget to access .cell_contents and think it's just a cell.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_034",
+    "concept_name": "Decorator",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Which line changed the behavior of greet?\n\nBEFORE:\n```\ndef greet():\n    return \"Hello\"\n```\n\nAFTER:\n```\n@uppercase\ndef greet():\n    return \"Hello\"\n```",
+    "options": {
+      "a": "Adding `@uppercase`",
+      "b": "Changing the return value",
+      "c": "Renaming the function",
+      "d": "Removing the docstring"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The decorator modifies the function's behavior.",
+      "b": "The return value inside the function hasn't changed.",
+      "c": "The name is the same.",
+      "d": "There was no docstring to remove."
+    },
+    "hints": [
+      "Look for a symbol above the function definition.",
+      "What does the @ do?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The @decorator syntax applies a decorator, which wraps the original function. Here, @uppercase presumably converts the result to uppercase.",
+    "time_pressure_note": "The presence of @ is obvious, but the question tests recognition.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_035",
+    "concept_name": "Decorator syntax (@)",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the equivalent of this decorated function?\n\n```python\n@timer\ndef wait():\n    time.sleep(1)\n```",
+    "options": {
+      "a": "`wait = timer(wait)`",
+      "b": "`timer(wait())`",
+      "c": "`wait() = timer(wait)`",
+      "d": "`@wait = timer`"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The decorator syntax is sugar for calling the decorator on the function and rebinding the name.",
+      "b": "This would call wait first and pass its result to timer.",
+      "c": "Invalid syntax.",
+      "d": "Invalid syntax."
+    },
+    "hints": [
+      "Decorators are just function calls.",
+      "The original function is passed to the decorator and the result is assigned back."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "@decorator above a function definition is equivalent to func = decorator(func).",
+    "time_pressure_note": "It's easy to mix up the order of assignment.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_036",
+    "concept_name": "Wrapper function in decorators",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Why won't this decorator work?\n\n```python\ndef double_args(func):\n    def wrapper(a, b):\n        return func(a * 2, b * 2)\n\n@double_args\ndef multiply(a, b):\n    return a * b\n\nprint(multiply(2, 3))\n```",
+    "options": {
+      "a": "The decorator returns None because it doesn't return wrapper.",
+      "b": "wrapper must accept *args, **kwargs.",
+      "c": "multiply should be called with 4 arguments.",
+      "d": "double_args must be called with parentheses."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. double_args does not return wrapper, so multiply becomes None.",
+      "b": "While good practice, not the immediate bug causing the error.",
+      "c": "multiply is replaced by None, not a function with more arguments.",
+      "d": "Decorators can be used without parentheses if they don't take arguments."
+    },
+    "hints": [
+      "What does double_args return after defining wrapper?",
+      "What happens when you try to call None?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A decorator must return the wrapper function. Forgetting return wrapper makes the decorated function None, causing TypeError.",
+    "time_pressure_note": "The error message might distract from the missing return.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_037",
+    "concept_name": "*args and **kwargs in decorators",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which wrapper signature makes the decorator work with ANY function?",
+    "options": {
+      "a": "`def wrapper(a, b, c):`",
+      "b": "`def wrapper(x):`",
+      "c": "`def wrapper(*args, **kwargs):`",
+      "d": "`def wrapper(func, *args):`"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Only works for three arguments.",
+      "b": "Only works for one argument.",
+      "c": "Correct. *args and **kwargs capture any arguments.",
+      "d": "func is the original function, not a parameter the caller passes."
+    },
+    "hints": [
+      "Which signature can accept any number of positional and keyword arguments?",
+      "Look for the special unpacking operators."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using *args and **kwargs in the wrapper ensures the decorator can be applied to any function regardless of its parameter list.",
+    "time_pressure_note": "One might think a specific count is enough.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_038",
+    "concept_name": "Decorator factory",
+    "chapter": 13,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is missing in this decorator factory?\n\n```python\ndef repeat(times):\n    def wrapper(*args, **kwargs):\n        for _ in range(times):\n            func(*args, **kwargs)\n    return wrapper\n\n@repeat(3)\ndef say_hi():\n    print('Hi')\n```",
+    "options": {
+      "a": "The decorator layer that receives func is missing.",
+      "b": "repeat must not take an argument.",
+      "c": "The @ syntax is wrong for a factory.",
+      "d": "func is not defined in wrapper."
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "Actually the code returns wrapper directly from repeat, missing the decorator layer. But the error message will be about func not defined. So the bug is that wrapper has no access to func; the missing decorator is the root cause.",
+      "b": "A factory can take arguments.",
+      "c": "@factory(arg) is valid.",
+      "d": "Correct. wrapper references func, but func is not a parameter. The factory must return a decorator that receives func."
+    },
+    "hints": [
+      "Where does 'func' come from inside wrapper?",
+      "A factory must return a decorator that takes a function."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In a decorator factory, the outermost function returns a decorator, which then takes the function to be decorated. The code above tries to use func directly inside wrapper without receiving it, causing a NameError.",
+    "time_pressure_note": "The missing middle layer is a classic gotcha.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_039",
+    "concept_name": "functools.wraps",
+    "chapter": 12,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does help() show for a function decorated without @wraps?\n\n```python\ndef log(func):\n    def wrapper(*args, **kwargs):\n        print('calling', func.__name__)\n        return func(*args, **kwargs)\n    return wrapper\n\n@log\ndef greet():\n    \"\"\"Say hello.\"\"\"\n    print('Hello')\n```",
+    "options": {
+      "a": "wrapper's docstring (None) and name 'wrapper'.",
+      "b": "greet's original docstring and name.",
+      "c": "An error because func is not preserved.",
+      "d": "The combined metadata of both functions."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Without @wraps, the wrapper overwrites the metadata.",
+      "b": "That would happen if @wraps(func) were used.",
+      "c": "No error; help() simply displays the wrapper's info.",
+      "d": "No automatic combination occurs."
+    },
+    "hints": [
+      "What does the decorated function actually become?",
+      "Without @wraps, what are __name__ and __doc__?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "functools.wraps copies metadata from the original function to the wrapper. Without it, the wrapper's own name and docstring are shown, confusing debugging.",
+    "time_pressure_note": "Many forget the importance of @wraps and are surprised by the wrong help output.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_041",
+    "concept_name": "timer decorator",
+    "chapter": 11,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "What does this timer decorator print after calling `wait(0.5)`?\n\n```python\nimport time\nfrom functools import wraps\n\ndef timer(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        t_start = time.time()\n        result = func(*args, **kwargs)\n        t_total = time.time() - t_start\n        print(f'{func.__name__} took {t_total:.2f} seconds')\n        return result\n    return wrapper\n\n@timer\ndef wait(n):\n    time.sleep(n)\n\nwait(0.5)\n```",
+    "options": {
+      "a": "`wait took 0.50 seconds`",
+      "b": "`wrapper took 0.50 seconds`",
+      "c": "`timer took 0.50 seconds`",
+      "d": "Nothing; it only returns None."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. @wraps preserves the function name, so func.__name__ is 'wait'.",
+      "b": "Without @wraps, that would be the output.",
+      "c": "timer is the decorator, not the decorated function.",
+      "d": "The print inside the wrapper runs, showing the timing."
+    },
+    "hints": [
+      "What does @wraps do to __name__?",
+      "The decorator prints the function's name and duration."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The timer decorator measures execution time and prints it. Because @wraps is used, the wrapper's __name__ is replaced with the original function's name.",
+    "time_pressure_note": "People might expect the wrapper's name if they overlook @wraps.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_042",
+    "concept_name": "memoize decorator",
+    "chapter": 11,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "This memoize decorator fails when a list is passed as an argument. What error is raised?\n\n```python\ndef memoize(func):\n    cache = {}\n    def wrapper(*args, **kwargs):\n        key = (args, tuple(sorted(kwargs.items())))\n        if key not in cache:\n            cache[key] = func(*args, **kwargs)\n        return cache[key]\n    return wrapper\n\n@memoize\ndef process(items):\n    return sum(items)\n\nprocess([1,2,3])\n```",
+    "options": {
+      "a": "TypeError: unhashable type: 'list'",
+      "b": "KeyError",
+      "c": "AttributeError",
+      "d": "ValueError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The list [1,2,3] is not hashable and cannot be used as a dict key.",
+      "b": "KeyError occurs when accessing a missing key; the issue is creating the key.",
+      "c": "No attribute error here.",
+      "d": "ValueError is not the right exception for unhashable types."
+    },
+    "hints": [
+      "What types can be dictionary keys?",
+      "Is a list hashable?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The memoize decorator tries to create a tuple with the args, but a list inside args is unhashable, causing TypeError when trying to use it as a dictionary key.",
+    "time_pressure_note": "One might think the decorator fails silently or raises a different error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_043",
+    "concept_name": "signal module",
+    "chapter": 14,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "After executing this code, what happens?\n\n```python\nimport signal\ndef handler(*args):\n    print('Alarm!')\nsignal.signal(signal.SIGALRM, handler)\nsignal.alarm(2)\n# program continues running for 10 seconds\n```",
+    "options": {
+      "a": "After 2 seconds, 'Alarm!' is printed and the program continues.",
+      "b": "The program exits immediately.",
+      "c": "After 2 seconds, a TimeoutError is raised.",
+      "d": "Nothing; signal.alarm is not supported."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. The signal handler is called, prints the message, and execution resumes.",
+      "b": "The handler doesn't cause exit unless it raises an exception.",
+      "c": "The handler just prints; it doesn't raise an error.",
+      "d": "signal.alarm works on Unix-like systems."
+    },
+    "hints": [
+      "What does the signal handler do?",
+      "Does the alarm interrupt the program?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "signal.alarm(2) schedules a SIGALRM after 2 seconds. The registered handler prints a message and returns, so the program continues.",
+    "time_pressure_note": "People may think the alarm terminates the program.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_044",
+    "concept_name": "timeout decorator (using signals)",
+    "chapter": 14,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Why is this timeout decorator dangerous?\n\n```python\ndef timeout(n_seconds):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            signal.alarm(n_seconds)\n            result = func(*args, **kwargs)\n            return result\n        return wrapper\n    return decorator\n```",
+    "options": {
+      "a": "It doesn't cancel the alarm, so a pending alarm may fire later.",
+      "b": "It imports signal inside the function.",
+      "c": "It uses @wraps incorrectly.",
+      "d": "It can only time out functions without arguments."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct. Without signal.alarm(0) in a finally block, the alarm remains scheduled after the function returns.",
+      "b": "signal must be imported at the top; but the missing cancellation is more critical.",
+      "c": "@wraps is used correctly.",
+      "d": "*args/**kwargs handle any arguments."
+    },
+    "hints": [
+      "What happens if the function finishes before the alarm triggers?",
+      "How do you cancel a pending alarm?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A leftover alarm can fire later and raise an unexpected TimeoutError. The decorator must cancel the alarm with signal.alarm(0) in a finally block.",
+    "time_pressure_note": "The missing alarm cancellation is a subtle but dangerous oversight.",
+    "common_mistake_tested": true
+  }
+]

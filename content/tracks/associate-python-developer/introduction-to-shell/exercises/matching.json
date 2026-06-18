@@ -1,0 +1,390 @@
+{
+  "course_slug": "introduction-to-shell",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Shell Fundamentals & Navigation",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Shell",
+          "match": "Command-line interface that interprets typed commands",
+          "wrong_matches": [
+            "Indicator that the shell is ready for input",
+            "Prints working directory, ignores extra argument"
+          ],
+          "feedback_correct": "Correct! The shell is the command interpreter.",
+          "feedback_wrong": "Not quite. Think about the program that actually executes your commands, not its prompt or pwd."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Command prompt",
+          "match": "Indicator that the shell is ready for input",
+          "wrong_matches": [
+            "Command-line interface that interprets typed commands",
+            "Prints working directory, ignores extra argument"
+          ],
+          "feedback_correct": "Right! The prompt shows the shell is waiting.",
+          "feedback_wrong": "That describes something else. The prompt is the visual cue before you type."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Filesystem",
+          "match": "Hierarchical structure organizing files and directories",
+          "wrong_matches": [
+            "Absolute path",
+            "Path starting from current directory"
+          ],
+          "feedback_correct": "Yes! The filesystem is the overall layout.",
+          "feedback_wrong": "Not exactly. That's a path type, not the entire structure."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "/home/repl/seasonal/winter.csv",
+          "match": "Absolute path",
+          "wrong_matches": [
+            "Relative path",
+            "Home directory"
+          ],
+          "feedback_correct": "Correct! It starts from root /.",
+          "feedback_wrong": "Incorrect. An absolute path always begins with a leading slash."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "seasonal/winter.csv",
+          "match": "Relative path",
+          "wrong_matches": [
+            "Absolute path",
+            "Home directory"
+          ],
+          "feedback_correct": "Exactly! It does not start with /.",
+          "feedback_wrong": "That path doesn't begin at the root, so it's relative."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "~",
+          "match": "Home directory",
+          "wrong_matches": [
+            "Absolute path",
+            "Parent directory"
+          ],
+          "feedback_correct": "Yes! The tilde expands to the user's home.",
+          "feedback_wrong": "No, ~ is a shortcut for the home folder, not a path type or the parent."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "pwd /home",
+          "match": "Prints working directory, ignores extra argument",
+          "wrong_matches": [
+            "Error because of missing space",
+            "Lists files in current directory"
+          ],
+          "feedback_correct": "Right! pwd always shows the current directory, silently ignoring arguments.",
+          "feedback_wrong": "That's not how pwd behaves; it doesn't cause an error or list files."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_011",
+          "term": "cd..",
+          "match": "Command fails because missing space between cd and ..",
+          "wrong_matches": [
+            "Prints working directory, ignores extra argument",
+            "Lists files in current directory"
+          ],
+          "feedback_correct": "Correct! cd.. is treated as an unknown command.",
+          "feedback_wrong": "That's not the problem; the error is about syntax, not printing or listing."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_012",
+          "term": "ls .",
+          "match": "Lists files in current directory",
+          "wrong_matches": [
+            "Command fails because missing space between cd and ..",
+            "Does not work inside quotes"
+          ],
+          "feedback_correct": "Yes! . refers to the current directory.",
+          "feedback_wrong": "No, ls . is valid and lists contents, it doesn't fail or relate to quotes."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_022",
+          "term": "Tab completion with quotes",
+          "match": "Does not work inside quotes",
+          "wrong_matches": [
+            "Lists files in current directory",
+            "Prints working directory, ignores extra argument"
+          ],
+          "feedback_correct": "Right! The shell treats quoted strings literally, preventing expansion.",
+          "feedback_wrong": "Tab completion is unrelated to listing files or pwd; it fails inside quotes."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "File Operations & Viewing",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_013",
+          "term": "cp reports backups",
+          "match": "Fails unless -r flag is used (reports is a directory)",
+          "wrong_matches": [
+            "Silently overwrites existing file",
+            "Error: cannot remove directory without -r"
+          ],
+          "feedback_correct": "Correct! cp needs -r to copy directories.",
+          "feedback_wrong": "That's about mv or rm, not cp. cp without -r on a directory gives an error."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_014",
+          "term": "mv file1 existing_file2",
+          "match": "Silently overwrites existing_file2 without warning",
+          "wrong_matches": [
+            "Fails unless -r flag is used",
+            "Error: directory not empty"
+          ],
+          "feedback_correct": "Right! mv overwrites the destination unless you use -i.",
+          "feedback_wrong": "That's not what mv does; it doesn't need -r and doesn't check for emptiness."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_015",
+          "term": "rm myfolder",
+          "match": "Error: myfolder is a directory, use rm -r",
+          "wrong_matches": [
+            "Fails unless -r flag is used",
+            "Silently overwrites existing file"
+          ],
+          "feedback_correct": "Exactly! rm without -r refuses to delete directories.",
+          "feedback_wrong": "That's close but the command is rm, not cp, and it's specifically about removing directories."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_016",
+          "term": "rmdir nonempty",
+          "match": "Error: directory not empty",
+          "wrong_matches": [
+            "Error: cannot remove directory without -r",
+            "Fails unless -r flag is used"
+          ],
+          "feedback_correct": "Yes! rmdir only works on empty directories.",
+          "feedback_wrong": "No, rmdir doesn't require -r and it's not about cp."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_018",
+          "term": "cat report.txt",
+          "match": "Prints entire file content to terminal",
+          "wrong_matches": [
+            "Shows first 10 lines by default",
+            "Opens manual; press q to quit"
+          ],
+          "feedback_correct": "Correct! cat dumps everything at once.",
+          "feedback_wrong": "That's what head does, not cat. cat shows the whole file."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_020",
+          "term": "head data.csv",
+          "match": "Shows first 10 lines by default",
+          "wrong_matches": [
+            "Prints entire file content to terminal",
+            "Shows last 10 lines by default"
+          ],
+          "feedback_correct": "Right! Without -n, head defaults to 10 lines.",
+          "feedback_wrong": "That's cat or tail; head shows the beginning."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_019",
+          "term": "less file.txt (quit then q)",
+          "match": "Pressing q after quitting less types 'q' on command line",
+          "wrong_matches": [
+            "Shows last 10 lines by default",
+            "Script hangs waiting for new data"
+          ],
+          "feedback_correct": "Exactly! Once you exit less, q is just regular input.",
+          "feedback_wrong": "That's about tail -f or tail defaults, not less behavior after quitting."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_021",
+          "term": "tail -f log.txt in a script",
+          "match": "Script hangs waiting for new data",
+          "wrong_matches": [
+            "Shows first 10 lines by default",
+            "Pressing q after quitting less types 'q' on command line"
+          ],
+          "feedback_correct": "Yes! tail -f never exits on its own.",
+          "feedback_wrong": "That's head or less, not the problem with tail -f in scripts."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_025",
+          "term": "man cd",
+          "match": "May show no manual entry for shell built-ins",
+          "wrong_matches": [
+            "Opens manual; press q to quit",
+            "Shows last 10 lines by default"
+          ],
+          "feedback_correct": "Correct! cd is a shell built-in and often lacks a separate man page.",
+          "feedback_wrong": "Not always true; man may not find built-ins. Pressing q is for viewing, not the issue."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_028",
+          "term": "history in a script",
+          "match": "Output is empty because history is not enabled in non-interactive shells",
+          "wrong_matches": [
+            "Shows last 5 commands",
+            "May show no manual entry for shell built-ins"
+          ],
+          "feedback_correct": "Yes! history relies on interactive shell features.",
+          "feedback_wrong": "No, history inside scripts usually gives no output."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Data Manipulation & Scripting Basics",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_023",
+          "term": "-n 5",
+          "match": "Flag modifying command behavior (e.g., head/tail)",
+          "wrong_matches": [
+            "Variable not visible to child processes",
+            "Prints Hello followed by username"
+          ],
+          "feedback_correct": "Correct! Flags start with a dash and customize commands.",
+          "feedback_wrong": "That's about environment variables or echo, not flags."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_032",
+          "term": "wc -l file.txt (file has empty lines)",
+          "match": "Counts all lines including blank ones",
+          "wrong_matches": [
+            "Assignment with spaces causes 'command not found'",
+            "Does not expand wildcard; literal file lookup"
+          ],
+          "feedback_correct": "Right! wc -l counts every newline, even in empty lines.",
+          "feedback_wrong": "That's about variable assignment or wildcards, not line counting."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_033",
+          "term": "ls '*.csv'",
+          "match": "Does not expand wildcard; looks for literal file named *.csv",
+          "wrong_matches": [
+            "Using $ on left side of assignment is an error",
+            "Missing execute permission; use chmod +x"
+          ],
+          "feedback_correct": "Exactly! Quotes suppress wildcard expansion.",
+          "feedback_wrong": "That's about variable assignment or script permissions, not wildcards."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_040",
+          "term": "MYVAR=5 without export",
+          "match": "Variable not visible to child processes",
+          "wrong_matches": [
+            "Assignment with spaces causes 'command not found'",
+            "Prints Hello followed by username"
+          ],
+          "feedback_correct": "Yes! Without export, it remains a shell variable.",
+          "feedback_wrong": "That's a syntax error or echo behavior, not environment inheritance."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_041",
+          "term": "name = value",
+          "match": "Assignment with spaces causes 'name: command not found' error",
+          "wrong_matches": [
+            "Variable not visible to child processes",
+            "Using $ on left side of assignment is an error"
+          ],
+          "feedback_correct": "Correct! Spaces around = break the assignment.",
+          "feedback_wrong": "That's about export or misuse of $, not spacing."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_042",
+          "term": "echo \"Hello $USER\"",
+          "match": "Prints Hello followed by username, variable expands",
+          "wrong_matches": [
+            "Flag modifying command behavior",
+            "Variable not visible to child processes"
+          ],
+          "feedback_correct": "Right! Double quotes allow variable expansion.",
+          "feedback_wrong": "That's about flags or export, not echo's behavior."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_044",
+          "term": "$var=hello",
+          "match": "Using $ on left side of assignment is an error",
+          "wrong_matches": [
+            "Assignment with spaces causes 'command not found'",
+            "Missing execute permission; use chmod +x"
+          ],
+          "feedback_correct": "Exactly! $ is for reading, not assigning variables.",
+          "feedback_wrong": "That's about spaces or permissions, not the $ misuse."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_049",
+          "term": "nano file; Ctrl+S",
+          "match": "Ctrl+S may freeze terminal; it does not save",
+          "wrong_matches": [
+            "Does not work as expected because nano captures keys",
+            "Missing execute permission; use chmod +x"
+          ],
+          "feedback_correct": "Correct! Ctrl+S is often flow control, not save. Use Ctrl+O.",
+          "feedback_wrong": "That's about Ctrl+C or permissions, not the save shortcut."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_050",
+          "term": "./script.sh (permission denied)",
+          "match": "Missing execute permission; use chmod +x",
+          "wrong_matches": [
+            "Using $ on left side of assignment is an error",
+            "Ctrl+S may freeze terminal; it does not save"
+          ],
+          "feedback_correct": "Yes! The file needs execute permission to run directly.",
+          "feedback_wrong": "That's about variable errors or nano shortcuts, not script permissions."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_055",
+          "term": "Ctrl+C inside nano",
+          "match": "Does not work as expected because nano captures keys",
+          "wrong_matches": [
+            "Missing execute permission; use chmod +x",
+            "Ctrl+S may freeze terminal; it does not save"
+          ],
+          "feedback_correct": "Right! Editors like nano handle interrupts themselves.",
+          "feedback_wrong": "That's about permissions or saving, not Ctrl+C behavior."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "course_slug": "introduction-to-git",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 33,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Basic Terminal and Git Commands",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Version control",
+          "match": "System for tracking changes to files over time, enabling comparison and reversion.",
+          "wrong_matches": [
+            "Command to list files in a directory",
+            "The hidden folder where Git stores metadata"
+          ],
+          "feedback_correct": "Correct! Version control manages file history and versions.",
+          "feedback_wrong": "That describes a shell command or .git directory, not version control."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Git",
+          "match": "Distributed open-source version control system that records snapshots of a project.",
+          "wrong_matches": [
+            "Program for executing shell commands",
+            "Command that prints the working directory"
+          ],
+          "feedback_correct": "Git is the version control tool itself.",
+          "feedback_wrong": "That describes the shell or pwd, not Git."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Shell (terminal)",
+          "match": "Program for typing and executing commands like git status.",
+          "wrong_matches": [
+            "Distributed version control system",
+            "Command to change directory"
+          ],
+          "feedback_correct": "The shell is where you run Git and other commands.",
+          "feedback_wrong": "That refers to Git itself or cd, not the shell."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "```pwd```",
+          "match": "Prints the current working directory path.",
+          "wrong_matches": [
+            "Lists files and directories",
+            "Displays the Git version number"
+          ],
+          "feedback_correct": "pwd stands for 'print working directory'.",
+          "feedback_wrong": "ls lists files; git --version shows the installed version."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "```ls```",
+          "match": "Lists files and directories in the current location.",
+          "wrong_matches": [
+            "Changes into a new directory",
+            "Initializes a Git repository"
+          ],
+          "feedback_correct": "ls shows the contents of a folder.",
+          "feedback_wrong": "cd changes directory; git init creates a repository."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "```cd archive```",
+          "match": "Changes the current directory to 'archive'.",
+          "wrong_matches": [
+            "Prints the full path of the current directory",
+            "Displays the commit history"
+          ],
+          "feedback_correct": "cd moves the shell into a subdirectory.",
+          "feedback_wrong": "pwd prints the path; git log shows history."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "```git --version```",
+          "match": "Displays the installed version of Git.",
+          "wrong_matches": [
+            "Creates a new Git repository",
+            "Shows the current state of the working tree"
+          ],
+          "feedback_correct": "The double-dash flag shows Git's version.",
+          "feedback_wrong": "git init creates a repo; git status shows file states."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "Repository (repo)",
+          "match": "A directory containing project files and a hidden .git metadata folder.",
+          "wrong_matches": [
+            "Intermediate area for preparing changes",
+            "A recorded snapshot of the project"
+          ],
+          "feedback_correct": "A repo is the entire version-controlled project directory.",
+          "feedback_wrong": "That's the staging area or a commit, not a repository."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_009",
+          "term": ".git directory",
+          "match": "Hidden folder that stores all of Git's metadata and history.",
+          "wrong_matches": [
+            "Command that initializes a new repository",
+            "A system to track changes in files"
+          ],
+          "feedback_correct": ".git contains the object database and configuration.",
+          "feedback_wrong": "That's git init or version control, not the .git folder."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_010",
+          "term": "```git init mental-health-workspace```",
+          "match": "Creates a new directory and turns it into a Git repository.",
+          "wrong_matches": [
+            "Checks the state of tracked and untracked files",
+            "Restores a file to a previous commit's version"
+          ],
+          "feedback_correct": "git init with a name creates and initializes a repo.",
+          "feedback_wrong": "git status checks state; git checkout restores files."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_011",
+          "term": "```git status```",
+          "match": "Shows which files are tracked, modified, or staged.",
+          "wrong_matches": [
+            "Displays the commit history",
+            "Compares two versions of a file"
+          ],
+          "feedback_correct": "status is the go-to command to see what's changed.",
+          "feedback_wrong": "git log shows history; git diff compares changes."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Git Staging and Committing",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_012",
+          "concept_id": "concept_012",
+          "term": "Nested repositories",
+          "match": "When a .git directory exists inside another .git directory, causing confusion.",
+          "wrong_matches": [
+            "A staging area that holds proposed changes",
+            "A unique identifier for a commit"
+          ],
+          "feedback_correct": "Nested repos make Git unsure which .git to use.",
+          "feedback_wrong": "That's the staging area or a commit hash, not nested repos."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_013",
+          "term": "Staging area (index)",
+          "match": "Intermediate area where changes are placed before being committed.",
+          "wrong_matches": [
+            "A compressed copy of a file's contents",
+            "A pointer to the current commit"
+          ],
+          "feedback_correct": "git add moves changes into the staging area.",
+          "feedback_wrong": "That's a blob or HEAD, not the staging area."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_014",
+          "term": "```git add .```",
+          "match": "Stages all new and modified files in the current directory.",
+          "wrong_matches": [
+            "Creates a new commit with a message",
+            "Restores a file from a previous commit"
+          ],
+          "feedback_correct": "The dot tells Git to stage everything beneath the current folder.",
+          "feedback_wrong": "That's git commit or git checkout, not staging."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_015",
+          "term": "```git commit -m \"Fix typos\"```",
+          "match": "Creates a new snapshot with the message 'Fix typos'.",
+          "wrong_matches": [
+            "Unstages a file from the index",
+            "Lists all commits since a date"
+          ],
+          "feedback_correct": "The -m flag supplies the commit message inline.",
+          "feedback_wrong": "That's git restore --staged or git log --since."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_016",
+          "term": "Commit",
+          "match": "A recorded snapshot of the repository including author, date, and message.",
+          "wrong_matches": [
+            "The hidden directory that stores Git's objects",
+            "A command that shows what changed between commits"
+          ],
+          "feedback_correct": "Each commit represents a point in the project's history.",
+          "feedback_wrong": "That's .git or git diff, not a commit object."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_017",
+          "term": "Commit hash",
+          "match": "A unique 40-character string that identifies a commit (deterministic).",
+          "wrong_matches": [
+            "A Git object that stores file contents",
+            "A reference to the current branch tip"
+          ],
+          "feedback_correct": "The hash is computed from the commit's content.",
+          "feedback_wrong": "That's a blob or HEAD, not a commit hash."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_018",
+          "term": "Tree (Git object)",
+          "match": "Records the names and locations of files and directories in a commit.",
+          "wrong_matches": [
+            "Stores the compressed content of a single file",
+            "A command to revert a commit without editing the message"
+          ],
+          "feedback_correct": "A tree maps file names to blobs and other trees.",
+          "feedback_wrong": "That's a blob or git revert --no-edit."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_019",
+          "term": "Blob",
+          "match": "Short for binary large object; stores a file's content, not its name.",
+          "wrong_matches": [
+            "A 40-character identifier for a commit",
+            "The intermediate area where changes are staged"
+          ],
+          "feedback_correct": "Blobs are content-addressable, so identical content is stored once.",
+          "feedback_wrong": "That's a commit hash or staging area."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_034",
+          "term": "```git restore --staged data.csv```",
+          "match": "Removes data.csv from the staging area, keeping working changes.",
+          "wrong_matches": [
+            "Creates a new commit that undoes a previous one",
+            "Shows changes between two commits"
+          ],
+          "feedback_correct": "The --staged flag targets the index, not the working tree.",
+          "feedback_wrong": "That's git revert or git diff."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Inspecting and Reverting History",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_021",
+          "term": "```git log```",
+          "match": "Shows commit history in reverse chronological order.",
+          "wrong_matches": [
+            "Displays details of a single commit",
+            "Compares the working directory to the last commit"
+          ],
+          "feedback_correct": "git log lists all past commits; press q to exit.",
+          "feedback_wrong": "That's git show or git diff."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_022",
+          "term": "```git log -3```",
+          "match": "Shows only the three most recent commits.",
+          "wrong_matches": [
+            "Shows commits made after a certain date",
+            "Reverts the last three commits"
+          ],
+          "feedback_correct": "The -n flag limits the number of commits displayed.",
+          "feedback_wrong": "That's --since or git revert."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_023",
+          "term": "```git log --since='Apr 2 2024'```",
+          "match": "Displays commits made on or after April 2, 2024.",
+          "wrong_matches": [
+            "Shows commits older than a given date",
+            "Compares two commits by date"
+          ],
+          "feedback_correct": "--since filters the log by a start date.",
+          "feedback_wrong": "That's --until or git diff with date refs."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_024",
+          "term": "```git log --until='Apr 11 2024'```",
+          "match": "Limits log output to commits before April 11, 2024.",
+          "wrong_matches": [
+            "Shows commits from the last week",
+            "Deletes commits after that date"
+          ],
+          "feedback_correct": "--until defines the end of a date range.",
+          "feedback_wrong": "That's --since or git revert."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_025",
+          "term": "```git show c27fa856```",
+          "match": "Displays metadata and diff for the commit with hash c27fa856.",
+          "wrong_matches": [
+            "Lists all commits that touched a specific file",
+            "Stages a file for the next commit"
+          ],
+          "feedback_correct": "git show is for inspecting a single commit.",
+          "feedback_wrong": "That's git log -- file or git add."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_026",
+          "term": "```git diff```",
+          "match": "Shows unstaged changes between the working directory and the last commit.",
+          "wrong_matches": [
+            "Shows changes between the staging area and HEAD",
+            "Creates a new commit that undoes a change"
+          ],
+          "feedback_correct": "Without --staged, git diff only compares unstaged modifications.",
+          "feedback_wrong": "That's git diff --staged or git revert."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_027",
+          "term": "```git diff --staged```",
+          "match": "Compares what is staged to the last commit.",
+          "wrong_matches": [
+            "Lists files that have been modified",
+            "Restores a file to a previous version"
+          ],
+          "feedback_correct": "--staged shows exactly what will go into the next commit.",
+          "feedback_wrong": "That's git status or git checkout."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_028",
+          "term": "HEAD",
+          "match": "A symbolic pointer to the current commit (usually the tip of the current branch).",
+          "wrong_matches": [
+            "The parent of the current commit",
+            "A command that limits log output"
+          ],
+          "feedback_correct": "HEAD moves when you check out a branch or commit.",
+          "feedback_wrong": "That's HEAD~1 or git log -n."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_029",
+          "term": "```HEAD~2```",
+          "match": "Refers to the commit two steps before the current one (grandparent).",
+          "wrong_matches": [
+            "The current commit",
+            "A command to show the second commit in history"
+          ],
+          "feedback_correct": "Tilde notation walks back through the parent chain.",
+          "feedback_wrong": "That's HEAD or git show <commit>."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_030",
+          "term": "```git revert HEAD```",
+          "match": "Creates a new commit that reverses the latest commit's changes, preserving history.",
+          "wrong_matches": [
+            "Deletes the most recent commit",
+            "Compares two versions of a file"
+          ],
+          "feedback_correct": "Revert is a safe undo that does not rewrite history.",
+          "feedback_wrong": "That's reset (dangerous) or git diff."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_031",
+          "term": "```git revert --no-edit HEAD```",
+          "match": "Reverts the latest commit using the default message, skipping the editor.",
+          "wrong_matches": [
+            "Reverts without creating a commit",
+            "Opens the editor to write a revert message"
+          ],
+          "feedback_correct": "--no-edit prevents the editor from opening.",
+          "feedback_wrong": "That's -n (no-commit) or the default behavior without --no-edit."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_032",
+          "term": "```git revert -n HEAD```",
+          "match": "Applies the inverse changes but does not commit, leaving them staged.",
+          "wrong_matches": [
+            "Commits the revert with a default message",
+            "Undoes the revert and keeps the original changes"
+          ],
+          "feedback_correct": "-n (--no-commit) stops before creating the commit.",
+          "feedback_wrong": "That's --no-edit or an incorrect interpretation."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_033",
+          "term": "```git checkout HEAD~1 -- data.csv```",
+          "match": "Restores the file data.csv to its state from the previous commit.",
+          "wrong_matches": [
+            "Stages data.csv for the next commit",
+            "Deletes data.csv from the working directory"
+          ],
+          "feedback_correct": "checkout with a commit reference and -- retrieves an old version.",
+          "feedback_wrong": "That's git add or rm, not checkout."
+        }
+      ]
+    }
+  ]
+}

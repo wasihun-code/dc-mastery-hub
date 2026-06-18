@@ -1,0 +1,452 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_012",
+    "concept_name": "Storage (cloud service)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Initialize the AWS S3 client using the boto3 library in Python.",
+    "code_template": "import boto3\ns3_client = boto3._____( 's3' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "client",
+        "answer_alternatives": ["resource"]
+      }
+    ],
+    "word_bank": ["client", "resource", "service", "connect"],
+    "per_tile_feedback": {
+      "client": "Correct! boto3.client() is the standard way to initialize low-level service clients.",
+      "resource": "Close, boto3.resource() is a higher-level object, but client() is the most common low-level initialization.",
+      "service": "Incorrect. boto3 does not have a service() method.",
+      "connect": "Incorrect. connect is not a valid method in boto3."
+    },
+    "hints": [
+      "It is a low-level interface method in boto3.",
+      "It takes the service name 's3' as a string argument."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "boto3.client('s3') initializes a connection client to AWS S3, allowing you to invoke API calls like list_buckets or upload_file.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_012",
+    "concept_name": "Storage (cloud service)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Upload a local file 'data.csv' to an S3 bucket named 'my-bucket' as 'raw_data.csv'.",
+    "code_template": "s3_client._____( 'data.csv', 'my-bucket', 'raw_data.csv' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "upload_file",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["upload_file", "put_object", "send_file", "upload"],
+    "per_tile_feedback": {
+      "upload_file": "Correct! upload_file() is a helper method that uploads a file from a local path.",
+      "put_object": "put_object is used to upload raw bytes, but upload_file is preferred for local files.",
+      "send_file": "Incorrect. send_file is not a valid method for s3_client.",
+      "upload": "Incorrect. upload is not a valid method name in boto3."
+    },
+    "hints": [
+      "The method name describes uploading a file.",
+      "It takes three arguments: local path, bucket name, and S3 key."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "s3_client.upload_file() is the high-performance utility method provided by boto3 to upload local files directly to an S3 bucket.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "Pay-as-you-go pricing",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Complete the pay-as-you-go cloud billing formula to estimate hourly virtual machine costs.",
+    "code_template": "cost = rate_per_hour * _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "hours",
+        "answer_alternatives": ["hours_run", "hours_billed"]
+      }
+    ],
+    "word_bank": ["hours", "servers", "storage", "users"],
+    "per_tile_feedback": {
+      "hours": "Correct! Pay-as-you-go compute is billed by the time (hours/seconds) the instances run.",
+      "servers": "Incorrect. Number of servers multiplies the base cost but isn't the primary variable of run-time billing.",
+      "storage": "Incorrect. Storage is billed by GB-months, not hours.",
+      "users": "Incorrect. SaaS is billed per user, but VMs are billed per hour."
+    },
+    "hints": [
+      "Compute resources in IaaS are typically billed per unit of time.",
+      "It represents duration of time."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Pay-as-you-go VM billing scales linearly with the number of hours the instance is in a running state.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_008",
+    "concept_name": "Horizontal scaling",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the scaling decision logic to scale out the cluster size by adding a server.",
+    "code_template": "if cpu_usage > 85:\n    cluster._____( 1 )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "add_instances",
+        "answer_alternatives": ["scale_out", "add_servers"]
+      }
+    ],
+    "word_bank": ["add_instances", "scale_up", "resize", "upgrade"],
+    "per_tile_feedback": {
+      "add_instances": "Correct! Adding instances to a cluster scales out horizontally.",
+      "scale_up": "Incorrect. Scaling up refers to vertical scaling (adding CPU/RAM to a single VM).",
+      "resize": "Incorrect. Resize is too generic and doesn't specify adding resources.",
+      "upgrade": "Incorrect. Upgrade refers to software versions, not capacity scaling."
+    },
+    "hints": [
+      "Think about horizontal scaling terminology.",
+      "We want to add instances to the current capacity."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When CPU usage exceeds a high threshold (e.g. 85%), horizontal autoscaling triggers a scale-out action by adding instances to distribute the load.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_023",
+    "concept_name": "Cloud security",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Define a basic AWS IAM policy statement dict in Python to allow read-only access to S3.",
+    "code_template": "policy = {\n    'Effect': '_____',\n    'Action': 's3:GetObject',\n    'Resource': '*'\n}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "Allow",
+        "answer_alternatives": ["allow"]
+      }
+    ],
+    "word_bank": ["Allow", "Deny", "Pass", "Grant"],
+    "per_tile_feedback": {
+      "Allow": "Correct! Effect can be either Allow or Deny in IAM policies.",
+      "Deny": "Deny is valid, but we want to grant access, so Allow is correct.",
+      "Pass": "Incorrect. Pass is not a valid IAM policy Effect.",
+      "Grant": "Incorrect. Grant is used in SQL, not IAM policy JSON."
+    },
+    "hints": [
+      "The value must be a string specifying permission authorization.",
+      "It is the opposite of 'Deny'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "IAM policies use JSON syntax where 'Effect' dictates whether access is permitted ('Allow') or blocked ('Deny') for specified actions.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_013",
+    "concept_name": "Database (cloud service)",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Create a managed DynamoDB table client in boto3 Python.",
+    "code_template": "db_client = boto3.client( '_____' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dynamodb",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["dynamodb", "rds", "sql", "nosql"],
+    "per_tile_feedback": {
+      "dynamodb": "Correct! The boto3 service identifier for DynamoDB is 'dynamodb'.",
+      "rds": "Incorrect. RDS is represented by 'rds' in boto3 but is for relational databases, not DynamoDB.",
+      "sql": "Incorrect. SQL is not a boto3 client type.",
+      "nosql": "Incorrect. 'nosql' is a category, not a specific AWS service client."
+    },
+    "hints": [
+      "It represents Amazon's NoSQL database service.",
+      "The name is all lowercase."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Initializing boto3.client('dynamodb') allows programmatically creating, updating, and querying DynamoDB tables.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_017",
+    "concept_name": "Platform as a Service (PaaS)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Define a Heroku Procfile entry to instruct the platform to run a gunicorn web server.",
+    "code_template": "_____: gunicorn app:app",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "web",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["web", "worker", "run", "start"],
+    "per_tile_feedback": {
+      "web": "Correct! The 'web' process type receives external HTTP traffic.",
+      "worker": "Incorrect. worker processes handle background jobs, not HTTP requests.",
+      "run": "Incorrect. run is not a valid process type prefix in a Procfile.",
+      "start": "Incorrect. start is not a valid process type."
+    },
+    "hints": [
+      "This process type listens on the HTTP port.",
+      "It is a three-letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "PaaS platforms like Heroku use a Procfile to declare process types. The 'web' type specifies the command to bind to the port and serve web requests.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_005",
+    "concept_name": "Virtualization",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Define the hypervisor interaction layer: virtual machines run on a host operating system via a software layer known as a hypervisor.",
+    "code_template": "vm_manager = '_____' # Software that manages VMs",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "hypervisor",
+        "answer_alternatives": ["vm_monitor", "vmm"]
+      }
+    ],
+    "word_bank": ["hypervisor", "kernel", "containerd", "docker"],
+    "per_tile_feedback": {
+      "hypervisor": "Correct! A hypervisor (or Virtual Machine Monitor) manages virtual machines.",
+      "kernel": "Incorrect. The kernel manages resources within an OS, not VMs.",
+      "containerd": "Incorrect. containerd is a container runtime, not a VM hypervisor.",
+      "docker": "Incorrect. Docker is a containerization engine, not a hypervisor."
+    },
+    "hints": [
+      "It is also called a Virtual Machine Monitor.",
+      "Examples include ESXi, KVM, and Hyper-V."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A hypervisor is the virtualization software that runs virtual machines by partitioning physical hardware resources.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_012",
+    "concept_name": "Storage (cloud service)",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the boto3 logic to download an S3 object to a local path.",
+    "code_template": "s3_client._____( 'my-bucket', 'raw_data.csv', 'local_data.csv' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "download_file",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["download_file", "get_object", "fetch", "receive"],
+    "per_tile_feedback": {
+      "download_file": "Correct! download_file() downloads an S3 object directly to the local filesystem.",
+      "get_object": "get_object fetches raw bytes in memory; download_file is optimized for local file saving.",
+      "fetch": "Incorrect. fetch is not a method in boto3.",
+      "receive": "Incorrect. receive is not a valid S3 client method."
+    },
+    "hints": [
+      "The opposite of upload_file.",
+      "It takes bucket, key, and local path as parameters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "s3_client.download_file() is a high-level transfer helper that downloads files from S3 buckets.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_012",
+    "concept_name": "Storage (cloud service)",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Define an S3 bucket transition rule using boto3 to archive objects to Glacier after 30 days.",
+    "code_template": "lifecycle_rule = {\n    'Transition': {\n        'Days': 30,\n        'StorageClass': '_____'\n    }\n}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "GLACIER",
+        "answer_alternatives": ["glacier", "DEEP_ARCHIVE"]
+      }
+    ],
+    "word_bank": ["GLACIER", "STANDARD", "INTELLIGENT_TIERING", "ARCHIVE"],
+    "per_tile_feedback": {
+      "GLACIER": "Correct! GLACIER is the storage class for cold archiving.",
+      "STANDARD": "Incorrect. STANDARD is standard hot storage, not cold storage.",
+      "INTELLIGENT_TIERING": "Incorrect. Intelligent tiering moves files automatically but is not the specific Glacier class.",
+      "ARCHIVE": "Incorrect. ARCHIVE is not the exact AWS class name (use GLACIER)."
+    },
+    "hints": [
+      "It is AWS's cold storage service name.",
+      "It must be in all uppercase letters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The GLACIER storage class is used for archiving infrequently accessed objects, offering cheap storage but taking hours for retrieval.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_022",
+    "concept_name": "Reliability (cloud)",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Calculate downtime percentage based on High Availability (HA) SLA targets.",
+    "code_template": "uptime_sla = 0.9999\nallowed_downtime = 1.0 - _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "uptime_sla",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["uptime_sla", "downtime", "0.99", "reliability"],
+    "per_tile_feedback": {
+      "uptime_sla": "Correct! Allowed downtime is the complement of the uptime SLA target.",
+      "downtime": "Incorrect. This would create a circular reference.",
+      "0.99": "Incorrect. Hardcoding 0.99 ignores the variable defined on the previous line.",
+      "reliability": "Incorrect. reliability is not defined."
+    },
+    "hints": [
+      "Reference the variable holding the 99.99% uptime target.",
+      "Use the variable defined on the first line."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Downtime allowed is calculated as 1 minus the uptime SLA fraction. For 99.99% uptime, downtime is 0.01% (about 52 minutes per year).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_036",
+    "concept_name": "DevOps engineer",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Run a Docker container detached on port 80 mapping to container port 80.",
+    "code_template": "docker run -d -p 80:80 _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "my-app",
+        "answer_alternatives": ["image_name"]
+      }
+    ],
+    "word_bank": ["my-app", "container", "detached", "nginx"],
+    "per_tile_feedback": {
+      "my-app": "Correct! The image name must be provided at the end of the docker run command.",
+      "container": "Incorrect. container is a command category, not a run target.",
+      "detached": "Incorrect. Detached is configured by the -d flag.",
+      "nginx": "nginx is an example image, but my-app is the conventional name for this task."
+    },
+    "hints": [
+      "Provide the image name to run.",
+      "The last parameter is always the target image."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Docker run commands end with the image name to be instantiated (e.g., my-app or nginx).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_023",
+    "concept_name": "Cloud security",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Define a subnet configuration with a private CIDR block parameter.",
+    "code_template": "subnet = create_subnet( cidr_block='_____' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "10.0.0.0/16",
+        "answer_alternatives": ["10.0.0.0/24", "192.168.1.0/24"]
+      }
+    ],
+    "word_bank": ["10.0.0.0/16", "8.8.8.8", "localhost", "0.0.0.0/0"],
+    "per_tile_feedback": {
+      "10.0.0.0/16": "Correct! 10.0.0.0/16 is a standard private CIDR block range.",
+      "8.8.8.8": "Incorrect. 8.8.8.8 is a Google public DNS address.",
+      "localhost": "Incorrect. Localhost is loopback, not a subnet block.",
+      "0.0.0.0/0": "Incorrect. 0.0.0.0/0 represents all IPv4 addresses (internet), not a private subnet block."
+    },
+    "hints": [
+      "Provide a private IP range in CIDR notation.",
+      "It uses the format X.X.X.X/Y."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "CIDR notation specifies the IP range allocated to a network or subnet (e.g., 10.0.0.0/16 allows 65,536 private IPs).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_038",
+    "concept_name": "Major cloud providers",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Create a cloud storage bucket in GCP using the Google Cloud Storage SDK in Python.",
+    "code_template": "from google.cloud import storage\nclient = storage.Client()\nbucket = client._____( 'my-bucket' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "create_bucket",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["create_bucket", "new_bucket", "add_bucket", "put_bucket"],
+    "per_tile_feedback": {
+      "create_bucket": "Correct! create_bucket() is the standard method to create a bucket in the GCP SDK.",
+      "new_bucket": "Incorrect. new_bucket is not a method name in the GCP storage library.",
+      "add_bucket": "Incorrect. add_bucket is not supported.",
+      "put_bucket": "Incorrect. put_bucket is not used by google-cloud-storage."
+    },
+    "hints": [
+      "It is a snake_case method name to create a bucket.",
+      "It matches the purpose of creation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The GCP storage Client offers create_bucket() to provision storage buckets on Google Cloud Platform.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_013",
+    "concept_name": "Database (cloud service)",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Establish a connection engine to a cloud PostgreSQL database using SQLAlchemy in Python.",
+    "code_template": "from sqlalchemy import create_engine\nengine = create_engine( 'postgresql://user:pass@_____/db' )",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "host",
+        "answer_alternatives": ["db-endpoint", "endpoint"]
+      }
+    ],
+    "word_bank": ["host", "localhost", "service", "aws"],
+    "per_tile_feedback": {
+      "host": "Correct! The database server host/endpoint goes after the '@' in connection strings.",
+      "localhost": "Incorrect. In cloud environments, databases run on managed host endpoints, not localhost.",
+      "service": "Incorrect. service is not the server endpoint designation.",
+      "aws": "Incorrect. AWS is the provider, not the database host address."
+    },
+    "hints": [
+      "It represents the network host address of the database.",
+      "It sits between user credentials and the database name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Database connections require the host address/endpoint to route queries over the network to the correct managed database server.",
+    "common_mistake_warning": null
+  }
+]

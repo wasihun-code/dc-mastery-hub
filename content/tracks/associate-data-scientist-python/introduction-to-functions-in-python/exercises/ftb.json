@@ -1,0 +1,1008 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_002",
+    "concept_name": "Function definition using def",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Complete the function definition so that when greet() is called, it prints 'Hello'.",
+    "code_template": "def greet()_____\n    print(\"Hello\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [":", ";", "->", "{}", ":"],
+    "per_tile_feedback": {
+      ":": "Correct. A function header must end with a colon to start the indented body.",
+      ";": "A semicolon is not used to begin a Python block; it is for separating statements on one line.",
+      "->": "The arrow is used for return type annotations, not to start the function body.",
+      "{}": "Curly braces are not used in Python syntax for function definitions.",
+      ":": "Correct."
+    },
+    "hints": [
+      "Remember that Python uses a colon to mark the beginning of an indented block.",
+      "The function definition line needs a special character right after the parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A function definition requires a colon at the end of the def line. Without it, Python raises a SyntaxError.",
+    "common_mistake_warning": "⚠️ Forgetting the colon is one of the most common beginner syntax errors."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_002",
+    "concept_name": "Function definition using def",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Define a function named square that takes no arguments and prints the square of 4. Fill in the missing keyword and the colon.",
+    "code_template": "_____ square()_____\n    new_value = 4 ** 2\n    print(new_value)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "def",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["def", "function", "define", ":", ";", "->"],
+    "per_tile_feedback": {
+      "def": "Correct. The def keyword is how Python starts a function definition.",
+      "function": "JavaScript uses 'function'; in Python, the keyword is 'def'.",
+      "define": "Not a Python keyword. Use 'def'.",
+      ":": "Correct. The colon is needed after the parentheses.",
+      ";": "Semicolons are not used to begin blocks in Python.",
+      "->": "The arrow is used for type hints, not for starting the body."
+    },
+    "hints": [
+      "Python's keyword to create a function starts with 'd'.",
+      "Don't forget the colon at the end of the header."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Functions are created with the 'def' keyword, and the header must end with a colon. The body is indented below.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "Function parameters",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "The function square should accept one number and print its square. Complete the parameter list so that the variable name is 'value'.",
+    "code_template": "def square(_____):\n    new_value = value ** 2\n    print(new_value)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "value",
+        "answer_alternatives": ["val"]
+      }
+    ],
+    "word_bank": ["value", "number", "x", "val", "num"],
+    "per_tile_feedback": {
+      "value": "Correct. The parameter name 'value' matches the one used in the function body.",
+      "number": "This would create a parameter named 'number', but the body references 'value', so it would raise a NameError.",
+      "x": "If the parameter were 'x', the code inside would still reference 'value', causing an error.",
+      "val": "Same issue as 'x' – the variable used in the body must match the parameter name.",
+      "num": "Mismatch between parameter name and usage inside the function."
+    },
+    "hints": [
+      "The variable inside the function must be the same name that appears in the parentheses.",
+      "Look at what name is used in the calculation: value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The parameter acts as a local variable. It must have the same name that is used in the function body to avoid a NameError.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_003",
+    "concept_name": "Function parameters",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Write a function called double that takes a parameter named num and returns num * 2. Fill in the missing keyword, parameter, and return statement.",
+    "code_template": "_____ double(_____):\n    _____ num * 2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "def",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "num",
+        "answer_alternatives": ["n", "value"]
+      },
+      {
+        "position": 3,
+        "answer": "return",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["def", "num", "return", "n", "value", "print"],
+    "per_tile_feedback": {
+      "def": "Correct. The function starts with the 'def' keyword.",
+      "num": "Correct. The parameter name matches the variable used in the return statement.",
+      "return": "Correct. The return keyword sends the result back to the caller.",
+      "n": "Would cause a NameError because the body uses 'num'.",
+      "value": "Would also cause a NameError because the body uses 'num'.",
+      "print": "Print would display the result but not return it; the function would return None."
+    },
+    "hints": [
+      "The first blank is the Python keyword to define a function.",
+      "The second blank must match the variable name used in the expression.",
+      "To send a value out of the function, use a specific keyword."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The function definition needs 'def', a parameter name that is used internally, and 'return' to give back the computed value.",
+    "common_mistake_warning": "⚠️ Using print instead of return is a common mistake; print only displays, it doesn't return a value."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_004",
+    "concept_name": "Return statement",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the function so that it returns the square of the given value and then stores it in the variable 'num' outside.",
+    "code_template": "def square(value):\n    new_value = value ** 2\n    _____ new_value\nnum = square(4)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "return",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["return", "print", "yield", "pass", "break"],
+    "per_tile_feedback": {
+      "return": "Correct. return sends the value back and assigns it to 'num'.",
+      "print": "print would display the value but the function would return None, so 'num' would be None.",
+      "yield": "yield is for generators, not for returning a single value.",
+      "pass": "pass does nothing; it would not send any value back.",
+      "break": "break is used inside loops, not functions."
+    },
+    "hints": [
+      "The value must be sent out so it can be stored in 'num'. Which keyword does that?",
+      "If you use print, the function returns None instead."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The return statement exits the function and passes the value back to the caller, allowing it to be assigned to a variable.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_004",
+    "concept_name": "Return statement",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "The function should return the cube of the input. Fill in the missing operator and return statement.",
+    "code_template": "def cube(value):\n    result = value _____ 3\n    _____ result",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "**",
+        "answer_alternatives": ["^"]
+      },
+      {
+        "position": 2,
+        "answer": "return",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["**", "^", "return", "*", "math.pow"],
+    "per_tile_feedback": {
+      "**": "Correct. ** is the exponentiation operator in Python.",
+      "^": "The caret (^) is a bitwise XOR operator, not exponentiation.",
+      "return": "Correct. The computed result must be returned.",
+      "*": "Multiplication would give value * 3, not cubed.",
+      "math.pow": "math.pow requires importing the math module and is a function call, not an operator."
+    },
+    "hints": [
+      "Python uses a special double-character operator for exponentiation.",
+      "To send the result back, you need the same keyword as in the previous exercise."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The exponentiation operator is **, and the return keyword sends the value back to the caller.",
+    "common_mistake_warning": "⚠️ Many beginners mistakenly use ^ for exponentiation, but it is bitwise XOR."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_005",
+    "concept_name": "Docstrings",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Add a docstring to the square function that says 'Returns the square of a value.' using triple double quotes.",
+    "code_template": "def square(value):\n    _____\n    new_value = value ** 2\n    return new_value",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"\"\"Returns the square of a value.\"\"\"",
+        "answer_alternatives": ["\"\"\"Return the square of a value.\"\"\""]
+      }
+    ],
+    "word_bank": [
+      "\"\"\"Returns the square of a value.\"\"\"",
+      "\"\"\"Return square.\"\"\"",
+      "# Returns the square",
+      "\"\"\"Docstring here\"\"\"",
+      "'''Returns the square.'''"
+    ],
+    "per_tile_feedback": {
+      "\"\"\"Returns the square of a value.\"\"\"": "Correct. The exact phrase from the course is used, enclosed in triple double quotes.",
+      "\"\"\"Return square.\"\"\"": "While technically a valid docstring, it doesn't match the specified description; we ask for the exact wording.",
+      "# Returns the square": "A comment is not a docstring and is not accessible via help().",
+      "\"\"\"Docstring here\"\"\"": "Placeholder, not the required description.",
+      "'''Returns the square.'''": "Triple single quotes also work, but the convention in the course uses triple double quotes."
+    },
+    "hints": [
+      "Docstrings use triple double quotes.",
+      "The docstring must be the very first statement inside the function, indented."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A docstring is a string literal placed immediately after the function header, enclosed in triple double quotes. It documents what the function does.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_006",
+    "concept_name": "Multiple function parameters",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Create a function raise_to_power that takes two parameters: value1 and value2. Fill in the parameter list.",
+    "code_template": "def raise_to_power(_____):\n    \"\"\"Raise value1 to the power of value2.\"\"\"\n    new_value = value1 ** value2\n    return new_value",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "value1, value2",
+        "answer_alternatives": ["value2, value1"]
+      }
+    ],
+    "word_bank": ["value1, value2", "value2, value1", "value1 value2", "(value1, value2)", "value1; value2"],
+    "per_tile_feedback": {
+      "value1, value2": "Correct. The parameters are separated by a comma and match the order used in the body.",
+      "value2, value1": "This reverses the order, which would cause the arguments to be swapped when called.",
+      "value1 value2": "Parameters must be separated by commas; a space is not a separator.",
+      "(value1, value2)": "Parentheses inside the function header are unnecessary and would create a tuple parameter.",
+      "value1; value2": "Semicolons are not used to separate parameters."
+    },
+    "hints": [
+      "Use a comma to separate the two parameter names.",
+      "The names in the parameter list must match exactly those used in the body."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Multiple parameters are listed inside the parentheses, separated by commas. The order matters because positional arguments are matched in order.",
+    "common_mistake_warning": "⚠️ Swapping the parameter order will swap the input values."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_006",
+    "concept_name": "Multiple function parameters",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the call to raise_to_power so that it raises 2 to the power of 3 and stores the result in 'result'.",
+    "code_template": "def raise_to_power(value1, value2):\n    return value1 ** value2\nresult = raise_to_power(_____, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "3",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "3", "2, 3", "3, 2", "2**3"],
+    "per_tile_feedback": {
+      "2": "Correct. The first argument corresponds to value1.",
+      "3": "Correct. The second argument corresponds to value2.",
+      "2, 3": "This would be passed as a single tuple argument, causing a TypeError because two separate arguments are expected.",
+      "3, 2": "Same as above, a tuple instead of two arguments.",
+      "2**3": "This is an expression that evaluates to 8, not a sequence of two arguments."
+    },
+    "hints": [
+      "The function expects two separate numbers, not a tuple or expression.",
+      "The order matters: the first argument goes to value1, the second to value2."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When calling a function with multiple parameters, provide the same number of arguments, separated by commas. They are assigned to parameters in order.",
+    "common_mistake_warning": "⚠️ Passing a tuple as a single argument instead of separate numbers is a common error."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_007",
+    "concept_name": "Tuples",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Create a tuple named even_nums containing the numbers 2, 4, and 6.",
+    "code_template": "even_nums = (_____, _____, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "4",
+        "answer_alternatives": []
+      },
+      {
+        "position": 3,
+        "answer": "6",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "4", "6", "2, 4, 6", "2 4 6"],
+    "per_tile_feedback": {
+      "2": "Correct. The first element.",
+      "4": "Correct. The second element.",
+      "6": "Correct. The third element.",
+      "2, 4, 6": "This is one string, not separate numbers; if used as a single element it would create a string, not three numbers.",
+      "2 4 6": "Spaces are not separators; each blank must contain a single integer."
+    },
+    "hints": [
+      "Place each number in its own blank.",
+      "Tuples are created by enclosing comma-separated values in parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A tuple is an immutable ordered collection. To create it, place comma-separated items inside parentheses.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_007",
+    "concept_name": "Tuples",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Create a single-element tuple containing only the number 5. Remember the trailing comma!",
+    "code_template": "single = (_____,)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "5",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["5", "5,", "(5)", "5, 5", "single=5"],
+    "per_tile_feedback": {
+      "5": "Correct. With the trailing comma already in the template, this creates a tuple (5,).",
+      "5,": "The template already has a trailing comma; you would end up with (5,,), a syntax error.",
+      "(5)": "Putting parentheses inside would try to create a nested structure, not a single-element tuple.",
+      "5, 5": "Two elements would create a different tuple.",
+      "single=5": "Assignment inside the tuple syntax is invalid."
+    },
+    "hints": [
+      "The template already includes the trailing comma after the blank.",
+      "Simply place the integer 5 inside."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A single-element tuple must have a trailing comma to distinguish it from a parenthesized expression. The code (5,) is a tuple, while (5) is just 5.",
+    "common_mistake_warning": "⚠️ Forgetting the trailing comma creates an integer, not a tuple."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_008",
+    "concept_name": "Tuple unpacking",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Unpack the tuple even_nums into three variables a, b, and c, then print a, b, and c on separate lines.",
+    "code_template": "even_nums = (2, 4, 6)\n_____, _____, _____ = even_nums\nprint(a)\nprint(b)\nprint(c)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "a",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "b",
+        "answer_alternatives": []
+      },
+      {
+        "position": 3,
+        "answer": "c",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["a", "b", "c", "a, b, c", "(a,b,c)"],
+    "per_tile_feedback": {
+      "a": "Correct. The variable a receives the first element.",
+      "b": "Correct. The variable b receives the second element.",
+      "c": "Correct. The variable c receives the third element.",
+      "a, b, c": "This would be a single variable name with spaces, not three separate variables.",
+      "(a,b,c)": "Parentheses around the variables are optional but acceptable; however, the template already has no parentheses, and adding them would cause a syntax issue because the blanks would be inside parentheses when the template is (_____, _____, _____). The answer is just the variable names."
+    },
+    "hints": [
+      "Place each variable name in its own blank, matching the print statements below.",
+      "The number of variables must match the tuple length."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuple unpacking assigns each element to a separate variable. The variables must be listed in the same order as the tuple elements.",
+    "common_mistake_warning": "⚠️ Mismatching the number of variables and tuple elements causes a ValueError."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_009",
+    "concept_name": "Tuple indexing",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Access the second element of the tuple even_nums and store it in a variable called second_num.",
+    "code_template": "even_nums = (2, 4, 6)\nsecond_num = even_nums[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1", "2", "0", "1", "-1"],
+    "per_tile_feedback": {
+      "1": "Correct. Zero-based indexing: the second element is at index 1.",
+      "2": "Index 2 would give the third element (6).",
+      "0": "Index 0 gives the first element (2).",
+      "-1": "Negative indexing gives the last element (6), not the second.",
+      "1": "Correct."
+    },
+    "hints": [
+      "Remember that Python counts from zero.",
+      "The second position corresponds to index 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Tuples use zero-based indexing, so the first element is index 0, the second is index 1.",
+    "common_mistake_warning": "⚠️ Using one-based indexing (expecting index 1 to be the first) is a common mistake."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_010",
+    "concept_name": "Returning multiple values",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Complete the function raise_both so that it returns both new_value1 and new_value2 as a tuple.",
+    "code_template": "def raise_both(value1, value2):\n    new_value1 = value1 ** value2\n    new_value2 = value2 ** value1\n    new_tuple = (_____, _____)\n    return new_tuple",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "new_value1",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "new_value2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["new_value1", "new_value2", "value1", "value2", "new_tuple"],
+    "per_tile_feedback": {
+      "new_value1": "Correct. The first computed value.",
+      "new_value2": "Correct. The second computed value.",
+      "value1": "This is the input parameter, not the computed value.",
+      "value2": "Same, not the computed power.",
+      "new_tuple": "This would try to put a tuple inside a tuple, which is not the desired result."
+    },
+    "hints": [
+      "You need the two variables that hold the results of the calculations.",
+      "Look at the lines above: which variables store the calculated powers?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To return multiple values, pack them into a tuple and return it. The tuple can later be unpacked by the caller.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_012",
+    "concept_name": "NameError from local scope",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "This code attempts to print a variable that only exists inside the function. Fill in the missing line to show the error.",
+    "code_template": "def square(value):\n    new_val = value ** 2\n    return new_val\nsquare(3)\nprint(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "new_val",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["new_val", "value", "square(3)", "square", "3"],
+    "per_tile_feedback": {
+      "new_val": "Correct. new_val is local to square(); trying to access it globally raises a NameError.",
+      "value": "value is the parameter name, also local; would cause a NameError but not the variable intended.",
+      "square(3)": "This would call the function again and print its return value (9).",
+      "square": "This would print the function object, not a variable.",
+      "3": "Would just print 3."
+    },
+    "hints": [
+      "Which variable was defined inside the function?",
+      "Trying to use that variable outside will cause a NameError."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Variables assigned inside a function are local. They are destroyed when the function ends. Accessing them outside their scope raises a NameError.",
+    "common_mistake_warning": "⚠️ Thinking that local variables persist after a function returns is a common misunderstanding."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_013",
+    "concept_name": "Shadowing global variables",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "This code defines a global new_val and a function that also uses new_val. Fill in the missing assignment to see shadowing.",
+    "code_template": "new_val = 10\ndef square(value):\n    new_val = value ** 2\n    return new_val\nprint(square(3))\nprint(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "new_val",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["new_val", "value", "square(3)", "10", "global"],
+    "per_tile_feedback": {
+      "new_val": "Correct. It prints the global new_val, which remains 10 despite the local assignment.",
+      "value": "Would cause a NameError because value is not defined globally.",
+      "square(3)": "Would print 9 again, not the global value.",
+      "10": "Would print 10, but using the variable name demonstrates shadowing.",
+      "global": "The global keyword would change behavior, but the instruction is to show shadowing."
+    },
+    "hints": [
+      "The second print should output the global variable.",
+      "What variable name exists both globally and locally?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The local new_val shadows the global one inside the function. The global new_val remains unchanged, so the second print shows 10.",
+    "common_mistake_warning": "⚠️ Modifying a variable inside a function does not change the global unless 'global' is used."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_015",
+    "concept_name": "global keyword",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Modify the function so that it updates the global variable new_val to its square.",
+    "code_template": "new_val = 10\ndef square(value):\n    _____ new_val\n    new_val = new_val ** 2\n    return new_val",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "global",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["global", "nonlocal", "local", "def", "return"],
+    "per_tile_feedback": {
+      "global": "Correct. The global keyword declares that new_val refers to the global variable, so the assignment modifies it.",
+      "nonlocal": "nonlocal is used for enclosing scopes, not the global scope.",
+      "local": "There is no 'local' keyword in Python.",
+      "def": "def is for defining functions, not declaring scope.",
+      "return": "return does not change variable scope."
+    },
+    "hints": [
+      "You need a keyword that tells Python to use the global variable.",
+      "Without it, the assignment would create a local shadow."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The global keyword allows a function to modify a variable defined in the global scope. Without it, assignment creates a local variable.",
+    "common_mistake_warning": "⚠️ Using 'global' when only reading is unnecessary; it's required for assignment."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_015",
+    "concept_name": "global keyword",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "The function should increment a global counter by 1 each time it is called. Fill in the missing global declaration and the incrementation.",
+    "code_template": "counter = 0\ndef increment():\n    _____ counter\n    counter = counter _____ 1\n    return counter",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "global",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "+",
+        "answer_alternatives": ["+="]
+      }
+    ],
+    "word_bank": ["global", "nonlocal", "+", "+=", "1", "counter + 1"],
+    "per_tile_feedback": {
+      "global": "Correct. Declares that counter refers to the global variable.",
+      "nonlocal": "Incorrect because the counter is global, not in an enclosing function.",
+      "+": "Correct. counter + 1 increments the value.",
+      "+=": "Would also work but the template has counter = counter _____ 1, so + is the operator.",
+      "1": "The blank needs an operator, not a number.",
+      "counter + 1": "This would cause a syntax error because the template already has 'counter ='."
+    },
+    "hints": [
+      "First blank: the keyword to access a global variable for modification.",
+      "Second blank: the arithmetic operator to add 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using 'global counter' allows the function to modify the global counter. The operator '+' increments it.",
+    "common_mistake_warning": "⚠️ Without 'global', Python would create a local 'counter', causing UnboundLocalError if you try to read it before assignment."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_016",
+    "concept_name": "Nested functions",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Define an inner function called inner inside mod2plus5 that applies the modulo and addition logic.",
+    "code_template": "def mod2plus5(x1, x2, x3):\n    _____ inner(x):\n        return x % 2 + 5\n    return (inner(x1), inner(x2), inner(x3))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "def",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["def", "lambda", "function", "inner", "def inner"],
+    "per_tile_feedback": {
+      "def": "Correct. The def keyword starts a nested function definition.",
+      "lambda": "lambda creates anonymous functions, but the code uses a named function with a def statement.",
+      "function": "Not a Python keyword.",
+      "inner": "Just the function name is not enough; you need the def keyword.",
+      "def inner": "This would be two words in one blank; the template already has 'inner' after the blank."
+    },
+    "hints": [
+      "To define any function, even nested, you use the same keyword.",
+      "The template already provides the function name 'inner'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A nested function is defined with the same def syntax as any function, but it appears inside another function's body.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_017",
+    "concept_name": "Returning functions (closures)",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Complete the raise_val function so that it returns a nested function that raises its argument to the power of n.",
+    "code_template": "def raise_val(n):\n    def inner(x):\n        return x ** n\n    _____ inner",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "return",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["return", "yield", "call", "inner()", "return inner"],
+    "per_tile_feedback": {
+      "return": "Correct. The function must return the inner function object, not call it.",
+      "yield": "yield would make it a generator, not a closure.",
+      "call": "call is not a Python keyword; to execute inner you would use inner().",
+      "inner()": "This would call inner immediately, not return a closure.",
+      "return inner": "Two words, but the blank expects a single keyword; the template has 'inner' already."
+    },
+    "hints": [
+      "The outer function should give back the inner function itself.",
+      "Use the keyword that sends a value out of a function."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Returning the inner function without calling it creates a closure that retains access to n.",
+    "common_mistake_warning": "⚠️ Returning inner() calls it immediately; returning inner returns the function object for later use."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_018",
+    "concept_name": "nonlocal keyword",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Inside inner, modify the enclosing variable n. Use the appropriate keyword.",
+    "code_template": "def outer():\n    n = 1\n    def inner():\n        _____ n\n        n = 2\n        print(n)\n    inner()\n    print(n)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "nonlocal",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["nonlocal", "global", "local", "enclosing", "def"],
+    "per_tile_feedback": {
+      "nonlocal": "Correct. nonlocal n makes the assignment modify the n from the enclosing scope.",
+      "global": "global would look for n in the global scope, not the enclosing function.",
+      "local": "There is no 'local' keyword.",
+      "enclosing": "Not a valid Python keyword.",
+      "def": "def is for defining functions."
+    },
+    "hints": [
+      "The variable n is defined in the outer function, not globally.",
+      "You need a keyword that works for enclosing scopes, not global."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "nonlocal allows a nested function to modify a variable from its enclosing function. Without it, the assignment would create a new local variable.",
+    "common_mistake_warning": "⚠️ Using global when you mean nonlocal will either cause an error or modify the wrong variable."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_018",
+    "concept_name": "nonlocal keyword",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "The counter function should keep state using a nonlocal variable. Fill in the missing keyword and increment operation.",
+    "code_template": "def make_counter():\n    count = 0\n    def counter():\n        _____ count\n        count = count _____ 1\n        return count\n    return counter",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "nonlocal",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "+",
+        "answer_alternatives": ["+="]
+      }
+    ],
+    "word_bank": ["nonlocal", "global", "+", "+=", "1", "counter + 1"],
+    "per_tile_feedback": {
+      "nonlocal": "Correct. The count variable is in the enclosing scope.",
+      "global": "global would look for a global count, which doesn't exist.",
+      "+": "Correct. The increment operator.",
+      "+=": "Also valid, but the template uses count = count + 1, so + fits.",
+      "1": "Need an operator, not a number.",
+      "counter + 1": "Syntax error."
+    },
+    "hints": [
+      "The variable 'count' is defined in the outer function.",
+      "To modify it, you need the keyword for enclosing scopes, not global."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "nonlocal allows the nested counter function to update the count variable from the outer scope, creating a persistent state (closure).",
+    "common_mistake_warning": "⚠️ Forgetting nonlocal leads to UnboundLocalError when trying to increment count."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_020",
+    "concept_name": "Default arguments",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Define a function power with a parameter pow that defaults to 1.",
+    "code_template": "def power(number, pow_____1):\n    return number ** pow",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=", ":", "->", ",", "default"],
+    "per_tile_feedback": {
+      "=": "Correct. Default values are assigned using = in the parameter list.",
+      ":": "A colon is used to separate the function header from the body, not for defaults.",
+      "->": "The arrow is for return type annotations.",
+      ",": "A comma separates parameters, not assigns a default.",
+      "default": "Not a valid Python syntax for defaults."
+    },
+    "hints": [
+      "How do you assign a default value to a parameter?",
+      "The syntax is param=default_value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Default arguments are specified with an equals sign after the parameter name, providing a value that is used if no argument is given.",
+    "common_mistake_warning": "⚠️ Parameters with defaults must come after those without defaults."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_021",
+    "concept_name": "*args (variable positional arguments)",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Write the function add_all that accepts any number of arguments and sums them.",
+    "code_template": "def add_all(_____):\n    sum_all = 0\n    for num in args:\n        sum_all += num\n    return sum_all",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*args",
+        "answer_alternatives": ["args*"]
+      }
+    ],
+    "word_bank": ["*args", "args", "*arguments", "**args", "args[]"],
+    "per_tile_feedback": {
+      "*args": "Correct. The * collects extra positional arguments into a tuple named args.",
+      "args": "Without the asterisk, only a single argument is expected.",
+      "*arguments": "This would also work but the convention in the course and body uses 'args'. The body iterates over 'args', so it must match.",
+      "**args": "Double asterisk is for keyword arguments, not positional.",
+      "args[]": "Invalid syntax; square brackets are not used in parameter definitions."
+    },
+    "hints": [
+      "To accept variable positional arguments, use an asterisk before a parameter name.",
+      "The name is conventionally 'args'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The *args parameter collects any number of extra positional arguments into a tuple, which can then be iterated over.",
+    "common_mistake_warning": "⚠️ The collected arguments are a tuple, not a list, so list methods like append won't work."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_022",
+    "concept_name": "**kwargs (variable keyword arguments)",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Write a function print_all that accepts any number of keyword arguments and prints each key-value pair.",
+    "code_template": "def print_all(_____):\n    for key, value in kwargs.items():\n        print(key + \": \" + value)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "**kwargs",
+        "answer_alternatives": ["kwargs**"]
+      }
+    ],
+    "word_bank": ["**kwargs", "kwargs", "**args", "*kwargs", "kwargs[]"],
+    "per_tile_feedback": {
+      "**kwargs": "Correct. The double asterisk collects keyword arguments into a dictionary.",
+      "kwargs": "Without the asterisks, only a single argument is expected, which would be a dict, not individual keywords.",
+      "**args": "While possible, the convention and body use 'kwargs', and the code references 'kwargs.items()', so the name must match.",
+      "*kwargs": "Single asterisk would collect positional arguments, not keyword arguments.",
+      "kwargs[]": "Invalid syntax."
+    },
+    "hints": [
+      "To capture keyword arguments, use two asterisks before a parameter name.",
+      "The name is conventionally 'kwargs'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "**kwargs allows a function to accept an arbitrary number of keyword arguments, which are stored as a dictionary.",
+    "common_mistake_warning": "⚠️ Use .items() to iterate over keys and values."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_023",
+    "concept_name": "Lambda functions",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Write a lambda function that raises a number to a given power and assign it to raise_to_power.",
+    "code_template": "raise_to_power = _____ x, y: x ** y",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lambda",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["lambda", "def", "function", "λ", "=>"],
+    "per_tile_feedback": {
+      "lambda": "Correct. The lambda keyword creates an anonymous function.",
+      "def": "def is used for named functions; this syntax requires lambda.",
+      "function": "Not a Python keyword.",
+      "λ": "Python does not recognize the Greek lambda character as a keyword.",
+      "=>": "Arrow functions are JavaScript syntax, not Python."
+    },
+    "hints": [
+      "Python's keyword for anonymous functions starts with 'l'.",
+      "The syntax is: lambda arguments: expression"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Lambda functions are created with the lambda keyword, followed by parameters, a colon, and a single expression.",
+    "common_mistake_warning": "⚠️ Lambdas can only contain an expression, not statements like print or assignments."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_024",
+    "concept_name": "map() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Use map with a lambda to square each number in the list nums.",
+    "code_template": "nums = [48, 6, 9, 21, 1]\nsquare_all = _____(lambda num: num ** 2, nums)\nprint(list(square_all))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "map",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["map", "filter", "reduce", "list", "apply"],
+    "per_tile_feedback": {
+      "map": "Correct. map applies a function to each element of an iterable.",
+      "filter": "filter removes elements based on a condition, not transform them.",
+      "reduce": "reduce accumulates values, not produce a transformed list.",
+      "list": "list converts an iterable to a list but doesn't apply a function.",
+      "apply": "DataFrame method, not a built-in function for general iterables."
+    },
+    "hints": [
+      "Which built-in function applies a given function to every item of an iterable?",
+      "It returns an iterator that must be converted to a list to see the results."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "map(func, iterable) returns an iterator that applies func to each element. Wrapping in list() displays the results.",
+    "common_mistake_warning": "⚠️ map returns a map object, not a list; you must call list() to get a list."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_025",
+    "concept_name": "try-except clause",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Complete the sqrt function to handle any exception by printing an error message.",
+    "code_template": "def sqrt(x):\n    _____:\n        return x ** 0.5\n    _____:\n        print('x must be an int or float')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "try",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "except",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["try", "except", "catch", "raise", "finally"],
+    "per_tile_feedback": {
+      "try": "Correct. The try block contains code that might raise an exception.",
+      "except": "Correct. The except block catches exceptions that occur in try.",
+      "catch": "Python uses 'except', not 'catch'.",
+      "raise": "raise is used to throw exceptions, not handle them.",
+      "finally": "finally always executes but does not catch exceptions."
+    },
+    "hints": [
+      "Python's error handling uses two keywords: one for the risky code, one for handling.",
+      "The first blank is the block where you attempt the operation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A try-except block allows you to gracefully handle errors. Code in try is executed; if an exception occurs, the except block runs.",
+    "common_mistake_warning": "⚠️ A bare except catches all exceptions, including keyboard interrupts; it's better to specify the exception type."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_026",
+    "concept_name": "Catching specific exceptions",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Modify the except clause to only catch TypeError.",
+    "code_template": "def sqrt(x):\n    try:\n        return x ** 0.5\n    except _____:\n        print('x must be an int or float')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "TypeError",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["TypeError", "ValueError", "Exception", "Error", "type_error"],
+    "per_tile_feedback": {
+      "TypeError": "Correct. Only errors of type TypeError (e.g., using ** on a string) are caught.",
+      "ValueError": "ValueError would catch different errors, like converting a string to int, not the intended type error.",
+      "Exception": "Too broad; catches all exceptions, not specific.",
+      "Error": "Not a valid built-in exception class.",
+      "type_error": "Python uses CamelCase for exception names."
+    },
+    "hints": [
+      "The exception class for type-related errors starts with 'Type'.",
+      "Use the exact built-in exception name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Catching a specific exception like TypeError ensures that only that kind of error is handled, while others propagate.",
+    "common_mistake_warning": "⚠️ Catching Exception is too broad and can hide unexpected bugs."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_027",
+    "concept_name": "raise statement",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Inside sqrt, raise a ValueError with the message 'x must be non-negative' if x is negative.",
+    "code_template": "def sqrt(x):\n    if x < 0:\n        _____ ValueError('x must be non-negative')\n    try:\n        return x ** 0.5\n    except TypeError:\n        print('x must be an int or float')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "raise",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["raise", "throw", "return", "assert", "except"],
+    "per_tile_feedback": {
+      "raise": "Correct. raise explicitly triggers an exception.",
+      "throw": "Python uses 'raise', not 'throw' (like Java).",
+      "return": "return would just exit the function, not signal an error.",
+      "assert": "assert would raise AssertionError, not ValueError, and the message would be different.",
+      "except": "except is for handling exceptions, not raising them."
+    },
+    "hints": [
+      "To manually trigger an exception, use a keyword that starts with 'r'.",
+      "The syntax is: raise ExceptionType('message')"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The raise keyword allows you to signal an error condition with a specific exception type and message.",
+    "common_mistake_warning": "⚠️ Raising an exception without handling it will terminate the program if not caught."
+  }
+]

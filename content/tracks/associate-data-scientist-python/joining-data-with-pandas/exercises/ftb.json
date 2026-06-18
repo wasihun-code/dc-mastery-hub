@@ -1,0 +1,994 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_001",
+    "concept_name": "merge() method",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Complete the code to perform an inner merge of wards and census on the 'ward' column.",
+    "code_template": "wards_census = wards._____(census, _____='ward')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "merge",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "on",
+        "answer_alternatives": ["on"]
+      }
+    ],
+    "word_bank": ["merge", "on", "how", "left_on", "suffixes", "concat"],
+    "per_tile_feedback": {
+      "merge": "Correct! The merge method is used to combine DataFrames.",
+      "on": "Correct! The on parameter specifies the column to join on.",
+      "how": "The how parameter sets the join type, not the column name.",
+      "left_on": "left_on is used when key column names differ between DataFrames.",
+      "suffixes": "suffixes handles duplicate column names, not the merge key.",
+      "concat": "concat stacks DataFrames vertically, not a relational join."
+    },
+    "hints": [
+      "The method is called on the left DataFrame, with the right DataFrame as argument.",
+      "The parameter that names the common key column is 'on'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "wards.merge(census, on='ward') performs an inner merge using 'ward' as the key. The default how='inner' is implicit.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_001",
+    "concept_name": "merge() method",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Complete the code to left join movies with taglines on 'id', keeping all movies and adding taglines where available.",
+    "code_template": "movies_taglines = movies.merge(taglines, on='id', how='_____', suffixes=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "left",
+        "answer_alternatives": ["'left'"]
+      },
+      {
+        "position": 2,
+        "answer": "None",
+        "answer_alternatives": ["()"]
+      }
+    ],
+    "word_bank": ["left", "right", "outer", "inner", "None", "('_x','_y')"],
+    "per_tile_feedback": {
+      "left": "Correct! how='left' keeps all rows from the left DataFrame.",
+      "right": "how='right' keeps all rows from the right DataFrame, not what we want.",
+      "outer": "how='outer' would keep rows from both, including unmatched ones.",
+      "inner": "inner would drop movies without taglines, losing data.",
+      "None": "Correct! If no suffixes are needed, you can pass None or omit the parameter.",
+      "('_x','_y')": "That's the default suffix tuple, but here no overlapping columns, so None is fine."
+    },
+    "hints": [
+      "Which how parameter retains all rows from the first DataFrame?",
+      "If there are no duplicate non-key columns, suffixes can be left as default."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A left join with how='left' preserves all movies. The suffixes parameter can be omitted or set to None if there are no name conflicts.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_005",
+    "concept_name": "suffixes parameter",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Add suffixes to the merge so that overlapping columns from wards get '_ward' and from census get '_cen'.",
+    "code_template": "wards_census = wards.merge(census, on='ward', suffixes=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "('_ward','_cen')",
+        "answer_alternatives": ["(\"_ward\",\"_cen\")"]
+      }
+    ],
+    "word_bank": ["('_ward','_cen')", "['_ward','_cen']", "'_ward','_cen'", "('ward','cen')", "suffixes='_ward'"],
+    "per_tile_feedback": {
+      "('_ward','_cen')": "Correct! A tuple of two strings is required.",
+      "['_ward','_cen']": "A list is not accepted; suffixes expects a tuple.",
+      "'_ward','_cen'": "This is not a tuple; it's two separate strings.",
+      "('ward','cen')": "These suffixes don't start with underscores and would produce confusing names.",
+      "suffixes='_ward'": "Only one string is given; suffixes needs a pair."
+    },
+    "hints": [
+      "The parameter expects a tuple of exactly two strings.",
+      "Each string is appended to the overlapping column name."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing suffixes=('_ward','_cen') appends '_ward' to left columns and '_cen' to right columns, resolving duplicate names.",
+    "common_mistake_warning": "⚠️ Using a list or a single string causes a TypeError."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_006",
+    "concept_name": "Merging on multiple columns",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Merge grants and licenses using both 'address' and 'zip' as the composite key.",
+    "code_template": "grants_licenses = grants.merge(licenses, on=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['address','zip']",
+        "answer_alternatives": ["['address', 'zip']"]
+      }
+    ],
+    "word_bank": ["['address','zip']", "'address','zip'", "['address','zip_code']", "'address'", "['zip']"],
+    "per_tile_feedback": {
+      "['address','zip']": "Correct! A list of column names merges on both columns simultaneously.",
+      "'address','zip'": "This is not a list; it's two separate strings, which causes a TypeError.",
+      "['address','zip_code']": "'zip_code' does not exist in the licenses DataFrame, leading to a KeyError.",
+      "'address'": "Merging on only 'address' would ignore 'zip' differences, possibly matching wrong rows.",
+      "['zip']": "Merging on only 'zip' could match different addresses in the same zip code."
+    },
+    "hints": [
+      "The on parameter can accept a list of column names.",
+      "Both column names must exist in both DataFrames."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing a list to on tells pandas to match rows where all listed columns are equal. This creates a composite key.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_007",
+    "concept_name": "Chaining merges",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Chain a second merge to add wards data to the previous merge result.",
+    "code_template": "grants_licenses_ward = grants.merge(licenses, on=['address','zip']) _____ ._____(wards, on='ward', suffixes=('_bus','_ward'))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\\",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "merge",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["\\", "merge", "\\\\", ".concat", "+"],
+    "per_tile_feedback": {
+      "\\": "Correct! The backslash is Python's line continuation character.",
+      "merge": "Correct! The second merge is called on the result of the first merge.",
+      "\\\\": "A double backslash is not a line continuation; it's an escaped backslash.",
+      ".concat": "concat is used for vertical stacking, not a relational merge.",
+      "+": "The + operator does not combine DataFrames by keys."
+    },
+    "hints": [
+      "Python line continuation uses a backslash at the end of the line.",
+      "The second operation must be another merge on the intermediate result."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Chaining merges uses backslash for line continuation and calls .merge() on the DataFrame returned from the first merge.",
+    "common_mistake_warning": "⚠️ Any trailing space after the backslash breaks line continuation."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_011",
+    "concept_name": "left_on and right_on parameters",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the right join using the different key column names: movies uses 'id' and tv_genre uses 'movie_id'.",
+    "code_template": "tv_movies = movies.merge(tv_genre, how='right', left_on='_____', right_on='_____')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "id",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "movie_id",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["id", "movie_id", "tv_genre_id", "movies_id", "on"],
+    "per_tile_feedback": {
+      "id": "Correct! left_on references the 'id' column in movies.",
+      "movie_id": "Correct! right_on references the 'movie_id' column in tv_genre.",
+      "tv_genre_id": "This column does not exist in either DataFrame.",
+      "movies_id": "This is not a column in movies.",
+      "on": "on is used when both tables share the same column name."
+    },
+    "hints": [
+      "left_on corresponds to a column in the left DataFrame.",
+      "right_on corresponds to a column in the right DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When key columns have different names, left_on and right_on map them correctly. Swapping them would cause a KeyError or empty result.",
+    "common_mistake_warning": "⚠️ Swapping left_on and right_on is a common mistake."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_012",
+    "concept_name": "Self join",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Self-join the sequels DataFrame to link each movie to its sequel. Use 'sequel' as left key, 'id' as right key, and append '_org' and '_seq' suffixes.",
+    "code_template": "original_sequels = sequels.merge(sequels, left_on='_____', right_on='_____', suffixes=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sequel",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "id",
+        "answer_alternatives": []
+      },
+      {
+        "position": 3,
+        "answer": "('_org','_seq')",
+        "answer_alternatives": ["(\"_org\",\"_seq\")"]
+      }
+    ],
+    "word_bank": ["sequel", "id", "('_org','_seq')", "['_org','_seq']", "title"],
+    "per_tile_feedback": {
+      "sequel": "Correct! The left_on column holds the sequel's id.",
+      "id": "Correct! The right_on column is the movie's own id.",
+      "('_org','_seq')": "Correct! A tuple of two strings is required to rename overlapping columns.",
+      "['_org','_seq']": "A list is not accepted; suffixes must be a tuple.",
+      "title": "This column is not used as a key."
+    },
+    "hints": [
+      "A self-join treats the same table as left and right.",
+      "Suffixes are mandatory to avoid duplicate column errors."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "sequels.merge(sequels, left_on='sequel', right_on='id', suffixes=('_org','_seq')) links each movie to its sequel by matching the sequel column to the id column.",
+    "common_mistake_warning": "⚠️ Without suffixes, a ValueError is raised due to duplicate column names."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_013",
+    "concept_name": "Merging on index",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Merge movies (which has its index set to 'id') with taglines on that index. Use a left join.",
+    "code_template": "movies_taglines = movies.merge(taglines, _____='id', how='left')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "on",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["on", "left_on", "right_on", "how", "suffixes"],
+    "per_tile_feedback": {
+      "on": "Correct! When a column name matches an index level, you can still use on.",
+      "left_on": "left_on is for columns, not index references.",
+      "right_on": "right_on is for the right DataFrame's columns.",
+      "how": "how specifies the join type, not the key.",
+      "suffixes": "suffixes handles duplicate column names."
+    },
+    "hints": [
+      "The on parameter can reference an index level by name.",
+      "No special flag is needed if the index has a name that matches."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Because the index of movies is named 'id', using on='id' automatically merges on that index level.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_014",
+    "concept_name": "MultiIndex merge",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Merge samuel and casts on their shared MultiIndex levels 'movie_id' and 'cast_id'.",
+    "code_template": "samuel_casts = samuel.merge(casts, on=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['movie_id','cast_id']",
+        "answer_alternatives": ["['movie_id', 'cast_id']"]
+      }
+    ],
+    "word_bank": ["['movie_id','cast_id']", "['cast_id','movie_id']", "'movie_id'", "'cast_id'", "['movie_id']"],
+    "per_tile_feedback": {
+      "['movie_id','cast_id']": "Correct! Both level names in the correct order.",
+      "['cast_id','movie_id']": "Reversing the order would likely produce an empty result because the tuples won't match.",
+      "'movie_id'": "Merging on only one level would incorrectly match on partial keys.",
+      "'cast_id'": "This would only match on cast_id, ignoring movie context.",
+      "['movie_id']": "A single-element list still misses the second level."
+    },
+    "hints": [
+      "MultiIndex merges compare tuples of all specified levels.",
+      "The order of level names must match exactly in both DataFrames."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Passing on=['movie_id','cast_id'] aligns the merge on both index levels, ensuring correct composite key matching.",
+    "common_mistake_warning": "⚠️ Reversed level order can silently yield zero rows."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_015",
+    "concept_name": "left_index and right_index parameters",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the merge using both the index of movies and the index of movie_to_genres as keys.",
+    "code_template": "movies_genres = movies.merge(movie_to_genres, left_on='id', left_index=_____, right_on='movie_id', right_index=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "True",
+        "answer_alternatives": ["true"]
+      },
+      {
+        "position": 2,
+        "answer": "True",
+        "answer_alternatives": ["true"]
+      }
+    ],
+    "word_bank": ["True", "False", "None", "'left'", "'right'"],
+    "per_tile_feedback": {
+      "True": "Correct! left_index=True and right_index=True tell pandas to use the indices.",
+      "False": "False would ignore the index and use columns only.",
+      "None": "None is not a valid boolean for index flags.",
+      "'left'": "This string is not a valid value; it expects True/False.",
+      "'right'": "Again, not a boolean."
+    },
+    "hints": [
+      "Set the flag to True when you want to use the DataFrame's index as the join key.",
+      "Both indices are used here, so both flags must be True."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Setting left_index=True and right_index=True activates index-based merging, even when left_on and right_on are also given (the index takes precedence).",
+    "common_mistake_warning": "⚠️ When left_index is True, left_on is ignored."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_017",
+    "concept_name": "isin() method",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Create a boolean mask that is True for each gid in genres that appears in genres_tracks.",
+    "code_template": "mask = genres['gid']._____(genres_tracks['gid'])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "isin",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["isin", "merge", "join", "filter", "loc"],
+    "per_tile_feedback": {
+      "isin": "Correct! isin returns a boolean Series indicating membership.",
+      "merge": "merge combines DataFrames, not for creating a mask.",
+      "join": "join is another combining method, not for membership testing.",
+      "filter": "filter selects columns or rows by labels, not membership.",
+      "loc": "loc accesses rows by label, not for membership checks."
+    },
+    "hints": [
+      "The method that checks whether elements are present in another Series.",
+      "It returns True/False for each element."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "isin() tests each element of the Series against the provided list or Series and returns a boolean mask.",
+    "common_mistake_warning": "⚠️ It returns a Series, not a DataFrame — use it inside brackets to filter."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_019",
+    "concept_name": "indicator parameter",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Add an indicator column to the left merge so you can later identify unmatched rows.",
+    "code_template": "genres_tracks = genres.merge(top_tracks, on='gid', how='left', _____=True)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "indicator",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["indicator", "validate", "how", "suffixes", "left_index"],
+    "per_tile_feedback": {
+      "indicator": "Correct! indicator=True adds the '_merge' column.",
+      "validate": "validate checks merge type, doesn't add a source column.",
+      "how": "how controls join type, not indicator.",
+      "suffixes": "suffixes renames columns, not adds indicator.",
+      "left_index": "left_index changes the key source, not indicator."
+    },
+    "hints": [
+      "The column that shows row origin: 'both', 'left_only', 'right_only'.",
+      "Set this parameter to True."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "With indicator=True, pandas appends a '_merge' column that labels each row's origin, essential for anti joins.",
+    "common_mistake_warning": "⚠️ Forgetting indicator=True means no '_merge' column exists."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_020",
+    "concept_name": "concat() method",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Vertically stack inv_jan, inv_feb, and inv_mar into one DataFrame, resetting the index.",
+    "code_template": "result = pd._____([inv_jan, inv_feb, inv_mar], _____=True)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "concat",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "ignore_index",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["concat", "merge", "ignore_index", "axis", "join"],
+    "per_tile_feedback": {
+      "concat": "Correct! pd.concat is the vertical stacking function.",
+      "merge": "merge combines DataFrames on a key, not stacking.",
+      "ignore_index": "Correct! ignore_index=True creates a new 0‑based index.",
+      "axis": "axis=0 is the default for vertical, but here we're blanking ignore_index.",
+      "join": "join controls column intersection, not index resetting."
+    },
+    "hints": [
+      "The function name starts with 'con'.",
+      "To reset the index, set ignore_index=True."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pd.concat with ignore_index=True stacks DataFrames vertically and replaces old indices with a fresh integer range.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_020",
+    "concept_name": "concat() method",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Concatenate the three monthly DataFrames, keep the original indices, and label each original table with a key for 'jan', 'feb', 'mar'.",
+    "code_template": "result = pd.concat([inv_jan, inv_feb, inv_mar], ignore_index=_____, keys=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "False",
+        "answer_alternatives": ["false"]
+      },
+      {
+        "position": 2,
+        "answer": "['jan','feb','mar']",
+        "answer_alternatives": ["['jan', 'feb', 'mar']"]
+      }
+    ],
+    "word_bank": ["False", "True", "['jan','feb','mar']", "['jan','feb']", "keys=['jan','feb','mar']"],
+    "per_tile_feedback": {
+      "False": "Correct! ignore_index=False keeps original indices so keys can create a MultiIndex.",
+      "True": "True would discard original indices, causing a conflict with keys.",
+      "['jan','feb','mar']": "Correct! A list of three labels matching the number of DataFrames.",
+      "['jan','feb']": "Only two keys for three DataFrames would cause a mismatch.",
+      "keys=['jan','feb','mar']": "You shouldn't repeat the parameter name inside the value."
+    },
+    "hints": [
+      "Keys require the original indices to build a hierarchical index.",
+      "The number of keys must equal the number of DataFrames."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ignore_index=False preserves original indices, and keys=['jan','feb','mar'] adds a top-level index labeling the source DataFrame.",
+    "common_mistake_warning": "⚠️ Combining ignore_index=True with keys raises a ValueError."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_021",
+    "concept_name": "ignore_index parameter (concat)",
+    "chapter": 3,
+    "difficulty": "easy",
+    "task_description": "Concatenate inv_jan, inv_feb, inv_mar and discard their original indices to get a clean sequential index.",
+    "code_template": "result = pd.concat([inv_jan, inv_feb, inv_mar], _____=True)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ignore_index",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["ignore_index", "axis", "join", "keys", "sort"],
+    "per_tile_feedback": {
+      "ignore_index": "Correct! ignore_index=True resets the index.",
+      "axis": "axis controls the concatenation direction.",
+      "join": "join handles column overlap.",
+      "keys": "keys adds hierarchical labels, not resetting.",
+      "sort": "sort orders columns, not index."
+    },
+    "hints": [
+      "The parameter name suggests 'ignore the existing index'.",
+      "Set it to True to get a fresh 0‑based index."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Setting ignore_index=True makes pandas create a new integer index from 0 to n-1, discarding the old labels.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_022",
+    "concept_name": "keys parameter (concat)",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Label each DataFrame's rows with a source identifier using a multi-level index.",
+    "code_template": "result = pd.concat([inv_jan, inv_feb, inv_mar], ignore_index=False, _____=['jan','feb','mar'])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "keys",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["keys", "join", "axis", "ignore_index", "suffixes"],
+    "per_tile_feedback": {
+      "keys": "Correct! keys adds a top-level index to identify each original DataFrame.",
+      "join": "join controls column intersection, not labeling.",
+      "axis": "axis sets the concatenation axis.",
+      "ignore_index": "ignore_index resets index, not adding labels.",
+      "suffixes": "suffixes is for merging, not concat."
+    },
+    "hints": [
+      "The parameter that creates a MultiIndex with the provided labels.",
+      "It expects a list of the same length as the number of DataFrames."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "keys=['jan','feb','mar'] turns the concatenated index into a MultiIndex where the first level holds the source month.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_023",
+    "concept_name": "join parameter in concat",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Concatenate inv_jan and inv_feb but only keep the columns present in both.",
+    "code_template": "result = pd.concat([inv_jan, inv_feb], _____='inner')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "join",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["join", "how", "axis", "keys", "ignore_index"],
+    "per_tile_feedback": {
+      "join": "Correct! join='inner' keeps only the intersection of columns.",
+      "how": "how is a merge parameter, not concat.",
+      "axis": "axis controls row/column concatenation.",
+      "keys": "keys adds index labels.",
+      "ignore_index": "ignore_index resets the row index."
+    },
+    "hints": [
+      "The parameter that controls column set handling (union vs intersection).",
+      "'inner' means intersection."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "join='inner' performs a column intersection, discarding any column not present in every DataFrame in the list.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_024",
+    "concept_name": "validate parameter (merge)",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Ensure the merge between tracks and specs is one‑to‑one. If not, an error should be raised.",
+    "code_template": "result = tracks.merge(specs, on='tid', _____='one_to_one')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "validate",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["validate", "indicator", "how", "suffixes", "verify_integrity"],
+    "per_tile_feedback": {
+      "validate": "Correct! validate='one_to_one' checks key uniqueness on both sides.",
+      "indicator": "indicator adds a source column but doesn't enforce uniqueness.",
+      "how": "how sets the join type, not validation.",
+      "suffixes": "suffixes renames columns.",
+      "verify_integrity": "verify_integrity is for concat, not merge."
+    },
+    "hints": [
+      "The parameter that verifies the expected relationship type.",
+      "It raises a MergeError if duplicates are found."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "validate='one_to_one' checks that the join keys are unique in both DataFrames, raising an error if violated.",
+    "common_mistake_warning": "⚠️ The error occurs after the merge is computed, so it may be costly on large data."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_025",
+    "concept_name": "verify_integrity parameter (concat)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Concatenate inv_feb and inv_mar and make sure no duplicate index values appear.",
+    "code_template": "result = pd.concat([inv_feb, inv_mar], _____=True)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "verify_integrity",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["verify_integrity", "ignore_index", "join", "axis", "validate"],
+    "per_tile_feedback": {
+      "verify_integrity": "Correct! It raises a ValueError if duplicate indices exist.",
+      "ignore_index": "ignore_index resets the index, avoiding duplicates instead of detecting them.",
+      "join": "join controls columns.",
+      "axis": "axis sets the concatenation axis.",
+      "validate": "validate is for merges, not concat."
+    },
+    "hints": [
+      "This parameter checks the final index for duplicates.",
+      "If duplicates are found, an error is raised."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "verify_integrity=True ensures the concatenated index is unique, preventing accidental duplicate row labels.",
+    "common_mistake_warning": "⚠️ It only checks the index, not column values."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_026",
+    "concept_name": "merge_ordered() function",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Perform an ordered merge of aapl and mcd on the 'date' column, adding suffixes to distinguish close prices.",
+    "code_template": "result = pd._____(aapl, mcd, on='date', suffixes=('_aapl', '_mcd'))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "merge_ordered",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["merge_ordered", "merge_asof", "concat", "merge", "join"],
+    "per_tile_feedback": {
+      "merge_ordered": "Correct! merge_ordered is designed for time‑series ordered data.",
+      "merge_asof": "merge_asof does nearest matching, not a simple ordered outer join.",
+      "concat": "concat stacks data, not an ordered merge.",
+      "merge": "merge doesn't sort the result by default.",
+      "join": "join is for index‑based combining."
+    },
+    "hints": [
+      "The function name starts with 'merge_' and implies ordered data.",
+      "It defaults to an outer join and sorts the result."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pd.merge_ordered performs an outer join on sorted key columns, ideal for time series with possible missing dates.",
+    "common_mistake_warning": "⚠️ It sorts the output by the 'on' column, not preserving the left table's order."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_028",
+    "concept_name": "merge_asof() function",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Merge visa and ibm on 'date_time' using an asof join to match the nearest previous time.",
+    "code_template": "result = pd._____(visa, ibm, _____='date_time', suffixes=('_visa','_ibm'))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "merge_asof",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "on",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["merge_asof", "merge_ordered", "on", "left_on", "how"],
+    "per_tile_feedback": {
+      "merge_asof": "Correct! merge_asof performs fuzzy matching on sorted keys.",
+      "merge_ordered": "merge_ordered does a standard ordered merge, not nearest match.",
+      "on": "Correct! on specifies the common time column.",
+      "left_on": "left_on is used when column names differ.",
+      "how": "how is not needed here; merge_asof always does a left join."
+    },
+    "hints": [
+      "The function name includes 'asof' because it matches on the nearest key.",
+      "The key column must be sorted."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "pd.merge_asof(visa, ibm, on='date_time', suffixes=('_visa','_ibm')) matches each visa timestamp to the latest ibm timestamp ≤ it (backward direction).",
+    "common_mistake_warning": "⚠️ The key column must be sorted beforehand."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_028",
+    "concept_name": "merge_asof() function",
+    "chapter": 4,
+    "difficulty": "very_hard",
+    "task_description": "Complete the merge_asof call that matches visa and ibm on 'date_time' with custom suffixes, specifying the date column and the suffixes correctly.",
+    "code_template": "result = pd.merge_asof(visa, ibm, _____='date_time', _____=('_visa','_ibm'))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "on",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "suffixes",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["on", "left_on", "suffixes", "how", "direction"],
+    "per_tile_feedback": {
+      "on": "Correct! on='date_time' uses the shared column.",
+      "left_on": "left_on would be used if column names differed, but they are the same.",
+      "suffixes": "Correct! suffixes=('_visa','_ibm') renames overlapping columns.",
+      "how": "how is not a parameter of merge_asof; it always does a left join.",
+      "direction": "direction controls matching direction, not suffixes."
+    },
+    "hints": [
+      "The common column is specified with 'on'.",
+      "Overlapping column naming uses 'suffixes'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The on parameter names the common sorted column, and suffixes distinguishes the close price columns from each DataFrame.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_029",
+    "concept_name": "direction parameter (merge_asof)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Change the merge_asof to match each visa time to the nearest future ibm time (forward direction).",
+    "code_template": "result = pd.merge_asof(visa, ibm, on='date_time', suffixes=('_visa','_ibm'), _____='forward')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "direction",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["direction", "how", "fill_method", "validate", "indicator"],
+    "per_tile_feedback": {
+      "direction": "Correct! direction='forward' matches the next future row.",
+      "how": "how is not a parameter of merge_asof.",
+      "fill_method": "fill_method is for merge_ordered, not merge_asof.",
+      "validate": "validate is for merge, not asof.",
+      "indicator": "indicator is for regular merge, not asof."
+    },
+    "hints": [
+      "The parameter that controls whether to look backward, forward, or nearest.",
+      "'forward' means the right key must be >= the left key."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "direction='forward' selects the first right row whose key is greater than or equal to the left key, effectively using future data.",
+    "common_mistake_warning": "⚠️ Using 'forward' in predictive models can cause data leakage."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_030",
+    "concept_name": "query() method",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Filter the stocks DataFrame to rows where nike is at least 90.",
+    "code_template": "result = stocks.query(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'nike >= 90'",
+        "answer_alternatives": ["\"nike >= 90\""]
+      }
+    ],
+    "word_bank": ["'nike >= 90'", "'nike > 90'", "'nike = 90'", "'stock = \"nike\"'", "nike >= 90"],
+    "per_tile_feedback": {
+      "'nike >= 90'": "Correct! The string expression evaluates to a boolean mask.",
+      "'nike > 90'": "This would exclude rows where nike equals 90.",
+      "'nike = 90'": "Single equals is assignment, not comparison; it causes a syntax error.",
+      "'stock = \"nike\"'": "This filters rows where the column 'stock' equals 'nike', not a price condition.",
+      "nike >= 90": "Without quotes, pandas treats this as a reference to an undefined variable."
+    },
+    "hints": [
+      "The query string must be a valid Python comparison expression.",
+      "Use '>=' for greater than or equal to."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The query() method accepts a string with a boolean expression; 'nike >= 90' returns rows where the nike column meets the condition.",
+    "common_mistake_warning": "⚠️ Use double quotes for string literals inside a single‑quoted query to avoid errors."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_030",
+    "concept_name": "query() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Use the DataFrame query method to filter stocks_long where stock equals 'disney'.",
+    "code_template": "result = stocks_long._____('stock == \"disney\"')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "query",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["query", "filter", "select", "where", "isin"],
+    "per_tile_feedback": {
+      "query": "Correct! query is the method for string‑based filtering.",
+      "filter": "filter selects columns or rows by label, not by boolean expression.",
+      "select": "There is no DataFrame method called select.",
+      "where": "where is a method for conditional replacement, not filtering.",
+      "isin": "isin tests membership, not arbitrary conditions."
+    },
+    "hints": [
+      "The method name suggests asking a question of the data.",
+      "It takes a string condition similar to a SQL WHERE clause."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The query() method evaluates a string expression on the DataFrame, returning rows that satisfy the condition.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_031",
+    "concept_name": "melt() method",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Unpivot the wide social_fin data, keeping 'financial' and 'company' as identifier columns.",
+    "code_template": "social_fin_tall = social_fin._____(id_vars=['financial','company'])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "melt",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["melt", "pivot", "stack", "unstack", "concat"],
+    "per_tile_feedback": {
+      "melt": "Correct! melt converts wide data to long format.",
+      "pivot": "pivot does the opposite: long to wide.",
+      "stack": "stack pivots columns into rows but keeps a Series/DataFrame structure differently.",
+      "unstack": "unstack moves row index levels to columns.",
+      "concat": "concat combines DataFrames, not reshaping."
+    },
+    "hints": [
+      "The method that turns columns into rows is named after 'melting' data.",
+      "It's the opposite of pivot."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "social_fin.melt(id_vars=['financial','company']) gathers all other columns into a 'variable' and 'value' column, producing long format.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_031",
+    "concept_name": "melt() method",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Melt the 2018 and 2017 columns, naming the variable column 'year' and the value column 'dollars'.",
+    "code_template": "social_fin_tall = social_fin.melt(id_vars=['financial','company'], value_vars=['2018','2017'], var_name='_____', value_name='_____')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "year",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "dollars",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["year", "dollars", "value", "variable", "name"],
+    "per_tile_feedback": {
+      "year": "Correct! var_name='year' renames the variable column.",
+      "dollars": "Correct! value_name='dollars' renames the value column.",
+      "value": "That's the default name for the value column, but the task asks for 'dollars'.",
+      "variable": "That's the default name for the variable column, but the task asks for 'year'.",
+      "name": "This is not a valid column name for this context."
+    },
+    "hints": [
+      "var_name sets the column that holds the old column headers.",
+      "value_name sets the column that holds the cell values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "var_name='year' and value_name='dollars' give meaningful names to the melted columns, making the long table easier to interpret.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_008",
+    "concept_name": "Left join",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the code to left join movies with taglines on 'id', keeping all movies.",
+    "code_template": "movies_taglines = movies.merge(taglines, on='id', _____='left')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "how",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["how", "left_on", "right_on", "suffixes", "indicator"],
+    "per_tile_feedback": {
+      "how": "Correct! how='left' specifies the join type.",
+      "left_on": "left_on is for key columns, not the join type.",
+      "right_on": "right_on is for key columns.",
+      "suffixes": "suffixes is for renaming overlapping columns.",
+      "indicator": "indicator adds a source column, not the join type."
+    },
+    "hints": [
+      "The parameter that controls which rows to keep is 'how'.",
+      "Its value is 'left' for a left join."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Setting how='left' returns all rows from movies and matching taglines, inserting NaN where no tagline exists.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_009",
+    "concept_name": "Right join",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the right join between movies and tv_genre using different key column names.",
+    "code_template": "tv_movies = movies.merge(tv_genre, _____='right', left_on='id', right_on='movie_id')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "how",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["how", "left_on", "right_on", "suffixes", "indicator"],
+    "per_tile_feedback": {
+      "how": "Correct! how='right' performs a right join.",
+      "left_on": "left_on is already specified in the code.",
+      "right_on": "right_on is already specified.",
+      "suffixes": "suffixes is not needed here.",
+      "indicator": "indicator adds the _merge column."
+    },
+    "hints": [
+      "The parameter that sets the join type is 'how'.",
+      "A right join returns all rows from the right DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "how='right' keeps every row from tv_genre and matches movies where possible, mirroring a left join with the tables swapped.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_010",
+    "concept_name": "Outer join",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Perform an outer join of family and comedy on 'movie_id', adding suffixes '_fam' and '_com'.",
+    "code_template": "family_comedy = family.merge(comedy, on='movie_id', how='_____', suffixes=('_fam', '_com'))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "outer",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["outer", "inner", "left", "right", "full"],
+    "per_tile_feedback": {
+      "outer": "Correct! how='outer' returns all rows from both tables.",
+      "inner": "inner would drop movies not in both lists.",
+      "left": "left would keep only family rows, missing comedies not in family.",
+      "right": "right would keep only comedy rows.",
+      "full": "'full' is not a valid value; use 'outer'."
+    },
+    "hints": [
+      "The join that combines all rows from both DataFrames.",
+      "It results in NaN for non‑matching sides."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "An outer join preserves every movie_id from both family and comedy, filling unmatched columns with NaN.",
+    "common_mistake_warning": null
+  }
+]

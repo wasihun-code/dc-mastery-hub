@@ -1,0 +1,2449 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_004",
+    "concept_name": "print() function",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Complete the code to output the result of 4 + 5.",
+    "code_template": "_____(4 + 5)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "print",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["print", "type", "help", "max"],
+    "per_tile_feedback": {
+      "print": "Correct – print() is the built‑in function that displays values to the console.",
+      "type": "type() returns the type of an object, not the value. It would output <class 'int'> instead of 9.",
+      "help": "help() opens documentation; it doesn’t output the result of an expression.",
+      "max": "max() returns the largest item from an iterable; it would fail here because 4+5 is not an iterable."
+    },
+    "hints": [
+      "Which function have you used to show output in the examples?",
+      "Look at the course: print(4 + 5) gave 9."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "print() is the function that outputs text or values to the console. It evaluates its argument (4+5) and displays the result. Forgetting parentheses after print is a common syntax error.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_005",
+    "concept_name": "Arithmetic Operators",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Complete the code to calculate 2 to the power of 3.",
+    "code_template": "result = 2 _____ 3",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "**",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["**", "^", "*", "+", "/"],
+    "per_tile_feedback": {
+      "**": "Correct – ** is the exponentiation operator in Python.",
+      "^": "The ^ operator is bitwise XOR, not exponentiation. This is a common mistake from other languages.",
+      "*": "* is multiplication; 2 * 3 would give 6, not 8.",
+      "+": "+ is addition; 2 + 3 would give 5.",
+      "/": "/ is division; 2 / 3 would give 0.666..., not 8."
+    },
+    "hints": [
+      "Which operator did the BMI calculation use for squaring height?",
+      "In Python, exponentiation uses two identical symbols."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Exponentiation in Python is performed with **. The BMI example in the course uses height ** 2. Using ^ is a frequent error because other languages use it for powers.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_006",
+    "concept_name": "Variable",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Create a variable named weight and assign the value 68.7.",
+    "code_template": "_____ = 68.7",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "weight",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["weight", "height", "bmi", "x", "y"],
+    "per_tile_feedback": {
+      "weight": "Correct – the variable name on the left receives the value 68.7.",
+      "height": "height is a different variable; the task specifically asks for weight.",
+      "bmi": "bmi is a calculated value, not the raw weight.",
+      "x": "x is a generic name, but the course uses descriptive names like weight.",
+      "y": "y is also generic; the problem expects the meaningful name weight."
+    },
+    "hints": [
+      "Which variable name would describe a person’s mass in kilograms?",
+      "The course example assigns 68.7 to a variable – what was its name?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Variables are created by assignment. The name on the left can be any valid identifier. Using descriptive names like weight makes code readable.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_007",
+    "concept_name": "Assignment operator (=)",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Complete the line to assign the value True to the variable z.",
+    "code_template": "z _____ True",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["=", "==", ":=", "is"],
+    "per_tile_feedback": {
+      "=": "Correct – the assignment operator stores the right‑hand value into the variable.",
+      "==": "== is the equality comparison operator, not assignment.",
+      ":=": ":= is the walrus operator (assignment expression), not simple assignment; it wouldn’t work as a standalone statement.",
+      "is": "is is an identity test, not assignment."
+    },
+    "hints": [
+      "How do you store a value in a variable? Think of the simplest syntax.",
+      "The course always uses a single equals sign for assignment."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The assignment operator = gives a value to a variable. The right‑hand side is evaluated and the result is bound to the name on the left.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_013",
+    "concept_name": "type() function",
+    "chapter": 2,
+    "difficulty": "easy",
+    "task_description": "Complete the code to check the type of the variable bmi and print it.",
+    "code_template": "print(_____(bmi))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "type",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["type", "int", "float", "str"],
+    "per_tile_feedback": {
+      "type": "Correct – type() is the built‑in function that returns the type of an object.",
+      "int": "int is a type, not a function to check types; it would attempt to convert bmi to integer.",
+      "float": "float is a type, not a type‑checking function.",
+      "str": "str is a type, not a type‑checking function."
+    },
+    "hints": [
+      "Which function tells you whether a variable is int, float, etc.?",
+      "The course used this function to check the type of bmi."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "type(obj) returns the type object. It is often used with print() to inspect a variable’s type, like print(type(bmi)).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_013",
+    "concept_name": "type() function",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Complete the comparison to check if bmi is a float.",
+    "code_template": "type(bmi) == _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "float",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["float", "int", "str", "bool"],
+    "per_tile_feedback": {
+      "float": "Correct – type(bmi) returns float, so comparing to float yields True.",
+      "int": "bmi is a float, not an integer, so this would be False.",
+      "str": "bmi is a float, not a string.",
+      "bool": "bmi is a float, not a boolean."
+    },
+    "hints": [
+      "What did type(bmi) return in the course?",
+      "bmi = 21.4413 – is that a whole number?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "You can compare type(obj) directly to a type like float, int, str, etc. This is useful for type checking.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_059",
+    "concept_name": "Type Conversion",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Convert the float 5.7 to an integer (discard the decimal part).",
+    "code_template": "_____(5.7)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "int",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["int", "float", "str", "round"],
+    "per_tile_feedback": {
+      "int": "Correct – int() truncates the decimal and returns 5.",
+      "float": "float() would convert to float (already float), returning 5.7.",
+      "str": "str() would return the string '5.7', not an integer.",
+      "round": "round() would round to 6, not truncate."
+    },
+    "hints": [
+      "Which function discards the fractional part, even without rounding?",
+      "The course mentions type conversion with int(), str(), float()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "int() converts a number or string to an integer by truncating toward zero. For rounding, use round().",
+    "common_mistake_warning": "⚠️ int() truncates; it does not round. int(5.7) is 5, not 6."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_015",
+    "concept_name": "List",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Create a list named fam with the heights 1.73, 1.68, and 1.71.",
+    "code_template": "fam = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[1.73,1.68,1.71]",
+        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+      }
+    ],
+    "word_bank": ["[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "{1.73,1.68,1.71}", "'1.73,1.68,1.71'", "1.73,1.68,1.71"],
+    "per_tile_feedback": {
+      "[1.73,1.68,1.71]": "Correct – square brackets create a list.",
+      "(1.73,1.68,1.71)": "Parentheses create a tuple, not a list.",
+      "{1.73,1.68,1.71}": "Curly braces create a set, not a list.",
+      "'1.73,1.68,1.71'": "Quotes create a string, not a list.",
+      "1.73,1.68,1.71": "A tuple is created without brackets, but the commas make it a tuple, not a list."
+    },
+    "hints": [
+      "Which brackets are used for lists?",
+      "The course defines lists with square brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Lists are defined by enclosing comma‑separated values in square brackets. Other bracket types yield different data structures.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_016",
+    "concept_name": "List of Lists",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Create a nested list fam2 containing two inner lists: [1.73] and [1.68].",
+    "code_template": "fam2 = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[[1.73],[1.68]]",
+        "answer_alternatives": ["[[1.73], [1.68]]"]
+      }
+    ],
+    "word_bank": ["[[1.73],[1.68]]", "([1.73],[1.68])", "[1.73,1.68]", "[(1.73),(1.68)]", "[[1.73,1.68]]"],
+    "per_tile_feedback": {
+      "[[1.73],[1.68]]": "Correct – a list of lists with two inner lists.",
+      "([1.73],[1.68])": "This is a tuple of lists, not a list of lists.",
+      "[1.73,1.68]": "This is a flat list, not a nested list.",
+      "[(1.73),(1.68)]": "This is a list of tuples, not a list of lists.",
+      "[[1.73,1.68]]": "This is a list containing one inner list of two values, not two separate inner lists."
+    },
+    "hints": [
+      "How many inner brackets do you need for two inner lists?",
+      "The course example shows fam2 = [[\"liz\", 1.73], …]."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A list of lists is created by nesting square brackets. Each inner list becomes an element of the outer list.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_017",
+    "concept_name": "type(list)",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "fam is a list. Fill in the blank to check if its type is list.",
+    "code_template": "type(fam) == _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["list", "int", "float", "str"],
+    "per_tile_feedback": {
+      "list": "Correct – type(fam) returns list, so comparison is True.",
+      "int": "fam is a list, not an integer.",
+      "float": "fam is not a float.",
+      "str": "fam is not a string."
+    },
+    "hints": [
+      "What did type(fam) return in the course?",
+      "The type of a list is simply 'list'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "You can compare the type of a variable directly to a type name. type(fam) == list will be True if fam is a list.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_018",
+    "concept_name": "Subsetting",
+    "chapter": 4,
+    "difficulty": "easy",
+    "task_description": "Get the element at index 6 from the list fam.",
+    "code_template": "fam[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "6",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["6", "7", "-1", "0"],
+    "per_tile_feedback": {
+      "6": "Correct – fam[6] returns 'dad' because indexing starts at 0.",
+      "7": "fam[7] would give the last element 1.89, but the task asks for index 6.",
+      "-1": "-1 would give the last element, not the one at index 6.",
+      "0": "0 would give the first element 'liz'."
+    },
+    "hints": [
+      "Count positions starting from 0.",
+      "fam = ['liz', 1.73, 'emma', 1.68, 'mom', 1.71, 'dad', 1.89] – which position is 'dad'?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Zero‑based indexing: the first element is index 0. The seventh element (dad) is at index 6.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_019",
+    "concept_name": "Negative Indexing",
+    "chapter": 4,
+    "difficulty": "easy",
+    "task_description": "Get the last element of fam using negative indexing.",
+    "code_template": "fam[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["-1", "0", "1", "7"],
+    "per_tile_feedback": {
+      "-1": "Correct – negative index -1 always refers to the last element.",
+      "0": "0 gives the first element, not the last.",
+      "1": "1 gives the second element.",
+      "7": "7 is out of range for this list (max index 7 exists, but -1 is the idiomatic way)."
+    },
+    "hints": [
+      "How do you refer to the last item without knowing the length?",
+      "The course used fam[-1] to get 1.89."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Negative indices count backwards from the end. -1 is the last element, -2 second‑last, etc.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_020",
+    "concept_name": "Slicing",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Slice fam to get elements from index 1 up to (but not including) index 4.",
+    "code_template": "fam[___1___:___2___]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "4",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3", "4", "5"],
+    "per_tile_feedback": {
+      "0": "Index 0 is the start, but we want to start at index 1.",
+      "1": "Correct – start index 1 gives the second element (1.73).",
+      "2": "Index 2 is too high as start; it would skip the second element.",
+      "3": "Index 3 as start would skip even more.",
+      "4": "Correct – end index 4 stops before the fifth element, so elements at indices 1,2,3 are included.",
+      "5": "End index 5 would include index 4 as well, which is not wanted."
+    },
+    "hints": [
+      "Slicing includes the start index and excludes the end index.",
+      "fam[1:4] gave [1.73, 'emma', 1.68] in the course example."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The slice start is inclusive, end is exclusive. fam[1:4] returns elements at indices 1, 2, and 3.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_020",
+    "concept_name": "Slicing",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Slice fam from index 5 to the end (omit the end index).",
+    "code_template": "fam[_____:]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "5",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["5", "4", "6", "0"],
+    "per_tile_feedback": {
+      "5": "Correct – starting at index 5 and going to the end includes indices 5,6,7.",
+      "4": "This would include index 4 ('mom'), which is not wanted.",
+      "6": "This would skip index 5 (1.71).",
+      "0": "This would start from the beginning, not index 5."
+    },
+    "hints": [
+      "Omit the second index to go to the end.",
+      "Which element should be the first in the result?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When the end index is omitted, the slice goes to the list's end. fam[5:] gives all elements starting at index 5.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_021",
+    "concept_name": "List Element Modification",
+    "chapter": 5,
+    "difficulty": "easy",
+    "task_description": "Change the element at index 7 of fam to 1.86.",
+    "code_template": "fam[_____] = 1.86",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "7",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["7", "6", "8", "-1"],
+    "per_tile_feedback": {
+      "7": "Correct – index 7 targets the last element (1.89 originally).",
+      "6": "Index 6 is 'dad', not the last element.",
+      "8": "Index 8 is out of range.",
+      "-1": "-1 would also target the last element, but the task asks for index 7."
+    },
+    "hints": [
+      "The original list fam has 8 elements; what is the index of the last one?",
+      "fam[7] was originally 1.89."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Lists are mutable; you can replace an element by assigning to its index. fam[7] = 1.86 updates the last item.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_021",
+    "concept_name": "List Element Modification",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Replace the first two elements of fam with ['lisa', 1.74] using slice assignment.",
+    "code_template": "fam[_____] = ['lisa', 1.74]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0:2",
+        "answer_alternatives": [":2", "0:2"]
+      }
+    ],
+    "word_bank": ["0:2", "0:1", "1:2", "0:3", ":2"],
+    "per_tile_feedback": {
+      "0:2": "Correct – slice 0:2 selects the first two elements (indices 0 and 1).",
+      "0:1": "This would only replace the first element.",
+      "1:2": "This would replace only the second element.",
+      "0:3": "This would replace the first three elements, not the first two.",
+      ":2": "This is equivalent to 0:2 and also correct (implied start 0)."
+    },
+    "hints": [
+      "Which slice captures elements at positions 0 and 1?",
+      "The course used fam[0:2] = ['lisa', 1.74] to replace the first two."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slice assignment replaces the selected sub‑list with the new list. The length of the replacement does not need to match the slice length.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_022",
+    "concept_name": "List Concatenation (+)",
+    "chapter": 5,
+    "difficulty": "easy",
+    "task_description": "Concatenate fam with a new list ['me', 1.79] and assign to new_fam.",
+    "code_template": "new_fam = fam _____ ['me', 1.79]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "and"],
+    "per_tile_feedback": {
+      "+": "Correct – the + operator concatenates two lists.",
+      "-": "Subtraction is not defined for lists.",
+      "*": "Multiplication repeats a list, not concatenate two lists.",
+      "and": "and is a logical operator, not for list combination."
+    },
+    "hints": [
+      "How do you join two lists into one in Python?",
+      "The course example: fam + [\"me\", 1.79]."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "List concatenation uses the + operator and returns a new list. The original lists are unchanged.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_023",
+    "concept_name": "del statement",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Delete the element at index 2 from fam.",
+    "code_template": "_____ fam[2]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "del",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["del", "remove", "delete", "pop"],
+    "per_tile_feedback": {
+      "del": "Correct – del is the statement that removes an element by index.",
+      "remove": "remove() is a method that removes by value, not index.",
+      "delete": "delete is not a Python keyword.",
+      "pop": "pop() removes and returns an element, but it's a method, not a statement."
+    },
+    "hints": [
+      "Which keyword is used to delete something in Python?",
+      "The course uses del fam[2] to delete the third element."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "del is a statement that can delete list elements, slices, or even variables. It does not return a value.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_024",
+    "concept_name": "List Copying",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Create an independent copy y of the list x using the list() function.",
+    "code_template": "y = _____(x)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["list", "copy", "clone", "array"],
+    "per_tile_feedback": {
+      "list": "Correct – list(x) creates a new list with the same elements.",
+      "copy": "There is no built‑in function named copy; copying lists uses list() or slicing.",
+      "clone": "clone is not a Python built‑in.",
+      "array": "array is from the array module, not for copying lists."
+    },
+    "hints": [
+      "Which built‑in function converts an iterable to a list?",
+      "The course shows y = list(x) as one way to copy."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list(x) creates a new list that is a shallow copy of x. Changes to y do not affect x.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_024",
+    "concept_name": "List Copying",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Create an independent copy y of the list x using slicing.",
+    "code_template": "y = x[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [":", ":-1", "::", "0:"],
+    "per_tile_feedback": {
+      ":": "Correct – a full slice x[:] creates a copy of the whole list.",
+      ":-1": "This would slice off the last element.",
+      "::": "This is a full slice with step 1, also works but is unconventional; ':' is the simplest.",
+      "0:": "This starts at 0 and goes to the end, also works but ':' is shorter."
+    },
+    "hints": [
+      "What slice selects every element?",
+      "The course shows y = x[:] as another copying method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "x[:] returns a new list containing all elements of x. It’s a common Python idiom for shallow copying.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_025",
+    "concept_name": "Reference vs Copy",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Complete the code so that changing y also changes x (create a reference).",
+    "code_template": "y = _____\ny[1] = 'z'\nprint(x)  # shows ['a','z','c']",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["x", "list(x)", "x[:]", "x.copy()"],
+    "per_tile_feedback": {
+      "x": "Correct – y = x makes y a reference to the same list object, so modifications are shared.",
+      "list(x)": "list(x) creates a copy, so x would not be changed.",
+      "x[:]": "x[:] also creates a copy, leaving x unchanged.",
+      "x.copy()": "copy() (if exists) also creates a copy; changes to y wouldn’t affect x."
+    },
+    "hints": [
+      "How do you make two variables point to the same list?",
+      "The course showed that y = x leads to both being modified together."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Assignment y = x does not copy the list; it creates an alias. Both names refer to the same object, so mutations through one affect the other.",
+    "common_mistake_warning": "⚠️ y = x creates a reference, not a copy. Any change to y will appear in x."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_025",
+    "concept_name": "Reference vs Copy",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Complete the code so that changing y does NOT affect x (create an independent copy).",
+    "code_template": "y = _____\ny[1] = 'z'\nprint(x)  # shows ['a','b','c']",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list(x)",
+        "answer_alternatives": ["x[:]"]
+      }
+    ],
+    "word_bank": ["list(x)", "x[:]", "x", "x.copy()"],
+    "per_tile_feedback": {
+      "list(x)": "Correct – list(x) produces a new list, so x remains unchanged.",
+      "x[:]": "Also correct – slicing returns a new list.",
+      "x": "x would create a reference, not a copy; x would change.",
+      "x.copy()": "copy() would also work but is not taught in this course."
+    },
+    "hints": [
+      "Which methods produce a new list separate from the original?",
+      "To avoid the reference trap, you must explicitly copy."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Use list(x) or x[:] to create a new list object. This prevents unintended side effects when you need an independent copy.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_026",
+    "concept_name": "Function",
+    "chapter": 6,
+    "difficulty": "easy",
+    "task_description": "Call the max function on the list fam.",
+    "code_template": "_____(fam)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "max",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["max", "min", "sum", "print"],
+    "per_tile_feedback": {
+      "max": "Correct – max() returns the largest item in fam.",
+      "min": "min() would return the smallest, not the maximum.",
+      "sum": "sum() would add all elements, not find the maximum.",
+      "print": "print() would display the list, not compute the maximum."
+    },
+    "hints": [
+      "Which built‑in function finds the largest value?",
+      "The course used max(fam) to get 1.89."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Functions are called by name with parentheses. max() is a built‑in that scans an iterable and returns the maximum element.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_027",
+    "concept_name": "max() function",
+    "chapter": 6,
+    "difficulty": "easy",
+    "task_description": "Pass the correct list to max to find the maximum height.",
+    "code_template": "max(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "fam",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["fam", "bmi", "np_height", "np_weight"],
+    "per_tile_feedback": {
+      "fam": "Correct – fam contains the heights [1.73, 1.68, 1.71, 1.89].",
+      "bmi": "bmi is a float, not a list of heights.",
+      "np_height": "np_height is a NumPy array of heights (from later chapters), but the task expects fam.",
+      "np_weight": "np_weight is an array of weights."
+    },
+    "hints": [
+      "Which list variable holds the four heights?",
+      "The course example: max(fam) returned 1.89."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "max() requires an iterable. Here fam is the list of heights defined earlier.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_028",
+    "concept_name": "round() function",
+    "chapter": 6,
+    "difficulty": "easy",
+    "task_description": "Round the variable bmi to one decimal place.",
+    "code_template": "round(bmi, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1", "0", "2", "10"],
+    "per_tile_feedback": {
+      "1": "Correct – the second argument specifies one decimal digit.",
+      "0": "0 would round to 0 decimals, giving a float like 21.0.",
+      "2": "2 would give two decimal places, not one.",
+      "10": "10 would give ten decimal places, too many."
+    },
+    "hints": [
+      "How many digits after the decimal point do you want?",
+      "round(1.68, 1) returned 1.7."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "round(number, ndigits) rounds to the given number of decimal places. Omitting ndigits returns an integer.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_028",
+    "concept_name": "round() function",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Print the type of the result of rounding 1.68 without specifying decimals.",
+    "code_template": "print(type(_____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "round(1.68)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["round(1.68)", "int(1.68)", "1.68", "float(1.68)"],
+    "per_tile_feedback": {
+      "round(1.68)": "Correct – round without ndigits returns an integer, so type is int.",
+      "int(1.68)": "int() would also return an integer, but the exercise is about round specifically.",
+      "1.68": "This is a float, type would be float.",
+      "float(1.68)": "float() returns a float, type would be float."
+    },
+    "hints": [
+      "What does round() return when you don’t give a second argument?",
+      "The course warns: round(1.68) returns 2 (an int), not 2.0."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When ndigits is omitted, round() returns the nearest integer. Its type is <class 'int'>, which surprises many learners who expect a float.",
+    "common_mistake_warning": "⚠️ round(1.68) returns an integer, not a float."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_029",
+    "concept_name": "help() function",
+    "chapter": 6,
+    "difficulty": "easy",
+    "task_description": "Use the help function to view documentation for round.",
+    "code_template": "_____(round)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "help",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["help", "doc", "info", "man"],
+    "per_tile_feedback": {
+      "help": "Correct – help() opens the documentation page for the given object.",
+      "doc": "doc is not a built‑in Python function.",
+      "info": "info is not a built‑in documentation function.",
+      "man": "man is a Unix command, not a Python function."
+    },
+    "hints": [
+      "Which built‑in function did the course use to get help on round?",
+      "Look at the example: help(round) in Chapter 6."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "help() is a built‑in that displays the docstring of a function, module, or object. Call it with parentheses.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_030",
+    "concept_name": "Method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Call the capitalize method on the string sister.",
+    "code_template": "sister._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "capitalize",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["capitalize", "upper", "lower", "title"],
+    "per_tile_feedback": {
+      "capitalize": "Correct – capitalize() returns a copy with the first character uppercased.",
+      "upper": "upper() would convert all characters to uppercase, giving 'LIZ'.",
+      "lower": "lower() would convert all to lowercase, which sister already is.",
+      "title": "title() would capitalize the first letter of each word, but sister is one word."
+    },
+    "hints": [
+      "Which method makes the first letter a capital?",
+      "The course used sister.capitalize() to get 'Liz'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Methods are called with dot notation. capitalize() is a string method that returns a new string with the first character uppercase and the rest lowercase.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_031",
+    "concept_name": "list.index() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Find the index of 'mom' in the list fam.",
+    "code_template": "fam.index(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'mom'",
+        "answer_alternatives": ["\"mom\""]
+      }
+    ],
+    "word_bank": ["'mom'", "\"mom\"", "mom", "'dad'"],
+    "per_tile_feedback": {
+      "'mom'": "Correct – the string 'mom' is passed to index() to find its position.",
+      "\"mom\"": "Also correct; both single and double quotes represent the same string.",
+      "mom": "mom without quotes would be a variable name, which is not defined.",
+      "'dad'": "'dad' would return the index of 'dad', not 'mom'."
+    },
+    "hints": [
+      "What value are you searching for?",
+      "The course example used fam.index(\"mom\") to get 4."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.index(value) returns the zero‑based index of the first occurrence. The argument must be the exact value, with quotes if it’s a string.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_031",
+    "concept_name": "list.index() method",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Store the index of 'dad' in the variable idx using the appropriate method.",
+    "code_template": "idx = fam._____('dad')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "index",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["index", "count", "find", "search"],
+    "per_tile_feedback": {
+      "index": "Correct – index() returns the position of the given element.",
+      "count": "count() returns the number of occurrences, not the index.",
+      "find": "find() is a string method, not a list method.",
+      "search": "search is not a Python list method."
+    },
+    "hints": [
+      "Which method name means 'position'?",
+      "You want the index, so the method is likely named similarly."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.index() is the method to retrieve the index of an element. If the element is absent, a ValueError is raised.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_032",
+    "concept_name": "list.count() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Count how many times 1.73 appears in fam.",
+    "code_template": "fam._____(1.73)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "count",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["count", "index", "sum", "length"],
+    "per_tile_feedback": {
+      "count": "Correct – count() returns the number of occurrences of 1.73.",
+      "index": "index() would return the position, not the count.",
+      "sum": "sum() is not a list method; it’s a built‑in function.",
+      "length": "There is no list method named length; use len()."
+    },
+    "hints": [
+      "Which method tells you how many times something appears?",
+      "The course used fam.count(1.73) to get 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.count(value) counts the occurrences of value in the list. It returns an integer.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_033",
+    "concept_name": "list.append() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Add the string 'me' to the end of fam.",
+    "code_template": "fam._____('me')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "append",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["append", "add", "insert", "extend"],
+    "per_tile_feedback": {
+      "append": "Correct – append() adds one element to the end.",
+      "add": "add() is not a Python list method.",
+      "insert": "insert() requires an index as the first argument, e.g., insert(0, 'me').",
+      "extend": "extend() adds all elements of an iterable; passing a string would add each character separately."
+    },
+    "hints": [
+      "Which method adds an item at the end?",
+      "The course example: fam.append(\"me\")."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "append() modifies the list in place by adding the given element as the last item. It returns None.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_033",
+    "concept_name": "list.append() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Add the height 1.79 to the end of fam.",
+    "code_template": "fam.append(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1.79",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1.79", "1.73", "1.68", "1.89"],
+    "per_tile_feedback": {
+      "1.79": "Correct – this value is appended to the list.",
+      "1.73": "1.73 is already in fam; it would duplicate the value.",
+      "1.68": "Already exists, not the new height requested.",
+      "1.89": "Already exists, not the new height."
+    },
+    "hints": [
+      "Which height is new and belongs at the end?",
+      "The course appended 'me' and then 1.79."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "append() takes exactly one argument and adds it as the last element. The argument can be any object.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_033",
+    "concept_name": "list.append() method",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Add the list [1,2] as a single element to items, not as separate elements.",
+    "code_template": "items._____([1,2])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "append",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["append", "extend", "insert", "add"],
+    "per_tile_feedback": {
+      "append": "Correct – append() adds the whole list as one element.",
+      "extend": "extend() would add each element of the iterable individually (1 and 2).",
+      "insert": "insert() needs an index; insert(0, [1,2]) would also add the list as one element, but it’s not the simplest for the end.",
+      "add": "add() is not a list method."
+    },
+    "hints": [
+      "If you want the list [1,2] to appear as a nested list, which method preserves the whole object?",
+      "The course warns that extend() would unpack the iterable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "append() treats its argument as a single element. If you pass a list, that list becomes one element (creating a nested list). extend() would merge the contents.",
+    "common_mistake_warning": "⚠️ Using extend() instead of append() when you want to add a list as a whole will flatten the items."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_034",
+    "concept_name": "str.capitalize() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Capitalize the first letter of the string sister.",
+    "code_template": "sister._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "capitalize",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["capitalize", "upper", "title", "capital"],
+    "per_tile_feedback": {
+      "capitalize": "Correct – capitalize() makes the first character uppercase and the rest lowercase.",
+      "upper": "upper() makes all characters uppercase, not just the first.",
+      "title": "title() capitalizes the first letter of every word, which is overkill for a single word.",
+      "capital": "capital is not a Python string method."
+    },
+    "hints": [
+      "Which method name sounds like 'make capital'?",
+      "The course example: sister.capitalize() → 'Liz'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "str.capitalize() returns a copy with the first character uppercased. The original string is unchanged because strings are immutable.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_035",
+    "concept_name": "str.replace() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Replace all occurrences of 'z' with 'sa' in the string sister.",
+    "code_template": "sister._____('z', 'sa')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "replace",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["replace", "change", "substitute", "swap"],
+    "per_tile_feedback": {
+      "replace": "Correct – replace() returns a new string with the substitutions.",
+      "change": "change is not a string method.",
+      "substitute": "substitute is not a Python string method.",
+      "swap": "swap is not a string method."
+    },
+    "hints": [
+      "Which method name means 'put something else in place of'?",
+      "The course used sister.replace('z', 'sa') → 'Lisa'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "str.replace(old, new) replaces all occurrences of old with new and returns a new string. The original string stays unchanged.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_035",
+    "concept_name": "str.replace() method",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Fill in the new substring to replace all 'z' with 'sa'.",
+    "code_template": "sister.replace('z', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'sa'",
+        "answer_alternatives": ["\"sa\""]
+      }
+    ],
+    "word_bank": ["'sa'", "'za'", "'s'", "'a'"],
+    "per_tile_feedback": {
+      "'sa'": "Correct – 'z' becomes 'sa', giving 'Lisa'.",
+      "'za'": "'za' would give 'liza', not 'Lisa'.",
+      "'s'": "Would give 'lis', not 'Lisa'.",
+      "'a'": "Would give 'lia', not the desired result."
+    },
+    "hints": [
+      "What two letters replace 'z' to form the name 'Lisa'?",
+      "The course example shows the output 'Lisa'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "replace(old, new) returns a copy with replacements. The new substring can be any length.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_038",
+    "concept_id": "concept_035",
+    "concept_name": "str.replace() method",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Fill in the old substring to replace 'z' in sister.",
+    "code_template": "sister.replace(_____, 'sa')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'z'",
+        "answer_alternatives": ["\"z\""]
+      }
+    ],
+    "word_bank": ["'z'", "'l'", "'i'", "'s'"],
+    "per_tile_feedback": {
+      "'z'": "Correct – the 'z' in 'liz' is replaced.",
+      "'l'": "Would replace 'l' instead, giving '?isa'.",
+      "'i'": "Would replace 'i', giving 'lzsa'.",
+      "'s'": "Would replace nothing because 's' doesn’t appear in 'liz'."
+    },
+    "hints": [
+      "Which single letter do you want to remove?",
+      "The original string is 'liz' – which letter should change?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The first argument of replace() is the substring to be replaced. It must match exactly (case‑sensitive).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_039",
+    "concept_id": "concept_060",
+    "concept_name": "list.remove() method",
+    "chapter": 7,
+    "difficulty": "medium",
+    "task_description": "Remove the element 'emma' from the list fam.",
+    "code_template": "fam._____('emma')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "remove",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["remove", "delete", "del", "pop"],
+    "per_tile_feedback": {
+      "remove": "Correct – remove() deletes the first occurrence of a value.",
+      "delete": "delete is not a Python list method.",
+      "del": "del is a statement (e.g., del fam[2]), not a method.",
+      "pop": "pop() removes by index, not by value; pop(2) would remove the element at index 2."
+    },
+    "hints": [
+      "Which method removes by value, not by position?",
+      "The course mentions remove() as the method that removes the first matching element."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.remove(value) searches for the first element equal to the given value and removes it. It raises ValueError if the value is not found.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_040",
+    "concept_id": "concept_061",
+    "concept_name": "list.reverse() method",
+    "chapter": 7,
+    "difficulty": "easy",
+    "task_description": "Reverse the order of elements in fam in place.",
+    "code_template": "fam._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "reverse",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["reverse", "sort", "flip", "invert"],
+    "per_tile_feedback": {
+      "reverse": "Correct – reverse() reverses the list in place.",
+      "sort": "sort() orders the elements, not simply reverse them.",
+      "flip": "flip is not a list method.",
+      "invert": "invert is not a list method."
+    },
+    "hints": [
+      "Which method name sounds like 'opposite order'?",
+      "The course lists reverse() as a method that reverses elements."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.reverse() reverses the order of the list in place and returns None. Do not assign its result.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_041",
+    "concept_id": "concept_038",
+    "concept_name": "Import Statement",
+    "chapter": 8,
+    "difficulty": "easy",
+    "task_description": "Import the numpy module so that you can use its functions like numpy.array().",
+    "code_template": "_____ numpy",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "import",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["import", "from", "include", "using"],
+    "per_tile_feedback": {
+      "import": "Correct – 'import numpy' makes the numpy module available in your script.",
+      "from": "'from' is used with 'import' to bring in specific names, e.g., 'from numpy import array'. Alone it's incomplete.",
+      "include": "'include' is not a Python keyword for importing modules.",
+      "using": "'using' is not a valid import keyword in Python."
+    },
+    "hints": [
+      "Which keyword brings an external module into your script?",
+      "The course always starts with 'import numpy'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The import statement tells Python to load a module and make its contents accessible via dot notation (e.g., numpy.array). Forgetting to import is a common mistake.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_042",
+    "concept_id": "concept_038",
+    "concept_name": "Import Statement",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "After importing numpy, complete the line to create an array. The code currently has a NameError because the module prefix is missing.",
+    "code_template": "import numpy\narr = _____([1,2,3])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "numpy.array",
+        "answer_alternatives": ["np.array"]
+      }
+    ],
+    "word_bank": ["numpy.array", "array", "np.array", "list.array"],
+    "per_tile_feedback": {
+      "numpy.array": "Correct – after 'import numpy', the function must be called with the module prefix.",
+      "array": "array is not defined; you need the module prefix. Python looks for a function named 'array' in the current scope.",
+      "np.array": "The alias 'np' is not defined here because we used 'import numpy', not 'import numpy as np'.",
+      "list.array": "'list' has no method 'array'; this is not valid syntax."
+    },
+    "hints": [
+      "What name did you just import? Use it before the dot.",
+      "A common mistake: forgetting the module prefix causes a NameError."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When you import a module with 'import module', all its contents are accessed via module.name. This prevents name collisions and keeps the namespace clean.",
+    "common_mistake_warning": "⚠️ Forgetting the module prefix (e.g., array() instead of numpy.array()) is a very common beginner error."
+  },
+  {
+    "id": "fitb_043",
+    "concept_id": "concept_038",
+    "concept_name": "Import Statement",
+    "chapter": 8,
+    "difficulty": "easy",
+    "task_description": "Import the numpy module with the alias 'np'.",
+    "code_template": "import numpy _____ np",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "as",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["as", "like", "alias", "to"],
+    "per_tile_feedback": {
+      "as": "Correct – 'import numpy as np' is the standard way to create an alias.",
+      "like": "'like' is not valid Python syntax for aliasing imports.",
+      "alias": "'alias' is not a keyword; use 'as' instead.",
+      "to": "'to' is not used in import statements."
+    },
+    "hints": [
+      "What small word goes between the module name and the alias?",
+      "The course shows: import numpy as np."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The 'as' keyword allows you to rename a module on import. This is commonly used to shorten long module names (e.g., numpy → np).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_044",
+    "concept_id": "concept_039",
+    "concept_name": "Aliasing",
+    "chapter": 8,
+    "difficulty": "medium",
+    "task_description": "Having imported numpy as np, use the alias to compute the mean of the array arr.",
+    "code_template": "np._____(arr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "mean",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["mean", "average", "median", "sum"],
+    "per_tile_feedback": {
+      "mean": "Correct – np.mean(arr) computes the arithmetic mean using the alias.",
+      "average": "There is no function np.average; use np.mean or np.average (not covered in this course).",
+      "median": "np.median() computes the median, not the mean.",
+      "sum": "np.sum() returns the sum of elements, not the average."
+    },
+    "hints": [
+      "Which NumPy function calculates the average?",
+      "The course uses np.mean() for arithmetic mean."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When a module is aliased, you use the alias to call its functions. np.mean() returns the average of all elements.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_045",
+    "concept_id": "concept_039",
+    "concept_name": "Aliasing",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "The code below uses 'numpy' after importing numpy as np. Replace the underlined part so that it uses the alias correctly.",
+    "code_template": "import numpy as np\nresult = _____ .mean(arr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "np",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["np", "numpy", "numpy.mean", "mean"],
+    "per_tile_feedback": {
+      "np": "Correct – the alias 'np' must be used consistently after 'import numpy as np'.",
+      "numpy": "Using 'numpy' would cause a NameError because only the alias 'np' is defined in this scope.",
+      "numpy.mean": "This is a function name, not the module prefix; you still need 'np.' before 'mean'.",
+      "mean": "Without a module prefix, 'mean' is not defined (unless imported selectively)."
+    },
+    "hints": [
+      "What is the alias given to numpy in this import?",
+      "After 'import numpy as np', only the name 'np' is available, not 'numpy'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When you alias a module, the original module name is no longer directly accessible. You must use the alias for all subsequent calls.",
+    "common_mistake_warning": "⚠️ After aliasing, using the original module name causes a NameError unless you also imported it separately."
+  },
+  {
+    "id": "fitb_046",
+    "concept_id": "concept_040",
+    "concept_name": "Selective Import",
+    "chapter": 8,
+    "difficulty": "easy",
+    "task_description": "Import only the array function from numpy.",
+    "code_template": "_____ numpy import array",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "from",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["from", "import", "using", "as"],
+    "per_tile_feedback": {
+      "from": "Correct – 'from numpy import array' brings only the name 'array' into the current namespace.",
+      "import": "'import numpy import array' is invalid syntax; use 'from...import'.",
+      "using": "'using' is not valid Python import syntax.",
+      "as": "'as' is used for aliasing, not for selective import."
+    },
+    "hints": [
+      "Which keyword starts a selective import?",
+      "The course shows: from numpy import array."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Selective import makes only the specified name available, avoiding the need for a module prefix. Be careful not to introduce name conflicts.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_047",
+    "concept_id": "concept_040",
+    "concept_name": "Selective Import",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "After 'from numpy import array', complete the line to create an array. You cannot use any module prefix.",
+    "code_template": "from numpy import array\narr = _____([1,2,3])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "array",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["array", "numpy.array", "np.array", "list.array"],
+    "per_tile_feedback": {
+      "array": "Correct – with selective import, 'array' is directly available.",
+      "numpy.array": "The name 'numpy' is not defined because only 'array' was imported.",
+      "np.array": "The alias 'np' is not defined here; you only imported 'array'.",
+      "list.array": "This is not valid; lists have no 'array' method."
+    },
+    "hints": [
+      "After 'from numpy import array', what name can you use directly?",
+      "Selective import does not bring the module name into scope."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Selective import adds the name directly to your namespace. Using the module prefix would cause a NameError because the module itself wasn't imported.",
+    "common_mistake_warning": "⚠️ After selective import, using the module prefix is a common mistake — the module name is not defined."
+  },
+  {
+    "id": "fitb_048",
+    "concept_id": "concept_036",
+    "concept_name": "Package",
+    "chapter": 8,
+    "difficulty": "easy",
+    "task_description": "Import the NumPy package to use its numerical functions.",
+    "code_template": "_____ numpy",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "import",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["import", "from", "install", "package"],
+    "per_tile_feedback": {
+      "import": "Correct – 'import numpy' loads the entire package.",
+      "from": "'from' alone is incomplete; you need 'from numpy import ...'.",
+      "install": "'install' is not a Python keyword; packages are installed with pip, not in code.",
+      "package": "'package' is not a valid import keyword."
+    },
+    "hints": [
+      "Which keyword loads a package so you can use its functions?",
+      "The course starts with 'import numpy'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To use a package like NumPy, you must first import it. This makes all its public functions available.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_049",
+    "concept_id": "concept_043",
+    "concept_name": "np.array() function",
+    "chapter": 9,
+    "difficulty": "easy",
+    "task_description": "Create a NumPy array from the existing list height.",
+    "code_template": "np_height = np.array(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "height",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["height", "[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "'1.73,1.68,1.71'"],
+    "per_tile_feedback": {
+      "height": "Correct – passing the list variable 'height' creates an array from its elements.",
+      "[1.73,1.68,1.71]": "This would create an array but doesn't use the variable 'height' as requested.",
+      "(1.73,1.68,1.71)": "This is a tuple, which also works, but the task asks for the list variable.",
+      "'1.73,1.68,1.71'": "This is a string, not the numeric list."
+    },
+    "hints": [
+      "Which variable holds the list of heights?",
+      "The course example: np_height = np.array(height)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.array() takes a sequence (list, tuple, etc.) and returns a NumPy array. Using the existing variable is direct.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_050",
+    "concept_id": "concept_043",
+    "concept_name": "np.array() function",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Create a NumPy array from the list [1.73, 1.68, 1.71].",
+    "code_template": "arr = np.array(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[1.73,1.68,1.71]",
+        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+      }
+    ],
+    "word_bank": ["[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "1.73,1.68,1.71", "'1.73,1.68,1.71'"],
+    "per_tile_feedback": {
+      "[1.73,1.68,1.71]": "Correct – a list is the most common way to pass multiple values to np.array().",
+      "(1.73,1.68,1.71)": "This tuple would also work, but the task specifically asks for a list.",
+      "1.73,1.68,1.71": "Without brackets, np.array() expects a single argument; this would cause an error.",
+      "'1.73,1.68,1.71'": "Passing a string creates a string array, not a numeric array."
+    },
+    "hints": [
+      "How do you define a list in Python?",
+      "The argument must be a single sequence, not multiple numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.array() expects a single sequence argument. Passing multiple scalars without enclosing them in a list or tuple is a common mistake.",
+    "common_mistake_warning": "⚠️ Passing multiple scalars to np.array() (e.g., np.array(1,2,3)) causes a TypeError."
+  },
+  {
+    "id": "fitb_051",
+    "concept_id": "concept_044",
+    "concept_name": "Vectorization",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Complete the BMI calculation using vectorized operations on np_weight and np_height.",
+    "code_template": "bmi = np_weight / np_height _____ 2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "**",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["**", "^", "*", "+"],
+    "per_tile_feedback": {
+      "**": "Correct – exponentiation is performed with **, applied element‑wise.",
+      "^": "The ^ operator is bitwise XOR, not exponentiation. This is a common mistake from other languages.",
+      "*": "Multiplication would give np_weight / (np_height * 2), which is incorrect for BMI.",
+      "+": "Addition would not square the height."
+    },
+    "hints": [
+      "Which operator performs exponentiation in Python?",
+      "The course BMI formula uses **: bmi = weight / height ** 2."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Vectorized operations allow you to write element‑wise calculations concisely. The ** operator squares each element of np_height.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_052",
+    "concept_id": "concept_044",
+    "concept_name": "Vectorization",
+    "chapter": 9,
+    "difficulty": "easy",
+    "task_description": "Multiply every element of the array a by 2 (element‑wise).",
+    "code_template": "result = a _____ 2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["*", "+", "**", "x"],
+    "per_tile_feedback": {
+      "*": "Correct – the multiplication operator applied to a NumPy array performs element‑wise scaling.",
+      "+": "Addition would shift each element by 2, not multiply.",
+      "**": "Exponentiation would raise each element to the power of 2.",
+      "x": "'x' is not a Python operator; multiplication uses the asterisk."
+    },
+    "hints": [
+      "Which symbol is used for multiplication in Python?",
+      "Vectorized multiplication is simply 'array * scalar'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NumPy arrays support vectorized arithmetic. a * 2 multiplies every element by 2 without any loop.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_053",
+    "concept_id": "concept_044",
+    "concept_name": "Vectorization",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Create a Boolean array that is True where bmi is greater than 23.",
+    "code_template": "bmi _____ 23",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ">",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [">", "<", "==", "!="],
+    "per_tile_feedback": {
+      ">": "Correct – the greater‑than operator compares each element to 23 and returns a Boolean array.",
+      "<": "Less than would give True for elements below 23, the opposite of the task.",
+      "==": "Equality would check if elements equal 23, not if greater.",
+      "!=": "Inequality would be True for elements not equal to 23, not only greater."
+    },
+    "hints": [
+      "You want to find which BMI values exceed a threshold.",
+      "The course uses bmi > 23 to create a mask for Boolean indexing."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Vectorized comparisons produce a Boolean array of the same shape, which can then be used for filtering (Boolean indexing).",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_054",
+    "concept_id": "concept_045",
+    "concept_name": "NumPy Homogeneous Type",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "The array created below has unexpected dtype because of mixed types. Print its data type to inspect it.",
+    "code_template": "arr = np.array([1.0, \"is\", True])\nprint(arr._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dtype",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["dtype", "type", "shape", "kind"],
+    "per_tile_feedback": {
+      "dtype": "Correct – arr.dtype reveals the homogeneous data type of the array (in this case, string).",
+      "type": "type(arr) returns the type object (numpy.ndarray), not the internal data type.",
+      "shape": "shape returns the dimensions, not the data type.",
+      "kind": "There is no array attribute named 'kind'."
+    },
+    "hints": [
+      "Which attribute tells you if the elements are integers, floats, or strings?",
+      "NumPy arrays have a .dtype attribute that shows the data type."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When mixed types are passed to np.array(), all elements are coerced to a common type (often string). .dtype lets you check the resulting type.",
+    "common_mistake_warning": "⚠️ NumPy silently coerces mixed types to a single type; always check .dtype if you're unsure."
+  },
+  {
+    "id": "fitb_055",
+    "concept_id": "concept_045",
+    "concept_name": "NumPy Homogeneous Type",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Fix the array creation below so that it becomes a numeric array instead of a string array. Replace the string with the corresponding float number.",
+    "code_template": "arr = np.array([1.73, 1.68, _____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1.71",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1.71", "'1.71'", "1,71", "1.71f"],
+    "per_tile_feedback": {
+      "1.71": "Correct – passing the number 1.71 keeps all elements numeric.",
+      "'1.71'": "A string would cause the entire array to become a string array.",
+      "1,71": "Commas inside numbers are invalid Python syntax.",
+      "1.71f": "The 'f' suffix is not valid for a Python float literal."
+    },
+    "hints": [
+      "What type should the value be to avoid coercion?",
+      "A single string in the list will turn the whole array into strings."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "To keep a NumPy array numeric, all elements must be numbers. A single string triggers type coercion to string, ruining calculations.",
+    "common_mistake_warning": "⚠️ Even one string in the list passed to np.array() will make the entire array string‑typed."
+  },
+  {
+    "id": "fitb_056",
+    "concept_id": "concept_046",
+    "concept_name": "List vs Array Addition",
+    "chapter": 9,
+    "difficulty": "easy",
+    "task_description": "Concatenate the Python list python_list with itself using the + operator.",
+    "code_template": "result = python_list _____ python_list",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "&"],
+    "per_tile_feedback": {
+      "+": "Correct – list concatenation creates a new list with the elements of both operands.",
+      "-": "Subtraction is not defined for lists.",
+      "*": "Multiplication repeats a list, e.g., python_list * 2.",
+      "&": "Bitwise AND is not defined for lists and does not concatenate."
+    },
+    "hints": [
+      "Which operator joins two lists?",
+      "The course example: fam + ['me', 1.79] concatenated lists."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Python lists support the + operator for concatenation, producing a new list. This is different from NumPy arrays, where + performs element‑wise addition.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_057",
+    "concept_id": "concept_046",
+    "concept_name": "List vs Array Addition",
+    "chapter": 9,
+    "difficulty": "easy",
+    "task_description": "Add the scalar 10 to every element of the NumPy array arr.",
+    "code_template": "result = arr _____ 10",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["+", "-", "*", "/"],
+    "per_tile_feedback": {
+      "+": "Correct – array + scalar adds 10 to each element using broadcasting.",
+      "-": "Subtraction would decrease each element by 10.",
+      "*": "Multiplication would scale each element by 10.",
+      "/": "Division would divide each element by 10."
+    },
+    "hints": [
+      "Which operator adds a number to every element?",
+      "NumPy arrays broadcast scalars with the + operator."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NumPy arrays perform element‑wise addition when adding a scalar, due to broadcasting. This is fundamentally different from list behavior.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_058",
+    "concept_id": "concept_047",
+    "concept_name": "Boolean Indexing (Masking)",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Select only the BMI values that are greater than 23.",
+    "code_template": "bmi[bmi _____ 23]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ">",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [">", ">=", "<", "=="],
+    "per_tile_feedback": {
+      ">": "Correct – selects elements where the condition is True.",
+      ">=": "This would include elements equal to 23, which may not be desired.",
+      "<": "Less than would select elements below 23, the opposite filter.",
+      "==": "Equality would select only elements exactly equal to 23."
+    },
+    "hints": [
+      "You want to filter out values that are strictly greater than 23.",
+      "The course example: bmi[bmi > 23] returns values over 23."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Boolean indexing uses a condition inside square brackets to filter an array. The condition is evaluated element‑wise, returning a Boolean array that acts as a mask.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_059",
+    "concept_id": "concept_047",
+    "concept_name": "Boolean Indexing (Masking)",
+    "chapter": 9,
+    "difficulty": "medium",
+    "task_description": "Select BMI values that are between 23 and 25 (exclusive). Use the correct operator for element‑wise logical AND.",
+    "code_template": "bmi[(bmi > 23) _____ (bmi < 25)]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "&",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["&", "and", "|", "or"],
+    "per_tile_feedback": {
+      "&": "Correct – & is the element‑wise AND operator for NumPy arrays.",
+      "and": "'and' works only on Python scalars; it cannot be used with arrays and will cause a ValueError.",
+      "|": "| is element‑wise OR, which would select values that satisfy either condition, not both.",
+      "or": "'or' is also a scalar operator and fails on arrays."
+    },
+    "hints": [
+      "Which bitwise operator is used for element‑wise AND?",
+      "The course warns: use & instead of 'and' for multiple conditions in NumPy."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Compound Boolean indexing requires & (AND) or | (OR), with parentheses around each condition. Python's 'and'/'or' keywords work on single booleans, not arrays.",
+    "common_mistake_warning": "⚠️ Using 'and' or 'or' with NumPy boolean arrays raises a ValueError; always use & and | with parentheses."
+  },
+  {
+    "id": "fitb_060",
+    "concept_id": "concept_047",
+    "concept_name": "Boolean Indexing (Masking)",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "The following code throws an error because of the logical operator. Replace it with the correct one for element‑wise AND.",
+    "code_template": "bmi[(bmi > 23) _____ (bmi < 25)]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "&",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["&", "and", "&&", "andalso"],
+    "per_tile_feedback": {
+      "&": "Correct – the bitwise AND operator works element‑wise on NumPy arrays.",
+      "and": "Incorrect and causes the error; 'and' expects a single Boolean, not an array of Booleans.",
+      "&&": "Python does not have a '&&' operator.",
+      "andalso": "This is not a Python operator."
+    },
+    "hints": [
+      "What was the original incorrect operator that caused the error?",
+      "NumPy requires bitwise operators for element‑wise logic."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The original code used 'and', which triggers a ValueError because Python cannot determine the truth value of an array. The fix is to use '&' with parentheses.",
+    "common_mistake_warning": "⚠️ This is one of the most common NumPy pitfalls: and/or vs &/|."
+  },
+  {
+    "id": "fitb_061",
+    "concept_id": "concept_042",
+    "concept_name": "NumPy Array",
+    "chapter": 9,
+    "difficulty": "easy",
+    "task_description": "Create a NumPy array containing the integers 10, 20, and 30.",
+    "code_template": "arr = np._____([10,20,30])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "array",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["array", "list", "tuple", "set"],
+    "per_tile_feedback": {
+      "array": "Correct – np.array() converts a list to a NumPy array.",
+      "list": "list is a Python built‑in, not a NumPy function.",
+      "tuple": "tuple is a Python built‑in, not a NumPy function.",
+      "set": "set is a Python built‑in, not a NumPy function."
+    },
+    "hints": [
+      "Which NumPy function creates an array?",
+      "The course always uses np.array() to create arrays."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.array() is the fundamental function for creating NumPy arrays from sequences.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_062",
+    "concept_id": "concept_042",
+    "concept_name": "NumPy Array",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Confirm that arr is a NumPy array by comparing its type to the correct class name.",
+    "code_template": "type(arr) == _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "np.ndarray",
+        "answer_alternatives": ["numpy.ndarray"]
+      }
+    ],
+    "word_bank": ["np.ndarray", "list", "array", "ndarray"],
+    "per_tile_feedback": {
+      "np.ndarray": "Correct – the full class name is numpy.ndarray, often accessed as np.ndarray.",
+      "list": "arr is not a Python list.",
+      "array": "While it is an array, the exact Python type is numpy.ndarray, not 'array'.",
+      "ndarray": "ndarray alone is not sufficient; you need the module prefix (np.ndarray) for comparison."
+    },
+    "hints": [
+      "What did type(np_height) return in the course?",
+      "The type object is printed as <class 'numpy.ndarray'>."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The exact type of a NumPy array is numpy.ndarray. When numpy is imported as np, you can refer to it as np.ndarray.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_063",
+    "concept_id": "concept_048",
+    "concept_name": "2D NumPy Array",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Create a 2D NumPy array with two rows: the first row [1.73, 1.68, 1.71] and the second row [65.4, 59.2, 63.6].",
+    "code_template": "np_2d = np.array([___1___, ___2___])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[1.73,1.68,1.71]",
+        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+      },
+      {
+        "position": 2,
+        "answer": "[65.4,59.2,63.6]",
+        "answer_alternatives": ["[65.4, 59.2, 63.6]"]
+      }
+    ],
+    "word_bank": ["[1.73,1.68,1.71]", "[65.4,59.2,63.6]", "(1.73,1.68,1.71)", "(65.4,59.2,63.6)", "1.73,1.68,1.71", "65.4,59.2,63.6"],
+    "per_tile_feedback": {
+      "[1.73,1.68,1.71]": "Correct – this list becomes the first row.",
+      "[65.4,59.2,63.6]": "Correct – this list becomes the second row.",
+      "(1.73,1.68,1.71)": "Using a tuple is valid but lists are more conventional; still works as a row.",
+      "(65.4,59.2,63.6)": "A tuple would also work, but the typical style is list of lists.",
+      "1.73,1.68,1.71": "Without brackets, this would be passed as separate arguments, causing an error.",
+      "65.4,59.2,63.6": "Without brackets, this would not work."
+    },
+    "hints": [
+      "Each row must be enclosed in square brackets inside the outer list.",
+      "The course example: np_2d = np.array([[1.73, 1.68, ...], [65.4, ...]])."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A 2D array is created by passing a list of lists (rows) to np.array(). All inner lists must be the same length to form a proper rectangular array.",
+    "common_mistake_warning": "⚠️ Forgetting the inner brackets or mixing list lengths silently creates an object array."
+  },
+  {
+    "id": "fitb_064",
+    "concept_id": "concept_049",
+    "concept_name": "Array Shape",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Print the shape (dimensions) of the 2D array np_2d.",
+    "code_template": "print(np_2d._____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "shape",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["shape", "size", "ndim", "dtype"],
+    "per_tile_feedback": {
+      "shape": "Correct – .shape is the attribute that returns a tuple of dimensions (rows, columns).",
+      "size": ".size returns the total number of elements, not the dimensions.",
+      "ndim": ".ndim returns the number of dimensions (e.g., 2), not the shape tuple.",
+      "dtype": ".dtype returns the data type, not the shape."
+    },
+    "hints": [
+      "Which attribute gives (rows, columns)?",
+      "The course used np_2d.shape to get (2,5)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "shape is a property (attribute) of a NumPy array. It is accessed without parentheses; shape() would give an error.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_065",
+    "concept_id": "concept_049",
+    "concept_name": "Array Shape",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Get the number of rows of np_2d from its shape attribute.",
+    "code_template": "np_2d.shape[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "-1"],
+    "per_tile_feedback": {
+      "0": "Correct – indexing the shape tuple at 0 returns the number of rows.",
+      "1": "Index 1 returns the number of columns, not rows.",
+      "2": "A 2D array only has indices 0 and 1; 2 is out of range.",
+      "-1": "Index -1 would return the last element of the shape tuple (columns), not rows."
+    },
+    "hints": [
+      "The shape tuple is (rows, columns).",
+      "What index gives the first element of the tuple?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "shape returns a tuple like (2,5). The first element (index 0) is the number of rows; the second (index 1) is the number of columns.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_066",
+    "concept_id": "concept_050",
+    "concept_name": "2D Array Subsetting",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Select the element in the first row and third column of np_2d.",
+    "code_template": "np_2d[___1___, ___2___]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3"],
+    "per_tile_feedback": {
+      "0": "Correct – rows are zero‑indexed, so the first row is index 0.",
+      "1": "Index 1 is the second row.",
+      "2": "Index 2 is the third column (correct for columns), or the third row if used as row index.",
+      "3": "Index 3 is the fourth column; not the third."
+    },
+    "hints": [
+      "Remember: first index is row, second is column. Both start at 0.",
+      "The third column has index 2."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "2D subsetting uses [row, column]. Both indices are zero‑based. np_2d[0, 2] gives the element in row 0, column 2.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_067",
+    "concept_id": "concept_050",
+    "concept_name": "2D Array Subsetting",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Select the element at row 1, column 2 of np_2d.",
+    "code_template": "np_2d[1, _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "1", "3", "0"],
+    "per_tile_feedback": {
+      "2": "Correct – column index 2 corresponds to the third column.",
+      "1": "Index 1 is the second column.",
+      "3": "Index 3 is the fourth column.",
+      "0": "Index 0 is the first column."
+    },
+    "hints": [
+      "Counting starts at 0 for columns.",
+      "What is the index of the third column?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When subsetting a 2D array, the column index is specified after the comma. np_2d[1, 2] picks row 1, column 2.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_068",
+    "concept_id": "concept_050",
+    "concept_name": "2D Array Subsetting",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Complete the second form of indexing to access the same element as np_2d[0][2] using comma notation.",
+    "code_template": "np_2d[0, _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["2", "0", "1", "3"],
+    "per_tile_feedback": {
+      "2": "Correct – np_2d[0][2] and np_2d[0, 2] return the same element.",
+      "0": "Column 0 is the first column, not matching.",
+      "1": "Column 1 is the second column, not matching.",
+      "3": "Column 3 is the fourth column, not matching."
+    },
+    "hints": [
+      "The chained indexing [0][2] means first get row 0, then column 2.",
+      "The comma syntax does both in one step: [row, column]."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Both indexing styles yield the same result. [row, col] is preferred for clarity and performance in NumPy.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_069",
+    "concept_id": "concept_051",
+    "concept_name": "Slicing 2D Arrays",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Select all rows and the second column from np_2d.",
+    "code_template": "np_2d[:, _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1", "0", "2", "3"],
+    "per_tile_feedback": {
+      "1": "Correct – column index 1 is the second column.",
+      "0": "Column 0 is the first column.",
+      "2": "Column 2 is the third column.",
+      "3": "Column 3 is the fourth column."
+    },
+    "hints": [
+      "The colon means 'all rows'; you need to pick a column index.",
+      "The second column has index 1."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slicing a 2D array uses [row_slice, column_slice]. A single integer in one dimension reduces that dimension, returning a 1D array.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_070",
+    "concept_id": "concept_051",
+    "concept_name": "Slicing 2D Arrays",
+    "chapter": 10,
+    "difficulty": "medium",
+    "task_description": "Select the first two rows and all columns from np_2d.",
+    "code_template": "np_2d[_____, :]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":2",
+        "answer_alternatives": ["0:2"]
+      }
+    ],
+    "word_bank": [":2", "0:2", "1:3", "0:1"],
+    "per_tile_feedback": {
+      ":2": "Correct – omitting the start implicitly begins at 0, so :2 selects rows 0 and 1.",
+      "0:2": "Also correct – explicitly starting at 0 is equivalent to :2.",
+      "1:3": "This would select rows 1 and 2, not the first two.",
+      "0:1": "This would select only the first row (index 0), not two rows."
+    },
+    "hints": [
+      "How do you slice from the start up to (but not including) index 2?",
+      "The colon in the row position selects all columns."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slicing with start:end includes start and excludes end. :2 means 'up to index 2', giving rows 0 and 1.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_071",
+    "concept_id": "concept_051",
+    "concept_name": "Slicing 2D Arrays",
+    "chapter": 10,
+    "difficulty": "hard",
+    "task_description": "Select columns 1 and 2 (the second and third columns) from all rows of np_2d.",
+    "code_template": "np_2d[:, ___1___:___2___]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "3",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["0", "1", "2", "3"],
+    "per_tile_feedback": {
+      "0": "Column 0 is the first column; not part of the desired range.",
+      "1": "Correct – start at column 1 (inclusive).",
+      "2": "Column 2 is included but as end it would exclude column 2; used as end it stops before.",
+      "3": "Correct – end index is exclusive, so 3 stops after column 2."
+    },
+    "hints": [
+      "The end index is exclusive, so to include column 2, the end must be 3.",
+      "The slice start:end includes start but not end."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Slicing columns 1:3 selects columns with indices 1 and 2 (since 3 is exclusive). This yields the second and third columns.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_072",
+    "concept_id": "concept_052",
+    "concept_name": "np.median()",
+    "chapter": 11,
+    "difficulty": "easy",
+    "task_description": "Compute the median of the heights (first column) in np_city.",
+    "code_template": "np._____(np_city[:, 0])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "median",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["median", "mean", "average", "middle"],
+    "per_tile_feedback": {
+      "median": "Correct – np.median() calculates the median value.",
+      "mean": "np.mean() returns the arithmetic mean, not the median.",
+      "average": "There is no np.average function covered; use mean.",
+      "middle": "'middle' is not a NumPy function."
+    },
+    "hints": [
+      "Which function finds the middle value of sorted data?",
+      "The course used np.median(np_city[:, 0]) to get 1.75."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.median() computes the median (50th percentile). It is less sensitive to outliers than the mean.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_073",
+    "concept_id": "concept_053",
+    "concept_name": "np.mean()",
+    "chapter": 11,
+    "difficulty": "medium",
+    "task_description": "Calculate the average of the NumPy array np_weight.",
+    "code_template": "np._____(np_weight)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "mean",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["mean", "median", "sum", "average"],
+    "per_tile_feedback": {
+      "mean": "Correct – np.mean() returns the arithmetic average.",
+      "median": "np.median() returns the middle value, not the average.",
+      "sum": "np.sum() returns the total, not the average.",
+      "average": "np.average exists but is not covered in this course; use mean."
+    },
+    "hints": [
+      "Which function name is short for 'arithmetic mean'?",
+      "The course uses np.mean() for averaging."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.mean() computes the sum of all elements divided by the count. It is sensitive to outliers.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_074",
+    "concept_id": "concept_054",
+    "concept_name": "np.sum()",
+    "chapter": 11,
+    "difficulty": "easy",
+    "task_description": "Sum all elements of the array arr.",
+    "code_template": "np._____(arr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sum",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sum", "total", "add", "plus"],
+    "per_tile_feedback": {
+      "sum": "Correct – np.sum() adds all elements together.",
+      "total": "'total' is not a NumPy function.",
+      "add": "'add' is not a NumPy function; use np.sum or np.add for element‑wise addition of two arrays.",
+      "plus": "'plus' is not a Python function."
+    },
+    "hints": [
+      "Which function name is short for 'summation'?",
+      "The course mentions np.sum() as an aggregation function."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.sum() returns the sum of all elements. For multi‑dimensional arrays, you can specify an axis.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_075",
+    "concept_id": "concept_055",
+    "concept_name": "np.sort()",
+    "chapter": 11,
+    "difficulty": "medium",
+    "task_description": "Sort the array arr and assign the result to sorted_arr, leaving arr unchanged.",
+    "code_template": "sorted_arr = np._____(arr)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sort",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["sort", "sorted", "order", "arr.sort"],
+    "per_tile_feedback": {
+      "sort": "Correct – np.sort() returns a sorted copy of the array.",
+      "sorted": "Python's built‑in sorted() also returns a sorted list, but the task asks for a NumPy function.",
+      "order": "'order' is not a NumPy function.",
+      "arr.sort": "arr.sort() sorts the array in place and returns None; it would modify arr and give None to sorted_arr."
+    },
+    "hints": [
+      "Which NumPy function returns a sorted copy?",
+      "Remember: np.sort() does not modify the original, unlike the list method .sort()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.sort() returns a sorted copy of the array, leaving the original unchanged. This differs from the in‑place list method .sort().",
+    "common_mistake_warning": "⚠️ np.sort() returns a copy; the original array remains unsorted."
+  },
+  {
+    "id": "fitb_076",
+    "concept_id": "concept_056",
+    "concept_name": "np.random.normal()",
+    "chapter": 11,
+    "difficulty": "hard",
+    "task_description": "Generate 5000 samples from a normal distribution with mean 1.75 and standard deviation 0.20 for height.",
+    "code_template": "height = np.random.normal(___1___, ___2___, ___3___)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "1.75",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "0.20",
+        "answer_alternatives": ["0.2"]
+      },
+      {
+        "position": 3,
+        "answer": "5000",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["1.75", "0.20", "5000", "0.2", "1.5", "0.10"],
+    "per_tile_feedback": {
+      "1.75": "Correct – the first argument (loc) is the mean.",
+      "0.20": "Correct – the second argument (scale) is the standard deviation.",
+      "0.2": "Also correct – 0.2 is equivalent to 0.20.",
+      "5000": "Correct – the third argument (size) is the number of samples.",
+      "1.5": "This is not the mean used in the course example; the course uses 1.75.",
+      "0.10": "This is not the standard deviation; the course uses 0.20."
+    },
+    "hints": [
+      "The order is (mean, standard deviation, number of samples).",
+      "The course example: np.random.normal(1.75, 0.20, 5000)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.random.normal(loc, scale, size) draws samples from a normal distribution. loc is the center, scale is the spread.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_077",
+    "concept_id": "concept_056",
+    "concept_name": "np.random.normal()",
+    "chapter": 11,
+    "difficulty": "medium",
+    "task_description": "Generate exactly 10 random samples from a standard normal distribution (mean 0, std 1).",
+    "code_template": "samples = np.random.normal(0, 1, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "10",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["10", "1", "0", "None"],
+    "per_tile_feedback": {
+      "10": "Correct – size 10 gives an array of 10 samples.",
+      "1": "Size 1 would return a single sample, not 10.",
+      "0": "Size 0 would give an empty array.",
+      "None": "Omitting size (or None) returns a single scalar, not 10 samples."
+    },
+    "hints": [
+      "Which argument controls the number of generated values?",
+      "If size is omitted, the function returns a single float."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The size parameter determines how many random numbers to generate. If size=None (default), a single scalar is returned.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_078",
+    "concept_id": "concept_057",
+    "concept_name": "np.round()",
+    "chapter": 11,
+    "difficulty": "easy",
+    "task_description": "Round the NumPy array bmi to 2 decimal places.",
+    "code_template": "np._____(bmi, 2)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "round",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["round", "ceil", "floor", "trunc"],
+    "per_tile_feedback": {
+      "round": "Correct – np.round() rounds array elements to the specified number of decimals.",
+      "ceil": "np.ceil() rounds up to the nearest integer, not to 2 decimals.",
+      "floor": "np.floor() rounds down to the nearest integer.",
+      "trunc": "np.trunc() truncates the decimal part, not rounding."
+    },
+    "hints": [
+      "Which NumPy function shares its name with the built‑in rounding function?",
+      "The course used np.round(random_samples, 2)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.round(a, decimals) returns an array with each element rounded. The original array is unchanged.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_079",
+    "concept_id": "concept_058",
+    "concept_name": "np.column_stack()",
+    "chapter": 11,
+    "difficulty": "medium",
+    "task_description": "Stack the 1D arrays height and weight as columns into a 2D array named np_city.",
+    "code_template": "np_city = np.column_stack((_____, _____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "height",
+        "answer_alternatives": []
+      },
+      {
+        "position": 2,
+        "answer": "weight",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["height", "weight", "np_height", "np_weight", "bmi"],
+    "per_tile_feedback": {
+      "height": "Correct – height becomes the first column.",
+      "weight": "Correct – weight becomes the second column.",
+      "np_height": "np_height is a NumPy array version of height, but the task asks for the original list variable height.",
+      "np_weight": "Similar to above; the course example uses the original lists.",
+      "bmi": "bmi is a calculated value, not one of the base arrays to stack."
+    },
+    "hints": [
+      "Which two lists were used in the course to create np_city?",
+      "The example: np.column_stack((height, weight))."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.column_stack takes a tuple of 1D arrays and stacks them as columns into a 2D array. Both must have the same length.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_080",
+    "concept_id": "concept_062",
+    "concept_name": "Correlation (np.corrcoef)",
+    "chapter": 11,
+    "difficulty": "medium",
+    "task_description": "Compute the correlation between height and weight.",
+    "code_template": "np.corrcoef(height, _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "weight",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": ["weight", "height", "bmi", "np_weight"],
+    "per_tile_feedback": {
+      "weight": "Correct – the second argument is the other variable to correlate with height.",
+      "height": "This would give the correlation of height with itself (always 1).",
+      "bmi": "bmi is derived from height and weight; the task asks for the raw variables.",
+      "np_weight": "np_weight is the NumPy array version; the list variable is acceptable, but the task expects the variable used in the course."
+    },
+    "hints": [
+      "Which variable should be compared to height?",
+      "The correlation function expects two arrays of the same length."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "np.corrcoef(x, y) returns a 2x2 correlation matrix. The off‑diagonal element is the Pearson correlation coefficient between x and y.",
+    "common_mistake_warning": null
+  }
+]

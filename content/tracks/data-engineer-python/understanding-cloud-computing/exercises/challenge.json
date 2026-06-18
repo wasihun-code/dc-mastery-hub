@@ -1,0 +1,198 @@
+{
+  "course_slug": "understanding-cloud-computing",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_challenges": 3,
+  "challenges": [
+    {
+      "id": "dc_cloud_001",
+      "title": "Cloud Service Model Cost Evaluation",
+      "dataset_file": "cloud_service_costs.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_003",
+        "concept_015",
+        "concept_016",
+        "concept_017"
+      ],
+      "context": "You are a cloud cost engineer evaluating the hourly cost of your company's cloud resources. You have lists of service names, their deployment models (IaaS vs PaaS), their hourly rates, and the number of hours they ran. You want to calculate the total cost for each service and find which model consumed the most budget.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Construct a pandas DataFrame named `df` from the pre-loaded lists `service_names`, `service_models`, `hourly_rates`, and `hours_run`. Use column names 'service', 'model', 'rate', and 'hours'.",
+          "variable_name": "df",
+          "hint": "Pass a dictionary to pd.DataFrame() containing the list variables."
+        },
+        {
+          "step": 2,
+          "description": "Create a new column in `df` named 'total_cost' by multiplying 'rate' by 'hours'.",
+          "variable_name": "df['total_cost']",
+          "hint": "Perform element-wise multiplication of df['rate'] and df['hours']."
+        },
+        {
+          "step": 3,
+          "description": "Group `df` by 'model' and sum 'total_cost'. Store this Series in `model_costs`.",
+          "variable_name": "model_costs",
+          "hint": "Use df.groupby('model')['total_cost'].sum()."
+        },
+        {
+          "step": 4,
+          "description": "Find the model with the highest total cost. Store it in `highest_cost_model`.",
+          "variable_name": "highest_cost_model",
+          "hint": "Use model_costs.idxmax()."
+        },
+        {
+          "step": 5,
+          "description": "Print `model_costs` and then print `highest_cost_model`.",
+          "variable_name": "print_output",
+          "hint": "Call print(model_costs) and print(highest_cost_model)."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Pre-loaded lists:\n# service_names = [\"VM-Web\", \"DB-Managed\", \"VM-App\", \"Cache-Redis\", \"Storage-S3\"]\n# service_models = [\"IaaS\", \"PaaS\", \"IaaS\", \"PaaS\", \"IaaS\"]\n# hourly_rates = [0.12, 0.45, 0.24, 0.15, 0.08]\n# hours_run = [720, 168, 720, 720, 720]\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "cloud_service_costs.csv"
+        }
+      },
+      "solution_code": "service_names = ['EC2', 'S3', 'RDS', 'Lambda']\nservice_models = ['IaaS', 'IaaS', 'PaaS', 'FaaS']\nhourly_rates = [0.1, 0.05, 0.2, 0.01]\nhours_run = [100, 200, 50, 10]\nserver_names = ['srv-1', 'srv-2', 'srv-3']\ncpu_percentages = [91.5, 88.2, 89.9]\ndb_names = ['db-analytics', 'db-core', 'db-backup-test']\nrto_seconds = [1200, 300, 950]\nrpo_seconds = [600, 150, 240]\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'service': service_names,\n    'model': service_models,\n    'rate': hourly_rates,\n    'hours': hours_run\n})\ndf['total_cost'] = df['rate'] * df['hours']\nmodel_costs = df.groupby('model')['total_cost'].sum()\nhighest_cost_model = model_costs.idxmax()\nprint(model_costs)\nprint(highest_cost_model)",
+      "expected_output": "model\nIaaS    316.8\nPaaS    183.6\nName: total_cost, dtype: float64\nIaaS",
+      "output_description": "Total costs grouped by IaaS and PaaS, showing that IaaS had the highest cost at $316.8.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Construct the DataFrame using keys corresponding to the instructions.",
+        "Ensure you group by 'model' and select 'total_cost' before calling .sum()."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates cloud cost analysis by grouping service model usage logs in Pandas."
+    },
+    {
+      "id": "dc_cloud_002",
+      "title": "CPU Threshold Alerts for Horizontal Scaling",
+      "dataset_file": "server_cpu_metrics.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_006",
+        "concept_008"
+      ],
+      "context": "A DevOps engineer is analyzing CPU usage metrics to determine when a horizontal scale-out event should have been triggered. You have list logs of server names and their CPU usage percentages at peak hours. Scale-out triggers when CPU usage is greater than 85%.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a pandas DataFrame named `cpu_df` from `server_names` and `cpu_percentages`. Use column names 'server' and 'cpu'.",
+          "variable_name": "cpu_df",
+          "hint": "Pass a dictionary of the lists to pd.DataFrame()."
+        },
+        {
+          "step": 2,
+          "description": "Filter `cpu_df` to find all logs where 'cpu' is strictly greater than 85. Store the filtered DataFrame as `trigger_events`.",
+          "variable_name": "trigger_events",
+          "hint": "Use boolean indexing: cpu_df[cpu_df['cpu'] > 85]."
+        },
+        {
+          "step": 3,
+          "description": "Count the total number of scale-out trigger events and store it in `trigger_count`.",
+          "variable_name": "trigger_count",
+          "hint": "Use len(trigger_events) or trigger_events.shape[0]."
+        },
+        {
+          "step": 4,
+          "description": "Print `trigger_events` and then print `trigger_count`.",
+          "variable_name": "print_output",
+          "hint": "Call print(trigger_events) and print(trigger_count)."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Pre-loaded lists:\n# server_names = [\"srv-1\", \"srv-2\", \"srv-3\", \"srv-1\", \"srv-2\", \"srv-3\"]\n# cpu_percentages = [75.4, 88.2, 45.1, 91.5, 82.0, 89.9]\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "server_cpu_metrics.csv"
+        }
+      },
+      "solution_code": "service_names = ['EC2', 'S3', 'RDS', 'Lambda']\nservice_models = ['IaaS', 'IaaS', 'PaaS', 'FaaS']\nhourly_rates = [0.1, 0.05, 0.2, 0.01]\nhours_run = [100, 200, 50, 10]\nserver_names = ['srv-1', 'srv-2', 'srv-3']\ncpu_percentages = [91.5, 88.2, 89.9]\ndb_names = ['db-analytics', 'db-core', 'db-backup-test']\nrto_seconds = [1200, 300, 950]\nrpo_seconds = [600, 150, 240]\nimport pandas as pd\n\ncpu_df = pd.DataFrame({\n    'server': server_names,\n    'cpu': cpu_percentages\n})\ntrigger_events = cpu_df[cpu_df['cpu'] > 85]\ntrigger_count = len(trigger_events)\nprint(trigger_events)\nprint(trigger_count)",
+      "expected_output": "  server   cpu\n1  srv-2  88.2\n3  srv-1  91.5\n5  srv-3  89.9\n3",
+      "output_description": "Filtered server logs showing those exceeding 85% CPU and the total trigger count of 3 events.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Filter using boolean indexing on the 'cpu' column.",
+        "The trigger count is simply the row count of the filtered DataFrame."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates setting autoscaling thresholds using basic DataFrame filtering in Pandas."
+    },
+    {
+      "id": "dc_cloud_003",
+      "title": "Disaster Recovery SLA Compliance Audit",
+      "dataset_file": "dr_sla_audit.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 6,
+      "concepts_tested": [
+        "concept_042",
+        "concept_010",
+        "concept_022"
+      ],
+      "context": "As a cloud compliance auditor, you are reviewing database recovery metrics. The SLA requires Recovery Time Objective (RTO) < 900 seconds (15 min) AND Recovery Point Objective (RPO) < 300 seconds (5 min). You need to identify which database replication configurations failed this SLA.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a DataFrame `sla_df` from `db_names`, `rto_seconds`, and `rpo_seconds`. Use column names 'db', 'rto', and 'rpo'.",
+          "variable_name": "sla_df",
+          "hint": "Pass a dictionary of the lists to pd.DataFrame()."
+        },
+        {
+          "step": 2,
+          "description": "Add a boolean column to `sla_df` named 'sla_failed' that is True if 'rto' is >= 900 OR 'rpo' is >= 300.",
+          "variable_name": "sla_df['sla_failed']",
+          "hint": "Use logical OR: (sla_df['rto'] >= 900) | (sla_df['rpo'] >= 300)."
+        },
+        {
+          "step": 3,
+          "description": "Filter `sla_df` to select rows where 'sla_failed' is True. Store the result in `failed_dbs`.",
+          "variable_name": "failed_dbs",
+          "hint": "Use boolean indexing: sla_df[sla_df['sla_failed'] == True]."
+        },
+        {
+          "step": 4,
+          "description": "Print `failed_dbs`.",
+          "variable_name": "print_output",
+          "hint": "Call print(failed_dbs)."
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Pre-loaded lists:\n# db_names = [\"db-prod-east\", \"db-analytics\", \"db-user-profile\", \"db-backup-test\"]\n# rto_seconds = [600, 1200, 450, 950]\n# rpo_seconds = [180, 600, 120, 240]\n\n# Your code goes here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "dr_sla_audit.csv"
+        }
+      },
+      "solution_code": "service_names = ['EC2', 'S3', 'RDS', 'Lambda']\nservice_models = ['IaaS', 'IaaS', 'PaaS', 'FaaS']\nhourly_rates = [0.1, 0.05, 0.2, 0.01]\nhours_run = [100, 200, 50, 10]\nserver_names = ['srv-1', 'srv-2', 'srv-3']\ncpu_percentages = [91.5, 88.2, 89.9]\ndb_names = ['db-analytics', 'db-core', 'db-backup-test']\nrto_seconds = [1200, 300, 950]\nrpo_seconds = [600, 150, 240]\nimport pandas as pd\n\nsla_df = pd.DataFrame({\n    'db': db_names,\n    'rto': rto_seconds,\n    'rpo': rpo_seconds\n})\nsla_df['sla_failed'] = (sla_df['rto'] >= 900) | (sla_df['rpo'] >= 300)\nfailed_dbs = sla_df[sla_df['sla_failed']]\nprint(failed_dbs)",
+      "expected_output": "              db   rto  rpo  sla_failed\n1   db-analytics  1200  600        True\n3  db-backup-test   950  240        True",
+      "output_description": "A DataFrame listing the databases that failed to meet the SLA parameters.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Use parentheses around each condition when using bitwise OR (`|`).",
+        "A database fails SLA if it violates either RTO limit or RPO limit."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates performing compound boolean logical conditions on Series data using Pandas."
+    }
+  ]
+}

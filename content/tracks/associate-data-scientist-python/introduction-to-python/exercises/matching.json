@@ -1,0 +1,799 @@
+{
+  "course_slug": "introduction-to-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-10",
+  "version": 1,
+  "total_pairs": 60,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Python Basics",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_004",
+          "term": "print()",
+          "match": "Displays text or values to the console",
+          "wrong_matches": [
+            "Returns the type of an object",
+            "Opens documentation for a function"
+          ],
+          "feedback_correct": "Correct! print() outputs whatever you give it.",
+          "feedback_wrong": "Not quite — remember that print() shows results, while help() shows docs."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "Python Shell",
+          "match": "Interactive command-line for one‑line commands",
+          "wrong_matches": [
+            "File with .py extension executed all at once",
+            "A high‑level programming language"
+          ],
+          "feedback_correct": "Correct! The Shell is the interactive REPL.",
+          "feedback_wrong": "That's the script, not the Shell — scripts are files, not interactive."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Python Script",
+          "match": "A .py file executed all at once",
+          "wrong_matches": [
+            "Interactive command-line for one‑line commands",
+            "A reusable block of code called by name"
+          ],
+          "feedback_correct": "Correct! Scripts are written once and run as a whole.",
+          "feedback_wrong": "Scripts are files, not an interactive environment."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_006",
+          "term": "Variable",
+          "match": "A named reference to a stored value",
+          "wrong_matches": [
+            "The operation of giving a variable a value",
+            "A classification like int or float"
+          ],
+          "feedback_correct": "Correct! height = 1.79 creates a variable.",
+          "feedback_wrong": "Not the variable itself — that's assignment or data type."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_007",
+          "term": "= (assignment)",
+          "match": "Operator that stores a value in a variable",
+          "wrong_matches": [
+            "Reusable block of code called with parentheses",
+            "Checks if two values are equal"
+          ],
+          "feedback_correct": "Correct! = assigns, not compares.",
+          "feedback_wrong": "That's the equality operator ==, not assignment."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_005",
+          "term": "2 ** 3",
+          "match": "Exponentiation: 2 raised to the power of 3",
+          "wrong_matches": [
+            "Concatenation of two lists",
+            "Multiplication"
+          ],
+          "feedback_correct": "Correct! ** is the power operator.",
+          "feedback_wrong": "Not quite — * is multiplication, ** is exponentiation."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Data Types",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_007",
+          "concept_id": "concept_009",
+          "term": "int",
+          "match": "Whole number without decimal point",
+          "wrong_matches": [
+            "Number with a decimal point",
+            "Sequence of characters in quotes"
+          ],
+          "feedback_correct": "Correct! 5 is an int.",
+          "feedback_wrong": "That sounds like float or str."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_010",
+          "term": "float",
+          "match": "Number containing a decimal point",
+          "wrong_matches": [
+            "Whole number without decimal point",
+            "Only True or False"
+          ],
+          "feedback_correct": "Correct! 1.79 is a float.",
+          "feedback_wrong": "Floats have decimals; ints do not."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_011",
+          "term": "str",
+          "match": "Text enclosed in quotes",
+          "wrong_matches": [
+            "Whole number",
+            "Number with a decimal point"
+          ],
+          "feedback_correct": "Correct! 'body mass index' is a string.",
+          "feedback_wrong": "Strings use quotes; numbers don't."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_012",
+          "term": "bool",
+          "match": "Data type with values True or False",
+          "wrong_matches": [
+            "Text enclosed in quotes",
+            "Whole number"
+          ],
+          "feedback_correct": "Correct! True and False are booleans.",
+          "feedback_wrong": "Booleans are not strings or numbers."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_013",
+          "term": "type()",
+          "match": "Returns the type of an object",
+          "wrong_matches": [
+            "Displays text to the console",
+            "Converts a value to integer"
+          ],
+          "feedback_correct": "Correct! type(bmi) tells you it's a float.",
+          "feedback_wrong": "type() inspects, it doesn't print or convert."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_059",
+          "term": "int(5.7)",
+          "match": "Converts to integer, truncating decimal",
+          "wrong_matches": [
+            "Rounds to nearest whole number",
+            "Returns the type"
+          ],
+          "feedback_correct": "Correct! int() drops the fractional part.",
+          "feedback_wrong": "int() truncates; round() would round."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "List Fundamentals",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_015",
+          "term": "fam = [1.73, 1.68]",
+          "match": "Creates a list of heights",
+          "wrong_matches": [
+            "Creates a tuple",
+            "Accesses the last element"
+          ],
+          "feedback_correct": "Correct! Square brackets define a list.",
+          "feedback_wrong": "Parentheses would create a tuple."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_016",
+          "term": "fam2 = [['liz',1.73],...]",
+          "match": "A nested list of lists",
+          "wrong_matches": [
+            "A flat list of numbers",
+            "A tuple of lists"
+          ],
+          "feedback_correct": "Correct! Each element is a list itself.",
+          "feedback_wrong": "That's a simple list, not nested."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_018",
+          "term": "fam[6]",
+          "match": "Element at index 6 (seventh position)",
+          "wrong_matches": [
+            "Last element",
+            "Slice from index 3 to 5"
+          ],
+          "feedback_correct": "Correct! Zero-based indexing; fam[6] is 'dad'.",
+          "feedback_wrong": "Negative indexing would give last; slicing gives a range."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_019",
+          "term": "fam[-1]",
+          "match": "Last element of the list",
+          "wrong_matches": [
+            "First element",
+            "All elements except first"
+          ],
+          "feedback_correct": "Correct! -1 always returns the last item.",
+          "feedback_wrong": "Negative indexing counts from the end."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_020",
+          "term": "fam[3:5]",
+          "match": "Elements at indices 3 and 4 (slice)",
+          "wrong_matches": [
+            "Elements at indices 3,4,5",
+            "All elements from start to 5"
+          ],
+          "feedback_correct": "Correct! Slice includes start, excludes end.",
+          "feedback_wrong": "Remember: the end index is exclusive."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_020",
+          "term": "fam[:4]",
+          "match": "First four elements (indices 0-3)",
+          "wrong_matches": [
+            "All elements from index 4 to end",
+            "Last four elements"
+          ],
+          "feedback_correct": "Correct! Omitting start means from beginning.",
+          "feedback_wrong": "That would be fam[4:]."
+        }
+      ]
+    },
+    {
+      "round_number": 4,
+      "theme": "List Operations",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_019",
+          "concept_id": "concept_021",
+          "term": "fam[7] = 1.86",
+          "match": "Replaces the element at index 7",
+          "wrong_matches": [
+            "Adds a new element at the end",
+            "Deletes the element at index 7"
+          ],
+          "feedback_correct": "Correct! Lists are mutable; you can assign to an index.",
+          "feedback_wrong": "Assignment modifies existing element, not append or delete."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_022",
+          "term": "fam + ['me', 1.79]",
+          "match": "Returns a new concatenated list",
+          "wrong_matches": [
+            "Modifies fam in place",
+            "Repeats the list"
+          ],
+          "feedback_correct": "Correct! + creates a new list; fam is unchanged.",
+          "feedback_wrong": "+ does not modify the original; it returns a new list."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_023",
+          "term": "del fam[2]",
+          "match": "Removes element at index 2, shifting later items",
+          "wrong_matches": [
+            "Removes element by value",
+            "Creates a copy"
+          ],
+          "feedback_correct": "Correct! del removes by index.",
+          "feedback_wrong": "remove() deletes by value, not index."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_024",
+          "term": "list(x)  or  x[:]",
+          "match": "Creates an independent copy of a list",
+          "wrong_matches": [
+            "Makes y a reference to the same list",
+            "Adds an element"
+          ],
+          "feedback_correct": "Correct! Both create a new list with the same elements.",
+          "feedback_wrong": "That would be y = x, which only creates a reference."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_025",
+          "term": "y = x",
+          "match": "Creates a reference, not a copy",
+          "wrong_matches": [
+            "Creates an independent copy",
+            "Deletes all elements"
+          ],
+          "feedback_correct": "Correct! Both variables point to the same list.",
+          "feedback_wrong": "Assignment doesn't copy; changes to y affect x."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_025",
+          "term": "y = list(x)  (modify y)",
+          "match": "x remains unchanged",
+          "wrong_matches": [
+            "x changes when y changes",
+            "Lists become immutable"
+          ],
+          "feedback_correct": "Correct! A copy means independent lists.",
+          "feedback_wrong": "If you had used y = x, both would change."
+        }
+      ]
+    },
+    {
+      "round_number": 5,
+      "theme": "Functions & Methods",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_025",
+          "concept_id": "concept_026",
+          "term": "max(fam)",
+          "match": "Returns the largest value in the list",
+          "wrong_matches": [
+            "Returns the number of elements",
+            "Returns the sum of elements"
+          ],
+          "feedback_correct": "Correct! max() finds the maximum.",
+          "feedback_wrong": "That would be len() or sum()."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_028",
+          "term": "round(1.68, 1)",
+          "match": "Rounds to one decimal: 1.7",
+          "wrong_matches": [
+            "Rounds to integer: 2",
+            "Returns 1.68"
+          ],
+          "feedback_correct": "Correct! The second argument sets decimal places.",
+          "feedback_wrong": "Without the second argument, round(1.68) gives 2."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_028",
+          "term": "round(2.5)",
+          "match": "Returns 2 (banker's rounding)",
+          "wrong_matches": [
+            "Returns 3",
+            "Returns 2.5"
+          ],
+          "feedback_correct": "Correct! Python rounds .5 to the nearest even number.",
+          "feedback_wrong": "Banker's rounding surprises many; 2.5 becomes 2."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_029",
+          "term": "help(round)",
+          "match": "Displays documentation for round",
+          "wrong_matches": [
+            "Returns the type of round",
+            "Converts to string"
+          ],
+          "feedback_correct": "Correct! help() opens the docstring.",
+          "feedback_wrong": "help() is a function; type() checks types."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_030",
+          "term": "object.method()",
+          "match": "Calls a method on an object",
+          "wrong_matches": [
+            "Passes object to a function",
+            "Creates a new object"
+          ],
+          "feedback_correct": "Correct! e.g., fam.append('me').",
+          "feedback_wrong": "Methods use dot notation, not function(object)."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_031",
+          "term": "fam.index('mom')",
+          "match": "Returns index of first 'mom' (4)",
+          "wrong_matches": [
+            "Counts occurrences of 'mom'",
+            "Adds 'mom' to the list"
+          ],
+          "feedback_correct": "Correct! index() gives the position.",
+          "feedback_wrong": "That would be count() or append()."
+        }
+      ]
+    },
+    {
+      "round_number": 6,
+      "theme": "String & List Methods",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_031",
+          "concept_id": "concept_033",
+          "term": "result = fam.append('me')",
+          "match": "Modifies fam, but result is None",
+          "wrong_matches": [
+            "Returns the extended list",
+            "Raises an error"
+          ],
+          "feedback_correct": "Correct! append() modifies in place, returns None.",
+          "feedback_wrong": "Don't assign the result of append(); it wipes the list."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_034",
+          "term": "'liz'.capitalize()",
+          "match": "Returns 'Liz', original unchanged",
+          "wrong_matches": [
+            "Returns 'LIZ'",
+            "Modifies the original string"
+          ],
+          "feedback_correct": "Correct! capitalize() returns a new string.",
+          "feedback_wrong": "upper() would give 'LIZ'; strings are immutable."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_035",
+          "term": "'liz'.replace('z','sa')",
+          "match": "Returns 'Lisa'",
+          "wrong_matches": [
+            "Returns 'liz'",
+            "Returns 'LIZ'"
+          ],
+          "feedback_correct": "Correct! replace() makes a new string.",
+          "feedback_wrong": "The original is unchanged unless you reassign."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_060",
+          "term": "fam.remove('emma')",
+          "match": "Deletes first 'emma', returns None",
+          "wrong_matches": [
+            "Deletes element at index of 'emma'",
+            "Returns the removed element"
+          ],
+          "feedback_correct": "Correct! remove() finds by value, not index.",
+          "feedback_wrong": "del uses index; remove uses value, both return None."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_061",
+          "term": "nums.reverse()",
+          "match": "Reverses the list in place, returns None",
+          "wrong_matches": [
+            "Returns a new reversed list",
+            "Sorts the list"
+          ],
+          "feedback_correct": "Correct! reverse() mutates the list directly.",
+          "feedback_wrong": "It doesn't return a new list; it changes the existing one."
+        },
+        {
+          "id": "match_036",
+          "concept_id": "concept_032",
+          "term": "fam.count(1.73)",
+          "match": "Returns number of times 1.73 appears",
+          "wrong_matches": [
+            "Returns the index of 1.73",
+            "Adds 1.73 to the list"
+          ],
+          "feedback_correct": "Correct! count() tallies occurrences.",
+          "feedback_wrong": "index() would give position; count() gives frequency."
+        }
+      ]
+    },
+    {
+      "round_number": 7,
+      "theme": "Packages & Imports",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_037",
+          "concept_id": "concept_038",
+          "term": "import numpy",
+          "match": "Imports whole module; use numpy.array()",
+          "wrong_matches": [
+            "Imports only array from numpy",
+            "Creates alias np for numpy"
+          ],
+          "feedback_correct": "Correct! Without alias, full name needed.",
+          "feedback_wrong": "Selective import uses 'from ... import ...'."
+        },
+        {
+          "id": "match_038",
+          "concept_id": "concept_039",
+          "term": "import numpy as np",
+          "match": "Imports with alias; use np.array()",
+          "wrong_matches": [
+            "Imports every function directly",
+            "Fails because numpy not installed"
+          ],
+          "feedback_correct": "Correct! 'as' creates a shorthand.",
+          "feedback_wrong": "Aliasing doesn't import individual names."
+        },
+        {
+          "id": "match_039",
+          "concept_id": "concept_040",
+          "term": "from numpy import array",
+          "match": "Imports only array, can use array() directly",
+          "wrong_matches": [
+            "Imports numpy as np",
+            "Imports everything from numpy"
+          ],
+          "feedback_correct": "Correct! Selective import avoids prefix.",
+          "feedback_wrong": "That's not selective; only 'array' is brought in."
+        },
+        {
+          "id": "match_040",
+          "concept_id": "concept_040",
+          "term": "numpy.array() after 'from numpy import array'",
+          "match": "NameError: numpy not defined",
+          "wrong_matches": [
+            "Works normally",
+            "Returns an empty array"
+          ],
+          "feedback_correct": "Correct! Selective import doesn't bring module name.",
+          "feedback_wrong": "Only 'array' is defined, not 'numpy'."
+        },
+        {
+          "id": "match_041",
+          "concept_id": "concept_036",
+          "term": "Package (e.g., NumPy)",
+          "match": "Collection of modules for a specific purpose",
+          "wrong_matches": [
+            "A single .py file",
+            "A built‑in function"
+          ],
+          "feedback_correct": "Correct! Packages organize related modules.",
+          "feedback_wrong": "That's a module; packages are collections."
+        },
+        {
+          "id": "match_042",
+          "concept_id": "concept_037",
+          "term": "Module",
+          "match": "A single .py file with functions/variables",
+          "wrong_matches": [
+            "A directory of packages",
+            "An interactive session"
+          ],
+          "feedback_correct": "Correct! Modules are files you import.",
+          "feedback_wrong": "Modules are single files, not directories."
+        }
+      ]
+    },
+    {
+      "round_number": 8,
+      "theme": "NumPy Fundamentals",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_043",
+          "concept_id": "concept_043",
+          "term": "np.array([1.73,1.68,1.71])",
+          "match": "Creates a 1D numeric array from a list",
+          "wrong_matches": [
+            "Creates a 2D array",
+            "Coerces to strings"
+          ],
+          "feedback_correct": "Correct! The list becomes a NumPy array.",
+          "feedback_wrong": "2D arrays need nested lists; this is 1D."
+        },
+        {
+          "id": "match_044",
+          "concept_id": "concept_044",
+          "term": "np_weight / np_height ** 2",
+          "match": "Vectorized BMI calculation",
+          "wrong_matches": [
+            "Raises a broadcasting error",
+            "Concatenates arrays"
+          ],
+          "feedback_correct": "Correct! Operations applied element‑wise.",
+          "feedback_wrong": "Vectorization means no explicit loops."
+        },
+        {
+          "id": "match_045",
+          "concept_id": "concept_045",
+          "term": "np.array([1.0, 'is', True])",
+          "match": "All elements become strings (coercion)",
+          "wrong_matches": [
+            "Raises TypeError",
+            "Keeps mixed types"
+          ],
+          "feedback_correct": "Correct! NumPy enforces a single data type.",
+          "feedback_wrong": "NumPy silently coerces to string, doesn't error."
+        },
+        {
+          "id": "match_046",
+          "concept_id": "concept_047",
+          "term": "bmi[bmi > 23]",
+          "match": "Boolean indexing: returns elements over 23",
+          "wrong_matches": [
+            "Returns True/False for each element",
+            "Raises error"
+          ],
+          "feedback_correct": "Correct! The condition selects matching elements.",
+          "feedback_wrong": "bmi > 23 alone is the mask; adding [] filters."
+        },
+        {
+          "id": "match_047",
+          "concept_id": "concept_047",
+          "term": "(bmi > 23) & (bmi < 25)",
+          "match": "Element‑wise AND for two conditions",
+          "wrong_matches": [
+            "Uses 'and' instead of &",
+            "Returns a single boolean"
+          ],
+          "feedback_correct": "Correct! & combines boolean arrays.",
+          "feedback_wrong": "Never use 'and' with arrays; it fails."
+        },
+        {
+          "id": "match_048",
+          "concept_id": "concept_046",
+          "term": "[1,2] + [3,4]  vs  np.array([1,2]) + np.array([3,4])",
+          "match": "List concatenates; array adds element‑wise",
+          "wrong_matches": [
+            "Both add element‑wise",
+            "Both concatenate"
+          ],
+          "feedback_correct": "Correct! + behaves differently for lists vs arrays.",
+          "feedback_wrong": "List + is not element‑wise addition."
+        }
+      ]
+    },
+    {
+      "round_number": 9,
+      "theme": "NumPy Operations",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_049",
+          "concept_id": "concept_048",
+          "term": "np.array([[1,2],[3,4]])",
+          "match": "Creates a 2D array with two rows",
+          "wrong_matches": [
+            "Creates a 1D array of lists",
+            "Raises an error because rows differ"
+          ],
+          "feedback_correct": "Correct! List of lists forms rows.",
+          "feedback_wrong": "All inner lists must be same length for a proper 2D array."
+        },
+        {
+          "id": "match_050",
+          "concept_id": "concept_049",
+          "term": "np_2d.shape",
+          "match": "Returns (rows, columns) as tuple",
+          "wrong_matches": [
+            "Returns total number of elements",
+            "Returns a list"
+          ],
+          "feedback_correct": "Correct! shape attribute, not method.",
+          "feedback_wrong": "size gives total elements, not shape."
+        },
+        {
+          "id": "match_051",
+          "concept_id": "concept_050",
+          "term": "np_2d[0,2]",
+          "match": "Element at row 0, column 2",
+          "wrong_matches": [
+            "All rows, column 2",
+            "Row 2, column 0"
+          ],
+          "feedback_correct": "Correct! Comma separates dimensions.",
+          "feedback_wrong": "That would be [:,2] or [2,0]."
+        },
+        {
+          "id": "match_052",
+          "concept_id": "concept_051",
+          "term": "np_2d[:, 1:3]",
+          "match": "All rows, columns 1 and 2",
+          "wrong_matches": [
+            "Rows 1 to 3, all columns",
+            "Only column 1"
+          ],
+          "feedback_correct": "Correct! : means all rows; 1:3 slices columns.",
+          "feedback_wrong": "Swap order: row slice before comma."
+        },
+        {
+          "id": "match_053",
+          "concept_id": "concept_051",
+          "term": "np_2d[1, :]",
+          "match": "Entire second row as a 1D array",
+          "wrong_matches": [
+            "Entire second column",
+            "A 2D subarray"
+          ],
+          "feedback_correct": "Correct! Single row index with : yields that row.",
+          "feedback_wrong": "[:, 1] would give the second column."
+        },
+        {
+          "id": "match_054",
+          "concept_id": "concept_058",
+          "term": "np.column_stack((h,w))",
+          "match": "Stacks 1D arrays as columns into 2D",
+          "wrong_matches": [
+            "Stacks as rows (vstack)",
+            "Concatenates lists"
+          ],
+          "feedback_correct": "Correct! Each array becomes a column.",
+          "feedback_wrong": "vstack would stack as rows."
+        }
+      ]
+    },
+    {
+      "round_number": 10,
+      "theme": "NumPy Statistics",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_055",
+          "concept_id": "concept_052",
+          "term": "np.median(np_city[:,0])",
+          "match": "Median of heights (robust to outliers)",
+          "wrong_matches": [
+            "Mean of heights",
+            "Sum of heights"
+          ],
+          "feedback_correct": "Correct! Median is the middle value.",
+          "feedback_wrong": "mean() would be sensitive to outliers."
+        },
+        {
+          "id": "match_056",
+          "concept_id": "concept_053",
+          "term": "np.mean(arr)",
+          "match": "Arithmetic average of array elements",
+          "wrong_matches": [
+            "Median of the array",
+            "Maximum value"
+          ],
+          "feedback_correct": "Correct! mean() returns the average.",
+          "feedback_wrong": "median() gives middle; mean() gives sum/count."
+        },
+        {
+          "id": "match_057",
+          "concept_id": "concept_054",
+          "term": "np.sum(arr)",
+          "match": "Total sum of all elements",
+          "wrong_matches": [
+            "Product of elements",
+            "Number of elements"
+          ],
+          "feedback_correct": "Correct! sum() adds everything together.",
+          "feedback_wrong": "That would be prod() or size."
+        },
+        {
+          "id": "match_058",
+          "concept_id": "concept_055",
+          "term": "np.sort(arr)",
+          "match": "Returns a sorted copy; original unchanged",
+          "wrong_matches": [
+            "Sorts in place, returns None",
+            "Reverses the array"
+          ],
+          "feedback_correct": "Correct! np.sort() is a function, not method.",
+          "feedback_wrong": "list.sort() sorts in place; np.sort() returns a copy."
+        },
+        {
+          "id": "match_059",
+          "concept_id": "concept_056",
+          "term": "np.random.normal(1.75,0.20,5000)",
+          "match": "Generates 5000 samples from N(1.75, 0.20²)",
+          "wrong_matches": [
+            "Generates a single random number",
+            "Creates a 2D array of samples"
+          ],
+          "feedback_correct": "Correct! loc=mean, scale=std, size=count.",
+          "feedback_wrong": "If size omitted, returns a single scalar."
+        },
+        {
+          "id": "match_060",
+          "concept_id": "concept_062",
+          "term": "np.corrcoef(height, weight)",
+          "match": "Returns correlation matrix (2x2)",
+          "wrong_matches": [
+            "Returns covariance matrix",
+            "Returns p‑value"
+          ],
+          "feedback_correct": "Correct! Off‑diagonal is correlation coefficient.",
+          "feedback_wrong": "corrcoef gives correlation, not covariance or p‑value."
+        }
+      ]
+    }
+  ]
+}

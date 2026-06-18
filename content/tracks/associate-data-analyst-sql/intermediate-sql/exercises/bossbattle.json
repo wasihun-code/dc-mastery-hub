@@ -1,0 +1,1087 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_002",
+    "concept_name": "COUNT(*)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does the following query return?\n\n```sql\nSELECT COUNT(*) AS total_films\nFROM films;\n```",
+    "options": {
+      "a": "The number of distinct film titles",
+      "b": "The total number of rows in the films table, including NULLs",
+      "c": "The number of films that have a budget",
+      "d": "The number of columns in the films table"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "COUNT(*) counts all rows, not distinct values.",
+      "b": "Correct! COUNT(*) returns the total row count, ignoring NULLs.",
+      "c": "That would be COUNT(budget).",
+      "d": "COUNT(*) counts rows, not columns."
+    },
+    "hints": [
+      "What does the * inside COUNT represent?",
+      "Think about whether NULLs matter."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(*) returns the number of rows in the table, regardless of NULLs. Here it counts all films.",
+    "time_pressure_note": "Under pressure, some confuse COUNT(*) with COUNT(column) and expect only non‑null rows.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_005",
+    "concept_name": "LIMIT keyword",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "what_changed",
+    "question_text": "Original query returns all 4968 films. Which line was added to now return only 5 rows?\n\n```sql\n-- BEFORE\nSELECT title FROM films;\n-- AFTER\nSELECT title FROM films LIMIT 5;\n```",
+    "options": {
+      "a": "LIMIT 5",
+      "b": "TOP 5",
+      "c": "FIRST 5",
+      "d": "ONLY 5"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! LIMIT is the PostgreSQL keyword to cap rows.",
+      "b": "TOP is used in SQL Server, not PostgreSQL.",
+      "c": "FIRST is not a valid row‑limiting keyword.",
+      "d": "ONLY is not a row‑limiting keyword."
+    },
+    "hints": [
+      "Which keyword restricts the number of returned rows?",
+      "It's the same one used for pagination."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding LIMIT n to the end of a query returns at most n rows. Without ORDER BY, which rows are returned is arbitrary.",
+    "time_pressure_note": "Time pressure leads to choosing TOP or FIRST from other SQL dialects.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_001",
+    "concept_name": "COUNT() function",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "What number fills the blank?\n\n```sql\nSELECT COUNT(deathdate) AS count_deathdates\nFROM people;\n-- Output: ______\n```\nThe people table has 8397 rows. 2245 people have a NULL birthdate. The same count of NULLs exists for deathdate? Assume 4278 people have a recorded deathdate.",
+    "options": {
+      "a": "8397",
+      "b": "4278",
+      "c": "2245",
+      "d": "6152"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "COUNT(deathdate) excludes NULLs, not all rows.",
+      "b": "Correct! COUNT(column) counts only non‑NULL deathdates: 4278.",
+      "c": "That is the count of NULL deathdates, not non‑null.",
+      "d": "That's the number of non‑null birthdates, not deathdates."
+    },
+    "hints": [
+      "What does COUNT(column) ignore?",
+      "The number of non‑NULL deathdates is given."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(deathdate) only counts rows where deathdate is not NULL. Since 4278 have a deathdate, that’s the answer.",
+    "time_pressure_note": "Rushing might make you assume the count is the total rows or confuse with birthdate example.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_003",
+    "concept_name": "DISTINCT keyword",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What will this query return?\n\n```sql\nSELECT DISTINCT country\nFROM films;\n```",
+    "options": {
+      "a": "A list of every country once, even if a country appears multiple times",
+      "b": "The first country alphabetically",
+      "c": "The total number of distinct countries",
+      "d": "All rows with a unique country name"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! DISTINCT removes duplicate country values, so each appears once.",
+      "b": "That would be MIN(country).",
+      "c": "That would be COUNT(DISTINCT country).",
+      "d": "DISTINCT doesn't filter rows; it deduplicates the output."
+    },
+    "hints": [
+      "What does the keyword DISTINCT do after SELECT?",
+      "It collapses repeated values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT DISTINCT column returns the set of unique values for that column, discarding duplicates.",
+    "time_pressure_note": "Under time, some mistake it for a filter or a count function.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_004",
+    "concept_name": "COUNT(DISTINCT)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "What number replaces the blank?\n\n```sql\nSELECT COUNT(DISTINCT country) AS unique_countries\nFROM films;\n-- Output: ______\n```\nThe films table contains 80 different country names.",
+    "options": {
+      "a": "80",
+      "b": "4968",
+      "c": "1",
+      "d": "0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! COUNT(DISTINCT country) returns the number of unique non‑null countries: 80.",
+      "b": "That's the total row count, not distinct countries.",
+      "c": "That would be if only one distinct value existed.",
+      "d": "That would be if no non‑null country values existed."
+    },
+    "hints": [
+      "COUNT(DISTINCT ...) returns the count of unique values.",
+      "The information tells you there are 80 different countries."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "COUNT(DISTINCT column) counts each distinct value once, ignoring NULLs. The given number 80 matches.",
+    "time_pressure_note": "You might misread the question and think it's asking for total rows.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_010",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "Which films are returned by this query?\n\n```sql\nSELECT title\nFROM films\nWHERE duration > 120;\n```",
+    "options": {
+      "a": "Films with a duration of exactly 120 minutes",
+      "b": "All films longer than 120 minutes",
+      "c": "Films shorter than 120 minutes",
+      "d": "All films, sorted by duration"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "> means strictly greater than, not equal.",
+      "b": "Correct! The WHERE clause keeps rows where duration exceeds 120.",
+      "c": "That would be WHERE duration < 120.",
+      "d": "That would be ORDER BY duration without a WHERE."
+    },
+    "hints": [
+      "What does the > operator mean?",
+      "It's a filter, not a sort."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The WHERE clause with > 120 returns only films whose duration is more than 120 minutes.",
+    "time_pressure_note": "Under pressure, you might mistake > for < or forget the WHERE clause filters rows.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_011",
+    "concept_name": "Comparison operators",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "Which operator would select films that are NOT from 1990?\n\n```sql\nSELECT title FROM films WHERE release_year ______ 1990;\n```",
+    "options": {
+      "a": "=",
+      "b": "!=",
+      "c": "<>",
+      "d": "=="
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "= is equality, not inequality.",
+      "b": "!= also works in PostgreSQL but <> is the standard.",
+      "c": "Correct! <> is the standard 'not equal' operator.",
+      "d": "== is not a SQL comparison operator."
+    },
+    "hints": [
+      "Which symbol means 'not equal' in standard SQL?",
+      "It uses angle brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Standard SQL uses <> for not equal. != is also accepted in PostgreSQL but is not standard.",
+    "time_pressure_note": "You might pick != quickly, forgetting that <> is the standard.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_012",
+    "concept_name": "Filtering strings with single quotes",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is wrong with this query?\n\n```sql\nSELECT title\nFROM films\nWHERE country = \"Canada\";\n```",
+    "options": {
+      "a": "String 'Canada' must be in single quotes, not double quotes",
+      "b": "Country names cannot be filtered",
+      "c": "The column name is misspelled",
+      "d": "Double quotes are required for strings"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Double quotes are for identifiers, not string literals.",
+      "b": "Country can be filtered using WHERE and a string.",
+      "c": "country is a valid column.",
+      "d": "Double quotes are for identifiers; strings need single quotes."
+    },
+    "hints": [
+      "What do double quotes mean in SQL?",
+      "How do you enclose string values in SQL?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In PostgreSQL, strings must be enclosed in single quotes. Double quotes denote column or table identifiers.",
+    "time_pressure_note": "Under time, you might think double quotes are fine for strings.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_013",
+    "concept_name": "OR operator",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this query return?\n\n```sql\nSELECT title\nFROM films\nWHERE certification = 'R' OR certification = 'PG-13';\n```",
+    "options": {
+      "a": "Films that are both R and PG‑13",
+      "b": "Films that are either R or PG‑13",
+      "c": "Only R‑rated films",
+      "d": "All films except those two ratings"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "OR doesn't require both; AND would.",
+      "b": "Correct! OR returns rows that satisfy at least one condition.",
+      "c": "That would be WHERE certification = 'R'.",
+      "d": "That would be WHERE certification NOT IN ('R','PG-13')."
+    },
+    "hints": [
+      "Does OR mean 'both' or 'either'?",
+      "It's inclusive."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The OR operator connects conditions; a row only needs to match one of them to be included.",
+    "time_pressure_note": "You might misread OR as AND when under time pressure.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_014",
+    "concept_name": "AND operator",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank to get films between 100 and 120 minutes inclusive.\n\n```sql\nSELECT title FROM films\nWHERE duration >= 100 _____ duration <= 120;\n```",
+    "options": {
+      "a": "AND",
+      "b": "OR",
+      "c": "BETWEEN",
+      "d": "WITH"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! AND requires both conditions to be true.",
+      "b": "OR would allow films that are either ≥100 or ≤120, which is all films.",
+      "c": "BETWEEN is a single operator, not used with >=.",
+      "d": "WITH is not a logical operator."
+    },
+    "hints": [
+      "Both conditions must hold simultaneously.",
+      "Which logical operator means 'both'?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AND combines the two bounds; the resulting condition is equivalent to BETWEEN 100 AND 120.",
+    "time_pressure_note": "Under pressure, you might choose BETWEEN incorrectly, but the syntax requires AND.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_015",
+    "concept_name": "Parentheses in WHERE conditions",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug in this query?\n\n```sql\nSELECT title\nFROM films\nWHERE release_year = 1994 OR release_year = 1995\nAND certification = 'PG';\n```\nThe intent is to get PG films from 1994 or 1995.",
+    "options": {
+      "a": "AND has higher precedence, so it returns 1994 films (any rating) plus PG films from 1995",
+      "b": "The OR operator cannot be combined with AND",
+      "c": "The year values should be in quotes",
+      "d": "The query is perfectly correct"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Without parentheses, AND binds tighter, changing the logic.",
+      "b": "OR and AND can be combined, but parentheses are needed for correct grouping.",
+      "c": "Years are numbers, not strings.",
+      "d": "The logic is wrong due to precedence."
+    },
+    "hints": [
+      "What is the evaluation order of AND and OR?",
+      "How would you fix it with parentheses?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "AND is evaluated before OR. So the condition means (release_year = 1994) OR (release_year = 1995 AND certification = 'PG'). Adding parentheses fixes it.",
+    "time_pressure_note": "This is a classic trap; under pressure you might miss the precedence.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_016",
+    "concept_name": "BETWEEN operator",
+    "chapter": 3,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A student wants all films from 2000 to 2010 inclusive. What's wrong with this?\n\n```sql\nSELECT title FROM films\nWHERE release_year BETWEEN 2010 AND 2000;\n```",
+    "options": {
+      "a": "The low value must come before the high value in BETWEEN",
+      "b": "BETWEEN is exclusive; it will miss 2010",
+      "c": "release_year is a float, cannot use BETWEEN",
+      "d": "The query is correct"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! BETWEEN low AND high requires low <= high; otherwise it returns nothing.",
+      "b": "BETWEEN is inclusive; the order is the problem.",
+      "c": "Floats work fine with BETWEEN.",
+      "d": "Reversing the bounds yields an empty result."
+    },
+    "hints": [
+      "What order must the range be written?",
+      "BETWEEN expects the smaller value first."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "BETWEEN a AND b is equivalent to >= a AND <= b. If a > b, the condition is logically impossible and no rows are returned.",
+    "time_pressure_note": "Under time, you might not notice the reversed order.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_017",
+    "concept_name": "IN operator",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens when you run this?\n\n```sql\nSELECT title FROM films\nWHERE release_year IN (1994, 1995;\n```",
+    "options": {
+      "a": "Syntax error because the closing parenthesis is missing",
+      "b": "It returns films from 1994 and 1995",
+      "c": "It returns films from 1994 only",
+      "d": "It returns an empty set"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The parentheses must be balanced; a semicolon ends the statement prematurely.",
+      "b": "The syntax is invalid.",
+      "c": "Invalid syntax.",
+      "d": "A syntax error would occur first."
+    },
+    "hints": [
+      "Look at the punctuation inside the IN clause.",
+      "Is the parentheses correctly closed?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The list inside IN must be enclosed in parentheses and correctly closed. The semicolon before the closing parenthesis breaks the syntax.",
+    "time_pressure_note": "Under pressure, you might overlook a missing parenthesis.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_018",
+    "concept_name": "LIKE operator",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A user wants to find all people whose name starts with 'john' regardless of case. What's wrong?\n\n```sql\nSELECT name FROM people\nWHERE name LIKE 'john%';\n```",
+    "options": {
+      "a": "LIKE is case‑sensitive in PostgreSQL; 'John' won't match",
+      "b": "The pattern should use '%john%'",
+      "c": "LIKE cannot match names",
+      "d": "The wildcard % should be replaced with _"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! LIKE is case‑sensitive; use ILIKE for case‑insensitive matching.",
+      "b": "That would search for 'john' anywhere, not just at the start.",
+      "c": "LIKE works on text columns.",
+      "d": "_ matches exactly one character, not zero or more."
+    },
+    "hints": [
+      "Does LIKE distinguish uppercase and lowercase?",
+      "What alternative gives case‑insensitive matching?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "PostgreSQL's LIKE is case‑sensitive. To match 'John', 'JOHN', etc., use ILIKE 'john%'.",
+    "time_pressure_note": "Case sensitivity is a common trip‑up under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_021",
+    "concept_name": "NOT LIKE operator",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "Why might this query exclude rows with NULL names?\n\n```sql\nSELECT name FROM people\nWHERE name NOT LIKE 'A%';\n```",
+    "options": {
+      "a": "NULL NOT LIKE pattern returns NULL, which is not TRUE",
+      "b": "NOT LIKE cannot be used with NULL columns",
+      "c": "LIKE automatically skips NULLs",
+      "d": "The query is syntactically invalid"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! NULL comparisons yield unknown, so those rows are excluded.",
+      "b": "NOT LIKE works on nullable columns; it just won't return NULL rows.",
+      "c": "LIKE doesn't skip NULLs; the condition is unknown.",
+      "d": "The syntax is fine."
+    },
+    "hints": [
+      "What is the result of comparing NULL with a string?",
+      "Remember three‑valued logic: TRUE, FALSE, UNKNOWN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Any comparison with NULL results in NULL/UNKNOWN. The WHERE clause only keeps rows where the condition is TRUE, so NULL rows are excluded.",
+    "time_pressure_note": "Under pressure, you might assume NULL simply doesn't match the pattern and would be included.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_022",
+    "concept_name": "NULL value",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What's wrong with this query that intends to find people with no deathdate?\n\n```sql\nSELECT name FROM people\nWHERE deathdate = NULL;\n```",
+    "options": {
+      "a": "Must use IS NULL instead of = NULL",
+      "b": "deathdate must be cast to a string first",
+      "c": "The column name should be 'deathdate' not deathdate",
+      "d": "The query is perfectly fine"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! = NULL is never true; you must use IS NULL.",
+      "b": "Data type doesn't affect NULL comparison.",
+      "c": "The column name is correct.",
+      "d": "It will return an empty result, not the intended rows."
+    },
+    "hints": [
+      "How do you test for NULL in SQL?",
+      "NULL is not equal to anything, not even itself."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL represents unknown. The expression deathdate = NULL evaluates to unknown for every row, so no rows are returned. Use deathdate IS NULL instead.",
+    "time_pressure_note": "The = NULL mistake is extremely common; under time you might write it without thinking.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_023",
+    "concept_name": "IS NULL operator",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is NOT a valid way to check for missing values?",
+    "options": {
+      "a": "column IS NULL",
+      "b": "column = NULL",
+      "c": "column IS NOT NULL",
+      "d": "COALESCE(column, 'missing') = 'missing'"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "IS NULL is correct.",
+      "b": "Correct odd one out! = NULL is never true.",
+      "c": "IS NOT NULL is correct.",
+      "d": "COALESCE can be used to replace NULL with a value, then compare, which works."
+    },
+    "hints": [
+      "Which equality check fails with NULL?",
+      "Look for the standard operator for NULL."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "= NULL is not a valid test; the only correct ways are IS NULL, IS NOT NULL, or using COALESCE with a comparison.",
+    "time_pressure_note": "You might quickly think = NULL works under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_024",
+    "concept_name": "IS NOT NULL operator",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Original query counts all people. Which addition now counts only those who have died?\n\n```sql\n-- BEFORE\nSELECT COUNT(*) FROM people;\n-- AFTER\nSELECT COUNT(*) FROM people WHERE deathdate _____;\n```",
+    "options": {
+      "a": "IS NOT NULL",
+      "b": "IS NULL",
+      "c": "> 0",
+      "d": "!= NULL"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! IS NOT NULL filters to rows where deathdate is present.",
+      "b": "IS NULL would count people without deathdate.",
+      "c": "> 0 doesn't make sense for dates.",
+      "d": "!= NULL is invalid; use IS NOT NULL."
+    },
+    "hints": [
+      "To count those who have died, deathdate must have a value.",
+      "Which operator checks for the presence of a value?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "IS NOT NULL returns rows where the column is not NULL, i.e., the deathdate is known.",
+    "time_pressure_note": "You might reach for IS NULL under time, misreading the intent.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_038",
+    "concept_name": "GROUP BY clause",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Why does this query fail?\n\n```sql\nSELECT certification, AVG(duration)\nFROM films;\n```",
+    "options": {
+      "a": "certification must appear in a GROUP BY clause",
+      "b": "AVG cannot be used with duration",
+      "c": "The FROM clause must include a table alias",
+      "d": "The query is valid"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! When mixing aggregate and non‑aggregate columns, GROUP BY is required for the non‑aggregate ones.",
+      "b": "AVG works on duration.",
+      "c": "Alias is not required.",
+      "d": "It will throw an error."
+    },
+    "hints": [
+      "What rule applies when you have a column not inside an aggregate?",
+      "Add GROUP BY certification to fix it."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Any column not inside an aggregate function must be in the GROUP BY clause. Here, certification is not grouped, causing an error.",
+    "time_pressure_note": "This is a fundamental mistake; under pressure, you might forget the rule.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_039",
+    "concept_name": "GROUP BY multiple columns",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "What fills the blank to count films per certification and language?\n\n```sql\nSELECT certification, language, COUNT(*)\nFROM films\nGROUP BY certification, _____;\n```",
+    "options": {
+      "a": "language",
+      "b": "certification",
+      "c": "COUNT(*)",
+      "d": "language, COUNT(*)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! All non‑aggregated columns must be listed.",
+      "b": "certification is already listed; language is missing.",
+      "c": "Aggregate functions cannot appear in GROUP BY.",
+      "d": "language should be listed alone; COUNT(*) is an aggregate."
+    },
+    "hints": [
+      "Which column is not aggregated?",
+      "The GROUP BY must include every non‑aggregate column."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Every column not inside an aggregate function must appear in GROUP BY. Here, language needs to be added.",
+    "time_pressure_note": "Under pressure, you might forget that both columns need to be in GROUP BY.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_041",
+    "concept_name": "HAVING clause",
+    "chapter": 11,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error will this query produce?\n\n```sql\nSELECT release_year, COUNT(title)\nFROM films\nGROUP BY release_year\nWHERE COUNT(title) > 10;\n```",
+    "options": {
+      "a": "Syntax error: WHERE cannot contain aggregate functions",
+      "b": "Column 'title' not found",
+      "c": "GROUP BY must come after WHERE",
+      "d": "No error; it returns years with >10 films"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Aggregate functions are not allowed in WHERE; use HAVING.",
+      "b": "title exists.",
+      "c": "WHERE usually comes before GROUP BY, but the error is the aggregate.",
+      "d": "The query will fail with an error."
+    },
+    "hints": [
+      "Can you filter on an aggregate result before grouping?",
+      "Which clause is designed for post‑aggregation filtering?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "WHERE evaluates before aggregation, so it cannot contain aggregate functions. The filter should be HAVING COUNT(title) > 10.",
+    "time_pressure_note": "Under pressure, you might confuse WHERE and HAVING.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_042",
+    "concept_name": "HAVING vs WHERE",
+    "chapter": 11,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which statement about WHERE and HAVING is FALSE?",
+    "options": {
+      "a": "WHERE filters rows before grouping",
+      "b": "HAVING can reference aggregate functions",
+      "c": "WHERE and HAVING can be used in the same query",
+      "d": "HAVING must appear before GROUP BY"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "True; WHERE comes before GROUP BY.",
+      "b": "True; HAVING is designed for aggregates.",
+      "c": "True; they can be used together.",
+      "d": "Correct false statement! HAVING must come after GROUP BY."
+    },
+    "hints": [
+      "What is the correct order of clauses?",
+      "Think about execution order: WHERE then GROUP BY then HAVING."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The proper order is GROUP BY before HAVING. So HAVING cannot appear before GROUP BY.",
+    "time_pressure_note": "You might mix up the order under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_025",
+    "concept_name": "Aggregate functions",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is NOT an aggregate function?",
+    "options": {
+      "a": "AVG()",
+      "b": "UPPER()",
+      "c": "SUM()",
+      "d": "COUNT()"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "AVG is an aggregate function.",
+      "b": "Correct! UPPER() converts text to uppercase, it does not aggregate.",
+      "c": "SUM is an aggregate.",
+      "d": "COUNT is an aggregate."
+    },
+    "hints": [
+      "Which function transforms a single value rather than summarizing multiple rows?",
+      "String functions are not aggregates."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aggregate functions combine multiple rows into a single summary value. UPPER() is a scalar string function.",
+    "time_pressure_note": "You might confuse string functions for aggregates under time.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_026",
+    "concept_name": "AVG() function",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does AVG(duration) return if all duration values are NULL?\n\n```sql\nSELECT AVG(duration) FROM films;\n```\nAssume every film has a NULL duration.",
+    "options": {
+      "a": "0",
+      "b": "NULL",
+      "c": "An error",
+      "d": "The total number of films"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "AVG does not treat NULL as 0; it ignores them and returns NULL when no values exist.",
+      "b": "Correct! AVG of an empty set returns NULL.",
+      "c": "It will not error; it returns NULL.",
+      "d": "AVG doesn't count rows; it computes an average."
+    },
+    "hints": [
+      "What does AVG do when it has no numbers to average?",
+      "Think of 0/0 is undefined."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aggregate functions ignore NULLs. If all values are NULL, the result is NULL, indicating no data to average.",
+    "time_pressure_note": "You might instinctively think 0, but it's NULL.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_027",
+    "concept_name": "SUM() function",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the result of this query?\n\n```sql\nSELECT SUM(duration) FROM films WHERE release_year = 1800;\n```\nAssume no films were released in 1800.",
+    "options": {
+      "a": "0",
+      "b": "NULL",
+      "c": "An error",
+      "d": "1800"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "SUM of no rows returns NULL, not 0.",
+      "b": "Correct! With no matching rows, the aggregate returns NULL.",
+      "c": "No error; NULL is returned.",
+      "d": "That is not related."
+    },
+    "hints": [
+      "What does SUM return when there are no rows to sum?",
+      "It's the same behavior as AVG."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aggregates on empty result sets return NULL, because the sum of zero rows is undefined.",
+    "time_pressure_note": "Many expect 0, but it's NULL.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_028",
+    "concept_name": "MIN() function",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does MIN(country) return?\n\n```sql\nSELECT MIN(country) FROM films;\n```",
+    "options": {
+      "a": "The shortest country name",
+      "b": "The alphabetically first country name",
+      "c": "The most frequent country",
+      "d": "An error because country is text"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "MIN on text uses alphabetical order, not length.",
+      "b": "Correct! MIN returns the smallest value based on collation order.",
+      "c": "That would be computed with COUNT and GROUP BY.",
+      "d": "MIN works on text."
+    },
+    "hints": [
+      "How are strings compared?",
+      "Think of what comes first if you sort alphabetically."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "MIN on a text column returns the value that would appear first in an ascending sort.",
+    "time_pressure_note": "You might think it returns the shortest string, a common misconception.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_029",
+    "concept_name": "MAX() function",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank to get the latest release year.\n\n```sql\nSELECT _____(release_year) FROM films;\n```",
+    "options": {
+      "a": "MAX",
+      "b": "MIN",
+      "c": "LATEST",
+      "d": "LAST"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! MAX returns the largest value.",
+      "b": "MIN returns the earliest year.",
+      "c": "LATEST is not a SQL function.",
+      "d": "LAST is not an aggregate; it's used with ORDER BY."
+    },
+    "hints": [
+      "Which aggregate finds the maximum?",
+      "The opposite of MIN."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "MAX(release_year) returns the most recent release year in the table.",
+    "time_pressure_note": "Under pressure, you might pick LATEST thinking it's a function.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_030",
+    "concept_name": "ROUND() function",
+    "chapter": 7,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this return?\n\n```sql\nSELECT ROUND(123456, -3) AS rounded;\n```",
+    "options": {
+      "a": "123000",
+      "b": "123456",
+      "c": "123.456",
+      "d": "0.123"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Negative -3 rounds to the nearest thousand.",
+      "b": "No rounding applied.",
+      "c": "Positive 3 would give that, not negative.",
+      "d": "Not a rounding result."
+    },
+    "hints": [
+      "A negative parameter rounds to the left of the decimal point.",
+      "-3 means hundreds, thousands?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ROUND(123456, -3) rounds to the nearest thousand (10^3). 123456 rounds down to 123000.",
+    "time_pressure_note": "Negative rounding is confusing under time; you may forget direction.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_031",
+    "concept_name": "Arithmetic operators (+, -, *, /)",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "The original query shows each film's duration. Which operator was added to convert to hours?\n\n```sql\n-- BEFORE\nSELECT title, duration FROM films;\n-- AFTER\nSELECT title, duration / 60.0 AS hours FROM films;\n```",
+    "options": {
+      "a": "/",
+      "b": "*",
+      "c": "+",
+      "d": "-"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Division by 60.0 converts minutes to hours.",
+      "b": "Multiplication would increase the number.",
+      "c": "Addition is not conversion.",
+      "d": "Subtraction is not conversion."
+    },
+    "hints": [
+      "To convert minutes to hours, you divide by 60.",
+      "Which operator is division?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Arithmetic operator / divides. duration / 60.0 gives hours as a decimal.",
+    "time_pressure_note": "Division symbol is obvious, but under time you might pick * by mistake.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_032",
+    "concept_name": "Integer division behavior",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this expression evaluate to?\n\n```sql\nSELECT 7 / 2;\n```",
+    "options": {
+      "a": "3",
+      "b": "3.5",
+      "c": "0",
+      "d": "7"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Integer division truncates toward zero, so 7/2 = 3.",
+      "b": "To get 3.5, at least one operand must be decimal, e.g., 7.0/2.",
+      "c": "7/2 is 3, not 0.",
+      "d": "That would be no division."
+    },
+    "hints": [
+      "Both operands are integers; what happens?",
+      "In PostgreSQL, integer division discards the remainder."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When dividing two integers, PostgreSQL performs integer division, truncating any fractional part.",
+    "time_pressure_note": "Under time, you might forget about integer division and expect 3.5.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_033",
+    "concept_name": "Aliasing with AS",
+    "chapter": 8,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What's wrong with using the alias 'avg_len' in the WHERE clause?\n\n```sql\nSELECT duration / 60.0 AS avg_len\nFROM films\nWHERE avg_len > 2;\n```",
+    "options": {
+      "a": "The alias is not recognized in WHERE because it executes before SELECT",
+      "b": "The alias name is too short",
+      "c": "Aliases can only be used in ORDER BY",
+      "d": "Nothing is wrong"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Due to execution order (FROM→WHERE→SELECT), the alias doesn't exist yet.",
+      "b": "Length doesn't matter.",
+      "c": "Aliases can be used in ORDER BY and HAVING (in PostgreSQL), but not WHERE.",
+      "d": "This will cause an error or unexpected results."
+    },
+    "hints": [
+      "What is the logical processing order?",
+      "When is the alias actually created?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL processes WHERE before SELECT, so column aliases defined in SELECT are not yet available. Use the original expression or column name.",
+    "time_pressure_note": "The alias-in-WHERE mistake is common; under pressure, you might forget execution order.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_034",
+    "concept_name": "ORDER BY clause",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What order will this query produce?\n\n```sql\nSELECT title, budget FROM films ORDER BY budget;\n```",
+    "options": {
+      "a": "Largest budget first",
+      "b": "Smallest budget first (ascending), NULLs last",
+      "c": "Random order",
+      "d": "Ordered by title instead"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "DESC would give that.",
+      "b": "Correct! Default is ascending, with NULLs at the end.",
+      "c": "ORDER BY ensures a specific order.",
+      "d": "Title is not in the ORDER BY."
+    },
+    "hints": [
+      "What is the default sorting direction?",
+      "NULLs appear last in ascending order."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ORDER BY budget sorts ascending by default; NULLs come last in PostgreSQL's default ascending sort.",
+    "time_pressure_note": "You might assume descending or forget about NULLs.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_035",
+    "concept_name": "ASC keyword",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "complete_output",
+    "question_text": "Complete the clause to sort films alphabetically by title.\n\n```sql\nSELECT title FROM films ORDER BY title _____;\n```",
+    "options": {
+      "a": "ASC",
+      "b": "DESC",
+      "c": "ASCENDING",
+      "d": "ALPHA"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! ASC sorts A to Z.",
+      "b": "DESC would sort Z to A.",
+      "c": "ASCENDING is not a keyword; use ASC.",
+      "d": "ALPHA is not a SQL keyword."
+    },
+    "hints": [
+      "Which keyword means ascending?",
+      "It's the opposite of DESC."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ASC explicitly states ascending order. It's the default but can be specified for clarity.",
+    "time_pressure_note": "Under pressure, you might type the full word 'ASCENDING'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_036",
+    "concept_name": "DESC keyword",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "Where do NULL values appear when you sort by budget DESC?\n\n```sql\nSELECT title, budget FROM films ORDER BY budget DESC;\n```",
+    "options": {
+      "a": "At the very beginning",
+      "b": "At the very end",
+      "c": "Randomly placed",
+      "d": "They are excluded"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! In descending order, NULLs are treated as larger than any number and appear first.",
+      "b": "In ascending order, they appear last.",
+      "c": "ORDER BY is deterministic.",
+      "d": "NULLs are included, not filtered."
+    },
+    "hints": [
+      "How does PostgreSQL compare NULLs to other values?",
+      "In descending sort, highest values first."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "By default, PostgreSQL treats NULLs as larger than all non‑null values in descending sorts, placing them first.",
+    "time_pressure_note": "Under pressure, you might confuse ascending and descending NULL positioning.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_037",
+    "concept_name": "Sorting by multiple columns",
+    "chapter": 9,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "The first ORDER BY only sorts by release_year. Which change sorts by year descending, then within each year by title ascending?\n\n```sql\n-- BEFORE\nSELECT title, release_year FROM films ORDER BY release_year;\n-- AFTER\nSELECT title, release_year FROM films ORDER BY release_year _____, title ASC;\n```",
+    "options": {
+      "a": "DESC",
+      "b": "ASC",
+      "c": ", title DESC",
+      "d": ", release_year DESC"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! release_year DESC sorts years latest first; then title ASC sorts ties alphabetically.",
+      "b": "ASC would keep ascending for year.",
+      "c": "DESC alone is needed; the second column is already title ASC.",
+      "d": "Not needed; year is already the first column."
+    },
+    "hints": [
+      "To sort years latest first, you need DESC after release_year.",
+      "Multiple columns each have their own direction."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "ORDER BY release_year DESC, title ASC sorts by year descending, breaking ties by title ascending.",
+    "time_pressure_note": "Under time, you might forget to specify direction for each column separately.",
+    "common_mistake_tested": true
+  }
+]

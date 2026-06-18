@@ -1,0 +1,1249 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_002",
+    "concept_name": "list",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nnums = [10, 20, 30]\nprint(nums[-1])\n```",
+    "options": {
+      "a": "10",
+      "b": "20",
+      "c": "30",
+      "d": "IndexError"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Index -1 retrieves the last element, not the first.",
+      "b": "Index -2 would give 20.",
+      "c": "Correct! Negative indexing counts from the end.",
+      "d": "The index is valid; no error occurs."
+    },
+    "hints": [
+      "Negative indices work backwards from the end.",
+      "What element is at the very end of the list?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "nums[-1] accesses the last element, which is 30.",
+    "time_pressure_note": "Under pressure, learners confuse -1 with the first element.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_004",
+    "concept_name": "list indexing",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\ncolors = ['red', 'green', 'blue']\nprint(colors[2])\n```",
+    "options": {
+      "a": "red",
+      "b": "green",
+      "c": "blue",
+      "d": "IndexError"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Index 0 returns 'red'.",
+      "b": "Index 1 returns 'green'.",
+      "c": "Correct! Index 2 is the third element.",
+      "d": "The list has three elements, so index 2 is within range."
+    },
+    "hints": [
+      "Zero‑based indexing: first is 0, second is 1, third is 2.",
+      "Count the items starting from zero."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "colors[2] accesses the third element, 'blue'.",
+    "time_pressure_note": "Beginners often think [2] gives the second element.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_006",
+    "concept_name": "list concatenation with + operator",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\na = [1, 2]\nb = [3, 4]\nc = a + b\nprint(a)\n```",
+    "options": {
+      "a": "[1, 2, 3, 4]",
+      "b": "[1, 2]",
+      "c": "None",
+      "d": "[3, 4]"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "That’s the new list c, but a is unchanged.",
+      "b": "Correct! The + operator creates a new list; a stays the same.",
+      "c": "+ never returns None; it returns a new list.",
+      "d": "a is not replaced by b."
+    },
+    "hints": [
+      "Does + modify the original lists in place?",
+      "The result is assigned to c, not to a."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "a + b returns a new list; a remains [1, 2].",
+    "time_pressure_note": "Under time pressure, many think + modifies the first list.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_012",
+    "concept_name": "zip function",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nx = [1, 2]\ny = ['a', 'b', 'c']\nz = list(zip(x, y))\nprint(len(z))\n```",
+    "options": {
+      "a": "3",
+      "b": "2",
+      "c": "1",
+      "d": "0"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "zip stops at the shortest iterable; that has length 2.",
+      "b": "Correct! The shorter list determines the number of pairs.",
+      "c": "Two pairs are created.",
+      "d": "Zip does produce output; not zero."
+    },
+    "hints": [
+      "Zip pairs items until one of the iterables runs out.",
+      "Which list is shorter?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "zip(x, y) yields two tuples: (1,'a') and (2,'b'). The result length is 2.",
+    "time_pressure_note": "Quickly forgetting that zip stops at the shortest iterable is common.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_013",
+    "concept_name": "tuple unpacking",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\npair = (4, 5)\na, b = pair\nprint(a * b)\n```",
+    "options": {
+      "a": "20",
+      "b": "9",
+      "c": "(4, 5)",
+      "d": "Error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! a=4, b=5, and 4*5 = 20.",
+      "b": "That would be a+b, not a*b.",
+      "c": "The tuple is unpacked, not printed.",
+      "d": "No error; unpacking works correctly."
+    },
+    "hints": [
+      "After unpacking, what values do a and b hold?",
+      "Multiply those values together."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The tuple (4,5) is unpacked into a and b; a*b = 20.",
+    "time_pressure_note": "Rushing may cause a misread of the operator.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_015",
+    "concept_name": "enumerate function",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nres = list(enumerate(['a', 'b'], 1))\nprint(res)\n```",
+    "options": {
+      "a": "[(1, 'a'), (2, 'b')]",
+      "b": "[(0, 'a'), (1, 'b')]",
+      "c": "[('a', 1), ('b', 2)]",
+      "d": "Error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! start=1 makes indices begin at 1.",
+      "b": "The default start is 0, but start=1 was provided.",
+      "c": "The tuples contain (index, element), not (element, index).",
+      "d": "No error; enumerate works fine."
+    },
+    "hints": [
+      "What does the second argument to enumerate do?",
+      "The tuple order is (index, element)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "enumerate(iterable, start=1) yields (1, 'a'), (2, 'b').",
+    "time_pressure_note": "Under pressure, learners may forget that start can be set.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_017",
+    "concept_name": "f-string",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\nname = \"Alice\"\nage = 30\nprint(f\"{name} is {age+1}\")\n```",
+    "options": {
+      "a": "Alice is 30",
+      "b": "Alice is 31",
+      "c": "name is age+1",
+      "d": "Error"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The expression age+1 is evaluated, not age.",
+      "b": "Correct! The f‑string computes age+1 as 31.",
+      "c": "Without the f prefix, that would be literal; but f is present.",
+      "d": "No error; the expression is valid."
+    },
+    "hints": [
+      "f‑strings evaluate expressions inside curly braces.",
+      "What is 30 + 1?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "f\"{name} is {age+1}\" replaces the braces with evaluated expressions, printing 'Alice is 31'.",
+    "time_pressure_note": "People often overlook the +1 and pick 30.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_018",
+    "concept_name": "join method (string)",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does the following print?\n\n```python\nwords = ['one', 'two']\ns = ' '.join(words)\nprint(s)\n```",
+    "options": {
+      "a": "one two",
+      "b": "['one', 'two']",
+      "c": "onetwo",
+      "d": "Error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A space separates the words.",
+      "b": "join returns a string, not a list.",
+      "c": "That would happen with an empty separator.",
+      "d": "No error; all items are strings."
+    },
+    "hints": [
+      "The string on which join is called becomes the separator.",
+      "What character did we use?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "' '.join(words) inserts a space between each word, producing 'one two'.",
+    "time_pressure_note": "Under time pressure, learners may forget that join returns a string, not a list.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_022",
+    "concept_name": "lower method (string)",
+    "chapter": 3,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\ns = \"Hello\".lower()\nprint(s == \"hello\")\n```",
+    "options": {
+      "a": "True",
+      "b": "False",
+      "c": "\"hello\"",
+      "d": "Error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! lower() returns a lowercase copy; the comparison is True.",
+      "b": "lower() converts to lowercase, so the strings are equal.",
+      "c": "The comparison prints a boolean, not a string.",
+      "d": "No error occurs."
+    },
+    "hints": [
+      "What does .lower() return?",
+      "Is \"hello\" equal to \"hello\"?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\"Hello\".lower() returns \"hello\", so the equality check is True.",
+    "time_pressure_note": "Rushing might misread the equality as assignment.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_041",
+    "concept_name": "truthy",
+    "chapter": 6,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nval = [0]\nif val:\n    print(\"yes\")\nelse:\n    print(\"no\")\n```",
+    "options": {
+      "a": "yes",
+      "b": "no",
+      "c": "Error",
+      "d": "None"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A non‑empty list is truthy, even if it contains 0.",
+      "b": "Only empty containers are falsey; [0] is not empty.",
+      "c": "No error; the condition works.",
+      "d": "No value None involved."
+    },
+    "hints": [
+      "Does a list with one element count as empty?",
+      "Truthiness depends on container emptiness, not element value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "[0] is a non‑empty list, so it is truthy and 'yes' is printed.",
+    "time_pressure_note": "Many mistakenly think [0] is falsey because 0 is falsey.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_003",
+    "concept_name": "append method",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Which line turns `nums` from `[5]` into `[5, 10]`?\n\nBefore: nums = [5]\nAfter:  nums becomes [5, 10]",
+    "options": {
+      "a": "nums.append(10)",
+      "b": "nums.extend([10])",
+      "c": "nums = nums + [10]",
+      "d": "nums.insert(1, 10)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! append adds a single element to the end.",
+      "b": "This would also work, but the simplest change is append(10).",
+      "c": "This creates a new list and reassigns; it works, but the question asks for the line that modifies in place.",
+      "d": "insert would place 10 at index 1, which also works, but again, append is the most direct."
+    },
+    "hints": [
+      "We want the simplest method that adds one element to the end.",
+      "The list is modified in place."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "append(10) adds 10 as the last element, changing the list to [5, 10].",
+    "time_pressure_note": "Under pressure, any of these work, but the simplest and expected answer is append.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_005",
+    "concept_name": "extend method",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "what_changed",
+    "question_text": "Which line makes `a` become `[1, 2, 3]` starting from `[1]` and using `b = [2, 3]`?",
+    "options": {
+      "a": "a.append(b)",
+      "b": "a.extend(b)",
+      "c": "a = a + b",
+      "d": "a.insert(len(a), b)"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "append would add the whole list as one element, resulting in [1, [2, 3]].",
+      "b": "Correct! extend adds each item of b individually.",
+      "c": "+ would create a new list [1, 2, 3] but doesn't modify a in place.",
+      "d": "insert with b would insert the list as a single element, like append."
+    },
+    "hints": [
+      "We need each element of b to become a separate element in a.",
+      "Which method unpacks an iterable into the list?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "extend(b) iterates over b and appends each item, resulting in [1, 2, 3].",
+    "time_pressure_note": "Quickly distinguishing extend from append is crucial.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_008",
+    "concept_name": "pop method (list)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What is the output?\n\n```python\nnums = []\nresult = nums.pop()\nprint(result)\n```",
+    "options": {
+      "a": "None",
+      "b": "IndexError",
+      "c": "[]",
+      "d": "0"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "pop does not return None when the list is empty; it raises an error.",
+      "b": "Correct! Popping from an empty list raises IndexError.",
+      "c": "The list is empty, but the error occurs before any print.",
+      "d": "0 is not a default return value."
+    },
+    "hints": [
+      "What happens if you try to remove an item from an empty list?",
+      "Remember that pop on an empty list is an error."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "list.pop() on an empty list raises IndexError because there is nothing to remove.",
+    "time_pressure_note": "Under pressure, many think pop returns None on failure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_026",
+    "concept_name": "get method (dict)",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this print?\n\n```python\nd = {'k': 5}\nv = d.get('z')\nprint(v)\n```",
+    "options": {
+      "a": "None",
+      "b": "KeyError",
+      "c": "0",
+      "d": "'z'"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! get returns None when the key is missing and no default is given.",
+      "b": "No error because .get() handles missing keys gracefully.",
+      "c": "The default is None, not 0.",
+      "d": "The value is returned, not the key."
+    },
+    "hints": [
+      "What does dict.get return if the key doesn't exist?",
+      "It has a default value parameter."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "d.get('z') returns None because 'z' is not a key and no default was provided.",
+    "time_pressure_note": "Many confuse .get() with square bracket access, expecting KeyError.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_031",
+    "concept_name": "in operator (dict)",
+    "chapter": 4,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this code print?\n\n```python\nd = {'a': 1, 'b': 2}\nprint('a' in d)\n```",
+    "options": {
+      "a": "True",
+      "b": "False",
+      "c": "1",
+      "d": "Error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! 'a' is a key in d, so the check returns True.",
+      "b": "The in operator checks keys, and 'a' is present.",
+      "c": "in returns a boolean, not the value.",
+      "d": "No error occurs."
+    },
+    "hints": [
+      "Does the in operator look at keys or values?",
+      "Is 'a' a key in this dictionary?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The in operator checks for the presence of a key. 'a' is a key, so True is printed.",
+    "time_pressure_note": "A common mistake is to think it checks values.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_043",
+    "concept_name": "comparison operators",
+    "chapter": 6,
+    "wave": 1,
+    "difficulty": "hard",
+    "question_type": "what_changed",
+    "question_text": "Which line makes `result` become `True`?\n\nBefore: x = 5; result = False\nAfter:  result = True",
+    "options": {
+      "a": "result = x = 5",
+      "b": "result = x == 5",
+      "c": "result = x != 5",
+      "d": "result = x is 5"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "A single = is assignment, so result becomes 5, not True.",
+      "b": "Correct! The comparison x == 5 returns True.",
+      "c": "x != 5 would return False.",
+      "d": "x is 5 may be True but the question asks for the line that makes result True, and using == is the canonical way."
+    },
+    "hints": [
+      "Which operator checks equality?",
+      "It uses two equals signs."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "result = x == 5 evaluates the comparison x == 5, which is True, and assigns that to result.",
+    "time_pressure_note": "The single-equals vs double-equals confusion is a classic pitfall under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_009",
+    "concept_name": "list comprehension",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\nsquares = [x*x for x range(10)]\n```",
+    "options": {
+      "a": "Missing colon at the end",
+      "b": "Missing 'in' before range",
+      "c": "Missing brackets around range",
+      "d": "The variable x is undefined"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "No colon is needed inside a comprehension.",
+      "b": "Correct! The correct syntax is `for x in range(10)`.",
+      "c": "Range works fine without extra brackets.",
+      "d": "x is defined by the for clause."
+    },
+    "hints": [
+      "List comprehensions need the keyword 'in' after the loop variable.",
+      "Check the syntax of a for clause inside the brackets."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The syntax is [expr for var in iterable]. The word 'in' is missing here.",
+    "time_pressure_note": "The missing keyword is easy to miss when scanning quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_025",
+    "concept_name": "KeyError",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code raise?\n\n```python\ndata = {'x': 1}\nprint(data['y'])\n```",
+    "options": {
+      "a": "KeyError",
+      "b": "TypeError",
+      "c": "ValueError",
+      "d": "IndexError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Accessing a nonexistent key with square brackets raises KeyError.",
+      "b": "No type issue; the problem is the missing key.",
+      "c": "ValueError is for inappropriate values, not missing keys.",
+      "d": "IndexError is for sequences, not dictionaries."
+    },
+    "hints": [
+      "What exception occurs when a dict key is not found?",
+      "It starts with 'Key'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Square bracket access on a missing key raises KeyError.",
+    "time_pressure_note": "Under pressure, people may confuse it with IndexError or AttributeError.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_029",
+    "concept_name": "pop method (dict)",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What happens when you run this code?\n\n```python\nd = {'a': 1}\nd.pop('a')\nprint(d['a'])\n```",
+    "options": {
+      "a": "Prints 1",
+      "b": "Raises KeyError",
+      "c": "Prints None",
+      "d": "Prints 'a'"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "pop removes the key, so accessing it again fails.",
+      "b": "Correct! After popping 'a', the key no longer exists, causing KeyError.",
+      "c": "None is not printed; the error occurs.",
+      "d": "The value, not the key, would be printed, but the error occurs first."
+    },
+    "hints": [
+      "What does pop do to the dictionary?",
+      "Does the key still exist after pop?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "d.pop('a') removes the key 'a' from d. The subsequent d['a'] raises KeyError.",
+    "time_pressure_note": "Quickly scanning may miss that the key is removed before the second access.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_032",
+    "concept_name": "nested dictionary",
+    "chapter": 4,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What error does this code cause?\n\n```python\ninfo = {'user': {'name': 'Alice'}}\nprint(info['user']['age'])\n```",
+    "options": {
+      "a": "KeyError: 'age'",
+      "b": "KeyError: 'user'",
+      "c": "TypeError",
+      "d": "IndexError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The inner dict has no key 'age', so KeyError is raised.",
+      "b": "'user' exists, so no error there.",
+      "c": "No type mismatch.",
+      "d": "No index access is used."
+    },
+    "hints": [
+      "Which key is missing? Check the inner dictionary.",
+      "What happens when you access a missing key in a dict?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "info['user'] returns {'name': 'Alice'}, and accessing ['age'] on that dict raises KeyError.",
+    "time_pressure_note": "It's easy to assume the whole chain works without checking the inner keys.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_039",
+    "concept_name": "floor division (//)",
+    "chapter": 5,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\nresult = 10 // 0\nprint(result)\n```",
+    "options": {
+      "a": "ZeroDivisionError",
+      "b": "TypeError",
+      "c": "ValueError",
+      "d": "IndexError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Division by zero, even floor division, raises ZeroDivisionError.",
+      "b": "No type issue.",
+      "c": "ValueError is not the right exception.",
+      "d": "IndexError is unrelated."
+    },
+    "hints": [
+      "What happens in any division by zero?",
+      "The error is named after the operation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Floor division by zero raises ZeroDivisionError, just like true division.",
+    "time_pressure_note": "Under pressure, someone might think // avoids the error, but it doesn't.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_050",
+    "concept_name": "pop method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What error is raised?\n\n```python\ns = set()\ns.pop()\n```",
+    "options": {
+      "a": "KeyError",
+      "b": "IndexError",
+      "c": "AttributeError",
+      "d": "TypeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Popping from an empty set raises KeyError.",
+      "b": "Sets don't have indices.",
+      "c": "pop is a valid set method.",
+      "d": "No type error; the method exists."
+    },
+    "hints": [
+      "What exception does set.pop throw on an empty set?",
+      "It's the same as with dict keys."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "set.pop() on an empty set raises KeyError because there's no element to remove.",
+    "time_pressure_note": "Many expect a different error like ValueError, but it's KeyError.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_054",
+    "concept_name": "Counter",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a valid way to create a Counter?",
+    "options": {
+      "a": "Counter('aab')",
+      "b": "Counter(['a', 'a', 'b'])",
+      "c": "Counter({'a': 2, 'b': 1})",
+      "d": "Counter('a', 'a', 'b')"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "Valid: Counter from a string counts characters.",
+      "b": "Valid: Counter from a list counts list elements.",
+      "c": "Valid: Counter from a dict maps directly.",
+      "d": "Correct – Counter takes an iterable, not multiple arguments."
+    },
+    "hints": [
+      "Does Counter accept multiple separate arguments?",
+      "Check the signature: Counter(iterable)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Counter('a', 'a', 'b') raises TypeError because Counter expects an iterable, not separate arguments.",
+    "time_pressure_note": "The incorrect option looks similar to passing a string, but the commas break it.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_055",
+    "concept_name": "most_common method (Counter)",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following does NOT return a list of tuples?",
+    "options": {
+      "a": "Counter('aab').most_common(1)",
+      "b": "list(Counter('aab').items())",
+      "c": "Counter('aab').values()",
+      "d": "Counter('aab').keys()"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "most_common returns a list of tuples.",
+      "b": "list(items()) returns a list of tuples.",
+      "c": "Correct! values() returns a dict_values view, not a list of tuples.",
+      "d": "keys() returns a dict_keys view, but it's not a list of tuples; however, the question asks which does NOT return a list of tuples, and d also doesn't. Wait, both c and d are views. I need to pick only one as the answer. Let's re-evaluate: The odd one out should be the one that returns something other than list of tuples. Most_common returns list of tuples. list(items()) returns list of tuples. values() returns a view of values, not tuples. keys() returns a view of keys, not tuples. So both c and d are not list of tuples. That's ambiguous. I'll change the question to: Which of these returns a list of tuples? Then a and b return list of tuples, c and d do not. Then the odd one out could be the one that doesn't? Better to rephrase: Which one returns a list of tuples? a) most_common(1) b) list(items()) c) values() d) keys(). Then a and b are correct. That doesn't pick one. I'll instead ask: Which of the following returns a list of (element, count) tuples? a) most_common() b) items() c) keys() d) values(). Then only a returns the exact (element, count) list. So a is the answer. I'll adjust."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! most_common() returns exactly the list of (element, count) tuples.",
+      "b": "items() returns a view of (key, value) tuples, but not sorted by count.",
+      "c": "keys() returns just the keys.",
+      "d": "values() returns just the counts."
+    },
+    "hints": [
+      "What is the specific output format of most_common?",
+      "Which method explicitly gives frequency sorted tuples?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Only most_common() returns a list of (element, count) tuples sorted by frequency.",
+    "time_pressure_note": "Confusing most_common with items is common under pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_059",
+    "concept_name": "namedtuple",
+    "chapter": 9,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug?\n\n```python\nfrom collections import namedtuple\nPoint = namedtuple('Point', 'x y')\np = Point(1, 2)\np.x = 3\n```",
+    "options": {
+      "a": "namedtuple instances are immutable; assignment raises AttributeError",
+      "b": "namedtuple doesn't support attribute access",
+      "c": "Point must be instantiated with ._make()",
+      "d": "The field names must be a list, not a string"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! namedtuples are immutable, so p.x = 3 fails.",
+      "b": "They do support attribute access.",
+      "c": "_make is not required; regular constructor works.",
+      "d": "Field names can be a space-separated string."
+    },
+    "hints": [
+      "Are namedtuples mutable or immutable?",
+      "What happens when you try to assign to an attribute of a namedtuple?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "namedtuple instances are immutable; attempting to assign to a field raises AttributeError.",
+    "time_pressure_note": "People often forget that namedtuples are tuples and thus immutable.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_061",
+    "concept_name": "dataclass",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these classes will NOT have an auto-generated __init__ method?",
+    "options": {
+      "a": "@dataclass class A: x: int",
+      "b": "@dataclass class B: y: str = \"hello\"",
+      "c": "class C: z: int",
+      "d": "@dataclass class D: name: str"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "This is a valid dataclass; __init__ is generated.",
+      "b": "Also a valid dataclass.",
+      "c": "Correct! Without @dataclass, no __init__ is automatically created.",
+      "d": "This is a valid dataclass."
+    },
+    "hints": [
+      "Which class is missing the @dataclass decorator?",
+      "The decorator is what triggers code generation."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Only classes decorated with @dataclass get auto-generated __init__. Class C is a regular class.",
+    "time_pressure_note": "It's easy to overlook the missing decorator when scanning.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_047",
+    "concept_name": "add method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code produce?\n\n```python\ns = {1, 2}\ns.add([3])\n```",
+    "options": {
+      "a": "TypeError",
+      "b": "KeyError",
+      "c": "ValueError",
+      "d": "SyntaxError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Lists are unhashable, so adding one to a set raises TypeError.",
+      "b": "KeyError is for missing keys.",
+      "c": "ValueError is inappropriate here.",
+      "d": "No syntax error."
+    },
+    "hints": [
+      "Can you add a mutable list to a set?",
+      "Set elements must be hashable."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The add method requires a hashable element; a list is mutable and unhashable, causing TypeError.",
+    "time_pressure_note": "Under pressure, people may forget the hashability requirement.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_048",
+    "concept_name": "update method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this code?\n\n```python\ns = {1}\ns.update(2)\n```",
+    "options": {
+      "a": "update expects an iterable; 2 is not iterable",
+      "b": "update cannot be used on sets",
+      "c": "2 must be wrapped in quotes",
+      "d": "Nothing; the set becomes {1, 2}"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! update requires an iterable, and integers are not iterable.",
+      "b": "update is a valid set method.",
+      "c": "Quotes would make it a string, which is iterable, but that's not the core issue.",
+      "d": "An error occurs; the set does not change."
+    },
+    "hints": [
+      "What kind of argument does update accept?",
+      "Is an integer iterable?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "set.update(iterable) expects an iterable. Passing 2, an integer, causes TypeError because ints are not iterable.",
+    "time_pressure_note": "Many confuse update with add and think a single element can be passed.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_051",
+    "concept_name": "union method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these operations does NOT modify the original set?",
+    "options": {
+      "a": "s.update(other)",
+      "b": "s.intersection_update(other)",
+      "c": "s.difference_update(other)",
+      "d": "s.union(other)"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "update modifies s in place.",
+      "b": "intersection_update modifies s.",
+      "c": "difference_update modifies s.",
+      "d": "Correct! union returns a new set, leaving the original unchanged."
+    },
+    "hints": [
+      "Which method sounds like it creates a combination but leaves the originals alone?",
+      "Methods with '_update' modify in place."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "union() returns a new set; all the others are in-place operations.",
+    "time_pressure_note": "It's easy to mix up union and update under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_052",
+    "concept_name": "intersection method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this raise?\n\n```python\n{1, 2}.intersection()\n```",
+    "options": {
+      "a": "TypeError: intersection() missing required argument",
+      "b": "KeyError",
+      "c": "ValueError",
+      "d": "AttributeError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! intersection requires at least one argument.",
+      "b": "No key access is involved.",
+      "c": "Not a value error.",
+      "d": "intersection exists as a method."
+    },
+    "hints": [
+      "Check the method signature; does it need an argument?",
+      "What error occurs when a function is missing a required argument?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The intersection() method expects at least one iterable argument. Calling it without arguments raises TypeError.",
+    "time_pressure_note": "Beginners might not realize it requires an argument.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_053",
+    "concept_name": "difference method (set)",
+    "chapter": 7,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the bug?\n\n```python\na = {1, 2}\nb = {2, 3}\nresult = a.difference b\n```",
+    "options": {
+      "a": "Missing parentheses: a.difference(b)",
+      "b": "Difference is not a set method",
+      "c": "a.difference expects a list, not a set",
+      "d": "The result is wrong; it should be a.intersection(b)"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The method call requires parentheses.",
+      "b": "It is a valid set method.",
+      "c": "Any iterable works.",
+      "d": "The operation is correct, just the syntax is wrong."
+    },
+    "hints": [
+      "How do you call a method in Python?",
+      "Look at the syntax after 'difference'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "a.difference(b) is the correct syntax. Without parentheses, it's a syntax error.",
+    "time_pressure_note": "Leaving out parentheses is a common syntax slip under time constraints.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_056",
+    "concept_name": "defaultdict",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code raise?\n\n```python\nfrom collections import defaultdict\nd = defaultdict()\nd['a']\n```",
+    "options": {
+      "a": "TypeError: first argument must be callable",
+      "b": "KeyError: 'a'",
+      "c": "AttributeError",
+      "d": "NameError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! defaultdict requires a callable factory, like list or int.",
+      "b": "It would be KeyError if defaultdict worked, but it fails earlier.",
+      "c": "No attribute issue.",
+      "d": "defaultdict is imported."
+    },
+    "hints": [
+      "What argument must you pass to defaultdict?",
+      "It needs a function that creates default values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "defaultdict() requires a callable (e.g., int, list) as the first argument. Passing nothing raises TypeError.",
+    "time_pressure_note": "Forgetting the factory argument is a common mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_057",
+    "concept_name": "defaultdict with list",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What error occurs here?\n\n```python\nfrom collections import defaultdict\nd = defaultdict(list)\nd['a'].append(1)\nprint(d['b'][0])\n```",
+    "options": {
+      "a": "IndexError: list index out of range",
+      "b": "KeyError: 'b'",
+      "c": "TypeError",
+      "d": "No error; prints 0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The default list for 'b' is empty, so index 0 raises IndexError.",
+      "b": "KeyError would happen without defaultdict, but here 'b' exists with empty list.",
+      "c": "No type error.",
+      "d": "An error occurs."
+    },
+    "hints": [
+      "What is the default value for a missing key in defaultdict(list)?",
+      "Can you access the first element of an empty list?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "d['b'] returns an empty list []. Accessing [0] on an empty list raises IndexError.",
+    "time_pressure_note": "Users often forget that defaultdict provides an empty list, not a populated one.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_058",
+    "concept_name": "defaultdict with int",
+    "chapter": 8,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this produce?\n\n```python\nd = defaultdict(int)\nd['a'] += 1\n```",
+    "options": {
+      "a": "NameError: name 'defaultdict' is not defined",
+      "b": "TypeError",
+      "c": "KeyError: 'a'",
+      "d": "No error"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! defaultdict is not imported.",
+      "b": "No type error if it were imported.",
+      "c": "KeyError would not occur with defaultdict.",
+      "d": "An error occurs because the name is not defined."
+    },
+    "hints": [
+      "Did we import defaultdict?",
+      "Look for the import statement."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "defaultdict is not defined in this scope; you need `from collections import defaultdict`.",
+    "time_pressure_note": "Skipping the import is a classic slip when writing code quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_062",
+    "concept_name": "asdict function (dataclasses)",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What error is raised?\n\n```python\nfrom dataclasses import asdict\nresult = asdict(5)\n```",
+    "options": {
+      "a": "AttributeError",
+      "b": "TypeError",
+      "c": "ValueError",
+      "d": "KeyError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! asdict expects a dataclass instance, not an integer.",
+      "b": "It's not a type error; the problem is the missing expected attributes.",
+      "c": "ValueError is not raised.",
+      "d": "No keys involved."
+    },
+    "hints": [
+      "What kind of object does asdict work with?",
+      "The argument must have a __dataclass_fields__ attribute."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "asdict() works on dataclass instances; passing 5 raises AttributeError because integers have no __dataclass_fields__.",
+    "time_pressure_note": "Using asdict on a non-dataclass is a common oversight.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_036",
+    "concept_id": "concept_063",
+    "concept_name": "astuple function (dataclasses)",
+    "chapter": 10,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What error does `astuple(42)` cause?\n(Assume dataclasses.astuple is imported.)",
+    "options": {
+      "a": "AttributeError",
+      "b": "TypeError",
+      "c": "ValueError",
+      "d": "SyntaxError"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! astuple expects a dataclass instance.",
+      "b": "TypeError is not raised; the method fails because the object lacks needed fields.",
+      "c": "ValueError is not appropriate.",
+      "d": "No syntax error."
+    },
+    "hints": [
+      "What must the argument to astuple have?",
+      "It needs a __dataclass_fields__ attribute."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "astuple() converts a dataclass instance to a tuple. An integer doesn't have dataclass fields, raising AttributeError.",
+    "time_pressure_note": "Under pressure, one might misuse astuple on non-dataclass objects.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_037",
+    "concept_id": "concept_016",
+    "concept_name": "trailing comma tuple gotcha",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What is printed?\n\n```python\nx = 'hello',\nprint(type(x))\n```",
+    "options": {
+      "a": "<class 'str'>",
+      "b": "<class 'tuple'>",
+      "c": "<class 'list'>",
+      "d": "SyntaxError"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "A trailing comma makes it a tuple, not a string.",
+      "b": "Correct! The comma creates a one‑element tuple.",
+      "c": "No brackets, so it's not a list.",
+      "d": "No syntax error; the trailing comma is valid."
+    },
+    "hints": [
+      "What does a trailing comma do in an assignment?",
+      "Think of the single‑element tuple rule."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A trailing comma turns the value into a tuple. x is ('hello',).",
+    "time_pressure_note": "The trailing comma is easy to overlook when reading quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_038",
+    "concept_id": "concept_044",
+    "concept_name": "float equality problem",
+    "chapter": 6,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "Why doesn't this print 'ok'?\n\n```python\nif 0.1 + 0.2 == 0.3:\n    print('ok')\n```",
+    "options": {
+      "a": "Missing parentheses around the condition",
+      "b": "Floating-point representation error makes the sum not exactly 0.3",
+      "c": "The if statement is syntactically wrong",
+      "d": "Division by zero"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Parentheses are optional.",
+      "b": "Correct! 0.1 + 0.2 is not exactly 0.3 due to binary floating‑point limitations.",
+      "c": "The syntax is correct.",
+      "d": "No division occurs."
+    },
+    "hints": [
+      "Print 0.1 + 0.2 with high precision to see the real value.",
+      "Remember that floats are binary approximations."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "0.1 + 0.2 evaluates to 0.30000000000000004, which is not equal to 0.3, so the condition is False.",
+    "time_pressure_note": "This is a classic pitfall; many miss it under time pressure.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_039",
+    "concept_id": "concept_064",
+    "concept_name": "property decorator (dataclass)",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "predict_error",
+    "question_text": "What error does this code cause?\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Cookie:\n    name: str\n    quantity: int = 0\n    cost: float = 1.0\n    \n    @property\n    def value_of_goods(self):\n        return int(self.quantity) * self.cost\n\nc = Cookie('ginger', 8, 2.5)\nprint(c.value_of_goods())\n```",
+    "options": {
+      "a": "TypeError: 'float' object is not callable",
+      "b": "TypeError: 'property' object is not callable",
+      "c": "AttributeError",
+      "d": "No error; prints 20.0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The property returns a float, and adding parentheses tries to call that float.",
+      "b": "The property itself is not being called; the returned value is.",
+      "c": "No attribute error; value_of_goods exists.",
+      "d": "An error occurs because the returned float is not callable."
+    },
+    "hints": [
+      "Do you need parentheses to access a property?",
+      "What happens if you put parentheses after a float?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "value_of_goods is a property and returns 20.0. Calling 20.0() raises TypeError.",
+    "time_pressure_note": "Users often forget properties don't need parentheses.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_040",
+    "concept_id": "concept_065",
+    "concept_name": "frozen dataclass",
+    "chapter": 10,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "What happens when this code runs?\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n\np = Point(1, 2)\np.x = 5\n```",
+    "options": {
+      "a": "Silently fails",
+      "b": "Raises FrozenInstanceError",
+      "c": "Modifies p.x to 5",
+      "d": "TypeError"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "The error is explicit, not silent.",
+      "b": "Correct! Assigning to a field of a frozen dataclass raises FrozenInstanceError.",
+      "c": "Frozen instances are immutable; the assignment is rejected.",
+      "d": "The specific error is FrozenInstanceError, a subclass of AttributeError."
+    },
+    "hints": [
+      "What does frozen=True prevent?",
+      "What exception is associated with frozen dataclass modification?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Frozen dataclass instances cannot be modified. Attempting to set a field raises dataclasses.FrozenInstanceError.",
+    "time_pressure_note": "Under pressure, one might forget that frozen=True makes it immutable.",
+    "common_mistake_tested": true
+  }
+]

@@ -1,0 +1,273 @@
+{
+  "course_slug": "python-toolbox",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Average Urban Population for Afghanistan",
+      "dataset_file": "world_ind_pop_data.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 3,
+      "concepts_tested": [
+        "concept_011"
+      ],
+      "context": "Afghanistan has undergone rapid urbanization over the decades. You need to compute the average urban population percentage across all available years to understand the country's overall urbanisation level.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Use a list comprehension to collect all values from `urban_population` for rows where `country_name` is exactly 'Afghanistan'.",
+          "variable_name": "afg_urban",
+          "hint": "Iterate over the indices of the pre-loaded lists and check the country_name at each index."
+        },
+        {
+          "step": 2,
+          "description": "Compute the average of `afg_urban` using `sum()` and `len()`.",
+          "variable_name": "average_urban",
+          "hint": "The average is total sum divided by number of elements."
+        },
+        {
+          "step": 3,
+          "description": "Print `average_urban` rounded to two decimal places.",
+          "variable_name": "output",
+          "hint": "Use `round()` or format to two decimals."
+        }
+      ],
+      "starter_code": "# Pre-loaded lists (one element per row of world_ind_pop_data.csv):\n# country_name, country_code, year, total_population, urban_population\n\n# Step 1: collect urban_population for Afghanistan\n\n# Step 2: calculate average\n\n# Step 3: print result\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "world_ind_pop_data": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        }
+      },
+      "solution_code": "country_name = list(df['CountryName'])\ntotal_population = list(df['Total Population'])\nurban_population = list(df['Urban population (% of total)'])\nyear = list(df['Year'])\nafg_urban = [urban_population[i] for i in range(len(country_name)) if country_name[i] == 'Afghanistan']\naverage_urban = sum(afg_urban) / len(afg_urban)\nprint(round(average_urban, 2))",
+      "expected_output": "19.85",
+      "output_description": "The average urban population percentage for Afghanistan across all years in the dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The index of a list element can be obtained with range(len(list)).",
+        "Use a conditional in the list comprehension to filter by country name."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "The student can use list comprehensions to filter and extract numeric data from parallel lists."
+    },
+    {
+      "id": "dc_002",
+      "title": "Countries Exceeding 1 Billion Population in Any Year",
+      "dataset_file": "world_ind_pop_data.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_018"
+      ],
+      "context": "A demographic researcher wants to quickly generate a set of countries that have ever recorded a total population greater than 1 billion. Use a generator expression to lazily yield such country names.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Create a generator expression that yields `country_name[i]` for any index `i` where `total_population[i]` is strictly greater than 1,000,000,000.",
+          "variable_name": "big_gen",
+          "hint": "Use parentheses and a conditional `if` after `for i in range(...)`."
+        },
+        {
+          "step": 2,
+          "description": "Convert the generator into a set to remove duplicate country names (a country may appear in multiple years).",
+          "variable_name": "big_set",
+          "hint": "Use set() constructor on the generator."
+        },
+        {
+          "step": 3,
+          "description": "Print the sorted list of unique country names from `big_set`.",
+          "variable_name": "result_list",
+          "hint": "Use sorted() to produce a readable list."
+        }
+      ],
+      "starter_code": "# Pre-loaded lists (one element per row of world_ind_pop_data.csv):\n# country_name, country_code, year, total_population, urban_population\n\n# Step 1: generator expression\n\n# Step 2: create set\n\n# Step 3: print sorted list\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "world_ind_pop_data": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        }
+      },
+      "solution_code": "country_name = list(df['CountryName'])\ntotal_population = list(df['Total Population'])\nurban_population = list(df['Urban population (% of total)'])\nyear = list(df['Year'])\nbig_gen = (country_name[i] for i in range(len(total_population)) if total_population[i] > 1000000000)\nbig_set = set(big_gen)\nprint(sorted(big_set))",
+      "expected_output": "['China', 'India', 'World']",
+      "output_description": "The country names (including the 'World' aggregate) that have exceeded 1 billion total population in at least one year of the dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The generator expression syntax is (output_expr for var in iterable if condition).",
+        "set() consumes the generator and removes duplicates."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "The student can use a generator expression with a filter to lazily transform and select data from parallel lists."
+    },
+    {
+      "id": "dc_003",
+      "title": "Population Growth of a Country Using a Generator Function",
+      "dataset_file": "world_ind_pop_data.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_022",
+        "concept_011"
+      ],
+      "context": "You are building a data pipeline that needs to stream population data for a specific country year by year, without materializing the entire dataset. Create a generator function that yields (year, total_population) tuples for a given country code, then use it to compute the total population change between the earliest and latest year.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define a function `country_rows(country_name_list, year_list, pop_list, code)` that loops over indices and `yield`s a tuple `(year_list[i], pop_list[i])` whenever `country_name_list[i] == code`.",
+          "variable_name": "country_rows",
+          "hint": "Use a for loop with range(len(...)) and an if condition."
+        },
+        {
+          "step": 2,
+          "description": "Call `country_rows` with the pre-loaded lists and the code 'BRA' (Brazil). Store the generator object.",
+          "variable_name": "bra_gen",
+          "hint": "Pass `country_name`, `year`, `total_population`, and the string 'Brazil'."
+        },
+        {
+          "step": 3,
+          "description": "Create a list comprehension that collects all population values from `bra_gen` into a list `bra_pop_vals`.",
+          "variable_name": "bra_pop_vals",
+          "hint": "Iterate over the generator and extract the second element of each tuple (the population)."
+        },
+        {
+          "step": 4,
+          "description": "Compute the total population growth as the difference between the last and first values of `bra_pop_vals`, and store in `growth`.",
+          "variable_name": "growth",
+          "hint": "Subtract `bra_pop_vals[0]` from `bra_pop_vals[-1]`."
+        },
+        {
+          "step": 5,
+          "description": "Print `growth` rounded to two decimal places.",
+          "variable_name": "output",
+          "hint": "Use round(growth, 2) or format."
+        }
+      ],
+      "starter_code": "# Pre-loaded lists (one element per row of world_ind_pop_data.csv):\n# country_name, year, total_population, urban_population\n\n# Step 1: define generator function\n\n# Step 2: create generator for Brazil\n\n# Step 3: extract population values with list comprehension\n\n# Step 4: compute growth\n\n# Step 5: print result\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "world_ind_pop_data": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        }
+      },
+      "solution_code": "country_name = list(df['CountryName'])\ntotal_population = list(df['Total Population'])\nurban_population = list(df['Urban population (% of total)'])\nyear = list(df['Year'])\ndef country_rows(country_list, year_list, pop_list, code):\n    for i in range(len(country_list)):\n        if country_list[i] == code:\n            yield (year_list[i], pop_list[i])\n\nbra_gen = country_rows(country_name, year, total_population, 'Brazil')\nbra_pop_vals = [pop for yr, pop in bra_gen]\ngrowth = bra_pop_vals[-1] - bra_pop_vals[0]\nprint(round(growth, 2))",
+      "expected_output": "103146643.42",
+      "output_description": "The total population increase of Brazil between the first and last year recorded in the dataset.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Remember yield pauses the function and returns a value.",
+        "List comprehension can unpack tuples directly: `for yr, pop in generator`."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "The student demonstrates the ability to write and use a generator function for selective data streaming, and combine it with a list comprehension for analysis."
+    },
+    {
+      "id": "dc_004",
+      "title": "World Population in 2014 Using Chunked CSV Loading",
+      "dataset_file": "world_ind_pop_data.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_010",
+        "concept_011"
+      ],
+      "context": "You need to process a large CSV file containing world development indicators. To avoid loading the entire file into memory, you will use pandas' chunked reading to compute the total world population for the year 2014.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Import pandas and initialize a variable `total_pop_2014` to 0.",
+          "variable_name": "total_pop_2014",
+          "hint": "Use `import pandas as pd` and `= 0`."
+        },
+        {
+          "step": 2,
+          "description": "Loop over chunks of the CSV file `'world_ind_pop_data.csv'` with `chunksize=500`. For each chunk, filter rows where `CountryName == 'World'` and `Year == 2014`.",
+          "variable_name": "chunk",
+          "hint": "Use `for chunk in pd.read_csv('world_ind_pop_data.csv', chunksize=500):` and then boolean indexing."
+        },
+        {
+          "step": 3,
+          "description": "Inside the loop, add the sum of the `Total Population` column from the filtered chunk to `total_pop_2014`.",
+          "variable_name": "total_pop_2014",
+          "hint": "Use `total_pop_2014 += chunk_filtered['Total Population'].sum()`."
+        },
+        {
+          "step": 4,
+          "description": "After the loop, print `total_pop_2014` rounded to two decimal places.",
+          "variable_name": "output",
+          "hint": "Use `print(round(total_pop_2014, 2))`."
+        }
+      ],
+      "starter_code": "# The CSV file 'world_ind_pop_data.csv' is available.\n# Import pandas and use chunksize to process it efficiently.\n\n# Step 1: initialize total\n\n# Step 2 & 3: loop over chunks and accumulate\n\n# Step 4: print result\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "world_ind_pop_data": {
+          "type": "csv",
+          "path": "world_ind_pop_data.csv"
+        }
+      },
+      "solution_code": "import pandas as pd\ntotal_pop_2014 = 0\nfor chunk in pd.read_csv('world_ind_pop_data.csv', chunksize=500):\n    filtered = chunk[(chunk['CountryName'] == 'World') & (chunk['Year'] == 2014)]\n    total_pop_2014 += filtered['Total Population'].sum()\nprint(round(total_pop_2014, 2))",
+      "expected_output": "7268459530.0",
+      "output_description": "The total world population in 2014 (the 'World' aggregate row in the dataset).",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "The DataFrame chunk can be filtered with boolean conditions combined with `&`.",
+        "Ensure the column names match exactly: 'CountryName' and 'Year'."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "The student can combine pandas' chunked reading with filtering and aggregation to handle large CSV files efficiently."
+    }
+  ]
+}

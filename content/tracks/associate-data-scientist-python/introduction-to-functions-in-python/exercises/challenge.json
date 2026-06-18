@@ -1,0 +1,294 @@
+{
+  "course_slug": "introduction-to-functions-in-python",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_challenges": 4,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "What is the average favorite count of tweets that are replies?",
+      "dataset_file": "tweets.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_023",
+        "concept_025",
+        "concept_026"
+      ],
+      "context": "You are analyzing tweet engagement. Reply tweets often have different interaction patterns. Using the provided data, determine the average number of favorites for tweets that are replies to another user.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define a function `safe_convert` that attempts to convert a string to a float. If conversion fails (ValueError), return 0.0.",
+          "variable_name": "safe_convert",
+          "hint": "Use try-except, catching a specific exception."
+        },
+        {
+          "step": 2,
+          "description": "Apply `safe_convert` to the list `in_reply_to_user_id_str` using `map` and store the result as `reply_ids` (a list).",
+          "variable_name": "reply_ids",
+          "hint": "Convert the map object to a list."
+        },
+        {
+          "step": 3,
+          "description": "Use `map` with a lambda to create a list `is_reply` where each element is `True` if the corresponding `reply_id` > 0, else `False`.",
+          "variable_name": "is_reply",
+          "hint": "The lambda should check `x > 0`."
+        },
+        {
+          "step": 4,
+          "description": "Loop through the indices and accumulate `total_fav` and `count` for tweets where `is_reply` is True, using `favorite_count`.",
+          "variable_name": "average_reply_favorites",
+          "hint": "Keep a running sum and counter."
+        },
+        {
+          "step": 5,
+          "description": "Compute `average_reply_favorites = total_fav / count` and print it rounded to two decimals in the format: `Average reply favorites: {value}`.",
+          "variable_name": "average_reply_favorites",
+          "hint": "Use an f-string with `:.2f`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data variables:\n# favorite_count : list of ints\n# retweet_count : list of ints\n# in_reply_to_user_id_str : list of strs (may be empty)\n# (Other columns also available)\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        }
+      },
+      "solution_code": "favorite_count = list(df['favorite_count']) if 'favorite_count' in df.columns else []\nin_reply_to_user_id_str = list(df['in_reply_to_user_id_str']) if 'in_reply_to_user_id_str' in df.columns else []\nlang = list(df['lang']) if 'lang' in df.columns else []\nretweet_count = list(df['retweet_count']) if 'retweet_count' in df.columns else []\nsource = list(df['source']) if 'source' in df.columns else []\npossibly_sensitive = list(df['possibly_sensitive']) if 'possibly_sensitive' in df.columns else []\nin_reply_to_user_id_str = list(df['in_reply_to_user_id_str'])\ndef safe_convert(s):\n    try:\n        return float(s)\n    except ValueError:\n        return 0.0\n\nreply_ids = list(map(safe_convert, in_reply_to_user_id_str))\nis_reply = list(map(lambda x: x > 0, reply_ids))\n\ntotal_fav = 0\ncount = 0\nfor i, fav in enumerate(favorite_count):\n    if is_reply[i]:\n        total_fav += fav\n        count += 1\n\naverage_reply_favorites = total_fav / count\nprint(f\"Average reply favorites: {average_reply_favorites:.2f}\")\n",
+      "expected_output": "Average reply favorites: 0.45",
+      "output_description": "The average number of favorites among tweets that are replies to another user.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Start by building the safe conversion function.",
+        "Use list() to materialize the map results."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Demonstrates applying a try-except function via map, filtering with lambda, and aggregating data from parallel lists."
+    },
+    {
+      "id": "dc_002",
+      "title": "What is the most common device/source used for tweeting?",
+      "dataset_file": "tweets.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_023",
+        "concept_024",
+        "concept_025"
+      ],
+      "context": "The `source` column contains HTML links indicating the application used to post the tweet (e.g., 'Twitter Web Client'). Extract the human‑readable part and determine which source appears most frequently.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define a function `extract_source` that takes an HTML string, finds the text between `>` and `</a>`. Use try-except to return `'Unknown'` if the format is not as expected (e.g., no closing tag).",
+          "variable_name": "extract_source",
+          "hint": "Use string methods like `find` and slicing."
+        },
+        {
+          "step": 2,
+          "description": "Apply `extract_source` to the `source` list using `map` and store the result as `devices`.",
+          "variable_name": "devices",
+          "hint": "Convert the map object to a list."
+        },
+        {
+          "step": 3,
+          "description": "Loop through `devices` and count how many times each device appears using a dictionary `source_counts`.",
+          "variable_name": "source_counts",
+          "hint": "Check if the key exists; if not, set to 0 then increment."
+        },
+        {
+          "step": 4,
+          "description": "Find the device with the highest count and store its name in `most_common_source`.",
+          "variable_name": "most_common_source",
+          "hint": "Iterate over the dictionary items and keep track of the max."
+        },
+        {
+          "step": 5,
+          "description": "Print `most_common_source` as the output.",
+          "variable_name": "most_common_source",
+          "hint": "Just print the variable."
+        }
+      ],
+      "starter_code": "# Pre-loaded data variables:\n# source : list of HTML strings (e.g., '<a href=\"...\">Web Client</a>')\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "source": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "tweets.csv"
+        }
+      },
+      "solution_code": "favorite_count = list(df['favorite_count']) if 'favorite_count' in df.columns else []\nin_reply_to_user_id_str = list(df['in_reply_to_user_id_str']) if 'in_reply_to_user_id_str' in df.columns else []\nlang = list(df['lang']) if 'lang' in df.columns else []\nretweet_count = list(df['retweet_count']) if 'retweet_count' in df.columns else []\nsource = list(df['source']) if 'source' in df.columns else []\npossibly_sensitive = list(df['possibly_sensitive']) if 'possibly_sensitive' in df.columns else []\ndef extract_source(html):\n    try:\n        start = html.index('>') + 1\n        end = html.index('</a>')\n        return html[start:end]\n    except ValueError:\n        return 'Unknown'\n\ndevices = list(map(extract_source, source))\nsource_counts = {}\nfor dev in devices:\n    if dev not in source_counts:\n        source_counts[dev] = 0\n    source_counts[dev] += 1\n\nmost_common_source = max(source_counts, key=source_counts.get)\nprint(most_common_source)\n",
+      "expected_output": "Twitter for iPhone",
+      "output_description": "The name of the most frequently used Twitter client.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Inside the try block, locate the '>' and '</a>' substrings.",
+        "When the format is unexpected, let except handle it."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Practices string parsing with try-except, map to apply a function, and dictionary frequency counting."
+    },
+    {
+      "id": "dc_003",
+      "title": "What percentage of tweets are marked as possibly sensitive?",
+      "dataset_file": "tweets.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 5,
+      "concepts_tested": [
+        "concept_023",
+        "concept_025",
+        "concept_026"
+      ],
+      "context": "The `possibly_sensitive` column contains strings 'True' or 'False'. Compute the percentage of tweets flagged as possibly sensitive, handling any unexpected values gracefully.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Define a function `to_bool` that converts a string to boolean: return True if the string equals 'True' (case‑insensitive), else False. Use try-except to catch any AttributeError or other errors, returning False in that case.",
+          "variable_name": "to_bool",
+          "hint": "Use s.strip().lower() == 'true'."
+        },
+        {
+          "step": 2,
+          "description": "Apply `to_bool` to the `possibly_sensitive` list using `map` and store the result as `sensitive_flags` (a list of booleans).",
+          "variable_name": "sensitive_flags",
+          "hint": "Wrap with list()."
+        },
+        {
+          "step": 3,
+          "description": "Count the total number of tweets and the number where `sensitive_flags` is True.",
+          "variable_name": "sensitive_count",
+          "hint": "Use `len(sensitive_flags)` and `sum(sensitive_flags)`."
+        },
+        {
+          "step": 4,
+          "description": "Compute the percentage `(sensitive_count / total) * 100` and print it rounded to one decimal, formatted as `{value}%`.",
+          "variable_name": "percentage_sensitive",
+          "hint": "Use an f-string with `:.1f`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data variables:\n# possibly_sensitive : list of strs ('True' or 'False')\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "possibly_sensitive": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "df": {
+          "type": "csv",
+          "path": "tweets.csv"
+        }
+      },
+      "solution_code": "favorite_count = list(df['favorite_count']) if 'favorite_count' in df.columns else []\nin_reply_to_user_id_str = list(df['in_reply_to_user_id_str']) if 'in_reply_to_user_id_str' in df.columns else []\nlang = list(df['lang']) if 'lang' in df.columns else []\nretweet_count = list(df['retweet_count']) if 'retweet_count' in df.columns else []\nsource = list(df['source']) if 'source' in df.columns else []\npossibly_sensitive = list(df['possibly_sensitive']) if 'possibly_sensitive' in df.columns else []\ndef to_bool(s):\n    try:\n        return s.strip().lower() == 'true'\n    except AttributeError:\n        return False\n\nsensitive_flags = list(map(to_bool, possibly_sensitive))\nsensitive_count = sum(sensitive_flags)\ntotal = len(sensitive_flags)\npercentage_sensitive = (sensitive_count / total) * 100\nprint(f\"{percentage_sensitive:.1f}%\")\n",
+      "expected_output": "12.7%",
+      "output_description": "The percentage of tweets flagged as possibly sensitive.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Write the function to safely handle any non‑string values.",
+        "The sum of a list of booleans counts True values."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Illustrates safe data type conversion with try-except, using map to apply a function, and computing a simple statistic."
+    },
+    {
+      "id": "dc_004",
+      "title": "Which language has the highest average retweet count?",
+      "dataset_file": "tweets.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 8,
+      "concepts_tested": [
+        "concept_023",
+        "concept_024"
+      ],
+      "context": "Different language communities may retweet differently. Using the `lang` and `retweet_count` columns, find the language code with the highest average retweet count. Note that some languages may appear only once.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Zip together `lang` and `retweet_count` into a list of tuples `lang_rt_pairs` using `list(zip(lang, retweet_count))`.",
+          "variable_name": "lang_rt_pairs",
+          "hint": "This creates a list of (lang, retweet_count) pairs."
+        },
+        {
+          "step": 2,
+          "description": "Create a dictionary `lang_stats` that will hold for each language: a list `[total_retweets, count]`. Loop through the pairs and update the dictionary accordingly.",
+          "variable_name": "lang_stats",
+          "hint": "If a language is not in the dict, initialize its entry with `[0, 0]`."
+        },
+        {
+          "step": 3,
+          "description": "Compute the average retweet count for each language. Store the result in `lang_avg` as a dictionary mapping language to its average.",
+          "variable_name": "lang_avg",
+          "hint": "For each entry, `avg = total_retweets / count`."
+        },
+        {
+          "step": 4,
+          "description": "Find the language with the highest average retweet count using `max()` with a custom key. Store it in `top_lang`.",
+          "variable_name": "top_lang",
+          "hint": "Use `max(lang_avg, key=lang_avg.get)`."
+        },
+        {
+          "step": 5,
+          "description": "Print `top_lang` and its average, rounded to two decimals, in the format `{lang}: {avg}`.",
+          "variable_name": "top_lang",
+          "hint": "Access the average from `lang_avg[top_lang]`."
+        }
+      ],
+      "starter_code": "# Pre-loaded data variables:\n# lang : list of language codes (str)\n# retweet_count : list of ints\n\n# Your code here\n",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "tweets.csv"
+        },
+        "tweets": {
+          "type": "csv",
+          "path": "tweets.csv"
+        }
+      },
+      "solution_code": "favorite_count = list(df['favorite_count']) if 'favorite_count' in df.columns else []\nin_reply_to_user_id_str = list(df['in_reply_to_user_id_str']) if 'in_reply_to_user_id_str' in df.columns else []\nlang = list(df['lang']) if 'lang' in df.columns else []\nretweet_count = list(df['retweet_count']) if 'retweet_count' in df.columns else []\nsource = list(df['source']) if 'source' in df.columns else []\npossibly_sensitive = list(df['possibly_sensitive']) if 'possibly_sensitive' in df.columns else []\nlang = list(df['lang'])\nretweet_count = list(df['retweet_count'])\nlang_rt_pairs = list(zip(lang, retweet_count))\nlang_stats = {}\nfor l, rt in lang_rt_pairs:\n    if l not in lang_stats:\n        lang_stats[l] = [0, 0]\n    lang_stats[l][0] += rt\n    lang_stats[l][1] += 1\n\nlang_avg = {}\nfor l, (total, cnt) in lang_stats.items():\n    lang_avg[l] = total / cnt\n\ntop_lang = max(lang_avg, key=lang_avg.get)\nprint(f\"{top_lang}: {lang_avg[top_lang]:.2f}\")\n",
+      "expected_output": "en: 3.45",
+      "output_description": "The language code and its average retweet count.",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Start by building the list of (lang, retweet_count) tuples.",
+        "Use a dictionary to accumulate totals and counts per language."
+      ],
+      "answer_reveal_after": 5,
+      "learning_outcome": "Shows how to group and aggregate data from parallel lists using loops and dictionaries, and select the top group."
+    }
+  ]
+}

@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:frontend": "cd frontend && npx vite",
-    "dev:backend": "cd backend && node index.js"
+    "dev:backend": "node backend/index.js",
+    "build": "cd frontend && npm run build",
+    "start": "NODE_ENV=production node backend/index.js",
+    "verify-challenges": "node project/verify_challenges.js"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
   },
   "dependencies": {
+    "better-sqlite3": "^12.11.1",
     "recharts": "^3.8.1",
     "registry": "^0.3.0"
   }

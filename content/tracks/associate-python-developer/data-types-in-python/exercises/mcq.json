@@ -1,0 +1,1461 @@
+{
+  "course_slug": "data-types-in-python",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 48,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_002",
+      "concept_name": "list",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\ncookies = ['chocolate chip', 'peanut butter', 'sugar']\nprint(cookies[1])\n```",
+      "options": {
+        "a": "'chocolate chip'",
+        "b": "'peanut butter'",
+        "c": "'sugar'",
+        "d": "IndexError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Index 0 returns the first element, not index 1.",
+        "b": "Correct! List indexing starts at 0, so index 1 gives the second element.",
+        "c": "Index 2 would give the third element, not index 1.",
+        "d": "The index is within range; no IndexError occurs."
+      },
+      "hints": [
+        "Remember that Python uses zero‑based indexing.",
+        "What position does index 1 point to in a three‑element list?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Lists are zero‑indexed. `cookies[1]` accesses the second element, which is 'peanut butter'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_040",
+      "concept_name": "bool (boolean)",
+      "chapter": 6,
+      "difficulty": "easy",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following is a valid Python boolean literal?",
+      "options": {
+        "a": "true",
+        "b": "True",
+        "c": "\"True\"",
+        "d": "1"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Python booleans are case‑sensitive; 'true' is not recognised (NameError).",
+        "b": "Correct! The boolean literals are True and False, both capitalised.",
+        "c": "This is a string, not a boolean.",
+        "d": "1 is an integer that can be used in a boolean context, but it is not the literal True."
+      },
+      "hints": [
+        "Boolean literals in Python are capitalised.",
+        "Think about how you would write a condition like 'if True:'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python uses True and False (capitalised) as its boolean literals. Lowercase 'true' would cause a NameError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "append method",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\ncookies = ['chocolate chip', 'peanut butter']\nresult = cookies.append('sugar')\nprint(result)\n```",
+      "options": {
+        "a": "['chocolate chip', 'peanut butter', 'sugar']",
+        "b": "'sugar'",
+        "c": "None",
+        "d": "The list cookies"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The list is modified in place, but append itself returns None, not the list.",
+        "b": "append returns None, not the added element.",
+        "c": "Correct! append adds the element to the list and returns None.",
+        "d": "The variable name refers to the list, but the return value of the method is None."
+      },
+      "hints": [
+        "Methods that modify a collection in place often return None.",
+        "What do you see if you print the return value of a .append() call?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The append method adds the argument to the end of the list and returns None. The list itself is changed, but the return value is None.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_005",
+      "concept_name": "extend method",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the value of `desserts` after this code runs?\n\n```python\ndesserts = ['cake']\nmore_desserts = ['pie', 'ice cream']\ndesserts.extend(more_desserts)\nprint(desserts)\n```",
+      "options": {
+        "a": "['cake', 'pie', 'ice cream']",
+        "b": "['cake', ['pie', 'ice cream']]",
+        "c": "None",
+        "d": "['cake']"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! extend adds each element of the iterable individually.",
+        "b": "This would happen if you used append instead of extend.",
+        "c": "extend modifies the list in place and returns None, but the list itself changes.",
+        "d": "The original list is unchanged only if you don't call extend."
+      },
+      "hints": [
+        "How does extend differ from append when given a list?",
+        "extend unpacks the iterable and adds its elements one by one."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "extend takes an iterable and appends each of its elements to the list. So 'pie' and 'ice cream' are added as separate items.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_009",
+      "concept_name": "list comprehension",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the value of `titlecase_cookies` after this code?\n\n```python\ncookies = ['chocolate chip', 'peanut butter', 'sugar', 'Tirggel']\ntitlecase_cookies = [cookie.title() for cookie in cookies if cookie.startswith('c')]\nprint(titlecase_cookies)\n```",
+      "options": {
+        "a": "['Chocolate Chip']",
+        "b": "[]",
+        "c": "['chocolate chip']",
+        "d": "An error because startswith is not defined"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! 'chocolate chip' starts with 'c', so it is filtered and title‑cased.",
+        "b": "The filter condition is true for one element, so the list is not empty.",
+        "c": "The .title() method capitalises each word, so the original lowercase is not preserved.",
+        "d": "startswith is a valid string method, no error occurs."
+      },
+      "hints": [
+        "Which cookie names start with the letter 'c'?",
+        "What does the .title() method do to a string?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The comprehension filters for names that start with 'c' (only 'chocolate chip') and applies .title(), yielding 'Chocolate Chip'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_011",
+      "concept_name": "tuple",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which of the following correctly creates a single‑element tuple containing the string 'hello'?",
+      "options": {
+        "a": "t = ('hello')",
+        "b": "t = ('hello',)",
+        "c": "t = tuple('hello')",
+        "d": "t = ['hello']"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Parentheses alone don't create a tuple; the comma is required.",
+        "b": "Correct! A trailing comma inside parentheses creates a one‑element tuple.",
+        "c": "tuple('hello') creates a tuple of characters: ('h', 'e', 'l', 'l', 'o').",
+        "d": "This creates a list, not a tuple."
+      },
+      "hints": [
+        "What is the crucial syntactic element for single‑element tuples?",
+        "A simple expression like (x) is just x in parentheses."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A single‑element tuple requires a trailing comma: ('hello',). Without it, Python interprets the parentheses as grouping, not a tuple.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_013",
+      "concept_name": "tuple unpacking",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\nus_cookies = ['Chocolate Chip', 'Brownies']\nin_cookies = ['Punjabi', 'Fruit Cake Rusk']\ntop_pairs = list(zip(us_cookies, in_cookies))\nus_num_1, in_num_1 = top_pairs[0]\nprint(in_num_1)\n```",
+      "options": {
+        "a": "'Chocolate Chip'",
+        "b": "'Punjabi'",
+        "c": "('Chocolate Chip', 'Punjabi')",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That is the first element of the tuple, assigned to us_num_1.",
+        "b": "Correct! The tuple ('Chocolate Chip', 'Punjabi') is unpacked, so in_num_1 gets 'Punjabi'.",
+        "c": "The tuple is unpacked, not printed as a whole.",
+        "d": "The code is valid; no error occurs."
+      },
+      "hints": [
+        "What is the structure of top_pairs after zipping?",
+        "Which variable receives the second element of the tuple?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "zip pairs the lists. top_pairs[0] is ('Chocolate Chip', 'Punjabi'). Unpacking assigns 'Chocolate Chip' to us_num_1 and 'Punjabi' to in_num_1.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_012",
+        "concept_013"
+      ]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_023",
+      "concept_name": "dict (dictionary)",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following statements about Python dictionaries is FALSE?",
+      "options": {
+        "a": "Keys must be immutable",
+        "b": "Values can be of any type",
+        "c": "In Python 3.7+, dictionaries preserve insertion order",
+        "d": "Dictionary keys can be lists"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "True – keys must be hashable, which implies immutability.",
+        "b": "True – values can be any Python object.",
+        "c": "True – since Python 3.7, insertion order is guaranteed.",
+        "d": "Correct, this is false. Lists are mutable and unhashable, so they cannot be dictionary keys."
+      },
+      "hints": [
+        "What types of objects can be used as dictionary keys?",
+        "Remember that keys must be hashable."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Dictionary keys must be hashable and immutable. Lists are mutable, so using a list as a key raises a TypeError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_035",
+      "concept_name": "float",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nval = 1.2 - 1.0\nprint(val == 0.2)\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "Error",
+        "d": "0.2"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Due to floating‑point representation, the result is not exactly 0.2.",
+        "b": "Correct! The subtraction yields a value that is not exactly equal to 0.2, so the comparison is False.",
+        "c": "No error occurs; the code executes normally.",
+        "d": "The expression is a comparison, so the output is True or False, not a number."
+      },
+      "hints": [
+        "How are floating‑point numbers stored internally?",
+        "Think about the classic 0.1 + 0.2 != 0.3 surprise."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Floating‑point arithmetic often introduces small representation errors. 1.2 - 1.0 does not produce exactly 0.2, so the equality check returns False.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_038",
+      "concept_name": "float division (/)",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the result of the expression `4 / 2` in Python?",
+      "options": {
+        "a": "2",
+        "b": "2.0",
+        "c": "2.5",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The / operator always returns a float, even when both operands are integers.",
+        "b": "Correct! Float division returns a float, so the result is 2.0.",
+        "c": "4 divided by 2 is 2, not 2.5.",
+        "d": "No error occurs; both operands are numbers."
+      },
+      "hints": [
+        "What type does the single‑slash division operator return?",
+        "Is there another division operator that gives an integer result?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The / operator performs true division and always returns a float. To get integer division, use the // operator.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_041",
+      "concept_name": "truthy",
+      "chapter": 6,
+      "difficulty": "medium",
+      "question_subtype": "prediction",
+      "question_text": "Which of the following values would cause the code inside an `if` statement to NOT execute?",
+      "options": {
+        "a": "1",
+        "b": "[0]",
+        "c": "None",
+        "d": "\"False\""
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Non‑zero numbers are truthy, so the block would execute.",
+        "b": "A non‑empty list is truthy, even if it contains 0.",
+        "c": "Correct! None is falsey, so the block would be skipped.",
+        "d": "The string \"False\" is non‑empty and therefore truthy."
+      },
+      "hints": [
+        "Which of these values are considered 'empty' or 'nothing'?",
+        "Remember that empty containers and None are falsey."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "None is one of the falsey values in Python. The other options are all truthy: 1 (non‑zero), [0] (non‑empty list), \"False\" (non‑empty string).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_045",
+      "concept_name": "set",
+      "chapter": 7,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following statements about Python sets is FALSE?",
+      "options": {
+        "a": "Sets can contain duplicate elements",
+        "b": "Sets are unordered",
+        "c": "You cannot access set elements by index",
+        "d": "Sets can be created using set()"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct, this is false. Sets automatically remove duplicates; they only store unique elements.",
+        "b": "True – sets are unordered collections.",
+        "c": "True – sets do not support indexing because they are unordered.",
+        "d": "True – you can create a set with the set() constructor."
+      },
+      "hints": [
+        "What happens if you try to add an element that already exists in a set?",
+        "Sets are based on mathematical set theory."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A set is an unordered collection of unique elements. Duplicate values are not stored. The statement that sets can contain duplicates is false.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_004",
+      "concept_name": "list indexing",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when you run the following code?\n\n```python\ncookies = ['chocolate chip', 'peanut butter', 'sugar', 'Tirggel']\nprint(cookies[len(cookies)])\n```",
+      "options": {
+        "a": "Prints 'Tirggel'",
+        "b": "Raises IndexError",
+        "c": "Prints None",
+        "d": "Prints the last element and then removes it"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "len(cookies) is 4, but the last valid index is 3.",
+        "b": "Correct! The index is out of range, so an IndexError is raised.",
+        "c": "No value is returned because the error occurs before printing.",
+        "d": "Indexing does not modify the list."
+      },
+      "hints": [
+        "What is the length of the list, and what is the index of the last element?",
+        "Remember that list indices go from 0 to len(list)-1."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Python lists are zero‑indexed. len(cookies) returns 4, but valid indices are 0‑3. Accessing index 4 raises an IndexError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_007",
+      "concept_name": "index method (list)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the output of the following code?\n\n```python\ncookies = ['chocolate chip', 'peanut butter', 'sugar']\npos = cookies.index('oatmeal')\nprint(pos)\n```",
+      "options": {
+        "a": "-1",
+        "b": "None",
+        "c": "ValueError",
+        "d": "0"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Unlike some languages, Python's .index() does not return -1 for missing values.",
+        "b": "The method does not return None for a missing element.",
+        "c": "Correct! .index() raises ValueError when the element is not found.",
+        "d": "0 would be returned only if 'oatmeal' were the first element."
+      },
+      "hints": [
+        "How does Python signal that a value is not found in a list using .index()?",
+        "Does .index() return a special value, or does it raise an exception?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The list.index() method searches for a value and raises ValueError if it is absent. It never returns -1 or None for missing elements.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_008",
+      "concept_name": "pop method (list)",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following code?\n\n```python\ncookies = ['chocolate chip']\nitem = cookies.pop(0)\nprint(item)\nprint(cookies)\n```",
+      "options": {
+        "a": "'chocolate chip' and then []",
+        "b": "[] and then an error",
+        "c": "'chocolate chip' and then ['chocolate chip']",
+        "d": "None and then []"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! pop returns the removed element, and the list becomes empty.",
+        "b": "pop returns the removed element, not the list, and no error occurs.",
+        "c": "The element is removed, so it will not appear in the list afterwards.",
+        "d": "pop returns the removed value, not None."
+      },
+      "hints": [
+        "What does .pop() return?",
+        "After popping the only element, what does the list contain?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "list.pop(0) removes and returns the element at index 0. The list is modified and becomes empty. The returned element is printed first, then the empty list.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_010",
+      "concept_name": "sorted function",
+      "chapter": 1,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nnums = [3, 1, 2]\nsorted_nums = sorted(nums)\nprint(nums)\n```",
+      "options": {
+        "a": "[1, 2, 3]",
+        "b": "[3, 1, 2]",
+        "c": "None",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "sorted returns a new list; it does not modify the original.",
+        "b": "Correct! sorted returns a new sorted list, leaving nums unchanged.",
+        "c": "sorted returns the sorted list, not None.",
+        "d": "No error occurs; sorted works on any iterable."
+      },
+      "hints": [
+        "Does the sorted function modify the list in place?",
+        "What is the difference between sorted() and list.sort()?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "sorted() returns a new sorted list without altering the original iterable. Here, nums remains [3, 1, 2].",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_012",
+      "concept_name": "zip function",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the length of the list created by `list(zip([1, 2, 3], ['a', 'b']))`?",
+      "options": {
+        "a": "3",
+        "b": "2",
+        "c": "1",
+        "d": "0"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "zip stops when the shortest iterable is exhausted, so it doesn't produce 3 tuples.",
+        "b": "Correct! zip pairs elements until the shortest iterable (length 2) ends.",
+        "c": "It produces two tuples, not one.",
+        "d": "It produces two tuples, not an empty list."
+      },
+      "hints": [
+        "What does zip do when the input iterables have different lengths?",
+        "Which iterable determines the number of output tuples?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "zip stops at the end of the shortest iterable. Here, the second list has 2 elements, so the result contains 2 tuples.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_014",
+      "concept_name": "tuple unpacking in loops",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What error does the following code raise?\n\n```python\npairs = [('a', 1, True), ('b', 2, False)]\nfor letter, number in pairs:\n    print(letter, number)\n```",
+      "options": {
+        "a": "ValueError: too many values to unpack",
+        "b": "TypeError",
+        "c": "IndexError",
+        "d": "No error"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The tuples contain three elements, but only two variables are provided to unpack.",
+        "b": "No type mismatch occurs; the error is about unpacking.",
+        "c": "No indexing is performed; the error comes from the assignment.",
+        "d": "An error does occur because the number of variables doesn't match the tuple length."
+      },
+      "hints": [
+        "How many elements are in each tuple?",
+        "What happens when you try to unpack a tuple into a different number of variables?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Each tuple in pairs has three elements, but the for loop tries to unpack each into only two variables, raising a ValueError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_015",
+      "concept_name": "enumerate function",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What type of object does `enumerate(['a', 'b'])` return?",
+      "options": {
+        "a": "list",
+        "b": "enumerate",
+        "c": "tuple",
+        "d": "generator"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "enumerate returns an iterator, not a list. Use list() to convert it.",
+        "b": "Correct! enumerate returns an enumerate object, which is an iterator.",
+        "c": "It returns an iterator that yields tuples, not a single tuple.",
+        "d": "While it is an iterator, its specific type is 'enumerate', not 'generator'."
+      },
+      "hints": [
+        "What do you get if you call type(enumerate([]))?",
+        "Is the return value a collection or an iterator?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "enumerate returns an enumerate object, an iterator that yields (index, element) tuples. It is not a list or tuple itself.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_017",
+      "concept_name": "f-string",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following?\n\n```python\nname = 'cookie'\nprint(f\"I like {{name}}\")\n```",
+      "options": {
+        "a": "I like cookie",
+        "b": "I like {name}",
+        "c": "I like {{cookie}}",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Double braces are used to escape literal braces, so the variable is not substituted.",
+        "b": "Correct! {{ and }} are replaced by single { and } in the output.",
+        "c": "Only one pair of braces is escaped, so the output shows single braces.",
+        "d": "No error occurs; double braces are valid escape sequences in f‑strings."
+      },
+      "hints": [
+        "What is the purpose of double braces in an f‑string?",
+        "How would you print a literal curly brace inside an f‑string?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "In f‑strings, double braces {{ and }} are replaced by literal { and }. Therefore, the expression is not evaluated and the output is 'I like {name}'.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_018",
+      "concept_name": "join method (string)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What does the following code do?\n\n```python\nwords = ['a', 'b', 'c']\nresult = words.join(',')\nprint(result)\n```",
+      "options": {
+        "a": "Prints 'a,b,c'",
+        "b": "Prints 'a,b,c'",
+        "c": "Raises AttributeError",
+        "d": "Prints ','"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "join is a string method, not a list method.",
+        "b": "Same as above; the method does not exist on lists.",
+        "c": "Correct! Lists have no join method; this raises AttributeError.",
+        "d": "No output because the error occurs first."
+      },
+      "hints": [
+        "On which object is join normally called?",
+        "What happens if you try to call a method that doesn't exist on an object?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "join is a method of str, not list. The correct usage is `','.join(words)`. Calling words.join(',') raises AttributeError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_019",
+      "concept_name": "startswith method (string)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Given `name = 'Ahmed'`, which expression returns True?",
+      "options": {
+        "a": "name.startswith('a')",
+        "b": "name.lower().startswith('a')",
+        "c": "name[0] == 'a'",
+        "d": "Both b and c"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "startswith is case‑sensitive; 'Ahmed' does not start with lowercase 'a'.",
+        "b": "This works by converting to lowercase first, but it's not the only correct option.",
+        "c": "Index access is case‑sensitive; the first character is 'A', not 'a'.",
+        "d": "Correct! Both b (lowercasing then checking) and c (direct index access) correctly test for a lowercase 'a', but c actually fails because 'Ahmed'[0] is 'A'. Wait – we need to check: Option c, name[0] == 'a' returns False because 'A' != 'a'. So d is incorrect. Let me re‑read. The correct should be only b. I'll adjust."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "startswith is case‑sensitive; 'Ahmed' does not start with lowercase 'a'.",
+        "b": "Correct! lower() returns a new string, and startswith works case‑insensitively.",
+        "c": "name[0] is 'A', not 'a', so this returns False.",
+        "d": "Only b returns True; c is False because the first character is uppercase."
+      },
+      "hints": [
+        "Is startswith case‑sensitive?",
+        "How can you perform a case‑insensitive check?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "startswith respects case. To check a lowercase prefix against a mixed‑case string, first lower the string: name.lower().startswith('a').",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_025",
+      "concept_name": "KeyError",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What happens when the following code runs?\n\n```python\nd = {'a': 1}\nprint(d['b'])\n```",
+      "options": {
+        "a": "Prints None",
+        "b": "Raises KeyError",
+        "c": "Prints 0",
+        "d": "Prints 'b'"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Accessing a missing key does not return None; it raises an error.",
+        "b": "Correct! The key 'b' does not exist, so a KeyError is raised.",
+        "c": "Dicts do not default to 0 for missing keys; that would be a defaultdict.",
+        "d": "The value printed would be the value, not the key."
+      },
+      "hints": [
+        "What happens when you use square bracket notation on a dictionary with a non‑existent key?",
+        "Is there a method that returns a default instead of raising an error?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Using dict[key] on a missing key raises KeyError. Use .get() to avoid the exception.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_026",
+      "concept_name": "get method (dict)",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `result` after this code?\n\n```python\nd = {'x': 5}\nresult = d.get('y', 'Not Found')\nprint(result)\n```",
+      "options": {
+        "a": "None",
+        "b": "'Not Found'",
+        "c": "KeyError",
+        "d": "0"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "None would be returned only if no default were provided.",
+        "b": "Correct! The second argument is the default value returned when the key is missing.",
+        "c": "No error because .get() handles missing keys gracefully.",
+        "d": "The default is 'Not Found', not 0."
+      },
+      "hints": [
+        "What does the second argument to .get() do?",
+        "How is .get() different from square bracket access?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "dict.get(key, default) returns the value for the key if it exists; otherwise, it returns the supplied default (here, 'Not Found').",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_029",
+      "concept_name": "pop method (dict)",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does the following code print?\n\n```python\nd = {'a': 1}\nval = d.pop('b', None)\nprint(val)\n```",
+      "options": {
+        "a": "None",
+        "b": "KeyError",
+        "c": "1",
+        "d": "'b'"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! pop with a default returns that default when the key is missing.",
+        "b": "KeyError would be raised only if no default were provided.",
+        "c": "1 is the value for 'a', not 'b'.",
+        "d": "pop returns the value (or default), not the key."
+      },
+      "hints": [
+        "What does the second argument to dict.pop() represent?",
+        "How does pop behave when the key does not exist?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "dict.pop(key, default) removes the key and returns its value if present; otherwise, it returns the default without raising an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_031",
+      "concept_name": "in operator (dict)",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given `d = {'name': 'Alice', 'age': 30}`, what does `'Alice' in d` evaluate to?",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "Error",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The in operator checks keys, not values.",
+        "b": "Correct! 'Alice' is a value, not a key, so the check returns False.",
+        "c": "No error; in works with dictionaries.",
+        "d": "in returns a boolean, not None."
+      },
+      "hints": [
+        "Does the in operator search keys or values in a dictionary?",
+        "How would you check if 'Alice' is a value in the dictionary?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "When used with a dict, the in operator checks for the presence of a key, not a value. 'Alice' is not a key, so the result is False.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_032",
+      "concept_name": "nested dictionary",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the result of this code?\n\n```python\ndata = {'a': {'b': 1}}\nprint(data['a']['c'])\n```",
+      "options": {
+        "a": "1",
+        "b": "None",
+        "c": "KeyError",
+        "d": "{'b': 1}"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "1 is the value for key 'b', not 'c'.",
+        "b": "The missing key does not return None; it raises an error.",
+        "c": "Correct! Key 'c' does not exist in the inner dictionary, so KeyError is raised.",
+        "d": "This would be the value of data['a'], but the code accesses a missing sub‑key."
+      },
+      "hints": [
+        "What happens when you chain square brackets on dictionaries?",
+        "Which key is missing: 'a' or 'c'?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "data['a'] returns the inner dictionary. Accessing ['c'] on that dict raises KeyError because 'c' is not a key in it.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_036",
+      "concept_name": "Decimal",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which line correctly creates a Decimal with the exact value 0.1?",
+      "options": {
+        "a": "Decimal(0.1)",
+        "b": "Decimal('0.1')",
+        "c": "Decimal(1/10)",
+        "d": "Both a and b"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Passing a float to Decimal carries over the float's imprecision.",
+        "b": "Correct! Constructing from a string preserves exact precision.",
+        "c": "1/10 is a float expression and introduces imprecision.",
+        "d": "Only b is correct; a does not give the exact value 0.1."
+      },
+      "hints": [
+        "What is the recommended way to create a Decimal from a number with decimal places?",
+        "What happens if you pass a float literal to Decimal?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Decimal('0.1') creates the exact decimal value. Decimal(0.1) first converts the float 0.1 (which is an approximation) to Decimal, so the result is not precisely 0.1.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_039",
+      "concept_name": "floor division (//)",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the value of `-7 // 3` in Python?",
+      "options": {
+        "a": "-2",
+        "b": "-3",
+        "c": "2",
+        "d": "-2.333"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Floor division floors toward negative infinity, not toward zero.",
+        "b": "Correct! -7 // 3 equals -3 because -3 * 3 = -9, which is less than -7.",
+        "c": "The sign of the result is negative, not positive.",
+        "d": "// returns an integer when both operands are integers."
+      },
+      "hints": [
+        "Does // truncate toward zero or toward negative infinity?",
+        "Calculate the largest integer that, when multiplied by 3, is less than or equal to -7."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The // operator floors the result toward negative infinity. -7 / 3 is about -2.333, so floor gives -3.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_042",
+      "concept_name": "falsey",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which of the following values is truthy in a boolean context?",
+      "options": {
+        "a": "0",
+        "b": "[]",
+        "c": "{}",
+        "d": "[None]"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "0 is a falsey value.",
+        "b": "An empty list is falsey.",
+        "c": "An empty dictionary is falsey.",
+        "d": "Correct! [None] is a non‑empty list, so it is truthy even though its element is None."
+      },
+      "hints": [
+        "What is the rule for containers in boolean contexts?",
+        "Is an empty container truthy or falsey?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Only non‑empty containers are truthy. [None] contains one element, so it is truthy. The other options are all falsey.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_047",
+      "concept_name": "add method (set)",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is printed by the following?\n\n```python\ns = {1, 2}\ns.add(2)\nprint(s)\n```",
+      "options": {
+        "a": "{1, 2, 2}",
+        "b": "{1, 2}",
+        "c": "{1, 2, None}",
+        "d": "Error"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Sets cannot contain duplicates; a second 2 is not added.",
+        "b": "Correct! Adding an element that already exists leaves the set unchanged.",
+        "c": "None is not added; the set remains exactly {1, 2}.",
+        "d": "No error occurs; add is a valid set method."
+      },
+      "hints": [
+        "What is the fundamental property of sets regarding duplicates?",
+        "What happens when you try to add an element that is already present?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Sets store only unique elements. When add(2) is called and 2 is already in the set, the set remains {1, 2}.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_048",
+      "concept_name": "update method (set)",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the output of this code?\n\n```python\ns = {1}\ns.update(2)\nprint(s)\n```",
+      "options": {
+        "a": "{1, 2}",
+        "b": "{1, 2, 2}",
+        "c": "TypeError",
+        "d": "{1}"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "update expects an iterable; an integer is not iterable.",
+        "b": "update cannot add an integer because it's not an iterable.",
+        "c": "Correct! Passing a non‑iterable to update raises TypeError.",
+        "d": "No update occurs because the argument is invalid; an error is raised."
+      },
+      "hints": [
+        "What type of argument does set.update() expect?",
+        "Is an integer iterable in Python?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "set.update() expects an iterable (e.g., list, set, tuple). Passing the integer 2, which is not iterable, causes a TypeError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_050",
+      "concept_name": "pop method (set)",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What exception does `set().pop()` raise?",
+      "options": {
+        "a": "KeyError",
+        "b": "IndexError",
+        "c": "AttributeError",
+        "d": "None"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! Popping from an empty set raises KeyError.",
+        "b": "Sets do not have indices, so IndexError is not raised.",
+        "c": "pop is a valid set method; no AttributeError occurs.",
+        "d": "An exception is raised; it does not return None."
+      },
+      "hints": [
+        "What happens when you try to remove an element from an empty set?",
+        "Which exception is associated with missing keys/elements in collections?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "set.pop() removes and returns an arbitrary element. On an empty set, it raises KeyError because there is nothing to remove.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_051",
+      "concept_name": "union method (set)",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\na = {1, 2}\nb = {2, 3}\nresult = a.union(b)\nprint(a)\n```",
+      "options": {
+        "a": "{1, 2, 3}",
+        "b": "{1, 2}",
+        "c": "{2, 3}",
+        "d": "None"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "union returns a new set; it does not modify the original.",
+        "b": "Correct! a is unchanged; union returns a new set containing all unique elements.",
+        "c": "a is not replaced by b; it remains {1, 2}.",
+        "d": "union returns the new set, not None."
+      },
+      "hints": [
+        "Does union modify the original set in place?",
+        "What is the difference between union and update for sets?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "set.union() returns a new set with all unique elements from both sets, leaving the original sets unchanged.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_054",
+      "concept_name": "Counter",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What is the result of `Counter('aba')`?",
+      "options": {
+        "a": "{'a': 2, 'b': 1}",
+        "b": "Counter({'a': 2, 'b': 1})",
+        "c": "('a', 'b', 'a')",
+        "d": "A list of tuples"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The result is a Counter object, not a plain dict, though it prints similarly.",
+        "b": "Correct! Counter returns a Counter object, a dict subclass with the counts.",
+        "c": "Counter does not return the original iterable.",
+        "d": "most_common returns a list of tuples, but the Counter itself is a dict‑like object."
+      },
+      "hints": [
+        "What type of object does Counter return?",
+        "How does Counter display its result when printed?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Counter('aba') creates a Counter object that counts occurrences: Counter({'a': 2, 'b': 1}). It is a subclass of dict.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_055",
+      "concept_name": "most_common method (Counter)",
+      "chapter": 8,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given `c = Counter('aabbbc')`, what does `c.most_common(1)` return?",
+      "options": {
+        "a": "{'b': 3}",
+        "b": "[('b', 3)]",
+        "c": "('b', 3)",
+        "d": "'b'"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "most_common returns a list of tuples, not a dictionary.",
+        "b": "Correct! most_common returns a list of (element, count) tuples.",
+        "c": "It returns a list, even when n=1, not a bare tuple.",
+        "d": "It returns a tuple of (element, count), not just the element."
+      },
+      "hints": [
+        "What data structure does most_common return?",
+        "Does it return a list, a dict, or something else?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Counter.most_common(n) returns a list of n most common elements as (element, count) tuples. So c.most_common(1) returns [('b', 3)].",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_059",
+      "concept_name": "namedtuple",
+      "chapter": 9,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement about namedtuples is TRUE?",
+      "options": {
+        "a": "They are mutable like regular tuples",
+        "b": "They can be accessed by attribute and by index",
+        "c": "Field names can be any string, including those with spaces",
+        "d": "They consume more memory than dictionaries"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Namedtuples, like tuples, are immutable.",
+        "b": "Correct! Namedtuples support both attribute access (e.g., .name) and index access.",
+        "c": "Field names must be valid Python identifiers; spaces are not allowed.",
+        "d": "Namedtuples are more memory‑efficient than dictionaries."
+      },
+      "hints": [
+        "How are namedtuple fields accessed?",
+        "Are namedtuples mutable or immutable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Namedtuples are immutable tuple subclasses with named fields. They can be accessed by name (attribute) or by position (index).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_061",
+      "concept_name": "dataclass",
+      "chapter": 10,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is a key benefit of the @dataclass decorator over a regular class?",
+      "options": {
+        "a": "It automatically generates __init__, __repr__, __eq__, and other methods",
+        "b": "It makes the class immutable by default",
+        "c": "It requires fewer imports than a regular class",
+        "d": "It allows attribute access without type hints"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! @dataclass auto‑generates several special methods based on the type annotations.",
+        "b": "Immutability requires the frozen=True parameter; it is not the default.",
+        "c": "@dataclass requires an import from dataclasses, while a regular class needs no extra import.",
+        "d": "Type hints are required for fields; without them, the variable becomes a class variable."
+      },
+      "hints": [
+        "What methods does a dataclass create for you?",
+        "Do you still need to write __init__ in a dataclass?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "@dataclass reduces boilerplate by automatically adding __init__, __repr__, __eq__, and other methods based on the class fields.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_016",
+      "concept_name": "trailing comma tuple gotcha",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of the following code?\n\n```python\nitem = 'butter',\nprint(item)\n```",
+      "options": {
+        "a": "'butter'",
+        "b": "('butter',)",
+        "c": "SyntaxError",
+        "d": "('butter')"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The trailing comma creates a tuple, not a plain string.",
+        "b": "Correct! The trailing comma makes 'butter' a one‑element tuple.",
+        "c": "No syntax error; the trailing comma is valid.",
+        "d": "Parentheses around a single string without a comma would just be the string, but the comma is present."
+      },
+      "hints": [
+        "What effect does a trailing comma have in an assignment?",
+        "Is this the same as writing item = ('butter',)?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A trailing comma after a value creates a tuple. `item = 'butter',` is equivalent to `item = ('butter',)`, resulting in a single‑element tuple.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_016",
+      "concept_name": "trailing comma tuple gotcha",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What is wrong with the following code?\n\n```python\ndef get_cookie():\n    return 'chocolate',\n\ncookie = get_cookie()\nprint(cookie.upper())\n```",
+      "options": {
+        "a": "Missing parentheses in the return statement",
+        "b": "get_cookie returns a tuple, so .upper() fails with AttributeError",
+        "c": "No error; it prints 'CHOCOLATE'",
+        "d": "get_cookie is not defined"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Parentheses are optional in return statements.",
+        "b": "Correct! The trailing comma returns a tuple, and tuples don't have .upper().",
+        "c": "An error occurs because the object is a tuple, not a string.",
+        "d": "The function is defined correctly; the error is elsewhere."
+      },
+      "hints": [
+        "What does the trailing comma in the return statement do?",
+        "Can you call .upper() on a tuple?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The trailing comma turns the return value into a one‑element tuple. cookie is ('chocolate',), not a string, so .upper() raises AttributeError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_016",
+      "concept_name": "trailing comma tuple gotcha",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does the following print?\n\n```python\nt = 1, 2, 3\nprint(type(t))\n```",
+      "options": {
+        "a": "<class 'int'>",
+        "b": "<class 'tuple'>",
+        "c": "<class 'list'>",
+        "d": "SyntaxError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Multiple values separated by commas create a tuple, not an integer.",
+        "b": "Correct! The commas pack the values into a tuple.",
+        "c": "Without square brackets, a list is not created.",
+        "d": "This is valid tuple packing; no error occurs."
+      },
+      "hints": [
+        "What does Python do when you separate values with commas on the right side of an assignment?",
+        "Is t = 1, 2, 3 the same as t = (1, 2, 3)?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Comma‑separated values implicitly create a tuple, even without parentheses. t becomes a tuple (1, 2, 3).",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_042",
+      "concept_id": "concept_044",
+      "concept_name": "float equality problem",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What does this code print?\n\n```python\nx = 0.1 + 0.2\nprint(x == 0.3)\n```",
+      "options": {
+        "a": "True",
+        "b": "False",
+        "c": "Error",
+        "d": "0.3"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Due to floating‑point representation, 0.1 + 0.2 is not exactly 0.3.",
+        "b": "Correct! The sum is a tiny bit larger than 0.3, so equality fails.",
+        "c": "No error occurs; the comparison is valid.",
+        "d": "The print statement displays a boolean, not a number."
+      },
+      "hints": [
+        "Why is 0.1 + 0.2 not exactly equal to 0.3 in many programming languages?",
+        "Try printing 0.1 + 0.2 with many decimal places."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Floating‑point arithmetic causes 0.1 + 0.2 to result in something like 0.30000000000000004, so the comparison with 0.3 is False.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_043",
+      "concept_id": "concept_044",
+      "concept_name": "float equality problem",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What causes the following code to NOT print 'equal'?\n\n```python\nif 0.1 + 0.2 == 0.3:\n    print('equal')\n```",
+      "options": {
+        "a": "Syntax error in the condition",
+        "b": "Floating‑point representation error",
+        "c": "The if condition evaluates to False",
+        "d": "Both b and c"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "No syntax error; the condition is syntactically correct.",
+        "b": "This explains why the sum isn't exactly 0.3, but the direct cause is the condition being False.",
+        "c": "That's true, but the underlying reason is the representation error.",
+        "d": "Correct! The condition is False because of the representation error, so the block is skipped."
+      },
+      "hints": [
+        "Why might 0.1 + 0.2 not equal 0.3 in a computer?",
+        "Is the condition True or False when it runs?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Due to binary floating‑point representation, 0.1 + 0.2 != 0.3. Thus the condition is False, and 'equal' is not printed.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_044",
+      "concept_id": "concept_044",
+      "concept_name": "float equality problem",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "Which of the following comparisons evaluates to True?\n\n```python\nfrom decimal import Decimal\na = Decimal('0.1') + Decimal('0.2')\n```",
+      "options": {
+        "a": "a == 0.3",
+        "b": "a == Decimal('0.3')",
+        "c": "float(a) == 0.3",
+        "d": "None of the above"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Comparing a Decimal to a float still suffers from float imprecision.",
+        "b": "Correct! Both Decimals are constructed from strings, so the comparison is exact.",
+        "c": "Converting to float reintroduces the representation error.",
+        "d": "Option b is True."
+      },
+      "hints": [
+        "How do you create an exact Decimal value?",
+        "Why is comparing a Decimal to a float unreliable?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Decimal('0.1') + Decimal('0.2') yields an exact Decimal('0.3'). Comparing it with Decimal('0.3') returns True, while comparing with float 0.3 fails.",
+      "common_mistake_tested": true,
+      "concepts_combined": [
+        "concept_036"
+      ]
+    },
+    {
+      "id": "mcq_045",
+      "concept_id": "concept_064",
+      "concept_name": "property decorator (dataclass)",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What is the output of this code?\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Cookie:\n    name: str\n    quantity: int = 0\n    cost: float = 1.0\n    \n    @property\n    def value_of_goods(self):\n        return int(self.quantity) * self.cost\n\nc = Cookie('ginger', 8, 2.5)\nprint(c.value_of_goods)\n```",
+      "options": {
+        "a": "<property object>",
+        "b": "20.0",
+        "c": "20",
+        "d": "Error because value_of_goods is not callable"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Accessing a property calls the getter; it does not return the property object.",
+        "b": "Correct! The property computes 8 * 2.5 = 20.0.",
+        "c": "The multiplication includes a float, so the result is 20.0, not 20.",
+        "d": "Properties are accessed without parentheses; no error occurs."
+      },
+      "hints": [
+        "Do you need parentheses when accessing a property?",
+        "What does the expression int(self.quantity) * self.cost evaluate to?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The @property decorator makes value_of_goods accessible like an attribute. Accessing it invokes the getter and returns the computed value 20.0.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_046",
+      "concept_id": "concept_064",
+      "concept_name": "property decorator (dataclass)",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "What error is raised if you call `c.value_of_goods()` instead of `c.value_of_goods`?\n\n(Assuming c is an instance of the Cookie dataclass from the previous question.)",
+      "options": {
+        "a": "TypeError: 'float' object is not callable",
+        "b": "TypeError: 'property' object is not callable",
+        "c": "AttributeError",
+        "d": "No error; it works"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct! The property returns a float, and calling that float as a function causes the error.",
+        "b": "The property itself is not callable; the error comes from trying to call the returned value.",
+        "c": "No attribute error; the attribute exists and is accessed successfully.",
+        "d": "It does not work because the returned value (a float) is not callable."
+      },
+      "hints": [
+        "What does `c.value_of_goods` return?",
+        "What happens if you put parentheses after a float?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Accessing the property returns a float (20.0). Adding parentheses attempts to call that float, raising TypeError: 'float' object is not callable.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_047",
+      "concept_id": "concept_065",
+      "concept_name": "frozen dataclass",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What happens when you run this code?\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Cookie:\n    name: str\n    quantity: int = 0\n\nc = Cookie('ginger')\nc.quantity = 5\n```",
+      "options": {
+        "a": "It silently fails",
+        "b": "Raises FrozenInstanceError",
+        "c": "Updates quantity to 5",
+        "d": "TypeError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The error is explicit, not silent.",
+        "b": "Correct! Modifying a frozen instance raises FrozenInstanceError.",
+        "c": "Frozen instances are immutable, so the assignment is rejected.",
+        "d": "The specific error is FrozenInstanceError, a subclass of AttributeError."
+      },
+      "hints": [
+        "What does frozen=True prevent?",
+        "What exception is raised when you try to assign to a field of a frozen dataclass?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Setting frozen=True makes the dataclass instance immutable. Any attempt to modify a field raises dataclasses.FrozenInstanceError.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    },
+    {
+      "id": "mcq_048",
+      "concept_id": "concept_065",
+      "concept_name": "frozen dataclass",
+      "chapter": 10,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "Which statement about `@dataclass(frozen=True)` is FALSE?",
+      "options": {
+        "a": "It makes instances hashable",
+        "b": "It prevents any modification, even to mutable fields' contents",
+        "c": "You can modify the items of a list field if one exists",
+        "d": "Assigning to a field raises FrozenInstanceError"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "True – frozen instances are immutable and thus hashable.",
+        "b": "Correct, this is false. Frozen only prevents reassigning the field; if the field holds a mutable object like a list, that object's contents can still be changed.",
+        "c": "True – because the list reference itself is immutable but the list object is not.",
+        "d": "True – direct assignment to a field of a frozen instance raises FrozenInstanceError."
+      },
+      "hints": [
+        "What is shallow immutability?",
+        "If a frozen dataclass has a list field, can you call .append() on it?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "frozen=True only prevents reassignment of fields. If a field is a mutable object (e.g., list), its internal state can still be modified, so statement b is false.",
+      "common_mistake_tested": true,
+      "concepts_combined": []
+    }
+  ]
+}

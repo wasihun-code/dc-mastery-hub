@@ -1,0 +1,383 @@
+{
+  "course_slug": "introduction-to-functions-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Function Basics and Data Structures",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Built‑in functions",
+          "match": "Pre‑defined functions available without import, e.g., str(), print()",
+          "wrong_matches": [
+            "User‑defined functions created with def",
+            "Functions that always return None"
+          ],
+          "feedback_correct": "Correct! Built‑ins are always available in Python.",
+          "feedback_wrong": "That describes something else — built‑ins come with Python, not defined by the user."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "def keyword",
+          "match": "Starts a function definition, must end with a colon",
+          "wrong_matches": [
+            "Creates an anonymous lambda expression",
+            "Declares a variable as global"
+          ],
+          "feedback_correct": "Yes, the def keyword begins every user‑defined function.",
+          "feedback_wrong": "def is for named functions; lambda is anonymous. global is for scope."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Function parameters",
+          "match": "Variables listed in the function header that receive arguments",
+          "wrong_matches": [
+            "The actual values passed during a function call",
+            "Values returned by a function"
+          ],
+          "feedback_correct": "Parameters are the placeholders in the definition.",
+          "feedback_wrong": "Those are arguments, not parameters. Parameters are in the definition."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "return statement",
+          "match": "Sends a value back to the caller and exits the function immediately",
+          "wrong_matches": [
+            "Prints a value and continues execution",
+            "Creates a new local variable"
+          ],
+          "feedback_correct": "return gives back a result and stops the function.",
+          "feedback_wrong": "return does not print; it exits. print() is for output."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "Docstring",
+          "match": "A triple‑quoted string at the start of a function that describes it",
+          "wrong_matches": [
+            "A comment that explains complex logic",
+            "A built‑in function for documentation"
+          ],
+          "feedback_correct": "Exactly — docstrings are used by help() and IDEs.",
+          "feedback_wrong": "Comments start with #; docstrings are strings, not built‑in functions."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "Multiple function parameters",
+          "match": "More than one variable in the function header, separated by commas",
+          "wrong_matches": [
+            "A single parameter that receives a tuple",
+            "A function that returns a tuple"
+          ],
+          "feedback_correct": "Functions can accept many parameters, e.g., def f(a, b, c):",
+          "feedback_wrong": "That’s not multiple parameters; it’s a single compound argument."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": "Tuple",
+          "match": "Immutable ordered collection defined with parentheses; single‑element needs a trailing comma",
+          "wrong_matches": [
+            "Mutable ordered collection defined with square brackets",
+            "An unordered set of unique elements"
+          ],
+          "feedback_correct": "Tuples cannot be changed after creation.",
+          "feedback_wrong": "Lists are mutable; sets are unordered. Tuples are immutable."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": "Tuple unpacking",
+          "match": "Assigning each element of a tuple to a separate variable in one line",
+          "wrong_matches": [
+            "Accessing a tuple element with an index",
+            "Modifying a tuple element"
+          ],
+          "feedback_correct": "a, b, c = (1,2,3) is unpacking.",
+          "feedback_wrong": "Indexing accesses one element; unpacking assigns all at once."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_009",
+          "term": "Tuple indexing",
+          "match": "Accessing an element by its position using square brackets, starting at 0",
+          "wrong_matches": [
+            "Using parentheses to retrieve an element",
+            "Getting the last element with index 1"
+          ],
+          "feedback_correct": "tuple[0] gives the first element.",
+          "feedback_wrong": "Parentheses aren't for indexing; index 1 is the second element."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_010",
+          "term": "Returning multiple values",
+          "match": "A function returns a tuple of values; the caller can unpack it",
+          "wrong_matches": [
+            "A function that prints several values",
+            "A function that modifies global variables"
+          ],
+          "feedback_correct": "Using return a, b actually returns a tuple (a, b).",
+          "feedback_wrong": "Returning multiple values means a tuple, not printing or using globals."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_020",
+          "term": "Default arguments",
+          "match": "Parameters given a default value that is used when no argument is passed",
+          "wrong_matches": [
+            "Arguments that must be provided every call",
+            "Values that are automatically type‑checked"
+          ],
+          "feedback_correct": "Default values are evaluated once at definition.",
+          "feedback_wrong": "Defaults are optional, not required. No automatic type checking."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_021",
+          "term": "*args",
+          "match": "Collects extra positional arguments into a tuple",
+          "wrong_matches": [
+            "Collects extra keyword arguments into a dictionary",
+            "Declares a variable as a list"
+          ],
+          "feedback_correct": "The single asterisk gathers positional args.",
+          "feedback_wrong": "**kwargs collects keyword args; *args is for positional."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_022",
+          "term": "**kwargs",
+          "match": "Collects extra keyword arguments into a dictionary",
+          "wrong_matches": [
+            "Collects extra positional arguments into a tuple",
+            "Marks a variable as global"
+          ],
+          "feedback_correct": "The double asterisk gathers keyword arguments as key‑value pairs.",
+          "feedback_wrong": "*args is for positional; global is about scope."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_023",
+          "term": "Lambda functions",
+          "match": "Anonymous single‑expression functions defined with the lambda keyword",
+          "wrong_matches": [
+            "Named functions defined with def and a return",
+            "Functions that always return a list"
+          ],
+          "feedback_correct": "Lambda functions cannot contain statements.",
+          "feedback_wrong": "def creates named functions; lambda is anonymous."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_024",
+          "term": "map() function",
+          "match": "Applies a function to every item of an iterable and returns an iterator",
+          "wrong_matches": [
+            "Filters elements from an iterable based on a condition",
+            "Sorts an iterable in place"
+          ],
+          "feedback_correct": "map returns a map object; use list() to see results.",
+          "feedback_wrong": "filter() selects elements; sorted() returns a new list."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Scope, Closures, and Error Handling",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_016",
+          "concept_id": "concept_011",
+          "term": "Scope (global, local, built‑in)",
+          "match": "Determines where a name is accessible: global (outside functions), local (inside), built‑in (pre‑defined)",
+          "wrong_matches": [
+            "The order in which Python searches for names",
+            "The lifetime of a variable"
+          ],
+          "feedback_correct": "Scope defines visibility, not search order (that's LEGB) or lifetime.",
+          "feedback_wrong": "Search order is the LEGB rule, not scope definition itself."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_012",
+          "term": "NameError from local scope",
+          "match": "Accessing a variable outside the function where it was defined",
+          "wrong_matches": [
+            "Forgetting to declare a variable as global",
+            "Calling a function with the wrong number of arguments"
+          ],
+          "feedback_correct": "Local variables don’t exist after the function returns.",
+          "feedback_wrong": "That's about global keyword, not about local name errors."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_013",
+          "term": "Shadowing global variables",
+          "match": "A local variable with the same name as a global hides the global inside the function",
+          "wrong_matches": [
+            "Modifying a global variable using the global keyword",
+            "Declaring a variable as nonlocal"
+          ],
+          "feedback_correct": "The global remains unchanged despite a local with the same name.",
+          "feedback_wrong": "Shadowing doesn’t modify the global; it’s just a name overlap."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_014",
+          "term": "Accessing global variables inside a function",
+          "match": "Reading a global variable without assigning to it (no global keyword needed)",
+          "wrong_matches": [
+            "Modifying a global variable without any keyword",
+            "Returning a local variable"
+          ],
+          "feedback_correct": "You can read a global as long as you don’t assign to the name.",
+          "feedback_wrong": "Assignment without global creates a local, it doesn’t modify the global."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_015",
+          "term": "global keyword",
+          "match": "Declares that a variable inside a function refers to the global variable",
+          "wrong_matches": [
+            "Declares a variable in an enclosing function",
+            "Creates a new local variable"
+          ],
+          "feedback_correct": "global allows you to modify the global variable, not just read it.",
+          "feedback_wrong": "nonlocal is for enclosing scopes, not global."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_015",
+          "term": "count = count + 1 inside a function (without global)",
+          "match": "UnboundLocalError – assignment makes count local, but it's used before definition",
+          "wrong_matches": [
+            "Adds 1 to the global count",
+            "Creates a new global variable"
+          ],
+          "feedback_correct": "The local count shadows the global, causing an error on the right side.",
+          "feedback_wrong": "Without global, you can't modify the global; you get an error."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_016",
+          "term": "Nested functions",
+          "match": "A function defined inside another function, able to access enclosing variables",
+          "wrong_matches": [
+            "A function that returns another function",
+            "A function declared with the nonlocal keyword"
+          ],
+          "feedback_correct": "The inner function is only visible inside the outer one.",
+          "feedback_wrong": "A closure returns an inner function, but nested function is just the definition."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_017",
+          "term": "Closure",
+          "match": "A function that retains access to variables from its enclosing scope even after the outer function has returned",
+          "wrong_matches": [
+            "A function that modifies a global variable",
+            "A function defined inside a loop"
+          ],
+          "feedback_correct": "Example: def outer(n): def inner(x): return x**n; return inner",
+          "feedback_wrong": "The retained binding to the enclosing variable is the closure’s key feature."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_017",
+          "term": "raise_val = lambda n: lambda x: x ** n",
+          "match": "Equivalent to a closure: outer lambda returns a lambda that uses n",
+          "wrong_matches": [
+            "A lambda that raises a ValueError",
+            "A named function that uses nonlocal"
+          ],
+          "feedback_correct": "Each call creates a new function that remembers its n.",
+          "feedback_wrong": "This is a closure pattern, not an error‑raising function."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_018",
+          "term": "nonlocal keyword",
+          "match": "Allows a nested function to modify a variable in its enclosing (non‑global) scope",
+          "wrong_matches": [
+            "Declares a variable as global",
+            "Creates a new variable in the local scope"
+          ],
+          "feedback_correct": "nonlocal x makes assignment affect the x in the outer function.",
+          "feedback_wrong": "global is for global scope; nonlocal is for enclosing function scope."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_018",
+          "term": "def outer(): n=1; def inner(): nonlocal n; n=2",
+          "match": "Changes the enclosing n to 2; both prints show 2",
+          "wrong_matches": [
+            "Changes only a local n in inner()",
+            "Raises an UnboundLocalError"
+          ],
+          "feedback_correct": "nonlocal directs Python to use the n from outer, not create a new local.",
+          "feedback_wrong": "Without nonlocal, the assignment would create a local n, leaving the outer unchanged."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_019",
+          "term": "LEGB rule",
+          "match": "The order of name resolution: Local, Enclosing, Global, Built‑in",
+          "wrong_matches": [
+            "A rule that forbids naming conflicts",
+            "The order in which functions are executed"
+          ],
+          "feedback_correct": "When you use a name, Python checks these scopes in L‑E‑G‑B order.",
+          "feedback_wrong": "LEGB is about name lookup, not execution or naming restrictions."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_025",
+          "term": "try‑except clause",
+          "match": "Catches exceptions that occur in the try block so the program doesn’t crash",
+          "wrong_matches": [
+            "A block that guarantees code runs even if an error occurs",
+            "A way to raise custom exceptions"
+          ],
+          "feedback_correct": "try‑except handles errors gracefully.",
+          "feedback_wrong": "finally always executes, but doesn’t catch; raise is for triggering exceptions."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_026",
+          "term": "Catching specific exceptions",
+          "match": "Using except TypeError: to only handle that particular error type",
+          "wrong_matches": [
+            "Handling all exceptions with a bare except",
+            "Using raise to throw a TypeError"
+          ],
+          "feedback_correct": "Specific exception handling prevents masking other errors.",
+          "feedback_wrong": "Bare except catches everything; raise creates an exception, doesn’t catch."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_027",
+          "term": "raise statement",
+          "match": "Explicitly triggers an exception, optionally with a custom error message",
+          "wrong_matches": [
+            "Handles an exception that has already occurred",
+            "Defines a new exception class"
+          ],
+          "feedback_correct": "raise ValueError('x must be non‑negative') signals an error condition.",
+          "feedback_wrong": "except handles, raise throws. Defining a new exception requires class."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "course_slug": "data-types-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 18,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Fundamental Data Types",
+      "difficulty": "easy",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Container sequence",
+          "match": "Data type that holds a sequence of elements (e.g., list, tuple)",
+          "wrong_matches": [
+            "Ordered, immutable sequence type",
+            "Mutable collection of key-value pairs"
+          ],
+          "feedback_correct": "Exactly! Container sequences aggregate multiple items.",
+          "feedback_wrong": "That definition belongs to a different data structure."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "list",
+          "match": "Ordered, mutable collection that can hold any data types",
+          "wrong_matches": [
+            "Ordered, immutable sequence type",
+            "Unordered collection of unique elements"
+          ],
+          "feedback_correct": "Right – lists are mutable and ordered.",
+          "feedback_wrong": "No, that describes a tuple or a set."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_011",
+          "term": "tuple",
+          "match": "Ordered, immutable sequence type",
+          "wrong_matches": [
+            "Ordered, mutable collection",
+            "Unordered collection of unique elements"
+          ],
+          "feedback_correct": "Correct: tuples are like lists but cannot be changed.",
+          "feedback_wrong": "That is a list or a set, not an immutable sequence."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_023",
+          "term": "dict (dictionary)",
+          "match": "Mutable collection of key-value pairs",
+          "wrong_matches": [
+            "Ordered, mutable collection that can hold any data types",
+            "Immutable collection of named fields"
+          ],
+          "feedback_correct": "Yes, dictionaries map keys to values.",
+          "feedback_wrong": "That sounds like a list or namedtuple."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_034",
+          "term": "int",
+          "match": "Whole number type with arbitrary precision",
+          "wrong_matches": [
+            "Floating-point number type for fractional amounts",
+            "Exact-precision numeric type for currency"
+          ],
+          "feedback_correct": "Correct! Python’s int can be arbitrarily large.",
+          "feedback_wrong": "That definition matches float or Decimal."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_035",
+          "term": "float",
+          "match": "Floating-point number type with binary approximation",
+          "wrong_matches": [
+            "Whole number type with arbitrary precision",
+            "Exact-precision numeric type for currency"
+          ],
+          "feedback_correct": "Yes, floats use binary representation and are approximate.",
+          "feedback_wrong": "That’s int or Decimal."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Common Methods & Operators",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_007",
+          "concept_id": "concept_003",
+          "term": "cookies.append('Tirggel')",
+          "match": "Adds a single element to the end of a list, returns None",
+          "wrong_matches": [
+            "Merges all elements of an iterable into the list",
+            "Returns the index of the first occurrence of a value"
+          ],
+          "feedback_correct": "Correct – append adds one item in place.",
+          "feedback_wrong": "No, that’s extend or index."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_005",
+          "term": "cookies.extend(cakes)",
+          "match": "Appends each element of the iterable individually to the list",
+          "wrong_matches": [
+            "Adds a single element to the end of a list",
+            "Removes and returns an element by index"
+          ],
+          "feedback_correct": "Right: extend unpacks the iterable.",
+          "feedback_wrong": "That would be append or pop."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_007",
+          "term": "cookies.index('sugar')",
+          "match": "Returns the position of the first matching element",
+          "wrong_matches": [
+            "Adds 'sugar' to the end of the list",
+            "Removes 'sugar' from the list and returns it"
+          ],
+          "feedback_correct": "Yes, index searches for the value.",
+          "feedback_wrong": "That’s append or pop, not index."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_008",
+          "term": "cookies.pop(2)",
+          "match": "Removes and returns the element at index 2",
+          "wrong_matches": [
+            "Adds an element at index 2",
+            "Returns the element at index 2 without removing it"
+          ],
+          "feedback_correct": "Exactly: pop removes and returns the item.",
+          "feedback_wrong": "No, pop modifies the list."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_017",
+          "term": "f\"Each {cookie_name} cookie costs {cookie_price}\"",
+          "match": "Formatted string literal that embeds variables directly",
+          "wrong_matches": [
+            "Concatenates strings using a separator",
+            "Checks if the string ends with a suffix"
+          ],
+          "feedback_correct": "Yes, f-strings insert expressions inside curly braces.",
+          "feedback_wrong": "That describes join or endswith."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_019",
+          "term": "name.startswith('A')",
+          "match": "Returns True if the string starts with 'A' (case-sensitive)",
+          "wrong_matches": [
+            "Returns True if the string contains 'A'",
+            "Returns the index of 'A' in the string"
+          ],
+          "feedback_correct": "Right: startswith checks only the beginning.",
+          "feedback_wrong": "That’s the in operator or find."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Advanced Concepts & Pitfalls",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_044",
+          "term": "0.1 + 0.2 == 0.3",
+          "match": "Returns False due to floating-point representation error",
+          "wrong_matches": [
+            "Returns True because arithmetic is exact",
+            "Raises a TypeError"
+          ],
+          "feedback_correct": "Exactly – float imprecision makes this False.",
+          "feedback_wrong": "No, float arithmetic is not exact here."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_042",
+          "term": "[] (empty list) in an if condition",
+          "match": "Evaluates to False (falsey)",
+          "wrong_matches": [
+            "Evaluates to True",
+            "Raises an error"
+          ],
+          "feedback_correct": "Correct! Empty containers are falsey.",
+          "feedback_wrong": "Empty lists are not truthy."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_056",
+          "term": "defaultdict",
+          "match": "Dict subclass that provides a default value for missing keys",
+          "wrong_matches": [
+            "Function that counts occurrences",
+            "Immutable tuple subclass with named fields"
+          ],
+          "feedback_correct": "Yes – it uses a factory function for defaults.",
+          "feedback_wrong": "That’s Counter or namedtuple."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_065",
+          "term": "frozen dataclass",
+          "match": "Immutable instance: assignment to a field raises FrozenInstanceError",
+          "wrong_matches": [
+            "Automatically generates __init__ and __repr__",
+            "Converts dataclass to tuple"
+          ],
+          "feedback_correct": "Right – frozen=True prevents field modification.",
+          "feedback_wrong": "That describes the dataclass decorator or astuple."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_051",
+          "term": "s.union(other)",
+          "match": "Returns a new set with elements from both sets",
+          "wrong_matches": [
+            "Adds elements from other into s in place",
+            "Returns elements only present in both sets"
+          ],
+          "feedback_correct": "Correct – union does not modify the original sets.",
+          "feedback_wrong": "That’s update or intersection."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_052",
+          "term": "s.intersection(other)",
+          "match": "Returns a new set with elements common to both sets",
+          "wrong_matches": [
+            "Returns all unique elements from both sets",
+            "Removes common elements from the first set"
+          ],
+          "feedback_correct": "Exactly: intersection finds shared elements.",
+          "feedback_wrong": "No, that’s union or difference."
+        }
+      ]
+    }
+  ]
+}

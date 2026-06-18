@@ -1,0 +1,1233 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_001",
+    "concept_name": "String",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Create a variable my_string containing the text 'This is a string'.",
+    "code_template": "my_string = _____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"This is a string\"",
+        "answer_alternatives": ["'This is a string'"]
+      }
+    ],
+    "word_bank": [
+      "\"This is a string\"",
+      "'This is a string'",
+      "This is a string",
+      "\"Awesome day\""
+    ],
+    "per_tile_feedback": {
+      "\"This is a string\"": "Correct – double quotes correctly enclose the string literal.",
+      "'This is a string'": "Also valid; single quotes work as well.",
+      "This is a string": "Missing quotes – strings must be quoted, or Python will treat it as a name.",
+      "\"Awesome day\"": "This is a different string; the task asked for 'This is a string'."
+    },
+    "hints": [
+      "Strings are created with quotes.",
+      "The assignment needs a quoted sequence of characters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In Python, string literals are enclosed in matching single or double quotes. The blank should be filled with the exact string representation.",
+    "common_mistake_warning": "⚠️ Forgetting quotes is a common beginner mistake – a bare word without quotes is treated as a variable name."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_002",
+    "concept_name": "len() function",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Print the length of the string variable my_string (which holds 'Awesome day').",
+    "code_template": "print(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "len(my_string)",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "len(my_string)",
+      "len('Awesome day')",
+      "my_string.len()",
+      "count(my_string)",
+      "length(my_string)"
+    ],
+    "per_tile_feedback": {
+      "len(my_string)": "Correct – len() returns the number of characters in the string.",
+      "len('Awesome day')": "This also works, but the task explicitly asked to use the variable my_string.",
+      "my_string.len()": "Incorrect – len() is a built-in function, not a method of strings.",
+      "count(my_string)": "count() is a string method for counting substrings, not for length.",
+      "length(my_string)": "Python does not have a built-in length() function; the correct name is len()."
+    },
+    "hints": [
+      "The built-in function for length starts with 'l'.",
+      "It's called on the string, not the other way around."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "len(my_string) correctly computes the number of characters, including spaces and punctuation.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_004",
+    "concept_name": "String concatenation",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Using the variables my_string1 = 'Awesome day' and my_string2 = 'for biking', print the two strings separated by a single space.",
+    "code_template": "print(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "my_string1 + \" \" + my_string2",
+        "answer_alternatives": [
+          "my_string1 + ' ' + my_string2"
+        ]
+      }
+    ],
+    "word_bank": [
+      "my_string1 + \" \" + my_string2",
+      "my_string1 + my_string2",
+      "my_string1 + ' ' + my_string2",
+      "my_string1 . \" \" . my_string2"
+    ],
+    "per_tile_feedback": {
+      "my_string1 + \" \" + my_string2": "Correct – the + operator joins the strings with an explicit space.",
+      "my_string1 + my_string2": "This would produce 'Awesome dayfor biking' – no space is added automatically.",
+      "my_string1 + ' ' + my_string2": "Also correct – the inner string can use single quotes.",
+      "my_string1 . \" \" . my_string2": "Python uses + for concatenation, not a dot."
+    },
+    "hints": [
+      "The operator that combines strings is the plus sign.",
+      "Remember to add a space string between them."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "String concatenation uses the + operator. Adding \" \" ensures a space appears between the two original strings.",
+    "common_mistake_warning": "⚠️ A common error is forgetting the separator string, resulting in words glued together."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_005",
+    "concept_name": "String indexing",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Print the fourth character of the string my_string = 'Awesome day'.",
+    "code_template": "print(my_string[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "3",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "3",
+      "4",
+      "0",
+      "-1"
+    ],
+    "per_tile_feedback": {
+      "3": "Correct – index 3 gives the fourth character (indices start at 0).",
+      "4": "Index 4 gives the fifth character, not the fourth.",
+      "0": "Index 0 is the first character ('A').",
+      "-1": "Negative index accesses from the end, giving the last character ('y')."
+    },
+    "hints": [
+      "Python indexing starts at 0.",
+      "The first character is at index 0."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In 'Awesome day', character positions are: 0='A', 1='w', 2='e', 3='s'. So index 3 is the fourth character.",
+    "common_mistake_warning": "⚠️ Off-by-one errors happen when assuming 1-based indexing."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_006",
+    "concept_name": "String slicing",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Extract the substring from index 5 to the end of my_string = 'Awesome day'.",
+    "code_template": "print(my_string[_____:])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "5",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "5",
+      "6",
+      "4",
+      "0"
+    ],
+    "per_tile_feedback": {
+      "5": "Correct – slicing from 5 includes index 5 onward: 'some day'.",
+      "6": "This would miss the 's' at index 5, giving 'ome day'.",
+      "4": "Starting at 4 includes the space, giving 'me day'.",
+      "0": "This returns the whole string."
+    },
+    "hints": [
+      "Slicing includes the start index.",
+      "Which character is at index 5?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "my_string[5:] returns characters from index 5 to the end. The character at index 5 is 's', so the result is 'some day'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_007",
+    "concept_name": "Stride in slicing",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Reverse the string my_string = 'Awesome day' using slicing.",
+    "code_template": "print(my_string[_____])",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "::-1",
+        "answer_alternatives": [":: -1"]
+      }
+    ],
+    "word_bank": [
+      "::-1",
+      "-1",
+      "0::-1",
+      "::1"
+    ],
+    "per_tile_feedback": {
+      "::-1": "Correct – a stride of -1 reverses the string.",
+      "-1": "This returns only the last character, not a slice.",
+      "0::-1": "This reverses up to index 0, but still produces the whole reversed string; the task expects the simpler ::-1.",
+      "::1": "This returns the string unchanged."
+    },
+    "hints": [
+      "A negative step goes backwards.",
+      "The syntax for a full reversal uses colons before the step."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The third slice parameter is the stride. -1 makes it go backwards through the whole string, effectively reversing it.",
+    "common_mistake_warning": "⚠️ Forgetting the double colon (::) results in a single character or an error."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_008",
+    "concept_name": ".lower() method",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Convert my_string to all lowercase letters and print it. my_string is 'THIS IS A NICE STRING'.",
+    "code_template": "print(my_string._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lower",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "lower",
+      "lowercase",
+      "toLower",
+      "lower("
+    ],
+    "per_tile_feedback": {
+      "lower": "Correct – .lower() returns a new lowercased string.",
+      "lowercase": "Not a Python string method; the correct method is .lower().",
+      "toLower": "Python does not use camelCase method names for strings.",
+      "lower(": "Missing the closing parenthesis; the full call is .lower()."
+    },
+    "hints": [
+      "The method name is all lowercase.",
+      "It is the opposite of .upper()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".lower() is a built-in string method that converts all alphabetic characters to lowercase.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_009",
+    "concept_name": ".upper() method",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Convert my_string to uppercase and print. my_string is 'This is a nice string'.",
+    "code_template": "print(my_string._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "upper",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "upper",
+      "uppercase",
+      "toUpper",
+      "upper("
+    ],
+    "per_tile_feedback": {
+      "upper": "Correct – .upper() returns the string in all caps.",
+      "uppercase": "Not a method; use .upper().",
+      "toUpper": "Python doesn't use camelCase for string methods.",
+      "upper(": "Incomplete; the parentheses are part of the method call but the method name is 'upper'."
+    },
+    "hints": [
+      "The method that makes text ALL CAPS.",
+      "It starts with 'u'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".upper() converts every letter to uppercase and returns a new string.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_011",
+    "concept_name": ".split() method",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Split my_string into a list using a space as separator, but only perform 2 splits.",
+    "code_template": "my_string._____(sep=\" \", maxsplit=2)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "split",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "split",
+      "rsplit",
+      "splitlines",
+      "split("
+    ],
+    "per_tile_feedback": {
+      "split": "Correct – .split() splits from the left.",
+      "rsplit": "rsplit splits from the right, which would give a different result with maxsplit.",
+      "splitlines": "splitlines is for line boundaries, not spaces.",
+      "split(": "Incomplete – the method name is 'split'."
+    },
+    "hints": [
+      "The method starts with 's'.",
+      "It is the default way to break strings."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".split(sep=' ', maxsplit=2) will break the string at the first two spaces and return a list with up to three elements.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_014",
+    "concept_name": ".join() method",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Join the list my_list = ['this', 'would', 'be', 'a', 'string'] into a single string using a space as glue.",
+    "code_template": "print(_____.join(my_list))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\" \"",
+        "answer_alternatives": ["' '"]
+      }
+    ],
+    "word_bank": [
+      "\" \"",
+      "' '",
+      "my_list",
+      "join"
+    ],
+    "per_tile_feedback": {
+      "\" \"": "Correct – a space string calls join, inserting spaces between list items.",
+      "' '": "Also correct – both string forms work.",
+      "my_list": "You cannot call .join() on the list; the separator must be the string.",
+      "join": "join is a method, but you need to specify the separator string first."
+    },
+    "hints": [
+      ".join() is called on the separator string.",
+      "The separator is a space character."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The pattern is separator.join(iterable). Here the separator is a single space, so \" \".join(my_list) produces 'this would be a string'.",
+    "common_mistake_warning": "⚠️ A common error is writing my_list.join(' '), which fails because join is a string method."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_018",
+    "concept_name": ".find() method",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Search for the substring 'Waldo' in my_string and print its position. Use the method that returns -1 if not found.",
+    "code_template": "print(my_string._____(\"Waldo\"))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "find",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "find",
+      "index",
+      "search",
+      "find("
+    ],
+    "per_tile_feedback": {
+      "find": "Correct – .find() returns the lowest index or -1.",
+      "index": ".index() also finds substrings, but raises ValueError if not found; .find() is safer.",
+      "search": "There is no string method .search(); that is for regex (re.search).",
+      "find(": "Incomplete."
+    },
+    "hints": [
+      "The method starts with 'f'.",
+      "It is not .index()."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": ".find() is the safe search method that returns -1 instead of throwing an error when the substring is absent.",
+    "common_mistake_warning": "⚠️ Many beginners confuse .find() with .index() and expect the same error behavior."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_020",
+    "concept_name": ".count() method",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Count how many times the substring 'fruit' appears in my_string up to (but not including) index 16.",
+    "code_template": "print(my_string.count(\"fruit\", 0, _____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "16",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "16",
+      "15",
+      "17",
+      "len(my_string)"
+    ],
+    "per_tile_feedback": {
+      "16": "Correct – the end index is exclusive, so the search goes up to index 15.",
+      "15": "This would miss the 'fruit' that starts at index 15.",
+      "17": "This includes index 16, going beyond the intended range.",
+      "len(my_string)": "This would count through the whole string, not limited to the first 16 characters."
+    },
+    "hints": [
+      "The end index is exclusive.",
+      "The course example used 16 to count only the first occurrence."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In the string 'How many fruits do you have in your fruit basket?', the first 'fruit' ends at index 16. Using 16 as the end parameter includes that occurrence.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_021",
+    "concept_name": ".replace() method",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Replace the first two occurrences of 'house' with 'car' in my_string.",
+    "code_template": "print(my_string.replace(\"house\", \"car\", _____))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "2",
+      "1",
+      "3",
+      "-1"
+    ],
+    "per_tile_feedback": {
+      "2": "Correct – the third argument limits replacements to the first 2 matches.",
+      "1": "This would replace only the first occurrence.",
+      "3": "This would replace three (if they exist), but the task says two.",
+      "-1": "Using -1 means 'replace all', which is not the desired limit."
+    },
+    "hints": [
+      "The third argument of replace controls how many replacements happen.",
+      "You want exactly two replacements."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The signature is string.replace(old, new, count). Setting count=2 changes only the first two occurrences.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_022",
+    "concept_name": "String formatting (str.format)",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Insert the strings 'systems' and 'automatically' into the sentence using str.format.",
+    "code_template": "print(_____.format(\"systems\", \"automatically\"))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\"Machine learning provides {} the ability to learn {}\"",
+        "answer_alternatives": [
+          "'Machine learning provides {} the ability to learn {}'"
+        ]
+      }
+    ],
+    "word_bank": [
+      "\"Machine learning provides {} the ability to learn {}\"",
+      "'Machine learning provides {0} the ability to learn {1}'",
+      "\"Machine learning provides {0} the ability to learn {1}\"",
+      "f\"Machine learning provides {systems} the ability to learn {automatically}\""
+    ],
+    "per_tile_feedback": {
+      "\"Machine learning provides {} the ability to learn {}\"": "Correct – empty braces are positional placeholders.",
+      "'Machine learning provides {0} the ability to learn {1}'": "This uses indexed placeholders, which also works, but the task is about positional placeholders.",
+      "\"Machine learning provides {0} the ability to learn {1}\"": "Same as above.",
+      "f\"Machine learning provides {systems} the ability to learn {automatically}\"": "This is an f-string, not .format() syntax."
+    },
+    "hints": [
+      "The string must contain placeholders {} for positional arguments.",
+      ".format() is called on the string itself."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The string is the template. It calls .format() with the arguments to fill the braces in order.",
+    "common_mistake_warning": "⚠️ Using an f-string instead of .format() would not accept the .format() call in the same way."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_028",
+    "concept_name": "f-string (formatted string literal)",
+    "chapter": 5,
+    "difficulty": "very_hard",
+    "task_description": "Turn the string into an f-string so that the variables way and method are inserted.",
+    "code_template": "print(_____\"Practicing how to {way} is the best method for {method}\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "f",
+        "answer_alternatives": ["F"]
+      }
+    ],
+    "word_bank": [
+      "f",
+      "F",
+      "r",
+      "\"f\""
+    ],
+    "per_tile_feedback": {
+      "f": "Correct – the 'f' prefix enables expression evaluation inside braces.",
+      "F": "Also valid (uppercase F), but the course uses lowercase.",
+      "r": "This would make it a raw string, not an f-string; the braces would be printed literally.",
+      "\"f\"": "Quoting 'f' makes it part of the string itself."
+    },
+    "hints": [
+      "The prefix goes right before the opening quote.",
+      "Without it, the braces are not special."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "An f-string is created by adding the 'f' prefix. Without it, {way} and {method} remain literal text.",
+    "common_mistake_warning": "⚠️ Forgetting the 'f' is a very common slip; the string will output '{way}' instead of its value."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_030",
+    "concept_name": "Format specifiers in f-strings",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Print the float number rounded to two decimal places inside an f-string.",
+    "code_template": "print(f\"The number: {number:_____}\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".2f",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      ".2f",
+      "2f",
+      ".2",
+      ".02f"
+    ],
+    "per_tile_feedback": {
+      ".2f": "Correct – the format specifier .2f rounds to two decimal places.",
+      "2f": "Missing the decimal point; this is not a valid specifier.",
+      ".2": "Missing the 'f' for float; incomplete specifier.",
+      ".02f": "Would pad with a leading zero (e.g., 0.52), not what the task asked."
+    },
+    "hints": [
+      "The specifier starts with a colon.",
+      "Two decimal places for a float."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In f-strings, adding :.2f after the variable name formats it as a fixed-point number with two decimal places.",
+    "common_mistake_warning": "⚠️ Forgetting the colon before the specifier will raise a SyntaxError or produce unexpected output."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_039",
+    "concept_name": "Regular expression (regex)",
+    "chapter": 7,
+    "difficulty": "very_hard",
+    "task_description": "Write a regex pattern to match one or more digits. Ensure the backslash is not treated as an escape by Python.",
+    "code_template": "pattern = _____\"\\d+\"",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "r",
+        "answer_alternatives": ["R"]
+      }
+    ],
+    "word_bank": [
+      "r",
+      "R",
+      "",
+      "raw"
+    ],
+    "per_tile_feedback": {
+      "r": "Correct – a raw string literal prevents Python from interpreting backslashes.",
+      "R": "Also valid, but the course uses lowercase.",
+      "": "Without r, \\d becomes just 'd', losing its special meaning.",
+      "raw": "Not a valid string prefix; use r or R."
+    },
+    "hints": [
+      "Regex patterns often contain backslashes.",
+      "The prefix that tells Python to leave backslashes alone."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Raw strings (r'...') are essential for regex patterns containing \\d, \\w, etc. Without r, you'd need to double-escape.",
+    "common_mistake_warning": "⚠️ Missing r is a top regex mistake; the pattern \\d becomes a literal 'd'."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_041",
+    "concept_name": "re.findall()",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Extract all occurrences of '#movies' from the given text using the re module.",
+    "code_template": "import re\nmatches = re._____(r\"#movies\", \"Love #movies! I had fun yesterday going to the #movies\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "findall",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "findall",
+      "search",
+      "match",
+      "split"
+    ],
+    "per_tile_feedback": {
+      "findall": "Correct – re.findall returns a list of all non-overlapping matches.",
+      "search": "search returns only the first match object, not a list.",
+      "match": "match only checks at the start of the string; it would not find '#movies'.",
+      "split": "split breaks the string, not extract matches."
+    },
+    "hints": [
+      "The function returns a list of all matches.",
+      "It starts with 'find'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "re.findall is the right choice when you need all occurrences; it returns ['#movies', '#movies'].",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_042",
+    "concept_name": "re.split()",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Split the string on every exclamation mark using the re module.",
+    "code_template": "import re\nresult = re._____(r\"!\", \"Nice Place to eat! I'll come back! Excellent meat!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "split",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "split",
+      "rsplit",
+      "splitlines",
+      "sub"
+    ],
+    "per_tile_feedback": {
+      "split": "Correct – re.split breaks the string at each match.",
+      "rsplit": "rsplit is a string method, not a re function.",
+      "splitlines": "This splits at line boundaries, not exclamation marks.",
+      "sub": "sub is for substitution, not splitting."
+    },
+    "hints": [
+      "The function that divides a string by a pattern.",
+      "It shares a name with a common string method."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "re.split(pattern, string) splits the string at every occurrence of the pattern and returns a list of parts.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_043",
+    "concept_name": "re.sub()",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Replace all occurrences of 'yellow' with 'nice' using the re module.",
+    "code_template": "import re\nnew_string = re._____(r\"yellow\", \"nice\", \"I have a yellow car and a yellow house in a yellow neighborhood\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sub",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "sub",
+      "replace",
+      "substitute",
+      "findall"
+    ],
+    "per_tile_feedback": {
+      "sub": "Correct – re.sub performs substitution using a pattern.",
+      "replace": "This is a string method, not a regex function.",
+      "substitute": "Not a real function in re; the correct name is sub.",
+      "findall": "findall finds matches, but does not replace."
+    },
+    "hints": [
+      "Short for 'substitute'.",
+      "It's a three-letter function in re."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "re.sub(pattern, replacement, string) returns a new string with all matches replaced.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_044",
+    "concept_name": "\\d metacharacter",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Write a regex pattern that matches a single digit.",
+    "code_template": "import re\nre.findall(r\"_____\", \"a1b2c3\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\\d",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "\\d",
+      "d",
+      "\\D",
+      "[0-9]"
+    ],
+    "per_tile_feedback": {
+      "\\d": "Correct – \\d matches any digit 0-9.",
+      "d": "Without backslash, it matches the literal letter 'd'.",
+      "\\D": "\\D matches non-digits, opposite of what's needed.",
+      "[0-9]": "Also works, but the exact course metacharacter is \\d."
+    },
+    "hints": [
+      "It's a backslash followed by 'd'.",
+      "Stands for 'digit'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The metacharacter \\d in a raw string matches any digit. It is shorthand for [0-9].",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_046",
+    "concept_name": "\\w metacharacter",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Find all word characters in the string 'a1_!'.",
+    "code_template": "import re\nre.findall(r\"_____\", \"a1_!\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\\w",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "\\w",
+      "w",
+      "\\W",
+      "[a-z]"
+    ],
+    "per_tile_feedback": {
+      "\\w": "Correct – \\w matches letters, digits, and underscores.",
+      "w": "Literal 'w' – not a metacharacter.",
+      "\\W": "Matches non-word characters (e.g., '!'), opposite of the task.",
+      "[a-z]": "Only matches lowercase letters, missing digits and underscore."
+    },
+    "hints": [
+      "It's the lowercase 'w' with a backslash.",
+      "Matches 'word' characters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\\w is a shorthand for [a-zA-Z0-9_], matching any alphanumeric or underscore.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_048",
+    "concept_name": "\\s metacharacter",
+    "chapter": 7,
+    "difficulty": "hard",
+    "task_description": "Match any whitespace character in the string 'a b\tc'.",
+    "code_template": "import re\nre.findall(r\"_____\", \"a b\\tc\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\\s",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "\\s",
+      "s",
+      "\\S",
+      " "
+    ],
+    "per_tile_feedback": {
+      "\\s": "Correct – \\s matches space, tab, newline, etc.",
+      "s": "Matches literal 's'.",
+      "\\S": "Matches non-whitespace, opposite of the task.",
+      " ": "Matches only literal space, missing the tab."
+    },
+    "hints": [
+      "Stands for 'space' but includes more.",
+      "Backslash + s."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\\s is a metacharacter that matches any whitespace character, including spaces, tabs, and newlines.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_050",
+    "concept_name": "Quantifier +",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Modify the regex to match one or more digits.",
+    "code_template": "import re\nre.findall(r\"\\d_____\", \"abc123\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "+",
+      "*",
+      "?",
+      "{1}"
+    ],
+    "per_tile_feedback": {
+      "+": "Correct – + means 'one or more' of the preceding character.",
+      "*": "* means 'zero or more', which would also match empty strings.",
+      "?": "? means 'zero or one', not enough for multiple digits.",
+      "{1}": "Matches exactly one digit, not multiple."
+    },
+    "hints": [
+      "The symbol for 'at least one'.",
+      "It's a plus sign."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Adding + after \\d makes it match sequences of digits, such as '123'.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_051",
+    "concept_name": "Quantifier *",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Change the pattern to match zero or more digits.",
+    "code_template": "import re\nre.findall(r\"\\d_____\", \"abc\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "*",
+      "+",
+      "?",
+      "{0,}"
+    ],
+    "per_tile_feedback": {
+      "*": "Correct – * matches zero or more digits, so it will match empty strings.",
+      "+": "+ requires at least one digit; it would not match in 'abc'.",
+      "?": "? matches zero or one, not multiple.",
+      "{0,}": "Also correct (equivalent), but the course uses *."
+    },
+    "hints": [
+      "The symbol for 'zero or more'.",
+      "It's an asterisk."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\\d* matches any number of consecutive digits, including none. In 'abc', it matches the empty string between characters.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_052",
+    "concept_name": "Quantifier ?",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Make the 'u' optional in 'colour' so the pattern matches both 'color' and 'colour'.",
+    "code_template": "import re\nre.findall(r\"colou_____r\", \"color colour\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "?",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "?",
+      "*",
+      "+",
+      "{0,1}"
+    ],
+    "per_tile_feedback": {
+      "?": "Correct – ? makes the preceding character optional (zero or one).",
+      "*": "Would match zero or more 'u's, allowing 'colouuuur', which is not intended.",
+      "+": "Requires at least one 'u', missing 'color'.",
+      "{0,1}": "Also correct (equivalent), but the course emphasizes ?."
+    },
+    "hints": [
+      "This quantifier means 'zero or one'.",
+      "It looks like a question mark."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "colou?r matches 'color' (u appears 0 times) and 'colour' (u appears 1 time).",
+    "common_mistake_warning": "⚠️ The ? also serves as a non-greedy modifier when placed after another quantifier – a source of confusion."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_053",
+    "concept_name": "Quantifier {n}",
+    "chapter": 8,
+    "difficulty": "hard",
+    "task_description": "Write a quantifier that matches exactly three digits.",
+    "code_template": "import re\nre.search(r\"\\d_____\", \"123\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{3}",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "{3}",
+      "{2}",
+      "{,3}",
+      "{3,}"
+    ],
+    "per_tile_feedback": {
+      "{3}": "Correct – {3} matches exactly three repetitions.",
+      "{2}": "Matches exactly two digits, not three.",
+      "{,3}": "Invalid syntax; the lower bound is required.",
+      "{3,}": "Matches three or more, not exactly three."
+    },
+    "hints": [
+      "Curly braces with a single number.",
+      "That number is the exact count."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\\d{3} matches exactly three consecutive digits. It will not match fewer or more.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_054",
+    "concept_name": "Quantifier {n,m}",
+    "chapter": 8,
+    "difficulty": "very_hard",
+    "task_description": "Write a quantifier that matches between 2 and 4 digits.",
+    "code_template": "import re\nre.search(r\"\\d_____\", \"12345\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "{2,4}",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "{2,4}",
+      "{2,}",
+      "{,4}",
+      "{2-4}"
+    ],
+    "per_tile_feedback": {
+      "{2,4}": "Correct – {2,4} matches 2 to 4 digits.",
+      "{2,}": "Matches 2 or more, up to any number.",
+      "{,4}": "Invalid; minimum bound is required.",
+      "{2-4}": "Range must use a comma, not a hyphen."
+    },
+    "hints": [
+      "Curly braces with two numbers separated by a comma.",
+      "The first number is the minimum, the second the maximum."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "\\d{2,4} matches 2, 3, or 4 digits. The hyphen in {2-4} is a common mistake.",
+    "common_mistake_warning": "⚠️ Writing {2-4} instead of {2,4} is a common syntax error."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_058",
+    "concept_name": "Dot (.) metacharacter",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Use the metacharacter that matches any character except newline.",
+    "code_template": "import re\nre.findall(r\"_____\", \"a1\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ".",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      ".",
+      "\\.",
+      "*",
+      "?"
+    ],
+    "per_tile_feedback": {
+      ".": "Correct – a dot matches any single character (except newline).",
+      "\\.": "Escaped dot matches a literal period, not any character.",
+      "*": "Quantifier, not a character matcher.",
+      "?": "Quantifier, not a character class."
+    },
+    "hints": [
+      "Just a period.",
+      "It matches everything."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In regex, . (dot) is a metacharacter that matches any character except newline by default.",
+    "common_mistake_warning": "⚠️ A common mistake is forgetting that . does not match newline without the DOTALL flag."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_059",
+    "concept_name": "Caret (^) anchor",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Anchor the pattern to match only at the beginning of the string.",
+    "code_template": "import re\nre.findall(r\"_____the\", \"the 80s music the 90s\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "^",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "^",
+      "\\A",
+      "$",
+      "\\b"
+    ],
+    "per_tile_feedback": {
+      "^": "Correct – ^ asserts the start of the string.",
+      "\\A": "Also matches start of string, but the course uses ^.",
+      "$": "$ matches the end of string, opposite.",
+      "\\b": "Word boundary, not a start anchor."
+    },
+    "hints": [
+      "The symbol is a caret.",
+      "It goes at the very beginning of the pattern."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "^the matches 'the' only when it appears at the start of the string.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_060",
+    "concept_name": "Dollar ($) anchor",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Make the pattern only match 'the 90s' at the very end of the string.",
+    "code_template": "import re\nre.findall(r\"the\\s\\d+s_____\", \"the 80s music the 90s\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "$",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "$",
+      "\\Z",
+      "^",
+      "\\b"
+    ],
+    "per_tile_feedback": {
+      "$": "Correct – $ anchors the match to the end of the string.",
+      "\\Z": "Also matches end, but the course uses $.",
+      "^": "Start anchor, wrong position.",
+      "\\b": "Word boundary, not end."
+    },
+    "hints": [
+      "This anchor looks like a dollar sign.",
+      "It goes at the end of the pattern."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Placing $ at the end ensures the match only succeeds if the pattern ends at the string boundary.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_063",
+    "concept_name": "Character set []",
+    "chapter": 9,
+    "difficulty": "hard",
+    "task_description": "Create a character set that matches any lowercase vowel.",
+    "code_template": "import re\nre.findall(r\"_____\", \"hello\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "[aeiou]",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "[aeiou]",
+      "aeiou",
+      "(aeiou)",
+      "{aeiou}"
+    ],
+    "per_tile_feedback": {
+      "[aeiou]": "Correct – a character set matches any one of the listed characters.",
+      "aeiou": "Without brackets, it matches the literal string 'aeiou'.",
+      "(aeiou)": "Parentheses create a capturing group, not a character set.",
+      "{aeiou}": "Curly braces are for quantifiers, not character classes."
+    },
+    "hints": [
+      "Square brackets define a set of allowed characters.",
+      "Inside, just list the characters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "[aeiou] matches any single character among a, e, i, o, u.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_065",
+    "concept_name": "Capturing group",
+    "chapter": 10,
+    "difficulty": "very_hard",
+    "task_description": "Capture the two-digit day inside a group so it can be extracted later.",
+    "code_template": "import re\nre.search(r\"_____\\d{2})-(\\d{4})\", \"12-03-2008\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "(\\d{2})",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "(\\d{2})",
+      "\\d{2}",
+      "(?:\\d{2})",
+      "[\\d{2}]"
+    ],
+    "per_tile_feedback": {
+      "(\\d{2})": "Correct – parentheses create a capturing group.",
+      "\\d{2}": "No parentheses, so no capture.",
+      "(?:\\d{2})": "This is a non-capturing group; it doesn't save the match.",
+      "[\\d{2}]": "Character set, not a group; it matches a single digit or '2'."
+    },
+    "hints": [
+      "Groups are made with parentheses.",
+      "The group should contain the digit pattern."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A capturing group is formed by enclosing the subpattern in parentheses. (\\d{2}) captures the two-digit day.",
+    "common_mistake_warning": "⚠️ Using (?:) instead of () creates a non-capturing group, which does not store the match."
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_069",
+    "concept_name": "Non-capturing group (?:)",
+    "chapter": 11,
+    "difficulty": "very_hard",
+    "task_description": "Repeat the subpattern '34-' three times, but do NOT capture it.",
+    "code_template": "import re\nre.findall(r\"(?:\\d{2}-){3}\\d{3}-\\d{3}\", \"John Smith: 34-34-34-042-980\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "?:",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "?:",
+      "?P",
+      "?=",
+      "?!"
+    ],
+    "per_tile_feedback": {
+      "?:": "Correct – ?: inside parentheses makes the group non-capturing.",
+      "?P": "Used for named groups (?P<name>...), different purpose.",
+      "?=": "Positive lookahead, not a non-capturing group.",
+      "?!": "Negative lookahead."
+    },
+    "hints": [
+      "It's a combination of ? and : inside the parentheses.",
+      "It prevents the group from being saved."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "(?:\\d{2}-){3} repeats the digit pair and hyphen three times without storing the result in a capture group.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_071",
+    "concept_name": "Backreference (numbered)",
+    "chapter": 12,
+    "difficulty": "very_hard",
+    "task_description": "Match a repeated word using a backreference to the first captured word.",
+    "code_template": "import re\nre.sub(r\"(\\w+) _____\", r\"\\1\", \"happy happy\")",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "\\1",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "\\1",
+      "1",
+      "\\g<1>",
+      "?P=word"
+    ],
+    "per_tile_feedback": {
+      "\\1": "Correct – \\1 refers to the text captured by the first group.",
+      "1": "Without backslash, it matches the literal digit '1'.",
+      "\\g<1>": "Also valid in the replacement, but the pattern uses \\1.",
+      "?P=word": "This is for named groups, not numbered."
+    },
+    "hints": [
+      "Backslash followed by the group number.",
+      "It refers to the first group."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In the regex, (\\w+) captures a word, and \\1 matches exactly the same word again, enabling detection of duplicates.",
+    "common_mistake_warning": "⚠️ \\1 must match the exact text, not just the same pattern."
+  }
+]

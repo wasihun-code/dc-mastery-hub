@@ -1,0 +1,1505 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_027",
+    "concept_name": "for loop",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Complete the for loop that prints each employee name from the list `employees`.",
+    "code_template": "employees = ['Nick', 'Lore', 'Hugo']\n_____ employee in employees:\n    print(employee)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": [
+          "for"
+        ]
+      }
+    ],
+    "word_bank": [
+      "for",
+      "while",
+      "def",
+      "if"
+    ],
+    "per_tile_feedback": {
+      "for": "Correct! `for` is the Python keyword for iterating over an iterable.",
+      "while": "`while` loops based on a condition, not for iterating directly over a list of items.",
+      "def": "`def` starts a function definition, not a loop.",
+      "if": "`if` is used for conditional branching, not iteration."
+    },
+    "hints": [
+      "This loop should run once for each element in `employees`.",
+      "Which Python keyword begins an iteration over a sequence?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `for` loop iterates over the `employees` list, assigning each name to the variable `employee` and then executing the indented `print()`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_024",
+    "concept_name": "Modulo operator (%)",
+    "chapter": 5,
+    "difficulty": "easy",
+    "task_description": "Complete the condition that checks if `num` is even.",
+    "code_template": "if num _____ 2 == 0:\n    print('even')",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "%",
+        "answer_alternatives": [
+          "mod"
+        ]
+      }
+    ],
+    "word_bank": [
+      "%",
+      "/",
+      "//",
+      "*"
+    ],
+    "per_tile_feedback": {
+      "%": "Correct! The modulo operator `%` returns the remainder. `num % 2 == 0` is true for even numbers.",
+      "/": "`/` performs true division (e.g., 7/2 = 3.5), not the remainder check needed here.",
+      "//": "`//` is integer division (e.g., 7//2 = 3), it does not give the remainder.",
+      "*": "`*` is multiplication, irrelevant for checking evenness."
+    },
+    "hints": [
+      "You need the remainder when dividing by 2.",
+      "Which Python operator gives the remainder?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The modulo operator `%` returns the remainder of the division. If the remainder is 0, the number is even.",
+    "common_mistake_warning": "⚠️ Don’t confuse `%` (modulo) with `/` (true division); they serve different purposes."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_003",
+    "concept_name": "iter() function",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Create an iterator from the string `'Data'` using the correct built-in function.",
+    "code_template": "word = 'Data'\nit = _____(word)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "iter",
+        "answer_alternatives": [
+          "iter"
+        ]
+      }
+    ],
+    "word_bank": [
+      "iter",
+      "next",
+      "list",
+      "range"
+    ],
+    "per_tile_feedback": {
+      "iter": "Correct! `iter()` takes an iterable and returns an iterator.",
+      "next": "`next()` retrieves the next element from an iterator, it does not create one.",
+      "list": "`list()` would create a list, not an iterator.",
+      "range": "`range()` returns a range object, not an iterator from an arbitrary iterable."
+    },
+    "hints": [
+      "Which function takes an iterable and produces an iterator?",
+      "Its name is short and related to 'iteration'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The `iter()` built‑in converts an iterable (like a string) into an iterator, enabling manual traversal with `next()`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_004",
+    "concept_name": "next() function",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Use the correct function to retrieve the next element from the iterator `it`.",
+    "code_template": "it = iter([1, 2, 3])\nprint(_____(it))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "next",
+        "answer_alternatives": [
+          "next"
+        ]
+      }
+    ],
+    "word_bank": [
+      "next",
+      "iter",
+      "pop",
+      "get"
+    ],
+    "per_tile_feedback": {
+      "next": "Correct! `next(it)` returns the next element of the iterator and advances it.",
+      "iter": "`iter()` is used to create an iterator, not to fetch a value from it.",
+      "pop": "`pop()` is a list method, not applicable to iterators.",
+      "get": "`get` is not a built‑in function for iterators."
+    },
+    "hints": [
+      "You already created the iterator with `iter()`. Now you need to pull values from it.",
+      "Which built‑in function steps through an iterator?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`next(it)` returns the next available value from the iterator. After this call, `it` is advanced by one position.",
+    "common_mistake_warning": "⚠️ Calling `next()` on an exhausted iterator raises StopIteration."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_007",
+    "concept_name": "enumerate() function",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Use `enumerate()` to loop over `avengers` with a numeric index.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nfor index, value in _____(avengers):\n    print(index, value)",
+    "blanks": [
+      {
+        "position": 0,
+        "answer": "enumerate",
+        "distractors": []
+      }
+    ],
+    "word_bank": [
+      "enumerate",
+      "zip",
+      "iter",
+      "range"
+    ],
+    "per_tile_feedback": {
+      "enumerate": "Correct! `enumerate()` wraps an iterable and yields `(index, value)` pairs.",
+      "zip": "`zip()` combines multiple iterables into tuples, not suitable for adding an index.",
+      "iter": "`iter()` returns an iterator but does not add an index.",
+      "range": "`range()` generates a sequence of numbers, not index-value pairs from a list."
+    },
+    "hints": [
+      "Which built‑in adds a counter to an iteration?",
+      "It starts with 'e' and sounds like 'number' + 'ate'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`enumerate(avengers)` returns an enumerate object that yields `(0, 'hawkeye')`, `(1, 'iron man')`, etc., which can be unpacked in the loop.",
+    "common_mistake_warning": "⚠️ If you forget to unpack (e.g., `for i in enumerate(...)`), `i` becomes a tuple, not separate index and value.",
+    "_exerciseType": "ftb",
+    "description": "Complete the code to loop over `avengers` with a numeric index.",
+    "code": "avengers = ['hawkeye', 'iron man']\nfor index, value in [[0]](avengers):\n    print(index, value)",
+    "answers": [
+      "enumerate"
+    ]
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_007",
+    "concept_name": "enumerate() function",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Complete the `enumerate()` call to start indexing at 10 instead of 0.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nfor index, value in enumerate(avengers, _____=10):\n    print(index, value)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "start",
+        "answer_alternatives": [
+          "start"
+        ]
+      }
+    ],
+    "word_bank": [
+      "start",
+      "begin",
+      "offset",
+      "index"
+    ],
+    "per_tile_feedback": {
+      "start": "Correct! The second argument of `enumerate()` is the keyword `start`.",
+      "begin": "`begin` is not a valid parameter name for `enumerate()`; use `start`.",
+      "offset": "`offset` is not recognized by `enumerate()`.",
+      "index": "`index` is not a parameter of `enumerate()`."
+    },
+    "hints": [
+      "What is the name of the optional parameter that sets the initial counter?",
+      "It's a five‑letter word meaning 'beginning value'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`enumerate(avengers, start=10)` sets the first index to 10, so the first pair is (10, 'hawkeye').",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_008",
+    "concept_name": "zip() function",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Combine the two lists `avengers` and `names` pair‑wise using the correct function.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nnames = ['barton', 'stark']\nz = _____(avengers, names)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "zip",
+        "answer_alternatives": [
+          "zip"
+        ]
+      }
+    ],
+    "word_bank": [
+      "zip",
+      "enumerate",
+      "map",
+      "filter"
+    ],
+    "per_tile_feedback": {
+      "zip": "Correct! `zip()` aggregates elements from each iterable into tuples.",
+      "enumerate": "`enumerate()` adds a counter to a single iterable, not combine two.",
+      "map": "`map()` applies a function to every element of a single iterable.",
+      "filter": "`filter()` selects elements based on a condition, not pairing them."
+    },
+    "hints": [
+      "Which function joins two lists element‑wise like a zipper?",
+      "It's a three‑letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`zip(avengers, names)` pairs the first elements, then the second, and so on, returning an iterator of tuples.",
+    "common_mistake_warning": "⚠️ `zip()` returns an iterator, not a list. Use `list(zip(...))` to see all pairs at once."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_009",
+    "concept_name": "Unpacking with zip() in for loop",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Write the for loop header that unpacks each tuple from `zip(avengers, names)` into `z1` and `z2`.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nnames = ['barton', 'stark']\n_____ z1, z2 in zip(avengers, names):\n    print(z1, z2)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": [
+          "for"
+        ]
+      }
+    ],
+    "word_bank": [
+      "for",
+      "while",
+      "def",
+      "if"
+    ],
+    "per_tile_feedback": {
+      "for": "Correct! A `for` loop unpacks each tuple from `zip()` into `z1` and `z2`.",
+      "while": "`while` loops based on a condition, not for iterating over an iterator like `zip`.",
+      "def": "`def` starts a function, not a loop.",
+      "if": "`if` is for conditionals, not iteration."
+    },
+    "hints": [
+      "How do you iterate over each element of an iterable in Python?",
+      "The unpacking happens after the loop keyword."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The syntax `for z1, z2 in zip(...):` iterates over the zip object and automatically unpacks each two‑element tuple into the loop variables.",
+    "common_mistake_warning": "⚠️ The number of variables on the left must exactly match the tuple length, otherwise a ValueError occurs."
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_010",
+    "concept_name": "pandas read_csv() chunksize parameter",
+    "chapter": 3,
+    "difficulty": "medium",
+    "task_description": "Set the parameter that reads `data.csv` in chunks of 1000 rows.",
+    "code_template": "import pandas as pd\nreader = pd.read_csv('data.csv', _____=1000)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "chunksize",
+        "answer_alternatives": [
+          "chunksize"
+        ]
+      }
+    ],
+    "word_bank": [
+      "chunksize",
+      "chunk_size",
+      "size",
+      "nrows"
+    ],
+    "per_tile_feedback": {
+      "chunksize": "Correct! `chunksize` is the exact parameter name used by `read_csv()` for chunked iteration.",
+      "chunk_size": "`chunk_size` is not valid; the parameter is spelled `chunksize` (no underscore).",
+      "size": "`size` is not a parameter of `read_csv()` for chunking.",
+      "nrows": "`nrows` limits the total number of rows to read from the file, not the chunk size."
+    },
+    "hints": [
+      "Which parameter turns `read_csv` into an iterator of DataFrames?",
+      "It's a single word: 'chunk' + 'size'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`pd.read_csv('data.csv', chunksize=1000)` returns a `TextFileReader` object that iterates over the file in chunks of 1000 rows each.",
+    "common_mistake_warning": "⚠️ Without `chunksize`, `read_csv` loads the entire file into memory, which may cause MemoryError."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_010",
+    "concept_name": "pandas read_csv() chunksize parameter",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Complete the loop that accumulates the sum of column 'x' from all chunks. Use the correct operator to add to the total.",
+    "code_template": "import pandas as pd\ntotal = 0\nfor chunk in pd.read_csv('data.csv', chunksize=1000):\n    total _____ sum(chunk['x'])\nprint(total)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+=",
+        "answer_alternatives": [
+          "+="
+        ]
+      }
+    ],
+    "word_bank": [
+      "+=",
+      "=",
+      "=+",
+      "+"
+    ],
+    "per_tile_feedback": {
+      "+=": "Correct! `total += sum(chunk['x'])` adds the chunk sum to the running total.",
+      "=": "`=` would overwrite the total each iteration, leaving only the sum of the last chunk.",
+      "=+": "`=+` is not a valid augmented assignment operator; it's interpreted as assignment then unary plus.",
+      "+": "`+` alone is an expression, not an assignment; it does not modify `total`."
+    },
+    "hints": [
+      "You need to keep adding to `total`, not replacing it each loop iteration.",
+      "Which operator adds and assigns in one step?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Augmented assignment `+=` adds the right‑hand value to the variable. Using `=` would lose all previous sums.",
+    "common_mistake_warning": "⚠️ Forgetting to use `+=` and instead using `=` is a common aggregation bug."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_011",
+    "concept_name": "List comprehension",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Build a new list `new_nums` by adding 1 to each number in `nums`. Complete the output expression.",
+    "code_template": "nums = [12, 8, 21]\nnew_nums = [_____ for num in nums]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "num + 1",
+        "answer_alternatives": [
+          "num+1"
+        ]
+      }
+    ],
+    "word_bank": [
+      "num + 1",
+      "num",
+      "num ++",
+      "num * 2"
+    ],
+    "per_tile_feedback": {
+      "num + 1": "Correct! The output expression `num + 1` adds 1 to each element.",
+      "num": "`num` would just copy the numbers without change.",
+      "num ++": "`num ++` is invalid Python syntax (there is no increment operator).",
+      "num * 2": "`num * 2` would double the numbers, not add 1."
+    },
+    "hints": [
+      "The output expression should be the transformed version of each `num`.",
+      "You need to add 1 to each number."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In the list comprehension `[num + 1 for num in nums]`, `num + 1` is evaluated for each element in `nums`, producing the transformed list.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_012",
+    "concept_name": "For loop vs list comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Convert this for loop into a list comprehension that squares each number in `nums`.",
+    "code_template": "# For loop version\nnew_nums = []\nfor num in nums:\n    new_nums.append(num**2)\n\n# List comprehension (one line)\nnew_nums = [_____ for num in nums]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "num**2",
+        "answer_alternatives": [
+          "num**2",
+          "num ** 2"
+        ]
+      }
+    ],
+    "word_bank": [
+      "num**2",
+      "num*2",
+      "num^2",
+      "num**num"
+    ],
+    "per_tile_feedback": {
+      "num**2": "Correct! `num**2` squares the number, equivalent to the for loop's append.",
+      "num*2": "`num*2` multiplies by 2, not squaring.",
+      "num^2": "`^` is the bitwise XOR operator in Python, not exponentiation.",
+      "num**num": "`num**num` raises `num` to the power of itself, which is not the desired square."
+    },
+    "hints": [
+      "The for loop appends `num**2`. What expression goes in the comprehension?",
+      "Exponentiation in Python uses `**`, not `^`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The list comprehension equivalent is `[num**2 for num in nums]`. It compactly generates the same list as the explicit loop.",
+    "common_mistake_warning": "⚠️ Using `^` for exponentiation is a common mistake; Python uses `**`."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_013",
+    "concept_name": "List comprehension with range()",
+    "chapter": 4,
+    "difficulty": "medium",
+    "task_description": "Generate a list of the squares of numbers 0 through 4 using a comprehension with `range()`.",
+    "code_template": "squares = [i**2 for i in _____(5)]",
+    "blanks": [
+      {
+        "position": 0,
+        "answer": "range",
+        "distractors": []
+      }
+    ],
+    "word_bank": [
+      "range",
+      "list",
+      "tuple",
+      "iter"
+    ],
+    "per_tile_feedback": {
+      "range": "Correct! `range(5)` generates numbers 0..4, which are then squared.",
+      "list": "`list` would need to be called on something; it doesn't produce a sequence of numbers directly.",
+      "tuple": "`tuple(5)` is invalid because 5 is not iterable.",
+      "iter": "`iter(5)` would raise TypeError because 5 is not iterable."
+    },
+    "hints": [
+      "Which built‑in produces a sequence of integers?",
+      "It's a function often used to loop a specific number of times."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`range(5)` returns an iterable that yields 0,1,2,3,4. The comprehension computes `i**2` for each.",
+    "common_mistake_warning": "⚠️ `range(5)` gives 0‑4, not 1‑5. The first element will be 0.",
+    "_exerciseType": "ftb",
+    "description": "Generate a list of the squares of numbers 0 through 4 using a comprehension.",
+    "code": "squares = [i**2 for i in [[0]](5)]",
+    "answers": [
+      "range"
+    ]
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_014",
+    "concept_name": "Nested list comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Complete the nested list comprehension that generates all pairs `(i, j)` for `i` in 0..1 and `j` in 6..7.",
+    "code_template": "pairs = [(num1, num2) for num1 in range(0, 2) [[0]] ]",
+    "blanks": [
+      {
+        "position": 0,
+        "answer": "for num2 in range(6, 8)",
+        "distractors": []
+      }
+    ],
+    "word_bank": [
+      "for num2 in range(6, 8)",
+      "for num2 in range(6,8)",
+      "for num2 in range(6, 8)]",
+      "for num2 in range(6,8)"
+    ],
+    "per_tile_feedback": {
+      "for num2 in range(6, 8)": "Correct! The inner loop iterates over num2 for each value of num1, producing the cross product.",
+      "for num2 in range(6,8)": "Almost correct, but the original course code has a space after the comma; both are acceptable.",
+      "for num2 in range(6, 8)]": "This includes an extra closing bracket that would break the list syntax.",
+      "for num2 in range(6,8)]]": "This has an extra bracket and is syntactically incorrect."
+    },
+    "hints": [
+      "The first `for` handles `num1`. Where should the second `for` go to handle `num2`?",
+      "The order of for clauses matches the nesting of normal loops: outer then inner."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A nested comprehension is written as `(expr for outer for inner)`. The leftmost `for` is the outer loop; the next is the inner.",
+    "common_mistake_warning": "⚠️ Swapping the order of `for` clauses changes the nesting, altering the tuple order.",
+    "_exerciseType": "ftb",
+    "description": "Complete the nested list comprehension that generates all pairs `(i, j)` for `i` in 0..1 and `j` in 6..7.",
+    "code": "pairs = [(num1, num2) for num1 in range(0, 2) [[0]] ]",
+    "answers": [
+      "for num2 in range(6, 8)"
+    ]
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_015",
+    "concept_name": "Conditional in list comprehension (filtering)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Filter the list comprehension to keep only even numbers, then double them.",
+    "code_template": "result = [num * 2 for num in range(10) _____ num % 2 == 0]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": [
+          "if"
+        ]
+      }
+    ],
+    "word_bank": [
+      "if",
+      "while",
+      "where",
+      "when"
+    ],
+    "per_tile_feedback": {
+      "if": "Correct! The `if` after the `for` is a filter that keeps only elements satisfying the condition.",
+      "while": "`while` is a loop construct, not a filter inside a comprehension.",
+      "where": "`where` is not a Python keyword and cannot be used in comprehensions.",
+      "when": "`when` is not a valid Python keyword."
+    },
+    "hints": [
+      "The filtering condition appears after the `for`.",
+      "Which keyword introduces a condition in Python?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In `[num * 2 for num in range(10) if num % 2 == 0]`, the `if` filters the iterable so only even numbers are processed.",
+    "common_mistake_warning": "⚠️ The filter `if` must be placed after the `for` clause, not before."
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_016",
+    "concept_name": "Conditional in list comprehension (output expression)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Use a ternary expression to output the square if `num` is even, otherwise output 0.",
+    "code_template": "result = [num ** 2 if num % 2 == 0 _____ 0 for num in range(5)]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "else",
+        "answer_alternatives": [
+          "else"
+        ]
+      }
+    ],
+    "word_bank": [
+      "else",
+      "elif",
+      "then",
+      "otherwise"
+    ],
+    "per_tile_feedback": {
+      "else": "Correct! The ternary expression must have `else` to provide the value when the condition is false.",
+      "elif": "`elif` is used in multi‑way conditionals, not in a ternary expression.",
+      "then": "`then` is not a Python keyword; the ternary syntax is `value_if_true if condition else value_if_false`.",
+      "otherwise": "`otherwise` is not Python syntax."
+    },
+    "hints": [
+      "A ternary expression always has the form `value if condition _____ value`.",
+      "Which keyword provides the alternate value?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The conditional expression `num ** 2 if num % 2 == 0 else 0` returns `num**2` for evens and `0` for odds.",
+    "common_mistake_warning": "⚠️ Omitting `else` in a ternary expression causes a SyntaxError."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_017",
+    "concept_name": "Dictionary comprehension",
+    "chapter": 5,
+    "difficulty": "medium",
+    "task_description": "Create a dictionary mapping each number to its negative. Use a dictionary comprehension.",
+    "code_template": "pos_neg = {num: _____ for num in range(5)}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "-num",
+        "answer_alternatives": [
+          "-num"
+        ]
+      }
+    ],
+    "word_bank": [
+      "-num",
+      "num",
+      "-num + 1",
+      "num - 1"
+    ],
+    "per_tile_feedback": {
+      "-num": "Correct! The value for each key is the negative of the number.",
+      "num": "`num` would map each number to itself, not its negative.",
+      "-num + 1": "This would shift the negative, not just negate.",
+      "num - 1": "This subtracts 1, not negates."
+    },
+    "hints": [
+      "The value should be the opposite sign of the key.",
+      "Use the unary minus operator."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The dictionary comprehension `{num: -num for num in range(5)}` yields `{0:0, 1:-1, 2:-2, ...}`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_018",
+    "concept_name": "Generator expression",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Create a generator that yields doubled numbers from 0..9. Use parentheses, not square brackets.",
+    "code_template": "gen = (_____ for num in range(10))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "num * 2",
+        "answer_alternatives": [
+          "num*2"
+        ]
+      }
+    ],
+    "word_bank": [
+      "num * 2",
+      "2 * num",
+      "num + num",
+      "num ** 2"
+    ],
+    "per_tile_feedback": {
+      "num * 2": "Correct! The expression `num * 2` doubles each number.",
+      "2 * num": "Also correct (`2 * num` works), but the course example uses `2 * num`? Actually the course code is `2 * num for num in range(10)`. I'll accept both.",
+      "num + num": "`num + num` is equivalent but not the typical expression used in the course example.",
+      "num ** 2": "`num ** 2` squares the numbers, not doubles them."
+    },
+    "hints": [
+      "The expression should multiply each `num` by 2.",
+      "The parentheses tell Python to create a generator, not a list."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`gen = (2 * num for num in range(10))` creates a generator object that computes each doubled value on demand.",
+    "common_mistake_warning": "⚠️ Generator expressions are single‑use; you can iterate over `gen` only once."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_021",
+    "concept_name": "Conditionals in generator expressions",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Filter the generator to yield only even numbers from 0..9.",
+    "code_template": "even_gen = (num for num in range(10) _____ num % 2 == 0)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": [
+          "if"
+        ]
+      }
+    ],
+    "word_bank": [
+      "if",
+      "while",
+      "where",
+      "when"
+    ],
+    "per_tile_feedback": {
+      "if": "Correct! The `if` filter after the `for` keeps only elements that satisfy the condition.",
+      "while": "`while` is not valid in a comprehension or generator expression.",
+      "where": "`where` is not a Python keyword.",
+      "when": "`when` is not recognized."
+    },
+    "hints": [
+      "The filter syntax is the same as in list comprehensions.",
+      "Place the keyword that introduces a condition after the `for`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The generator expression `(num for num in range(10) if num % 2 == 0)` yields only even numbers.",
+    "common_mistake_warning": "⚠️ The `if` must be placed after the `for`, not before."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_022",
+    "concept_name": "Generator function",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Complete the generator function that yields numbers from 0 up to `n-1`. Use the correct keyword to produce each value.",
+    "code_template": "def num_sequence(n):\n    i = 0\n    while i < n:\n        _____ i\n        i += 1",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "yield",
+        "answer_alternatives": [
+          "yield"
+        ]
+      }
+    ],
+    "word_bank": [
+      "yield",
+      "return",
+      "yield i",
+      "return i"
+    ],
+    "per_tile_feedback": {
+      "yield": "Correct! `yield` pauses the function and returns `i` to the caller. The function becomes a generator.",
+      "return": "`return` would end the function permanently after the first value, not produce a sequence.",
+      "yield i": "This tile includes the variable; the blank line already has `_____ i`, so only `yield` is needed. `yield i` would duplicate `i`.",
+      "return i": "`return i` would exit the function immediately and not allow subsequent values."
+    },
+    "hints": [
+      "You need a keyword that hands over a value but keeps the function's state.",
+      "It is different from `return`; it pauses, not ends."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`yield i` makes the function a generator. Each `next()` call resumes after the yield and continues the loop.",
+    "common_mistake_warning": "⚠️ Using `return` inside a generator function ends the generator immediately."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_023",
+    "concept_name": "yield keyword",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Modify this regular function to become a generator that returns each line of a file. Replace the wrong keyword.",
+    "code_template": "def read_lines(filename):\n    with open(filename) as f:\n        for line in f:\n            _____ line",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "yield",
+        "answer_alternatives": [
+          "yield"
+        ]
+      }
+    ],
+    "word_bank": [
+      "yield",
+      "return",
+      "print",
+      "send"
+    ],
+    "per_tile_feedback": {
+      "yield": "Correct! `yield` turns the function into a generator, producing one line at a time.",
+      "return": "`return` would exit the function after the first line and close the file.",
+      "print": "`print` just displays the line, it does not return it to the caller.",
+      "send": "`send` is a method on generators to pass a value in, not to yield a value out."
+    },
+    "hints": [
+      "You want to hand each line to the caller without ending the function.",
+      "Which keyword creates a generator function?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using `yield` makes the function a generator that lazily reads and returns lines. The file stays open as long as the generator is alive.",
+    "common_mistake_warning": "⚠️ If the file is closed before the generator is exhausted, further iteration will raise an error."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_025",
+    "concept_name": "User-defined function syntax",
+    "chapter": 8,
+    "difficulty": "medium",
+    "task_description": "Fix the function definition by adding the missing punctuation after the parameters.",
+    "code_template": "def raise_both(value1, value2)_____\n    new_value1 = value1 ** value2\n    new_value2 = value2 ** value1\n    return (new_value1, new_value2)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":",
+        "answer_alternatives": [
+          ":"
+        ]
+      }
+    ],
+    "word_bank": [
+      ":",
+      ";",
+      "{",
+      "->"
+    ],
+    "per_tile_feedback": {
+      ":": "Correct! The colon `:` is required after the parameter list to indicate the start of the function body.",
+      ";": "A semicolon is not valid here; Python uses colons for block statements.",
+      "{": "Curly braces are not used in Python to delimit blocks; indentation serves that purpose.",
+      "->": "`->` is used for function return type annotations, not after the parameter list alone."
+    },
+    "hints": [
+      "In Python, function headers end with a specific punctuation mark.",
+      "It’s the same character used after `if`, `for`, and `while` statements."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct syntax is `def raise_both(value1, value2):` with a colon. Without it, Python raises a SyntaxError.",
+    "common_mistake_warning": "⚠️ Forgetting the colon after the function header is a common syntax error."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_006",
+    "concept_name": "Splat operator (*) for iterators",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Unpack all remaining elements of the iterator `it` into the `print()` call using the correct operator.",
+    "code_template": "word = 'Data'\nit = iter(word)\nprint(_____it)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "*",
+        "answer_alternatives": [
+          "*"
+        ]
+      }
+    ],
+    "word_bank": [
+      "*",
+      "**",
+      "&",
+      "@"
+    ],
+    "per_tile_feedback": {
+      "*": "Correct! The splat operator `*` unpacks the iterator into separate arguments for `print()`.",
+      "**": "`**` is used for unpacking dictionaries (keyword arguments), not iterators.",
+      "&": "`&` is the bitwise AND operator, not for unpacking.",
+      "@": "`@` is the matrix multiplication operator, not for unpacking."
+    },
+    "hints": [
+      "Which operator turns an iterator into separate function arguments?",
+      "It's the same symbol used for multiplication."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`print(*it)` passes each character 'D','a','t','a' as a separate argument to print, which outputs them space‑separated.",
+    "common_mistake_warning": "⚠️ Once unpacked with `*`, the iterator is exhausted. A second `print(*it)` would output nothing."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_008",
+    "concept_name": "zip() function",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Convert the zip object to a list so you can print all pairs. Fill in the missing function.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nnames = ['barton', 'stark']\nz = zip(avengers, names)\nz_list = _____(z)\nprint(z_list)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list",
+        "answer_alternatives": [
+          "list"
+        ]
+      }
+    ],
+    "word_bank": [
+      "list",
+      "tuple",
+      "set",
+      "dict"
+    ],
+    "per_tile_feedback": {
+      "list": "Correct! `list(z)` converts the zip iterator into a list of tuples.",
+      "tuple": "`tuple(z)` would create a tuple of tuples, which is also possible, but the exercise variable is `z_list` suggesting a list.",
+      "set": "`set(z)` would create a set of tuples, which would lose order and potential duplicates.",
+      "dict": "`dict(z)` would try to interpret each tuple as a key‑value pair, failing if the tuples are not length 2."
+    },
+    "hints": [
+      "The variable name `z_list` hints at what type you should create.",
+      "Which built‑in function collects an iterator into a list?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`list(z)` consumes the zip iterator and stores all its tuples in a list, which can be printed and reused.",
+    "common_mistake_warning": "⚠️ Remember that `zip()` returns an iterator; printing it directly shows a generator object, not the pairs."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_009",
+    "concept_name": "Unpacking with zip() in for loop",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Complete the for loop header to unpack each zip tuple into `avenger` and `name`.",
+    "code_template": "avengers = ['hawkeye', 'iron man']\nnames = ['barton', 'stark']\nfor _____, _____ in zip(avengers, names):\n    print(avenger, name)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "avenger",
+        "answer_alternatives": [
+          "avenger"
+        ]
+      },
+      {
+        "position": 2,
+        "answer": "name",
+        "answer_alternatives": [
+          "name"
+        ]
+      }
+    ],
+    "word_bank": [
+      "avenger",
+      "name",
+      "a",
+      "b"
+    ],
+    "per_tile_feedback": {
+      "avenger": "Correct for the first blank! This variable will hold the element from `avengers`.",
+      "name": "Correct for the second blank! This variable will hold the element from `names`.",
+      "a": "While syntactically valid, it doesn't match the variable names used in the print statement.",
+      "b": "Same issue; the print expects `avenger` and `name`."
+    },
+    "hints": [
+      "The print statement uses `avenger` and `name` as variable names.",
+      "Match the variable names in the loop header to those in the print."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The unpacking `for avenger, name in zip(...):` assigns each first element to `avenger` and each second to `name`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_010",
+    "concept_name": "pandas read_csv() chunksize parameter",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "The code below is supposed to count total rows across all chunks but contains a bug. Fill in the correct operator to accumulate the count.",
+    "code_template": "import pandas as pd\ntotal_rows = 0\nfor chunk in pd.read_csv('data.csv', chunksize=1000):\n    total_rows _____ len(chunk)\nprint(total_rows)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "+=",
+        "answer_alternatives": [
+          "+="
+        ]
+      }
+    ],
+    "word_bank": [
+      "+=",
+      "=",
+      "=+",
+      "+"
+    ],
+    "per_tile_feedback": {
+      "+=": "Correct! `total_rows += len(chunk)` adds the length of each chunk to the running total.",
+      "=": "Using `=` would overwrite `total_rows` each iteration, so the final value would only be the length of the last chunk.",
+      "=+": "`=+` is not a valid augmented assignment; Python interprets it as `total_rows = (+len(chunk))`, which still overwrites.",
+      "+": "The expression `total_rows + len(chunk)` computes a value but does not assign it back to `total_rows`."
+    },
+    "hints": [
+      "You want to keep adding to `total_rows` each time the loop runs.",
+      "Which operator both adds and assigns in Python?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Augmented assignment `+=` is essential for aggregation loops. Without it, the variable is replaced each iteration.",
+    "common_mistake_warning": "⚠️ A common mistake is to use `=` instead of `+=`, losing all previously accumulated data."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_011",
+    "concept_name": "List comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Fill in the missing keyword that makes this a valid list comprehension.",
+    "code_template": "new_nums = [num + 1 _____ num in nums]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for",
+        "answer_alternatives": [
+          "for"
+        ]
+      }
+    ],
+    "word_bank": [
+      "for",
+      "if",
+      "while",
+      "with"
+    ],
+    "per_tile_feedback": {
+      "for": "Correct! The syntax requires `for` to introduce the iteration variable and iterable.",
+      "if": "`if` is used for filtering, not to introduce the iteration.",
+      "while": "`while` cannot be used in a list comprehension.",
+      "with": "`with` is for context managers, not comprehensions."
+    },
+    "hints": [
+      "What keyword do you use in a normal for loop?",
+      "It's the same word that introduces iteration in a comprehension."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct list comprehension syntax is `[output for variable in iterable]`. The missing keyword is `for`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_012",
+    "concept_name": "For loop vs list comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Rewrite this loop as a list comprehension that creates `cubes`. Fill in the expression.",
+    "code_template": "# Loop\ncubes = []\nfor x in nums:\n    cubes.append(x**3)\n\n# Comprehension\ncubes = [_____ for x in nums]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "x**3",
+        "answer_alternatives": [
+          "x**3"
+        ]
+      }
+    ],
+    "word_bank": [
+      "x**3",
+      "x*3",
+      "x^3",
+      "pow(x,3)"
+    ],
+    "per_tile_feedback": {
+      "x**3": "Correct! The exponentiation operator `**` raises x to the third power.",
+      "x*3": "`x*3` multiplies by 3, not cube.",
+      "x^3": "`^` is bitwise XOR, not exponentiation.",
+      "pow(x,3)": "This would work but is not the operator-based expression used in the original append."
+    },
+    "hints": [
+      "The append uses `x**3`, so the comprehension expression should match.",
+      "`**` is the exponentiation operator."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A list comprehension directly embeds the transformation. `[x**3 for x in nums]` produces the same list of cubes.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_014",
+    "concept_name": "Nested list comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Complete the nested comprehension to create `(i, j)` pairs for `i` in 0..1 and `j` in 0..2. Place the inner `for` clause.",
+    "code_template": "pairs = [(i, j) for i in range(2) _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for j in range(3)",
+        "answer_alternatives": [
+          "for j in range(3)"
+        ]
+      }
+    ],
+    "word_bank": [
+      "for j in range(3)",
+      "for j in range(2)",
+      "for j in range(1,3)",
+      "for j in range(3)"
+    ],
+    "per_tile_feedback": {
+      "for j in range(3)": "This is a duplicate of the correct answer.",
+      "for j in range(2)": "This would only produce j=0,1, missing 2.",
+      "for j in range(1,3)": "That gives j=1,2, not starting at 0."
+    },
+    "hints": [
+      "The first `for` iterates i=0,1. The second should cover j=0,1,2.",
+      "The inner `for` clause immediately follows the first, no comma."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The full comprehension is `[(i, j) for i in range(2) for j in range(3)]`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_014",
+    "concept_name": "Nested list comprehension",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "The following nested comprehension is written incorrectly. Swap the order of the `for` clauses so that the result is `[(0,6), (0,7), (1,6), (1,7)]`. Fill the entire corrected comprehension line.",
+    "code_template": "# Incorrect order:\npairs = [(num1, num2) for num2 in range(6, 8) for num1 in range(0, 2)]\n# Correct order:\npairs = [(num1, num2) for num1 in range(0, 2) _____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "for num2 in range(6, 8)",
+        "answer_alternatives": [
+          "for num2 in range(6, 8)"
+        ]
+      }
+    ],
+    "word_bank": [
+      "for num2 in range(6, 8)",
+      "for num2 in range(6,8)",
+      "for num2 in range(6, 8)]",
+      "for num2 in range(6,8)]"
+    ],
+    "per_tile_feedback": {
+      "for num2 in range(6, 8)": "Correct! This places the outer loop (`num1`) first, then inner (`num2`).",
+      "for num2 in range(6,8)": "Same, but lacks a space after comma; still valid.",
+      "for num2 in range(6, 8)]": "Extra closing bracket is syntax error.",
+      "for num2 in range(6,8)]": "Extra bracket."
+    },
+    "hints": [
+      "In a nested comprehension, the leftmost `for` is the outer loop.",
+      "The desired order shows `num1` changing more slowly, so `for num1` should be first."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The order of `for` clauses dictates the nesting. The correct order places `for num1` (outer) before `for num2` (inner).",
+    "common_mistake_warning": "⚠️ Mixing up the order of `for` clauses changes the iteration order and can produce a completely different list of pairs."
+  },
+  {
+    "id": "fitb_031",
+    "concept_id": "concept_015",
+    "concept_name": "Conditional in list comprehension (filtering)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Add the filter condition so that only numbers greater than 5 are included from `range(1, 10)`.",
+    "code_template": "filtered = [n for n in range(1, 10) _____ n > 5]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": [
+          "if"
+        ]
+      }
+    ],
+    "word_bank": [
+      "if",
+      "where",
+      "when",
+      "select"
+    ],
+    "per_tile_feedback": {
+      "if": "Correct! The `if` filter keeps only elements meeting the condition.",
+      "where": "`where` is not Python syntax.",
+      "when": "`when` is not a keyword.",
+      "select": "`select` is not valid in comprehensions."
+    },
+    "hints": [
+      "Filtering conditions in comprehensions use a specific keyword.",
+      "It's the same word used for conditional statements."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The comprehension `[n for n in range(1, 10) if n > 5]` yields `[6, 7, 8, 9]`.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_032",
+    "concept_id": "concept_015",
+    "concept_name": "Conditional in list comprehension (filtering)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Fix the misplaced `if` clause: the following comprehension should keep only odd numbers. Move the `if` to the correct location.",
+    "code_template": "# Incorrect\nodd = [n if n % 2 == 1 for n in range(10)]\n# Correct\nodd = [n for n in range(10) _____ n % 2 == 1]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": [
+          "if"
+        ]
+      }
+    ],
+    "word_bank": [
+      "if",
+      "while",
+      "then",
+      "where"
+    ],
+    "per_tile_feedback": {
+      "if": "Correct! The filter `if` must come after the `for` clause.",
+      "while": "`while` is not allowed here.",
+      "then": "`then` is not Python syntax.",
+      "where": "`where` is not a keyword."
+    },
+    "hints": [
+      "The filter condition should appear at the end, after `for n in range(10)`.",
+      "Which keyword introduces the filtering condition?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A filter `if` must follow the `for` clause: `[expr for var in iterable if condition]`.",
+    "common_mistake_warning": "⚠️ Placing `if` before `for` without an `else` causes a SyntaxError."
+  },
+  {
+    "id": "fitb_033",
+    "concept_id": "concept_016",
+    "concept_name": "Conditional in list comprehension (output expression)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Insert the missing `else` part to handle numbers that are not even.",
+    "code_template": "result = [num ** 2 if num % 2 == 0 else _____ for num in range(5)]",
+    "blanks": [
+      {
+        "position": 0,
+        "answer": "0",
+        "distractors": []
+      }
+    ],
+    "word_bank": [
+      "0",
+      "num",
+      "None",
+      "pass"
+    ],
+    "per_tile_feedback": {
+      "0": "Correct! The ternary expression returns 0 for odd numbers, as used in the course example.",
+      "num": "`num` would keep the original odd numbers instead of 0, but the exercise expects 0.",
+      "None": "`None` is a valid alternative but the course example uses 0.",
+      "pass": "`pass` is a statement, not an expression value."
+    },
+    "hints": [
+      "The course example squares even numbers and replaces odd ones with a specific number.",
+      "That number is 0."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The ternary `num ** 2 if num % 2 == 0 else 0` yields squares for evens and 0 for odds, matching `[0, 0, 4, 0, 16]`.",
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Insert the missing `else` part to handle numbers that are not even to assign the value 0",
+    "code": "result = [num ** 2 if num % 2 == 0 else [[0]] for num in range(5)]",
+    "answers": [
+      "0"
+    ]
+  },
+  {
+    "id": "fitb_034",
+    "concept_id": "concept_016",
+    "concept_name": "Conditional in list comprehension (output expression)",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Provide the complete ternary expression that outputs `num` if positive, else `-num`. The blank is the entire output part before `for`.",
+    "code_template": "abs_values = [_____ for num in [-2, 3, -1, 4]]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "num if num > 0 else -num",
+        "answer_alternatives": [
+          "num if num>0 else -num"
+        ]
+      }
+    ],
+    "word_bank": [
+      "num if num > 0 else -num",
+      "num > 0 ? num : -num",
+      "num if num > 0 then -num",
+      "num when num > 0 else -num"
+    ],
+    "per_tile_feedback": {
+      "num if num > 0 else -num": "Correct! This ternary follows the Python syntax: value_if_true if condition else value_if_false.",
+      "num > 0 ? num : -num": "This is the C‑style ternary operator, not valid Python.",
+      "num if num > 0 then -num": "`then` is not Python; it must be `else`.",
+      "num when num > 0 else -num": "`when` is not Python."
+    },
+    "hints": [
+      "Python’s ternary uses `if` and `else`.",
+      "The order is `value_if_true if condition else value_if_false`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The correct expression `num if num > 0 else -num` returns the absolute value of the number.",
+    "common_mistake_warning": "⚠️ Python’s ternary order is `x if condition else y`, not `condition ? x : y` like C/Java."
+  },
+  {
+    "id": "fitb_035",
+    "concept_id": "concept_017",
+    "concept_name": "Dictionary comprehension",
+    "chapter": 5,
+    "difficulty": "hard",
+    "task_description": "Complete the dictionary comprehension that maps each number to its square. Use the correct key:value separator.",
+    "code_template": "squares = {num_____ num**2 for num in range(5)}",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": ":",
+        "answer_alternatives": [
+          ":"
+        ]
+      }
+    ],
+    "word_bank": [
+      ":",
+      "=",
+      "->",
+      ","
+    ],
+    "per_tile_feedback": {
+      ":": "Correct! In a dictionary comprehension, the key and value are separated by a colon.",
+      "=": "`=` is assignment, not valid in a dict comprehension.",
+      "->": "`->` is used for function annotations, not key‑value pairs.",
+      ",": "A comma would create a tuple, not a key‑value mapping."
+    },
+    "hints": [
+      "Dictionary literals use a specific character between key and value.",
+      "It's the same punctuation used in dict `{'a':1}`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The dict comprehension `{num: num**2 for num in range(5)}` builds a mapping from each number to its square.",
+    "common_mistake_warning": "⚠️ Using square brackets `[...]` would create a list, not a dictionary."
+  },
+  {
+    "id": "fitb_036",
+    "concept_id": "concept_018",
+    "concept_name": "Generator expression",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "You have a generator `g`. To compute the sum of its values, which function should you use without converting to a list first?",
+    "code_template": "g = (x for x in range(1000))\ntotal = _____(g)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "sum",
+        "answer_alternatives": [
+          "sum"
+        ]
+      }
+    ],
+    "word_bank": [
+      "sum",
+      "list",
+      "len",
+      "total"
+    ],
+    "per_tile_feedback": {
+      "sum": "Correct! `sum(g)` iterates over the generator and accumulates the sum without building a list.",
+      "list": "`list(g)` would create a list first, defeating the memory advantage.",
+      "len": "`len(g)` is not supported on generators; they don't have a length.",
+      "total": "`total` is not a built‑in function."
+    },
+    "hints": [
+      "You need a built‑in function that adds numbers from an iterable.",
+      "It's a three‑letter word synonymous with 'add up'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`sum()` consumes the generator lazily, computing the total without storing all elements in memory.",
+    "common_mistake_warning": "⚠️ Calling `list()` on a large generator may cause MemoryError; use functions like `sum()` that iterate without materializing."
+  },
+  {
+    "id": "fitb_037",
+    "concept_id": "concept_018",
+    "concept_name": "Generator expression",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Print the values of the generator `g` by converting it to a list inside `print()`. Fill the missing function.",
+    "code_template": "g = (num for num in range(5))\nprint(_____(g))",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "list",
+        "answer_alternatives": [
+          "list"
+        ]
+      }
+    ],
+    "word_bank": [
+      "list",
+      "tuple",
+      "set",
+      "dict"
+    ],
+    "per_tile_feedback": {
+      "list": "Correct! `list(g)` creates a list of all generated values, which is then printed.",
+      "tuple": "`tuple(g)` would also work but would print a tuple, not a list.",
+      "set": "`set(g)` would lose ordering and potential duplicates.",
+      "dict": "`dict(g)` would fail because each element is not a pair."
+    },
+    "hints": [
+      "The output should be a list, like `[0, 1, 2, 3, 4]`.",
+      "Which function turns an iterable into a list?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`list(g)` consumes the generator and returns a list of its elements, which is then printed.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_038",
+    "concept_id": "concept_021",
+    "concept_name": "Conditionals in generator expressions",
+    "chapter": 6,
+    "difficulty": "hard",
+    "task_description": "Create a generator that yields numbers from `range(20)` that are divisible by 3. Fill the filter condition.",
+    "code_template": "div3 = (n for n in range(20) _____ n % 3 == 0)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "if",
+        "answer_alternatives": [
+          "if"
+        ]
+      }
+    ],
+    "word_bank": [
+      "if",
+      "while",
+      "where",
+      "when"
+    ],
+    "per_tile_feedback": {
+      "if": "Correct! The `if` filter keeps only numbers where `n % 3 == 0`.",
+      "while": "`while` is not valid in generator expressions.",
+      "where": "`where` is not Python.",
+      "when": "`when` is not a keyword."
+    },
+    "hints": [
+      "Filtering works exactly as in list comprehensions.",
+      "Place the keyword that introduces a condition."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The generator `(n for n in range(20) if n % 3 == 0)` yields 0,3,6,9,12,15,18.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_039",
+    "concept_id": "concept_022",
+    "concept_name": "Generator function",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "Define a generator function that yields the Fibonacci sequence up to a limit. Replace the keyword that returns all values at once with the correct keyword to yield each value individually.",
+    "code_template": "def fibonacci(limit):\n    a, b = 0, 1\n    while a < limit:\n        _____ a\n        a, b = b, a + b",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "yield",
+        "answer_alternatives": [
+          "yield"
+        ]
+      }
+    ],
+    "word_bank": [
+      "yield",
+      "return",
+      "print",
+      "pass"
+    ],
+    "per_tile_feedback": {
+      "yield": "Correct! `yield a` turns the function into a generator, producing each Fibonacci number on demand.",
+      "return": "`return a` would exit the function after the first number.",
+      "print": "`print(a)` just displays the number, it doesn't send it to the caller.",
+      "pass": "`pass` does nothing."
+    },
+    "hints": [
+      "You want the function to be a generator that produces a series.",
+      "Which keyword pauses execution and hands back a value?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using `yield` makes the function a generator. Each iteration of a loop will yield the next Fibonacci number.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_040",
+    "concept_id": "concept_023",
+    "concept_name": "yield keyword",
+    "chapter": 6,
+    "difficulty": "very_hard",
+    "task_description": "The following function should be a generator that yields two values then stops. Replace the incorrect keyword that ends the function prematurely.",
+    "code_template": "def two_values():\n    yield 1\n    _____ 2",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "yield",
+        "answer_alternatives": [
+          "yield"
+        ]
+      }
+    ],
+    "word_bank": [
+      "yield",
+      "return",
+      "yield 2",
+      "return 2"
+    ],
+    "per_tile_feedback": {
+      "yield": "Correct! `yield 2` produces the second value; the function will then end implicitly.",
+      "return": "`return 2` would end the generator immediately, but the value 2 would not be part of the iteration; it would raise StopIteration with value 2.",
+      "yield 2": "This tile includes the number, but the blank line already has `_____ 2`, so only `yield` is needed.",
+      "return 2": "Same as `return`; the value 2 would be lost."
+    },
+    "hints": [
+      "You want the function to hand over the second value, not end.",
+      "Which keyword returns a value without terminating the function?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`yield 2` yields the second value and pauses. Since there’s no further code, the generator then exits normally.",
+    "common_mistake_warning": "⚠️ Using `return 2` in a generator does not make 2 part of the iterated sequence; it stops the generator and the value is silently discarded unless you catch StopIteration."
+  }
+]

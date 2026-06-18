@@ -1,0 +1,1238 @@
+{
+  "course_slug": "introduction-to-git",
+  "exercise_type": "mcq",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_questions": 41,
+  "questions": [
+    {
+      "id": "mcq_001",
+      "concept_id": "concept_001",
+      "concept_name": "Version control",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "scenario",
+      "question_text": "A data analyst is working on a project with multiple CSV files. They want the ability to track every change, compare different versions, and easily revert to an earlier state if a mistake is introduced. Which solution best meets these needs?",
+      "options": {
+        "a": "Set up a version control system to manage the files",
+        "b": "Rely on regular backups of the project folder",
+        "c": "Use a cloud hosting platform like GitHub",
+        "d": "Save each version as a separate spreadsheet file"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Version control is designed to track changes, compare versions, and revert when needed—exactly what the analyst requires.",
+        "b": "Backups create snapshots but do not offer fine‑grained tracking, easy comparison, or simple reversion without manual effort.",
+        "c": "GitHub is a hosting service for Git repositories; it is not the version control tool itself and requires using Git locally.",
+        "d": "Manually saving copies is error‑prone, lacks automatic history, and makes comparing versions difficult."
+      },
+      "hints": [
+        "Think about the process that software developers use to manage code history—could it also work for data files?",
+        "The key capability needed is fine‑grained tracking and reverting, not just having copies."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Version control provides systematic change tracking, comparison, and reversion for any type of file. Backups only preserve states at coarse intervals, while cloud platforms (like GitHub) are services that rely on a version control tool (Git). Saving separate files does not automate history or comparison.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_001"]
+    },
+    {
+      "id": "mcq_002",
+      "concept_id": "concept_002",
+      "concept_name": "Git",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "comparison",
+      "question_text": "How does Git fundamentally differ from GitHub?",
+      "options": {
+        "a": "Git works only for software, while GitHub works for data projects.",
+        "b": "Git is a distributed version control system; GitHub is a cloud hosting service for Git repositories.",
+        "c": "Git manages files locally, and GitHub manages them on a remote server, but they are the same program.",
+        "d": "Git is a command‑line tool, while GitHub provides only a graphical interface."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Both Git and GitHub can handle any file type, not just code.",
+        "b": "Correct. Git is the version control engine; GitHub is a platform that hosts Git repositories and adds collaboration features.",
+        "c": "They are not the same program. GitHub is a service built around Git, not the same software.",
+        "d": "Git can be used via command line or GUIs, and GitHub is a web platform, not just a GUI app."
+      },
+      "hints": [
+        "Think about tool vs place?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Git is a distributed, open‑source version control system that runs locally. GitHub is a web‑based hosting service that stores Git repositories and adds collaboration features like pull requests. They are often confused but serve distinct roles.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_002"]
+    },
+    {
+      "id": "mcq_003",
+      "concept_id": "concept_003",
+      "concept_name": "Shell",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "To run a Git command such as `git status`, which type of program must you use?",
+      "options": {
+        "a": "A text editor like VS Code",
+        "b": "A file explorer window",
+        "c": "A web browser",
+        "d": "A shell (terminal)"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "Text editors can edit files but are not the primary environment for executing shell commands, although some have integrated terminals.",
+        "b": "File explorers navigate directories but cannot execute Git commands.",
+        "c": "Web browsers access GitHub but do not run local Git commands.",
+        "d": "Correct. The shell (terminal) is the program that interprets and runs Git commands."
+      },
+      "hints": [
+        "Where do you type git init or ls",
+        "often called cli"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The shell (also called the terminal) is the environment where you type and execute commands like `git status`. Other tools may interact with Git, but the shell is the fundamental interface for running Git directly.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_003"]
+    },
+    {
+      "id": "mcq_004",
+      "concept_id": "concept_004",
+      "concept_name": "pwd",
+      "chapter": 1,
+      "difficulty": "easy",
+      "question_subtype": "application",
+      "question_text": "Which command prints the full path of the current working directory?",
+      "options": {
+        "a": "ls",
+        "b": "cd",
+        "c": "pwd",
+        "d": "dir"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`ls` lists the contents of a directory, not the path of where you are.",
+        "b": "`cd` changes the directory; it does not print the current location.",
+        "c": "Correct. `pwd` stands for “print working directory” and shows the full path.",
+        "d": "`dir` is a Windows command similar to `ls`; it does not display the current path."
+      },
+      "hints": [
+        "The command name is an acronym for “print working directory.”",
+        "It’s a three‑letter command, not related to listing files."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`pwd` outputs the absolute path of the current directory, helping you know where you are in the filesystem before running other commands.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_004"]
+    },
+    {
+      "id": "mcq_005",
+      "concept_id": "concept_005",
+      "concept_name": "ls",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "When you run `ls` in a repository directory, which of the following best describes its default output?",
+      "options": {
+        "a": "All files and directories in the current directory, but hidden files (starting with a dot) are not shown.",
+        "b": "Only the names of subdirectories.",
+        "c": "The contents of each file in the directory.",
+        "d": "All files and directories including hidden ones."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `ls` lists both files and directories, but by default it omits hidden items (like `.git`).",
+        "b": "`ls` shows files as well as directories.",
+        "c": "`ls` only prints names; `cat` or similar commands show file contents.",
+        "d": "To include hidden files, you need the `-a` flag (e.g., `ls -a`)."
+      },
+      "hints": [
+        "Think about whether you can see the `.git` folder when you type `ls` without any flags.",
+        "Hidden items on Unix‑like systems start with a dot."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "By default, `ls` lists non‑hidden files and directories. Hidden files (names beginning with a dot) are omitted unless you use the `-a` option.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_005"]
+    },
+    {
+      "id": "mcq_006",
+      "concept_id": "concept_006",
+      "concept_name": "cd",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What is the result of running `cd` with no arguments on a typical Unix‑like system?",
+      "options": {
+        "a": "An error because a directory must be specified.",
+        "b": "The shell changes the current working directory to your home directory.",
+        "c": "It prints the name of the current directory.",
+        "d": "It lists the contents of the current directory."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "No error occurs; `cd` without arguments has a defined behavior.",
+        "b": "Correct. On Unix, `cd` alone returns you to your home directory.",
+        "c": "That is the job of `pwd`, not `cd`.",
+        "d": "`ls` lists contents; `cd` changes directories."
+      },
+      "hints": [
+        "What directory do you start in when you open a new terminal?",
+        "`cd` with no path is a shortcut to a special location."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "On Unix‑like systems, issuing `cd` without arguments changes to the user’s home directory (stored in the `$HOME` environment variable). This is a common shortcut.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_006"]
+    },
+    {
+      "id": "mcq_007",
+      "concept_id": "concept_007",
+      "concept_name": "git --version",
+      "chapter": 1,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "You need to verify that Git is installed and see its version number. Which command do you run?",
+      "options": {
+        "a": "git version",
+        "b": "git -v",
+        "c": "git ver",
+        "d": "git --version"
+      },
+      "correct_option": "d",
+      "per_option_feedback": {
+        "a": "`git version` is not a valid Git command; the correct syntax requires two dashes.",
+        "b": "`git -v` is not a standard flag for version information.",
+        "c": "`git ver` is not recognized.",
+        "d": "Correct. `git --version` prints the installed Git version, e.g., `git version 2.46.0`."
+      },
+      "hints": [
+        "Many command‑line tools use `--version` to display their version.",
+        "The command starts with `git ` and includes a double dash."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git --version` is the standard command to check the Git version. Other variations like `git version` or `git -v` are not valid and will produce an error.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_007"]
+    },
+    {
+      "id": "mcq_008",
+      "concept_id": "concept_008",
+      "concept_name": "Repository (repo)",
+      "chapter": 2,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A user has a project at `~/mental-health-workspace` that is already a Git repository (contains `.git`). They create a subdirectory `data/` and run `git init` inside `data/`. Later, while working in `~/mental-health-workspace`, they run `git status`. What potential problem might they observe?",
+      "options": {
+        "a": "`data/` may appear as a special entry (submodule) rather than normal files, confusing Git about which `.git` to use.",
+        "b": "The outer repository is automatically converted to a bare repository.",
+        "c": "Git will refuse to track any files inside `data/`.",
+        "d": "Running `git init` inside an existing repository is ignored completely."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Creating a new `.git` inside a subdirectory of an existing repository results in nested repositories. Git may treat the inner directory as a submodule, and commands can become confusing.",
+        "b": "`git init` does not change an existing repository into a bare repository.",
+        "c": "Files inside `data/` can still be added to the outer repository, but the nested `.git` causes ambiguity.",
+        "d": "`git init` inside a subdirectory will create a new `.git` (nested), not ignore the command."
+      },
+      "hints": [
+        "What does Git do when it finds two `.git` directories—one inside the other?",
+        "Think about how Git represents a directory that itself contains a `.git`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Nested repositories occur when `git init` is run inside a subdirectory of an existing repository. This creates two `.git` directories, and Git may display the inner directory as a special entry (a gitlink), leading to confusion about version control.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_008", "concept_012"]
+    },
+    {
+      "id": "mcq_009",
+      "concept_id": "concept_009",
+      "concept_name": "git directory",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "What is the `.git` directory in a repository?",
+      "options": {
+        "a": "A directory where the project’s working files are stored.",
+        "b": "A hidden directory containing all of Git’s metadata, object database, configuration, and history.",
+        "c": "A temporary folder that holds staged changes before a commit.",
+        "d": "A user‑created folder where Git outputs log files."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The working files are stored in the repository’s root (outside `.git`).",
+        "b": "Correct. The `.git` directory is the heart of the repository; it stores everything Git needs to manage version history.",
+        "c": "Staged changes are tracked inside `.git`, but `.git` is much more than just the staging area.",
+        "d": "`.git` is automatically created by `git init`, not manually by the user."
+      },
+      "hints": [
+        "It is created when you run `git init` and is normally hidden.",
+        "You should never manually edit files inside it."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The `.git` directory houses the entire version control database: commits, blobs, trees, configuration, hooks, and more. The working tree is the visible project files outside `.git`.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_010",
+      "concept_id": "concept_009",
+      "concept_name": "git directory",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "What is the consequence of accidentally deleting the `.git` directory from your repository?",
+      "options": {
+        "a": "Git will automatically recreate `.git` from the remote the next time you commit.",
+        "b": "The entire commit history and configuration are lost; only the working directory files remain.",
+        "c": "The repository becomes read‑only until you run `git init` again.",
+        "d": "The next `git commit` will recreate the missing directory."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Git cannot restore `.git` unless you have a remote copy to clone again.",
+        "b": "Correct. Without `.git`, all version history, branches, and configuration disappear, leaving only the current files.",
+        "c": "The directory is no longer a repository at all; Git commands will not work.",
+        "d": "Committing is impossible without a `.git` directory; you would need to re‑initialize the repository (losing history)."
+      },
+      "hints": [
+        "What information does the `.git` directory hold?",
+        "If you delete `.git`, can Git still remember past commits?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Deleting `.git` permanently erases all version control data. The working directory files survive, but the repository’s history, branches, and configuration are gone. Recovery is only possible if a backup or remote copy exists.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_009"]
+    },
+    {
+      "id": "mcq_011",
+      "concept_id": "concept_010",
+      "concept_name": "git init",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which command creates a new Git repository inside a directory called `mental-health-workspace`?",
+      "options": {
+        "a": "git init mental-health-workspace",
+        "b": "git create mental-health-workspace",
+        "c": "git new mental-health-workspace",
+        "d": "git init --repo mental-health-workspace"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `git init mental-health-workspace` creates the directory and initializes a repository inside it.",
+        "b": "`git create` is not a valid Git command.",
+        "c": "`git new` does not exist.",
+        "d": "`git init` does not have a `--repo` flag."
+      },
+      "hints": [
+        "The command starts with `git init` and is followed by the directory name.",
+        "No extra flags are needed when specifying a new directory."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git init <directory>` creates a new folder and turns it into a Git repository. Running `git init` without a name initializes the current directory.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_010"]
+    },
+    {
+      "id": "mcq_012",
+      "concept_id": "concept_011",
+      "concept_name": "git status",
+      "chapter": 2,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "What does the message `nothing to commit, working tree clean` mean when you run `git status`?",
+      "options": {
+        "a": "The repository has never had a commit.",
+        "b": "All tracked files match the latest commit, and there are no staged changes or untracked files.",
+        "c": "Git has encountered a fatal error and cannot proceed.",
+        "d": "The staging area contains changes but no commit has been created yet."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The repository may have commits; this message means the working tree matches the latest commit.",
+        "b": "Correct. The working directory and staging area are clean—no modified tracked files and nothing new to commit.",
+        "c": "This is a normal status message, not an error.",
+        "d": "If the staging area had changes, `git status` would list them instead of showing this message."
+      },
+      "hints": [
+        "This message appears when there are no differences between the working tree and the last commit.",
+        "It indicates that you have already committed everything."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "A clean working tree means all tracked files are unmodified and no new files have been added to the staging area. It is the normal state after all changes have been committed.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_011"]
+    },
+    {
+      "id": "mcq_013",
+      "concept_id": "concept_012",
+      "concept_name": "Nested repositories",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "scenario",
+      "question_text": "Why are nested repositories (one `.git` inside another) generally discouraged?",
+      "options": {
+        "a": "They cause Git to store each file twice, wasting disk space.",
+        "b": "They can confuse Git about which `.git` directory to use, potentially leading to missing changes or incorrect history.",
+        "c": "They automatically merge the two histories without warning.",
+        "d": "Git will refuse to commit if it detects a nested repository."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Disk usage is not the main concern; the confusion is the real problem.",
+        "b": "Correct. Git can misinterpret which repository should track the inner files, causing odd behavior in `git status` and commits.",
+        "c": "No automatic merging happens; the inner repository may be treated as a single entity (submodule).",
+        "d": "Git does not prevent commits; it just handles the situation in a confusing way."
+      },
+      "hints": [
+        "What could happen if Git sees two `.git` directories in the same project tree?",
+        "Think about how `git status` would show the inner directory."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Nested repositories confuse Git because it cannot easily determine which `.git` directory is the intended one for operations. The inner directory may appear as a submodule entry, and changes inside it can be overlooked.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_012"]
+    },
+    {
+      "id": "mcq_014",
+      "concept_id": "concept_012",
+      "concept_name": "Nested repositories",
+      "chapter": 2,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "How can you reliably detect whether a directory has become a nested repository?",
+      "options": {
+        "a": "Check the output of `git log` for duplicate commit hashes.",
+        "b": "Look for a `.git` folder inside the subdirectory while the parent directory also has its own `.git`.",
+        "c": "The terminal prompt always changes color when inside a nested repo.",
+        "d": "Git displays a warning 'nested repository detected' automatically."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Duplicate hashes are not a symptom; `git log` shows history from one repository at a time.",
+        "b": "Correct. The presence of a `.git` folder inside a subdirectory of an existing repository is a clear sign of nesting.",
+        "c": "Terminal color changes depend on shell configuration, not on nested repositories.",
+        "d": "Git does not print an explicit warning; the behavior changes subtly."
+      },
+      "hints": [
+        "What physical evidence would you look for in the file system?",
+        "A hidden directory is the key indicator."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Nested repositories exist when a subdirectory contains its own `.git`. Checking for this manually is the most reliable detection method.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_012"]
+    },
+    {
+      "id": "mcq_015",
+      "concept_id": "concept_013",
+      "concept_name": "Staging area (index)",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "What is the role of the staging area (index) in Git?",
+      "options": {
+        "a": "It is a permanent backup of all committed files.",
+        "b": "It is an intermediate area where changes are placed via `git add` before being recorded in a commit.",
+        "c": "It is the same as the commit history.",
+        "d": "It stores the list of ignored files from `.gitignore`."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "The staging area is not a backup; it holds proposed changes for the next commit.",
+        "b": "Correct. Changes must be staged (added) before they become part of a commit.",
+        "c": "The commit history is the sequence of commits; the staging area is a temporary holding area.",
+        "d": "`.gitignore` defines files to ignore; the staging area holds changes to be committed."
+      },
+      "hints": [
+        "What do you do after editing a file but before committing?",
+        "It’s the step that lets you select which changes go into the next snapshot."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The staging area (index) acts as a buffer between the working directory and the repository. You build the next commit by adding changes to it with `git add`.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013"]
+    },
+    {
+      "id": "mcq_016",
+      "concept_id": "concept_013",
+      "concept_name": "Staging area (index)",
+      "chapter": 3,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A developer edits `report.md` and then immediately runs `git commit -m \"Fix typos\"` without running `git add`. What is the most likely outcome?",
+      "options": {
+        "a": "The commit does not include the changes to `report.md` because they were never staged.",
+        "b": "`git commit` automatically stages all modified tracked files, so the changes are included.",
+        "c": "The commit succeeds but only includes new untracked files.",
+        "d": "Git refuses to run and prints an error about missing `-a` flag."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Only staged changes are committed. Since `git add` was not used, the modifications remain in the working directory only.",
+        "b": "`git commit` does not automatically stage changes; you must use `git add` first (or use `git commit -a`).",
+        "c": "Untracked files also require `git add` to be committed.",
+        "d": "Without staged changes, `git commit` will simply report that there is nothing to commit (after possibly opening the editor)."
+      },
+      "hints": [
+        "What step must happen between editing a file and committing?",
+        "Remember the Git workflow: edit, stage, commit."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Committing only captures changes that have been added to the staging area. If a tracked file is modified but not staged, the commit will not include those modifications.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_013", "concept_014"]
+    },
+    {
+      "id": "mcq_017",
+      "concept_id": "concept_014",
+      "concept_name": "git add",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "When you run `git add .` from the root of your repository, what exactly does it stage?",
+      "options": {
+        "a": "Only modified files that were already tracked; untracked files are ignored.",
+        "b": "All new and modified files in the current directory and its subdirectories.",
+        "c": "All files in the entire filesystem.",
+        "d": "Only files that are explicitly listed in `.gitignore`."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`git add .` stages untracked files as well, not only modified tracked files.",
+        "b": "Correct. The dot (`.`) represents the current directory; Git recursively stages all changes (new, modified) within it.",
+        "c": "It operates only within the repository, not the whole filesystem.",
+        "d": "`.gitignore` patterns are excluded, not explicitly staged."
+      },
+      "hints": [
+        "The dot (`.`) is a shortcut for the current directory.",
+        "It stages both files you’ve changed and files you’ve just created."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git add .` adds all changes (new files, modifications, deletions) from the current directory downward into the staging area, respecting `.gitignore` exclusions.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_014"]
+    },
+    {
+      "id": "mcq_018",
+      "concept_id": "concept_015",
+      "concept_name": "git commit",
+      "chapter": 3,
+      "difficulty": "hard",
+      "question_subtype": "error",
+      "question_text": "You have staged changes and type `git commit` without the `-m` flag. What happens next?",
+      "options": {
+        "a": "The default text editor opens so you can write a commit message.",
+        "b": "Git creates a commit with a generic message like \"Update files\".",
+        "c": "Git rejects the commit and displays an error because `-m` is mandatory.",
+        "d": "The commit is created but without any log message attached."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Without `-m`, Git opens the configured editor for you to enter a message.",
+        "b": "Git never automatically generates a commit message.",
+        "c": "`-m` is optional; if omitted, the editor launches.",
+        "d": "A log message is required; if you exit without saving, the commit is aborted."
+      },
+      "hints": [
+        "What does `-m` allow you to avoid?",
+        "When you omit `-m`, Git expects you to provide a message in another way."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git commit` without `-m` invokes the default text editor (e.g., vim, nano). After you write and save a message, the commit is created. This is a common point of confusion for beginners who may not know how to exit the editor.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_015"]
+    },
+    {
+      "id": "mcq_019",
+      "concept_id": "concept_016",
+      "concept_name": "Commit",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Which statement best describes what a Git commit stores?",
+      "options": {
+        "a": "Every commit stores a full copy of all files, even if they haven’t changed, which is why repositories grow quickly.",
+        "b": "A commit stores a snapshot that records references to file contents; unchanged files are not duplicated.",
+        "c": "A commit stores only the differences (deltas) from the previous commit.",
+        "d": "A commit stores a compressed archive of the entire working directory."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "This is a common misconception. Git reuses existing blobs for unchanged files, so space is saved.",
+        "b": "Correct. A commit records a tree that points to blobs; if a file hasn’t changed, the same blob is referenced.",
+        "c": "While Git can store objects as deltas for efficiency, conceptually and in the object model, a commit is a snapshot, not a diff.",
+        "d": "It is not a literal zip file; it’s a structured set of objects (commit, tree, blob)."
+      },
+      "hints": [
+        "If you make a commit without changing a large file, will Git store another full copy?",
+        "Think about the object model: commit → tree → blob."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Git’s object model is snapshot‑based. A commit references a tree, which maps file names to blobs. Unchanged blobs are shared across commits, so the repository does not store duplicate file data.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016", "concept_018", "concept_019"]
+    },
+    {
+      "id": "mcq_020",
+      "concept_id": "concept_016",
+      "concept_name": "Commit",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "prediction",
+      "question_text": "A user makes two separate edits to `analysis.R`, staging each change with `git add` immediately after editing. They then run `git commit -m \"Update analysis\"` only once at the end. What will the new commit contain?",
+      "options": {
+        "a": "The final state of `analysis.R` as it existed at the time of the commit, because the staging area only holds the last added version.",
+        "b": "Two separate versions of the file in the same commit.",
+        "c": "Only the first edit, because the second `git add` overwrites the staging area.",
+        "d": "Git will create two separate commits automatically."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The staging area captures the file’s current state at the moment of `git add`. Each `git add` overwrites the previous staged version, so only the final state is committed.",
+        "b": "A commit represents a single snapshot; you cannot have two versions of one file in the same commit.",
+        "c": "The second `git add` overwrites the first staged version, so the final edit is what gets committed, not only the first.",
+        "d": "A single commit is created; Git does not infer multiple commits from multiple adds."
+      },
+      "hints": [
+        "What does `git add` do to the staging area each time you run it?",
+        "Does the staging area keep a history of what you’ve added, or just the latest version?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The staging area holds the latest version of each file that has been added. Multiple `git add` commands on the same file simply update the staged copy, so the resulting commit captures only the final state.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_016", "concept_013"]
+    },
+    {
+      "id": "mcq_021",
+      "concept_id": "concept_017",
+      "concept_name": "Commit hash",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "What is a commit hash?",
+      "options": {
+        "a": "A random number Git assigns to each commit for identification.",
+        "b": "A unique 40‑character identifier produced by a hash function based on the commit’s content and metadata.",
+        "c": "The author’s email address encoded in hexadecimal.",
+        "d": "The timestamp of the commit formatted as a string."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Hashes are deterministic, not random; the same content will always produce the same hash.",
+        "b": "Correct. Git uses a cryptographic hash function (SHA‑1) to generate a 40‑character string that uniquely identifies the commit.",
+        "c": "Author information is part of the commit but is not the hash itself.",
+        "d": "The date is metadata inside the commit; the hash identifies the commit, not the date."
+      },
+      "hints": [
+        "If you create the exact same commit on two different machines, what will the hash look like?",
+        "It’s a long hexadecimal string, like `ad8acfef94cb...`"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Commit hashes are created by feeding the commit’s contents (tree, parent, author, message, etc.) through a hash function. They are deterministic—identical content produces the same hash.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_022",
+      "concept_id": "concept_017",
+      "concept_name": "Commit hash",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Why is it common to use only the first 8–10 characters of a commit hash when referencing a commit?",
+      "options": {
+        "a": "Git internally discards the rest of the hash.",
+        "b": "The full 40 characters are only required for remote pushes.",
+        "c": "The first few characters are almost always unique enough to identify the commit in the repository.",
+        "d": "Shorter hashes are easier to type, but Git requires at least 12 characters."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "Git stores the full 40‑character hash; it does not truncate it.",
+        "b": "Remote operations also accept abbreviated hashes as long as they are unambiguous.",
+        "c": "Correct. In most repositories, the first 7–10 characters are sufficient to uniquely identify a commit.",
+        "d": "There is no strict minimum; Git will accept any prefix as long as it is unambiguous."
+      },
+      "hints": [
+        "Why do people often type a short hash instead of the full 40 characters?",
+        "Think about the probability of two hashes starting with the same 8 characters."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Because commit hashes are uniformly distributed, a short prefix is almost certainly unique within a repository. Git accepts any unambiguous prefix.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_017"]
+    },
+    {
+      "id": "mcq_023",
+      "concept_id": "concept_018",
+      "concept_name": "Tree",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "In Git’s object model, what does a tree object represent?",
+      "options": {
+        "a": "The actual file content of a commit.",
+        "b": "A mapping of file names and directory names to blobs and other trees for a particular commit.",
+        "c": "The commit message text.",
+        "d": "A list of all past commits."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "File contents are stored in blob objects, not trees.",
+        "b": "Correct. A tree acts like a directory listing, linking names to the corresponding blobs (files) and subtrees (subdirectories).",
+        "c": "The commit message is stored in the commit object, not the tree.",
+        "d": "The history is represented by the chain of commit objects."
+      },
+      "hints": [
+        "If a commit is a snapshot, what part of the snapshot stores the directory structure?",
+        "It’s the object that sits between the commit and the blobs."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Trees record the names and locations of files and directories at the time of the commit. They point to blobs for file contents and to other trees for subdirectories.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_018"]
+    },
+    {
+      "id": "mcq_024",
+      "concept_id": "concept_019",
+      "concept_name": "Blob",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "What does a Git blob object store?",
+      "options": {
+        "a": "The compressed contents of a file as it existed in a particular commit.",
+        "b": "The file’s name, permissions, and location.",
+        "c": "Metadata such as the author and timestamp of the file change.",
+        "d": "The differences between two versions of a file."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. A blob (binary large object) holds only the file’s content, not its name or metadata.",
+        "b": "File names and paths are stored in tree objects, not blobs.",
+        "c": "Author and date metadata belong to the commit, not to individual blobs.",
+        "d": "Diffs are computed on demand; blobs store the full content, not deltas."
+      },
+      "hints": [
+        "Blob stands for 'binary large object'.",
+        "If two files have the same content, Git stores only one blob for both."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Blobs are the most basic Git objects. They represent the contents of a file, stripped of any path or metadata. A tree then connects names to these blobs.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_019"]
+    },
+    {
+      "id": "mcq_025",
+      "concept_id": "concept_020",
+      "concept_name": "Hash function",
+      "chapter": 4,
+      "difficulty": "hard",
+      "question_subtype": "comparison",
+      "question_text": "Git’s hash function is deterministic. What does this mean in practice?",
+      "options": {
+        "a": "Two commits that have identical content (same files, author, message, parent) will always produce the same commit hash.",
+        "b": "The hash changes every time you run `git log` to prevent tampering.",
+        "c": "Hashes are randomly generated but then stored permanently.",
+        "d": "The hash depends on the current time, so it varies between runs."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Because the hash is computed from the commit’s content, identical content always yields the same hash.",
+        "b": "Hashes are fixed; they never change unless the commit itself is modified (which creates a new commit).",
+        "c": "Hashes are not random; they are computed from the content.",
+        "d": "While the timestamp is part of the commit metadata, the hash is still deterministic given all inputs."
+      },
+      "hints": [
+        "If you recreate the exact same commit on another computer, what will its hash be?",
+        "Deterministic means the same input always gives the same output."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Git uses a hash function to generate commit identifiers. Determinism ensures that the same content always produces the same hash, which allows Git to efficiently share objects and detect changes.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020"]
+    },
+    {
+      "id": "mcq_026",
+      "concept_id": "concept_020",
+      "concept_name": "Hash function",
+      "chapter": 4,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "Two different repositories independently make a commit with exactly the same file changes, author, timestamp, and message. Could their commit hashes be identical?",
+      "options": {
+        "a": "Yes, because the commit content is identical, so the hash will be the same.",
+        "b": "No, because the repository name is secretly included in the hash calculation.",
+        "c": "Not necessarily—the commit hash also includes the parent commit’s hash, so if their histories differ, the hashes will be different.",
+        "d": "Git prohibits identical commits across different repositories."
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "The parent commit hash is part of the input to the hash function. Different parent hashes produce different commit hashes.",
+        "b": "The repository name is not included in the hash.",
+        "c": "Correct. A commit’s hash depends on its full set of metadata, including the parent commit’s hash. Unless the entire history is identical, the hashes will differ.",
+        "d": "There is no such prohibition; it is simply practically impossible to have identical hashes without identical history."
+      },
+      "hints": [
+        "What does a commit point to besides the tree and author?",
+        "A commit is linked to its parent commit; does that linkage affect the hash?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The commit hash is computed over the entire commit object, which includes the parent commit hash. Therefore, even if all other fields match, different parent histories lead to different commit hashes.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_020", "concept_017"]
+    },
+    {
+      "id": "mcq_027",
+      "concept_id": "concept_021",
+      "concept_name": "git log",
+      "chapter": 4,
+      "difficulty": "medium",
+      "question_subtype": "output",
+      "question_text": "After running `git log`, you see a long list of commits and the output is pausing with a colon at the bottom. Which key press exits the log viewer?",
+      "options": {
+        "a": "Ctrl+C",
+        "b": "q",
+        "c": "Type `exit` and press Enter",
+        "d": "Close the terminal window"
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "Ctrl+C interrupts a running process; the pager (like `less`) is not interrupted—it waits for a command.",
+        "b": "Correct. Pressing `q` quits the pager and returns to the shell prompt.",
+        "c": "Typing `exit` closes the shell session, not just the pager.",
+        "d": "Closing the terminal works but is unnecessary; `q` is the intended way to exit."
+      },
+      "hints": [
+        "The pager program is often `less`.",
+        "There is a single letter that tells the pager to quit."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git log` uses a pager (usually `less`) to display output. Pressing `q` exits the pager and returns control to the shell.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_021"]
+    },
+    {
+      "id": "mcq_028",
+      "concept_id": "concept_022",
+      "concept_name": "git log -n",
+      "chapter": 5,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "Which command shows only the three most recent commits?",
+      "options": {
+        "a": "git log -3",
+        "b": "git log -n 3",
+        "c": "git log --max 3",
+        "d": "git log --last 3"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The `-3` flag is the syntax demonstrated in the course; it limits output to three commits.",
+        "b": "`git log -n 3` also works in many Git versions, but the course example uses the shorter `-3` form.",
+        "c": "`--max` is not a valid git log option.",
+        "d": "`--last` is not a recognized flag."
+      },
+      "hints": [
+        "The course example uses a hyphen followed immediately by a number.",
+        "It’s a single flag, not a long option like `--count`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git log -3` is the quickest way to limit output to three commits. While `-n <number>` is also valid, the course emphasizes the compact `-<number>` syntax.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_022"]
+    },
+    {
+      "id": "mcq_029",
+      "concept_id": "concept_023",
+      "concept_name": "git log --since",
+      "chapter": 5,
+      "difficulty": "medium",
+      "question_subtype": "application",
+      "question_text": "Which command shows all commits made after April 2, 2024?",
+      "options": {
+        "a": "git log --after='Apr 2 2024'",
+        "b": "git log --from='Apr 2 2024'",
+        "c": "git log --since='Apr 2 2024'",
+        "d": "git log --newer='Apr 2 2024'"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`--after` is not a valid git log flag; use `--since`.",
+        "b": "`--from` is not recognized.",
+        "c": "Correct. `--since` followed by a date shows commits after that date.",
+        "d": "`--newer` is not a standard option."
+      },
+      "hints": [
+        "The flag starts with `--si`.",
+        "Think about the opposite of `--until`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git log --since='Apr 2 2024'` filters the history to commits whose date is more recent than the specified date.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_023"]
+    },
+    {
+      "id": "mcq_030",
+      "concept_id": "concept_024",
+      "concept_name": "git log --until",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A developer runs `git log --since='07-04-2024' --until='08-04-2024'` and gets an empty output, but they know commits exist in early April. What is the most likely explanation?",
+      "options": {
+        "a": "Git interprets `07-04-2024` as July 4 and `08-04-2024` as August 4, so the range does not cover the expected April dates.",
+        "b": "The `--until` flag must be written before `--since`.",
+        "c": "The dash in the date format is not accepted; only spaces are allowed.",
+        "d": "The developer forgot to add the `-n` flag to limit output."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. Ambiguous date formats like `07-04-2024` can be interpreted differently depending on locale. Git likely treated them as month‑day (July 4 and August 4), missing the April commits.",
+        "b": "The order of `--since` and `--until` does not matter.",
+        "c": "Dashes are accepted in date formats; `YYYY-MM-DD` is a valid format.",
+        "d": "`-n` limits the number, but the issue is an empty output, not too many entries."
+      },
+      "hints": [
+        "How does Git interpret numeric dates when the day and month are ambiguous?",
+        "In many locales, `07-04` means July 4, not April 7."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "Git accepts several date formats, but ambiguous ones like `07-04-2024` are interpreted based on locale or as month‑day‑year. This can cause the date range to be completely off.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_024"]
+    },
+    {
+      "id": "mcq_031",
+      "concept_id": "concept_025",
+      "concept_name": "git show",
+      "chapter": 5,
+      "difficulty": "very_hard",
+      "question_subtype": "output",
+      "question_text": "What information does `git show HEAD` display?",
+      "options": {
+        "a": "A list of all commits in reverse chronological order.",
+        "b": "The metadata (author, date, message) and the diff of the most recent commit.",
+        "c": "The contents of the file named `HEAD`.",
+        "d": "The differences between the working directory and the staging area."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "That is the role of `git log`.",
+        "b": "Correct. `git show` with a reference (like `HEAD`) displays the full details of that one commit, including its diff.",
+        "c": "`HEAD` is a symbolic reference, not a file to be displayed.",
+        "d": "That is what `git diff` does."
+      },
+      "hints": [
+        "What command would you use to inspect a single commit?",
+        "It shows the same kind of information you see for one commit in `git log`, plus the changes."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git show <commit>` presents the commit metadata and the patch (diff) introduced by that commit. `HEAD` refers to the latest commit on the current branch.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_025"]
+    },
+    {
+      "id": "mcq_032",
+      "concept_id": "concept_026",
+      "concept_name": "git diff",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "Given this output from `git diff report.md`:\n\n```\ndiff --git a/report.md b/report.md\nindex 6218b4e..066f447 100644\n--- a/report.md\n+++ b/report.md\n@@ -1,5 +1,5 @@\n # Mental Health in Tech Survey\n-TODO: write executive summary.\n TODO: include link to raw data.\n TODO: add references.\n TODO: add summary statistics.\n+TODO: cite funding sources.\n```\nWhat does this indicate?",
+      "options": {
+        "a": "The line 'TODO: write executive summary.' was removed, and 'TODO: cite funding sources.' was added.",
+        "b": "The entire file was deleted and recreated.",
+        "c": "The file report.md is now staged for commit.",
+        "d": "All TODO items were removed from the file."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. The diff shows a removal (marked with `-`) of one line and an addition (marked with `+`) of another.",
+        "b": "Only two lines changed; the rest of the file is untouched.",
+        "c": "This is the unstaged diff; `git diff --staged` would show staged changes.",
+        "d": "Other TODO lines remain unchanged, as indicated by the context lines without a `-` prefix."
+      },
+      "hints": [
+        "Lines starting with `-` are removed, lines with `+` are added.",
+        "The `@@` line shows which line numbers changed."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "The unified diff format displays removed lines prefixed with `-` and added lines with `+`. The output clearly shows one line removed and one added, with the surrounding context unchanged.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_026"]
+    },
+    {
+      "id": "mcq_033",
+      "concept_id": "concept_027",
+      "concept_name": "git diff --staged",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "After running `git add report.md`, you want to see exactly what changes will be committed. Which command should you use?",
+      "options": {
+        "a": "git diff",
+        "b": "git diff --cached",
+        "c": "git diff --staged report.md",
+        "d": "git show :report.md"
+      },
+      "correct_option": "c",
+      "per_option_feedback": {
+        "a": "`git diff` without `--staged` compares the working directory to the staging area, not the staging area to the last commit.",
+        "b": "`--cached` is a synonym for `--staged`, but the file is not specified; it would show all staged files.",
+        "c": "Correct. `git diff --staged report.md` shows the differences between the staged version of `report.md` and the last commit.",
+        "d": "`git show :report.md` displays the staged content of the file, not the diff against the last commit."
+      },
+      "hints": [
+        "You need a flag that tells `diff` to look at what’s in the staging area.",
+        "The flag starts with `--st`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git diff --staged` (or `--cached`) compares the staged snapshot to the HEAD commit. Adding a file name restricts the output to that file.",
+      "common_mistake_tested": false,
+      "concepts_combined": ["concept_027"]
+    },
+    {
+      "id": "mcq_034",
+      "concept_id": "concept_028",
+      "concept_name": "HEAD",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "definition",
+      "question_text": "In Git, what does `HEAD` represent?",
+      "options": {
+        "a": "The most recent commit on the `main` branch.",
+        "b": "A pointer to the current commit, usually the latest commit on the currently checked‑out branch.",
+        "c": "The very first commit in the repository.",
+        "d": "The staging area."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`HEAD` points to the current branch tip, which is not always `main`.",
+        "b": "Correct. `HEAD` is a symbolic reference that indicates where the working directory is in the commit history.",
+        "c": "The first commit has no special name; `HEAD` can move.",
+        "d": "The staging area is not named `HEAD`; it is accessed via the index."
+      },
+      "hints": [
+        "If you check out an older commit, `HEAD` moves to that commit.",
+        "It’s often described as 'where you currently are' in the history."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`HEAD` is a pointer to the current commit. It typically points to the branch reference (like `main`), which in turn points to the latest commit. It changes when you switch branches or check out specific commits.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028"]
+    },
+    {
+      "id": "mcq_035",
+      "concept_id": "concept_028",
+      "concept_name": "HEAD",
+      "chapter": 6,
+      "difficulty": "very_hard",
+      "question_subtype": "error",
+      "question_text": "A user wants to see the changes introduced by the latest commit and runs `git diff HEAD HEAD~1`. The output appears to show the reverse of what they expected. What is the problem?",
+      "options": {
+        "a": "The order of the commits is wrong; `git diff` shows how to go from the first commit to the second, so `HEAD~1 HEAD` would show the forward changes.",
+        "b": "`HEAD~1` refers to the current commit, not the previous one.",
+        "c": "They forgot to add the `--staged` flag.",
+        "d": "`git diff` cannot compare `HEAD` references."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `git diff X Y` shows the differences from X to Y. Swapping the order shows the inverse changes.",
+        "b": "`HEAD~1` correctly means the commit before the current one.",
+        "c": "`--staged` is for comparing staging area, not two commits.",
+        "d": "`git diff` can absolutely compare two commit references."
+      },
+      "hints": [
+        "If you compare yesterday to today, and then today to yesterday, would the differences look the same?",
+        "Order matters in `git diff`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git diff` outputs a patch that transforms the first commit into the second. Writing `HEAD HEAD~1` produces the reverse of the intended patch because it shows how to revert the latest commit.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_028", "concept_029"]
+    },
+    {
+      "id": "mcq_036",
+      "concept_id": "concept_029",
+      "concept_name": "HEAD~ syntax",
+      "chapter": 6,
+      "difficulty": "hard",
+      "question_subtype": "prediction",
+      "question_text": "What does `HEAD~3` refer to?",
+      "options": {
+        "a": "The third commit from the beginning of the repository.",
+        "b": "The commit three steps before the current commit (the great‑grandparent).",
+        "c": "The third branch in the repository.",
+        "d": "The commit three steps after `HEAD`."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`HEAD~3` is relative to `HEAD`, not from the start of history.",
+        "b": "Correct. Each `~1` moves back one commit; `HEAD~3` goes back three commits.",
+        "c": "It has nothing to do with branches.",
+        "d": "`HEAD~` moves backward; moving forward is not possible with this syntax alone."
+      },
+      "hints": [
+        "The tilde (`~`) notation walks up the parent chain.",
+        "`HEAD~1` means the parent commit; what would `HEAD~3` mean?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`HEAD~n` selects the nth ancestor of the current commit. `HEAD~3` is three commits back, following the first‑parent lineage.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_029"]
+    },
+    {
+      "id": "mcq_037",
+      "concept_id": "concept_030",
+      "concept_name": "git revert",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "comparison",
+      "question_text": "What does `git revert HEAD` do?",
+      "options": {
+        "a": "Creates a new commit that undoes the changes of the most recent commit, preserving all previous history.",
+        "b": "Deletes the latest commit and removes it from the history.",
+        "c": "Restores the working directory to the state of the previous commit without committing.",
+        "d": "Temporarily switches to the previous commit so you can inspect it."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `git revert` applies the inverse of a commit’s changes and records a new commit, keeping the original commit intact.",
+        "b": "`git revert` does not delete commits; it adds a new commit.",
+        "c": "That would be similar to `git checkout HEAD~1` (without committing).",
+        "d": "That is not what revert does; it permanently adds an undo commit."
+      },
+      "hints": [
+        "Does `revert` erase the past or add something new?",
+        "Look at the difference between 'undoing' and 'deleting'."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git revert` is a safe way to undo changes because it does not rewrite history. It computes the reverse of the specified commit and creates a new commit with those inverted changes.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_030"]
+    },
+    {
+      "id": "mcq_038",
+      "concept_id": "concept_031",
+      "concept_name": "git revert --no-edit",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "application",
+      "question_text": "What is the effect of the `--no-edit` flag when used with `git revert`?",
+      "options": {
+        "a": "It suppresses the text editor and uses the default revert message.",
+        "b": "It prevents Git from creating a new commit.",
+        "c": "It reverts the changes but leaves them in the working directory unstaged.",
+        "d": "It skips the staging step and commits immediately."
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `--no-edit` keeps the pre‑generated revert message and does not open an editor.",
+        "b": "The new commit is still created; use `-n` to stop the commit.",
+        "c": "The reverted changes are committed; they are not left unstaged.",
+        "d": "Staging happens automatically; `--no-edit` only affects the message prompt."
+      },
+      "hints": [
+        "What would you normally do after typing a revert command if you don’t want to be bothered with an editor?",
+        "It starts with `--no-`."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git revert --no-edit` performs the revert and creates a new commit without launching the commit message editor, using the standard revert message.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_031"]
+    },
+    {
+      "id": "mcq_039",
+      "concept_id": "concept_032",
+      "concept_name": "git revert -n",
+      "chapter": 7,
+      "difficulty": "very_hard",
+      "question_subtype": "application",
+      "question_text": "What does the `-n` (or `--no-commit`) flag do in `git revert -n HEAD`?",
+      "options": {
+        "a": "It reverts the changes and automatically commits them with a default message.",
+        "b": "It applies the inverse changes to the working directory and staging area but does not create a commit, allowing review before committing.",
+        "c": "It only updates the working directory, leaving the staging area unchanged.",
+        "d": "It aborts the revert if conflicts are detected."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`-n` prevents the commit; without a flag, the commit is created automatically.",
+        "b": "Correct. The changes are staged but not committed, so you can inspect or modify them before finalizing.",
+        "c": "The inverse changes are staged, so they appear in the staging area.",
+        "d": "Conflict handling is separate; `-n` does not change how conflicts are managed."
+      },
+      "hints": [
+        "The `-n` stands for 'no commit'.",
+        "After running this, what would `git status` show?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git revert -n` (or `--no-commit`) performs the revert but stops before creating the commit. The reverted files are left staged, giving you the chance to amend or combine them before committing manually.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_032"]
+    },
+    {
+      "id": "mcq_040",
+      "concept_id": "concept_033",
+      "concept_name": "git checkout (restore file)",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "application",
+      "question_text": "To restore only the file `report.md` to its state from the previous commit, which command should you use?",
+      "options": {
+        "a": "git checkout HEAD~1 -- report.md",
+        "b": "git checkout -- report.md",
+        "c": "git revert report.md",
+        "d": "git restore report.md"
+      },
+      "correct_option": "a",
+      "per_option_feedback": {
+        "a": "Correct. `git checkout <commit> -- <file>` retrieves that file from the specified commit and places it in the working directory.",
+        "b": "`git checkout -- report.md` would restore the file from `HEAD` (the current commit), not the previous one.",
+        "c": "`git revert` works on entire commits, not single files.",
+        "d": "`git restore report.md` discards working directory changes, restoring from `HEAD`; to get the previous version you would need `git restore --source=HEAD~1 report.md`."
+      },
+      "hints": [
+        "You need to specify the commit from which to restore the file.",
+        "The double dash `--` separates the commit from the file path."
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git checkout <commit> -- <path>` is the classic way to restore a single file from a previous commit. The `--` tells Git that the argument after it is a file path, not a branch name.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_033"]
+    },
+    {
+      "id": "mcq_041",
+      "concept_id": "concept_034",
+      "concept_name": "git restore --staged",
+      "chapter": 7,
+      "difficulty": "hard",
+      "question_subtype": "output",
+      "question_text": "What happens when you run `git restore --staged summary_statistics.csv`?",
+      "options": {
+        "a": "The file is deleted from the working directory.",
+        "b": "The file is removed from the staging area, but the changes remain in the working directory.",
+        "c": "The file is reverted to its state in the last commit, both in staging and working directory.",
+        "d": "Git stages the file again with a different name."
+      },
+      "correct_option": "b",
+      "per_option_feedback": {
+        "a": "`git restore --staged` only affects the staging area, not the working tree.",
+        "b": "Correct. The file is unstaged, meaning it won’t be part of the next commit, but its modifications are kept.",
+        "c": "That would be `git restore summary_statistics.csv` without `--staged`.",
+        "d": "It does not rename the file."
+      },
+      "hints": [
+        "The `--staged` flag targets the staging area.",
+        "Does unstaging a file discard the edits you made?"
+      ],
+      "answer_reveal_after": 5,
+      "explanation": "`git restore --staged` (or the older `git reset HEAD`) moves a file out of the staging area. The working directory version remains untouched, so no changes are lost.",
+      "common_mistake_tested": true,
+      "concepts_combined": ["concept_034"]
+    }
+  ]
+}

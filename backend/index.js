@@ -1,6 +1,6 @@
 import cors from 'cors'
-import dotenv from 'dotenv'
 import express from 'express'
+import config from './config.js'
 import db from './db/database.js'
 import { seedDatabase } from './db/seed.js'
 import { initSchema } from './db/schema.js'
@@ -17,11 +17,10 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 const app = express()
-const PORT = process.env.PORT || 3001
-const HOST = process.env.HOST || '0.0.0.0'
+const PORT = config.PORT
+const HOST = config.HOST
 
 app.use(cors())
 app.use(express.json())
@@ -92,8 +91,17 @@ app.use('/api', progressRouter)
 app.use('/api', manageRouter)
 app.use('/api', manageQuestionsRouter)
 
+if (config.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')))
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
+    }
+  })
+}
+
 app.use((err, req, res, next) => {
-  console.error(err.stack)
+  // console.error(err.stack) // removed for cleaner logs if it logs sensitive stuff
   res.status(500).json({ error: err.message })
 })
 
@@ -124,3 +132,4 @@ try {
 app.listen(PORT, HOST, () => {
   console.log(`DC Mastery Hub backend running on http://${HOST}:${PORT}`)
 })
+

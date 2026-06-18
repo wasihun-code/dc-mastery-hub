@@ -1,0 +1,467 @@
+{
+  "course_slug": "joining-data-in-sql",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 37,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Joins and Relationships",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_003",
+          "term": "USING (country)",
+          "match": "Shorthand join when column names match",
+          "wrong_matches": [
+            "Specifies join condition between tables",
+            "Gives a temporary name to a table"
+          ],
+          "feedback_correct": "Correct! USING merges the column and simplifies the join.",
+          "feedback_wrong": "Incorrect. Think about what the parentheses and single column name do."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "ON presidents.country = prime_ministers.country",
+          "match": "Specifies join condition between tables",
+          "wrong_matches": [
+            "Shorthand join when column names match",
+            "Uniquely identifies each row in a table"
+          ],
+          "feedback_correct": "Correct! The ON clause defines how rows are paired.",
+          "feedback_wrong": "Incorrect. The syntax shows a condition, not an alias or key."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_004",
+          "term": "presidents AS p1",
+          "match": "Gives a temporary name to a table",
+          "wrong_matches": [
+            "Shorthand join when column names match",
+            "Returns only rows that match in both tables"
+          ],
+          "feedback_correct": "Correct! Table aliases make queries more readable.",
+          "feedback_wrong": "Incorrect. AS is used here, not a join keyword."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_005",
+          "term": "Primary key",
+          "match": "Uniquely identifies each row in a table",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Specifies join condition between tables"
+          ],
+          "feedback_correct": "Correct! Primary keys enforce uniqueness.",
+          "feedback_wrong": "Incorrect. It's about uniqueness, not join behavior."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_006",
+          "term": "One-to-many",
+          "match": "One record in table A relates to many records in table B",
+          "wrong_matches": [
+            "Requires a junction table to link records",
+            "Each record in table A corresponds to exactly one record in table B"
+          ],
+          "feedback_correct": "Correct! The foreign key sits on the 'many' side.",
+          "feedback_wrong": "Incorrect. That describes a different relationship type."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_007",
+          "term": "One-to-one",
+          "match": "Each record in table A corresponds to exactly one record in table B",
+          "wrong_matches": [
+            "One record in table A relates to many records in table B",
+            "Requires a junction table to link records"
+          ],
+          "feedback_correct": "Correct! Both sides must be unique.",
+          "feedback_wrong": "Incorrect. This is more restrictive than one-to-many."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_008",
+          "term": "Many-to-many",
+          "match": "Requires a junction table to link records",
+          "wrong_matches": [
+            "One record in table A relates to many records in table B",
+            "Each record in table A corresponds to exactly one record in table B"
+          ],
+          "feedback_correct": "Correct! A third table holds the foreign keys.",
+          "feedback_wrong": "Incorrect. This relationship type needs an extra linking table."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_009",
+          "term": "LEFT JOIN",
+          "match": "Returns all rows from left table, NULLs for missing right matches",
+          "wrong_matches": [
+            "Returns only rows that match in both tables",
+            "Produces Cartesian product of two tables"
+          ],
+          "feedback_correct": "Correct! LEFT JOIN preserves the left table.",
+          "feedback_wrong": "Incorrect. Think about which table's rows are kept."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_010",
+          "term": "RIGHT JOIN",
+          "match": "Returns all rows from right table, NULLs for missing left matches",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Returns all rows from both tables, NULLs where no match"
+          ],
+          "feedback_correct": "Correct! RIGHT JOIN is the mirror of LEFT JOIN.",
+          "feedback_wrong": "Incorrect. Pay attention to which side is preserved."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_011",
+          "term": "FULL JOIN",
+          "match": "Returns all rows from both tables, NULLs where no match",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Returns only rows that match in both tables"
+          ],
+          "feedback_correct": "Correct! FULL JOIN combines LEFT and RIGHT.",
+          "feedback_wrong": "Incorrect. It includes unmatched rows from both sides."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_012",
+          "term": "CROSS JOIN",
+          "match": "Produces Cartesian product of two tables",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Sequentially joining multiple tables in one query"
+          ],
+          "feedback_correct": "Correct! Every row from the first table is paired with every row from the second.",
+          "feedback_wrong": "Incorrect. This join type has no condition and multiplies rows."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_013",
+          "term": "SELF JOIN",
+          "match": "Joining a table to itself using aliases",
+          "wrong_matches": [
+            "Produces Cartesian product of two tables",
+            "Sequentially joining multiple tables in one query"
+          ],
+          "feedback_correct": "Correct! The same table appears twice with different aliases.",
+          "feedback_wrong": "Incorrect. This join is about the same table, not multiple different tables."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_025",
+          "term": "Chaining INNER JOINs",
+          "match": "Sequentially joining multiple tables in one query",
+          "wrong_matches": [
+            "Joining a table to itself using aliases",
+            "Returns all rows from both tables, NULLs where no match"
+          ],
+          "feedback_correct": "Correct! You can chain many JOINs together.",
+          "feedback_wrong": "Incorrect. The term refers to adding more tables in sequence."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_026",
+          "term": "ON ... AND ...",
+          "match": "Using AND to match on more than one column",
+          "wrong_matches": [
+            "Specifies join condition between tables",
+            "Shorthand join when column names match"
+          ],
+          "feedback_correct": "Correct! Compound join conditions increase precision.",
+          "feedback_wrong": "Incorrect. The AND keyword inside ON creates a composite key match."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_028",
+          "term": "WHERE president IS NULL",
+          "match": "Finds rows with no match in an outer join",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Specifies join condition between tables"
+          ],
+          "feedback_correct": "Correct! IS NULL filters for unmatched rows after a LEFT JOIN.",
+          "feedback_wrong": "Incorrect. This syntax is used for filtering, not for defining the join."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_001",
+          "term": "INNER JOIN",
+          "match": "Returns only rows that match in both tables",
+          "wrong_matches": [
+            "Returns all rows from left table, NULLs for missing right matches",
+            "Produces Cartesian product of two tables"
+          ],
+          "feedback_correct": "Correct! INNER JOIN excludes non-matching rows.",
+          "feedback_wrong": "Incorrect. INNER JOIN gives the intersection, not all rows."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_034",
+          "term": "JOIN",
+          "match": "SQL operation that combines columns from two or more tables",
+          "wrong_matches": [
+            "Returns only rows that match in both tables",
+            "Specifies join condition between tables"
+          ],
+          "feedback_correct": "Correct! JOIN is the general term for merging tables.",
+          "feedback_wrong": "Incorrect. That definition is too specific."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_035",
+          "term": "FROM presidents",
+          "match": "Specifies the source table(s) for a query",
+          "wrong_matches": [
+            "SQL operation that combines columns from two or more tables",
+            "Gives a temporary name to a table"
+          ],
+          "feedback_correct": "Correct! The FROM clause lists the tables to query.",
+          "feedback_wrong": "Incorrect. It's about indicating the data source."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_036",
+          "term": "Table",
+          "match": "Database object storing data in rows and columns",
+          "wrong_matches": [
+            "Named field in a table holding a specific data type",
+            "Uniquely identifies each row in a table"
+          ],
+          "feedback_correct": "Correct! Tables are the fundamental storage structure.",
+          "feedback_wrong": "Incorrect. That describes a different database object."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_037",
+          "term": "Column",
+          "match": "Named field in a table holding a specific data type",
+          "wrong_matches": [
+            "Database object storing data in rows and columns",
+            "Uniquely identifies each row in a table"
+          ],
+          "feedback_correct": "Correct! Columns are attributes of a table.",
+          "feedback_wrong": "Incorrect. Think about the vertical slice of a table."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Set Operations, Subqueries & Advanced",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_027",
+          "term": "DISTINCT",
+          "match": "Removes duplicate rows from a query result",
+          "wrong_matches": [
+            "Combines result sets and removes duplicates",
+            "Renames a column in the output"
+          ],
+          "feedback_correct": "Correct! DISTINCT ensures unique rows.",
+          "feedback_wrong": "Incorrect. That's a set operation or aliasing."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_020",
+          "term": "Subquery",
+          "match": "A query nested inside another SQL statement",
+          "wrong_matches": [
+            "A query that references columns from the outer query",
+            "Returns rows from the first query that do not appear in the second"
+          ],
+          "feedback_correct": "Correct! Subqueries can appear in SELECT, FROM, or WHERE.",
+          "feedback_wrong": "Incorrect. That definition is more specific."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_031",
+          "term": "SELECT country AS nation",
+          "match": "Renames a column in the output",
+          "wrong_matches": [
+            "Removes duplicate rows from a query result",
+            "Gives a temporary name to a table"
+          ],
+          "feedback_correct": "Correct! Column aliases make results more readable.",
+          "feedback_wrong": "Incorrect. AS is used here for a different purpose."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_032",
+          "term": "Data leader",
+          "match": "Individual who champions data use and helps others learn",
+          "wrong_matches": [
+            "Smoothing technique for scatterplots",
+            "SQL operation that combines columns from tables"
+          ],
+          "feedback_correct": "Correct! A data leader is a role, not a title.",
+          "feedback_wrong": "Incorrect. That's a statistical method."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_033",
+          "term": "LOWESS",
+          "match": "Smoothing technique for scatterplots",
+          "wrong_matches": [
+            "Individual who champions data use",
+            "A query nested inside another SQL statement"
+          ],
+          "feedback_correct": "Correct! LOWESS fits a smooth curve through points.",
+          "feedback_wrong": "Incorrect. Think of a statistical visualization method."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_014",
+          "term": "UNION",
+          "match": "Combines result sets and removes duplicates",
+          "wrong_matches": [
+            "Combines result sets and keeps all duplicates",
+            "Finds rows that appear in both result sets"
+          ],
+          "feedback_correct": "Correct! UNION deduplicates the combined rows.",
+          "feedback_wrong": "Incorrect. That describes UNION ALL or INTERSECT."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_015",
+          "term": "UNION ALL",
+          "match": "Combines result sets and keeps all duplicates",
+          "wrong_matches": [
+            "Combines result sets and removes duplicates",
+            "Subtracts one result set from another"
+          ],
+          "feedback_correct": "Correct! UNION ALL simply appends rows.",
+          "feedback_wrong": "Incorrect. The key difference is duplicate handling."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_016",
+          "term": "INTERSECT",
+          "match": "Finds rows that appear in both result sets",
+          "wrong_matches": [
+            "Combines result sets and removes duplicates",
+            "Returns rows from the first query that do not appear in the second"
+          ],
+          "feedback_correct": "Correct! INTERSECT gives the intersection.",
+          "feedback_wrong": "Incorrect. That's a UNION or EXCEPT operation."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_017",
+          "term": "EXCEPT",
+          "match": "Returns rows from the first query that do not appear in the second",
+          "wrong_matches": [
+            "Finds rows that appear in both result sets",
+            "Combines result sets and keeps all duplicates"
+          ],
+          "feedback_correct": "Correct! EXCEPT performs a set subtraction.",
+          "feedback_wrong": "Incorrect. That's the opposite operation."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_021",
+          "term": "WHERE country IN (subquery)",
+          "match": "Semi join returning rows with a match in the subquery",
+          "wrong_matches": [
+            "Anti join returning rows without a match",
+            "Returns rows from the first query that do not appear in the second"
+          ],
+          "feedback_correct": "Correct! IN filters based on presence in the subquery result.",
+          "feedback_wrong": "Incorrect. Think about the logical meaning of IN."
+        },
+        {
+          "id": "match_031",
+          "concept_id": "concept_029",
+          "term": "Matching number and types of columns in UNION",
+          "match": "Set operation column requirements",
+          "wrong_matches": [
+            "Returns rows from the first query that do not appear in the second",
+            "Renames a column in the output"
+          ],
+          "feedback_correct": "Correct! UNION needs identical column count and compatible types.",
+          "feedback_wrong": "Incorrect. That is about column alignment in set ops."
+        },
+        {
+          "id": "match_032",
+          "concept_id": "concept_018",
+          "term": "country IN (SELECT country FROM states WHERE indep_year < 1800)",
+          "match": "Semi join: filters presidents of countries that gained independence before 1800",
+          "wrong_matches": [
+            "Anti join: excludes countries that gained independence before 1800",
+            "Correlated subquery that counts monarchs per continent"
+          ],
+          "feedback_correct": "Correct! The subquery acts as a filter without adding columns.",
+          "feedback_wrong": "Incorrect. Pay attention to IN vs NOT IN."
+        },
+        {
+          "id": "match_033",
+          "concept_id": "concept_019",
+          "term": "country NOT IN (SELECT country FROM prime_ministers)",
+          "match": "Anti join: returns countries that have no matching row",
+          "wrong_matches": [
+            "Semi join: returns countries that have a matching row",
+            "Finds rows that appear in both result sets"
+          ],
+          "feedback_correct": "Correct! NOT IN eliminates matching rows. Watch out for NULLs.",
+          "feedback_wrong": "Incorrect. This is the opposite filter."
+        },
+        {
+          "id": "match_034",
+          "concept_id": "concept_022",
+          "term": "(SELECT COUNT(*) FROM monarchs WHERE monarchs.continent = states.continent)",
+          "match": "Correlated scalar subquery in SELECT: counts monarchs per continent",
+          "wrong_matches": [
+            "Subquery in FROM that must be aliased",
+            "Cartesian product: N*M rows"
+          ],
+          "feedback_correct": "Correct! It runs once per outer row, referencing the outer query.",
+          "feedback_wrong": "Incorrect. This subquery is in the SELECT list, not FROM."
+        },
+        {
+          "id": "match_035",
+          "concept_id": "concept_023",
+          "term": "FROM (SELECT ...) AS sub",
+          "match": "Subquery in FROM clause requiring an alias",
+          "wrong_matches": [
+            "Correlated scalar subquery in SELECT",
+            "Cartesian product: N*M rows"
+          ],
+          "feedback_correct": "Correct! Derived tables must be aliased.",
+          "feedback_wrong": "Incorrect. The AS keyword here is mandatory."
+        },
+        {
+          "id": "match_036",
+          "concept_id": "concept_024",
+          "term": "Correlated subquery",
+          "match": "Subquery that references outer query, evaluated row by row",
+          "wrong_matches": [
+            "A query nested inside another SQL statement",
+            "Joining a table to itself using aliases"
+          ],
+          "feedback_correct": "Correct! Correlated subqueries can be slow on large tables.",
+          "feedback_wrong": "Incorrect. That's a general subquery or self-join."
+        },
+        {
+          "id": "match_037",
+          "concept_id": "concept_030",
+          "term": "Cartesian product",
+          "match": "Result of CROSS JOIN: N * M rows",
+          "wrong_matches": [
+            "Finds rows that appear in both result sets",
+            "Returns rows from the first query that do not appear in the second"
+          ],
+          "feedback_correct": "Correct! Every row from first table paired with every row from second.",
+          "feedback_wrong": "Incorrect. That's a set operation, not a join product."
+        }
+      ]
+    }
+  ]
+}

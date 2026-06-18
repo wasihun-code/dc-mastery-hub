@@ -1,0 +1,390 @@
+{
+  "course_slug": "working-with-dates-and-times-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-15",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Core Date/Time Types",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "date class",
+          "match": "Represents a calendar date (year, month, day) without time",
+          "wrong_matches": [
+            "Represents a duration between two dates or times",
+            "Combines a date and a time into one object"
+          ],
+          "feedback_correct": "Correct! The date class holds only the date components.",
+          "feedback_wrong": "That's not the date class – think about what stores year, month, day separately."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "date() constructor",
+          "match": "Creates a date object with year, month, day as integers",
+          "wrong_matches": [
+            "Accesses the year component of a date object",
+            "Returns date as 'YYYY-MM-DD' string"
+          ],
+          "feedback_correct": "Correct! The constructor builds a date from integer arguments.",
+          "feedback_wrong": "No, that's not how you create a date – look for the function that returns a date object."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "d.year (where d is a date)",
+          "match": "Accesses the year component of a date object",
+          "wrong_matches": [
+            "Returns day of week as integer, Monday=0",
+            "Subtracting dates returns a timedelta"
+          ],
+          "feedback_correct": "Correct! .year is an attribute that returns the four‑digit year.",
+          "feedback_wrong": "That's not .year – think about which attribute gives the year part of a date."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_006",
+          "term": "d.weekday()",
+          "match": "Returns day of week as integer, Monday=0",
+          "wrong_matches": [
+            "Accesses the year component of a date object",
+            "Creates a timedelta of 29 days using keyword argument"
+          ],
+          "feedback_correct": "Correct! weekday() gives 0 for Monday through 6 for Sunday.",
+          "feedback_wrong": "That's not the weekday method – remember it returns an integer, not a string."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_008",
+          "term": "d2 - d1",
+          "match": "Subtracting dates returns a timedelta",
+          "wrong_matches": [
+            "Represents a duration between two dates or times",
+            "Combines a date and a time into one object"
+          ],
+          "feedback_correct": "Correct! The subtraction operation yields a timedelta object.",
+          "feedback_wrong": "No, subtracting two dates does not give that – think about the type of the result."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_009",
+          "term": "timedelta class",
+          "match": "Represents a duration between two dates or times",
+          "wrong_matches": [
+            "Represents a calendar date (year, month, day) without time",
+            "Returns date as 'YYYY-MM-DD' string"
+          ],
+          "feedback_correct": "Correct! timedelta is the duration type.",
+          "feedback_wrong": "That describes a point in time, not a duration."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_011",
+          "term": "timedelta(days=29)",
+          "match": "Creates a timedelta of 29 days using keyword argument",
+          "wrong_matches": [
+            "Creates a date object with year, month, day as integers",
+            "Returns date as 'YYYY-MM-DD' string"
+          ],
+          "feedback_correct": "Correct! Named arguments make the intention clear.",
+          "feedback_wrong": "Not a timedelta constructor – look for the one that uses 'days='."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_014",
+          "term": "d.isoformat()",
+          "match": "Returns date as 'YYYY-MM-DD' string",
+          "wrong_matches": [
+            "Date strings like '2017-11-05' that sort chronologically",
+            "Combines a date and a time into one object"
+          ],
+          "feedback_correct": "Correct! isoformat() gives the standard YYYY-MM-DD output.",
+          "feedback_wrong": "That method doesn't return a date string in that format – check the name."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_017",
+          "term": "ISO 8601 format",
+          "match": "Date strings like '2017-11-05' that sort chronologically",
+          "wrong_matches": [
+            "Returns date as 'YYYY-MM-DD' string",
+            "Represents a calendar date (year, month, day) without time"
+          ],
+          "feedback_correct": "Correct! ISO 8601 ensures alphabetical sorting matches chronological order.",
+          "feedback_wrong": "That's a property of the format itself, not just the method that produces it."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_018",
+          "term": "datetime class",
+          "match": "Combines a date and a time into one object",
+          "wrong_matches": [
+            "Represents a calendar date (year, month, day) without time",
+            "Represents a duration between two dates or times"
+          ],
+          "feedback_correct": "Correct! datetime holds both date and time components.",
+          "feedback_wrong": "That class only holds the date part – datetime includes time as well."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Formatting and Parsing",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_015",
+          "term": "d.strftime(\"%Y\")",
+          "match": "Formats a date into a string using directives like %Y",
+          "wrong_matches": [
+            "Parses a string into a datetime using the specified format",
+            "Changes tzinfo without adjusting the clock time, often wrong"
+          ],
+          "feedback_correct": "Correct! strftime converts date to string with a format pattern.",
+          "feedback_wrong": "strftime produces strings, it doesn't parse them."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_020",
+          "term": "dt.replace(minute=0)",
+          "match": "Returns new datetime with minute set to 0, original unchanged",
+          "wrong_matches": [
+            "Converts aware datetime to another timezone, adjusting clock time",
+            "Formats a date into a string using directives like %Y"
+          ],
+          "feedback_correct": "Correct! replace() creates a copy with the specified replacements.",
+          "feedback_wrong": "replace does not convert timezones – it just swaps individual fields."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_023",
+          "term": "datetime.strptime(s, format)",
+          "match": "Parses a string into a datetime using the specified format",
+          "wrong_matches": [
+            "Formats a date into a string using directives like %Y",
+            "Returns total duration in seconds, including days"
+          ],
+          "feedback_correct": "Correct! strptime converts a string to datetime, the reverse of strftime.",
+          "feedback_wrong": "strptime is for parsing strings, not formatting them."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_025",
+          "term": "duration.total_seconds()",
+          "match": "Returns total duration in seconds, including days",
+          "wrong_matches": [
+            "A datetime with tzinfo=None, no timezone awareness",
+            "Difference in hours and minutes from UTC, e.g., -5"
+          ],
+          "feedback_correct": "Correct! total_seconds() gives the complete duration as a float.",
+          "feedback_wrong": "That method doesn't return seconds – it's something about timezone."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_029",
+          "term": "Naive datetime",
+          "match": "A datetime with tzinfo=None, no timezone awareness",
+          "wrong_matches": [
+            "A datetime with tzinfo set to a timezone object",
+            "Represents a fixed offset from UTC, not DST-aware"
+          ],
+          "feedback_correct": "Correct! Naive means no timezone information attached.",
+          "feedback_wrong": "A naive datetime is the opposite – it has no tzinfo."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_030",
+          "term": "Aware datetime",
+          "match": "A datetime with tzinfo set to a timezone object",
+          "wrong_matches": [
+            "A datetime with tzinfo=None, no timezone awareness",
+            "Represents a fixed offset from UTC, not DST-aware"
+          ],
+          "feedback_correct": "Correct! Aware datetimes know their timezone.",
+          "feedback_wrong": "An aware datetime must have a tzinfo, not be missing one."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_032",
+          "term": "UTC offset",
+          "match": "Difference in hours and minutes from UTC, e.g., -5",
+          "wrong_matches": [
+            "Changes tzinfo without adjusting the clock time, often wrong",
+            "Returns total duration in seconds, including days"
+          ],
+          "feedback_correct": "Correct! The offset defines how far ahead or behind UTC a timezone is.",
+          "feedback_wrong": "UTC offset is a number (or timedelta), not a method."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_033",
+          "term": "timezone class (datetime)",
+          "match": "Represents a fixed offset from UTC, not DST-aware",
+          "wrong_matches": [
+            "A datetime with tzinfo set to a timezone object",
+            "Converts aware datetime to another timezone, adjusting clock time"
+          ],
+          "feedback_correct": "Correct! datetime.timezone only handles fixed offsets.",
+          "feedback_wrong": "The timezone class is about the offset, not about converting times."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_036",
+          "term": "dt.astimezone(tz)",
+          "match": "Converts aware datetime to another timezone, adjusting clock time",
+          "wrong_matches": [
+            "Changes tzinfo without adjusting the clock time, often wrong",
+            "Formats a date into a string using directives like %Y"
+          ],
+          "feedback_correct": "Correct! astimezone changes the time zone and the wall clock accordingly.",
+          "feedback_wrong": "astimezone does adjust the clock; the alternative method does not."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_037",
+          "term": "replace(tzinfo=timezone.utc)",
+          "match": "Changes tzinfo without adjusting the clock time, often wrong",
+          "wrong_matches": [
+            "Converts aware datetime to another timezone, adjusting clock time",
+            "Parses a string into a datetime using the specified format"
+          ],
+          "feedback_correct": "Correct! replace(tzinfo=...) does not recalculate the absolute moment.",
+          "feedback_wrong": "replace doesn't convert timezones; it just swaps the tzinfo attribute."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Timezones & Pandas",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_031",
+          "term": "UTC (Coordinated Universal Time)",
+          "match": "Primary time standard; all timezones are offsets from UTC",
+          "wrong_matches": [
+            "Third-party module with IANA timezone database for DST handling",
+            "Pandas' datetime type with nanosecond precision"
+          ],
+          "feedback_correct": "Correct! UTC is the reference for all timezones.",
+          "feedback_wrong": "UTC is not a library or a data type; it's the baseline time standard."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_038",
+          "term": "dateutil.tz module",
+          "match": "Third-party module with IANA timezone database for DST handling",
+          "wrong_matches": [
+            "Primary time standard; all timezones are offsets from UTC",
+            "Practice of springing forward and falling back to extend daylight"
+          ],
+          "feedback_correct": "Correct! dateutil.tz provides DST‑aware timezones.",
+          "feedback_wrong": "dateutil.tz is a Python module, not a definition of time standard."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_040",
+          "term": "Daylight Saving Time (DST)",
+          "match": "Practice of springing forward and falling back to extend daylight",
+          "wrong_matches": [
+            "When a local clock time occurs twice during fall‑back transition",
+            "Data analysis library with DataFrame and datetime support"
+          ],
+          "feedback_correct": "Correct! DST changes clocks by one hour twice a year.",
+          "feedback_wrong": "That's a specific consequence of DST, not the definition of DST itself."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_042",
+          "term": "Ambiguous time (fall back)",
+          "match": "When a local clock time occurs twice during fall‑back transition",
+          "wrong_matches": [
+            "Practice of springing forward and falling back to extend daylight",
+            "Pandas' datetime type with nanosecond precision"
+          ],
+          "feedback_correct": "Correct! The same wall clock time can represent two different UTC moments.",
+          "feedback_wrong": "Ambiguous time is the result of DST, not the practice itself."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_046",
+          "term": "Pandas library",
+          "match": "Data analysis library with DataFrame and datetime support",
+          "wrong_matches": [
+            "Reads CSV and parses specified columns as datetime",
+            "Resamples time‑series data by month‑end frequency"
+          ],
+          "feedback_correct": "Correct! pandas is the go‑to library for data manipulation.",
+          "feedback_wrong": "pandas is the whole library; those are specific functions or methods."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_047",
+          "term": "pd.read_csv(..., parse_dates=['col'])",
+          "match": "Reads CSV and parses specified columns as datetime",
+          "wrong_matches": [
+            "Data analysis library with DataFrame and datetime support",
+            "Splits data by group and computes mean per group"
+          ],
+          "feedback_correct": "Correct! parse_dates converts columns to datetime during import.",
+          "feedback_wrong": "read_csv is a function, not a library."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_049",
+          "term": "Timestamp object (Pandas)",
+          "match": "Pandas' datetime type with nanosecond precision",
+          "wrong_matches": [
+            "Primary time standard; all timezones are offsets from UTC",
+            "Assigns timezone to naive Series, setting ambiguous times to NaT"
+          ],
+          "feedback_correct": "Correct! Timestamp is the building block of a datetime Series.",
+          "feedback_wrong": "Timestamp is a specific pandas type, not a function."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_055",
+          "term": "df.groupby('col').mean()",
+          "match": "Splits data by group and computes mean per group",
+          "wrong_matches": [
+            "Resamples time‑series data by month‑end frequency",
+            "Reads CSV and parses specified columns as datetime"
+          ],
+          "feedback_correct": "Correct! groupby applies an aggregation to each group.",
+          "feedback_wrong": "groupby does not deal with time‑based grouping; that's resample."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_056",
+          "term": "df.resample('ME', on='date')",
+          "match": "Resamples time‑series data by month‑end frequency",
+          "wrong_matches": [
+            "Splits data by group and computes mean per group",
+            "Assigns timezone to naive Series, setting ambiguous times to NaT"
+          ],
+          "feedback_correct": "Correct! resample aggregates data based on time intervals.",
+          "feedback_wrong": "resample is about time, not category grouping."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_058",
+          "term": "dt.tz_localize('America/New_York', ambiguous='NaT')",
+          "match": "Assigns timezone to naive Series, setting ambiguous times to NaT",
+          "wrong_matches": [
+            "Resamples time‑series data by month‑end frequency",
+            "Pandas' datetime type with nanosecond precision"
+          ],
+          "feedback_correct": "Correct! tz_localize makes the Series timezone‑aware.",
+          "feedback_wrong": "tz_localize does not resample; it adds timezone information."
+        }
+      ]
+    }
+  ]
+}

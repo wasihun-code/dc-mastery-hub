@@ -1,0 +1,1087 @@
+[
+  {
+    "id": "boss_001",
+    "concept_id": "concept_002",
+    "concept_name": "Table",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is an example of a database table?",
+    "options": {
+      "a": "SELECT",
+      "b": "FROM",
+      "c": "patrons",
+      "d": "WHERE"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "SELECT is a keyword, not a table.",
+      "b": "FROM is a clause, not a table.",
+      "c": "Correct! 'patrons' is a table name.",
+      "d": "WHERE is a clause, not a table."
+    },
+    "hints": [
+      "Think about what you would put in a FROM clause.",
+      "Table names refer to data containers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "In SQL, tables like 'patrons' hold data. Keywords like SELECT, FROM, WHERE are part of the language, not data containers.",
+    "time_pressure_note": "People often confuse the term 'table' with the SQL keyword TABLE.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_002",
+    "concept_id": "concept_003",
+    "concept_name": "Record (row)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "easy",
+    "question_type": "output",
+    "question_text": "In the patrons table, each patron's complete information (card_num, name, member_year, total_fine) is stored as a single:",
+    "options": {
+      "a": "Field",
+      "b": "Record",
+      "c": "Table",
+      "d": "Schema"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "A field is a single column, not the whole set.",
+      "b": "Correct! A record is a row that holds all data for one observation.",
+      "c": "A table is the whole container, not one row.",
+      "d": "A schema is the database blueprint."
+    },
+    "hints": [
+      "Think of one horizontal line in the table.",
+      "It represents a single entity."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A record (or row) contains the values for all columns about one specific observation.",
+    "time_pressure_note": "Under pressure, people mix up 'field' and 'record'.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_003",
+    "concept_id": "concept_001",
+    "concept_name": "Relational database",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "Fill in the blank: A relational database defines relationships between its _____.",
+    "options": {
+      "a": "rows",
+      "b": "columns",
+      "c": "tables",
+      "d": "servers"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Rows are records; relationships connect entire data groups.",
+      "b": "Columns are attributes; relationships link between tables.",
+      "c": "Correct! Relationships connect tables via shared keys.",
+      "d": "Servers store databases, but don't define relationships."
+    },
+    "hints": [
+      "Think about how 'patrons' and 'checkouts' are linked.",
+      "The word 'relational' refers to the major data containers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Relational databases organize data into tables and link them through relationships, such as foreign keys.",
+    "time_pressure_note": "People may confuse with rows or columns because those are also part of tables.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_004",
+    "concept_id": "concept_004",
+    "concept_name": "Field (column)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "SELECT card_num, name FROM patrons; — in this query, card_num and name are examples of:",
+    "options": {
+      "a": "Records",
+      "b": "Fields",
+      "c": "Tables",
+      "d": "Keys"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Records are entire rows, not individual columns.",
+      "b": "Correct! They are field (column) names.",
+      "c": "'patrons' is the table name.",
+      "d": "Keys are special fields that uniquely identify records."
+    },
+    "hints": [
+      "They represent attributes of each patron.",
+      "They appear after SELECT and before FROM."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Columns in a table are called fields; in this query we are selecting two fields from the patrons table.",
+    "time_pressure_note": "People often call them columns instead of fields, but the question asks for the database term.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_005",
+    "concept_id": "concept_005",
+    "concept_name": "Unique Identifier / Key",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "Which column would make the best primary key for a 'books' table?",
+    "options": {
+      "a": "title",
+      "b": "author",
+      "c": "book_id",
+      "d": "publication_year"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Titles can repeat, so not unique.",
+      "b": "Authors can write many books, not unique.",
+      "c": "Correct! book_id is designed to be unique.",
+      "d": "Many books can share the same publication year."
+    },
+    "hints": [
+      "Look for an identifier that will never duplicate.",
+      "Think about library systems: what number identifies each book uniquely?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A primary key must uniquely identify each row; a dedicated ID column is best.",
+    "time_pressure_note": "Don't pick a field that could have duplicates, even if it sounds unique.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_006",
+    "concept_id": "concept_006",
+    "concept_name": "Relationship (table relationship)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "The checkouts table has a column 'book_id' that matches the primary key of books. This column is a _____ key.",
+    "options": {
+      "a": "primary",
+      "b": "foreign",
+      "c": "unique",
+      "d": "candidate"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Primary key uniquely identifies rows within the same table.",
+      "b": "Correct! It references the primary key of another table, creating a relationship.",
+      "c": "A unique constraint enforces distinct values, but 'foreign' describes the link.",
+      "d": "Candidate key is a possible primary key, not the referencing one."
+    },
+    "hints": [
+      "It connects two tables.",
+      "The key belongs to another table."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A foreign key creates a relationship by pointing to a primary key in another table.",
+    "time_pressure_note": "Under time, people may confuse 'foreign' with 'primary' because both are common.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_007",
+    "concept_id": "concept_007",
+    "concept_name": "SQL (Structured Query Language)",
+    "chapter": 1,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "What is the primary purpose of SQL?",
+    "options": {
+      "a": "Designing user interfaces",
+      "b": "Creating, querying, and updating relational databases",
+      "c": "Editing images",
+      "d": "Sending network requests"
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "SQL does not design interfaces.",
+      "b": "Correct! SQL manages relational databases.",
+      "c": "SQL is not for image editing.",
+      "d": "SQL operates on databases, not network requests."
+    },
+    "hints": [
+      "It stands for Structured Query Language.",
+      "It's all about data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL is the standard language for interacting with relational databases.",
+    "time_pressure_note": "Quickly recall the acronym.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_008",
+    "concept_id": "concept_008",
+    "concept_name": "Query",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "A request for data from a database, written in SQL, is called a:",
+    "options": {
+      "a": "query",
+      "b": "view",
+      "c": "schema",
+      "d": "server"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A query is the request itself.",
+      "b": "A view is a saved query, not the request.",
+      "c": "A schema is the database design.",
+      "d": "A server stores the database."
+    },
+    "hints": [
+      "It often starts with SELECT.",
+      "You write it to get data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A SQL statement that retrieves or manipulates data is called a query.",
+    "time_pressure_note": "Don't confuse with 'result set'.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_009",
+    "concept_id": "concept_009",
+    "concept_name": "Keyword",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "odd_one_out",
+    "question_text": "Which of the following is NOT a reserved SQL keyword?",
+    "options": {
+      "a": "SELECT",
+      "b": "FROM",
+      "c": "WHERE",
+      "d": "DATA"
+    },
+    "correct_option": "d",
+    "per_option_feedback": {
+      "a": "SELECT is a core keyword.",
+      "b": "FROM is a keyword.",
+      "c": "WHERE is a keyword.",
+      "d": "Correct! DATA is not a SQL keyword."
+    },
+    "hints": [
+      "Think of the words that appear in a basic SELECT statement.",
+      "One word is a general term, not a reserved command."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT, FROM, and WHERE are keywords. DATA is not part of the standard SQL vocabulary.",
+    "time_pressure_note": "People might think DATA is a keyword because databases contain data.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_010",
+    "concept_id": "concept_011",
+    "concept_name": "FROM statement",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "complete_output",
+    "question_text": "SELECT name _____ patrons;",
+    "options": {
+      "a": "FROM",
+      "b": "WHERE",
+      "c": "TABLE",
+      "d": "USING"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! FROM specifies the source table.",
+      "b": "WHERE filters rows, not the table.",
+      "c": "TABLE is not a clause for SELECT.",
+      "d": "USING is used in joins, not here."
+    },
+    "hints": [
+      "Which keyword always follows the column list to indicate the table?",
+      "It's a four-letter word."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The FROM keyword declares the table from which to retrieve data.",
+    "time_pressure_note": "Under pressure, people might write 'TABLE' because it sounds logical.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_011",
+    "concept_id": "concept_012",
+    "concept_name": "Result set",
+    "chapter": 2,
+    "wave": 1,
+    "difficulty": "medium",
+    "question_type": "output",
+    "question_text": "When you run `SELECT * FROM books;`, the data you see is the:",
+    "options": {
+      "a": "result set",
+      "b": "view",
+      "c": "table",
+      "d": "schema"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The output of a query is called the result set.",
+      "b": "A view is a saved query, not the immediate output.",
+      "c": "The table is the storage object, not the query output.",
+      "d": "A schema is the database blueprint."
+    },
+    "hints": [
+      "It's the collection of rows returned.",
+      "The term includes both 'result' and 'set'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A SELECT query produces a temporary result set displaying the requested data.",
+    "time_pressure_note": "Often confused with 'table' or 'view'.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_012",
+    "concept_id": "concept_010",
+    "concept_name": "SELECT statement",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this query?\n\n```sql\nSELECT card_num total_fine FROM patrons;\n```",
+    "options": {
+      "a": "It will rename card_num to total_fine instead of selecting both columns.",
+      "b": "The table name 'patrons' is misspelled.",
+      "c": "The SELECT keyword must be uppercase.",
+      "d": "The FROM clause is missing."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The missing comma means total_fine becomes an alias for card_num.",
+      "b": "Spelling is correct.",
+      "c": "Case doesn't matter.",
+      "d": "FROM is present."
+    },
+    "hints": [
+      "Look very closely at the space between column names.",
+      "What happens when a comma is missing?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without a comma, the second identifier is interpreted as an alias, leading to only one column.",
+    "time_pressure_note": "This bug is subtle because the query still runs but gives wrong output.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_013",
+    "concept_id": "concept_013",
+    "concept_name": "Asterisk (*) wildcard",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this query?\n\n```sql\nSELECT * FROM patrons WHERE * = 5;\n```",
+    "options": {
+      "a": "The asterisk cannot be used in a WHERE clause like a column.",
+      "b": "The table name should be in quotes.",
+      "c": "The WHERE keyword is misspelled.",
+      "d": "The equal sign should be !=."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! * represents all columns but cannot be used as a column name in comparisons.",
+      "b": "Table names don't need quotes unless they contain special characters.",
+      "c": "Spelling is correct.",
+      "d": "The operator is not the issue."
+    },
+    "hints": [
+      "The asterisk is a wildcard, not a real column.",
+      "Can you compare a wildcard to a number?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`*` selects all columns but you cannot filter on it directly. You need to specify a real column.",
+    "time_pressure_note": "Newcomers sometimes think * works like a variable in the WHERE clause.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_014",
+    "concept_id": "concept_014",
+    "concept_name": "Aliasing (AS)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this alias attempt?\n\n```sql\nSELECT name AS 'first_name' FROM employees;\n```",
+    "options": {
+      "a": "Single quotes around the alias might be interpreted as a string literal.",
+      "b": "The AS keyword is unnecessary.",
+      "c": "The alias should be in double quotes or backticks.",
+      "d": "The column 'name' does not exist."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Single quotes indicate a string value, not an identifier; the alias may not be recognized as intended.",
+      "b": "AS is the proper keyword.",
+      "c": "Double quotes or no quotes are correct; single quotes are for strings.",
+      "d": "The column exists."
+    },
+    "hints": [
+      "How do you enclose a string literal in SQL?",
+      "Aliases are identifiers, not string values."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using single quotes can cause the alias to be treated as a string literal rather than a column name.",
+    "time_pressure_note": "Mixing up quotes for identifiers vs strings is a common mistake under time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_015",
+    "concept_id": "concept_017",
+    "concept_name": "CREATE VIEW",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this view creation?\n\n```sql\nCREATE VIEW myview SELECT id, name FROM employees;\n```",
+    "options": {
+      "a": "The AS keyword is missing before the SELECT.",
+      "b": "The view name must be in uppercase.",
+      "c": "A view cannot select from a table.",
+      "d": "The semicolon is missing."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! The syntax is CREATE VIEW name AS SELECT ...",
+      "b": "Case doesn't matter.",
+      "c": "Views are defined by selecting from tables.",
+      "d": "A missing semicolon might be tolerated; the bigger error is the missing AS."
+    },
+    "hints": [
+      "Look at the example from the course: `CREATE VIEW employee_hire_years AS SELECT ...`",
+      "What keyword links the view name to the query?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without AS, the SQL parser cannot separate the view name from the query, causing a syntax error.",
+    "time_pressure_note": "The missing AS is easy to overlook when scanning quickly.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_016",
+    "concept_id": "concept_018",
+    "concept_name": "Data type",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this table definition?\n\n```sql\nCREATE TABLE products ( price INTEGER(5,2) );\n```",
+    "options": {
+      "a": "INTEGER does not accept precision and scale parameters like NUMERIC.",
+      "b": "The table name 'products' is invalid.",
+      "c": "The parentheses around 5,2 are wrong.",
+      "d": "The column name 'price' must be in quotes."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! INTEGER stores whole numbers only; use NUMERIC(5,2) for decimals.",
+      "b": "Table name is fine.",
+      "c": "Parentheses are used, but for NUMERIC, not INTEGER.",
+      "d": "Column names do not need quotes."
+    },
+    "hints": [
+      "Which data type supports decimal places?",
+      "INTEGER is for whole numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "INTEGER cannot have decimal precision; it would cause a syntax error or be ignored.",
+    "time_pressure_note": "Under pressure, you may forget that only NUMERIC/DECIMAL can have precision.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_017",
+    "concept_id": "concept_019",
+    "concept_name": "String",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this query?\n\n```sql\nSELECT * FROM books WHERE title = SQL Basics;\n```",
+    "options": {
+      "a": "The string 'SQL Basics' is missing single quotes.",
+      "b": "The table 'books' doesn't exist.",
+      "c": "The WHERE clause cannot be used with *.",
+      "d": "The equal sign should be LIKE."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! String literals need single quotes, e.g., 'SQL Basics'.",
+      "b": "Assuming table exists, the bigger issue is the missing quotes.",
+      "c": "WHERE works fine with *.",
+      "d": "LIKE would be for pattern matching, not needed here."
+    },
+    "hints": [
+      "How do you represent a text value in SQL?",
+      "Unquoted words are treated as column names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Without quotes, 'SQL Basics' is interpreted as a column name, causing an error.",
+    "time_pressure_note": "Forgetting quotes is a classic slip when typing fast.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_018",
+    "concept_id": "concept_020",
+    "concept_name": "VARCHAR",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this column definition?\n\n```sql\ntitle VARCHAR\n```",
+    "options": {
+      "a": "VARCHAR requires a maximum length in parentheses, like VARCHAR(255).",
+      "b": "VARCHAR should be spelled 'VARCHAR2'.",
+      "c": "The column name 'title' is reserved.",
+      "d": "VARCHAR cannot store text."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! In most SQL implementations, VARCHAR must include a length.",
+      "b": "VARCHAR2 is Oracle-specific; standard is VARCHAR.",
+      "c": "'title' is not reserved.",
+      "d": "VARCHAR is specifically for text."
+    },
+    "hints": [
+      "Look at the course example: `name VARCHAR(250)`.",
+      "The length parameter defines the maximum characters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Omitting the length can lead to truncation or a syntax error depending on the database.",
+    "time_pressure_note": "People may assume a default length, but it's not safe.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_019",
+    "concept_id": "concept_021",
+    "concept_name": "Integer",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "predict_error",
+    "question_text": "What happens if you try to insert the value 3.14 into an INT column?",
+    "options": {
+      "a": "It will be stored as 3.",
+      "b": "It will cause a data type mismatch error or truncate the decimal.",
+      "c": "It will be stored as 3.14.",
+      "d": "It will convert the column to FLOAT automatically."
+    },
+    "correct_option": "b",
+    "per_option_feedback": {
+      "a": "Some databases may truncate, but strict mode will error.",
+      "b": "Correct! An integer column cannot hold decimal values.",
+      "c": "INT stores only whole numbers.",
+      "d": "Data types do not change automatically."
+    },
+    "hints": [
+      "What does 'integer' mean?",
+      "Think about whole numbers."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Inserting a decimal into an INT column will either raise an error or silently truncate, depending on SQL mode.",
+    "time_pressure_note": "May assume automatic rounding, but it's not guaranteed.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_020",
+    "concept_id": "concept_022",
+    "concept_name": "INT",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is the mistake in this table creation?\n\n```sql\nCREATE TABLE orders ( quantity INT(5) );\n```",
+    "options": {
+      "a": "INT does not take a precision parameter in standard SQL; the (5) is invalid.",
+      "b": "The column name 'quantity' is too long.",
+      "c": "The word INT must be spelled INTEGER.",
+      "d": "Parentheses must be curly braces."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! INT is a fixed-width type; adding (5) is not standard and may be ignored or error.",
+      "b": "Length is fine.",
+      "c": "INT is an accepted abbreviation.",
+      "d": "Parentheses are correct."
+    },
+    "hints": [
+      "In the course, `card_num INT` has no parentheses.",
+      "Think about whether integer needs a size."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Standard SQL does not allow a display width for INT; this syntax is MySQL-specific.",
+    "time_pressure_note": "If you've seen it in one system, you might assume it's universal.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_021",
+    "concept_id": "concept_023",
+    "concept_name": "Float",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "You have a table with a FLOAT column 'price'. The query `SELECT * FROM products WHERE price = 0.1;` returns no rows even though you know a row has price 0.1. What is the likely issue?",
+    "options": {
+      "a": "The FLOAT type introduces rounding errors, so the stored value might not exactly equal 0.1.",
+      "b": "The WHERE clause cannot be used with FLOAT.",
+      "c": "The table is empty.",
+      "d": "The query has a syntax error."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Floating-point representation is approximate; 0.1 may be stored as 0.100000001, causing a mismatch.",
+      "b": "WHERE works with any data type.",
+      "c": "The premise says a row exists.",
+      "d": "Syntax is fine."
+    },
+    "hints": [
+      "Think about how computers store decimal numbers.",
+      "Float is not exact."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "FLOAT columns store approximate values; exact comparisons often fail. Use NUMERIC for precise financial data.",
+    "time_pressure_note": "Under pressure, people may not consider the underlying data representation.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_022",
+    "concept_id": "concept_025",
+    "concept_name": "Schema",
+    "chapter": 1,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "odd_one_out",
+    "question_text": "Which of these is NOT typically part of a database schema?",
+    "options": {
+      "a": "Table names",
+      "b": "Column data types",
+      "c": "Actual row data",
+      "d": "Relationships between tables"
+    },
+    "correct_option": "c",
+    "per_option_feedback": {
+      "a": "Table names are part of the schema.",
+      "b": "Data types are defined in the schema.",
+      "c": "Correct! The schema describes the structure, not the actual data rows.",
+      "d": "Relationships are part of the schema design."
+    },
+    "hints": [
+      "A schema is a blueprint, not the actual contents.",
+      "Think about what is defined before any data is inserted."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A database schema defines the structure (tables, columns, types, keys), while the row data is the instance.",
+    "time_pressure_note": "Row data might seem like part of the design, but it's not structural.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_023",
+    "concept_id": "concept_027",
+    "concept_name": "SQL flavor",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "A user tries to run this query on a PostgreSQL database:\n\n```sql\nSELECT TOP 5 * FROM books;\n```\nWhat is the problem?",
+    "options": {
+      "a": "PostgreSQL uses LIMIT, not TOP.",
+      "b": "The asterisk must be listed after column names.",
+      "c": "The number 5 should be in parentheses.",
+      "d": "The query is missing a WHERE clause."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! TOP is specific to SQL Server; PostgreSQL uses LIMIT.",
+      "b": "* is fine.",
+      "c": "TOP in SQL Server uses parentheses, but it's irrelevant here because it's PostgreSQL.",
+      "d": "WHERE is optional."
+    },
+    "hints": [
+      "Different SQL flavors have different row-limiting keywords.",
+      "Recall which system uses TOP."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Using the wrong row-limiting syntax will cause an error. PostgreSQL expects LIMIT.",
+    "time_pressure_note": "It's easy to forget which flavor you're writing for.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_024",
+    "concept_id": "concept_028",
+    "concept_name": "PostgreSQL",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this PostgreSQL query?\n\n```sql\nSELECT TOP(2) id, name FROM employees;\n```",
+    "options": {
+      "a": "PostgreSQL does not support TOP; use LIMIT 2 at the end of the query.",
+      "b": "The parentheses around 2 are illegal.",
+      "c": "You cannot select two columns with TOP.",
+      "d": "The query is missing FROM."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! PostgreSQL's syntax is `LIMIT 2`.",
+      "b": "Parentheses are part of TOP in SQL Server, but the keyword is the issue.",
+      "c": "Columns are fine.",
+      "d": "FROM is present."
+    },
+    "hints": [
+      "Think of the keyword PostgreSQL uses to cap rows.",
+      "It's a five-letter word that goes at the end."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "TOP is not a valid keyword in PostgreSQL; the correct approach is `SELECT ... LIMIT 2;`.",
+    "time_pressure_note": "When under time, mixing up PostgreSQL and SQL Server syntax is a common error.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_025",
+    "concept_id": "concept_029",
+    "concept_name": "SQL Server (T-SQL)",
+    "chapter": 2,
+    "wave": 2,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this SQL Server query?\n\n```sql\nSELECT * FROM books LIMIT 5;\n```",
+    "options": {
+      "a": "SQL Server uses TOP, not LIMIT.",
+      "b": "The asterisk must be in double quotes.",
+      "c": "LIMIT must come before FROM.",
+      "d": "The number 5 should be in single quotes."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! LIMIT is for PostgreSQL; SQL Server uses `SELECT TOP(5) ...`.",
+      "b": "Asterisk does not need quotes.",
+      "c": "LIMIT goes at the end, but the syntax itself is wrong for SQL Server.",
+      "d": "Numbers don't need quotes."
+    },
+    "hints": [
+      "Remember which system uses LIMIT.",
+      "What does T-SQL provide instead?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL Server does not recognize LIMIT; it requires TOP.",
+    "time_pressure_note": "This is a classic cross-flavor mistake.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_026",
+    "concept_id": "concept_030",
+    "concept_name": "LIMIT (PostgreSQL)",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this PostgreSQL query return?\n\n```sql\nSELECT * FROM employees LIMIT 0;\n```",
+    "options": {
+      "a": "An empty result set (no rows).",
+      "b": "All rows from the table.",
+      "c": "A syntax error.",
+      "d": "The first 0 columns."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! LIMIT 0 returns no rows but the query is valid.",
+      "b": "LIMIT 0 restricts to zero rows.",
+      "c": "It is syntactically correct.",
+      "d": "Columns are unaffected; only rows are limited."
+    },
+    "hints": [
+      "What does 'limit 0' mean?",
+      "It still returns column headers but zero data rows."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "LIMIT 0 is a valid way to test a query without returning data.",
+    "time_pressure_note": "People might think 0 causes an error, but it's allowed.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_027",
+    "concept_id": "concept_031",
+    "concept_name": "TOP (SQL Server)",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "output",
+    "question_text": "What does this SQL Server query return?\n\n```sql\nSELECT TOP(0) * FROM employees;\n```",
+    "options": {
+      "a": "An empty result set.",
+      "b": "All rows from the table.",
+      "c": "The first column only.",
+      "d": "A syntax error because 0 is invalid."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! TOP(0) returns zero rows but is valid.",
+      "b": "TOP(0) limits to zero rows.",
+      "c": "All columns are selected.",
+      "d": "TOP(0) is syntactically accepted."
+    },
+    "hints": [
+      "Similar to LIMIT 0 in PostgreSQL, TOP(0) restricts output.",
+      "It's a way to get the table structure without data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "TOP(0) is sometimes used to retrieve the schema without rows.",
+    "time_pressure_note": "Under pressure, may think zero is invalid but it's fine.",
+    "common_mistake_tested": false
+  },
+  {
+    "id": "boss_028",
+    "concept_id": "concept_032",
+    "concept_name": "Semicolon",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this script?\n\n```sql\nSELECT name FROM patrons\nSELECT title FROM books;\n```",
+    "options": {
+      "a": "Missing semicolons to separate the two statements.",
+      "b": "The table names are swapped.",
+      "c": "Two SELECTs cannot be in the same script.",
+      "d": "The columns must be in uppercase."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! A semicolon is needed after each complete statement.",
+      "b": "Table names are appropriate.",
+      "c": "Multiple statements are allowed if separated by semicolons.",
+      "d": "Case doesn't matter."
+    },
+    "hints": [
+      "Look at the end of each line.",
+      "What terminates a SQL statement?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL requires a semicolon to mark the end of a statement, especially when multiple are present.",
+    "time_pressure_note": "When quickly scanning, semicolons are easy to miss.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_029",
+    "concept_id": "concept_037",
+    "concept_name": "CREATE TABLE statement",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this table creation?\n\n```sql\nCREATE TABLE patrons (\n  id INT,\n  name VARCHAR,\n  fines NUMERIC\n);\n```",
+    "options": {
+      "a": "VARCHAR requires a length parameter, e.g., VARCHAR(250).",
+      "b": "INT must be written as INTEGER.",
+      "c": "The parentheses are misplaced.",
+      "d": "The table name should be in quotes."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Omitting the length on VARCHAR can cause an error or truncation.",
+      "b": "INT is fine.",
+      "c": "Parentheses are correct.",
+      "d": "Table names don't need quotes."
+    },
+    "hints": [
+      "Look at the course example: `name VARCHAR(250)`.",
+      "Every VARCHAR needs a max length."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Standard SQL expects a length for VARCHAR; without it, some databases will reject the statement.",
+    "time_pressure_note": "Under time, you might overlook the missing number.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_030",
+    "concept_id": "concept_015",
+    "concept_name": "DISTINCT",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "Given a table with rows: (dept_id=1, year=2020), (1,2020), (2,2021). What does `SELECT DISTINCT dept_id, year FROM employees;` return?",
+    "options": {
+      "a": "(1,2020) and (2,2021)",
+      "b": "Only (1,2020) because of duplicate",
+      "c": "All three rows",
+      "d": "An error because DISTINCT cannot be used with multiple columns"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! DISTINCT considers the whole row, so only the duplicate combination is removed.",
+      "b": "DISTINCT applies to the combination, not just the first column.",
+      "c": "Duplicates are eliminated.",
+      "d": "DISTINCT works with any number of columns."
+    },
+    "hints": [
+      "DISTINCT works on the entire selected row, not column by column.",
+      "If two rows have the same values in all selected columns, they are duplicates."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SELECT DISTINCT returns unique combinations of the listed columns.",
+    "time_pressure_note": "Commonly mistaken as applying only to the first column.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_031",
+    "concept_id": "concept_016",
+    "concept_name": "View",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "what_changed",
+    "question_text": "A view `v_employees` is defined as `SELECT * FROM employees WHERE year_hired IS NOT NULL;`. Initially the view shows 5 rows. After inserting a new employee with a known year_hired, how many rows does the view show?",
+    "options": {
+      "a": "6",
+      "b": "5",
+      "c": "0",
+      "d": "It depends on ORDER BY"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Views are virtual; they automatically reflect new data that satisfies their condition.",
+      "b": "Views are not static snapshots.",
+      "c": "The new row qualifies, so count increases.",
+      "d": "ORDER BY doesn't affect row count."
+    },
+    "hints": [
+      "Is a view a stored copy of data?",
+      "It's a saved query that runs when accessed."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "A view always queries the underlying table, so it will include newly inserted rows that meet the WHERE clause.",
+    "time_pressure_note": "People may think a view is a static snapshot created at definition time.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_032",
+    "concept_id": "concept_024",
+    "concept_name": "NUMERIC",
+    "chapter": 1,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "A column is defined as `price NUMERIC(5,2)`. You try to INSERT a value of 100.555. What is the likely result?",
+    "options": {
+      "a": "It is stored as 100.56 (rounded).",
+      "b": "An error occurs because the value exceeds precision.",
+      "c": "It is stored as 100.55 (truncated).",
+      "d": "It is stored as 100.555 with extra decimals."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! NUMERIC typically rounds the value to fit the scale.",
+      "b": "Some databases might error if strict, but many will round.",
+      "c": "Truncation behavior may vary, but rounding is common.",
+      "d": "The column has a fixed scale of 2."
+    },
+    "hints": [
+      "With scale 2, only two decimal places are allowed.",
+      "What does a database do with extra decimal digits?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "When inserting a value with more decimal places than the scale, NUMERIC will usually round to the specified number of decimal places.",
+    "time_pressure_note": "Under pressure, one might forget that NUMERIC rounds rather than truncates.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_033",
+    "concept_id": "concept_035",
+    "concept_name": "WHERE clause",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "spot_the_bug",
+    "question_text": "What is wrong with this query?\n\n```sql\nSELECT * FROM patrons WHERE fines = NULL;\n```",
+    "options": {
+      "a": "NULL cannot be compared using =; use IS NULL.",
+      "b": "The column 'fines' does not exist.",
+      "c": "The WHERE clause must be before FROM.",
+      "d": "The asterisk should be replaced with column names."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! NULL is unknown, so any comparison with = returns unknown, not true.",
+      "b": "Assuming 'fines' exists, the issue is the NULL comparison.",
+      "c": "WHERE is correctly placed.",
+      "d": "* is allowed."
+    },
+    "hints": [
+      "How do you check for missing values?",
+      "NULL is not a normal value."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "SQL requires `IS NULL` to test for nullity because NULL is not equal to anything, including itself.",
+    "time_pressure_note": "This is one of the most common SQL mistakes.",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_034",
+    "concept_id": "concept_036",
+    "concept_name": "COUNT function",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "complete_output",
+    "question_text": "The employees table has 10 rows, but 3 of them have NULL in the 'year_hired' column. What does `SELECT COUNT(year_hired) FROM employees;` return?",
+    "options": {
+      "a": "7",
+      "b": "10",
+      "c": "3",
+      "d": "0"
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! COUNT(column) counts only non-NULL values.",
+      "b": "COUNT(*) would give 10, but COUNT(column) excludes NULLs.",
+      "c": "3 is the count of NULLs, not non-NULLs.",
+      "d": "0 would be if all were NULL, but some have values."
+    },
+    "hints": [
+      "COUNT(column_name) ignores NULL values.",
+      "To count all rows, use COUNT(*)."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Aggregate function COUNT(column) returns the number of rows where the column is not null.",
+    "time_pressure_note": "People often confuse COUNT(column) with COUNT(*).",
+    "common_mistake_tested": true
+  },
+  {
+    "id": "boss_035",
+    "concept_id": "concept_038",
+    "concept_name": "IS NOT NULL",
+    "chapter": 2,
+    "wave": 3,
+    "difficulty": "very_hard",
+    "question_type": "output",
+    "question_text": "What does this query return?\n\n```sql\nSELECT * FROM employees WHERE year_hired != NULL;\n```",
+    "options": {
+      "a": "No rows (empty set) because != NULL never returns true.",
+      "b": "All rows where year_hired has a value.",
+      "c": "All rows where year_hired is NULL.",
+      "d": "A syntax error."
+    },
+    "correct_option": "a",
+    "per_option_feedback": {
+      "a": "Correct! Any comparison with NULL yields unknown, so no rows are returned.",
+      "b": "To get non-NULL rows, use IS NOT NULL.",
+      "c": "To get NULL rows, use IS NULL.",
+      "d": "It is syntactically valid but logically flawed."
+    },
+    "hints": [
+      "Is NULL equal to anything?",
+      "What does '!=' do with NULL?"
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "NULL is not comparable; `!= NULL` always evaluates to unknown, so the WHERE clause discards all rows.",
+    "time_pressure_note": "Newcomers often think != NULL works to find non-null values.",
+    "common_mistake_tested": true
+  }
+]

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
-import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward, Trash2 } from 'lucide-react'
+import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward, Trash2, Edit2 } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 import { getSessionLimit } from '../services/settingsService'
+import EditQuestionModal from '../components/EditQuestionModal'
 
 export default function DatasetChallenge() {
   const { courseSlug } = useParams()
@@ -25,6 +26,7 @@ export default function DatasetChallenge() {
   const [solutionUnlocked, setSolutionUnlocked] = useState(false)
   const [showSolutionModal, setShowSolutionModal] = useState(false)
   const [loadingExpectedOutput, setLoadingExpectedOutput] = useState(false)
+  const [editingQuestion, setEditingQuestion] = useState(null)
   
   // Interactive Shell States
   const [shellCounter, setShellCounter] = useState(1)
@@ -139,6 +141,7 @@ export default function DatasetChallenge() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           courseSlug,
+          challengeId: challenge.id,
           datasetFile: challenge.dataset_file,
           history: [],
           command: '' // empty command to load variables silently
@@ -525,6 +528,7 @@ export default function DatasetChallenge() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           courseSlug,
+          challengeId: challenge.id,
           datasetFile: challenge.dataset_file,
           history: editorRunCode ? [editorRunCode, ...shellCommands] : shellCommands,
           command: cmd
@@ -760,13 +764,20 @@ export default function DatasetChallenge() {
           </div>
           </div>
           {/* Delete Challenge button in bottom-left */}
-          <div className="absolute bottom-4 left-6 z-40">
+          <div className="absolute bottom-4 left-6 z-40 flex gap-2">
+            <button
+              type="button"
+              onClick={() => setEditingQuestion(challenge)}
+              className="bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
+            >
+              <Edit2 size={14} /> Edit
+            </button>
             <button
               type="button"
               onClick={() => handleDeleteQuestion(challenge?.id)}
               className="bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
             >
-              <Trash2 size={14} /> Delete Challenge
+              <Trash2 size={14} /> Delete
             </button>
           </div>
         </div>

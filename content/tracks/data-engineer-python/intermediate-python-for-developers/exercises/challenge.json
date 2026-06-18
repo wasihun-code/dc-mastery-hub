@@ -1,0 +1,152 @@
+{
+  "course_slug": "intermediate-python-for-developers",
+  "exercise_type": "dataset_challenge",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_challenges": 2,
+  "challenges": [
+    {
+      "id": "dc_001",
+      "title": "Filter and Analyze Vehicle Ownership Data",
+      "dataset_file": "cars.csv",
+      "difficulty": "medium",
+      "estimated_minutes": 4,
+      "concepts_tested": [
+        "pandas_filtering",
+        "boolean_logic"
+      ],
+      "context": "You are a data engineer preparing a report for a multinational logistics firm. You need to identify countries where people drive on the right side of the road AND have a high density of cars per capita (greater than 100).",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV file 'cars.csv' into a DataFrame named 'cars', using the first column as the index.",
+          "variable_name": "cars"
+        },
+        {
+          "step": 2,
+          "description": "Create a boolean Series 'high_density' representing rows where 'cars_per_cap' is greater than 100.",
+          "variable_name": "high_density"
+        },
+        {
+          "step": 3,
+          "description": "Create a boolean Series 'right_side' representing rows where 'drives_right' is True.",
+          "variable_name": "right_side"
+        },
+        {
+          "step": 4,
+          "description": "Combine these conditions using logical AND to filter the 'cars' DataFrame, and store the result in 'filtered_cars'.",
+          "variable_name": "filtered_cars"
+        },
+        {
+          "step": 5,
+          "description": "Print the 'filtered_cars' DataFrame.",
+          "variable_name": ""
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load cars.csv with index_col=0\ncars = None\n\n# Step 2: Create high_density series for cars_per_cap > 100\nhigh_density = None\n\n# Step 3: Create right_side series for drives_right == True\nright_side = None\n\n# Step 4: Filter DataFrame\nfiltered_cars = None\n\n# Step 5: Print result\nprint(filtered_cars)\n",
+      "solution_code": "import pandas as pd\n\ncars = pd.read_csv('cars.csv', index_col=0)\nhigh_density = cars['cars_per_cap'] > 100\nright_side = cars['drives_right'] == True\nfiltered_cars = cars[high_density & right_side]\nprint(filtered_cars)",
+      "expected_output": "    cars_per_cap        country  drives_right\nUS           809  United States          True\nRU           200         Russia          True",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Load the csv file with pandas.read_csv and set index_col=0.",
+        "Perform comparison checks for right drives and density threshold, and combine with the '&' operator."
+      ],
+      "learning_outcome": "Filter DataFrame rows based on multiple conditions (numeric threshold and boolean flag) combined via element-wise logical AND.",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "brics": {
+          "type": "csv",
+          "path": "brics.csv"
+        },
+        "cars": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "gapminder": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        }
+      }
+    },
+    {
+      "id": "dc_002",
+      "title": "Identify High GDP Nations in the Americas",
+      "dataset_file": "gapminder.csv",
+      "difficulty": "hard",
+      "estimated_minutes": 6,
+      "concepts_tested": [
+        "pandas_arithmetic",
+        "dataframe_filtering",
+        "sorting"
+      ],
+      "context": "You are analyzing socioeconomic data from the Gapminder project. Your task is to filter the dataset for countries in the 'Americas' continent. Then, calculate the total GDP for each country by multiplying the 'population' by 'gdp_cap', and store it in a new column 'total_gdp'. Finally, sort the filtered countries by 'total_gdp' in descending order and identify the top country.",
+      "instructions": [
+        {
+          "step": 1,
+          "description": "Load the CSV file 'gapminder.csv' into a DataFrame named 'gapminder', using the first column as the index.",
+          "variable_name": "gapminder"
+        },
+        {
+          "step": 2,
+          "description": "Filter 'gapminder' to only include rows where the continent 'cont' is 'Americas'. Store the result in 'americas_data'. Make a copy to avoid SettingWithCopyWarning.",
+          "variable_name": "americas_data"
+        },
+        {
+          "step": 3,
+          "description": "Calculate the total GDP for each row by multiplying 'population' and 'gdp_cap'. Store the result in a new column named 'total_gdp' in 'americas_data'.",
+          "variable_name": "americas_data['total_gdp']"
+        },
+        {
+          "step": 4,
+          "description": "Sort the 'americas_data' DataFrame by 'total_gdp' in descending order, and store the result in 'sorted_americas'.",
+          "variable_name": "sorted_americas"
+        },
+        {
+          "step": 5,
+          "description": "Extract the first row of 'sorted_americas' (the top country), and print a formatted string: f'Top Country: {top_country[\"country\"]}, GDP: {top_country[\"total_gdp\"]:.2e}'.",
+          "variable_name": ""
+        }
+      ],
+      "starter_code": "import pandas as pd\n\n# Step 1: Load gapminder.csv with index_col=0\ngapminder = None\n\n# Step 2: Filter for cont == 'Americas'\namericas_data = None\n\n# Step 3: Calculate total_gdp column\n\n# Step 4: Sort by total_gdp in descending order\nsorted_americas = None\n\n# Step 5: Print first row formatted\n# Hint: Use sorted_americas.iloc[0] to get the top country\n",
+      "solution_code": "import pandas as pd\n\ngapminder = pd.read_csv('gapminder.csv', index_col=0)\namericas_data = gapminder[gapminder['cont'] == 'Americas'].copy()\namericas_data['total_gdp'] = americas_data['population'] * americas_data['gdp_cap']\nsorted_americas = americas_data.sort_values(by='total_gdp', ascending=False)\ntop_country = sorted_americas.iloc[0]\nprint(f\"Top Country: {top_country['country']}, GDP: {top_country['total_gdp']:.2e}\")",
+      "expected_output": "Top Country: United States, GDP: 1.29e+13",
+      "validation_rules": [
+        {
+          "check": "True",
+          "message": "Execution finished successfully"
+        }
+      ],
+      "hints": [
+        "Filter gapminder['cont'] == 'Americas' and create a copy of the dataframe.",
+        "Multiply population and gdp_cap columns to get total_gdp, sort using sort_values, and fetch the first element with .iloc[0]."
+      ],
+      "learning_outcome": "Compute new series using element-wise multiplication on DataFrame columns, apply boolean conditions for row filtering, sort records by a computed field, and retrieve the top record.",
+      "pre_loaded_data": {
+        "df": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        },
+        "brics": {
+          "type": "csv",
+          "path": "brics.csv"
+        },
+        "cars": {
+          "type": "csv",
+          "path": "cars.csv"
+        },
+        "gapminder": {
+          "type": "csv",
+          "path": "gapminder.csv"
+        }
+      }
+    }
+  ]
+}

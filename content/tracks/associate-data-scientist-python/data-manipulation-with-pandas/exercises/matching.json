@@ -1,0 +1,390 @@
+{
+  "course_slug": "data-manipulation-with-pandas",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-13",
+  "version": 1,
+  "total_pairs": 30,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Data Structures & Exploration",
+      "difficulty": "medium",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "pandas",
+          "match": "Python package for data manipulation and visualization, providing DataFrame and Series.",
+          "wrong_matches": [
+            "A one‑dimensional labeled array for a single variable.",
+            "A two‑dimensional labeled data structure similar to a spreadsheet."
+          ],
+          "feedback_correct": "Correct! pandas is the foundational library imported as `pd`.",
+          "feedback_wrong": "That describes a data structure within pandas, not the package itself."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_002",
+          "term": "DataFrame",
+          "match": "A two‑dimensional labeled data structure, like a spreadsheet, holding rows and columns.",
+          "wrong_matches": [
+            "A one‑dimensional labeled array for a single variable.",
+            "Data stored in rows and columns where each row is an observation."
+          ],
+          "feedback_correct": "Yes! The DataFrame is the core pandas object for tabular data.",
+          "feedback_wrong": "Think about dimensionality: a DataFrame has two axes."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_003",
+          "term": "Series",
+          "match": "A one‑dimensional labeled array that holds data for a single variable.",
+          "wrong_matches": [
+            "A two‑dimensional labeled data structure with columns.",
+            "The row labels of a DataFrame."
+          ],
+          "feedback_correct": "Right! Each column of a DataFrame is a Series.",
+          "feedback_wrong": "A Series has only one axis, not two; it's like a single column."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "rectangular data",
+          "match": "Data stored in rows (observations) and columns (variables) where all columns have equal length.",
+          "wrong_matches": [
+            "A method that returns the first few rows of a DataFrame.",
+            "An attribute giving the dimensions (rows, columns) of a DataFrame."
+          ],
+          "feedback_correct": "Exactly! DataFrames require rectangular (tabular) data.",
+          "feedback_wrong": "That sounds like a specific pandas method or attribute, not the data structure concept."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": ".head()",
+          "match": "Returns the first 5 rows (by default) of a DataFrame for quick inspection.",
+          "wrong_matches": [
+            "Prints a concise summary of the DataFrame and returns None.",
+            "An attribute that returns a tuple (rows, columns)."
+          ],
+          "feedback_correct": "Correct! `df.head()` is the most common way to peek at data.",
+          "feedback_wrong": "That method prints information, not data rows."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": ".info()",
+          "match": "Prints column names, data types, non‑null counts and memory usage; returns None.",
+          "wrong_matches": [
+            "Generates summary statistics for numeric columns.",
+            "Returns the column labels of a DataFrame."
+          ],
+          "feedback_correct": "Yes! `.info()` is essential for understanding a DataFrame's structure.",
+          "feedback_wrong": "That function computes statistics like mean and std, not just column info."
+        },
+        {
+          "id": "match_007",
+          "concept_id": "concept_007",
+          "term": ".shape",
+          "match": "Attribute (no parentheses) returning a tuple (number of rows, number of columns).",
+          "wrong_matches": [
+            "Method that returns a tuple (columns, rows).",
+            "Returns the first few rows of a DataFrame."
+          ],
+          "feedback_correct": "Good! `df.shape` gives the dimensions without any function call.",
+          "feedback_wrong": "Remember: the order is rows first, and it's an attribute, not a method."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_008",
+          "term": ".describe()",
+          "match": "Computes count, mean, std, min, quartiles, max for numeric columns (by default).",
+          "wrong_matches": [
+            "Shows the first 5 rows of a DataFrame.",
+            "Returns the row labels of a DataFrame."
+          ],
+          "feedback_correct": "Exactly! It provides a statistical summary of the data.",
+          "feedback_wrong": "That's for inspection or metadata, not summary statistics."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_011",
+          "term": ".index",
+          "match": "Attribute that returns the row labels of a DataFrame as an Index object.",
+          "wrong_matches": [
+            "Returns the column labels of a DataFrame.",
+            "Method that sets a column as the row index."
+          ],
+          "feedback_correct": "Yes! The index provides the labels for each row.",
+          "feedback_wrong": "That attribute gives column names, not row labels."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_012",
+          "term": ".sort_values()",
+          "match": "Sorts a DataFrame by the values of one or more columns; returns a new DataFrame unless assigned.",
+          "wrong_matches": [
+            "Sorts the index labels alphabetically or numerically.",
+            "Removes duplicate rows from a DataFrame."
+          ],
+          "feedback_correct": "Right! Use `ascending=False` for descending order.",
+          "feedback_wrong": "That method sorts by the index, not by column values."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Indexing & Aggregation",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_011",
+          "concept_id": "concept_014",
+          "term": "Boolean indexing",
+          "match": "Filtering rows with a Boolean Series (mask), e.g., `df[df['col'] > 10]`.",
+          "wrong_matches": [
+            "Splitting data into groups based on one or more columns.",
+            "Selecting rows by integer position."
+          ],
+          "feedback_correct": "Great! Combine multiple conditions with `&` and parentheses.",
+          "feedback_wrong": "That is grouping or position‑based selection, not conditional filtering."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_015",
+          "term": "mask",
+          "match": "A Boolean Series used to select rows; must align by index with the DataFrame.",
+          "wrong_matches": [
+            "A method that checks whether values are in a list.",
+            "A function that applies a custom aggregation."
+          ],
+          "feedback_correct": "Yes! The mask's index is crucial to avoid NaN mismatches.",
+          "feedback_wrong": "That is a specific pandas method, not the conceptual mask itself."
+        },
+        {
+          "id": "match_013",
+          "concept_id": "concept_019",
+          "term": ".mean()",
+          "match": "Returns the arithmetic average of a Series; on a DataFrame it averages each numeric column.",
+          "wrong_matches": [
+            "Returns the middle value of a sorted Series.",
+            "Computes the cumulative sum along a column."
+          ],
+          "feedback_correct": "Correct! Non‑numeric columns are silently excluded.",
+          "feedback_wrong": "The median is the middle, not the average."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_020",
+          "term": ".median()",
+          "match": "Returns the middle value (50th percentile) of a Series.",
+          "wrong_matches": [
+            "Returns the arithmetic mean of a Series.",
+            "Aggregates data using custom functions."
+          ],
+          "feedback_correct": "Exactly! It's robust to outliers compared to the mean.",
+          "feedback_wrong": "The mean is the sum divided by count, not the middle value."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_021",
+          "term": "dogs['weight_kg'].agg(pct30)",
+          "match": "Applies the custom function `pct30` to the 'weight_kg' column for a single summary value.",
+          "wrong_matches": [
+            "Computes the 30th percentile directly on the column.",
+            "Groups by another column and then applies a function."
+          ],
+          "feedback_correct": "Yes! `.agg()` can accept a list of functions or a dict for column‑specific aggregation.",
+          "feedback_wrong": "That would be `.quantile(0.3)`, not using a custom function with `.agg()`."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_025",
+          "term": ".drop_duplicates()",
+          "match": "Removes duplicate rows based on all or specified columns; returns a new DataFrame by default.",
+          "wrong_matches": [
+            "Fills missing values with a specified value.",
+            "Counts the frequency of unique values."
+          ],
+          "feedback_correct": "Right! Use `subset` to target a specific column and `keep='first'` to choose which duplicate to keep.",
+          "feedback_wrong": "That method handles NaN, not duplicates."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_026",
+          "term": ".value_counts()",
+          "match": "Returns a Series of counts of unique values; set `normalize=True` for proportions.",
+          "wrong_matches": [
+            "Removes rows containing missing values.",
+            "Sorts a DataFrame by column values."
+          ],
+          "feedback_correct": "Perfect! It's the quick way to get a frequency table.",
+          "feedback_wrong": "That method deals with missing data, not counting."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_027",
+          "term": ".groupby()",
+          "match": "Splits data into groups based on a column; must be followed by an aggregation to produce a DataFrame.",
+          "wrong_matches": [
+            "Creates a pivot table that automatically aggregates with mean.",
+            "Returns the summary statistics of numeric columns."
+          ],
+          "feedback_correct": "Yes! Without `.mean()` or similar, you get a GroupBy object, not data.",
+          "feedback_wrong": "Pivot tables are a different higher‑level tool."
+        },
+        {
+          "id": "match_019",
+          "concept_id": "concept_029",
+          "term": ".set_index()",
+          "match": "Moves one or more columns into the row index; returns a new DataFrame unless inplace=True.",
+          "wrong_matches": [
+            "Reverts the index back to default integer labels.",
+            "Converts a DataFrame to a NumPy array."
+          ],
+          "feedback_correct": "Correct! This is key for label‑based access with `.loc`.",
+          "feedback_wrong": "That method restores the default index, not setting a new one."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_030",
+          "term": ".reset_index()",
+          "match": "Resets the index to default integers; use `drop=True` to discard the old index completely.",
+          "wrong_matches": [
+            "Sets a column as the new index.",
+            "Removes rows with any missing values."
+          ],
+          "feedback_correct": "Good! Without `drop=True`, the old index becomes a column.",
+          "feedback_wrong": "That is the opposite operation."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Indexers, Missing Data & I/O",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_021",
+          "concept_id": "concept_031",
+          "term": ".loc[]",
+          "match": "Label‑based indexer; slice endpoints are inclusive. Use with index values, not integer positions.",
+          "wrong_matches": [
+            "Position‑based indexer with exclusive slice ends.",
+            "Method that removes duplicate rows."
+          ],
+          "feedback_correct": "Yes! `df.loc['A':'C']` includes 'C'.",
+          "feedback_wrong": "That describes `.iloc`, not `.loc`."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_032",
+          "term": ".iloc[]",
+          "match": "Position‑based indexer; slice endpoints are exclusive. Uses integer indices starting at 0.",
+          "wrong_matches": [
+            "Label‑based indexer with inclusive slices.",
+            "Method that generates summary statistics."
+          ],
+          "feedback_correct": "Exactly! `df.iloc[0:2]` returns rows 0 and 1.",
+          "feedback_wrong": "That's `.loc`, not `.iloc`."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_033",
+          "term": "slicing",
+          "match": "Extracting a subset of rows/columns using index ranges; `.loc` slice is inclusive, `.iloc` exclusive.",
+          "wrong_matches": [
+            "Filtering rows with a Boolean condition.",
+            "Applying a function element‑wise to a column."
+          ],
+          "feedback_correct": "Right! Slicing is the general term for selecting ranges.",
+          "feedback_wrong": "That's Boolean indexing or element‑wise operations, not slicing."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_037",
+          "term": "dogs['height_cm'].hist()",
+          "match": "Creates a histogram plot for the 'height_cm' Series; requires `plt.show()` to display.",
+          "wrong_matches": [
+            "Generates a bar plot of mean weights by breed.",
+            "Writes a DataFrame to a CSV file."
+          ],
+          "feedback_correct": "Yes! Use `bins` to control the number of bins.",
+          "feedback_wrong": "That's a bar plot or I/O operation, not a histogram."
+        },
+        {
+          "id": "match_025",
+          "concept_id": "concept_038",
+          "term": ".plot(kind='bar')",
+          "match": "Creates a bar plot; typically used after grouping and aggregating data.",
+          "wrong_matches": [
+            "Creates a scatter plot to show relationships.",
+            "Returns the first few rows of a DataFrame."
+          ],
+          "feedback_correct": "Correct! Example: `avg_weight_by_breed.plot(kind='bar')`.",
+          "feedback_wrong": "A scatter plot uses `kind='scatter'`."
+        },
+        {
+          "id": "match_026",
+          "concept_id": "concept_044",
+          "term": ".dropna()",
+          "match": "Removes rows (or columns) with missing values; `how='all'` drops only if all values are NaN.",
+          "wrong_matches": [
+            "Fills missing values with a specified constant.",
+            "Checks for missing values, returning a boolean DataFrame."
+          ],
+          "feedback_correct": "Yes! `subset` can target specific columns.",
+          "feedback_wrong": "That's `.fillna()` or `.isna()`, not dropping."
+        },
+        {
+          "id": "match_027",
+          "concept_id": "concept_045",
+          "term": ".fillna()",
+          "match": "Replaces NaN with a given value (e.g., 0) or uses a method like 'ffill' for forward fill.",
+          "wrong_matches": [
+            "Removes rows containing any missing data.",
+            "Counts the number of missing values per column."
+          ],
+          "feedback_correct": "Exactly! `df.fillna(0)` fills all NaN with zero.",
+          "feedback_wrong": "That would be `dropna()` or `isna().sum()`."
+        },
+        {
+          "id": "match_028",
+          "concept_id": "concept_048",
+          "term": "pd.read_csv()",
+          "match": "Imports data from a CSV file into a DataFrame; uses comma as default delimiter.",
+          "wrong_matches": [
+            "Exports a DataFrame to a CSV file.",
+            "Converts a DataFrame to a NumPy array."
+          ],
+          "feedback_correct": "Good! Always check your file path and delimiter.",
+          "feedback_wrong": "That's the export function, not import."
+        },
+        {
+          "id": "match_029",
+          "concept_id": "concept_049",
+          "term": ".to_csv()",
+          "match": "Exports a DataFrame to a CSV file; use `index=False` to avoid writing row numbers.",
+          "wrong_matches": [
+            "Reads a CSV file and creates a DataFrame.",
+            "Prints a summary of the DataFrame columns and types."
+          ],
+          "feedback_correct": "Yes! `df.to_csv('file.csv', index=False)` is the common form.",
+          "feedback_wrong": "That's the import function, not export."
+        },
+        {
+          "id": "match_030",
+          "concept_id": "concept_028",
+          "term": ".pivot_table()",
+          "match": "Creates a spreadsheet‑style table aggregating data; default `aggfunc` is mean, not sum.",
+          "wrong_matches": [
+            "Groups data and then applies a function manually.",
+            "Sorts a DataFrame by a column."
+          ],
+          "feedback_correct": "Correct! Remember to set `aggfunc='sum'` if you want totals, not averages.",
+          "feedback_wrong": "`.groupby()` is more manual; `.pivot_table()` is a higher‑level abstraction."
+        }
+      ]
+    }
+  ]
+}

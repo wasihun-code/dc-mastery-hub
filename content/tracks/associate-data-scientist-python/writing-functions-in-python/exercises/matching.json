@@ -1,0 +1,325 @@
+{
+  "course_slug": "writing-functions-in-python",
+  "exercise_type": "matching",
+  "generated_at": "2026-06-14",
+  "version": 1,
+  "total_pairs": 24,
+  "rounds": [
+    {
+      "round_number": 1,
+      "theme": "Documentation & Code Quality",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_001",
+          "concept_id": "concept_001",
+          "term": "Docstring",
+          "match": "First string literal in a function, stored in __doc__.",
+          "wrong_matches": [
+            "Returns cleaned docstring with whitespace stripped.",
+            "Principle to avoid repetitive code by creating functions."
+          ],
+          "feedback_correct": "Correct! A docstring documents a function and is stored in __doc__.",
+          "feedback_wrong": "That describes another concept; a docstring is the documentation string itself."
+        },
+        {
+          "id": "match_002",
+          "concept_id": "concept_003",
+          "term": "Parameters\n----------\ndata : ndarray\n    Input array.",
+          "match": "Numpydoc-style parameter section with dash underline.",
+          "wrong_matches": [
+            "Google-style argument list with (optional) marking.",
+            "Raw access to a function's documentation string."
+          ],
+          "feedback_correct": "Correct! Numpydoc uses section headers underlined with dashes.",
+          "feedback_wrong": "That is a different documentation style or attribute."
+        },
+        {
+          "id": "match_003",
+          "concept_id": "concept_002",
+          "term": "delimiter (str, optional): Field delimiter.",
+          "match": "Google-style docstring showing optional argument.",
+          "wrong_matches": [
+            "Numpydoc parameter with type on the following line.",
+            "Standard Python docstring with no special formatting."
+          ],
+          "feedback_correct": "Right! Google‑style marks optional arguments with `, optional`.",
+          "feedback_wrong": "That format lacks the optional marker or uses a different layout."
+        },
+        {
+          "id": "match_004",
+          "concept_id": "concept_004",
+          "term": "the_answer.__doc__",
+          "match": "Raw docstring exactly as written, including indentation.",
+          "wrong_matches": [
+            "Clean docstring via inspect module.",
+            "Function that checks if a docstring exists."
+          ],
+          "feedback_correct": "Yes, __doc__ gives the original string, whitespace and all.",
+          "feedback_wrong": "That's inspect.getdoc() or a different attribute."
+        },
+        {
+          "id": "match_005",
+          "concept_id": "concept_005",
+          "term": "inspect.getdoc(the_answer)",
+          "match": "Docstring with leading whitespace stripped for display.",
+          "wrong_matches": [
+            "Raw access to the function's docstring attribute.",
+            "Decorator that preserves the function's metadata."
+          ],
+          "feedback_correct": "Correct! inspect.getdoc() cleans up the indentation.",
+          "feedback_wrong": "That's the __doc__ attribute or something else."
+        },
+        {
+          "id": "match_006",
+          "concept_id": "concept_006",
+          "term": "Don't Repeat Yourself (DRY)",
+          "match": "Principle: abstract repeated logic into reusable functions.",
+          "wrong_matches": [
+            "Principle: each function should have exactly one responsibility.",
+            "Process of improving code structure without changing behavior."
+          ],
+          "feedback_correct": "Right! DRY eliminates code duplication.",
+          "feedback_wrong": "That's the Do One Thing principle or refactoring."
+        }
+      ]
+    },
+    {
+      "round_number": 2,
+      "theme": "Context Managers & Exceptions",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_007",
+          "concept_id": "concept_015",
+          "term": "with open('data.txt') as f:",
+          "match": "Syntax to automatically close the file after the block.",
+          "wrong_matches": [
+            "Decorator that turns a generator into a context manager.",
+            "Guarantees cleanup even if an error occurs."
+          ],
+          "feedback_correct": "Yes, the with statement ensures proper resource management.",
+          "feedback_wrong": "That describes @contextmanager or try/finally."
+        },
+        {
+          "id": "match_008",
+          "concept_id": "concept_014",
+          "term": "Context manager",
+          "match": "Setup and teardown pattern, e.g., opening and closing a file.",
+          "wrong_matches": [
+            "Function that returns another function with a modified behavior.",
+            "Mechanism to time the execution of a function."
+          ],
+          "feedback_correct": "Correct! A context manager provides setup and automatic cleanup.",
+          "feedback_wrong": "That's a decorator or timer, not a context manager."
+        },
+        {
+          "id": "match_009",
+          "concept_id": "concept_016",
+          "term": "@contextlib.contextmanager",
+          "match": "Decorator transforming a generator function into a context manager.",
+          "wrong_matches": [
+            "Keyword used to pause a function and yield a value.",
+            "Statement that creates nested file handlers."
+          ],
+          "feedback_correct": "Exactly! It takes a generator and creates __enter__/__exit__.",
+          "feedback_wrong": "That's yield or nested with."
+        },
+        {
+          "id": "match_010",
+          "concept_id": "concept_017",
+          "term": "yield 42",
+          "match": "Inside a generator-based context manager, provides the value to `as`.",
+          "wrong_matches": [
+            "Returns the final result of the function.",
+            "Marks the function as a decorator factory."
+          ],
+          "feedback_correct": "Right! yield hands the object to the with block.",
+          "feedback_wrong": "That's return or a decorator pattern."
+        },
+        {
+          "id": "match_011",
+          "concept_id": "concept_018",
+          "term": "with open(src) as f_src:\n    with open(dst,'w') as f_dst:",
+          "match": "Nested context managers, closing inner then outer.",
+          "wrong_matches": [
+            "Ensures disconnection even if an exception occurs.",
+            "A single with statement handling two files."
+          ],
+          "feedback_correct": "Correct! Nested with statements manage multiple resources.",
+          "feedback_wrong": "That's try/finally or a single context manager."
+        },
+        {
+          "id": "match_012",
+          "concept_id": "concept_019",
+          "term": "try:\n    yield p\nfinally:\n    p.disconnect()",
+          "match": "Guarantees teardown even if an error occurs in the with block.",
+          "wrong_matches": [
+            "Catches and swallows exceptions silently.",
+            "Syntax to apply a decorator to a function."
+          ],
+          "feedback_correct": "Yes, finally always runs after the try block.",
+          "feedback_wrong": "That's an except without raise or decorator syntax."
+        }
+      ]
+    },
+    {
+      "round_number": 3,
+      "theme": "Functions as Objects & Scope",
+      "difficulty": "hard",
+      "pairs": [
+        {
+          "id": "match_013",
+          "concept_id": "concept_021",
+          "term": "Functions are first‑class objects",
+          "match": "Can be assigned to variables, passed as arguments, and returned.",
+          "wrong_matches": [
+            "Variables defined inside a function that persist after it returns.",
+            "A function that takes another function and returns a wrapper."
+          ],
+          "feedback_correct": "Right! Functions are objects like any other in Python.",
+          "feedback_wrong": "That describes closures or decorators."
+        },
+        {
+          "id": "match_014",
+          "concept_id": "concept_022",
+          "term": "x = my_function",
+          "match": "Assigns the function object; x() will call it later.",
+          "wrong_matches": [
+            "Calls the function and stores the return value.",
+            "Declares a local variable inside a function."
+          ],
+          "feedback_correct": "Correct! No parentheses means reference, not call.",
+          "feedback_wrong": "That's a function call or local scope assignment."
+        },
+        {
+          "id": "match_015",
+          "concept_id": "concept_030",
+          "term": "global x",
+          "match": "Allows a function to modify a variable in the module‑level scope.",
+          "wrong_matches": [
+            "Allows a nested function to modify an enclosing variable.",
+            "Creates a new local variable with the same name."
+          ],
+          "feedback_correct": "Yes, global tells Python to use the global variable.",
+          "feedback_wrong": "That's nonlocal or simple local assignment."
+        },
+        {
+          "id": "match_016",
+          "concept_id": "concept_023",
+          "term": "has_docstring(no)",
+          "match": "Passing a function as an argument to check if it has a docstring.",
+          "wrong_matches": [
+            "Calling a function and passing its return value.",
+            "Returning a function from another function."
+          ],
+          "feedback_correct": "Correct! The function object itself is passed.",
+          "feedback_wrong": "That's calling the function or returning a function."
+        },
+        {
+          "id": "match_017",
+          "concept_id": "concept_031",
+          "term": "nonlocal x",
+          "match": "Lets a nested function assign to a variable in the enclosing scope.",
+          "wrong_matches": [
+            "Modifies a global variable from inside a function.",
+            "Creates a new local variable that shadows the outer one."
+          ],
+          "feedback_correct": "Right! nonlocal targets the nearest enclosing (non‑global) scope.",
+          "feedback_wrong": "That's global or a regular local assignment."
+        },
+        {
+          "id": "match_018",
+          "concept_id": "concept_032",
+          "term": "def foo():\n    a = 5\n    def bar():\n        print(a)\n    return bar",
+          "match": "Closure: bar captures a and remembers it after foo returns.",
+          "wrong_matches": [
+            "Nested function that modifies the enclosing variable.",
+            "Function that returns another function without capturing variables."
+          ],
+          "feedback_correct": "Exactly! A closure remembers variables from its enclosing scope.",
+          "feedback_wrong": "That's nonlocal or a simple nested function without closure."
+        }
+      ]
+    },
+    {
+      "round_number": 4,
+      "theme": "Decorators & Advanced",
+      "difficulty": "very_hard",
+      "pairs": [
+        {
+          "id": "match_019",
+          "concept_id": "concept_035",
+          "term": "@timer",
+          "match": "Decorator syntax: equivalent to func = timer(func).",
+          "wrong_matches": [
+            "A function that returns a decorator with arguments.",
+            "An inner function that replaces the original."
+          ],
+          "feedback_correct": "Yes, the @ symbol applies the decorator.",
+          "feedback_wrong": "That's a decorator factory or wrapper."
+        },
+        {
+          "id": "match_020",
+          "concept_id": "concept_034",
+          "term": "def decorator(func): ... return wrapper",
+          "match": "A function that takes a function and returns a modified version.",
+          "wrong_matches": [
+            "The innermost function that actually does the work.",
+            "A built‑in module for time measurements."
+          ],
+          "feedback_correct": "Correct! A decorator wraps a function to extend behavior.",
+          "feedback_wrong": "That's the wrapper or an unrelated module."
+        },
+        {
+          "id": "match_021",
+          "concept_id": "concept_036",
+          "term": "def wrapper(a, b):\n    return func(a*2, b*2)",
+          "match": "Inner function that replaces the original, often modifying arguments.",
+          "wrong_matches": [
+            "The outer function that receives factory parameters.",
+            "A function that times the execution of another function."
+          ],
+          "feedback_correct": "Right! The wrapper is the replacement function.",
+          "feedback_wrong": "That's the decorator factory or timer."
+        },
+        {
+          "id": "match_022",
+          "concept_id": "concept_037",
+          "term": "def wrapper(*args, **kwargs):",
+          "match": "Generic signature to pass any arguments to the wrapped function.",
+          "wrong_matches": [
+            "A decorator that preserves the original function's metadata.",
+            "A pattern to cache function results."
+          ],
+          "feedback_correct": "Yes, *args/**kwargs make the decorator flexible.",
+          "feedback_wrong": "That's @wraps or memoize."
+        },
+        {
+          "id": "match_023",
+          "concept_id": "concept_038",
+          "term": "def run_n_times(n):\n    def decorator(func):\n        def wrapper(...): ...\n    return decorator",
+          "match": "Decorator factory: outer function returns a decorator that takes func.",
+          "wrong_matches": [
+            "A decorator that directly modifies the function without arguments.",
+            "A function that wraps another and runs it n times."
+          ],
+          "feedback_correct": "Exactly! The factory customizes the decorator with an argument.",
+          "feedback_wrong": "That's a plain decorator or the inner wrapper itself."
+        },
+        {
+          "id": "match_024",
+          "concept_id": "concept_039",
+          "term": "@wraps(func)",
+          "match": "Preserves __name__ and __doc__ of the original function in the wrapper.",
+          "wrong_matches": [
+            "Adds a __wrapped__ attribute pointing to the original.",
+            "Automatically handles exceptions raised by the decorated function."
+          ],
+          "feedback_correct": "Correct! @wraps copies metadata to the wrapper.",
+          "feedback_wrong": "That's the __wrapped__ attribute or exception handling."
+        }
+      ]
+    }
+  ]
+}

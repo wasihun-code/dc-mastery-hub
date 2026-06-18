@@ -1,0 +1,1112 @@
+[
+  {
+    "id": "fitb_001",
+    "concept_id": "concept_005",
+    "concept_name": ".head()",
+    "chapter": 1,
+    "difficulty": "easy",
+    "task_description": "Display the first few rows of the dogs DataFrame.",
+    "code_template": "print(dogs._____())",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "head",
+        "answer_alternatives": [
+          "head"
+        ]
+      }
+    ],
+    "word_bank": [
+      "head",
+      "tail",
+      "info",
+      "describe"
+    ],
+    "per_tile_feedback": {
+      "head": "Correct. `head()` returns the first 5 rows by default.",
+      "tail": "`tail()` returns the last rows, not the first.",
+      "info": "`info()` prints a summary, not the first rows.",
+      "describe": "`describe()` computes statistics, not a preview."
+    },
+    "hints": [
+      "Remember the method that shows the top of a DataFrame.",
+      "It's a common inspection tool named after the front part of an object."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dogs.head()` returns the first 5 rows (or a specified number) as a quick preview.",
+    "common_mistake_warning": "⚠️ Forgetting parentheses: `dogs.head` is a method object, not the data."
+  },
+  {
+    "id": "fitb_002",
+    "concept_id": "concept_006",
+    "concept_name": ".info()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Print a concise summary of the dogs DataFrame, including data types and non-null counts.",
+    "code_template": "dogs._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "info",
+        "answer_alternatives": [
+          "info"
+        ]
+      }
+    ],
+    "word_bank": [
+      "info",
+      "head",
+      "describe",
+      "shape"
+    ],
+    "per_tile_feedback": {
+      "info": "Correct. `info()` prints a summary of columns, types, and memory usage.",
+      "head": "`head()` shows the first rows, not a summary.",
+      "describe": "`describe()` gives statistical summary, not column info.",
+      "shape": "`shape` is an attribute, not a method with parentheses."
+    },
+    "hints": [
+      "Which method prints column names, non-null counts, and dtypes?",
+      "It doesn’t return a value; it prints directly to the console."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.info()` prints a concise summary of the DataFrame. It returns `None`.",
+    "common_mistake_warning": "⚠️ Do not assign the result of `info()` to a variable; it returns None."
+  },
+  {
+    "id": "fitb_003",
+    "concept_id": "concept_007",
+    "concept_name": ".shape",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Access the number of rows and columns of the dogs DataFrame as a tuple.",
+    "code_template": "dogs._____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "shape",
+        "answer_alternatives": [
+          "shape"
+        ]
+      }
+    ],
+    "word_bank": [
+      "shape",
+      "shape()",
+      "size",
+      "dim"
+    ],
+    "per_tile_feedback": {
+      "shape": "Correct. `.shape` is an attribute returning (rows, columns).",
+      "shape()": "`shape()` would raise TypeError because `.shape` is not a method.",
+      "size": "`.size` returns the total number of elements, not a tuple of dimensions.",
+      "dim": "There is no `.dim` attribute for DataFrames."
+    },
+    "hints": [
+      "This attribute gives a tuple like (7, 6).",
+      "It is accessed without parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.shape` returns a tuple of (rows, cols) and is an attribute, not a method.",
+    "common_mistake_warning": "⚠️ Using parentheses (`df.shape()`) causes TypeError."
+  },
+  {
+    "id": "fitb_004",
+    "concept_id": "concept_008",
+    "concept_name": ".describe()",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Generate summary statistics for the numeric columns of the dogs DataFrame.",
+    "code_template": "dogs._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "describe",
+        "answer_alternatives": [
+          "describe"
+        ]
+      }
+    ],
+    "word_bank": [
+      "describe",
+      "stats",
+      "summary",
+      "info"
+    ],
+    "per_tile_feedback": {
+      "describe": "Correct. `describe()` computes count, mean, std, min, quartiles, max.",
+      "stats": "No such method exists.",
+      "summary": "There is no `.summary()` method.",
+      "info": "`info()` prints column info, not numeric statistics."
+    },
+    "hints": [
+      "The method returns count, mean, std, min, quartiles, and max.",
+      "It skips non‑numeric columns by default."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`describe()` provides a statistical summary of numeric columns.",
+    "common_mistake_warning": "⚠️ Non‑numeric columns are ignored unless you use include='all'."
+  },
+  {
+    "id": "fitb_005",
+    "concept_id": "concept_010",
+    "concept_name": ".columns",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Retrieve the column labels of the dogs DataFrame.",
+    "code_template": "dogs._____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "columns",
+        "answer_alternatives": [
+          "columns"
+        ]
+      }
+    ],
+    "word_bank": [
+      "columns",
+      "columns()",
+      "names",
+      "index"
+    ],
+    "per_tile_feedback": {
+      "columns": "Correct. `.columns` is the attribute holding column labels.",
+      "columns()": "`.columns()` is a TypeError; `.columns` is an attribute.",
+      "names": "There is no `.names` attribute for column labels.",
+      "index": "`.index` gives row labels, not columns."
+    },
+    "hints": [
+      "This attribute returns an Index object of column names.",
+      "It is not a method; do not use parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.columns` returns the column labels as an Index.",
+    "common_mistake_warning": "⚠️ Assigning a new list must match the number of columns."
+  },
+  {
+    "id": "fitb_006",
+    "concept_id": "concept_011",
+    "concept_name": ".index",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Retrieve the row index of the dogs DataFrame.",
+    "code_template": "dogs._____",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "index",
+        "answer_alternatives": [
+          "index"
+        ]
+      }
+    ],
+    "word_bank": [
+      "index",
+      "index()",
+      "rows",
+      "labels"
+    ],
+    "per_tile_feedback": {
+      "index": "Correct. `.index` returns the row labels.",
+      "index()": "`.index()` is an attribute, not a method.",
+      "rows": "There is no `.rows` attribute.",
+      "labels": "`.labels` does not exist."
+    },
+    "hints": [
+      "It gives the row identifiers, often a RangeIndex.",
+      "It is an attribute, no parentheses."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.index` provides the row index (labels) of the DataFrame.",
+    "common_mistake_warning": "⚠️ Index values don't need to be unique, but length must match."
+  },
+  {
+    "id": "fitb_007",
+    "concept_id": "concept_013",
+    "concept_name": "subsetting columns",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Select the 'weight_kg' column from dogs as a Series.",
+    "code_template": "dogs[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'weight_kg'",
+        "answer_alternatives": [
+          "\"weight_kg\""
+        ]
+      }
+    ],
+    "word_bank": [
+      "'weight_kg'",
+      "['weight_kg']",
+      "weight_kg",
+      "\"weight_kg\""
+    ],
+    "per_tile_feedback": {
+      "'weight_kg'": "Correct. Single brackets with a string return a Series.",
+      "['weight_kg']": "This returns a single-column DataFrame, not a Series.",
+      "weight_kg": "Without quotes, Python looks for a variable named `weight_kg`.",
+      "\"weight_kg\"": "This is equivalent to `'weight_kg'` and also returns a Series; accepted."
+    },
+    "hints": [
+      "Use a string inside single square brackets.",
+      "Quotes are required to refer to column names."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dogs['weight_kg']` returns a pandas Series. Double quotes work identically.",
+    "common_mistake_warning": "⚠️ `dogs[['weight_kg']]` returns a DataFrame, not a Series."
+  },
+  {
+    "id": "fitb_008",
+    "concept_id": "concept_017",
+    "concept_name": "adding a new column",
+    "chapter": 1,
+    "difficulty": "medium",
+    "task_description": "Add a new column 'height_m' to dogs by converting 'height_cm' from centimeters to meters.",
+    "code_template": "dogs['height_m'] = dogs['height_cm'] _____ 100",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "/",
+        "answer_alternatives": [
+          "/"
+        ]
+      }
+    ],
+    "word_bank": [
+      "/",
+      "*",
+      "+",
+      "-"
+    ],
+    "per_tile_feedback": {
+      "/": "Correct. Dividing by 100 converts cm to m.",
+      "*": "Multiplying would give a much larger number, not meters.",
+      "+": "Adding 100 would not convert units.",
+      "-": "Subtracting is not a unit conversion."
+    },
+    "hints": [
+      "To convert centimeters to meters, you divide by 100.",
+      "The column name `height_m` suggests the unit is meters."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Dividing by 100 correctly converts centimeters to meters.",
+    "common_mistake_warning": null
+  },
+  {
+    "id": "fitb_009",
+    "concept_id": "concept_026",
+    "concept_name": ".value_counts()",
+    "chapter": 2,
+    "difficulty": "medium",
+    "task_description": "Get the relative frequencies (proportions) of each value in the 'color' column.",
+    "code_template": "dogs['color'].value_counts(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "normalize=True",
+        "answer_alternatives": [
+          "normalize=True"
+        ]
+      }
+    ],
+    "word_bank": [
+      "normalize=True",
+      "normalize=False",
+      "sort=True",
+      "ascending=True"
+    ],
+    "per_tile_feedback": {
+      "normalize=True": "Correct. This returns proportions instead of raw counts.",
+      "normalize=False": "False gives absolute counts, not proportions.",
+      "sort=True": "Sorting doesn't change counts to proportions.",
+      "ascending=True": "This changes sort order, not normalization."
+    },
+    "hints": [
+      "The parameter that turns counts into fractions is `normalize`.",
+      "Set it to True to get proportions."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`value_counts(normalize=True)` returns relative frequencies.",
+    "common_mistake_warning": "⚠️ Calling `value_counts()` on a DataFrame instead of a Series has different semantics."
+  },
+  {
+    "id": "fitb_010",
+    "concept_id": "concept_009",
+    "concept_name": ".to_numpy()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Convert the dogs DataFrame into a NumPy array.",
+    "code_template": "dogs._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "to_numpy",
+        "answer_alternatives": [
+          "to_numpy"
+        ]
+      }
+    ],
+    "word_bank": [
+      "to_numpy",
+      "to_ndarray",
+      "as_matrix",
+      "to_array"
+    ],
+    "per_tile_feedback": {
+      "to_numpy": "Correct. This method returns the DataFrame values as a NumPy array.",
+      "to_ndarray": "No such method exists.",
+      "as_matrix": "`as_matrix()` was deprecated and removed.",
+      "to_array": "Not a method of DataFrame."
+    },
+    "hints": [
+      "The method name starts with `to_` and ends with `numpy`.",
+      "It returns a 2D array without labels."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.to_numpy()` gives a NumPy array representation of the data.",
+    "common_mistake_warning": "⚠️ Mixed data types become object dtype in the resulting array."
+  },
+  {
+    "id": "fitb_011",
+    "concept_id": "concept_012",
+    "concept_name": ".sort_values()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Sort dogs by weight_kg in descending order and assign the result back to dogs.",
+    "code_template": "dogs = dogs.sort_values('weight_kg', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "ascending=False",
+        "answer_alternatives": [
+          "ascending=False"
+        ]
+      }
+    ],
+    "word_bank": [
+      "ascending=False",
+      "ascending=True",
+      "descending=True",
+      "reverse=True"
+    ],
+    "per_tile_feedback": {
+      "ascending=False": "Correct. This sorts from largest to smallest.",
+      "ascending=True": "True would sort ascending (smallest first).",
+      "descending=True": "There is no `descending` parameter; use `ascending`.",
+      "reverse=True": "`reverse` is not a valid parameter."
+    },
+    "hints": [
+      "To get descending order, set the `ascending` parameter to False.",
+      "Do not forget to assign the result, because `sort_values` returns a new DataFrame."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`ascending=False` sorts the column from highest to lowest.",
+    "common_mistake_warning": "⚠️ Forgetting to assign the result leaves the original DataFrame unchanged."
+  },
+  {
+    "id": "fitb_012",
+    "concept_id": "concept_014",
+    "concept_name": "Boolean indexing",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Filter dogs to keep only rows where height_cm is greater than 50.",
+    "code_template": "dogs[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dogs['height_cm'] > 50",
+        "answer_alternatives": [
+          "dogs.height_cm > 50"
+        ]
+      }
+    ],
+    "word_bank": [
+      "dogs['height_cm'] > 50",
+      "dogs['height_cm'] >= 50",
+      "dogs['height_cm'] < 50",
+      "dogs.height_cm > 50"
+    ],
+    "per_tile_feedback": {
+      "dogs['height_cm'] > 50": "Correct. Returns a boolean mask for heights strictly greater than 50.",
+      "dogs['height_cm'] >= 50": "This includes heights equal to 50, not strictly greater.",
+      "dogs['height_cm'] < 50": "This keeps heights less than 50, opposite of the task.",
+      "dogs.height_cm > 50": "This also works (dot notation), accepted as alternative."
+    },
+    "hints": [
+      "The condition should use a comparison operator with the column name.",
+      "Make sure to use the DataFrame name and column name together."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`dogs['height_cm'] > 50` creates a boolean Series that selects rows with height > 50.",
+    "common_mistake_warning": "⚠️ Combine multiple conditions with `&` and wrap each in parentheses."
+  },
+  {
+    "id": "fitb_013",
+    "concept_id": "concept_016",
+    "concept_name": ".isin()",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Filter dogs to keep only rows where color is either 'Black' or 'Brown'.",
+    "code_template": "dogs[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dogs['color'].isin(['Black', 'Brown'])",
+        "answer_alternatives": [
+          "dogs.color.isin(['Black', 'Brown'])"
+        ]
+      }
+    ],
+    "word_bank": [
+      "dogs['color'].isin(['Black', 'Brown'])",
+      "dogs['color'].isin('Black', 'Brown')",
+      "dogs['color'].in(['Black', 'Brown'])",
+      "dogs.color.isin(['Black', 'Brown'])"
+    ],
+    "per_tile_feedback": {
+      "dogs['color'].isin(['Black', 'Brown'])": "Correct. Passes a list of values to `isin()`.",
+      "dogs['color'].isin('Black', 'Brown')": "`isin()` expects a single iterable, not multiple arguments.",
+      "dogs['color'].in(['Black', 'Brown'])": "The method is `isin`, not `in`.",
+      "dogs.color.isin(['Black', 'Brown'])": "Also correct, dot notation alternative."
+    },
+    "hints": [
+      "Use the `.isin()` method with a list of values.",
+      "The method name starts with `is` and takes a list."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`Series.isin([values])` checks membership and returns a Boolean Series.",
+    "common_mistake_warning": "⚠️ `df.isin()` without a column selection checks every cell, returning a DataFrame of booleans."
+  },
+  {
+    "id": "fitb_014",
+    "concept_id": "concept_018",
+    "concept_name": "chaining operations",
+    "chapter": 1,
+    "difficulty": "hard",
+    "task_description": "Chain operations to filter dogs for bmi < 100, sort by height_cm descending, and select columns 'name', 'height_cm', 'bmi'.",
+    "code_template": "dogs[_____].sort_values('height_cm', ascending=False)[['name', 'height_cm', 'bmi']]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "dogs['bmi'] < 100",
+        "answer_alternatives": [
+          "dogs.bmi < 100"
+        ]
+      }
+    ],
+    "word_bank": [
+      "dogs['bmi'] < 100",
+      "dogs['bmi'] <= 100",
+      "bmi < 100",
+      "dogs.bmi < 100"
+    ],
+    "per_tile_feedback": {
+      "dogs['bmi'] < 100": "Correct. The Boolean indexing step filters rows.",
+      "dogs['bmi'] <= 100": "This includes rows where bmi equals 100.",
+      "bmi < 100": "Without DataFrame reference, Python would look for a variable named bmi.",
+      "dogs.bmi < 100": "Also correct, dot notation alternative."
+    },
+    "hints": [
+      "The first step in the chain is a Boolean filter on the `bmi` column.",
+      "Use the column name inside square brackets with the comparison operator."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "The filter `dogs['bmi'] < 100` returns a Boolean mask, then the chain continues.",
+    "common_mistake_warning": "⚠️ Chaining without intermediate variables can be hard to debug."
+  },
+  {
+    "id": "fitb_015",
+    "concept_id": "concept_021",
+    "concept_name": ".agg()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Compute the 30th percentile of weight_kg using a custom function `pct30` and the `.agg()` method.",
+    "code_template": "dogs['weight_kg']._____(pct30)",
+    "blanks": [
+      {
+        "position": 0,
+        "answer": "agg",
+        "distractors": []
+      }
+    ],
+    "word_bank": [
+      "agg",
+      "aggregate",
+      "apply",
+      "transform"
+    ],
+    "per_tile_feedback": {
+      "agg": "Correct. `.agg()` accepts custom functions for aggregation.",
+      "aggregate": "Also correct, `aggregate` is an alias for `agg`.",
+      "apply": "`apply` applies a function element‑wise, not for aggregation.",
+      "transform": "`transform` returns a transformed Series, not a scalar aggregation."
+    },
+    "hints": [
+      "The method for aggregating with a custom function is `.agg()`.",
+      "It's short for 'aggregate'."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`Series.agg(func)` applies the function to the column and returns a scalar or Series.",
+    "common_mistake_warning": "⚠️ The function must handle missing values if present.",
+    "_exerciseType": "ftb",
+    "description": "Compute the 30th percentile of weight_kg using a custom function `pct30`",
+    "code": "dogs['weight_kg'].[[0]](pct30)",
+    "answers": [
+      "agg"
+    ]
+  },
+  {
+    "id": "fitb_016",
+    "concept_id": "concept_022",
+    "concept_name": ".cumsum()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Compute the cumulative sum of the weight_kg column.",
+    "code_template": "dogs['weight_kg']._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "cumsum",
+        "answer_alternatives": [
+          "cumsum"
+        ]
+      }
+    ],
+    "word_bank": [
+      "cumsum",
+      "cum_sum",
+      "sum",
+      "cumulative_sum"
+    ],
+    "per_tile_feedback": {
+      "cumsum": "Correct. Returns a Series of running totals.",
+      "cum_sum": "No such method; it's `cumsum` without underscore.",
+      "sum": "`sum()` returns a single total, not a cumulative series.",
+      "cumulative_sum": "Not a valid method name."
+    },
+    "hints": [
+      "The method starts with `cum` and returns the running total.",
+      "It does not give a single number but a column of the same length."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`cumsum()` computes the cumulative sum element‑wise.",
+    "common_mistake_warning": "⚠️ Calling `cumsum()` on a DataFrame with non‑numeric columns raises an error."
+  },
+  {
+    "id": "fitb_017",
+    "concept_id": "concept_025",
+    "concept_name": ".drop_duplicates()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Remove duplicate rows based on the 'color' column, keeping the first occurrence.",
+    "code_template": "dogs.drop_duplicates(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "subset='color'",
+        "answer_alternatives": [
+          "subset=['color']"
+        ]
+      }
+    ],
+    "word_bank": [
+      "subset='color'",
+      "subset=['color']",
+      "by='color'",
+      "inplace=True"
+    ],
+    "per_tile_feedback": {
+      "subset='color'": "Correct. The `subset` parameter specifies which column(s) to consider for duplicates.",
+      "subset=['color']": "Also valid; a list works for a single column.",
+      "by='color'": "`by` is not a parameter of `drop_duplicates`; use `subset`.",
+      "inplace=True": "`inplace` controls whether to modify in place, not the column to check."
+    },
+    "hints": [
+      "Use the `subset` parameter to specify the column to consider.",
+      "The column name should be given as a string or list of strings."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`subset='color'` tells `drop_duplicates` to look at the 'color' column for duplicates.",
+    "common_mistake_warning": "⚠️ By default, `drop_duplicates` returns a new DataFrame; assign the result or use `inplace=True`."
+  },
+  {
+    "id": "fitb_018",
+    "concept_id": "concept_027",
+    "concept_name": ".groupby()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Group dogs by 'color' and calculate the mean weight_kg for each group.",
+    "code_template": "dogs.groupby('color')['weight_kg']._____()",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "mean",
+        "answer_alternatives": [
+          "mean"
+        ]
+      }
+    ],
+    "word_bank": [
+      "mean",
+      "sum",
+      "count",
+      "describe"
+    ],
+    "per_tile_feedback": {
+      "mean": "Correct. Aggregates each group to the average weight_kg.",
+      "sum": "`sum` would return total weight, not mean.",
+      "count": "`count` returns number of non‑null values, not average.",
+      "describe": "`describe` returns multiple statistics, not just the mean."
+    },
+    "hints": [
+      "The aggregation function for average is `.mean()`.",
+      "You must apply an aggregation after `groupby()`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "Chaining `.groupby()` with `.mean()` computes group‑wise averages.",
+    "common_mistake_warning": "⚠️ Without an aggregation, `.groupby()` returns a GroupBy object, not a DataFrame."
+  },
+  {
+    "id": "fitb_019",
+    "concept_id": "concept_029",
+    "concept_name": ".set_index()",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Set the 'name' column as the index of dogs.",
+    "code_template": "dogs.set_index(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'name'",
+        "answer_alternatives": [
+          "['name']"
+        ]
+      }
+    ],
+    "word_bank": [
+      "'name'",
+      "['name']",
+      "name",
+      "inplace=True"
+    ],
+    "per_tile_feedback": {
+      "'name'": "Correct. A string argument sets that column as the index.",
+      "['name']": "Also valid; a list works for a single column.",
+      "name": "Without quotes, Python looks for a variable named `name`.",
+      "inplace=True": "`inplace` controls modification, not which column to use."
+    },
+    "hints": [
+      "Pass the column name as a string to `set_index()`.",
+      "It returns a new DataFrame unless you use `inplace=True`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.set_index('name')` makes the 'name' column the row index.",
+    "common_mistake_warning": "⚠️ By default, `set_index()` returns a new DataFrame; assign the result or use `inplace=True`."
+  },
+  {
+    "id": "fitb_020",
+    "concept_id": "concept_030",
+    "concept_name": ".reset_index()",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Reset the index of dogs back to default integers and completely discard the old index.",
+    "code_template": "dogs.reset_index(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "drop=True",
+        "answer_alternatives": [
+          "drop=True"
+        ]
+      }
+    ],
+    "word_bank": [
+      "drop=True",
+      "inplace=True",
+      "drop=False",
+      "keep=False"
+    ],
+    "per_tile_feedback": {
+      "drop=True": "Correct. It discards the old index instead of adding it as a column.",
+      "inplace=True": "`inplace` determines whether to modify in place, not discarding the index.",
+      "drop=False": "False (default) adds the old index as a new column.",
+      "keep=False": "No such parameter."
+    },
+    "hints": [
+      "Use the `drop` parameter to avoid turning the old index into a column.",
+      "Set it to True to throw the old index away."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`drop=True` ensures the old index is not added as a column.",
+    "common_mistake_warning": "⚠️ Without `drop=True`, the old index appears as a column named 'index'."
+  },
+  {
+    "id": "fitb_021",
+    "concept_id": "concept_031",
+    "concept_name": ".loc[]",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Select rows with index labels 'Bella' and 'Stella' and all columns from dogs.",
+    "code_template": "dogs.loc[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['Bella', 'Stella']",
+        "answer_alternatives": [
+          "['Bella','Stella']"
+        ]
+      }
+    ],
+    "word_bank": [
+      "['Bella', 'Stella']",
+      "'Bella', 'Stella'",
+      "['Bella','Stella']",
+      "('Bella','Stella')"
+    ],
+    "per_tile_feedback": {
+      "['Bella', 'Stella']": "Correct. A list of labels selects those rows.",
+      "'Bella', 'Stella'": "This would be interpreted as selecting row 'Bella' and column 'Stella', not two rows.",
+      "['Bella','Stella']": "Also correct, whitespace doesn't matter.",
+      "('Bella','Stella')": "A tuple selects a single cell at row 'Bella' and column 'Stella'."
+    },
+    "hints": [
+      "Pass a list of row labels inside `loc[]`.",
+      "Use square brackets around the labels."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.loc[['label1', 'label2']]` returns those rows with all columns.",
+    "common_mistake_warning": "⚠️ Using integer positions with `.loc` can give unexpected results if index is integer; prefer `.iloc` for positions."
+  },
+  {
+    "id": "fitb_022",
+    "concept_id": "concept_032",
+    "concept_name": ".iloc[]",
+    "chapter": 3,
+    "difficulty": "hard",
+    "task_description": "Select the third, fourth, and fifth rows (positions 2,3,4) and the second, third, and fourth columns (positions 1,2,3) from dogs.",
+    "code_template": "dogs.iloc[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "2:5, 1:4",
+        "answer_alternatives": [
+          "2:5,1:4"
+        ]
+      }
+    ],
+    "word_bank": [
+      "2:5, 1:4",
+      "2:4, 1:3",
+      "2,3,4, 1,2,3",
+      "2:5 1:4"
+    ],
+    "per_tile_feedback": {
+      "2:5, 1:4": "Correct. `2:5` gives positions 2,3,4; `1:4` gives 1,2,3.",
+      "2:4, 1:3": "`2:4` would give only positions 2,3 (exclusive end).",
+      "2,3,4, 1,2,3": "This syntax is invalid; use slices or lists.",
+      "2:5 1:4": "Missing comma separates row and column slicers."
+    },
+    "hints": [
+      "Use slice notation: start is inclusive, stop is exclusive.",
+      "Separate row and column slicers with a comma."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`.iloc` uses Python slice semantics: `2:5` gives indices 2,3,4; `1:4` gives 1,2,3.",
+    "common_mistake_warning": "⚠️ Confusing `.iloc` exclusive end with `.loc` inclusive end is common."
+  },
+  {
+    "id": "fitb_023",
+    "concept_id": "concept_044",
+    "concept_name": ".dropna()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Drop rows from dogs only if all values are missing.",
+    "code_template": "dogs.dropna(how=_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'all'",
+        "answer_alternatives": [
+          "'all'"
+        ]
+      }
+    ],
+    "word_bank": [
+      "'all'",
+      "'any'",
+      "'all'",
+      "'any'"
+    ],
+    "per_tile_feedback": {
+      "'all'": "Duplicate tile, also correct.",
+      "'any'": "Duplicate tile, wrong for this scenario."
+    },
+    "hints": [
+      "The `how` parameter accepts `'any'` or `'all'`.",
+      "Use `'all'` when you want to be lenient."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`how='all'` ensures only completely missing rows are dropped.",
+    "common_mistake_warning": "⚠️ The default `how='any'` may drop more rows than intended."
+  },
+  {
+    "id": "fitb_024",
+    "concept_id": "concept_045",
+    "concept_name": ".fillna()",
+    "chapter": 4,
+    "difficulty": "hard",
+    "task_description": "Replace all missing values in dogs with 0.",
+    "code_template": "dogs.fillna(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0",
+        "answer_alternatives": [
+          "value=0"
+        ]
+      }
+    ],
+    "word_bank": [
+      "0",
+      "value=0",
+      "method='ffill'",
+      "inplace=True"
+    ],
+    "per_tile_feedback": {
+      "0": "Correct. Passing 0 fills NaNs with zero.",
+      "value=0": "Also correct, explicit parameter name.",
+      "method='ffill'": "`ffill` forward-fills, not with a constant.",
+      "inplace=True": "This controls modification, not the fill value."
+    },
+    "hints": [
+      "Pass the replacement value directly.",
+      "You can also use the `value` parameter explicitly."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`fillna(0)` replaces all NaN values with 0. `value=0` works too.",
+    "common_mistake_warning": "⚠️ Using 0 as fill value might be mistaken for real data; ensure it's appropriate."
+  },
+  {
+    "id": "fitb_025",
+    "concept_id": "concept_053",
+    "concept_name": ".quantile()",
+    "chapter": 2,
+    "difficulty": "hard",
+    "task_description": "Compute the 0.3 quantile of the weight_kg column.",
+    "code_template": "dogs['weight_kg'].quantile(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "0.3",
+        "answer_alternatives": [
+          "0.30"
+        ]
+      }
+    ],
+    "word_bank": [
+      "0.3",
+      "30",
+      "0.30",
+      "q=0.3"
+    ],
+    "per_tile_feedback": {
+      "30": "30 would be interpreted as 3000%, not a valid probability.",
+      "0.3": "Correct. The probability should be between 0 and 1.",
+      "0.30": "Equivalent to 0.3, accepted.",
+      "q=0.3": "`q` can be used explicitly; `quantile(q=0.3)` also works."
+    },
+    "hints": [
+      "Quantile probabilities range from 0 to 1.",
+      "30% is not 30; convert the percentage to a decimal."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`quantile(0.3)` returns the value below which 30% of the data falls.",
+    "common_mistake_warning": "⚠️ Passing a percentage like 30 instead of 0.3 is a frequent slip."
+  },
+  {
+    "id": "fitb_026",
+    "concept_id": "concept_059",
+    "concept_name": "apply()",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Square every value in the weight_kg column using `.apply()` with a lambda function.",
+    "code_template": "dogs['weight_kg'].apply(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "lambda x: x**2",
+        "answer_alternatives": [
+          "lambda x: x**2"
+        ]
+      }
+    ],
+    "word_bank": [
+      "lambda x: x**2",
+      "x**2",
+      "lambda x: x^2",
+      "pow(2)"
+    ],
+    "per_tile_feedback": {
+      "lambda x: x**2": "Correct. A lambda function squares each element.",
+      "x**2": "This is an expression, not a callable function.",
+      "lambda x: x^2": "`^` is bitwise XOR, not exponentiation.",
+      "pow(2)": "`pow(2)` returns a function? No, it raises an error."
+    },
+    "hints": [
+      "You need a callable that takes one argument and returns its square.",
+      "The exponentiation operator in Python is `**`, not `^`."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`apply()` requires a function; `lambda x: x**2` squares each value element‑wise.",
+    "common_mistake_warning": "⚠️ Vectorized `df['col'] ** 2` is much faster than `apply()`."
+  },
+  {
+    "id": "fitb_027",
+    "concept_id": "concept_034",
+    "concept_name": "multi‑level index (hierarchical index)",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Set both 'color' and 'name' as the index of dogs to create a multi‑level index.",
+    "code_template": "dogs.set_index(_____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "['color', 'name']",
+        "answer_alternatives": [
+          "['color','name']"
+        ]
+      }
+    ],
+    "word_bank": [
+      "['color', 'name']",
+      "['color','name']",
+      "'color', 'name'",
+      "('color','name')"
+    ],
+    "per_tile_feedback": {
+      "['color', 'name']": "Correct. A list of column names creates a MultiIndex.",
+      "['color','name']": "Also correct, no spaces.",
+      "'color', 'name'": "Multiple arguments are not accepted; pass a list.",
+      "('color','name')": "A tuple would be interpreted as a single label, not two levels."
+    },
+    "hints": [
+      "Pass a list of the column names to set multiple index levels.",
+      "The order in the list determines the hierarchy."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`set_index(['color', 'name'])` creates a hierarchical index with color as the outer level.",
+    "common_mistake_warning": "⚠️ Slicing inner levels requires using tuples with `slice(None)` for outer levels."
+  },
+  {
+    "id": "fitb_028",
+    "concept_id": "concept_036",
+    "concept_name": "slicing by dates",
+    "chapter": 3,
+    "difficulty": "very_hard",
+    "task_description": "Slice the dogs DataFrame (with a datetime index) to include all rows from August 25, 2014 to September 16, 2016.",
+    "code_template": "dogs.loc[_____]",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "'2014-08-25':'2016-09-16'",
+        "answer_alternatives": []
+      }
+    ],
+    "word_bank": [
+      "'2014-08-25':'2016-09-16'",
+      "'2014-08-25' to '2016-09-16'",
+      "['2014-08-25','2016-09-16']",
+      "'2014-08-25', '2016-09-16'"
+    ],
+    "per_tile_feedback": {
+      "'2014-08-25':'2016-09-16'": "Correct. `.loc` with a colon slice selects the date range inclusively.",
+      "'2014-08-25' to '2016-09-16'": "Invalid syntax; use a colon between the two strings.",
+      "['2014-08-25','2016-09-16']": "This selects only those two exact dates, not the range.",
+      "'2014-08-25', '2016-09-16'": "This selects row '2014-08-25' and column '2016-09-16', not a range."
+    },
+    "hints": [
+      "Use a colon between the two date strings inside `.loc[]`.",
+      "Both endpoints are inclusive in `.loc` slicing."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`df.loc['start':'end']` selects all rows with index labels between those dates.",
+    "common_mistake_warning": "⚠️ The index must be sorted for label‑based slicing to work properly."
+  },
+  {
+    "id": "fitb_029",
+    "concept_id": "concept_057",
+    "concept_name": "margins in pivot_table",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Create a pivot table of dogs with mean weight_kg by color, and include row/column totals.",
+    "code_template": "dogs.pivot_table(values='weight_kg', index='color', aggfunc='mean', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "margins=True",
+        "answer_alternatives": [
+          "margins=True"
+        ]
+      }
+    ],
+    "word_bank": [
+      "margins=True",
+      "margins=False",
+      "totals=True",
+      "show_totals=True"
+    ],
+    "per_tile_feedback": {
+      "margins=True": "Correct. Adds an 'All' row/column with the mean (because aggfunc is mean).",
+      "margins=False": "False (default) omits margins.",
+      "totals=True": "There is no `totals` parameter; use `margins`.",
+      "show_totals=True": "Not a valid parameter."
+    },
+    "hints": [
+      "The parameter for totals is `margins`.",
+      "The margin values are computed with the same aggregation function as the table."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`margins=True` adds a row/column labeled 'All' that shows the mean (or whatever aggfunc is).",
+    "common_mistake_warning": "⚠️ Margins use the specified `aggfunc`; if you set `aggfunc='mean'`, margins are means, not sums."
+  },
+  {
+    "id": "fitb_030",
+    "concept_id": "concept_058",
+    "concept_name": "fill_value in pivot_table",
+    "chapter": 2,
+    "difficulty": "very_hard",
+    "task_description": "Create a pivot table of dogs and replace any NaN cells with 0.",
+    "code_template": "dogs.pivot_table(values='weight_kg', index='color', aggfunc='mean', _____)",
+    "blanks": [
+      {
+        "position": 1,
+        "answer": "fill_value=0",
+        "answer_alternatives": [
+          "fill_value=0"
+        ]
+      }
+    ],
+    "word_bank": [
+      "fill_value=0",
+      "fillna=0",
+      "fill=0",
+      "value=0"
+    ],
+    "per_tile_feedback": {
+      "fill_value=0": "Correct. The `fill_value` parameter replaces NaN in the output.",
+      "fillna=0": "`fillna` is not a parameter of `pivot_table`; use `fill_value`.",
+      "fill=0": "No such parameter.",
+      "value=0": "`value` refers to the column to aggregate, not fill."
+    },
+    "hints": [
+      "The parameter starts with `fill_` and takes a scalar.",
+      "It only affects the displayed table, not the original data."
+    ],
+    "answer_reveal_after": 5,
+    "explanation": "`fill_value=0` replaces any NaN in the pivot table with 0, purely cosmetic.",
+    "common_mistake_warning": "⚠️ `fill_value` does not change the underlying data; margins are computed before filling."
+  }
+]

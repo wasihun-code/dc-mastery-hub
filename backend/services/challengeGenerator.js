@@ -1,3 +1,4 @@
+import config from '../config.js'
 import db from '../db/database.js'
 import fs from 'fs'
 import path from 'path'
@@ -13,11 +14,7 @@ export function getChallenges(courseSlug) {
   const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   if (!track) return []
 
-  const contentFolder = process.env.CONTENT_FOLDER 
-    ? (path.isAbsolute(process.env.CONTENT_FOLDER) 
-        ? process.env.CONTENT_FOLDER 
-        : path.resolve(__dirname, '../', process.env.CONTENT_FOLDER))
-    : DEFAULT_CONTENT_FOLDER
+  const contentFolder = config.CONTENT_PATH
 
   const datasetsPath = path.join(contentFolder, 'tracks', track.slug, courseSlug, 'datasets')
   
