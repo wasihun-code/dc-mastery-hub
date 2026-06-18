@@ -42,11 +42,13 @@ router.use((req, res, next) => {
 
 router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
   try {
-    const { courseSlug, exerciseType } = req.params;
-    const validTypes = ['mcq', 'flashcards', 'ftb', 'matching', 'bossbattle', 'challenge'];
+    const { courseSlug } = req.params;
+    let { exerciseType } = req.params;
+    const validTypes = ['mcq', 'quiz', 'flashcards', 'ftb', 'matching', 'bossbattle', 'challenge'];
     if (!validTypes.includes(exerciseType)) {
       return res.status(400).json({ error: "Invalid exercise type" });
     }
+    if (exerciseType === 'quiz') exerciseType = 'mcq';
 
     const course = db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id

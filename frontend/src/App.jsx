@@ -22,6 +22,7 @@ import WranglingSpeedrun from './pages/WranglingSpeedrun'
 import CapstoneBattleSelection from './pages/CapstoneBattleSelection'
 import ManageCourseDetail from './pages/ManageCourseDetail'
 import IncorrectReview from './exercises/IncorrectReview'
+import { ErrorBoundary } from './components/ErrorBoundary.jsx'
 
 const routeTitles = [
   { pattern: /^\/$/, title: 'Dashboard' },
@@ -148,31 +149,37 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      <Sidebar user={user} onLogout={handleLogout} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} />
+      <ErrorBoundary context="Sidebar failed to load" fallback={(error, reset) => (
+        <div style={{ width: '160px', background: 'var(--bg-sidebar)' }}>
+          <a href="/" style={{ color: 'var(--text-primary)', padding: '16px', display: 'block' }}>← Home</a>
+        </div>
+      )}>
+        <Sidebar user={user} onLogout={handleLogout} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} />
+      </ErrorBoundary>
       <TopBar title={title} />
       <main 
         className="transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-8 pt-[88px]"
         style={{ marginLeft: 'var(--sidebar-width)' }}
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/courses" element={<Tracks />} />
-          <Route path="/courses/:courseSlug" element={<CourseDetail />} />
-          <Route path="/study-session" element={<StudySession />} />
-          <Route path="/speedrun" element={<WranglingSpeedrun />} />
-          <Route path="/capstone" element={<CapstoneBattleSelection />} />
-          <Route path="/mastery-map" element={<MasteryMap />} />
-          <Route path="/manage" element={<ManageContent />} />
-          <Route path="/manage/courses/:courseSlug" element={<ManageCourseDetail />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/exercise/flashcards/:courseSlug" element={<Flashcards />} />
-          <Route path="/exercise/quiz/:courseSlug" element={<Quiz />} />
-          <Route path="/exercise/fillblank/:courseSlug" element={<FillBlank />} />
-          <Route path="/exercise/dataset/:courseSlug" element={<DatasetChallenge />} />
-          <Route path="/exercise/matching/:courseSlug" element={<MatchingGame />} />
-          <Route path="/exercise/boss/:courseSlug" element={<BossBattle />} />
-          <Route path="/exercise/review/:courseSlug" element={<IncorrectReview />} />
-          <Route path="/track-test/:trackSlug" element={<TrackTest />} />
+          <Route path="/" element={<ErrorBoundary context="Dashboard failed to load"><Dashboard /></ErrorBoundary>} />
+          <Route path="/courses" element={<ErrorBoundary context="Courses page failed to load"><Tracks /></ErrorBoundary>} />
+          <Route path="/courses/:courseSlug" element={<ErrorBoundary context="Course detail failed to load"><CourseDetail /></ErrorBoundary>} />
+          <Route path="/study-session" element={<ErrorBoundary context="Study session failed to load"><StudySession /></ErrorBoundary>} />
+          <Route path="/speedrun" element={<ErrorBoundary context="Speedrun failed to load"><WranglingSpeedrun /></ErrorBoundary>} />
+          <Route path="/capstone" element={<ErrorBoundary context="Capstone battle failed to load"><CapstoneBattleSelection /></ErrorBoundary>} />
+          <Route path="/mastery-map" element={<ErrorBoundary context="Mastery map failed to load"><MasteryMap /></ErrorBoundary>} />
+          <Route path="/manage" element={<ErrorBoundary context="Content manager failed to load"><ManageContent /></ErrorBoundary>} />
+          <Route path="/manage/courses/:courseSlug" element={<ErrorBoundary context="Manage course failed to load"><ManageCourseDetail /></ErrorBoundary>} />
+          <Route path="/settings" element={<ErrorBoundary context="Settings failed to load"><Settings /></ErrorBoundary>} />
+          <Route path="/exercise/flashcards/:courseSlug" element={<ErrorBoundary context="Flashcards exercise failed"><Flashcards /></ErrorBoundary>} />
+          <Route path="/exercise/quiz/:courseSlug" element={<ErrorBoundary context="Quiz exercise failed"><Quiz /></ErrorBoundary>} />
+          <Route path="/exercise/fillblank/:courseSlug" element={<ErrorBoundary context="Fill in the blank exercise failed"><FillBlank /></ErrorBoundary>} />
+          <Route path="/exercise/dataset/:courseSlug" element={<ErrorBoundary context="Dataset challenge failed"><DatasetChallenge /></ErrorBoundary>} />
+          <Route path="/exercise/matching/:courseSlug" element={<ErrorBoundary context="Matching game failed"><MatchingGame /></ErrorBoundary>} />
+          <Route path="/exercise/boss/:courseSlug" element={<ErrorBoundary context="Boss battle failed"><BossBattle /></ErrorBoundary>} />
+          <Route path="/exercise/review/:courseSlug" element={<ErrorBoundary context="Incorrect review failed"><IncorrectReview /></ErrorBoundary>} />
+          <Route path="/track-test/:trackSlug" element={<ErrorBoundary context="Track test failed"><TrackTest /></ErrorBoundary>} />
         </Routes>
       </main>
     </div>

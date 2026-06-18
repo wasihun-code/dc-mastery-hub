@@ -9,4 +9,14 @@ export default defineConfig({
       '/api': 'http://127.0.0.1:3001',
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/__tests__/setup.js'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      exclude: ['src/__tests__/**', 'src/main.jsx']
+    }
+  }
 })

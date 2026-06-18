@@ -422,6 +422,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
             db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(courseId)
             db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(courseId)
             db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(courseId)
+            db.prepare('DELETE FROM track_courses WHERE course_id = ?').run(courseId)
             db.prepare('DELETE FROM user_courses WHERE course_id = ?').run(courseId)
             db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(courseId)
             db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(courseId)
@@ -446,6 +447,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
               db.prepare('DELETE FROM mastery_scores WHERE course_id = ?').run(course.id)
               db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
               db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+              db.prepare('DELETE FROM track_courses WHERE course_id = ?').run(course.id)
               db.prepare('DELETE FROM user_courses WHERE course_id = ?').run(course.id)
               db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
               db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
@@ -453,6 +455,7 @@ router.post('/manage/trash/permanently-delete', (req, res, next) => {
               db.prepare('DELETE FROM courses WHERE id = ?').run(course.id)
             }
 
+            db.prepare('DELETE FROM track_courses WHERE track_id = ?').run(trackId)
             db.prepare('DELETE FROM user_tracks WHERE track_id = ?').run(trackId)
             db.prepare('DELETE FROM tracks WHERE id = ?').run(trackId)
 

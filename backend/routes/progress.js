@@ -620,6 +620,23 @@ router.post('/progress/attempt', (req, res, next) => {
     const userId = req.user.id
     const { exercise_type, course_id, question_id, concept_id, score, time_taken_secs, was_correct } = req.body
 
+    if (!exercise_type) {
+      return res.status(400).json({ error: 'exercise_type is required' })
+    }
+    const validExerciseTypes = ['quiz', 'flashcard', 'fillblank', 'matching', 'bossbattle', 'dataset', 'ftb', 'challenge']
+    if (!validExerciseTypes.includes(exercise_type)) {
+      return res.status(400).json({ error: 'Invalid exercise_type' })
+    }
+    if (!course_id && !question_id) {
+      return res.status(400).json({ error: 'Missing required fields' })
+    }
+    if (course_id) {
+      const courseExists = db.prepare('SELECT id FROM courses WHERE id = ?').get(course_id)
+      if (!courseExists) {
+        return res.status(404).json({ error: 'Course not found' })
+      }
+    }
+
     const result = db
       .prepare(`
         INSERT INTO exercise_attempts (
@@ -922,7 +939,7 @@ router.post('/progress/reset', (req, res, next) => {
     const userId = req.user.id
     const { type, targetId, category } = req.body
 
-    if (!['course', 'track', 'category', 'all', 'course_exercise_category'].includes(type)) {
+    if (!['course', 'track', 'category', 'all', 'course_exercise_category', 'flashcards', 'attempts'].includes(type)) {
       res.status(400).json({ error: 'Invalid reset type' })
       return
     }
@@ -1016,6 +1033,11 @@ router.post('/progress/reset', (req, res, next) => {
             `).run(userId, ...courseIds)
           }
         }
+      } else if (type === 'flashcards') {
+        db.prepare('DELETE FROM user_flashcard_progress WHERE user_id = ?').run(userId)
+        db.prepare('DELETE FROM spaced_repetition_queue WHERE user_id = ?').run(userId)
+      } else if (type === 'attempts') {
+        db.prepare('DELETE FROM exercise_attempts WHERE user_id = ?').run(userId)
       } else if (type === 'all') {
         db.prepare('DELETE FROM exercise_attempts WHERE user_id = ?').run(userId)
         db.prepare('DELETE FROM mastery_scores WHERE user_id = ?').run(userId)
