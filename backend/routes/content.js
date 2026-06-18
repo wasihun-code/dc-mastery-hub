@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
-import { runCode, runShellCommand, runSql, runDatasetChallenge } from '../services/codeSandbox.js'
+import { runSql, runDatasetChallenge } from '../services/codeSandbox.js'
 import { getChallenges } from '../services/challengeGenerator.js'
 import { recalculateMastery } from './progress.js'
 
@@ -569,8 +569,16 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
 
 router.post('/run-code', (req, res, next) => {
   try {
-    const { code, courseSlug, challengeId } = req.body
-    
+    const { solution_code, code, courseSlug, challenge_id, challengeId } = req.body
+    const userCode = solution_code || code || ''
+
+    if (!courseSlug) {
+      return res.status(400).json({ error: 'Missing required field: courseSlug' })
+    }
+    if (!userCode) {
+      return res.status(400).json({ error: 'No code provided to execute' })
+    }
+
     const course = db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
@@ -582,32 +590,37 @@ router.post('/run-code', (req, res, next) => {
 
     // Handle SQL courses
     if (track.language === 'SQL' || courseSlug.includes('sql')) {
-      const result = runSql(code)
+      const result = runSql(userCode)
       return res.json(result)
     }
 
     const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    if (!courseFolder) {
+      return res.status(500).json({ error: 'Course data directory not found' })
+    }
     const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
     
-    // Load challenge
-    const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
-    if (!fs.existsSync(challengePath)) {
-      return res.status(404).json({ error: 'Challenge file not found' })
-    }
-    
-    let challengeData = {}
-    try {
-      const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
-      const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
-      challengeData = challenges.find(c => String(c.id) === String(challengeId)) || {}
-    } catch(e) {}
+    const cid = challenge_id || challengeId
 
-    const result = runDatasetChallenge(code, challengeData.pre_loaded_data, null, datasetsAbsolutePath, req.user ? req.user.id : 'anon', challengeId)
-    
-    if (result.error && result.error.includes('ETIMEDOUT')) {
-      result.error = "Code timed out after 15 seconds. Check for infinite loops."
+    // Load challenge for pre_loaded_data
+    let challengeData = {}
+    if (cid) {
+      const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
+      if (fs.existsSync(challengePath)) {
+        try {
+          const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+          const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
+          challengeData = challenges.find(c => String(c.id) === String(cid)) || {}
+        } catch (e) {}
+      }
+    }
+
+    const result = runDatasetChallenge(userCode, challengeData.pre_loaded_data, null, datasetsAbsolutePath, req.user ? req.user.id : 'anon', cid, { runOnly: true })
+
+    if (result.stderr && result.stderr.includes('ETIMEDOUT')) {
+      result.stderr = 'Code timed out after 15 seconds. Check for infinite loops.'
     }
 
     res.json(result)
@@ -616,12 +629,15 @@ router.post('/run-code', (req, res, next) => {
   }
 })
 
-router.post('/run-shell', (req, res, next) => {
+router.post('/run-snippet', (req, res, next) => {
   try {
-    const { courseSlug, challengeId, history, command } = req.body
-    
+    const { code, snippet, courseSlug, challengeId } = req.body
+    if (!courseSlug || !snippet) {
+      return res.status(400).json({ error: 'Missing required fields: courseSlug and snippet' })
+    }
+
     const course = db.prepare(`
-      SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
+      SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
@@ -629,41 +645,45 @@ router.post('/run-shell', (req, res, next) => {
     const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
-    // Handle SQL courses (shell not yet supported, return informative error)
     if (track.language === 'SQL' || courseSlug.includes('sql')) {
-      return res.json({
-        success: false,
-        output: '',
-        error: 'Interactive shell is not yet supported for SQL courses.'
-      })
+      const result = runSql(snippet)
+      return res.json(result)
     }
 
     const contentFolder = config.CONTENT_PATH
-
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
-    const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
-    
-    // Load challenge
-    const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
-    if (!fs.existsSync(challengePath)) {
-      return res.status(404).json({ error: 'Challenge file not found' })
+    if (!courseFolder) {
+      return res.status(500).json({ error: 'Course data directory not found' })
     }
-    
-    let challengeData = {}
-    try {
-      const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
-      const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
-      challengeData = challenges.find(c => String(c.id) === String(challengeId)) || {}
-    } catch(e) {}
+    const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
 
-    const historyCode = (history || []).join('\n')
-    const result = runShellCommand(historyCode, command, challengeData.pre_loaded_data, datasetsAbsolutePath, req.user ? req.user.id : 'anon', challengeId)
-    
+    const cid = challengeId
+    let challengeData = {}
+    if (cid) {
+      const challengePath = path.join(courseFolder, 'exercises', 'challenge.json')
+      if (fs.existsSync(challengePath)) {
+        try {
+          const parsed = JSON.parse(fs.readFileSync(challengePath, 'utf-8'))
+          const challenges = Array.isArray(parsed) ? parsed : (parsed.challenges || [])
+          challengeData = challenges.find(c => String(c.id) === String(cid)) || {}
+        } catch (e) {}
+      }
+    }
+
+    const combinedCode = code ? `${code}\n${snippet}` : snippet
+    const result = runDatasetChallenge(combinedCode, challengeData.pre_loaded_data, null, datasetsAbsolutePath, req.user ? req.user.id : 'anon', cid, { runOnly: true })
+
+    if (result.stderr && result.stderr.includes('ETIMEDOUT')) {
+      result.stderr = 'Code timed out after 15 seconds. Check for infinite loops.'
+    }
+
     res.json(result)
   } catch (err) {
     next(err)
   }
 })
+
+
 
 router.post('/submit-challenge', (req, res, next) => {
   try {
@@ -693,6 +713,9 @@ router.post('/submit-challenge', (req, res, next) => {
     const contentFolder = config.CONTENT_PATH
 
     const courseFolder = getCourseFolder(contentFolder, courseSlug, track.slug)
+    if (!courseFolder) {
+      return res.status(500).json({ error: 'Course data directory not found' })
+    }
     const datasetsAbsolutePath = path.join(courseFolder, 'datasets')
     
     // Load challenge.json

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
-import { ChevronLeft, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, Eraser, SkipForward, Trash2, Edit2 } from 'lucide-react'
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, SkipForward, Trash2, Edit2, Eye, Lightbulb } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 import { getSessionLimit } from '../services/settingsService'
 import EditQuestionModal from '../components/EditQuestionModal'
@@ -14,43 +14,71 @@ export default function DatasetChallenge() {
   const [code, setCode] = useState('')
   const [isRunning, setIsRunning] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [terminalLines, setTerminalLines] = useState([])
-  const [runCounter, setRunCounter] = useState(1)
   const [result, setResult] = useState(null)
   const [hintsShown, setHintsShown] = useState([false, false])
   const [sessionScore, setSessionScore] = useState({ correct: 0, total: 0 })
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState(null)
   const [course, setCourse] = useState(null)
-  const [activeFile, setActiveFile] = useState('script') // 'script', 'expected_output', or 'solution'
+  const [activeFile, setActiveFile] = useState('script')
   const [solutionUnlocked, setSolutionUnlocked] = useState(false)
   const [showSolutionModal, setShowSolutionModal] = useState(false)
   const [loadingExpectedOutput, setLoadingExpectedOutput] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState(null)
-  
-  // Interactive Shell States
-  const [shellCounter, setShellCounter] = useState(1)
-  const [shellCommands, setShellCommands] = useState([])
-  const [shellInputValue, setShellInputValue] = useState('')
-  const [shellHistory, setShellHistory] = useState([])
-  const [historyIndex, setHistoryIndex] = useState(-1)
-  const [isShellRunning, setIsShellRunning] = useState(false)
-  const [shellVars, setShellVars] = useState({})
-  const [shellTab, setShellTab] = useState('console')
-  const [editorRunCode, setEditorRunCode] = useState('')
-  const [sessionHistory, setSessionHistory] = useState([])
+
+  // Console panel states
+  const [consoleTab, setConsoleTab] = useState('console')
+  const [lastRun, setLastRun] = useState(null)
+  const [runHistory, setRunHistory] = useState([])
+  const [snippetInput, setSnippetInput] = useState('')
+  const [snippetHistory, setSnippetHistory] = useState([])
+  const [snippetHistoryIndex, setSnippetHistoryIndex] = useState(-1)
 
   const terminalEndRef = useRef(null)
-  const shellInputRef = useRef(null)
+  const snippetInputRef = useRef(null)
   const codeRef = useRef(code)
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
   const activeFileRef = useRef(activeFile)
 
-  // Resizable Terminal States & Logic
   const [terminalHeight, setTerminalHeight] = useState(250)
+  const [leftWidth, setLeftWidth] = useState(38)
+  const [consoleVisible, setConsoleVisible] = useState(true)
   const isResizingRef = useRef(false)
   const rightPanelRef = useRef(null)
+  const isDragging = useRef(false)
+  const containerRef = useRef(null)
+
+  function getUserCodePortion(starterCode) {
+    const lines = starterCode.split('\n')
+    let i = 0
+    while (i < lines.length) {
+      const trimmed = lines[i].trim()
+      if (trimmed === '' || trimmed.startsWith('#')) {
+        i++
+      } else {
+        break
+      }
+    }
+    return lines.slice(i).join('\n').trimStart()
+  }
+
+  const generatePreLoadedComments = useCallback((challenge) => {
+    if (!challenge?.pre_loaded_data) return ''
+    const lines = ['# Pre-loaded variables available in your script:']
+    for (const [key, val] of Object.entries(challenge.pre_loaded_data)) {
+      let typeHint = val.type || 'unknown'
+      if (val.type === 'csv') typeHint = 'DataFrame (from ' + (val.path || 'csv') + ')'
+      else if (val.type === 'csv_column') typeHint = 'numpy array (column from ' + (val.path || 'csv') + ')'
+      else if (val.type === 'csv_list') typeHint = 'list (column from ' + (val.path || 'csv') + ')'
+      else if (val.type === 'pickle') typeHint = 'pickle object (from ' + (val.path || 'pkl') + ')'
+      else if (val.type === 'sqlite') typeHint = 'sqlite3.Connection'
+      else if (val.type === 'dataframe') typeHint = 'DataFrame'
+      else if (val.type === 'value') typeHint = typeof val.data
+      lines.push('# ' + key + ' : ' + typeHint)
+    }
+    return lines.join('\n') + '\n'
+  }, [])
 
   const handleMouseDown = (e) => {
     e.preventDefault()
@@ -123,42 +151,62 @@ export default function DatasetChallenge() {
     }
   }, [])
 
-  // Auto-scroll IPython shell to bottom & maintain input focus
+  // Splitter mouse handlers
+  const onDividerMouseDown = (e) => {
+    isDragging.current = true
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+    e.preventDefault()
+  }
+
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (!isDragging.current || !containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      const newLeftPercent = ((e.clientX - rect.left) / rect.width) * 100
+      setLeftWidth(Math.min(65, Math.max(25, newLeftPercent)))
+    }
+    const onMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false
+        document.body.style.cursor = ''
+        document.body.style.userSelect = ''
+      }
+    }
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.ctrlKey && e.key === 'j') {
+        e.preventDefault()
+        toggleConsole()
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
   useEffect(() => {
     if (terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-    if (!isShellRunning && shellInputRef.current) {
-      shellInputRef.current.focus()
-    }
-  }, [terminalLines, isShellRunning, currentIndex])
+  }, [lastRun, consoleTab, currentIndex, snippetHistory])
 
-  const fetchInitialShellVars = async (challenge) => {
-    if (!challenge) return;
-    try {
-      const res = await fetch('/api/content/run-shell', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          courseSlug,
-          challengeId: challenge.id,
-          datasetFile: challenge.dataset_file,
-          history: [],
-          command: '' // empty command to load variables silently
-        })
-      })
-      const data = await res.json()
-      if (data.success && data.vars) {
-        setShellVars(data.vars)
-      }
-    } catch (err) {
-      console.error('Failed to load initial shell variables:', err)
+  useEffect(() => {
+    if (consoleTab === 'console' && snippetInputRef.current) {
+      snippetInputRef.current.focus()
     }
-  }
+  }, [consoleTab])
 
   const fetchExpectedOutput = async (challenge, index) => {
     if (!challenge) return
-    if (challenge.expected_output) return // already has it
+    if (challenge.expected_output) return
 
     setLoadingExpectedOutput(true)
     const expectedCode = challenge.solution_code || challenge.expected_output_code
@@ -172,19 +220,19 @@ export default function DatasetChallenge() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          code: expectedCode,
+          solution_code: expectedCode,
           courseSlug,
-          datasetFile: challenge.dataset_file
+          challenge_id: challenge.id
         })
       })
       const data = await res.json()
-      if (data.success) {
+      if (!data.stderr) {
         setChallenges(prev => {
           const updated = [...prev]
           if (updated[index]) {
             updated[index] = {
               ...updated[index],
-              expected_output: data.output
+              expected_output: data.stdout
             }
           }
           return updated
@@ -195,7 +243,7 @@ export default function DatasetChallenge() {
           if (updated[index]) {
             updated[index] = {
               ...updated[index],
-              expected_output: `Error generating expected output:\n${data.error}`
+              expected_output: `Error generating expected output:\n${data.stderr}`
             }
           }
           return updated
@@ -211,13 +259,12 @@ export default function DatasetChallenge() {
   useEffect(() => {
     if (challenges.length > 0 && currentIndex < challenges.length) {
       const currentChallenge = challenges[currentIndex]
-      fetchInitialShellVars(currentChallenge)
       fetchExpectedOutput(currentChallenge, currentIndex)
-      setShellCommands([])
-      setTerminalLines([])
-      setShellCounter(1)
-      setEditorRunCode('')
-      setSessionHistory([])
+      setLastRun(null)
+      setRunHistory([])
+      setSnippetInput('')
+      setSnippetHistory([])
+      setSnippetHistoryIndex(-1)
     }
   }, [currentIndex, challenges])
 
@@ -289,7 +336,7 @@ export default function DatasetChallenge() {
 
       if (selectedChallenges.length > 0) {
         setChallenges(selectedChallenges)
-        setCode(selectedChallenges[0].starter_code)
+        setCode(getUserCodePortion(selectedChallenges[0].starter_code))
         setSolutionUnlocked(false)
         setActiveFile('script')
       } else {
@@ -322,13 +369,15 @@ export default function DatasetChallenge() {
           navigate(`/courses/${courseSlug}?refresh=1`);
         } else if (currentIndex >= updated.length) {
           setCurrentIndex(updated.length - 1);
-          setCode(updated[updated.length - 1].starter_code);
+          setCode(getUserCodePortion(updated[updated.length - 1].starter_code));
           setResult(null);
-          setTerminalLines([]);
+          setLastRun(null);
+          setRunHistory([]);
         } else {
-          setCode(updated[currentIndex].starter_code);
+          setCode(getUserCodePortion(updated[currentIndex].starter_code));
           setResult(null);
-          setTerminalLines([]);
+          setLastRun(null);
+          setRunHistory([]);
         }
       }
     } catch (err) {
@@ -340,45 +389,47 @@ export default function DatasetChallenge() {
     if (isRunning || isSubmitting) return
     setIsRunning(true)
     const challenge = challenges[currentIndex]
-    const runCode = activeFile === 'solution' ? (challenge?.solution_code || challenge?.expected_output_code || '') : code
-
-    setTerminalLines(prev => [
-      ...prev,
-      { type: 'input', text: runCode, counter: runCounter }
-    ])
+    const userCode = activeFile === 'solution' ? (challenge?.solution_code || challenge?.expected_output_code || '') : code
 
     try {
       const res = await fetch('/api/content/run-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          code: runCode,
+          solution_code: userCode,
           courseSlug,
-          datasetFile: challenge.dataset_file
+          challenge_id: challenge.id,
+          run_only: true
         })
       })
       const data = await res.json()
-      
-      setTerminalLines(prev => [
-        ...prev,
-        { type: data.success ? 'output' : 'error', text: data.success ? data.output : data.error }
-      ])
 
-      if (data.success) {
-        setEditorRunCode(runCode)
-        setShellCommands([])
-        setSessionHistory(prev => [...prev, runCode])
-        if (data.vars) {
-          setShellVars(data.vars)
-        }
+      const runResult = {
+        stdout: data.stdout || '',
+        stderr: data.stderr || '',
+        executionTime: data.executionTime || 0,
+        variables: data.variables || {},
+        code: userCode
       }
+
+      setLastRun(runResult)
+      setRunHistory(prev => {
+        const entry = {
+          ...runResult,
+          timestamp: Date.now(),
+          codePreview: userCode.length > 80 ? userCode.slice(0, 80) + '...' : userCode
+        }
+        return [entry, ...prev].slice(0, 5)
+      })
     } catch (err) {
-      setTerminalLines(prev => [
-        ...prev,
-        { type: 'error', text: 'Connection failed or server error.' }
-      ])
+      setLastRun({
+        stdout: '',
+        stderr: 'Connection failed or server error.',
+        executionTime: 0,
+        variables: {},
+        code: userCode
+      })
     } finally {
-      setRunCounter(prev => prev + 1)
       setIsRunning(false)
     }
   }
@@ -457,135 +508,96 @@ export default function DatasetChallenge() {
     handleNext()
   }
 
+  const toggleConsole = () => setConsoleVisible(v => !v)
+
   const handleShowSolution = () => {
-    setShowSolutionModal(true)
+    if (solutionUnlocked) {
+      setActiveFile('solution')
+    } else {
+      setShowSolutionModal(true)
+    }
   }
 
   const handleNext = () => {
     if (currentIndex < challenges.length - 1) {
       setCurrentIndex(prev => prev + 1)
-      setCode(challenges[currentIndex + 1].starter_code)
+      setCode(getUserCodePortion(challenges[currentIndex + 1].starter_code))
       setResult(null)
-      setTerminalLines([])
-      setRunCounter(1)
+      setLastRun(null)
+      setRunHistory([])
       setHintsShown([false, false])
-      
-      // Reset interactive shell
-      setShellCounter(1)
-      setShellCommands([])
-      setShellInputValue('')
-      setShellHistory([])
-      setHistoryIndex(-1)
-      setEditorRunCode('')
-      setSessionHistory([])
-
-      // Reset solution state
       setSolutionUnlocked(false)
       setActiveFile('script')
     } else {
-      setCurrentIndex(challenges.length) // End state
+      setCurrentIndex(challenges.length)
       triggerSuccessFeedback()
     }
   }
 
   const handleReset = () => {
-    setCode(challenges[currentIndex].starter_code)
-    setTerminalLines([])
-    setRunCounter(1)
+    setCode(getUserCodePortion(challenges[currentIndex].starter_code))
+    setLastRun(null)
+    setRunHistory([])
     setResult(null)
-    
-    // Reset interactive shell
-    setShellCounter(1)
-    setShellCommands([])
-    setShellInputValue('')
-    setShellHistory([])
-    setHistoryIndex(-1)
-    setEditorRunCode('')
-    setSessionHistory([])
-
     setActiveFile('script')
   }
 
-  const handleShellSubmit = async () => {
-    const cmd = shellInputValue.trim()
-    if (!cmd || isShellRunning) return
-
-    setShellInputValue('')
-    setHistoryIndex(-1)
-
-    setTerminalLines(prev => [
-      ...prev,
-      { type: 'input', text: cmd, counter: shellCounter }
-    ])
-
-    setShellHistory(prev => [cmd, ...prev])
-    setIsShellRunning(true)
-
+  async function handleSnippetRun(snippet) {
+    if (isRunning || isSubmitting) return
+    const challenge = challenges[currentIndex]
     try {
-      const challenge = challenges[currentIndex]
-      const res = await fetch('/api/content/run-shell', {
+      const res = await fetch('/api/content/run-snippet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          code,
+          snippet: snippet.trim(),
           courseSlug,
-          challengeId: challenge.id,
-          datasetFile: challenge.dataset_file,
-          history: editorRunCode ? [editorRunCode, ...shellCommands] : shellCommands,
-          command: cmd
+          challengeId: challenge?.id
         })
       })
       const data = await res.json()
-
-      if (data.success) {
-        setTerminalLines(prev => [
-          ...prev,
-          { type: 'output', text: data.output }
-        ])
-        setShellCommands(prev => [...prev, cmd])
-        setSessionHistory(prev => [...prev, cmd])
-      } else {
-        setTerminalLines(prev => [
-          ...prev,
-          { type: 'error', text: data.error }
-        ])
+      const result = {
+        snippet: snippet.trim(),
+        stdout: data.stdout || '',
+        stderr: data.stderr || '',
+        executionTime: data.executionTime || 0
       }
-      if (data.vars) {
-        setShellVars(data.vars)
-      }
+      setSnippetHistory(prev => [...prev, result])
     } catch (err) {
-      setTerminalLines(prev => [
-        ...prev,
-        { type: 'error', text: 'Connection failed or server error.' }
-      ])
-    } finally {
-      setShellCounter(prev => prev + 1)
-      setIsShellRunning(false)
+      setSnippetHistory(prev => [...prev, { snippet: snippet.trim(), stdout: '', stderr: 'Connection failed.', executionTime: 0 }])
     }
   }
 
-  const handleShellKeyDown = (e) => {
+  function handleSnippetKeyDown(e) {
     if (e.key === 'Enter') {
-      e.preventDefault()
-      handleShellSubmit()
+      const snippet = snippetInput.trim()
+      if (!snippet || isRunning || isSubmitting) return
+      handleSnippetRun(snippet)
+      setSnippetInput('')
+      setSnippetHistoryIndex(-1)
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      if (shellHistory.length > 0 && historyIndex < shellHistory.length - 1) {
-        const nextIndex = historyIndex + 1
-        setHistoryIndex(nextIndex)
-        setShellInputValue(shellHistory[nextIndex])
-      }
+      if (snippetHistory.length === 0) return
+      const newIndex = snippetHistoryIndex === -1
+        ? snippetHistory.length - 1
+        : Math.max(0, snippetHistoryIndex - 1)
+      setSnippetHistoryIndex(newIndex)
+      setSnippetInput(snippetHistory[newIndex].snippet)
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
-      if (historyIndex > 0) {
-        const nextIndex = historyIndex - 1
-        setHistoryIndex(nextIndex)
-        setShellInputValue(shellHistory[nextIndex])
-      } else if (historyIndex === 0) {
-        setHistoryIndex(-1)
-        setShellInputValue('')
+      if (snippetHistoryIndex === -1) return
+      const newIndex = snippetHistoryIndex + 1
+      if (newIndex >= snippetHistory.length) {
+        setSnippetHistoryIndex(-1)
+        setSnippetInput('')
+      } else {
+        setSnippetHistoryIndex(newIndex)
+        setSnippetInput(snippetHistory[newIndex].snippet)
       }
     }
   }
+
 
   if (loading) {
     return (
@@ -616,8 +628,8 @@ export default function DatasetChallenge() {
     localStorage.setItem(`dataset_reattempt_${courseSlug}`, 'true');
     setCurrentIndex(0);
     setResult(null);
-    setTerminalLines([]);
-    setRunCounter(1);
+    setLastRun(null);
+    setRunHistory([]);
     setHintsShown([false, false]);
     setSessionScore({ correct: 0, total: 0 });
     setSolutionUnlocked(false);
@@ -707,9 +719,9 @@ export default function DatasetChallenge() {
       </header>
 
       {/* Main Panel Content Area */}
-      <div className="flex-1 flex overflow-hidden">
+      <div ref={containerRef} style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* LEFT PANEL */}
-        <div className="w-[38%] h-full border-r border-[var(--border)] relative flex flex-col bg-[var(--bg-primary)]">
+        <div className="h-full border-r border-[var(--border)] relative flex flex-col bg-[var(--bg-primary)]" style={{ width: `${leftWidth}%` }}>
           <div className="flex-1 overflow-y-auto p-6 pb-24">
             <div className="flex items-center gap-3 mb-4">
               <span className={`px-2.5 py-1 text-xs font-extrabold uppercase rounded shadow-sm ${
@@ -782,122 +794,154 @@ export default function DatasetChallenge() {
           </div>
         </div>
 
+      {/* DIVIDER — Draggable splitter */}
+      <div
+        className="w-[4px] cursor-col-resize bg-[var(--border)] flex-shrink-0 hover:bg-[var(--accent-green)] active:bg-[var(--accent-green)] transition-colors duration-150"
+        onMouseDown={onDividerMouseDown}
+      />
+
       {/* RIGHT PANEL */}
-      <div ref={rightPanelRef} className="w-[62%] h-full flex flex-col bg-[#1e1e1e]">
+      <div ref={rightPanelRef} className="h-full flex flex-col bg-[#1e1e1e]" style={{ width: `${100 - leftWidth - 0.3}%` }}>
         {/* Editor Section */}
         <div className="flex flex-col min-h-[200px] flex-1 overflow-hidden">
-          <div className="bg-[#1f2029] px-4 py-2 border-b border-[#3c3c3c] text-sm text-[#cccccc] font-mono flex items-center justify-between shrink-0 border-t-2 border-[var(--accent-blue)] border-box min-h-[48px]">
-             <div className="flex items-center gap-2 flex-wrap">
-               <button 
-                 onClick={handleRun}
-                 disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
-                 className="bg-[var(--accent-blue)] hover:bg-[var(--accent-blue)]/80 text-white px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-blue)]/20 cursor-pointer"
-               >
-                 {isRunning ? 'Running...' : '▶ Run Code'}
-               </button>
-               <button 
-                 onClick={handleReset}
-                 disabled={isRunning || isSubmitting || activeFile === 'solution' || activeFile === 'expected_output'}
-                 className="bg-transparent border border-[var(--border)] hover:border-[var(--accent-red)] hover:text-[var(--accent-red)] hover:bg-[var(--accent-red)]/10 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
-               >
-                 <RotateCcw size={12} /> Reset
-               </button>
-               <button 
-                 onClick={handleSubmit}
-                 disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
-                 className="bg-[var(--accent-green)] hover:bg-[var(--accent-green)]/80 text-black px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-lg shadow-[var(--accent-green)]/20 cursor-pointer"
-               >
-                 {isSubmitting ? 'Checking...' : '✓ Submit'}
-               </button>
-               <button 
-                 onClick={handleSkip}
-                 disabled={isRunning || isSubmitting}
-                 className="bg-zinc-800 hover:bg-zinc-700 hover:text-white text-zinc-300 border border-[var(--border)] px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
-               >
-                 <SkipForward size={12} /> Skip
-               </button>
-               <button 
-                 onClick={() => setActiveFile(activeFile === 'expected_output' ? 'script' : 'expected_output')}
-                 disabled={isRunning || isSubmitting}
-                 className={`border px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer ${
-                   activeFile === 'expected_output'
-                     ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20'
-                     : 'bg-transparent border-zinc-700 hover:border-zinc-500 text-zinc-300'
-                 }`}
-               >
-                 👁 Expected Output
-               </button>
-               {!solutionUnlocked && (
-                 <button 
-                   onClick={handleShowSolution}
-                   disabled={isRunning || isSubmitting}
-                   className="bg-transparent border border-amber-500/40 hover:border-amber-400 hover:bg-amber-500/10 text-amber-400 hover:text-amber-300 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
-                 >
-                   ✨ Show Solution
-                 </button>
-               )}
-             </div>
-             <div className="flex items-center gap-1.5 select-none font-mono text-xs">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-[var(--bg-card)] border-b border-[var(--border)] shrink-0 gap-3">
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={handleRun}
+                disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
+                className="bg-[var(--accent-green)] hover:bg-[var(--accent-green)]/80 text-black px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+              >
+                {isRunning ? 'Running...' : '▶ Run Code'}
+              </button>
+              <button 
+                onClick={handleSubmit}
+                disabled={isRunning || isSubmitting || activeFile === 'expected_output'}
+                className="border border-[var(--accent-green)] text-[var(--accent-green)] bg-transparent hover:bg-[var(--accent-green)]/10 px-4 py-1.5 rounded font-bold text-xs transition-all disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+              >
+                {isSubmitting ? 'Checking...' : '✓ Submit'}
+              </button>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                disabled={currentIndex === 0}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-30 bg-transparent border-none cursor-pointer font-mono text-xs flex items-center gap-1"
+              >
+                ⟨ Prev
+              </button>
+              <span className="text-[var(--text-muted)] text-xs font-mono select-none">
+                Challenge {currentIndex + 1} of {challenges.length}
+              </span>
+              <button
+                onClick={handleNext}
+                disabled={currentIndex >= challenges.length - 1}
+                className="text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-30 bg-transparent border-none cursor-pointer font-mono text-xs flex items-center gap-1"
+              >
+                Next ⟩
+              </button>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleReset}
+                disabled={isRunning || isSubmitting || activeFile === 'solution' || activeFile === 'expected_output'}
+                title="Reset to starter code"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer disabled:opacity-40 flex items-center justify-center"
+              >
+                <RotateCcw size={14} />
+              </button>
+              <button
+                onClick={handleSkip}
+                disabled={isRunning || isSubmitting}
+                title="Skip this challenge"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer disabled:opacity-40 flex items-center justify-center"
+              >
+                <SkipForward size={14} />
+              </button>
+              <button
+                onClick={() => setActiveFile(activeFile === 'expected_output' ? 'script' : 'expected_output')}
+                disabled={isRunning || isSubmitting}
+                title="View expected output"
+                className={`w-8 h-8 rounded-md border transition-all duration-150 cursor-pointer disabled:opacity-40 flex items-center justify-center ${
+                  activeFile === 'expected_output'
+                    ? 'bg-blue-600 border-blue-500 text-white'
+                    : 'bg-transparent border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)]'
+                }`}
+              >
+                <Eye size={14} />
+              </button>
+              <button
+                onClick={handleShowSolution}
+                disabled={isRunning || isSubmitting}
+                title="Show solution"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer disabled:opacity-40 flex items-center justify-center"
+              >
+                <Lightbulb size={14} />
+              </button>
+              <button
+                onClick={toggleConsole}
+                title="Toggle console (Ctrl+J)"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer flex items-center justify-center"
+              >
+                <TerminalIcon size={14} />
+              </button>
+            </div>
+          </div>
+             <div className="flex items-center px-3 border-b border-[var(--border)] shrink-0" style={{ background: 'var(--bg-primary)', padding: '0 12px' }}>
                <button
                  type="button"
                  onClick={() => setActiveFile('script')}
-                 className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
+                 className={`px-3 font-mono text-xs cursor-pointer bg-transparent border-none transition-colors ${
                    activeFile === 'script'
-                     ? 'bg-zinc-800 text-white border border-zinc-700'
-                     : 'text-zinc-400 hover:text-white'
+                     ? 'text-[var(--text-primary)] border-b-2 border-[var(--accent-green)]'
+                     : 'text-[var(--text-muted)] border-b-2 border-transparent hover:text-[var(--text-primary)]'
                  }`}
+                 style={{ padding: '4px 12px' }}
                >
-                 <span className="text-yellow-500">🐍</span> script.py
+                 script.py
                </button>
                <button
                  type="button"
                  onClick={() => setActiveFile('expected_output')}
-                 className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
+                 className={`px-3 font-mono text-xs cursor-pointer bg-transparent border-none transition-colors ${
                    activeFile === 'expected_output'
-                     ? 'bg-zinc-800 text-[var(--accent-blue)] border border-zinc-700'
-                     : 'text-zinc-400 hover:text-white'
+                     ? 'text-[var(--text-primary)] border-b-2 border-[var(--accent-green)]'
+                     : 'text-[var(--text-muted)] border-b-2 border-transparent hover:text-[var(--text-primary)]'
                  }`}
+                 style={{ padding: '4px 12px' }}
                >
-                 <span className="text-blue-400">👁</span> expected_output.txt
+                 expected_output.txt
                </button>
-               {solutionUnlocked && (
-                 <button
-                   type="button"
-                   onClick={() => setActiveFile('solution')}
-                   className={`px-3 py-1 rounded transition-colors flex items-center gap-1.5 cursor-pointer font-bold ${
-                     activeFile === 'solution'
-                       ? 'bg-zinc-800 text-[var(--accent-yellow)] border border-zinc-700'
-                       : 'text-zinc-400 hover:text-white'
-                   }`}
-                 >
-                   <span className="text-[var(--accent-yellow)]">✨</span> solution.py
-                 </button>
-               )}
              </div>
-          </div>
           <div className="grow relative">
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 flex flex-col">
               {activeFile === 'script' && (
-                <Editor
-                  key="script"
-                  height="100%"
-                  width="100%"
-                  language="python"
-                  theme="dc-dark"
-                  value={code}
-                  onChange={(value) => setCode(value)}
-                  onMount={handleEditorDidMount}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 16,
-                    fontFamily: "'Courier New', Courier, monospace",
-                    lineHeight: 1.6,
-                    padding: { top: 16 },
-                    scrollBeyondLastLine: false,
-                    wordWrap: 'on',
-                    readOnly: false
-                  }}
-                />
+                <>
+                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-4 py-1.5 text-xs font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
+                    {generatePreLoadedComments(challenge)}
+                  </div>
+                  <div className="grow">
+                    <Editor
+                      key="script"
+                      height="100%"
+                      width="100%"
+                      language="python"
+                      theme="dc-dark"
+                      value={code}
+                      onChange={(value) => setCode(value)}
+                      onMount={handleEditorDidMount}
+                      options={{
+                        minimap: { enabled: false },
+                        fontSize: 16,
+                        fontFamily: "'Courier New', Courier, monospace",
+                        lineHeight: 1.6,
+                        padding: { top: 8 },
+                        scrollBeyondLastLine: false,
+                        wordWrap: 'on',
+                        readOnly: false
+                      }}
+                    />
+                  </div>
+                </>
               )}
               {activeFile === 'expected_output' && (
                 <Editor
@@ -946,25 +990,27 @@ export default function DatasetChallenge() {
         </div>
 
         {/* Resizer */}
+        {consoleVisible && (
         <div 
           className="h-1.5 bg-[var(--border)] hover:bg-[var(--accent-blue)] cursor-row-resize transition-colors select-none shrink-0"
           onMouseDown={handleMouseDown}
         />
+        )}
 
         {/* Terminal Section */}
+        {consoleVisible && (
         <div 
           className="flex flex-col bg-black overflow-hidden shrink-0 animate-in fade-in duration-300" 
           style={{ height: `${terminalHeight}px` }}
         >
-          {/* Advanced Tabbed Header */}
+          {/* Tabbed Header */}
           <div className="bg-[#1a1b23] px-4 border-b border-[var(--border)] flex items-center justify-between text-xs font-mono shrink-0 border-t-2 border-[var(--accent-green)] select-none">
-            {/* Tabs */}
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={() => setShellTab('console')}
+                onClick={() => setConsoleTab('console')}
                 className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
-                  shellTab === 'console'
+                  consoleTab === 'console'
                     ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
                     : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
@@ -974,131 +1020,103 @@ export default function DatasetChallenge() {
               
               <button
                 type="button"
-                onClick={() => setShellTab('variables')}
+                onClick={() => setConsoleTab('variables')}
                 className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
-                  shellTab === 'variables'
+                  consoleTab === 'variables'
                     ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
                     : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <Database size={14} /> Variables
-                {Object.keys(shellVars).length > 0 && (
+                {lastRun && Object.keys(lastRun.variables).length > 0 && (
                   <span className="bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded-full text-[9px] font-bold font-mono">
-                    {Object.keys(shellVars).length}
+                    {Object.keys(lastRun.variables).length}
                   </span>
                 )}
               </button>
 
               <button
                 type="button"
-                onClick={() => setShellTab('history')}
+                onClick={() => setConsoleTab('history')}
                 className={`px-3 py-2.5 font-bold transition-all flex items-center gap-1.5 border-b-2 bg-transparent cursor-pointer ${
-                  shellTab === 'history'
+                  consoleTab === 'history'
                     ? 'border-[var(--accent-green)] text-[var(--accent-green)]'
                     : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <History size={14} /> History
-                {shellCommands.length > 0 && (
+                {runHistory.length > 0 && (
                   <span className="bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded-full text-[9px] font-bold font-mono">
-                    {shellCommands.length}
+                    {runHistory.length}
                   </span>
                 )}
               </button>
-            </div>
+             </div>
+             <button
+               onClick={toggleConsole}
+               title="Toggle console (Ctrl+J)"
+               className="w-7 h-7 rounded bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] cursor-pointer flex items-center justify-center transition-colors text-xs shrink-0"
+             >
+               <ChevronDown size={14} />
+             </button>
+           </div>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-1.5 py-1">
-              <button
-                type="button"
-                onClick={() => setTerminalLines([])}
-                title="Clear Terminal Output"
-                className="p-1.5 rounded bg-zinc-900/60 hover:bg-zinc-800 border border-[var(--border)]/40 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer"
-              >
-                <Eraser size={14} />
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => {
-                  setShellCommands([])
-                  setTerminalLines([])
-                  setShellCounter(1)
-                  setShellVars({})
-                  if (challenges.length > 0 && currentIndex < challenges.length) {
-                    fetchInitialShellVars(challenges[currentIndex])
-                  }
-                }}
-                title="Reset Python Environment"
-                className="p-1.5 rounded bg-zinc-900/60 hover:bg-zinc-800 border border-[var(--border)]/40 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer"
-              >
-                <RotateCcw size={14} />
-              </button>
-            </div>
-          </div>
-
-          {/* Console Tab */}
-          {shellTab === 'console' && (
-            <div 
-              onClick={() => {
-                if (shellInputRef.current) {
-                  shellInputRef.current.focus()
-                }
-              }}
-              className="grow overflow-y-auto p-4 font-mono text-base cursor-text text-left"
-            >
-               <div className="text-gray-500 mb-2">Python 3.10.x (default, DC Mastery Hub)</div>
-               {terminalLines.length === 0 && (
-                 <div className="text-zinc-600 italic text-sm mb-2 select-none">(console cleared. type command to begin)</div>
-               )}
-               {terminalLines.map((line, i) => (
-                 <div key={i} className="mb-2">
-                   {line.type === 'input' && (
-                     <div className="text-blue-400">
-                       <span className="text-green-500 mr-2">In [{line.counter}]:</span>
-                       <span className="text-gray-300">{line.text}</span>
-                     </div>
-                   )}
-                   {line.type === 'output' && (
-                     <div className="text-white mt-1 whitespace-pre-wrap">{line.text || '(no output)'}</div>
-                   )}
-                   {line.type === 'error' && (
-                     <div className="text-red-400 mt-1 whitespace-pre-wrap">{line.text}</div>
-                   )}
-                 </div>
-               ))}
-               
-               {isShellRunning ? (
-                  <div className="text-blue-400 mt-2 flex items-center gap-2 animate-in fade-in">
-                    <span className="text-green-500">In [{shellCounter}]:</span>
-                    <span className="text-gray-500 animate-pulse text-base">Running command...</span>
+           {/* Console Tab */}
+          {consoleTab === 'console' && (
+            <div className="grow flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-4 font-mono text-base text-left">
+                {lastRun ? (
+                  <div>
+                    {lastRun.stderr && (
+                      <div className="text-[var(--accent-red)] whitespace-pre-wrap mb-2">{lastRun.stderr}</div>
+                    )}
+                    <div className="text-gray-300 whitespace-pre-wrap">{lastRun.stdout || '(no output)'}</div>
+                    {lastRun.executionTime > 0 && (
+                      <div className="text-[var(--text-muted)] text-xs mt-3">Executed in {lastRun.executionTime}ms</div>
+                    )}
                   </div>
-               ) : (
-                  <div className="text-blue-400 mt-2 flex items-center">
-                    <span className="text-green-500 shrink-0">In [{shellCounter}]:</span>
-                    <input
-                      ref={shellInputRef}
-                      type="text"
-                      value={shellInputValue}
-                      onChange={(e) => setShellInputValue(e.target.value)}
-                      onKeyDown={handleShellKeyDown}
-                      disabled={isRunning || isSubmitting}
-                      className="grow bg-transparent text-gray-300 outline-none border-none font-mono ml-2 p-0 focus:ring-0 text-base"
-                      placeholder="type python code here..."
-                    />
+                ) : (
+                  <div className="text-zinc-600 italic">Run your code to see output here.</div>
+                )}
+                {snippetHistory.length > 0 && (
+                  <div className="border-t border-[var(--border)]/50 mt-4 pt-3 space-y-3">
+                    {snippetHistory.map((entry, idx) => (
+                      <div key={idx}>
+                        <div className="text-[var(--accent-green)] font-bold text-sm">&gt;&gt;&gt; {entry.snippet}</div>
+                        {entry.stderr && (
+                          <div className="text-[var(--accent-red)] whitespace-pre-wrap ml-4 mt-1">{entry.stderr}</div>
+                        )}
+                        {entry.stdout && (
+                          <div className="text-gray-300 whitespace-pre-wrap ml-4 mt-1">{entry.stdout}</div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-               )}
-               <div ref={terminalEndRef} />
+                )}
+                <div ref={terminalEndRef} />
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 border-t border-[var(--border)] bg-black/90 shrink-0">
+                <span className="text-[var(--accent-green)] font-bold font-mono text-sm">&gt;&gt;&gt;</span>
+                <input
+                  ref={snippetInputRef}
+                  type="text"
+                  value={snippetInput}
+                  onChange={(e) => setSnippetInput(e.target.value)}
+                  onKeyDown={handleSnippetKeyDown}
+                  placeholder="Run a Python line..."
+                  className="flex-1 bg-transparent border-none outline-none text-gray-200 font-mono text-base placeholder-zinc-600"
+                />
+              </div>
             </div>
           )}
 
           {/* Variables Tab */}
-          {shellTab === 'variables' && (
+          {consoleTab === 'variables' && (
             <div className="grow overflow-y-auto p-5 font-mono text-left">
-              {Object.keys(shellVars).length === 0 ? (
+              {!lastRun || Object.keys(lastRun.variables).length === 0 ? (
                 <div className="text-zinc-500 text-xs italic flex flex-col items-center justify-center h-full gap-2">
                   <Database size={24} className="opacity-40" />
-                  <span>No variables defined in this session yet.</span>
+                  <span>No variables defined yet.</span>
                 </div>
               ) : (
                 <div className="border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--bg-primary)] text-xs">
@@ -1107,15 +1125,15 @@ export default function DatasetChallenge() {
                       <tr className="bg-zinc-900 border-b border-[var(--border)] text-[var(--text-muted)]">
                         <th className="p-3 font-bold uppercase tracking-wider">Name</th>
                         <th className="p-3 font-bold uppercase tracking-wider">Type</th>
-                        <th className="p-3 font-bold uppercase tracking-wider">Value</th>
+                        <th className="p-3 font-bold uppercase tracking-wider">Preview</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[var(--border)]">
-                      {Object.entries(shellVars).map(([name, { type, value }]) => (
+                      {Object.entries(lastRun.variables).map(([name, info]) => (
                         <tr key={name} className="hover:bg-zinc-800/25 transition-colors font-mono">
                           <td className="p-3 text-[var(--accent-green)] font-bold">{name}</td>
-                          <td className="p-3 text-[var(--accent-blue)] font-bold">{type}</td>
-                          <td className="p-3 text-zinc-300 max-w-xs truncate" title={value}>{value}</td>
+                          <td className="p-3 text-[var(--accent-blue)]">{info.type}{info.shape ? ` (${info.shape})` : ''}</td>
+                          <td className="p-3 text-zinc-300 max-w-xs truncate" title={info.preview}>{info.preview}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1126,45 +1144,43 @@ export default function DatasetChallenge() {
           )}
 
           {/* History Tab */}
-          {shellTab === 'history' && (
+          {consoleTab === 'history' && (
             <div className="grow overflow-y-auto p-5 font-mono text-left">
-              {sessionHistory.length === 0 ? (
+              {runHistory.length === 0 ? (
                 <div className="text-zinc-500 text-xs italic flex flex-col items-center justify-center h-full gap-2">
                   <History size={24} className="opacity-40" />
-                  <span>No commands executed in this session yet.</span>
+                  <span>No runs yet. Click "Run Code" to execute your script.</span>
                 </div>
               ) : (
                 <div className="space-y-2">
                   <div className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider mb-3 select-none">
-                    Session Command History (Click to load into console)
+                    Last 5 Runs
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    {sessionHistory.map((cmd, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => {
-                          setShellInputValue(cmd)
-                          setShellTab('console')
-                          setTimeout(() => {
-                            if (shellInputRef.current) shellInputRef.current.focus()
-                          }, 50)
-                        }}
-                        className="w-full text-left p-2.5 rounded-lg border border-[var(--border)] bg-zinc-950/40 hover:border-zinc-500 text-xs text-zinc-300 font-mono transition-all hover:bg-zinc-900 flex items-start gap-2.5 group cursor-pointer"
-                      >
-                        <span className="text-zinc-600 font-bold shrink-0">{idx + 1}</span>
-                        <span className="grow whitespace-pre-wrap select-all">{cmd}</span>
-                        <span className="text-[10px] text-[var(--accent-green)] opacity-0 group-hover:opacity-100 font-bold shrink-0">
-                          Load ↵
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+                  {runHistory.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setLastRun(entry)}
+                      className="w-full text-left p-2.5 rounded-lg border border-[var(--border)] bg-zinc-950/40 hover:border-zinc-500 text-xs text-zinc-300 font-mono transition-all hover:bg-zinc-900 flex items-start gap-2.5 group cursor-pointer"
+                    >
+                      <span className={`font-bold shrink-0 ${entry.stderr ? 'text-red-500' : 'text-green-500'}`}>
+                        {entry.stderr ? <XCircle size={12} /> : <CheckCircle2 size={12} />}
+                      </span>
+                      <span className="text-zinc-600 font-bold shrink-0">
+                        {new Date(entry.timestamp).toLocaleTimeString()}
+                      </span>
+                      <span className="grow whitespace-pre-wrap truncate">{entry.codePreview}</span>
+                      <span className="text-[10px] text-[var(--accent-green)] opacity-0 group-hover:opacity-100 font-bold shrink-0">
+                        View ↵
+                      </span>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
           )}
         </div>
+        )}
       </div>
       </div>
 
@@ -1283,7 +1299,7 @@ export default function DatasetChallenge() {
             <div>Questions Remaining: {challenges.length - currentIndex}</div>
             <div>Current Exercise Count: {challenges.length}</div>
             <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
-              Challenge ID: {challenge?.id} | Run Counter: {runCounter}
+              Challenge ID: {challenge?.id} | Runs: {runHistory.length}
             </div>
           </div>
         </div>

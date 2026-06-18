@@ -8,6 +8,8 @@ import Database from 'better-sqlite3'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const safeId = (v) => String(v ?? 'anon').replace(/[^a-zA-Z0-9_-]/g, '')
+
 const BLOCKED_TERMS = [
   'import os', 'import sys', 'import subprocess',
   'import socket', '__import__', 'exec(', 'eval(',
@@ -75,7 +77,8 @@ export function runSql(code) {
   }
 }
 
-export function runDatasetChallenge(solutionCode, preLoadedData, validationRules, datasetsAbsolutePath, userId, challengeId) {
+export function runDatasetChallenge(solutionCode, preLoadedData, validationRules, datasetsAbsolutePath, userId, challengeId, options = {}) {
+  const { runOnly = false } = options
   const securityViolation = checkSecurity(solutionCode)
   if (securityViolation) return securityViolation
 
@@ -102,26 +105,42 @@ export function runDatasetChallenge(solutionCode, preLoadedData, validationRules
         setupCode += `${key} = sqlite3.connect(r'${absPath}')\n`
       } else if (value.type === 'dataframe' && value.data) {
         setupCode += `${key} = pd.DataFrame(${JSON.stringify(value.data)})\n`
-      } else if (value.type === 'value') {
+      } else if (value.type === 'value' && value.data !== undefined && value.data !== null) {
         setupCode += `${key} = ${JSON.stringify(value.data)}\n`
       }
     }
   }
 
-  let validationCode = ''
-  if (validationRules && Array.isArray(validationRules)) {
-    for (const rule of validationRules) {
-      validationCode += `
-try:
-    _check = bool(${rule.check})
-    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": _check, "message": ${JSON.stringify(rule.message)}})
-except Exception as e:
-    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": False, "message": f"Error: {str(e)}"})
+  const variableInspectionCode = `
+import json as _json
+_skip = {'pd', 'np', 'os', 'json', 'sys', 'sqlite3', 'warnings'}
+_vars = {}
+for _k, _v in list(locals().items()):
+    if not _k.startswith('_') and _k not in _skip:
+        try:
+            if hasattr(_v, 'shape'):
+                _vars[_k] = {
+                  'type': type(_v).__name__,
+                  'shape': str(_v.shape) if hasattr(_v,'shape') else None,
+                  'preview': str(_v)[:200]
+                }
+            elif isinstance(_v, (list, tuple)):
+                _vars[_k] = {
+                  'type': type(_v).__name__,
+                  'length': len(_v),
+                  'preview': str(_v[:5])
+                }
+            else:
+                _vars[_k] = {
+                  'type': type(_v).__name__,
+                  'preview': str(_v)[:200]
+                }
+        except:
+            pass
+print('__VARS__' + _json.dumps(_vars) + '__VARS__')
 `
-    }
-  }
 
-  const scriptContent = `
+  let scriptContent = `
 # === AUTO-GENERATED CHALLENGE SANDBOX ===
 import pandas as pd
 import numpy as np
@@ -132,14 +151,35 @@ ${setupCode}
 
 # --- USER SOLUTION ---
 ${solutionCode}
+`
 
+  if (runOnly) {
+    scriptContent += `
+# --- VARIABLE INSPECTION ---
+${variableInspectionCode}
+`
+  } else {
+    let validationCode = ''
+    if (validationRules && Array.isArray(validationRules)) {
+      for (const rule of validationRules) {
+        validationCode += `
+try:
+    _check = bool(${rule.check})
+    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": _check, "message": ${JSON.stringify(rule.message)}})
+except Exception as e:
+    _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": False, "message": f"Error: {str(e)}"})
+`
+      }
+    }
+    scriptContent += `
 # --- VALIDATION ---
 _results = []
 ${validationCode}
 print(json.dumps(_results))
 `
+  }
 
-  const tmpPath = path.join(os.tmpdir(), `dc_challenge_${userId}_${challengeId}_${Date.now()}.py`)
+  const tmpPath = path.join(os.tmpdir(), `dc_challenge_${safeId(userId)}_${safeId(challengeId)}_${Date.now()}.py`)
   fs.writeFileSync(tmpPath, scriptContent)
 
   const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
@@ -172,7 +212,7 @@ print(json.dumps(_results))
       }
     } else if (result.status !== 0) {
       // Script failed
-    } else {
+    } else if (!runOnly) {
       // Try parsing stdout for JSON results
       const lines = stdout.trim().split('\n')
       if (lines.length > 0) {
@@ -198,6 +238,24 @@ print(json.dumps(_results))
   }
 
   const executionTime = Date.now() - startTime
+
+  if (runOnly) {
+    let variables = {}
+    const varsMatch = stdout.match(/__VARS__(.*?)__VARS__/)
+    if (varsMatch) {
+      try {
+        variables = JSON.parse(varsMatch[1])
+      } catch (e) {}
+      stdout = stdout.replace(/__VARS__(.*?)__VARS__/, '')
+    }
+
+    return {
+      stdout: stdout.trim(),
+      stderr: stderr.trim() || null,
+      executionTime,
+      variables
+    }
+  }
 
   return {
     success,
@@ -341,7 +399,7 @@ export function runShellCommand(historyCode, command, preLoadedData, datasetsAbs
         setupCode += `${key} = sqlite3.connect(r'${absPath}')\n`
       } else if (value.type === 'dataframe' && value.data) {
         setupCode += `${key} = pd.DataFrame(${JSON.stringify(value.data)})\n`
-      } else if (value.type === 'value') {
+      } else if (value.type === 'value' && value.data !== undefined && value.data !== null) {
         setupCode += `${key} = ${JSON.stringify(value.data)}\n`
       }
     }
@@ -384,7 +442,7 @@ except:
     pass
 `
 
-  const tmpPath = path.join(os.tmpdir(), `dc_shell_${userId}_${challengeId}_${Date.now()}.py`)
+  const tmpPath = path.join(os.tmpdir(), `dc_shell_${safeId(userId)}_${safeId(challengeId)}_${Date.now()}.py`)
   fs.writeFileSync(tmpPath, scriptContent)
 
   const venvPython = path.resolve(__dirname, '../../venv/bin/python3')
