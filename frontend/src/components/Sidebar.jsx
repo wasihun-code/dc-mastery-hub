@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { BookOpen, Brain, LayoutDashboard, Map, Settings, FolderOpen, Zap, Trophy, User, LogOut } from 'lucide-react'
+import { BookOpen, Brain, LayoutDashboard, Map, Settings, FolderOpen, Zap, Trophy, User, LogOut, Shield } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -158,6 +158,43 @@ export default function Sidebar({ user, onLogout, sidebarWidth, setSidebarWidth 
         </div>
       )}
 
+      {/* Admin link */}
+      {user?.is_admin && (
+        <div className="border-t border-[var(--border)] px-3 py-2 overflow-hidden">
+          {!isCollapsed ? (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                [
+                  'flex items-center gap-3 w-full px-3 py-2 text-sm font-semibold rounded-lg border transition-all',
+                  isActive
+                    ? 'text-[var(--accent-green)] bg-[rgba(255,255,255,0.04)] border-[var(--accent-green)]/30'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.03)] border-transparent',
+                ].join(' ')
+              }
+            >
+              <Shield size={16} className="shrink-0" />
+              <span>Admin Panel</span>
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                [
+                  'flex h-10 w-10 items-center justify-center rounded-xl border transition-all',
+                  isActive
+                    ? 'text-[var(--accent-green)] bg-[rgba(255,255,255,0.04)] border-[var(--accent-green)]/30'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.03)] border-transparent',
+                ].join(' ')
+              }
+              title="Admin Panel"
+            >
+              <Shield size={18} />
+            </NavLink>
+          )}
+        </div>
+      )}
+
       {/* User & Logout section */}
       <div className="border-t border-[var(--border)] p-3 overflow-hidden">
         {/* Expanded view */}
@@ -168,7 +205,9 @@ export default function Sidebar({ user, onLogout, sidebarWidth, setSidebarWidth 
                 <User size={18} />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xxs text-[var(--text-muted)] font-bold uppercase tracking-wider">Student</span>
+                <span className="text-xxs text-[var(--text-muted)] font-bold uppercase tracking-wider">
+                  {user?.is_admin ? 'Admin' : 'Student'}
+                </span>
                 <span className="text-sm font-bold text-[var(--text-primary)] truncate" title={user?.username || 'User'}>
                   {user?.username || 'User'}
                 </span>
@@ -186,7 +225,23 @@ export default function Sidebar({ user, onLogout, sidebarWidth, setSidebarWidth 
 
         {/* Collapsed view */}
         {isCollapsed && (
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            {user?.is_admin && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  [
+                    'flex h-10 w-10 items-center justify-center rounded-xl border transition-all',
+                    isActive
+                      ? 'text-[var(--accent-green)] bg-[rgba(255,255,255,0.04)] border-[var(--accent-green)]/30'
+                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.03)] border-transparent',
+                  ].join(' ')
+                }
+                title="Admin Panel"
+              >
+                <Shield size={18} />
+              </NavLink>
+            )}
             <button
               onClick={onLogout}
               className="flex h-10 w-10 items-center justify-center rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all cursor-pointer"

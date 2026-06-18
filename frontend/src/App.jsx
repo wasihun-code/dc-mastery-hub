@@ -22,6 +22,8 @@ import WranglingSpeedrun from './pages/WranglingSpeedrun'
 import CapstoneBattleSelection from './pages/CapstoneBattleSelection'
 import ManageCourseDetail from './pages/ManageCourseDetail'
 import IncorrectReview from './exercises/IncorrectReview'
+import AdminPanel from './pages/AdminPanel'
+import AdminRoute from './components/AdminRoute'
 import { ErrorBoundary } from './components/ErrorBoundary.jsx'
 
 const routeTitles = [
@@ -42,6 +44,7 @@ const routeTitles = [
   { pattern: /^\/exercise\/matching\/[^/]+$/, title: 'Matching Game' },
   { pattern: /^\/exercise\/boss\/[^/]+$/, title: 'Boss Battle' },
   { pattern: /^\/track-test\/[^/]+$/, title: 'Capstone Track Test' },
+  { pattern: /^\/admin$/, title: 'Admin Panel' },
 ]
 
 function getPageTitle(pathname) {
@@ -145,6 +148,20 @@ export default function App() {
         />
       )
     }
+  }
+
+  const isAdmin = location.pathname.startsWith('/admin')
+
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
+        <ErrorBoundary context="Admin panel failed">
+          <AdminRoute user={user}>
+            <AdminPanel user={user} onLogout={handleLogout} />
+          </AdminRoute>
+        </ErrorBoundary>
+      </div>
+    )
   }
 
   return (

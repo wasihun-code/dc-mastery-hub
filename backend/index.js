@@ -11,6 +11,7 @@ import contentRouter from './routes/content.js'
 import manageRouter from './routes/manage.js'
 import manageQuestionsRouter from './routes/manage-questions.js'
 import authRouter from './routes/auth.js'
+import adminRouter from './routes/admin.js'
 import { scanContent } from './services/contentScanner.js'
 import { importJsonExercises } from './db/jsonImporter.js'
 import path from 'path'
@@ -90,6 +91,7 @@ app.use('/api', coursesRouter)
 app.use('/api', progressRouter)
 app.use('/api', manageRouter)
 app.use('/api', manageQuestionsRouter)
+app.use('/api', adminRouter)
 
 if (config.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/dist')))
