@@ -498,7 +498,7 @@ router.post('/admin/users', (req, res, next) => {
 router.delete('/admin/users/:id', (req, res, next) => {
   try {
     const targetId = Number(req.params.id)
-    if (targetId === req.user.id) return res.status(400).json({ error: 'You cannot delete your own account' })
+    if (targetId === req.user.id) return res.status(403).json({ error: 'You cannot delete your own account' })
     const target = db.prepare('SELECT id FROM users WHERE id = ?').get(targetId)
     if (!target) return res.status(404).json({ error: 'User not found' })
     db.transaction(() => {

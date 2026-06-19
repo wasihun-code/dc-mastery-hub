@@ -230,7 +230,7 @@ describe('Admin Routes', () => {
       const track = db.prepare('SELECT id FROM tracks LIMIT 1').get()
 
       const res = await request(app)
-        .put(`/api/admin/tracks/${track.id}`)
+        .patch(`/api/admin/tracks/${track.id}`)
         .set('Cookie', testData.adminSession)
         .send({ name: 'Updated Track', color: '#ff0000' })
 
