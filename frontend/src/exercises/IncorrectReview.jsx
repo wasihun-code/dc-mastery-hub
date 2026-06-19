@@ -267,11 +267,23 @@ export default function IncorrectReview() {
     setIsCorrect(userAnswerCorrect)
 
     if (userAnswerCorrect) {
-      triggerCorrectFeedback()
+      const type = currentItem.exercise_type
+      if (type === 'quiz') quizFeedback.correct()
+      else if (type === 'fillblank') ftbFeedback.correct()
+      else if (type === 'flashcard') flashcardFeedback.good()
+      else if (type === 'matching') matchingFeedback.correct()
+      else if (type === 'bossbattle') bossBattleFeedback.correct()
+      else triggerCorrectFeedback()
       setCorrectCount(prev => prev + 1)
       setXpEarned(prev => prev + 10)
     } else {
-      triggerWrongFeedback()
+      const type = currentItem.exercise_type
+      if (type === 'quiz') quizFeedback.wrong()
+      else if (type === 'fillblank') ftbFeedback.wrong()
+      else if (type === 'flashcard') flashcardFeedback.again()
+      else if (type === 'matching') matchingFeedback.wrong()
+      else if (type === 'bossbattle') bossBattleFeedback.wrong()
+      else triggerWrongFeedback()
     }
 
     // Post attempt to update in database as corrected (or incorrect again)

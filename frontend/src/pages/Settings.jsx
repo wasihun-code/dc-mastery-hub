@@ -17,7 +17,14 @@ import {
   vibrateWrong,
   vibrateSuccess,
   vibrateTimerWarning,
-  vibrateTimerExpired
+  vibrateTimerExpired,
+  quizFeedback,
+  ftbFeedback,
+  flashcardFeedback,
+  matchingFeedback,
+  bossBattleFeedback,
+  datasetChallengeFeedback,
+  timerFeedback
 } from '../services/feedbackService'
 import {
   getSessionQuestionCount,
@@ -414,47 +421,61 @@ export default function Settings() {
               <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--accent-green)]">
                 Audio Tones (Native Synthesizer)
               </h4>
-              <div className="grid grid-cols-1 gap-2.5">
-                <button
-                  type="button"
-                  onClick={playCorrect}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-green)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
-                >
-                  <span>Chime (Correct Answer)</span>
-                  <span className="text-[10px] bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={playWrong}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
-                >
-                  <span>Tone (Wrong Answer)</span>
-                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={playSuccess}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-yellow)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
-                >
-                  <span>Arpeggio (Session Complete)</span>
-                  <span className="text-[10px] bg-[rgba(251,191,36,0.1)] text-[var(--accent-yellow)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={playTimerWarning}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
-                >
-                  <span>Pulse (Timer Warning)</span>
-                  <span className="text-[10px] bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={playTimerExpired}
-                  className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-xs font-bold text-white hover:border-[var(--accent-red)] hover:bg-[var(--card-hover)] transition-all cursor-pointer text-left"
-                >
-                  <span>Sweep (Timer Expired)</span>
-                  <span className="text-[10px] bg-[rgba(255,77,77,0.1)] text-[var(--accent-red)] px-2 py-0.5 rounded font-mono font-bold">Play</span>
-                </button>
+              <div className="flex flex-col gap-3">
+                {/* Quiz & Fill-in-the-Blank */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px' }}>Quiz &amp; Fill-in-the-Blank</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={quizFeedback.correct} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Correct</button>
+                    <button type="button" onClick={quizFeedback.wrong} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Wrong</button>
+                  </div>
+                </div>
+                {/* Flashcards */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px', marginTop: '16px' }}>Flashcards</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={flashcardFeedback.easy} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Easy</button>
+                    <button type="button" onClick={flashcardFeedback.good} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Good</button>
+                    <button type="button" onClick={flashcardFeedback.hard} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Hard</button>
+                    <button type="button" onClick={flashcardFeedback.again} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Again</button>
+                  </div>
+                </div>
+                {/* Matching Game */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px', marginTop: '16px' }}>Matching Game</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={matchingFeedback.correct} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Match</button>
+                    <button type="button" onClick={matchingFeedback.wrong} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> No Match</button>
+                    <button type="button" onClick={matchingFeedback.complete} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Board Complete</button>
+                  </div>
+                </div>
+                {/* Boss Battle */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px', marginTop: '16px' }}>Boss Battle</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={bossBattleFeedback.correct} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Hit</button>
+                    <button type="button" onClick={bossBattleFeedback.wrong} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Miss</button>
+                    <button type="button" onClick={bossBattleFeedback.victory} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Victory</button>
+                    <button type="button" onClick={bossBattleFeedback.defeat} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Defeat</button>
+                  </div>
+                </div>
+                {/* Dataset Challenge */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px', marginTop: '16px' }}>Dataset Challenge</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={datasetChallengeFeedback.runSuccess} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Run OK</button>
+                    <button type="button" onClick={datasetChallengeFeedback.runError} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Run Error</button>
+                    <button type="button" onClick={datasetChallengeFeedback.submitPass} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Submit Pass</button>
+                    <button type="button" onClick={datasetChallengeFeedback.submitFail} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Submit Fail</button>
+                  </div>
+                </div>
+                {/* Timer */}
+                <div>
+                  <div className="text-[11px] uppercase text-[var(--text-muted)]" style={{ letterSpacing: '0.05em', marginBottom: '8px', marginTop: '16px' }}>Timer</div>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" onClick={timerFeedback.expire} className="px-3 py-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-colors flex items-center gap-1.5 cursor-pointer"><span>▶</span> Time's Up</button>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -97,14 +97,18 @@ describe('feedbackService', () => {
         'triggerSpeedrunWrongFeedback',
         'triggerSpeedrunTickFeedback',
         'triggerSpeedrunCompleteFeedback',
+        'quizFeedback',
+        'ftbFeedback',
+        'flashcardFeedback',
+        'matchingFeedback',
+        'bossBattleFeedback',
+        'datasetChallengeFeedback',
+        'timerFeedback',
       ];
       expected.forEach((name) => {
         expect(feedbackService[name]).toBeDefined();
-        expect(typeof feedbackService[name]).toBe('function');
       });
-      const exportedNames = Object.keys(feedbackService).filter(
-        (k) => typeof feedbackService[k] === 'function',
-      );
+      const exportedNames = Object.keys(feedbackService);
       expect(exportedNames.length).toBe(expected.length);
     });
   });
@@ -315,6 +319,114 @@ describe('feedbackService', () => {
       feedbackService.triggerSpeedrunCompleteFeedback();
       expect(window.AudioContext).toHaveBeenCalledTimes(1);
       expect(navigator.vibrate).toHaveBeenCalledWith([70, 50, 70, 50, 90]);
+    });
+  });
+
+  describe('context-specific feedback', () => {
+    it('quizFeedback.correct and quizFeedback.wrong are defined', () => {
+      expect(feedbackService.quizFeedback.correct).toBeDefined();
+      expect(typeof feedbackService.quizFeedback.correct).toBe('function');
+      expect(feedbackService.quizFeedback.wrong).toBeDefined();
+      expect(typeof feedbackService.quizFeedback.wrong).toBe('function');
+    });
+
+    it('ftbFeedback.correct and ftbFeedback.wrong are defined', () => {
+      expect(feedbackService.ftbFeedback.correct).toBeDefined();
+      expect(typeof feedbackService.ftbFeedback.correct).toBe('function');
+      expect(feedbackService.ftbFeedback.wrong).toBeDefined();
+      expect(typeof feedbackService.ftbFeedback.wrong).toBe('function');
+    });
+
+    it('flashcardFeedback has 4 functions (easy/good/hard/again)', () => {
+      const keys = ['easy', 'good', 'hard', 'again'];
+      keys.forEach(k => {
+        expect(feedbackService.flashcardFeedback[k]).toBeDefined();
+        expect(typeof feedbackService.flashcardFeedback[k]).toBe('function');
+      });
+      expect(Object.keys(feedbackService.flashcardFeedback).length).toBe(keys.length);
+    });
+
+    it('matchingFeedback has 3 functions (correct/wrong/complete)', () => {
+      const keys = ['correct', 'wrong', 'complete'];
+      keys.forEach(k => {
+        expect(feedbackService.matchingFeedback[k]).toBeDefined();
+        expect(typeof feedbackService.matchingFeedback[k]).toBe('function');
+      });
+      expect(Object.keys(feedbackService.matchingFeedback).length).toBe(keys.length);
+    });
+
+    it('bossBattleFeedback has 4 functions (correct/wrong/victory/defeat)', () => {
+      const keys = ['correct', 'wrong', 'victory', 'defeat'];
+      keys.forEach(k => {
+        expect(feedbackService.bossBattleFeedback[k]).toBeDefined();
+        expect(typeof feedbackService.bossBattleFeedback[k]).toBe('function');
+      });
+      expect(Object.keys(feedbackService.bossBattleFeedback).length).toBe(keys.length);
+    });
+
+    it('datasetChallengeFeedback has 4 functions (runSuccess/runError/submitPass/submitFail)', () => {
+      const keys = ['runSuccess', 'runError', 'submitPass', 'submitFail'];
+      keys.forEach(k => {
+        expect(feedbackService.datasetChallengeFeedback[k]).toBeDefined();
+        expect(typeof feedbackService.datasetChallengeFeedback[k]).toBe('function');
+      });
+      expect(Object.keys(feedbackService.datasetChallengeFeedback).length).toBe(keys.length);
+    });
+
+    it('timerFeedback.expire is defined', () => {
+      expect(feedbackService.timerFeedback.expire).toBeDefined();
+      expect(typeof feedbackService.timerFeedback.expire).toBe('function');
+    });
+
+    it('quizFeedback.correct() calls AudioContext', () => {
+      vi.clearAllMocks();
+      feedbackService.quizFeedback.correct();
+      expect(window.AudioContext).toHaveBeenCalledTimes(1);
+      const ctx = window.AudioContext.mock.results[0].value;
+      expect(ctx.createOscillator).toHaveBeenCalled();
+    });
+
+    it('matchingFeedback.correct() creates 2 simultaneous oscillators', () => {
+      vi.clearAllMocks();
+      feedbackService.matchingFeedback.correct();
+      const ctx = window.AudioContext.mock.results[0].value;
+      expect(ctx.createOscillator).toHaveBeenCalledTimes(2);
+    });
+
+    it('muted state prevents all feedback functions from playing', () => {
+      localStorage.setItem('feedback_audio_enabled', 'false');
+      vi.clearAllMocks();
+      feedbackService.quizFeedback.correct();
+      feedbackService.quizFeedback.wrong();
+      feedbackService.ftbFeedback.correct();
+      feedbackService.ftbFeedback.wrong();
+      feedbackService.flashcardFeedback.easy();
+      feedbackService.flashcardFeedback.good();
+      feedbackService.flashcardFeedback.hard();
+      feedbackService.flashcardFeedback.again();
+      feedbackService.matchingFeedback.correct();
+      feedbackService.matchingFeedback.wrong();
+      feedbackService.matchingFeedback.complete();
+      feedbackService.bossBattleFeedback.correct();
+      feedbackService.bossBattleFeedback.wrong();
+      feedbackService.bossBattleFeedback.victory();
+      feedbackService.bossBattleFeedback.defeat();
+      feedbackService.datasetChallengeFeedback.runSuccess();
+      feedbackService.datasetChallengeFeedback.runError();
+      feedbackService.datasetChallengeFeedback.submitPass();
+      feedbackService.datasetChallengeFeedback.submitFail();
+      feedbackService.timerFeedback.expire();
+      expect(window.AudioContext).not.toHaveBeenCalled();
+    });
+
+    it('volume strength scales the gain', () => {
+      localStorage.setItem('feedback_audio_enabled', 'true');
+      localStorage.setItem('feedback_audio_volume', '0.5');
+      vi.clearAllMocks();
+      feedbackService.quizFeedback.correct();
+      const ctx = window.AudioContext.mock.results[0].value;
+      expect(ctx.createOscillator).toHaveBeenCalled();
+      expect(ctx.createGain).toHaveBeenCalled();
     });
   });
 });

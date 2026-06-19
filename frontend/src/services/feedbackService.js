@@ -631,7 +631,7 @@ function vibrate(pattern) {
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(pattern);
     }
-  } catch (err) {
+  } catch {
     // Gracefully no-op
   }
 }
