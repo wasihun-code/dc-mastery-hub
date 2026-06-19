@@ -14,7 +14,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["'sugar'", "'butter'", "sugar", "cookies"],
+    "word_bank": [
+      "'sugar'",
+      "'butter'",
+      "sugar",
+      "cookies"
+    ],
     "per_tile_feedback": {
       "'sugar'": "Correct! The string 'sugar' completes the list literal.",
       "'butter'": "This is not one of the cookie names we want in the list.",
@@ -41,10 +46,17 @@
       {
         "position": 1,
         "answer": "",
-        "answer_alternatives": [","]
+        "answer_alternatives": [
+          ","
+        ]
       }
     ],
-    "word_bank": [",", ")", "']", "butter"],
+    "word_bank": [
+      ",",
+      ")",
+      "']",
+      "butter"
+    ],
     "per_tile_feedback": {
       ",": "Correct! The trailing comma inside parentheses makes it a single‑element tuple.",
       ")": "A closing parenthesis without a comma would just be a string, not a tuple.",
@@ -74,7 +86,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["append", "extend", "add", "insert"],
+    "word_bank": [
+      "append",
+      "extend",
+      "add",
+      "insert"
+    ],
     "per_tile_feedback": {
       "append": "Correct! append adds a single element to the end.",
       "extend": "extend is for merging an iterable, not for adding a single string.",
@@ -99,12 +116,17 @@
     "code_template": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ncookies._____(cakes)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "extend",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["extend", "append", "update", "merge"],
+    "word_bank": [
+      "extend",
+      "append",
+      "update",
+      "merge"
+    ],
     "per_tile_feedback": {
       "extend": "Correct! extend adds all elements of the iterable individually.",
       "append": "append would add the whole list as one element, not its items.",
@@ -117,7 +139,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "extend iterates over cakes and appends 'strawberry' and 'vanilla' individually to cookies.",
-    "common_mistake_warning": "⚠️ Using append instead of extend would insert the list itself as a single element."
+    "common_mistake_warning": "⚠️ Using append instead of extend would insert the list itself as a single element.",
+    "_exerciseType": "ftb",
+    "description": "Merge the list cakes into the cookies list using a method.",
+    "code": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ncookies.[[0]](cakes)",
+    "answers": [
+      "extend"
+    ]
   },
   {
     "id": "fitb_005",
@@ -134,7 +162,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["0", "1", "2", "0:1"],
+    "word_bank": [
+      "0",
+      "1",
+      "2",
+      "0:1"
+    ],
     "per_tile_feedback": {
       "0": "Correct! Index 0 accesses the first tuple, which is then unpacked.",
       "1": "Index 1 would unpack the second tuple, not the first.",
@@ -164,7 +197,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["cookie_name", "name", "'Anzac'", "cookie_name()"],
+    "word_bank": [
+      "cookie_name",
+      "name",
+      "'Anzac'",
+      "cookie_name()"
+    ],
     "per_tile_feedback": {
       "cookie_name": "Correct! The variable is embedded directly inside curly braces.",
       "name": "The variable is called cookie_name, not name.",
@@ -194,7 +232,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["startswith", "endswith", "begins", "starts"],
+    "word_bank": [
+      "startswith",
+      "endswith",
+      "begins",
+      "starts"
+    ],
     "per_tile_feedback": {
       "startswith": "Correct! startswith checks if a string starts with a given prefix.",
       "endswith": "endswith checks the suffix, not the prefix.",
@@ -224,7 +267,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["endswith", "startswith", "ends", "suffix"],
+    "word_bank": [
+      "endswith",
+      "startswith",
+      "ends",
+      "suffix"
+    ],
     "per_tile_feedback": {
       "endswith": "Correct! endswith checks the suffix of a string.",
       "startswith": "startswith checks the beginning, not the end.",
@@ -249,12 +297,17 @@
     "code_template": "quote = \"Life is a long lesson in humility.\"\nhas_long = 'long' _____ quote",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "in",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["in", "not in", "is", "inside"],
+    "word_bank": [
+      "in",
+      "not in",
+      "is",
+      "inside"
+    ],
     "per_tile_feedback": {
       "in": "Correct! The in operator tests substring membership.",
       "not in": "We want to check presence, not absence.",
@@ -267,7 +320,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "'long' in quote evaluates to True because the word 'long' is inside the sentence.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Complete the code to check if the substring 'long' appears in the quote.",
+    "code": "quote = \"Life is a long lesson in humility.\"\nhas_long = 'long' [[0]] quote",
+    "answers": [
+      "in"
+    ]
   },
   {
     "id": "fitb_010",
@@ -284,7 +343,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["lower", "casefold", "upper", "lowercase"],
+    "word_bank": [
+      "lower",
+      "casefold",
+      "upper",
+      "lowercase"
+    ],
     "per_tile_feedback": {
       "lower": "Correct! lower() returns a new string in all lowercase, enabling case‑insensitive search.",
       "casefold": "casefold is a valid method, but the course uses lower for this purpose.",
@@ -311,20 +375,29 @@
       {
         "position": 1,
         "answer": "'zip'",
-        "answer_alternatives": ["\"zip\""]
+        "answer_alternatives": [
+          "\"zip\""
+        ]
       },
       {
         "position": 2,
         "answer": "'10021'",
-        "answer_alternatives": ["\"10021\""]
+        "answer_alternatives": [
+          "\"10021\""
+        ]
       }
     ],
-    "word_bank": ["'zip'", "'10021'", "zip", "10021"],
+    "word_bank": [
+      "'zip'",
+      "'10021'",
+      "zip",
+      "10021"
+    ],
     "per_tile_feedback": {
+      "10021": "Without quotes, 10021 is an integer, but the course uses a string for zip codes.",
       "'zip'": "Correct! The key must be a string.",
       "'10021'": "Correct! The value is a string.",
-      "zip": "Without quotes, zip is a variable or built‑in function, not the key we want.",
-      "10021": "Without quotes, 10021 is an integer, but the course uses a string for zip codes."
+      "zip": "Without quotes, zip is a variable or built‑in function, not the key we want."
     },
     "hints": [
       "Dictionary keys and values need to be the correct type; use quotes for strings.",
@@ -349,11 +422,16 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["2", "3", "1", "-2"],
+    "word_bank": [
+      "2",
+      "3",
+      "1",
+      "-2"
+    ],
     "per_tile_feedback": {
+      "1": "Index 1 is the second element, 'peanut butter'.",
       "2": "Correct! Index 2 is the third element (zero‑based indexing).",
       "3": "Index 3 would give 'Tirggel', the fourth element.",
-      "1": "Index 1 is the second element, 'peanut butter'.",
       "-2": "Index -2 would give 'sugar' from the end, but the task is to get the third element by positive index."
     },
     "hints": [
@@ -374,12 +452,17 @@
     "code_template": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ndesserts = cookies _____ cakes",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "+",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["+", "extend", "append", "+="],
+    "word_bank": [
+      "+",
+      "extend",
+      "append",
+      "+="
+    ],
     "per_tile_feedback": {
       "+": "Correct! The + operator creates a new list by joining the two lists.",
       "extend": "extend is a method, not an operator, and it modifies the list in place.",
@@ -392,7 +475,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "The + operator between two lists returns a new list that is the concatenation of both.",
-    "common_mistake_warning": "⚠️ Many learners confuse + (returns new list) with extend (modifies in place)."
+    "common_mistake_warning": "⚠️ Many learners confuse + (returns new list) with extend (modifies in place).",
+    "_exerciseType": "ftb",
+    "description": "Create a new list desserts by combining cookies and cakes.",
+    "code": "cookies = ['chocolate chip', 'peanut butter']\ncakes = ['strawberry', 'vanilla']\ndesserts = cookies [[0]] cakes",
+    "answers": [
+      "+"
+    ]
   },
   {
     "id": "fitb_014",
@@ -409,7 +498,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["index", "find", "search", "where"],
+    "word_bank": [
+      "index",
+      "find",
+      "search",
+      "where"
+    ],
     "per_tile_feedback": {
       "index": "Correct! The index method returns the first occurrence's index.",
       "find": "find is a string method, not a list method.",
@@ -439,7 +533,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["title", "upper", "capitalize", "titlecase"],
+    "word_bank": [
+      "title",
+      "upper",
+      "capitalize",
+      "titlecase"
+    ],
     "per_tile_feedback": {
       "title": "Correct! The .title() method capitalises the first letter of each word.",
       "upper": "upper() makes all letters uppercase, not title case.",
@@ -469,7 +568,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["reverse", "descending", "order", "reversed"],
+    "word_bank": [
+      "reverse",
+      "descending",
+      "order",
+      "reversed"
+    ],
     "per_tile_feedback": {
       "reverse": "Correct! The reverse parameter, when True, sorts in descending order.",
       "descending": "There is no 'descending' keyword argument for sorted().",
@@ -499,7 +603,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["list", "tuple", "dict", "set"],
+    "word_bank": [
+      "list",
+      "tuple",
+      "dict",
+      "set"
+    ],
     "per_tile_feedback": {
       "list": "Correct! list() converts the zip iterator into a list of tuples.",
       "tuple": "tuple() would create a tuple of tuples, not a list.",
@@ -534,7 +643,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["us_cookie", "in_cookie", "cookie1", "cookie2"],
+    "word_bank": [
+      "us_cookie",
+      "in_cookie",
+      "cookie1",
+      "cookie2"
+    ],
     "per_tile_feedback": {
       "us_cookie": "Correct! This variable will receive the first element of each tuple.",
       "in_cookie": "Correct! This variable will receive the second element.",
@@ -559,12 +673,17 @@
     "code_template": "top_pairs = [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')]\nfor idx, item in _____(top_pairs, start=1):\n    print(idx, item)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "enumerate",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["enumerate", "zip", "range", "list"],
+    "word_bank": [
+      "enumerate",
+      "zip",
+      "range",
+      "list"
+    ],
     "per_tile_feedback": {
       "enumerate": "Correct! enumerate yields (index, element) tuples; start=1 begins counting at 1.",
       "zip": "zip pairs elements from multiple iterables; it doesn’t provide an index.",
@@ -577,7 +696,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "enumerate(top_pairs, start=1) produces (1, ('Chocolate Chip','Punjabi')), etc. Unpacking gives idx and the tuple.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Loop over top_pairs starting the index at 1. Unpack into idx and item.",
+    "code": "top_pairs = [('Chocolate Chip', 'Punjabi'), ('Brownies', 'Fruit Cake Rusk')]\nfor idx, item in [[0]](top_pairs, start=1):\n    print(idx, item)",
+    "answers": [
+      "enumerate"
+    ]
   },
   {
     "id": "fitb_020",
@@ -594,7 +719,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["{}", "[]", "set()", "dict()"],
+    "word_bank": [
+      "{}",
+      "[]",
+      "set()",
+      "dict()"
+    ],
     "per_tile_feedback": {
       "{}": "Correct! Empty curly braces create an empty dictionary.",
       "[]": "Square brackets create an empty list.",
@@ -624,7 +754,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["update", "extend", "append", "merge"],
+    "word_bank": [
+      "update",
+      "extend",
+      "append",
+      "merge"
+    ],
     "per_tile_feedback": {
       "update": "Correct! The update method adds key‑value pairs from another dict.",
       "extend": "extend is a list method; not available on dict.",
@@ -654,7 +789,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["del", "remove", "pop", "delete"],
+    "word_bank": [
+      "del",
+      "remove",
+      "pop",
+      "delete"
+    ],
     "per_tile_feedback": {
       "del": "Correct! del is a statement that removes a key‑value pair from a dict.",
       "remove": "remove is a list/set method, not a dict key deletion.",
@@ -684,7 +824,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["items", "keys", "values", "entries"],
+    "word_bank": [
+      "items",
+      "keys",
+      "values",
+      "entries"
+    ],
     "per_tile_feedback": {
       "items": "Correct! .items() returns a view of (key, value) tuples.",
       "keys": "keys() only returns the keys; we need both key and value.",
@@ -714,7 +859,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["in", "not in", "has", "key"],
+    "word_bank": [
+      "in",
+      "not in",
+      "has",
+      "key"
+    ],
     "per_tile_feedback": {
       "in": "Correct! The in operator checks for key membership.",
       "not in": "We want True if the key is present; not in would be the opposite.",
@@ -744,7 +894,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["keys", "items", "values", "all"],
+    "word_bank": [
+      "keys",
+      "items",
+      "values",
+      "all"
+    ],
     "per_tile_feedback": {
       "keys": "Correct! .keys() returns a dict_keys view of the dictionary's keys.",
       "items": "items returns key‑value pairs, not just keys.",
@@ -774,7 +929,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["/", "//", "%", "div"],
+    "word_bank": [
+      "/",
+      "//",
+      "%",
+      "div"
+    ],
     "per_tile_feedback": {
       "/": "Correct! The / operator always returns a float.",
       "//": "// is floor division and would return 2 (an integer).",
@@ -804,7 +964,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["==", "=", "!=", "is"],
+    "word_bank": [
+      "==",
+      "=",
+      "!=",
+      "is"
+    ],
     "per_tile_feedback": {
       "==": "Correct! == tests for equality.",
       "=": "A single = is assignment, not comparison.",
@@ -834,7 +999,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["set()", "{}", "[]", "set"],
+    "word_bank": [
+      "set()",
+      "{}",
+      "[]",
+      "set"
+    ],
     "per_tile_feedback": {
       "set()": "Correct! set() creates an empty set.",
       "{}": "Empty curly braces create a dictionary, not a set.",
@@ -861,13 +1031,19 @@
       {
         "position": 1,
         "answer": "'0.1'",
-        "answer_alternatives": ["\"0.1\""]
+        "answer_alternatives": [
+          "\"0.1\""
+        ]
       }
     ],
-    "word_bank": ["'0.1'", "0.1", "0.1", "str(0.1)"],
+    "word_bank": [
+      "'0.1'",
+      "0.1",
+      "0.1",
+      "str(0.1)"
+    ],
     "per_tile_feedback": {
       "'0.1'": "Correct! Using a string preserves exact precision.",
-      "0.1": "Passing a float first converts to binary, losing precision.",
       "0.1": "Same as above; duplicate tile.",
       "str(0.1)": "str(0.1) gives the float representation, which may not be exact."
     },
@@ -891,10 +1067,17 @@
       {
         "position": 1,
         "answer": ".7f",
-        "answer_alternatives": [".7f"]
+        "answer_alternatives": [
+          ".7f"
+        ]
       }
     ],
-    "word_bank": [".7f", ".6f", ":7f", "f"],
+    "word_bank": [
+      ".7f",
+      ".6f",
+      ":7f",
+      "f"
+    ],
     "per_tile_feedback": {
       ".7f": "Correct! .7f specifies 7 digits after the decimal point in fixed‑point notation.",
       ".6f": ".6f would show 6 decimal places, not 7.",
@@ -924,7 +1107,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["//", "/", "%", "div"],
+    "word_bank": [
+      "//",
+      "/",
+      "%",
+      "div"
+    ],
     "per_tile_feedback": {
       "//": "Correct! // performs floor division, returning 2.",
       "/": "/ would return 2.333... (a float), not the integer floor.",
@@ -949,12 +1137,17 @@
     "code_template": "cookies = ['chocolate chip', 'peanut butter', 'sugar']\nlast = cookies._____()",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "pop",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["pop", "remove", "pop()", "del"],
+    "word_bank": [
+      "pop",
+      "remove",
+      "pop()",
+      "del"
+    ],
     "per_tile_feedback": {
       "pop": "Correct! pop() with no index removes and returns the last item.",
       "remove": "remove deletes by value, not by position, and returns None.",
@@ -967,7 +1160,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "cookies.pop() removes 'sugar' from the list and returns it.",
-    "common_mistake_warning": "⚠️ Popping from an empty list raises IndexError."
+    "common_mistake_warning": "⚠️ Popping from an empty list raises IndexError.",
+    "_exerciseType": "ftb",
+    "description": "Remove and return the last element of the cookies list.",
+    "code": "cookies = ['chocolate chip', 'peanut butter', 'sugar']\nlast = cookies.[[0]]()",
+    "answers": [
+      "pop"
+    ]
   },
   {
     "id": "fitb_033",
@@ -981,13 +1180,20 @@
       {
         "position": 1,
         "answer": "None",
-        "answer_alternatives": ["None"]
+        "answer_alternatives": [
+          "None"
+        ]
       }
     ],
-    "word_bank": ["None", "0", "False", "default"],
+    "word_bank": [
+      "None",
+      "0",
+      "False",
+      "default"
+    ],
     "per_tile_feedback": {
-      "None": "Correct! The second argument is the default value returned when the key is missing.",
       "0": "0 could be a default, but the task specifies returning None.",
+      "None": "Correct! The second argument is the default value returned when the key is missing.",
       "False": "False is a valid default, but None better indicates absence.",
       "default": "'default' is just a placeholder; the actual Python value is None."
     },
@@ -1014,7 +1220,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["get", "pop", "setdefault", "fetch"],
+    "word_bank": [
+      "get",
+      "pop",
+      "setdefault",
+      "fetch"
+    ],
     "per_tile_feedback": {
       "get": "Correct! get returns the value or a default without raising KeyError.",
       "pop": "pop would remove the key, not appropriate here.",
@@ -1041,10 +1252,17 @@
       {
         "position": 1,
         "answer": "', '",
-        "answer_alternatives": ["\", \""]
+        "answer_alternatives": [
+          "\", \""
+        ]
       }
     ],
-    "word_bank": ["', '", "child_ages", "' '", "join"],
+    "word_bank": [
+      "', '",
+      "child_ages",
+      "' '",
+      "join"
+    ],
     "per_tile_feedback": {
       "', '": "Correct! The separator string is the one we call .join() on.",
       "child_ages": "join is called on the separator, not the list.",

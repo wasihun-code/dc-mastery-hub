@@ -69,14 +69,14 @@
     "wave": 1,
     "difficulty": "medium",
     "question_type": "output",
-    "question_text": "What is printed?\n\n```python\na = [1, 2]\nb = [3, 4]\nc = a + b\nprint(a)\n```",
+    "question_text": "What is printed?\n\n```python\na = [1, 2]\nb = [3, 4]\nc = a + b\nprint(c)\n```",
     "options": {
       "a": "[1, 2, 3, 4]",
       "b": "[1, 2]",
       "c": "None",
       "d": "[3, 4]"
     },
-    "correct_option": "b",
+    "correct_option": "a",
     "per_option_feedback": {
       "a": "That’s the new list c, but a is unchanged.",
       "b": "Correct! The + operator creates a new list; a stays the same.",
@@ -90,7 +90,13 @@
     "answer_reveal_after": 5,
     "explanation": "a + b returns a new list; a remains [1, 2].",
     "time_pressure_note": "Under time pressure, many think + modifies the first list.",
-    "common_mistake_tested": true
+    "common_mistake_tested": true,
+    "_exerciseType": "bossbattle",
+    "option_a": "[1, 2, 3, 4]",
+    "option_b": "[1, 2]",
+    "option_c": "None",
+    "option_d": "[3, 4]",
+    "blanksText": ""
   },
   {
     "id": "boss_004",
@@ -726,13 +732,6 @@
       "b": "list(Counter('aab').items())",
       "c": "Counter('aab').values()",
       "d": "Counter('aab').keys()"
-    },
-    "correct_option": "c",
-    "per_option_feedback": {
-      "a": "most_common returns a list of tuples.",
-      "b": "list(items()) returns a list of tuples.",
-      "c": "Correct! values() returns a dict_values view, not a list of tuples.",
-      "d": "keys() returns a dict_keys view, but it's not a list of tuples; however, the question asks which does NOT return a list of tuples, and d also doesn't. Wait, both c and d are views. I need to pick only one as the answer. Let's re-evaluate: The odd one out should be the one that returns something other than list of tuples. Most_common returns list of tuples. list(items()) returns list of tuples. values() returns a view of values, not tuples. keys() returns a view of keys, not tuples. So both c and d are not list of tuples. That's ambiguous. I'll change the question to: Which of these returns a list of tuples? Then a and b return list of tuples, c and d do not. Then the odd one out could be the one that doesn't? Better to rephrase: Which one returns a list of tuples? a) most_common(1) b) list(items()) c) values() d) keys(). Then a and b are correct. That doesn't pick one. I'll instead ask: Which of the following returns a list of (element, count) tuples? a) most_common() b) items() c) keys() d) values(). Then only a returns the exact (element, count) list. So a is the answer. I'll adjust."
     },
     "correct_option": "a",
     "per_option_feedback": {

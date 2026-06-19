@@ -652,13 +652,6 @@
         "c": "name[0] == 'a'",
         "d": "Both b and c"
       },
-      "correct_option": "d",
-      "per_option_feedback": {
-        "a": "startswith is case‑sensitive; 'Ahmed' does not start with lowercase 'a'.",
-        "b": "This works by converting to lowercase first, but it's not the only correct option.",
-        "c": "Index access is case‑sensitive; the first character is 'A', not 'a'.",
-        "d": "Correct! Both b (lowercasing then checking) and c (direct index access) correctly test for a lowercase 'a', but c actually fails because 'Ahmed'[0] is 'A'. Wait – we need to check: Option c, name[0] == 'a' returns False because 'A' != 'a'. So d is incorrect. Let me re‑read. The correct should be only b. I'll adjust."
-      },
       "correct_option": "b",
       "per_option_feedback": {
         "a": "startswith is case‑sensitive; 'Ahmed' does not start with lowercase 'a'.",
@@ -1012,14 +1005,14 @@
       "chapter": 7,
       "difficulty": "hard",
       "question_subtype": "output",
-      "question_text": "What does this code print?\n\n```python\na = {1, 2}\nb = {2, 3}\nresult = a.union(b)\nprint(a)\n```",
+      "question_text": "What does this code print?\n\n```python\na = {1, 2}\nb = {2, 3}\nresult = a.union(b)\nprint(result)\n```",
       "options": {
         "a": "{1, 2, 3}",
         "b": "{1, 2}",
         "c": "{2, 3}",
         "d": "None"
       },
-      "correct_option": "b",
+      "correct_option": "a",
       "per_option_feedback": {
         "a": "union returns a new set; it does not modify the original.",
         "b": "Correct! a is unchanged; union returns a new set containing all unique elements.",
@@ -1033,7 +1026,13 @@
       "answer_reveal_after": 5,
       "explanation": "set.union() returns a new set with all unique elements from both sets, leaving the original sets unchanged.",
       "common_mistake_tested": true,
-      "concepts_combined": []
+      "concepts_combined": [],
+      "_exerciseType": "mcq",
+      "option_a": "{1, 2, 3}",
+      "option_b": "{1, 2}",
+      "option_c": "{2, 3}",
+      "option_d": "None",
+      "blanksText": ""
     },
     {
       "id": "mcq_035",
@@ -1289,7 +1288,7 @@
         "c": "The if condition evaluates to False",
         "d": "Both b and c"
       },
-      "correct_option": "d",
+      "correct_option": "b",
       "per_option_feedback": {
         "a": "No syntax error; the condition is syntactically correct.",
         "b": "This explains why the sum isn't exactly 0.3, but the direct cause is the condition being False.",
@@ -1303,7 +1302,13 @@
       "answer_reveal_after": 5,
       "explanation": "Due to binary floating‑point representation, 0.1 + 0.2 != 0.3. Thus the condition is False, and 'equal' is not printed.",
       "common_mistake_tested": true,
-      "concepts_combined": []
+      "concepts_combined": [],
+      "_exerciseType": "mcq",
+      "option_a": "Syntax error in the condition",
+      "option_b": "Floating‑point representation error",
+      "option_c": "The if condition evaluates to False",
+      "option_d": "Both b and c",
+      "blanksText": ""
     },
     {
       "id": "mcq_044",

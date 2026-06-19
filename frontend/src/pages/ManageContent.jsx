@@ -93,10 +93,11 @@ export default function ManageContent() {
     })
     observer.observe(coursesContainerRef.current)
     return () => observer.disconnect()
-  }, [])
+  }, [loading, activeTab])
 
   const canFitSideBySide = coursesContainerWidth >= 920
   const isMobile = coursesContainerWidth > 0 && coursesContainerWidth < MIN_LIST_PANEL_WIDTH
+  const containerTop = canFitSideBySide ? 240 : 56
 
   useEffect(() => {
     localStorage.setItem('manageLeftPanelWidth', leftPanelWidth)
@@ -423,12 +424,14 @@ export default function ManageContent() {
           <span className="text-sm text-[var(--text-muted)] animate-pulse font-bold tracking-widest uppercase">Loading manager...</span>
         </div>
       ) : (
-        {/* 1. COURSES TAB */}
+        <>
+          {/* 1. COURSES TAB */}
           {activeTab === 'courses' && (
             <div
               ref={coursesContainerRef}
-              className="fixed top-[240px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0 animate-in fade-in duration-200"
+              className="fixed right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0 animate-in fade-in duration-200"
               style={{
+                top: `${containerTop}px`,
                 left: isMobile ? '0px' : 'var(--sidebar-width)',
                 flexDirection: canFitSideBySide ? 'row' : 'column',
               }}
@@ -702,7 +705,7 @@ export default function ManageContent() {
               <main
                 ref={manageDetailRef}
                 className={`overflow-y-auto bg-[var(--bg-primary)] scroll-smooth ${
-                  isMobile ? 'hidden' : canFitSideBySide ? 'flex-1' : 'flex-1 min-h-0'
+                  canFitSideBySide ? 'flex-1' : 'flex-1 min-h-0'
                 }`}
               >
                 {!selectedManageCourseId ? (
@@ -733,9 +736,9 @@ export default function ManageContent() {
                       <p className="text-[13px] text-[var(--text-muted)] max-w-[280px] leading-relaxed">
                         Click any course on the left to edit its properties.
                       </p>
-                    </div>
-                  </div>
-                ) : (() => {
+                              </div>
+                            </div>
+                 ) : (() => {
                   const course = allCourses.find(c => c.id === selectedManageCourseId)
                   if (!course) return null
                   return (
@@ -823,10 +826,30 @@ export default function ManageContent() {
                                   ))}
                                 </div>
                               </div>
-                          </div>
-                       </div>
+                               <div>
+                                 <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Notes Taken</label>
+                                 <div className="flex bg-[var(--bg-primary)] border border-[var(--border)] rounded-full p-[3px]">
+                                   {[{ val: 0, label: 'Not Yet' }, { val: 1, label: 'Taken ✓' }].map(n => (
+                                     <button
+                                       key={n.val}
+                                       onClick={() => handleUpdateCourseProperties(course.id, { notes_taken: n.val })}
+                                       className="flex-1 py-2 rounded-full text-[13px] transition-all cursor-pointer"
+                                       style={{
+                                         background: (course.notes_taken || 0) === n.val ? 'var(--accent-green)' : 'var(--bg-card)',
+                                         color: (course.notes_taken || 0) === n.val ? '#000' : 'var(--text-muted)',
+                                         fontWeight: (course.notes_taken || 0) === n.val ? 600 : 400,
+                                         boxShadow: (course.notes_taken || 0) === n.val ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+                                       }}
+                                     >
+                                       {n.label}
+                                     </button>
+                                   ))}
+                                 </div>
+                               </div>
+                           </div>
+                        </div>
 
-                       {/* SLIDES & GLOSSARY */}
+                        {/* SLIDES & GLOSSARY */}
                         <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
                            <h3 className="font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">Material & Resources</h3>
                            <div className="grid grid-cols-2 gap-4">
@@ -848,8 +871,8 @@ export default function ManageContent() {
                                      {course.has_glossary === 1 && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
                                   </button>
                               </div>
-                           </div>
-                        </div>
+                            </div>
+                         </div>
 
                        {/* DANGER ZONE */}
                         <div
@@ -1006,6 +1029,7 @@ export default function ManageContent() {
               </div>
             </div>
           )}
+          </>
       )}
     </div>
   )

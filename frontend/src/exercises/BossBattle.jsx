@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { 
-  bossBattleFeedback,
-  triggerBossAttackFeedback, 
-  triggerBossDamageFeedback, 
-  triggerBossVictoryFeedback, 
-  triggerBossDefeatFeedback,
-  triggerBossWaveCompleteFeedback,
-  triggerTimerWarningFeedback 
-} from '../services/feedbackService';
+import { quizFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Heart, 
@@ -50,6 +42,14 @@ export default function BossBattle() {
   const [hintsShown, setHintsShown] = useState(0);
   const [gameOverReason, setGameOverReason] = useState(null); // 'lives' | 'complete'
 
+  const [shuffledKeys, setShuffledKeys] = useState(['a', 'b', 'c', 'd'])
+  useEffect(() => {
+    if (!questions[currentIndex]) return
+    setShuffledKeys(
+      ['a', 'b', 'c', 'd'].sort(() => Math.random() - 0.5)
+    )
+  }, [currentIndex, questions])
+
   const [showShortcuts, setShowShortcuts] = useState(() => {
     return localStorage.getItem('showKeyboardShortcuts') !== 'false';
   });
@@ -68,8 +68,6 @@ export default function BossBattle() {
   
   const timerRef = useRef(null);
   const advanceTimeoutRef = useRef(null);
-  const warningFiredRef = useRef(false);
-
   useEffect(() => {
     fetchCourseAndBattle();
     return () => {
@@ -89,12 +87,10 @@ export default function BossBattle() {
       const currentQuestion = questions[currentIndex];
       if (!currentQuestion) return;
 
-      const keys = ['a', 'b', 'c', 'd'];
-
       // 1, 2, 3, 4 keys -> select option
       if (!isAnswered && ['1', '2', '3', '4'].includes(e.key)) {
         const idx = parseInt(e.key) - 1;
-        const optionKey = keys[idx];
+        const optionKey = shuffledKeys[idx];
         if (currentQuestion[`option_${optionKey}`]) {
           handleOptionClick(optionKey);
         }
@@ -119,14 +115,7 @@ export default function BossBattle() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [step, currentIndex, questions, isAnswered, lives]);
-
-  useEffect(() => {
-    if (step === 2 && timeLeft === 5 && !isAnswered && !warningFiredRef.current) {
-      warningFiredRef.current = true;
-      triggerTimerWarningFeedback();
-    }
-  }, [timeLeft, step, isAnswered]);
+  }, [step, currentIndex, questions, isAnswered, lives, shuffledKeys]);
 
   const fetchCourseAndBattle = async () => {
     try {
@@ -301,7 +290,7 @@ export default function BossBattle() {
     setIsAnswered(true);
     setFlash('wrong');
     setSelectedOption(null);
-    triggerBossDamageFeedback();
+    quizFeedback.wrong();
     
     setSurvivedCount(prev => prev + 1);
     updateWaveSurvival(currentIndex);
@@ -345,7 +334,6 @@ export default function BossBattle() {
     setFlash(null);
     setHintsShown(0);
     setTimeLeft(15);
-    warningFiredRef.current = false;
   };
 
   const updateWaveSurvival = (index) => {
@@ -393,15 +381,13 @@ export default function BossBattle() {
     if (isCorrect) {
       setScore(prev => prev + 1);
       setFlash('correct');
-      triggerBossAttackFeedback();
-      bossBattleFeedback.correct();
+      quizFeedback.correct();
       advanceTimeoutRef.current = setTimeout(() => {
         advanceNext();
       }, 800);
     } else {
       setFlash('wrong');
-      triggerBossDamageFeedback();
-      bossBattleFeedback.wrong();
+      quizFeedback.wrong();
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
@@ -448,7 +434,6 @@ export default function BossBattle() {
       const nextW = nextQ?.wave !== undefined && nextQ?.wave !== null ? Number(nextQ.wave) : (Math.floor(nextIdx / 20) + 1);
       
       if (nextW > currentW) {
-        triggerBossWaveCompleteFeedback();
       }
 
       setCurrentIndex(nextIdx);
@@ -464,11 +449,9 @@ export default function BossBattle() {
     setGameOverReason(reason);
     setStep(3);
     if (reason === 'complete') {
-      triggerBossVictoryFeedback();
-      bossBattleFeedback.victory();
+      triggerSuccessFeedback();
     } else {
-      triggerBossDefeatFeedback();
-      bossBattleFeedback.defeat();
+      triggerSuccessFeedback();
     }
     
     const finalXp = survivedCount * 5;
@@ -707,7 +690,7 @@ export default function BossBattle() {
 
               {/* RIGHT COLUMN: Options */}
               <div className="grid grid-cols-1 gap-3">
-                {['a', 'b', 'c', 'd'].map((key, idx) => {
+                {shuffledKeys.map((key, idx) => {
                   const text = currentQuestion?.[`option_${key}`];
                   if (!text) return null;
                   
