@@ -17,7 +17,12 @@ import {
 } from 'lucide-react'
 import { 
   triggerCorrectFeedback, 
-  triggerWrongFeedback 
+  triggerWrongFeedback,
+  quizFeedback,
+  ftbFeedback,
+  flashcardFeedback,
+  matchingFeedback,
+  bossBattleFeedback
 } from '../services/feedbackService'
 import CodeBlock from '../components/CodeBlock'
 import { getSessionLimit } from '../services/settingsService'

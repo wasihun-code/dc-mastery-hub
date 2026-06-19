@@ -21,6 +21,7 @@ import {
   ChevronUp
 } from 'lucide-react'
 import CourseFilter, { getCourseCategories } from '../components/CourseFilter'
+import MasteryRing from '../components/MasteryRing'
 
 function difficultyBadgeClass(difficulty) {
   switch (difficulty?.toLowerCase()) {
@@ -38,11 +39,11 @@ function difficultyBadgeClass(difficulty) {
 function statusBadgeClass(status) {
   switch (status) {
     case 'Completed':
-      return 'bg-green-950/40 border-[var(--accent-green)]/40 text-[var(--accent-green)]'
+      return 'bg-green-500/20 text-[var(--accent-green)]'
     case 'In Progress':
-      return 'bg-yellow-950/40 border-[var(--accent-yellow)]/40 text-[var(--accent-yellow)]'
+      return 'bg-yellow-500/20 text-[var(--accent-yellow)]'
     default:
-      return 'bg-zinc-900 border-[var(--border)] text-[var(--text-muted)]'
+      return 'bg-zinc-800 text-[var(--text-muted)]'
   }
 }
 
@@ -363,7 +364,7 @@ export default function ManageContent() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-[var(--border)] gap-6">
+      <div className="flex overflow-x-auto border-b border-[var(--border)] gap-6 scrollbar-none">
         {['courses', 'tracks', 'upload', 'trash'].map(tab => (
           <button
             key={tab}
@@ -389,18 +390,18 @@ export default function ManageContent() {
           {/* 1. COURSES TAB */}
           {activeTab === 'courses' && (
             <div 
-              className="fixed top-[220px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0"
+              className="static lg:fixed lg:top-[220px] lg:right-0 lg:bottom-0 overflow-hidden flex flex-col lg:flex-row bg-[var(--border)] z-0"
               style={{ left: 'var(--sidebar-width)' }}
             >
               {/* LEFT PANEL - COURSE LIST */}
               <aside 
-                className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 border-r border-[var(--border)]"
-                style={{ width: `${leftPanelWidth}px` }}
+                className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 lg:border-r lg:border-[var(--border)]"
+                style={{ width: `min(100%, ${leftPanelWidth}px)` }}
               >
                 {/* Resize Handle */}
                 <div
                   onMouseDown={() => setIsResizing(true)}
-                  className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
+                  className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20 hidden lg:block"
                 />
 
                 <div className="p-4 border-b border-[var(--border)] bg-[var(--bg-primary)] z-10 shrink-0">
@@ -503,10 +504,11 @@ export default function ManageContent() {
                         key={`${course.id}-${course.is_archived}`}
                         onClick={() => setSelectedManageCourseId(course.id)}
                         onDoubleClick={() => navigate(`/courses/${course.slug}`)}
-                        className={`flex items-center justify-between rounded-xl border p-4 transition-all cursor-pointer select-none gap-4 group relative overflow-hidden ${
+                        style={{ borderRadius: 10, background: selectedManageCourseId === course.id ? 'color-mix(in srgb, var(--accent-green) 8%, var(--bg-primary))' : 'linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--bg-card), var(--accent-green) 3%) 100%)' }}
+                        className={`flex items-center justify-between border p-4 transition-all cursor-pointer select-none gap-4 group relative overflow-hidden ${
                           selectedManageCourseId === course.id 
-                            ? 'bg-[rgba(3,239,98,0.06)] border-[var(--accent-green)]/30' 
-                            : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-zinc-700'
+                            ? 'border-[var(--accent-green)]/50 shadow-[0_0_12px_color-mix(in_srgb,var(--accent-green)_15%,transparent)]' 
+                            : 'border-[var(--border)] hover:border-[var(--accent-green)]/40 hover:translate-x-0.5'
                         }`}
                       >
                         <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -518,15 +520,16 @@ export default function ManageContent() {
                           </button>
 
                           <div className="flex-1 min-w-0">
-                            <h2 className={`text-[15px] font-bold leading-tight line-clamp-1 mb-2 ${selectedManageCourseId === course.id ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'}`}>
+                            <h2 className={`text-[15px] font-semibold leading-tight line-clamp-1 mb-2 ${selectedManageCourseId === course.id ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'}`}>
                               {course.name || course.slug || 'Untitled Course'}
                             </h2>
 
                             <div className="flex flex-wrap items-center gap-1.5 text-[9px] mb-1.5">
-                              <span className={`rounded-full border px-1.5 py-0.5 font-bold uppercase ${difficultyBadgeClass(course.difficulty)}`}>
-                                {course.difficulty}
+                              <span className="flex items-center gap-1">
+                                <span style={{ color: course.difficulty === 'Easy' ? 'var(--accent-green)' : course.difficulty === 'Medium' ? 'var(--accent-yellow)' : course.difficulty === 'Hard' ? 'var(--accent-red)' : 'var(--text-muted)' }}>●</span>
+                                <span className="font-bold text-[var(--text-muted)]">{course.difficulty}</span>
                               </span>
-                              <span className={`rounded-full border px-1.5 py-0.5 font-semibold ${statusBadgeClass(course.status)}`}>
+                              <span className={`rounded-full px-2 py-0.5 font-semibold ${statusBadgeClass(course.status)}`}>
                                 {course.status}
                               </span>
                               <span className={`px-1.5 py-0.5 rounded-[4px] text-[8px] font-bold uppercase ${course.reviewed === 'Yes' ? 'bg-green-950/20 text-[var(--accent-green)] border border-green-900/40' : 'bg-yellow-950/20 text-[var(--accent-yellow)] border border-yellow-900/40'}`}>
@@ -561,12 +564,23 @@ export default function ManageContent() {
               {/* RIGHT PANEL - MANAGE COURSE DETAIL */}
               <main className="flex-1 overflow-y-auto bg-[var(--bg-primary)] scroll-smooth">
                 {!selectedManageCourseId ? (
-                  <div className="flex h-full flex-col items-center justify-center p-12 text-center animate-in fade-in duration-300">
-                    <div className="mb-6 rounded-full bg-[var(--bg-card)] p-8 text-[var(--text-muted)] border border-[var(--border)]">
-                      <Wrench size={64} />
+                  <div
+                    className="flex h-full flex-col items-center text-center animate-in fade-in duration-300"
+                    style={{ paddingTop: '35%' }}
+                  >
+                    <div
+                      className="flex items-center justify-center"
+                      style={{
+                        width: 88, height: 88,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle at center, color-mix(in srgb, var(--accent-green) 15%, transparent) 0%, transparent 70%)',
+                      }}
+                    >
+                      <Wrench size={36} className="text-[var(--accent-green)]" />
                     </div>
-                    <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select a Course to Manage</h2>
-                    <p className="mt-2 max-w-sm text-sm text-[var(--text-muted)]">
+                    <div className="my-3 w-px h-8 border-l border-dashed border-[var(--border)]" />
+                    <h2 className="text-[18px] font-bold text-[var(--text-primary)] mb-1">Select a Course to Manage</h2>
+                    <p className="text-[13px] text-[var(--text-muted)] max-w-[280px] leading-relaxed">
                       Click any course on the left to edit its properties.
                     </p>
                   </div>
@@ -574,7 +588,7 @@ export default function ManageContent() {
                   const course = allCourses.find(c => c.id === selectedManageCourseId)
                   if (!course) return null
                   return (
-                    <div key={course.id} className="animate-in fade-in duration-150 p-8 space-y-8">
+                    <div key={course.id} className="animate-in fade-in duration-150 p-4 lg:p-8 space-y-8">
                        {/* Course Header */}
                        <div>
                          <div className="flex gap-2 mb-2">
@@ -596,102 +610,123 @@ export default function ManageContent() {
                           <h3 className="font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">Course Properties</h3>
                           
                           <div className="space-y-4">
-                             <div>
-                               <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Completion Status</label>
-                               <div className="flex flex-wrap gap-2">
-                                 {['Not Started', 'In Progress', 'Completed'].map(s => (
-                                   <button
-                                     key={s}
-                                     onClick={() => handleUpdateCourseProperties(course.id, { status: s })}
-                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
-                                       course.status === s 
-                                         ? 'bg-[var(--accent-green)] border-[var(--accent-green)] text-black' 
-                                         : 'border-[var(--border)] text-[var(--text-muted)] hover:border-zinc-500'
-                                     }`}
-                                   >
-                                     {s}
-                                   </button>
-                                 ))}
-                               </div>
-                             </div>
+                              <div>
+                                <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Completion Status</label>
+                                <div className="flex bg-[var(--bg-primary)] border border-[var(--border)] rounded-full p-[3px]">
+                                  {['Not Started', 'In Progress', 'Completed'].map(s => (
+                                    <button
+                                      key={s}
+                                      onClick={() => handleUpdateCourseProperties(course.id, { status: s })}
+                                      className="flex-1 py-2 rounded-full text-[13px] transition-all cursor-pointer"
+                                      style={{
+                                        background: course.status === s ? 'var(--accent-green)' : 'var(--bg-card)',
+                                        color: course.status === s ? '#000' : 'var(--text-muted)',
+                                        fontWeight: course.status === s ? 600 : 400,
+                                        boxShadow: course.status === s ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+                                      }}
+                                    >
+                                      {s}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
 
-                             <div>
-                               <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Difficulty</label>
-                               <div className="flex flex-wrap gap-2">
-                                 {['Easy', 'Medium', 'Hard', 'Unknown'].map(d => (
-                                   <button
-                                     key={d}
-                                     onClick={() => handleUpdateCourseProperties(course.id, { difficulty: d })}
-                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
-                                       course.difficulty === d 
-                                         ? 'bg-[var(--accent-green)] border-[var(--accent-green)] text-black' 
-                                         : 'border-[var(--border)] text-[var(--text-muted)] hover:border-zinc-500'
-                                     }`}
-                                   >
-                                     {d}
-                                   </button>
-                                 ))}
-                               </div>
-                             </div>
+                              <div>
+                                <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Difficulty</label>
+                                <div className="flex bg-[var(--bg-primary)] border border-[var(--border)] rounded-full p-[3px]">
+                                  {['Easy', 'Medium', 'Hard', 'Unknown'].map(d => (
+                                    <button
+                                      key={d}
+                                      onClick={() => handleUpdateCourseProperties(course.id, { difficulty: d })}
+                                      className="flex-1 py-2 rounded-full text-[12px] transition-all cursor-pointer"
+                                      style={{
+                                        background: course.difficulty === d ? 'var(--accent-green)' : 'var(--bg-card)',
+                                        color: course.difficulty === d ? '#000' : 'var(--text-muted)',
+                                        fontWeight: course.difficulty === d ? 600 : 400,
+                                        boxShadow: course.difficulty === d ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+                                      }}
+                                    >
+                                      {d}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
 
-                             <div>
-                               <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Reviewed Status</label>
-                               <div className="flex gap-2">
-                                 {[ { val: 'No', label: 'Not Reviewed' }, { val: 'Yes', label: 'Reviewed ✓' }].map(r => (
-                                   <button
-                                     key={r.val}
-                                     onClick={() => handleUpdateCourseProperties(course.id, { reviewed: r.val })}
-                                     className={`px-4 py-1.5 rounded-lg text-xs font-bold border transition-all ${
-                                       course.reviewed === r.val 
-                                         ? 'bg-[var(--accent-green)] border-[var(--accent-green)] text-black' 
-                                         : 'border-[var(--border)] text-[var(--text-muted)] hover:border-zinc-500'
-                                     }`}
-                                   >
-                                     {r.label}
-                                   </button>
-                                 ))}
-                               </div>
-                             </div>
+                              <div>
+                                <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Reviewed Status</label>
+                                <div className="flex bg-[var(--bg-primary)] border border-[var(--border)] rounded-full p-[3px]">
+                                  {[ { val: 'No', label: 'Not Reviewed' }, { val: 'Yes', label: 'Reviewed ✓' }].map(r => (
+                                    <button
+                                      key={r.val}
+                                      onClick={() => handleUpdateCourseProperties(course.id, { reviewed: r.val })}
+                                      className="flex-1 py-2 rounded-full text-[13px] transition-all cursor-pointer"
+                                      style={{
+                                        background: course.reviewed === r.val ? 'var(--accent-green)' : 'var(--bg-card)',
+                                        color: course.reviewed === r.val ? '#000' : 'var(--text-muted)',
+                                        fontWeight: course.reviewed === r.val ? 600 : 400,
+                                        boxShadow: course.reviewed === r.val ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+                                      }}
+                                    >
+                                      {r.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
                           </div>
                        </div>
 
                        {/* SLIDES & GLOSSARY */}
-                       <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
-                          <h3 className="font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">Material & Resources</h3>
-                          <div className="grid grid-cols-2 gap-4">
-                             <div className="flex flex-col gap-2">
-                                <button className="flex items-center justify-between px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
-                                   <span className="flex items-center gap-2"><FileText size={16} className="text-[var(--accent-blue)]" /> PDF Slides</span>
-                                   {course.has_pdf === 1 && <span className="bg-green-950/40 text-[var(--accent-green)] px-1.5 py-0.5 rounded-[4px] text-[8px] border border-green-900/40">AVAILABLE</span>}
-                                </button>
-                             </div>
-                             <div className="flex flex-col gap-2">
-                                <button className="flex items-center justify-between px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
-                                   <span className="flex items-center gap-2"><Layers size={16} className="text-purple-400" /> Course Glossary</span>
-                                   {course.has_glossary === 1 && <span className="bg-green-950/40 text-[var(--accent-green)] px-1.5 py-0.5 rounded-[4px] text-[8px] border border-green-900/40">AVAILABLE</span>}
-                                </button>
-                             </div>
-                          </div>
-                       </div>
+                        <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+                           <h3 className="font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">Material & Resources</h3>
+                           <div className="grid grid-cols-2 gap-4">
+                              <div className="flex flex-col gap-2">
+                                 <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
+                                    <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
+                                       <FileText size={18} className="text-[var(--accent-blue)]" />
+                                    </div>
+                                    <span className="flex-1 text-left">PDF Slides</span>
+                                    {course.has_pdf === 1 && <span className="bg-green-500/20 text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold">Available</span>}
+                                 </button>
+                              </div>
+                              <div className="flex flex-col gap-2">
+                                 <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
+                                    <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
+                                       <Layers size={18} className="text-purple-400" />
+                                    </div>
+                                    <span className="flex-1 text-left">Course Glossary</span>
+                                    {course.has_glossary === 1 && <span className="bg-green-500/20 text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold">Available</span>}
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
 
                        {/* DANGER ZONE */}
-                       <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
-                          <h3 className="font-bold text-sm text-[var(--accent-red)] uppercase tracking-wider">Danger Zone</h3>
-                          <div className="flex gap-4">
-                             <button
-                               onClick={() => handleCourseAction(course.id, 'archive', course.is_archived ? 0 : 1)}
-                               className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 text-white font-bold py-2.5 rounded-lg text-xs hover:bg-zinc-700 transition-all"
-                             >
-                               <Archive size={14} /> {course.is_archived ? 'Restore Course' : 'Archive Course'}
-                             </button>
-                             <button
-                               onClick={() => handleCourseAction(course.id, 'delete', 1)}
-                               className="flex-1 flex items-center justify-center gap-2 bg-[var(--accent-red)] text-white font-bold py-2.5 rounded-lg text-xs hover:opacity-90 transition-all"
-                             >
-                               <Trash2 size={14} /> Move to Trash
-                             </button>
-                          </div>
-                       </div>
+                        <div
+                            className="rounded-xl p-6 space-y-4"
+                            style={{
+                              background: 'color-mix(in srgb, var(--accent-red) 4%, var(--bg-card))',
+                              border: '1.5px solid color-mix(in srgb, var(--accent-red) 30%, transparent)',
+                            }}
+                         >
+                            <h3 className="font-bold text-sm text-[var(--accent-red)] uppercase tracking-wider flex items-center gap-1.5">
+                              <AlertTriangle size={14} /> Danger Zone
+                            </h3>
+                            <div className="flex gap-4">
+                               <button
+                                 onClick={() => handleCourseAction(course.id, 'archive', course.is_archived ? 0 : 1)}
+                                 className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 text-white font-bold py-2.5 rounded-lg text-xs hover:bg-zinc-700 transition-all"
+                               >
+                                 <Archive size={14} /> {course.is_archived ? 'Restore Course' : 'Archive Course'}
+                               </button>
+                               <button
+                                 onClick={() => handleCourseAction(course.id, 'delete', 1)}
+                                 className="flex-1 flex items-center justify-center gap-2 text-[var(--accent-red)] font-bold py-2.5 rounded-lg text-xs transition-all hover:brightness-110"
+                                 style={{ background: 'color-mix(in srgb, var(--accent-red) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--accent-red) 25%, transparent)' }}
+                               >
+                                 <Trash2 size={14} /> Move to Trash
+                               </button>
+                            </div>
+                         </div>
                     </div>
                   )
                 })()}

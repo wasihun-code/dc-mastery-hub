@@ -1,49 +1,128 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  BookOpen,
-  Play,
   Layers,
-  FileText,
   AlertTriangle,
-  X,
   ChevronDown,
   ChevronUp,
   GraduationCap
 } from 'lucide-react'
 import CourseFilter, { getCourseCategories } from '../components/CourseFilter'
 import CourseDetail from './CourseDetail'
+import MasteryRing from '../components/MasteryRing'
 
-function masteryColor(value) {
-  if (value >= 90) return 'var(--accent-green)'
-  if (value >= 70) return 'var(--accent-blue)'
-  if (value >= 40) return 'var(--accent-yellow)'
-  if (value > 0) return 'var(--accent-red)'
-  return 'var(--text-muted)'
-}
+function CourseCard({ course, onSelect, selectedTrack, isSelected }) {
+  const mastery = Math.round(Number(course.overall_mastery ?? 0))
+  const activeTrackObj = course.tracks?.find(t => t.name === selectedTrack) || course.tracks?.[0]
+  const cardBorderLeftColor = isSelected
+    ? 'var(--accent-green)'
+    : (activeTrackObj?.color || course.track_color || 'var(--accent-blue)')
+  const isUnreviewed = course.reviewed !== 'Yes'
 
-function difficultyBadgeClass(difficulty) {
-  switch (difficulty?.toLowerCase()) {
-    case 'easy':
-      return 'bg-green-950/20 border-green-800/40 text-green-400'
-    case 'medium':
-      return 'bg-yellow-950/20 border-yellow-800/40 text-yellow-400'
-    case 'hard':
-      return 'bg-red-950/20 border-red-800/40 text-red-400'
-    default:
-      return 'bg-zinc-800/40 border-zinc-700/40 text-zinc-400'
-  }
-}
+  const difficultyDot = {
+    easy: 'var(--accent-green)',
+    medium: 'var(--accent-yellow)',
+    hard: 'var(--accent-red)',
+    beginner: 'var(--accent-green)',
+    intermediate: 'var(--accent-yellow)',
+    advanced: 'var(--accent-red)',
+  }[course.difficulty?.toLowerCase()] || 'var(--text-muted)'
 
-function statusBadgeClass(status) {
-  switch (status) {
-    case 'Completed':
-      return 'bg-green-950/40 border-[var(--accent-green)]/40 text-[var(--accent-green)]'
-    case 'In Progress':
-      return 'bg-yellow-950/40 border-[var(--accent-yellow)]/40 text-[var(--accent-yellow)]'
-    default:
-      return 'bg-zinc-900 border-[var(--border)] text-[var(--text-muted)]'
-  }
+  const difficultyColor = {
+    easy: 'var(--accent-green)',
+    medium: 'var(--accent-yellow)',
+    hard: 'var(--accent-red)',
+    beginner: 'var(--accent-green)',
+    intermediate: 'var(--accent-yellow)',
+    advanced: 'var(--accent-red)',
+  }[course.difficulty?.toLowerCase()] || 'var(--text-muted)'
+
+  const statusStyle = ({
+    Completed: { bg: 'color-mix(in srgb, var(--accent-green) 15%, transparent)', color: 'var(--accent-green)' },
+    'In Progress': { bg: 'color-mix(in srgb, var(--accent-yellow) 15%, transparent)', color: 'var(--accent-yellow)' },
+    'Not Started': { bg: 'color-mix(in srgb, var(--text-muted) 10%, transparent)', color: 'var(--text-muted)' },
+  })[course.status] || null
+
+  return (
+    <>
+      <style>{`
+        .course-card:not(.is-selected):hover {
+          border-left-color: color-mix(in srgb, var(--accent-green) 60%, transparent) !important;
+          border-top-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+          border-right-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+          border-bottom-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+        }
+      `}</style>
+    <article
+      onClick={() => onSelect(course)}
+      className={`course-card flex items-center justify-between rounded-[10px] border p-3 transition-all duration-150 cursor-pointer select-none gap-3 group relative overflow-hidden ${
+        isSelected
+          ? 'is-selected'
+          : 'hover:translate-x-[2px]'
+      } ${isUnreviewed ? 'opacity-50 hover:opacity-75' : 'opacity-100'}`}
+      style={{
+        borderLeft: `3px solid ${cardBorderLeftColor}`,
+        borderTop: `1px solid ${isSelected ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+        borderRight: `1px solid ${isSelected ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+        borderBottom: `1px solid ${isSelected ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+        background: isSelected
+          ? 'color-mix(in srgb, var(--accent-green) 6%, var(--bg-card))'
+          : 'linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--bg-card), var(--accent-green) 3%) 100%)',
+        boxShadow: isSelected
+          ? '0 0 0 1px color-mix(in srgb, var(--accent-green) 30%, transparent)'
+          : 'none',
+      }}
+    >
+      <div className="flex-1 min-w-0">
+        {/* Badge row */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+          <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide" style={{ color: difficultyColor }}>
+            <span style={{ color: difficultyDot }}>●</span>
+            {course.difficulty || 'Unknown'}
+          </span>
+          {statusStyle && (
+            <span
+              className="rounded-full px-2 py-0.5 text-[9px] font-semibold"
+              style={{ background: statusStyle.bg, color: statusStyle.color }}
+            >
+              {course.status}
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h2 className={`text-[15px] font-semibold leading-tight line-clamp-1 ${
+          isSelected ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'
+        }`}>
+          {course.name}
+        </h2>
+
+        {/* Track pills */}
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {course.tracks?.slice(0, 2).map((t) => (
+            <span
+              key={t.id}
+              className="text-[9px] text-[var(--text-muted)] font-normal"
+              style={{ background: 'color-mix(in srgb, var(--text-muted) 5%, transparent)', border: 'none', borderRadius: 3, padding: '1px 6px' }}
+            >
+              {t.name}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Right: mastery ring */}
+      <div className="shrink-0 flex items-center gap-2">
+        {isUnreviewed && (
+          <span className="text-[var(--accent-yellow)] font-bold uppercase tracking-wider text-[9px] whitespace-nowrap">
+            NOT REVIEWED
+          </span>
+        )}
+        <MasteryRing percentage={mastery} size={36} />
+      </div>
+    </article>
+    </>
+  )
 }
 
 function SkeletonCard() {
@@ -55,81 +134,6 @@ function SkeletonCard() {
       </div>
       <div className="w-8 h-8 rounded-full bg-[var(--border)] shrink-0" />
     </div>
-  )
-}
-
-function CourseCard({ course, onSelect, selectedTrack, isSelected }) {
-  const mastery = Math.round(Number(course.overall_mastery ?? 0))
-  const radius = 10
-  const circumference = 2 * Math.PI * radius
-  const strokeDashoffset = circumference - (mastery / 100) * circumference
-
-  const activeTrackObj = course.tracks?.find(t => t.name === selectedTrack) || course.tracks?.[0]
-  const cardBorderLeftColor = isSelected ? 'var(--accent-green)' : (activeTrackObj?.color || course.track_color || 'var(--accent-blue)')
-  
-  const isUnreviewed = course.reviewed !== 'Yes'
-
-  return (
-    <article
-      onClick={() => onSelect(course)}
-      onDoubleClick={() => navigate(`/courses/${course.slug}`)}
-      className={`flex items-center justify-between rounded-xl border p-[12px_14px] transition-all cursor-pointer select-none gap-3 group relative overflow-hidden ${
-        isSelected 
-          ? 'bg-[rgba(3,239,98,0.06)] border-[var(--accent-green)]/30' 
-          : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-zinc-700'
-      } ${isUnreviewed ? 'opacity-50 hover:opacity-75' : 'opacity-100'}`}
-      style={{ borderLeft: `3px solid ${cardBorderLeftColor}` }}
-    >
-      <div className="flex-1 min-w-0">
-        <div className="flex flex-wrap items-center gap-1.5 text-[9px] mb-1.5">
-          <span className={`rounded-full border px-1.5 py-0.5 font-bold uppercase ${difficultyBadgeClass(course.difficulty)}`}>
-            {course.difficulty}
-          </span>
-          {course.status === 'Completed' && (
-            <span className={`rounded-full border px-1.5 py-0.5 font-semibold ${statusBadgeClass(course.status)}`}>
-              {course.status}
-            </span>
-          )}
-        </div>
-
-        <h2 className={`text-[14px] font-bold leading-tight line-clamp-1 ${isSelected ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'}`}>
-          {course.name}
-        </h2>
-        
-        <div className="mt-1 flex flex-wrap gap-1">
-          {course.tracks?.slice(0, 2).map((t) => (
-            <span key={t.id} className="bg-zinc-900/60 border border-zinc-800/80 px-1.5 py-0.5 rounded text-[11px] text-zinc-400 font-semibold">
-              {t.name}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 shrink-0">
-        {isUnreviewed && (
-          <span className="text-[var(--accent-yellow)] font-bold uppercase tracking-wider text-[12px] whitespace-nowrap">
-            NOT REVIEWED
-          </span>
-        )}
-        <div className="relative flex items-center justify-center">
-          <svg className="w-7 h-7 transform -rotate-90">
-            <circle cx="14" cy="14" r={radius} stroke="var(--bg-primary)" strokeWidth="2" fill="transparent" />
-            <circle
-              cx="14" cy="14" r={radius}
-              stroke={masteryColor(mastery)}
-              strokeWidth="2.5" fill="transparent"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              strokeLinecap="round"
-              className="transition-all duration-700"
-            />
-          </svg>
-          <span className="absolute text-[7px] font-extrabold text-[var(--text-primary)]">
-            {mastery}%
-          </span>
-        </div>
-      </div>
-    </article>
   )
 }
 
@@ -146,7 +150,8 @@ export default function Tracks() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
   const [selectedHasExercises, setSelectedHasExercises] = useState('present')
   const [showFilters, setShowFilters] = useState(false)
-  
+  const [screenWidth, setScreenWidth] = useState(() => window.innerWidth)
+
   const [selectedCourseId, setSelectedCourseId] = useState(null)
   const [scrolledDown, setScrolledDown] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -155,39 +160,44 @@ export default function Tracks() {
     return parseInt(localStorage.getItem('tracksLeftPanelWidth')) || 400
   })
   const [isResizing, setIsResizing] = useState(false)
-  
+
   const listRef = useRef(null)
+
+  useEffect(() => {
+    const handle = () => setScreenWidth(window.innerWidth)
+    window.addEventListener('resize', handle)
+    return () => window.removeEventListener('resize', handle)
+  }, [])
+
+  const isMobile = screenWidth < 640
+  const isTablet = screenWidth >= 640 && screenWidth < 1024
 
   useEffect(() => {
     localStorage.setItem('tracksLeftPanelWidth', leftPanelWidth)
   }, [leftPanelWidth])
 
   useEffect(() => {
+    if (isMobile) return
     const handleMouseMove = (e) => {
       if (!isResizing) return
       const sidebarWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')) || 0
       const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, 600))
       setLeftPanelWidth(newWidth)
     }
-
-    const handleMouseUp = () => {
-      setIsResizing(false)
-    }
-
+    const handleMouseUp = () => { setIsResizing(false) }
     if (isResizing) {
       window.addEventListener('mousemove', handleMouseMove)
       window.addEventListener('mouseup', handleMouseUp)
       document.body.style.cursor = 'col-resize'
       document.body.style.userSelect = 'none'
     }
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
       document.body.style.cursor = 'default'
       document.body.style.userSelect = 'auto'
     }
-  }, [isResizing])
+  }, [isResizing, isMobile])
 
   useEffect(() => {
     let isMounted = true
@@ -195,22 +205,23 @@ export default function Tracks() {
       .then((res) => res.ok ? res.json() : Promise.reject(res))
       .then((data) => {
         if (isMounted) {
-          // Sort reviewed first
+          const difficultyOrder = { Easy: 0, Medium: 1, Hard: 2, Unknown: 3 }
           const sorted = [...data].sort((a, b) => {
-            if (a.reviewed === 'Yes' && b.reviewed !== 'Yes') return -1
-            if (a.reviewed !== 'Yes' && b.reviewed === 'Yes') return 1
-            return 0
+            // Primary: mastery % descending (highest first)
+            const ma = Number(a.overall_mastery ?? 0)
+            const mb = Number(b.overall_mastery ?? 0)
+            if (mb !== ma) return mb - ma
+            // Secondary: difficulty Easy → Medium → Hard
+            const da = difficultyOrder[a.difficulty] ?? 3
+            const db = difficultyOrder[b.difficulty] ?? 3
+            return da - db
           })
           setCourses(sorted)
           setError('')
         }
       })
-      .catch((err) => {
-        if (isMounted) setError('Failed to load courses')
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false)
-      })
+      .catch(() => { if (isMounted) setError('Failed to load courses') })
+      .finally(() => { if (isMounted) setLoading(false) })
     return () => { isMounted = false }
   }, [])
 
@@ -219,7 +230,6 @@ export default function Tracks() {
       course.name.toLowerCase().includes(search.toLowerCase()) ||
       course.slug.toLowerCase().includes(search.toLowerCase()) ||
       course.track_name?.toLowerCase().includes(search.toLowerCase())
-
     const courseCategories = getCourseCategories(course)
     const matchesCategory = selectedCategory === 'all' || courseCategories.includes(selectedCategory)
     const matchesTrack = selectedTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === selectedTrack))
@@ -231,7 +241,6 @@ export default function Tracks() {
       selectedHasExercises === 'all' ||
       (selectedHasExercises === 'present' && hasEx) ||
       (selectedHasExercises === 'absent' && !hasEx)
-
     return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty && matchesHasExercises
   })
 
@@ -251,20 +260,22 @@ export default function Tracks() {
   const selectedCourse = courses.find(c => c.id === selectedCourseId)
 
   return (
-    <div 
+    <div
       className="fixed top-[56px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0"
-      style={{ left: 'var(--sidebar-width)' }}
+      style={{ left: isMobile ? '0px' : 'var(--sidebar-width)' }}
     >
       {/* LEFT PANEL - COURSE LIST */}
-      <aside 
+      <aside
         className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 border-r border-[var(--border)]"
-        style={{ width: `${leftPanelWidth}px` }}
+        style={{ width: isMobile ? '100%' : `${leftPanelWidth}px` }}
       >
-        {/* Resize Handle */}
-        <div
-          onMouseDown={() => setIsResizing(true)}
-          className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
-        />
+        {/* Resize Handle (hidden on mobile) */}
+        {!isMobile && (
+          <div
+            onMouseDown={() => setIsResizing(true)}
+            className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
+          />
+        )}
 
         <div className="p-4 border-b border-[var(--border)] bg-[var(--bg-primary)] z-10 shrink-0">
           <div className="flex justify-between items-center mb-3">
@@ -309,14 +320,14 @@ export default function Tracks() {
           )}
         </div>
 
-        <div 
+        <div
           ref={listRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-scroll scrollbar-none p-4 pb-24 space-y-3"
+          className="flex-1 overflow-y-scroll p-4 pb-24 space-y-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {loading ? (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {Array.from({ length: 10 }).map((_, i) => (
                 <div key={i} className="h-24 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] animate-pulse" />
               ))}
@@ -327,13 +338,19 @@ export default function Tracks() {
               No courses match your filters
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {filteredCourses.map(course => (
-                <CourseCard 
-                  key={course.id} 
-                  course={course} 
+                <CourseCard
+                  key={course.id}
+                  course={course}
                   isSelected={selectedCourseId === course.id}
-                  onSelect={(c) => setSelectedCourseId(c.id)}
+                  onSelect={(c) => {
+                    if (isMobile) {
+                      navigate(`/courses/${c.slug}`)
+                    } else {
+                      setSelectedCourseId(c.id)
+                    }
+                  }}
                   selectedTrack={selectedTrack}
                 />
               ))}
@@ -343,27 +360,24 @@ export default function Tracks() {
 
         {/* Custom Scrollbar Track */}
         <div className="absolute right-0 top-0 bottom-0 w-[8px] bg-[var(--bg-sidebar)] z-20 pointer-events-none">
-          <div 
+          <div
             className="w-full bg-[var(--accent-green)] rounded-full transition-all duration-75"
-            style={{ 
-              height: '10%', 
-              transform: `translateY(${scrollProgress * 9}%)` 
-            }}
+            style={{ height: '10%', transform: `translateY(${scrollProgress * 9}%)` }}
           />
         </div>
 
         {/* Scroll Buttons */}
         <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3 z-30 pointer-events-none">
           {scrolledDown && (
-            <button 
-              onClick={(e) => { e.stopPropagation(); scrollByAmount(-120); }}
+            <button
+              onClick={(e) => { e.stopPropagation(); scrollByAmount(-120) }}
               className="pointer-events-auto h-10 w-10 flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-[var(--accent-green)] shadow-xl hover:scale-110 active:scale-95 transition-all"
             >
               <ChevronUp size={24} />
             </button>
           )}
-          <button 
-            onClick={(e) => { e.stopPropagation(); scrollByAmount(120); }}
+          <button
+            onClick={(e) => { e.stopPropagation(); scrollByAmount(120) }}
             className="pointer-events-auto h-10 w-10 flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-[var(--accent-green)] shadow-xl hover:scale-110 active:scale-95 transition-all"
           >
             <ChevronDown size={24} />
@@ -371,17 +385,37 @@ export default function Tracks() {
         </div>
       </aside>
 
-      {/* RIGHT PANEL - COURSE DETAIL */}
-      <main className="flex-1 overflow-y-auto bg-[var(--bg-primary)] scroll-smooth">
+      {/* RIGHT PANEL - COURSE DETAIL (hidden on mobile, users navigate instead) */}
+      <main className={`flex-1 overflow-y-auto bg-[var(--bg-primary)] scroll-smooth ${isMobile ? 'hidden' : ''}`}>
         {!selectedCourseId ? (
-          <div className="flex h-full flex-col items-center justify-center p-12 text-center animate-in fade-in duration-300">
-            <div className="mb-6 rounded-full bg-[var(--bg-card)] p-8 text-[var(--text-muted)] border border-[var(--border)]">
-              <GraduationCap size={64} />
+          <div
+            className="flex h-full flex-col items-center text-center animate-in fade-in duration-300"
+            style={{ justifyContent: 'center', padding: '48px' }}
+          >
+            <div style={{ transform: 'translateY(-15%)' }}>
+              {/* Decorative dashed line */}
+              <svg width="160" height="24" className="mb-5 opacity-25" aria-hidden="true">
+                <line x1="0" y1="12" x2="160" y2="12" stroke="var(--border)" strokeWidth="1" strokeDasharray="4 6" />
+                <circle cx="8" cy="12" r="2.5" fill="var(--border)" />
+                <circle cx="80" cy="12" r="2.5" fill="var(--border)" />
+                <circle cx="152" cy="12" r="2.5" fill="var(--border)" />
+              </svg>
+              <div
+                className="flex items-center justify-center mb-5"
+                style={{
+                  width: 88, height: 88,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle at center, color-mix(in srgb, var(--accent-green) 15%, transparent) 0%, transparent 70%)',
+                  border: '1px solid color-mix(in srgb, var(--border) 50%, transparent)',
+                }}
+              >
+                <GraduationCap size={36} className="text-[var(--text-muted)]" />
+              </div>
+              <h2 className="text-lg font-bold text-[var(--text-primary)] mb-2">Select a Course</h2>
+              <p className="text-[13px] text-[var(--text-muted)] max-w-[280px] leading-relaxed">
+                Click any course on the left to explore its exercise breakdown, mastery scores, and study options.
+              </p>
             </div>
-            <h2 className="text-2xl font-bold text-[var(--text-primary)]">Select a Course</h2>
-            <p className="mt-2 max-w-sm text-sm text-[var(--text-muted)]">
-              Click any course on the left to explore its exercise breakdown, mastery scores, and study options.
-            </p>
           </div>
         ) : selectedCourse?.reviewed !== 'Yes' ? (
           <div className="flex h-full flex-col items-center justify-center p-12 text-center animate-in fade-in duration-300">
@@ -393,7 +427,7 @@ export default function Tracks() {
               For the best experience, review the course slides before attempting exercises. Once done, mark it as Reviewed in the Content Manager.
             </p>
             <div className="mt-8 flex flex-col gap-[10px] w-[220px]">
-              <button 
+              <button
                 onClick={() => navigate('/manage')}
                 className="w-full bg-[var(--accent-green)] text-black font-bold py-2.5 rounded-lg text-sm transition-opacity hover:opacity-90"
               >
@@ -403,9 +437,9 @@ export default function Tracks() {
           </div>
         ) : (
           <div key={selectedCourseId} className="animate-in fade-in slide-in-from-right-4 duration-150">
-             <div className="p-8">
-               <InlineCourseDetail courseSlug={selectedCourse?.slug} />
-             </div>
+            <div className="p-8">
+              <InlineCourseDetail courseSlug={selectedCourse?.slug} />
+            </div>
           </div>
         )}
       </main>

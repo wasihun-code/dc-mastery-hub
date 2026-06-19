@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
+import { matchingFeedback, triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Check, 
@@ -378,7 +378,7 @@ export default function MatchingGame() {
     }).catch(err => console.error("Error saving match attempt:", err));
 
     if (isCorrect) {
-      triggerCorrectFeedback();
+      matchingFeedback.correct();
       const nextMatches = [...matches, term.id];
       setMatches(nextMatches);
       setSelectedTerm(null);
@@ -407,14 +407,16 @@ export default function MatchingGame() {
           }).catch(err => console.error("Error saving automatic last match attempt:", err));
         }
         if (timerRef.current) clearInterval(timerRef.current);
+        matchingFeedback.complete();
         setRoundCompleted(true);
       } else if (nextMatches.length === totalPairsInRound) {
         if (timerRef.current) clearInterval(timerRef.current);
+        matchingFeedback.complete();
         setRoundCompleted(true);
       }
     } else {
       // Wrong Match: trigger shake animation and reset selections
-      triggerWrongFeedback();
+      matchingFeedback.wrong();
       setWrongMatch({ termId: term.id, defId: def.id });
       setTimeout(() => {
         setWrongMatch(null);

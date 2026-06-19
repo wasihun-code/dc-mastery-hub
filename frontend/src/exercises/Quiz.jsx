@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
+import { quizFeedback, triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Lightbulb, 
@@ -205,7 +205,7 @@ export default function Quiz() {
     if (isCorrect) {
       setIsLocked(true);
       shouldPost = true;
-      triggerCorrectFeedback();
+      quizFeedback.correct();
       finalCorrect = wrongSelectedOptions.length === 0;
       if (wrongSelectedOptions.length === 0) {
         setFirstAttemptCorrectCount(prev => prev + 1);
@@ -215,7 +215,7 @@ export default function Quiz() {
       setWrongSelectedOptions(prev => [...prev, optionKey]);
       const nextWrongAttempts = wrongAttempts + 1;
       setWrongAttempts(nextWrongAttempts);
-      triggerWrongFeedback();
+      quizFeedback.wrong();
       
       if (!allowMultipleTries || nextWrongAttempts >= 3) {
         setIsLocked(true);
@@ -444,7 +444,7 @@ export default function Quiz() {
         </header>
 
         {/* Main Content (Fullscreen Two Column Layout) */}
-        <main className="flex-1 overflow-y-auto px-8 py-8 flex items-start justify-center pt-16">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 flex items-start justify-center pt-16">
           <div className="w-full max-w-[1280px]">
             <div className="exercise-layout">
               
@@ -476,7 +476,7 @@ export default function Quiz() {
 
               {/* RIGHT COLUMN: MCQ options, Option Feedback, Explanation, and Next Button */}
               <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-[10px] sm:gap-3">
                   {options.map((option, idx) => {
                     const isSelected = selectedOption === option.key;
                     const isWrongSelected = wrongSelectedOptions.includes(option.key);

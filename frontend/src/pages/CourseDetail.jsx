@@ -14,7 +14,10 @@ import {
   AlertTriangle,
   X,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Star,
+  Target,
+  Flame
 } from 'lucide-react'
 import PdfViewer from '../components/PdfViewer'
 
@@ -72,7 +75,7 @@ function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, dis
     : 0
 
   return (
-    <div className={`group relative flex flex-col rounded-[12px] border p-5 transition-all duration-200 hover:shadow-[0_0_12px_rgba(3,239,98,0.15)] ${
+    <div className={`group relative flex flex-col rounded-[10px] border p-5 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 ${
       isBoss 
         ? 'border-[var(--accent-red)] bg-gradient-to-br from-[#1e2130] to-[#2d2130]' 
         : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]'
@@ -149,7 +152,7 @@ function IncorrectReviewCard({ status, onCheckUnlock, checking, message, onStart
   if (!isUnlocked) {
     return (
       <div 
-        className="group relative flex flex-col rounded-[12px] border border-[var(--accent-red)] p-5 transition-all duration-200 bg-[var(--bg-card)] overflow-hidden shadow-lg shadow-red-950/10"
+        className="group relative flex flex-col rounded-[10px] border border-[var(--accent-red)] p-5 transition-all duration-200 bg-[var(--bg-card)] overflow-hidden shadow-lg shadow-red-950/10"
         style={{ backgroundColor: 'rgba(255, 0, 0, 0.03)' }}
       >
         <div className="flex items-center justify-between">
@@ -212,7 +215,7 @@ function IncorrectReviewCard({ status, onCheckUnlock, checking, message, onStart
 
   // Unlocked State
   return (
-    <div className="group relative flex flex-col rounded-[12px] border border-[var(--border)] p-5 transition-all duration-200 hover:shadow-[0_0_12px_rgba(3,239,98,0.15)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]">
+    <div className="group relative flex flex-col rounded-[10px] border border-[var(--border)] p-5 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 bg-[var(--bg-card)] hover:border-[var(--accent-green)]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="rounded-lg p-2 bg-[var(--bg-primary)] text-[var(--accent-red)]">
@@ -456,7 +459,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
   }
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-7 pb-12">
       {showCongrats && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
           <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl p-8 text-center space-y-6 animate-in zoom-in-95 duration-200">
@@ -496,7 +499,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
       )}
 
       {/* SECTION 1 - COURSE HEADER */}
-      <header className="space-y-6">
+      <header className="space-y-7">
         <div className="flex justify-between items-start gap-4">
           <div className="flex-1">
             {!isInline && (
@@ -504,7 +507,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
                 <ArrowLeft size={16} /> Back to My Courses
               </Link>
             )}
-            <h1 className={`${isInline ? 'mt-0' : 'mt-4'} text-[32px] font-bold text-[var(--text-primary)]`}>{course.name}</h1>
+            <h1 className={`${isInline ? 'mt-0' : 'mt-4'} text-[26px] font-bold tracking-tight text-[var(--text-primary)]`}>{course.name}</h1>
           </div>
 
           {isInline && (
@@ -524,16 +527,16 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
           <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${statusBadgeClass(course.status)}`}>
             {course.status}
           </span>
-          <span className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${course.track.language === 'SQL' ? 'bg-[rgba(52,211,153,0.16)] text-[#34d399]' : 'bg-[rgba(167,139,250,0.16)] text-[#a78bfa]'}`}>
+          <span className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${course.track.language === 'SQL' ? 'bg-[color-mix(in_srgb,var(--accent-green)_16%,transparent)] text-[var(--accent-green)]' : 'bg-[color-mix(in_srgb,var(--accent-blue)_16%,transparent)] text-[var(--accent-blue)]'}`}>
             {course.track.language}
           </span>
           {course.has_pdf === 1 && (
-            <span className="rounded-full bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+            <span className="rounded-full bg-[color-mix(in_srgb,var(--accent-green)_10%,transparent)] text-[var(--accent-green)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
               Slides Available
             </span>
           )}
           {course.has_glossary === 1 && (
-            <span className="rounded-full bg-[rgba(96,165,250,0.1)] text-[var(--accent-blue)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+            <span className="rounded-full bg-[color-mix(in_srgb,var(--accent-blue)_10%,transparent)] text-[var(--accent-blue)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
               Glossary Ready
             </span>
           )}
@@ -544,27 +547,27 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
 
       {/* SECTION 2 - OVERALL MASTERY BAR */}
       <section className="relative py-8">
-        <div className="relative h-4 w-full rounded-full bg-[var(--bg-card)] border border-[var(--border)] overflow-visible">
-          {/* Percentage Indicator */}
-          <div 
-            className="absolute -top-8 flex flex-col items-center transition-all duration-1000"
-            style={{ left: `${Math.round(course.overall_mastery || 0)}%`, transform: 'translateX(-50%)' }}
-          >
-            <span className="text-sm font-bold text-[var(--text-primary)] bg-[var(--bg-card)] border border-[var(--border)] px-2 py-0.5 rounded shadow-sm">
-              {Math.round(course.overall_mastery || 0)}%
-            </span>
-            <div className="w-[1px] h-2 bg-[var(--border)]" />
-          </div>
-
+        <div className="relative h-[10px] w-full rounded-[5px] bg-[var(--bg-card)] border border-[var(--border)] overflow-visible">
           {/* Progress Fill */}
           <div 
-            className="h-full rounded-full transition-all duration-1000"
+            className="h-full rounded-[5px] transition-all duration-1000 relative z-10"
             style={{ 
               width: `${Math.round(course.overall_mastery || 0)}%`,
               backgroundColor: mastery.color,
-              boxShadow: `0 0 10px ${mastery.color}44`
+              boxShadow: `0 0 8px color-mix(in srgb, ${mastery.color} 40%, transparent)`
             }}
           />
+
+          {/* Percentage Indicator with triangle connector */}
+          <div 
+            className="absolute -top-9 flex flex-col items-center transition-all duration-1000 z-20"
+            style={{ left: `${Math.round(course.overall_mastery || 0)}%`, transform: 'translateX(-50%)' }}
+          >
+            <span className="text-[11px] font-bold text-[var(--text-primary)] bg-[var(--bg-card)] border border-[var(--border)] px-2 py-0.5 rounded-[4px] shadow-sm whitespace-nowrap">
+              {Math.round(course.overall_mastery || 0)}%
+            </span>
+            <div className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-transparent border-t-[var(--bg-card)] -mt-px" />
+          </div>
           
           {/* Labels below the bar */}
           <div className="absolute -bottom-6 w-full flex justify-between px-1">
@@ -579,19 +582,34 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
           {aggregateStats.totalPracticed} concepts practiced across {aggregateStats.exerciseTypes} exercise types
         </p>
 
-        {/* Stats Row Below Bar */}
-        <div className="mt-8 grid grid-cols-3 gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 shadow-sm">
-          <div className="text-center">
-            <div className="text-lg font-bold text-[var(--text-primary)]">{aggregateStats.totalXP}</div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Total XP</div>
+        {/* Stats Row — 3 mini-cards */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--bg-primary)] shrink-0">
+              <Star size={16} className="text-[var(--accent-green)]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-[var(--text-muted)] leading-none">Total XP</span>
+              <span className="text-[20px] font-bold text-[var(--text-primary)] leading-none mt-0.5">{aggregateStats.totalXP}</span>
+            </div>
           </div>
-          <div className="text-center">
-            <div className="text-lg font-bold text-[var(--text-primary)]">{aggregateStats.totalSessions}</div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Attempts</div>
+          <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--bg-primary)] shrink-0">
+              <Target size={16} className="text-[var(--accent-blue)]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-[var(--text-muted)] leading-none">Attempts</span>
+              <span className="text-[20px] font-bold text-[var(--text-primary)] leading-none mt-0.5">{aggregateStats.totalSessions}</span>
+            </div>
           </div>
-          <div className="text-center">
-            <div className="text-lg font-bold text-[var(--text-primary)]">+{aggregateStats.totalCorrect}</div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Streak Contribution</div>
+          <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--bg-primary)] shrink-0">
+              <Flame size={16} className="text-[var(--accent-yellow)]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-[var(--text-muted)] leading-none">Streak Contrib.</span>
+              <span className="text-[20px] font-bold text-[var(--text-primary)] leading-none mt-0.5">+{aggregateStats.totalCorrect}</span>
+            </div>
           </div>
         </div>
       </section>

@@ -57,16 +57,46 @@ export default function App() {
 
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [authState, setAuthState] = useState('login') // 'login' or 'signup'
-  
+  const [authState, setAuthState] = useState('login')
+  const [screenSize, setScreenSize] = useState(() => {
+    const w = window.innerWidth
+    if (w < 640) return 'mobile'
+    if (w < 1024) return 'tablet'
+    return 'desktop'
+  })
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     return parseInt(localStorage.getItem('sidebarWidth')) || 240
   })
 
   useEffect(() => {
+    const check = () => {
+      const w = window.innerWidth
+      if (w < 640) setScreenSize('mobile')
+      else if (w < 1024) setScreenSize('tablet')
+      else setScreenSize('desktop')
+    }
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  useEffect(() => {
+    const w = sidebarCollapsed ? 64 : sidebarWidth
+    document.documentElement.style.setProperty('--sidebar-width', `${screenSize === 'mobile' ? 0 : screenSize === 'tablet' ? w : sidebarWidth}px`)
+  }, [sidebarWidth, sidebarCollapsed, screenSize])
+
+  useEffect(() => {
+    if (screenSize !== 'tablet') return
+    document.documentElement.style.setProperty('--sidebar-width', `${sidebarCollapsed ? 64 : sidebarWidth}px`)
+  }, [sidebarCollapsed, sidebarWidth, screenSize])
+
+  useEffect(() => {
+    if (screenSize !== 'desktop') return
     document.documentElement.style.setProperty('--sidebar-width', `${sidebarWidth}px`)
     localStorage.setItem('sidebarWidth', sidebarWidth)
-  }, [sidebarWidth])
+  }, [sidebarWidth, screenSize])
+
+  const effectiveSidebarOffset = screenSize === 'mobile' ? '0px' : 'var(--sidebar-width)'
 
   const checkSession = async () => {
     // ... rest of checkSession ...
@@ -171,12 +201,20 @@ export default function App() {
           <a href="/" style={{ color: 'var(--text-primary)', padding: '16px', display: 'block' }}>← Home</a>
         </div>
       )}>
-        <Sidebar user={user} onLogout={handleLogout} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} />
+        <Sidebar
+          user={user}
+          onLogout={handleLogout}
+          sidebarWidth={sidebarWidth}
+          setSidebarWidth={setSidebarWidth}
+          screenSize={screenSize}
+          sidebarCollapsed={sidebarCollapsed}
+          onToggleCollapsed={() => setSidebarCollapsed(v => !v)}
+        />
       </ErrorBoundary>
-      <TopBar title={title} />
-      <main 
-        className="transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-8 pt-[88px]"
-        style={{ marginLeft: 'var(--sidebar-width)' }}
+      <TopBar title={title} screenSize={screenSize} />
+      <main
+        className="transition-all duration-300 h-screen overflow-y-auto px-4 md:px-8 pb-[72px] sm:pb-8 pt-[88px]"
+        style={{ marginLeft: effectiveSidebarOffset }}
       >
         <Routes>
           <Route path="/" element={<ErrorBoundary context="Dashboard failed to load"><Dashboard /></ErrorBoundary>} />

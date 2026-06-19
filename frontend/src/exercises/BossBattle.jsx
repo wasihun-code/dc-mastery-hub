@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
+  bossBattleFeedback,
   triggerBossAttackFeedback, 
   triggerBossDamageFeedback, 
   triggerBossVictoryFeedback, 
@@ -393,12 +394,14 @@ export default function BossBattle() {
       setScore(prev => prev + 1);
       setFlash('correct');
       triggerBossAttackFeedback();
+      bossBattleFeedback.correct();
       advanceTimeoutRef.current = setTimeout(() => {
         advanceNext();
       }, 800);
     } else {
       setFlash('wrong');
       triggerBossDamageFeedback();
+      bossBattleFeedback.wrong();
       setLives(prev => {
         const nextLives = prev - 1;
         if (nextLives <= 0) {
@@ -462,8 +465,10 @@ export default function BossBattle() {
     setStep(3);
     if (reason === 'complete') {
       triggerBossVictoryFeedback();
+      bossBattleFeedback.victory();
     } else {
       triggerBossDefeatFeedback();
+      bossBattleFeedback.defeat();
     }
     
     const finalXp = survivedCount * 5;

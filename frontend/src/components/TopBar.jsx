@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Flame, Star, Sun, Moon } from 'lucide-react'
 
-export default function TopBar({ title }) {
+export default function TopBar({ title, screenSize }) {
   const [stats, setStats] = useState({ total_xp: 0, current_streak: 0 })
   const [isLight, setIsLight] = useState(false)
 
   useEffect(() => {
-    // Sync initial theme from localStorage
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme === 'light') {
       document.documentElement.classList.add('light-theme')
@@ -15,13 +14,10 @@ export default function TopBar({ title }) {
       document.documentElement.classList.remove('light-theme')
       setIsLight(false)
     }
-
     fetch('/api/progress/stats')
       .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        if (data) setStats(data)
-      })
-      .catch(err => console.error("Error fetching stats in TopBar:", err))
+      .then(data => { if (data) setStats(data) })
+      .catch(err => console.error('Error fetching stats in TopBar:', err))
   }, [title])
 
   const toggleTheme = () => {
@@ -36,31 +32,62 @@ export default function TopBar({ title }) {
     }
   }
 
-  return (
-    <header className="fixed left-16 md:left-[240px] right-0 top-0 z-10 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-3 md:px-8 transition-all duration-300">
-      <h1 className="text-sm md:text-lg font-bold text-[var(--text-primary)] truncate pr-1.5 min-w-0">{title}</h1>
+  const leftOffset = screenSize === 'mobile' ? '0' : 'var(--sidebar-width)'
 
-      <div className="flex items-center gap-1.5 md:gap-3">
+  return (
+    <header
+      className="fixed right-0 top-0 z-10 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] transition-all duration-300"
+      style={{ left: leftOffset }}
+    >
+      <h1
+        className="text-[var(--text-primary)] truncate pr-2 min-w-0 hidden sm:block"
+        style={{ fontSize: 20, fontWeight: 700, paddingLeft: 16 }}
+      >
+        {title}
+      </h1>
+      {/* Spacer on mobile so title area is empty but layout stays */}
+      <div className="sm:hidden" />
+
+      <div className="flex items-center gap-2 shrink-0 px-3 md:px-6">
+        {/* Theme toggle (hidden on mobile — it's in the More drawer) */}
         <button
           onClick={toggleTheme}
-          className="flex items-center justify-center p-1.5 md:p-2 rounded border border-[var(--border)] text-[var(--text-primary)] hover:border-zinc-700 bg-[var(--bg-card)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer mr-0.5 md:mr-2 shrink-0"
+          className="hidden sm:flex items-center justify-center border border-[var(--border)] rounded-lg transition-all cursor-pointer hover:bg-[var(--bg-primary)]"
+          style={{ width: 36, height: 36, background: 'transparent' }}
           title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
         >
-          {isLight ? <Moon size={14} className="text-[var(--text-primary)]" /> : <Sun size={14} className="text-[var(--accent-yellow)]" />}
+          {isLight
+            ? <Moon size={15} className="text-[var(--text-primary)]" />
+            : <Sun size={15} className="text-[var(--accent-yellow)]" />}
         </button>
 
-        <div className="flex items-center gap-1 md:gap-2 rounded border border-[var(--border)] px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[var(--accent-yellow)] select-none shrink-0">
-          <Flame size={14} className="fill-[var(--accent-yellow)] animate-pulse" />
-          <span className="font-semibold">
-            {stats.current_streak ?? 0}
-            <span className="hidden sm:inline"> day streak</span>
+        {/* Streak pill */}
+        <div
+          className="flex items-center gap-1.5 rounded-full select-none"
+          style={{
+            background: 'color-mix(in srgb, var(--accent-yellow) 12%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--accent-yellow) 25%, transparent)',
+            padding: '6px 10px'
+          }}
+        >
+          <Flame size={13} className="shrink-0 fill-[var(--accent-yellow)] text-[var(--accent-yellow)]" />
+          <span className="text-xs font-semibold text-[var(--accent-yellow)] whitespace-nowrap">
+            {stats.current_streak ?? 0}<span className="hidden sm:inline"> day streak</span>
           </span>
         </div>
-        <div className="flex items-center gap-1 md:gap-2 rounded border border-[var(--border)] px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[var(--accent-green)] select-none shrink-0">
-          <Star size={14} className="fill-[var(--accent-green)]" />
-          <span className="font-semibold">
-            {stats.total_xp ?? 0}
-            <span className="hidden sm:inline"> XP</span>
+
+        {/* XP pill */}
+        <div
+          className="flex items-center gap-1.5 rounded-full select-none"
+          style={{
+            background: 'color-mix(in srgb, var(--accent-green) 12%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--accent-green) 25%, transparent)',
+            padding: '6px 10px'
+          }}
+        >
+          <Star size={13} className="shrink-0 fill-[var(--accent-green)] text-[var(--accent-green)]" />
+          <span className="text-xs font-semibold text-[var(--accent-green)] whitespace-nowrap">
+            {stats.total_xp ?? 0}<span className="hidden sm:inline"> XP</span>
           </span>
         </div>
       </div>

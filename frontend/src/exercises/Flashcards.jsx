@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
+import { flashcardFeedback, triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService';
 import { 
   ChevronLeft, 
   Lightbulb, 
@@ -198,10 +198,14 @@ export default function Flashcards() {
     const wasCorrect = rating !== 'again';
     const score = rating === 'easy' ? 1.0 : rating === 'good' ? 0.8 : rating === 'hard' ? 0.5 : 0.0;
 
-    if (wasCorrect) {
-      triggerCorrectFeedback();
+    if (rating === 'easy') {
+      flashcardFeedback.easy();
+    } else if (rating === 'good') {
+      flashcardFeedback.good();
+    } else if (rating === 'hard') {
+      flashcardFeedback.hard();
     } else {
-      triggerWrongFeedback();
+      flashcardFeedback.again();
     }
     
     // Post question-level attempt immediately
@@ -444,7 +448,7 @@ export default function Flashcards() {
             {/* Ratings and Explanation */}
             {isFlipped && (
               <div className="w-full flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-300">
-                <div className="w-full grid grid-cols-4 gap-2 mb-6">
+                <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
                   <button 
                     onClick={() => handleRate('again')}
                     className="rounded-xl bg-[rgba(255,77,77,0.1)] py-4 text-sm font-bold text-[var(--accent-red)] border border-[var(--accent-red)] hover:bg-[var(--accent-red)] hover:text-white transition-colors flex flex-col items-center justify-center gap-1 group"

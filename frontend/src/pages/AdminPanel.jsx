@@ -64,15 +64,20 @@ function SectionHeader({ title, subtitle, action }) {
 }
 
 function DifficultyBadge({ difficulty }) {
-  const map = { Beginner: 'green', Intermediate: 'yellow', Advanced: 'red', Unknown: 'muted' }
-  const colorMap = { green: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', yellow: 'bg-amber-500/10 text-amber-400 border-amber-500/20', red: 'bg-red-500/10 text-red-400 border-red-500/20', muted: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20' }
-  const c = colorMap[map[difficulty]] || colorMap.muted
-  return <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold border ${c}`}>{difficulty || 'Unknown'}</span>
+  const dots = { Easy: 'var(--accent-green)', Medium: 'var(--accent-yellow)', Hard: 'var(--accent-red)', Unknown: 'var(--text-muted)' }
+  const texts = { Easy: 'text-green-400', Medium: 'text-yellow-400', Hard: 'text-red-400', Unknown: 'text-zinc-400' }
+  const key = difficulty || 'Unknown'
+  return (
+    <span className={`flex items-center gap-1 text-[11px] font-semibold ${texts[key] || texts.Unknown}`}>
+      <span style={{ color: dots[key] || dots.Unknown, fontSize: 8 }}>●</span>
+      {key}
+    </span>
+  )
 }
 
 function MasteryBar({ value }) {
   const pct = Math.round(value || 0)
-  const color = pct >= 90 ? 'var(--accent-green)' : pct >= 70 ? 'var(--accent-blue)' : pct >= 40 ? 'var(--accent-yellow)' : 'var(--accent-red)'
+  const color = pct >= 90 ? 'var(--accent-green)' : pct >= 70 ? 'var(--accent-blue)' : pct >= 40 ? 'var(--accent-yellow)' : pct > 0 ? 'var(--accent-red)' : 'var(--text-muted)'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 bg-[var(--bg-primary)] rounded-full overflow-hidden">
@@ -118,15 +123,15 @@ function DashboardSection({ stats, onMessage }) {
   if (!stats) return <div className="animate-pulse h-48 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]" />
 
   const cards = [
-    { label: 'Total Users', value: stats.users, icon: Users, color: 'from-blue-500 to-blue-600' },
-    { label: 'Total Courses', value: stats.courses, icon: BookOpen, color: 'from-purple-500 to-purple-600' },
-    { label: 'Total Tracks', value: stats.tracks, icon: Map, color: 'from-emerald-500 to-emerald-600' },
-    { label: 'Total Attempts', value: stats.exercise_attempts?.toLocaleString(), icon: Activity, color: 'from-orange-500 to-orange-600' },
-    { label: 'Total Concepts', value: stats.concepts?.toLocaleString(), icon: Layers, color: 'from-cyan-500 to-cyan-600' },
-    { label: 'Total Flashcards', value: stats.flashcards?.toLocaleString(), icon: FileText, color: 'from-rose-500 to-rose-600' },
-    { label: 'DB Size', value: sysStats ? `${sysStats.db_size_mb} MB` : '…', icon: Database, color: 'from-indigo-500 to-indigo-600' },
-    { label: 'Content Size', value: sysStats ? `${sysStats.content_size_mb} MB` : '…', icon: HardDrive, color: 'from-amber-500 to-amber-600' },
-    { label: 'Uptime', value: sysStats ? `${Math.floor(sysStats.uptime_seconds / 60)}m` : '…', icon: RefreshCw, color: 'from-green-500 to-green-600' },
+    { label: 'Total Users',     value: stats.users,                           icon: Users,    accent: 'var(--accent-blue)' },
+    { label: 'Total Courses',   value: stats.courses,                          icon: BookOpen, accent: 'var(--accent-green)' },
+    { label: 'Total Tracks',    value: stats.tracks,                           icon: Map,      accent: 'var(--accent-yellow)' },
+    { label: 'Total Attempts',  value: stats.exercise_attempts?.toLocaleString(), icon: Activity, accent: 'var(--accent-blue)' },
+    { label: 'Total Concepts',  value: stats.concepts?.toLocaleString(),       icon: Layers,   accent: 'var(--text-muted)' },
+    { label: 'Total Flashcards',value: stats.flashcards?.toLocaleString(),     icon: FileText, accent: 'var(--accent-green)' },
+    { label: 'DB Size',         value: sysStats ? `${sysStats.db_size_mb} MB` : '…', icon: Database, accent: 'var(--text-muted)' },
+    { label: 'Content Size',    value: sysStats ? `${sysStats.content_size_mb} MB` : '…', icon: HardDrive, accent: 'var(--text-muted)' },
+    { label: 'Uptime',          value: sysStats ? `${Math.floor(sysStats.uptime_seconds / 60)}m` : '…', icon: RefreshCw, accent: 'var(--accent-green)' },
   ]
 
   async function handleReimport() {
@@ -145,28 +150,43 @@ function DashboardSection({ stats, onMessage }) {
         {cards.map(card => {
           const Icon = card.icon
           return (
-            <div key={card.label} className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-              <div className={`h-1 w-full rounded-full bg-gradient-to-r ${card.color} mb-4`} />
-              <div className="text-2xl font-bold text-[var(--text-primary)]">{card.value ?? '—'}</div>
+            <div
+              key={card.label}
+              className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 transition-all duration-150 hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
+              style={{'--card-accent': card.accent}}
+              onMouseEnter={e => e.currentTarget.style.borderColor = `color-mix(in srgb, ${card.accent} 30%, var(--border))`}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+            >
+              <div
+                className="flex items-center justify-center rounded-lg mb-3"
+                style={{
+                  width: 32, height: 32,
+                  background: `color-mix(in srgb, ${card.accent} 14%, transparent)`,
+                }}
+              >
+                <Icon size={16} style={{ color: card.accent }} />
+              </div>
+              <div className="text-[26px] font-bold text-[var(--text-primary)] leading-none mt-3">{card.value ?? '—'}</div>
               <div className="flex items-center gap-1.5 mt-1">
-                <Icon size={11} className="text-[var(--text-muted)]" />
-                <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest font-semibold">{card.label}</span>
+                <span className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.05em] font-semibold">{card.label}</span>
               </div>
             </div>
           )
         })}
       </div>
-      <SectionCard>
-        <h3 className="text-sm font-bold text-[var(--text-primary)] mb-3">Quick Actions</h3>
-        <div className="flex flex-wrap gap-3">
+      <SectionCard className="!p-4">
+        <h3 className="text-[14px] font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+          <Activity size={15} className="text-[var(--accent-green)]" /> Quick Actions
+        </h3>
+        <div className="flex flex-wrap gap-2">
           <button onClick={handleReimport} disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-black text-sm font-bold hover:brightness-110 disabled:opacity-50 transition-all cursor-pointer">
-            {loading ? <Spinner size={14} /> : <Upload size={14} />}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--accent-green)] text-black text-[13px] font-semibold hover:brightness-110 disabled:opacity-50 transition-all cursor-pointer">
+            {loading ? <Spinner size={13} /> : <Upload size={13} />}
             Re-import All Exercises
           </button>
           <button onClick={() => window.open('/api/admin/system/logs', '_blank')}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[var(--border)] text-[var(--text-muted)] text-sm font-semibold hover:text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer">
-            <Terminal size={14} /> View System Logs
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[var(--border)] text-[var(--text-muted)] text-[13px] font-medium hover:border-[var(--accent-blue)] hover:text-[var(--text-primary)] transition-all cursor-pointer">
+            <Terminal size={13} /> View System Logs
           </button>
         </div>
       </SectionCard>
@@ -582,10 +602,10 @@ function CoursesSection({ courses, tracks, onRefresh, onMessage }) {
       <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[var(--border)] bg-[var(--bg-primary)]">
-              <th className="px-3 py-3 w-8"><input type="checkbox" onChange={e => setSelectedIds(e.target.checked ? new Set(filtered.map(c => c.id)) : new Set())} className="cursor-pointer" /></th>
+            <tr className="bg-[var(--bg-primary)]" style={{ borderBottom: '1.5px solid var(--border)' }}>
+              <th className="px-3 py-3 w-8"><input type="checkbox" onChange={e => setSelectedIds(e.target.checked ? new Set(filtered.map(c => c.id)) : new Set())} className="cursor-pointer" style={{ accentColor: 'var(--accent-green)' }} /></th>
               {['Course Name', 'Track(s)', 'Difficulty', 'Students', 'Avg Mastery', 'Exercises', 'Actions'].map(h => (
-                <th key={h} className="px-3 py-3 text-left text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">{h}</th>
+                <th key={h} className="px-3 py-3 text-left text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.05em]">{h}</th>
               ))}
             </tr>
           </thead>
@@ -593,35 +613,67 @@ function CoursesSection({ courses, tracks, onRefresh, onMessage }) {
             {filtered.length === 0 && (
               <tr><td colSpan={8} className="px-4 py-10 text-center text-[var(--text-muted)]">No courses match your filters</td></tr>
             )}
-            {filtered.map(course => (
-              <tr key={course.id} onClick={() => openDrawer(course)} className="border-b border-[var(--border)] hover:bg-[var(--bg-primary)] cursor-pointer transition-colors">
-                <td className="px-3 py-3" onClick={e => e.stopPropagation()}>
-                  <input type="checkbox" checked={selectedIds.has(course.id)} onChange={() => toggleSelect(course.id)} className="cursor-pointer" />
+            {filtered.map((course, idx) => (
+              <tr
+                key={course.id}
+                onClick={() => openDrawer(course)}
+                className="cursor-pointer transition-colors duration-100"
+                style={{
+                  borderBottom: '1px solid color-mix(in srgb, var(--border) 50%, transparent)',
+                  background: idx % 2 === 1 ? 'color-mix(in srgb, var(--bg-card) 50%, var(--bg-primary))' : 'transparent',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, var(--bg-card) 80%, var(--bg-primary))'}
+                onMouseLeave={e => e.currentTarget.style.background = idx % 2 === 1 ? 'color-mix(in srgb, var(--bg-card) 50%, var(--bg-primary))' : 'transparent'}
+              >
+                <td className="px-3 py-[14px]" onClick={e => e.stopPropagation()}>
+                  <input type="checkbox" checked={selectedIds.has(course.id)} onChange={() => toggleSelect(course.id)} className="cursor-pointer" style={{ accentColor: 'var(--accent-green)' }} />
                 </td>
-                <td className="px-3 py-3">
-                  <div className="font-medium text-[var(--text-primary)] truncate max-w-[200px]">{course.name}</div>
-                  <div className="text-[10px] text-[var(--text-muted)] font-mono">{course.slug}</div>
+                <td className="px-3 py-[14px]">
+                  <div className="font-semibold text-[14px] text-[var(--text-primary)] truncate max-w-[200px]">{course.name}</div>
+                  <div className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">{course.slug}</div>
                 </td>
-                <td className="px-3 py-3">
+                <td className="px-3 py-[14px]">
                   <div className="flex flex-wrap gap-1">
                     {course.tracks?.slice(0, 2).map(t => (
-                      <span key={t.id} className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">{t.name}</span>
+                      <span key={t.id} className="text-[10px] text-[var(--text-muted)] font-medium" style={{ border: '1px solid var(--border)', borderRadius: 4, padding: '2px 8px' }}>{t.name}</span>
                     ))}
                     {course.tracks?.length > 2 && <span className="text-[10px] text-[var(--text-muted)]">+{course.tracks.length - 2}</span>}
                   </div>
                 </td>
-                <td className="px-3 py-3"><DifficultyBadge difficulty={course.difficulty} /></td>
-                <td className="px-3 py-3 text-[var(--text-muted)]">{course.student_count}</td>
-                <td className="px-3 py-3 w-32"><MasteryBar value={course.mastery_avg} /></td>
-                <td className="px-3 py-3">
-                  {course.has_exercises
-                    ? <span className="text-xs text-[var(--accent-green)] font-semibold flex items-center gap-1"><CheckCircle size={12} /> Ready</span>
-                    : <span className="text-xs text-[var(--accent-red)] font-semibold flex items-center gap-1"><XCircle size={12} /> None</span>}
+                <td className="px-3 py-[14px]"><DifficultyBadge difficulty={course.difficulty} /></td>
+                <td className="px-3 py-[14px]">
+                  <span className={`text-sm font-${course.student_count > 0 ? 'bold text-[var(--text-primary)]' : 'normal text-[var(--text-muted)]'}`}>{course.student_count}</span>
                 </td>
-                <td className="px-3 py-3" onClick={e => e.stopPropagation()}>
+                <td className="px-3 py-[14px] w-32"><MasteryBar value={course.mastery_avg} /></td>
+                <td className="px-3 py-[14px]">
+                  {course.has_exercises ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)', color: 'var(--accent-green)' }}>
+                      <CheckCircle size={11} /> Ready
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: 'color-mix(in srgb, var(--accent-red) 12%, transparent)', color: 'var(--accent-red)' }}>
+                      <XCircle size={11} /> None
+                    </span>
+                  )}
+                </td>
+                <td className="px-3 py-[14px]" onClick={e => e.stopPropagation()}>
                   <div className="flex gap-1">
-                    <IconBtn icon={Edit2} label="Edit" onClick={() => openDrawer(course)} />
-                    <IconBtn icon={Trash2} label="Delete" danger onClick={() => { setDrawerCourse(course); setConfirmAction('delete') }} />
+                    <button
+                      onClick={() => openDrawer(course)}
+                      title="Edit course"
+                      className="flex items-center justify-center rounded-md border border-[var(--border)] text-[var(--text-muted)] transition-all cursor-pointer hover:border-[var(--accent-blue)] hover:text-[var(--accent-blue)]"
+                      style={{ width: 32, height: 32 }}
+                    >
+                      <Edit2 size={14} />
+                    </button>
+                    <button
+                      onClick={() => { setDrawerCourse(course); setConfirmAction('delete') }}
+                      title="Delete course"
+                      className="flex items-center justify-center rounded-md border border-[var(--border)] text-[var(--text-muted)] transition-all cursor-pointer hover:border-[var(--accent-red)] hover:text-[var(--accent-red)]"
+                      style={{ width: 32, height: 32 }}
+                    >
+                      <Trash2 size={14} />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -1181,18 +1233,24 @@ function ResetSection({ courses, tracks, onMessage }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <h2 className="text-xl font-bold text-[var(--text-primary)]">Reset Tools</h2>
 
-      {/* CARD 1: Reset Course */}
-      <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-5">
+      {/* TIER 1: Reset Course — neutral card, outlined red button */}
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
         <h3 className="text-sm font-bold text-[var(--text-primary)] mb-1">Reset Course Progress</h3>
         <p className="text-xs text-[var(--text-muted)] mb-4">Select a course and reset all student progress, attempts, and mastery scores.</p>
         <div className="relative mb-4">
           <div className="relative">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
-            <input value={selectedCourse ? selectedCourse.name : search} onChange={e => { setSearch(e.target.value); setSelectedCourse(null); setCourseDropOpen(true) }} onFocus={() => setCourseDropOpen(true)}
-              placeholder="Search courses…" className="w-full pl-9 pr-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm" />
+            <input
+              value={selectedCourse ? selectedCourse.name : search}
+              onChange={e => { setSearch(e.target.value); setSelectedCourse(null); setCourseDropOpen(true) }}
+              onFocus={() => setCourseDropOpen(true)}
+              placeholder="Search for a course…"
+              className="w-full pl-9 pr-3 py-2 rounded-lg text-sm"
+              style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+            />
             {selectedCourse && <button onClick={() => { setSelectedCourse(null); setSearch('') }} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[var(--text-muted)]"><X size={13} /></button>}
           </div>
           {courseDropOpen && !selectedCourse && filteredCourses.length > 0 && (
@@ -1207,23 +1265,37 @@ function ResetSection({ courses, tracks, onMessage }) {
           )}
         </div>
         {selectedCourse && courseStats && (
-          <div className="mb-4 p-3 rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] flex gap-6 text-xs">
+          <div className="mb-4 p-3 rounded-lg flex gap-6 text-xs" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)' }}>
             <span className="text-[var(--text-muted)]">Students: <strong className="text-[var(--text-primary)]">{courseStats.student_count}</strong></span>
             <span className="text-[var(--text-muted)]">Attempts: <strong className="text-[var(--text-primary)]">{courseStats.attempt_count}</strong></span>
           </div>
         )}
-        <button onClick={() => setShowCourseConfirm(true)} disabled={!selectedCourse || resetting === 'course'}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-bold hover:bg-red-500 disabled:opacity-40 cursor-pointer">
+        <button
+          onClick={() => setShowCourseConfirm(true)}
+          disabled={!selectedCourse || resetting === 'course'}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            background: 'transparent',
+            color: 'var(--accent-red)',
+            border: '1px solid var(--accent-red)',
+          }}
+          onMouseEnter={e => { if (!e.currentTarget.disabled) e.currentTarget.style.background = 'color-mix(in srgb, var(--accent-red) 10%, transparent)' }}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
           {resetting === 'course' ? <Spinner size={14} /> : null} Reset This Course
         </button>
       </div>
 
-      {/* CARD 2: Reset Track */}
-      <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-5">
+      {/* TIER 2: Reset Track — neutral card, outlined red button */}
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
         <h3 className="text-sm font-bold text-[var(--text-primary)] mb-1">Reset Track Progress</h3>
         <p className="text-xs text-[var(--text-muted)] mb-4">Select a track and reset progress for all its courses.</p>
-        <select value={selectedTrack?.id || ''} onChange={e => setSelectedTrack(tracks?.find(t => t.id === Number(e.target.value)) || null)}
-          className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm mb-4">
+        <select
+          value={selectedTrack?.id || ''}
+          onChange={e => setSelectedTrack(tracks?.find(t => t.id === Number(e.target.value)) || null)}
+          className="w-full px-3 py-2 rounded-lg text-sm mb-4"
+          style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+        >
           <option value="">Select a track…</option>
           {tracks?.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
         </select>
@@ -1242,27 +1314,56 @@ function ResetSection({ courses, tracks, onMessage }) {
             )}
           </div>
         )}
-        <button onClick={() => setShowTrackConfirm(true)} disabled={!selectedTrack || resetting === 'track'}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-bold hover:bg-red-500 disabled:opacity-40 cursor-pointer">
+        <button
+          onClick={() => setShowTrackConfirm(true)}
+          disabled={!selectedTrack || resetting === 'track'}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{
+            background: 'transparent',
+            color: 'var(--accent-red)',
+            border: '1px solid var(--accent-red)',
+          }}
+          onMouseEnter={e => { if (!e.currentTarget.disabled) e.currentTarget.style.background = 'color-mix(in srgb, var(--accent-red) 10%, transparent)' }}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
           {resetting === 'track' ? <Spinner size={14} /> : null} Reset Entire Track
         </button>
       </div>
 
-      {/* CARD 3: Nuclear Reset */}
-      <div className="rounded-xl p-5 border-2 border-[var(--accent-red)]" style={{ backgroundColor: 'rgba(239,68,68,0.04)' }}>
+      {/* ── 32px gap before Tier 3 ── */}
+      <div style={{ height: 8 }} />
+
+      {/* TIER 3: Full System Reset — max danger visual */}
+      <div
+        className="rounded-xl p-6"
+        style={{
+          background: 'color-mix(in srgb, var(--accent-red) 6%, var(--bg-card))',
+          border: '2px solid var(--accent-red)',
+          boxShadow: '0 0 20px color-mix(in srgb, var(--accent-red) 15%, transparent)',
+        }}
+      >
         <div className="flex items-center gap-2 mb-3">
           <AlertTriangle size={18} style={{ color: 'var(--accent-red)' }} />
-          <h3 className="text-sm font-bold" style={{ color: 'var(--accent-red)' }}>⚠ Full System Reset</h3>
+          <h3 className="text-[16px] font-bold" style={{ color: 'var(--accent-red)' }}>Full System Reset</h3>
         </div>
         <p className="text-xs text-[var(--text-muted)] mb-4">
-          Erases ALL progress for ALL users. Content (courses, exercises) is preserved. This <strong>cannot be undone</strong>.
+          Erases ALL progress for ALL users. Content (courses, exercises) is preserved. This{' '}
+          <strong className="text-[var(--text-primary)]">cannot be undone</strong>.
         </p>
-        <input type="password" value={adminPassword} onChange={e => setAdminPassword(e.target.value)}
+        <input
+          type="password"
+          value={adminPassword}
+          onChange={e => setAdminPassword(e.target.value)}
           placeholder="Type your admin password to confirm"
-          className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-sm mb-4" />
-        <button onClick={handleNuclearReset} disabled={!adminPassword || resetting === 'all'}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-bold disabled:opacity-40 cursor-pointer"
-          style={{ backgroundColor: 'var(--accent-red)' }}>
+          className="w-full px-3 py-2 rounded-lg text-sm mb-4"
+          style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+        />
+        <button
+          onClick={handleNuclearReset}
+          disabled={!adminPassword || resetting === 'all'}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-white text-sm font-bold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110"
+          style={{ backgroundColor: 'var(--accent-red)' }}
+        >
           {resetting === 'all' ? <><Spinner size={14} /> Resetting…</> : 'Reset Everything'}
         </button>
       </div>
@@ -1484,47 +1585,90 @@ export default function AdminPanel({ user, onLogout }) {
       <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'info' })} />
 
       {/* TOP BAR */}
-      <header className="flex h-12 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-sidebar)] px-4 shrink-0">
+      <header className="flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-sidebar)] px-4 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--accent-green)]/10 text-[var(--accent-green)] border border-[var(--accent-green)]/20 shrink-0">
-            <Shield size={13} />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg border shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-green) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--accent-green) 25%, var(--border))', color: 'var(--accent-green)' }}>
+            <Shield size={15} />
           </div>
           <span className="text-sm font-bold text-[var(--text-primary)] hidden sm:inline">Admin Panel</span>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={toggleTheme} className="p-1.5 rounded-lg border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all cursor-pointer" title="Toggle theme">
-            {isLight ? <Moon size={14} /> : <Sun size={14} className="text-[var(--accent-yellow)]" />}
+          <button
+            onClick={toggleTheme}
+            className="flex items-center justify-center border border-[var(--border)] rounded-lg transition-all cursor-pointer hover:bg-[var(--bg-primary)]"
+            style={{ width: 36, height: 36 }}
+            title="Toggle theme"
+          >
+            {isLight ? <Moon size={15} className="text-[var(--text-primary)]" /> : <Sun size={15} className="text-[var(--accent-yellow)]" />}
           </button>
-          <button onClick={() => navigate('/')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--accent-green)] hover:bg-[var(--accent-green)]/10 border border-[var(--border)] transition-all cursor-pointer">
-            <ExternalLink size={13} /> Back to App
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer"
+            style={{ height: 36, padding: '0 14px', color: 'var(--accent-green)', border: '1px solid var(--border)' }}
+            onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, var(--accent-green) 10%, transparent)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          >
+            <ExternalLink size={14} /> Back to App
           </button>
-          {user && <span className="hidden md:inline text-xs text-[var(--text-muted)] px-2">{user.username}</span>}
+          {user && <span className="hidden md:inline text-[13px] text-[var(--text-muted)] px-1">{user.username}</span>}
           {onLogout && (
-            <button onClick={onLogout} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--accent-red)] hover:bg-[var(--accent-red)]/10 border border-[var(--border)] transition-all cursor-pointer">
-              <LogOut size={13} /> Logout
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer"
+              style={{ height: 36, padding: '0 14px', color: 'var(--accent-red)', border: '1px solid color-mix(in srgb, var(--accent-red) 30%, var(--border))' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, var(--accent-red) 10%, transparent)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <LogOut size={14} /> Logout
             </button>
           )}
         </div>
       </header>
 
+      {/* MOBILE SECTION TABS */}
+      <div className="md:hidden flex overflow-x-auto border-b border-[var(--border)] bg-[var(--bg-sidebar)] shrink-0 gap-1 px-2 py-2">
+        {SECTIONS.map(s => {
+          const Icon = s.icon
+          const active = activeSection === s.key
+          return (
+            <button
+              key={s.key}
+              onClick={() => setActiveSection(s.key)}
+              className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all border-none ${
+                active
+                  ? 'bg-[rgba(3,239,98,0.12)] text-[var(--accent-green)]'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/5'
+              }`}
+            >
+              <Icon size={15} />
+              {s.label}
+            </button>
+          )
+        })}
+      </div>
+
       {/* BODY */}
       <div className="flex flex-1 overflow-hidden">
-        {/* SIDEBAR */}
-        <aside className="w-52 shrink-0 border-r border-[var(--border)] bg-[var(--bg-sidebar)] overflow-y-auto">
+        {/* SIDEBAR (desktop) */}
+        <aside className="hidden md:block w-52 shrink-0 border-r border-[var(--border)] bg-[var(--bg-sidebar)] overflow-y-auto">
           {Object.entries(groups).map(([group, items]) => (
             <div key={group}>
-              <div className="px-5 pt-4 pb-1 text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">{group}</div>
+              <div className="px-4 pt-4 pb-1 text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">{group}</div>
               {items.map(s => {
                 const Icon = s.icon
                 const active = activeSection === s.key
                 return (
-                  <button key={s.key} onClick={() => setActiveSection(s.key)}
-                    className={`w-full flex items-center gap-2.5 px-5 py-2.5 text-sm cursor-pointer transition-colors border-l-[3px] ${
+                  <button
+                    key={s.key}
+                    onClick={() => setActiveSection(s.key)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm cursor-pointer transition-all duration-150 border-l-[3px] rounded-none ${
                       active
-                        ? 'border-[var(--accent-green)] text-[var(--text-primary)] bg-[rgba(3,239,98,0.06)] font-semibold'
-                        : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]'
-                    }`}>
-                    <Icon size={15} />
+                        ? 'border-[var(--accent-green)] text-[var(--accent-green)] font-semibold'
+                        : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/5'
+                    }`}
+                    style={active ? { background: 'color-mix(in srgb, var(--accent-green) 10%, transparent)' } : {}}
+                  >
+                    <Icon size={18} className="shrink-0" />
                     {s.label}
                   </button>
                 )
@@ -1534,7 +1678,7 @@ export default function AdminPanel({ user, onLogout }) {
         </aside>
 
         {/* MAIN CONTENT */}
-        <main className="flex-1 overflow-y-auto px-6 py-6">
+        <main className="flex-1 overflow-y-auto px-4 md:px-6 py-6">
           {renderContent()}
         </main>
       </div>

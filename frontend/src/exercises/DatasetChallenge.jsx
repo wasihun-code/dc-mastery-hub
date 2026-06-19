@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
+import { datasetChallengeFeedback, triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
 import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, SkipForward, Trash2, Edit2, Eye, Lightbulb } from 'lucide-react'
 import Editor from '@monaco-editor/react'
 import { getSessionLimit } from '../services/settingsService'
@@ -25,6 +25,18 @@ export default function DatasetChallenge() {
   const [showSolutionModal, setShowSolutionModal] = useState(false)
   const [loadingExpectedOutput, setLoadingExpectedOutput] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState(null)
+
+  // Mobile tab state
+  const [mobileTab, setMobileTab] = useState('problem')
+
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024)
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   // Console panel states
   const [consoleTab, setConsoleTab] = useState('console')
@@ -421,6 +433,11 @@ export default function DatasetChallenge() {
         }
         return [entry, ...prev].slice(0, 5)
       })
+      if (data.stderr) {
+        datasetChallengeFeedback.runError()
+      } else {
+        datasetChallengeFeedback.runSuccess()
+      }
     } catch (err) {
       setLastRun({
         stdout: '',
@@ -457,9 +474,9 @@ export default function DatasetChallenge() {
       if (res.ok) {
         setResult(data)
         if (data.passed) {
-          triggerCorrectFeedback()
+          datasetChallengeFeedback.submitPass()
         } else {
-          triggerWrongFeedback()
+          datasetChallengeFeedback.submitFail()
         }
         setSessionScore(prev => ({
           correct: prev.correct + (data.passed ? 1 : 0),
@@ -489,11 +506,11 @@ export default function DatasetChallenge() {
           console.error("Error saving dataset attempt:", attemptErr)
         }
       } else {
-        triggerWrongFeedback()
+        datasetChallengeFeedback.submitFail()
         setResult({ passed: false, feedback: data.error, error: true })
       }
     } catch (err) {
-      triggerWrongFeedback()
+      datasetChallengeFeedback.submitFail()
       setResult({ passed: false, feedback: 'Connection failed or server error.', error: true })
     } finally {
       setIsSubmitting(false)
@@ -718,8 +735,249 @@ export default function DatasetChallenge() {
         <div className="w-20"></div> {/* Spacer */}
       </header>
 
-      {/* Main Panel Content Area */}
-      <div ref={containerRef} style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      {/* ─── MOBILE LAYOUT (< 1024px) ─── */}
+      {!isDesktop && (<>
+      <div className="lg:hidden flex items-center border-b border-[var(--border)] bg-[var(--bg-card)] shrink-0">
+        {['problem', 'code', 'console'].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setMobileTab(tab)}
+            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-transparent border-none ${
+              mobileTab === tab
+                ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
+                : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            {tab === 'problem' ? 'Problem' : tab === 'code' ? 'Code' : 'Console'}
+          </button>
+        ))}
+      </div>
+
+      {/* ─── MOBILE CONTENT (< 1024px) ─── */}
+      {/* Problem Tab */}
+      {mobileTab === 'problem' && (
+        <div className="lg:hidden flex-1 overflow-y-auto p-4 pb-24">
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`px-2 py-0.5 text-[10px] font-extrabold uppercase rounded shadow-sm ${
+              String(challenge.difficulty).toLowerCase() === 'easy' || challenge.difficulty === 1 ? 'bg-emerald-600 text-white' :
+              String(challenge.difficulty).toLowerCase() === 'medium' || challenge.difficulty === 2 ? 'bg-amber-500 text-black' :
+              'bg-rose-600 text-white'
+            }`}>
+              {typeof challenge.difficulty === 'number'
+                ? (challenge.difficulty === 1 ? 'EASY' : challenge.difficulty === 2 ? 'MEDIUM' : 'HARD')
+                : String(challenge.difficulty).toUpperCase()
+              }
+            </span>
+            <span className="bg-[var(--bg-card)] px-2 py-0.5 rounded border border-[var(--border)] text-[10px] text-[var(--text-primary)] font-mono">
+              📊 {challenge.dataset_file}
+            </span>
+          </div>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-3">{challenge.title}</h2>
+          <div className="text-sm text-[var(--text-primary)] leading-relaxed mb-4">
+            {challenge.context || challenge.description}
+          </div>
+          <div className="bg-yellow-500/10 border-l-4 border-yellow-500 p-3 rounded-r-lg mb-6">
+            <h4 className="text-[11px] font-bold text-yellow-500 uppercase tracking-wider mb-1">Variable Names</h4>
+            <p className="text-[11px] text-yellow-500/80">
+              Ensure you use the exact variable names requested in the description so the tests can verify your code!
+            </p>
+          </div>
+          <div className="space-y-2 mb-6">
+            {(challenge.hints || []).map((hint, idx) => (
+              <div key={idx} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
+                <button
+                  onClick={() => { const s = [...hintsShown]; s[idx] = true; setHintsShown(s) }}
+                  className="w-full text-left p-2.5 flex justify-between items-center text-xs font-medium hover:bg-[var(--bg-primary)] transition-colors cursor-pointer bg-transparent border-none"
+                >
+                  <span className="text-[var(--text-primary)]">💡 Hint {idx + 1}</span>
+                  {!hintsShown[idx] && <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">Reveal</span>}
+                </button>
+                {hintsShown[idx] && (
+                  <div className="p-2.5 border-t border-[var(--border)] text-xs text-[var(--text-muted)] bg-[var(--bg-primary)]">{hint}</div>
+                )}
+              </div>
+            ))}
+          </div>
+          {/* Run/Submit buttons for mobile problem tab */}
+          <div className="flex gap-2">
+            <button onClick={handleRun} disabled={isRunning || isSubmitting}
+              className="flex-1 py-2.5 rounded-lg bg-[var(--accent-green)] text-black text-sm font-bold disabled:opacity-50 cursor-pointer">
+              {isRunning ? 'Running...' : '▶ Run'}
+            </button>
+            <button onClick={handleSubmit} disabled={isRunning || isSubmitting}
+              className="flex-1 py-2.5 rounded-lg border border-[var(--accent-green)] text-[var(--accent-green)] text-sm font-bold disabled:opacity-50 cursor-pointer">
+              {isSubmitting ? 'Checking...' : '✓ Submit'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Code Tab (mobile) */}
+      {mobileTab === 'code' && (
+        <div className="lg:hidden flex-1 flex flex-col overflow-hidden bg-[#1e1e1e]">
+          <div className="flex items-center gap-1 px-2 py-1 bg-[var(--bg-card)] border-b border-[var(--border)] shrink-0">
+            <button
+              onClick={() => setActiveFile('script')}
+              className={`px-2 py-1 text-[10px] font-mono cursor-pointer bg-transparent border-none transition-colors ${
+                activeFile === 'script' ? 'text-[var(--text-primary)] border-b-2 border-[var(--accent-green)]' : 'text-[var(--text-muted)]'
+              }`}
+            >
+              script.py
+            </button>
+            <button
+              onClick={() => setActiveFile('expected_output')}
+              className={`px-2 py-1 text-[10px] font-mono cursor-pointer bg-transparent border-none transition-colors ${
+                activeFile === 'expected_output' ? 'text-[var(--text-primary)] border-b-2 border-[var(--accent-green)]' : 'text-[var(--text-muted)]'
+              }`}
+            >
+              expected_output.txt
+            </button>
+            <div className="ml-auto flex gap-1">
+              <button onClick={handleRun} disabled={isRunning || isSubmitting}
+                className="px-2.5 py-1 bg-[var(--accent-green)] text-black rounded text-[10px] font-bold disabled:opacity-50 cursor-pointer">Run</button>
+              <button onClick={handleSubmit} disabled={isRunning || isSubmitting}
+                className="px-2.5 py-1 border border-[var(--accent-green)] text-[var(--accent-green)] rounded text-[10px] font-bold disabled:opacity-50 cursor-pointer">Submit</button>
+              <button onClick={handleReset} disabled={isRunning || isSubmitting}
+                className="px-2 py-1 border border-[var(--border)] text-[var(--text-muted)] rounded text-[10px] cursor-pointer disabled:opacity-40 bg-transparent"><RotateCcw size={12} /></button>
+            </div>
+          </div>
+          <div className="grow relative">
+            <div className="absolute inset-0 flex flex-col">
+              {activeFile === 'script' && (
+                <>
+                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-3 py-1 text-[10px] font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
+                    {generatePreLoadedComments(challenge)}
+                  </div>
+                  <div className="grow">
+                    <Editor
+                      key="script-mobile"
+                      height="100%" width="100%" language="python" theme="dc-dark"
+                      value={code} onChange={(v) => setCode(v)} onMount={handleEditorDidMount}
+                      options={{ minimap: { enabled: false }, fontSize: 13, fontFamily: "'Courier New', Courier, monospace", lineHeight: 1.5, padding: { top: 6 }, scrollBeyondLastLine: false, wordWrap: 'on', readOnly: false }}
+                    />
+                  </div>
+                </>
+              )}
+              {activeFile === 'expected_output' && (
+                <Editor
+                  key="expected-output-mobile" height="100%" width="100%" language="text" theme="dc-dark"
+                  value={challenge?.expected_output || (loadingExpectedOutput ? 'Loading expected output...' : 'No expected output available.')}
+                  onMount={handleEditorDidMount}
+                  options={{ minimap: { enabled: false }, fontSize: 13, fontFamily: "'Courier New', Courier, monospace", lineHeight: 1.5, padding: { top: 12 }, scrollBeyondLastLine: false, wordWrap: 'on', readOnly: true }}
+                />
+              )}
+              {activeFile === 'solution' && (
+                <Editor
+                  key="solution-mobile" height="100%" width="100%" language="python" theme="dc-dark"
+                  value={challenge?.solution_code || challenge?.expected_output_code || ''} onMount={handleEditorDidMount}
+                  options={{ minimap: { enabled: false }, fontSize: 13, fontFamily: "'Courier New', Courier, monospace", lineHeight: 1.5, padding: { top: 12 }, scrollBeyondLastLine: false, wordWrap: 'on', readOnly: true }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Console Tab (mobile) — slim version */}
+      {mobileTab === 'console' && (
+        <div className="lg:hidden flex-1 flex flex-col bg-black overflow-hidden">
+          <div className="bg-[#1a1b23] px-3 border-b border-[var(--border)] flex items-center text-[10px] font-mono shrink-0 border-t-2 border-[var(--accent-green)] select-none">
+            <div className="flex gap-1">
+              {['console', 'variables', 'history'].map(tab => (
+                <button key={tab} onClick={() => setConsoleTab(tab)}
+                  className={`px-2 py-2 font-bold transition-all border-b-2 bg-transparent cursor-pointer ${
+                    consoleTab === tab ? 'border-[var(--accent-green)] text-[var(--accent-green)]' : 'border-transparent text-[var(--text-muted)]'
+                  }`}>
+                  {tab === 'console' ? 'Console' : tab === 'variables' ? 'Vars' : 'History'}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* Console Tab */}
+          {consoleTab === 'console' && (
+            <div className="grow flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-3 font-mono text-sm text-left">
+                {lastRun ? (
+                  <div>
+                    {lastRun.stderr && <div className="text-[var(--accent-red)] whitespace-pre-wrap mb-1 text-xs">{lastRun.stderr}</div>}
+                    <div className="text-gray-300 whitespace-pre-wrap text-sm">{lastRun.stdout || '(no output)'}</div>
+                    {lastRun.executionTime > 0 && <div className="text-zinc-600 text-[10px] mt-2">Executed in {lastRun.executionTime}ms</div>}
+                  </div>
+                ) : (
+                  <div className="text-zinc-600 italic text-xs">Run your code to see output here.</div>
+                )}
+                {snippetHistory.length > 0 && (
+                  <div className="border-t border-[var(--border)]/50 mt-3 pt-2 space-y-2">
+                    {snippetHistory.map((entry, idx) => (
+                      <div key={idx}>
+                        <div className="text-[var(--accent-green)] font-bold text-xs">&gt;&gt;&gt; {entry.snippet}</div>
+                        {entry.stderr && <div className="text-[var(--accent-red)] whitespace-pre-wrap ml-3 mt-0.5 text-xs">{entry.stderr}</div>}
+                        {entry.stdout && <div className="text-gray-300 whitespace-pre-wrap ml-3 mt-0.5 text-xs">{entry.stdout}</div>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div ref={terminalEndRef} />
+              </div>
+              <div className="flex items-center gap-1 px-3 py-1.5 border-t border-[var(--border)] bg-black/90 shrink-0">
+                <span className="text-[var(--accent-green)] font-bold font-mono text-xs">&gt;&gt;&gt;</span>
+                <input ref={snippetInputRef} type="text" value={snippetInput}
+                  onChange={(e) => setSnippetInput(e.target.value)} onKeyDown={handleSnippetKeyDown}
+                  placeholder="Run a Python line..." className="flex-1 bg-transparent border-none outline-none text-gray-200 font-mono text-xs placeholder-zinc-600" />
+              </div>
+            </div>
+          )}
+          {/* Variables Tab */}
+          {consoleTab === 'variables' && (
+            <div className="grow overflow-y-auto p-3 font-mono text-xs text-left">
+              {!lastRun || Object.keys(lastRun.variables).length === 0 ? (
+                <div className="text-zinc-500 italic flex flex-col items-center justify-center h-full gap-1 text-[10px]">
+                  <Database size={18} className="opacity-40" />
+                  <span>No variables defined yet.</span>
+                </div>
+              ) : (
+                <div className="border border-[var(--border)] rounded overflow-hidden bg-[var(--bg-primary)]">
+                  <table className="w-full text-left border-collapse text-[10px]">
+                    <thead><tr className="bg-zinc-900 border-b border-[var(--border)] text-zinc-500"><th className="p-2 font-bold">Name</th><th className="p-2 font-bold">Type</th><th className="p-2 font-bold">Preview</th></tr></thead>
+                    <tbody className="divide-y divide-[var(--border)]">
+                      {Object.entries(lastRun.variables).map(([name, info]) => (
+                        <tr key={name} className="hover:bg-zinc-800/25"><td className="p-2 text-[var(--accent-green)] font-bold">{name}</td><td className="p-2 text-[var(--accent-blue)]">{info.type}{info.shape ? ` (${info.shape})` : ''}</td><td className="p-2 text-zinc-300 max-w-[120px] truncate">{info.preview}</td></tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+          {/* History Tab */}
+          {consoleTab === 'history' && (
+            <div className="grow overflow-y-auto p-3 font-mono text-left">
+              {runHistory.length === 0 ? (
+                <div className="text-zinc-500 italic flex flex-col items-center justify-center h-full gap-1 text-[10px]">
+                  <History size={18} className="opacity-40" />
+                  <span>No runs yet.</span>
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <div className="text-[9px] uppercase font-bold text-zinc-500 tracking-wider select-none">Last 5 Runs</div>
+                  {runHistory.map((entry, idx) => (
+                    <button key={idx} onClick={() => setLastRun(entry)}
+                      className="w-full text-left p-2 rounded border border-[var(--border)] bg-zinc-950/40 hover:border-zinc-500 text-[10px] text-zinc-300 font-mono transition-all flex items-start gap-1.5 cursor-pointer">
+                      <span className={`shrink-0 ${entry.stderr ? 'text-red-500' : 'text-green-500'}`}>{entry.stderr ? <XCircle size={10} /> : <CheckCircle2 size={10} />}</span>
+                      <span className="grow truncate">{entry.codePreview}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      </>)}
+      
+      {/* ─── DESKTOP LAYOUT (>= 1024px) ─── */}
+      {isDesktop && (
+      <div ref={containerRef} className="hidden lg:flex flex-1 overflow-hidden">
         {/* LEFT PANEL */}
         <div className="h-full border-r border-[var(--border)] relative flex flex-col bg-[var(--bg-primary)]" style={{ width: `${leftWidth}%` }}>
           <div className="flex-1 overflow-y-auto p-6 pb-24">
@@ -1183,6 +1441,7 @@ export default function DatasetChallenge() {
         )}
       </div>
       </div>
+      )}
 
       {/* Show Solution Warning Modal */}
       {showSolutionModal && (

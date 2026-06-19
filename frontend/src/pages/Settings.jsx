@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AlertTriangle, Trash2, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard, Layers } from 'lucide-react'
+import { AlertTriangle, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard, Layers } from 'lucide-react'
 import { 
   isAudioEnabled, 
   setAudioEnabled, 
@@ -216,7 +216,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="space-y-8 pb-12 max-w-3xl mx-auto text-left">
+    <div className="space-y-6 pb-12 max-w-[880px] mx-auto text-left">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-extrabold text-[var(--text-primary)]">Settings</h1>
@@ -226,8 +226,8 @@ export default function Settings() {
       {/* Sound & Haptic Feedback Section */}
       <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl text-left">
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] text-[var(--accent-green)] shrink-0">
-            <Volume2 size={24} />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-[var(--accent-green)] shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-green) 10%, transparent)' }}>
+            <Volume2 size={20} />
           </div>
           <div className="space-y-2">
             <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
@@ -239,92 +239,92 @@ export default function Settings() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Audio toggle card */}
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+        <div className="mt-8 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] divide-y divide-[var(--border)]">
+          {/* Audio toggle row */}
+          <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
               <div className={`p-2.5 rounded-lg border transition-all ${
                 audioActive 
-                  ? 'border-[var(--accent-green)] text-[var(--accent-green)] bg-[rgba(3,239,98,0.05)]' 
+                  ? 'border-[var(--accent-green)] text-[var(--accent-green)] bg-[color-mix(in srgb,var(--accent-green),4%)]' 
                   : 'border-[var(--border)] text-[var(--text-muted)]'
               }`}>
                 {audioActive ? <Volume2 size={20} /> : <VolumeX size={20} />}
               </div>
               <div>
                 <h4 className="text-sm font-bold text-white">Audio Sound Effects</h4>
-                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Plays tones for correct/wrong answers</p>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Plays tones for correct/wrong answers</p>
               </div>
             </div>
             <button
               type="button"
               onClick={handleToggleAudio}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
+              className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
                 audioActive ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
               }`}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
-                  audioActive ? 'translate-x-5' : 'translate-x-0'
+                className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                  audioActive ? 'translate-x-[25px]' : 'translate-x-0'
                 }`}
               />
             </button>
           </div>
 
-          {/* Haptics toggle card */}
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+          {/* Haptics toggle row */}
+          <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
               <div className={`p-2.5 rounded-lg border transition-all ${
                 hapticsActive 
-                  ? 'border-[var(--accent-blue)] text-[var(--accent-blue)] bg-[rgba(96,165,250,0.05)]' 
+                  ? 'border-[var(--accent-blue)] text-[var(--accent-blue)] bg-[color-mix(in srgb,var(--accent-blue),4%)]' 
                   : 'border-[var(--border)] text-[var(--text-muted)]'
               }`}>
                 <Smartphone size={20} />
               </div>
               <div>
                 <h4 className="text-sm font-bold text-white">Haptic Vibration</h4>
-                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Vibrates on supported mobile devices</p>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Vibrates on supported mobile devices</p>
               </div>
             </div>
             <button
               type="button"
               onClick={handleToggleHaptics}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
-                hapticsActive ? 'bg-[var(--accent-blue)]' : 'bg-zinc-800'
+              className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
+                hapticsActive ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
               }`}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
-                  hapticsActive ? 'translate-x-5' : 'translate-x-0'
+                className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                  hapticsActive ? 'translate-x-[25px]' : 'translate-x-0'
                 }`}
               />
             </button>
           </div>
 
-          {/* Keyboard shortcuts toggle card */}
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] p-5 flex items-center justify-between">
+          {/* Keyboard shortcuts toggle row */}
+          <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
               <div className={`p-2.5 rounded-lg border transition-all ${
                 shortcutsActive 
-                  ? 'border-[var(--accent-yellow)] text-[var(--accent-yellow)] bg-[rgba(251,191,36,0.05)]' 
+                  ? 'border-[var(--accent-yellow)] text-[var(--accent-yellow)] bg-[color-mix(in srgb,var(--accent-yellow),4%)]' 
                   : 'border-[var(--border)] text-[var(--text-muted)]'
               }`}>
                 <Keyboard size={20} />
               </div>
               <div>
                 <h4 className="text-sm font-bold text-white">Keyboard Shortcuts</h4>
-                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-medium font-semibold">Shows keyboard helper in exercises</p>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Shows keyboard helper in exercises</p>
               </div>
             </div>
             <button
               type="button"
               onClick={handleToggleShortcuts}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
-                shortcutsActive ? 'bg-[var(--accent-yellow)]' : 'bg-zinc-800'
+              className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
+                shortcutsActive ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
               }`}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
-                  shortcutsActive ? 'translate-x-5' : 'translate-x-0'
+                className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                  shortcutsActive ? 'translate-x-[25px]' : 'translate-x-0'
                 }`}
               />
             </button>
@@ -513,8 +513,8 @@ export default function Settings() {
       {/* Study Session Configuration Section */}
       <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl text-left">
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] text-[var(--accent-green)] shrink-0">
-            <Layers size={24} />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-[var(--accent-green)] shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-green) 10%, transparent)' }}>
+            <Layers size={20} />
           </div>
           <div className="space-y-2">
             <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
@@ -539,7 +539,7 @@ export default function Settings() {
                   <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-semibold">Number of questions per active session</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden">
                 <button
                   type="button"
                   onClick={() => {
@@ -547,13 +547,15 @@ export default function Settings() {
                     setSessionQuestionCount(nextVal);
                     setSessionCount(nextVal);
                   }}
-                  className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--card-hover)] font-bold text-white flex items-center justify-center text-lg transition-all cursor-pointer"
+                  className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center"
                 >
                   -
                 </button>
-                <span className="text-lg font-mono font-bold text-[var(--accent-green)] bg-[rgba(3,239,98,0.1)] border border-[rgba(3,239,98,0.2)] px-4 py-1.5 rounded min-w-[3.5rem] text-center">
+                <div className="w-px self-stretch bg-[var(--border)]" />
+                <span className="px-5 py-2 text-lg font-mono font-bold text-[var(--accent-green)] text-center min-w-[3rem]">
                   {sessionCount}
                 </span>
+                <div className="w-px self-stretch bg-[var(--border)]" />
                 <button
                   type="button"
                   onClick={() => {
@@ -561,7 +563,7 @@ export default function Settings() {
                     setSessionQuestionCount(nextVal);
                     setSessionCount(nextVal);
                   }}
-                  className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--bg-card)] hover:bg-[var(--card-hover)] font-bold text-white flex items-center justify-center text-lg transition-all cursor-pointer"
+                  className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center"
                 >
                   +
                 </button>
@@ -601,13 +603,13 @@ export default function Settings() {
                             const nextList = toggleSessionModeForCategory(cat.id);
                             setDisabledCategories(nextList);
                           }}
-                          className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                          className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
                             isDisabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
                           }`}
                         >
                           <span
-                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                              isDisabled ? 'translate-x-4' : 'translate-x-0'
+                            className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                              isDisabled ? 'translate-x-[25px]' : 'translate-x-0'
                             }`}
                           />
                         </button>
@@ -632,13 +634,13 @@ export default function Settings() {
                             const nextList = toggleSessionModeForTrack(track.slug);
                             setDisabledTracks(nextList);
                           }}
-                          className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                          className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
                             isDisabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
                           }`}
                         >
                           <span
-                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                              isDisabled ? 'translate-x-4' : 'translate-x-0'
+                            className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                              isDisabled ? 'translate-x-[25px]' : 'translate-x-0'
                             }`}
                           />
                         </button>
@@ -702,12 +704,10 @@ export default function Settings() {
       </section>
 
       {/* Reset Progress Danger Card */}
-      <section className="relative overflow-hidden rounded-2xl border border-red-950/40 bg-gradient-to-br from-red-950/10 via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl">
-        <div className="absolute top-0 left-0 h-full w-[4px] bg-[var(--accent-red)]"></div>
-        
+      <section className="relative overflow-hidden rounded-2xl p-6 sm:p-8 shadow-xl mt-8" style={{ background: 'color-mix(in srgb, var(--accent-red) 4%, var(--bg-card))', border: '1.5px solid color-mix(in srgb, var(--accent-red) 30%, transparent)' }}>
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-red-950/45 border border-red-900/40 text-[var(--accent-red)] shrink-0">
-            <Trash2 size={24} className="animate-pulse" />
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-[var(--accent-red)] shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-red) 10%, transparent)' }}>
+            <AlertTriangle size={20} />
           </div>
           <div className="space-y-2">
             <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
@@ -865,8 +865,8 @@ export default function Settings() {
 
       {/* Confirmation Dialog Modal */}
       {confirmStep > 0 && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-t-2xl sm:rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in slide-in-from-bottom sm:animate-in sm:fade-in sm:zoom-in-95 duration-200">
             <div className="p-6 border-b border-[var(--border)] flex justify-between items-center">
               <div className="flex items-center gap-2 text-[var(--accent-red)]">
                 <AlertTriangle size={20} />
@@ -891,18 +891,18 @@ export default function Settings() {
                     This resets your mastery scores, daily streak stats, clears spaced-repetition schedules, 
                     and wipes all attempt records. You cannot undo this request.
                   </p>
-                  <div className="flex justify-end gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setConfirmStep(0)}
-                      className="px-5 py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-white hover:bg-zinc-900 transition-all cursor-pointer"
+                      className="px-5 py-3 sm:py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-white hover:bg-zinc-900 transition-all cursor-pointer"
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
                       onClick={handleConfirmStep1}
-                      className="px-5 py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--accent-red)] text-white hover:brightness-110 transition-all cursor-pointer"
+                      className="px-5 py-3 sm:py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--accent-red)] text-white hover:brightness-110 transition-all cursor-pointer"
                     >
                       Yes, Proceed
                     </button>
@@ -925,11 +925,11 @@ export default function Settings() {
                     placeholder="Enter the phrase exactly..."
                     className="w-full rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] p-3.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-red)] font-mono"
                   />
-                  <div className="flex justify-end gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setConfirmStep(0)}
-                      className="px-5 py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-white hover:bg-zinc-900 transition-all cursor-pointer"
+                      className="px-5 py-3 sm:py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-white hover:bg-zinc-900 transition-all cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -937,7 +937,7 @@ export default function Settings() {
                       type="button"
                       disabled={verificationInput !== getVerificationText(resetType) || resetting}
                       onClick={handleExecuteReset}
-                      className={`px-5 py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl text-white transition-all ${
+                      className={`px-5 py-3 sm:py-2.5 text-xs uppercase tracking-wider font-bold rounded-xl text-white transition-all ${
                         verificationInput === getVerificationText(resetType) && !resetting
                           ? 'bg-[var(--accent-red)] hover:brightness-110 cursor-pointer shadow-md'
                           : 'bg-zinc-850 text-zinc-650 border border-zinc-800/40 cursor-not-allowed'

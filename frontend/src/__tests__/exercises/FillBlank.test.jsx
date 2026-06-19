@@ -31,6 +31,15 @@ beforeEach(() => {
   fetch.mockReset()
 })
 
+// Stabilize Math.random for deterministic exercise ordering
+beforeAll(() => {
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+})
+
+afterAll(() => {
+  vi.restoreAllMocks()
+})
+
 describe('FillBlank', () => {
   it('renders greeting then exercise with code template and description', async () => {
     fetch
@@ -213,10 +222,15 @@ describe('FillBlank', () => {
       }
     ]
 
-    fetch
-      .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
-      .mockResolvedValueOnce({ ok: true, json: async () => twoExercises })
-      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+    const mockMap = {
+      '/api/courses/test-course': mockCourse,
+      '/api/content/exercises/test-course/ftb': twoExercises,
+      '/api/progress/attempted-questions/test-course/fillblank': [],
+    }
+    fetch.mockImplementation((url) => {
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
 
     renderComponent()
 
@@ -233,7 +247,13 @@ describe('FillBlank', () => {
     const input = screen.getByPlaceholderText('_____')
     await userEvent.type(input, 'a + b')
 
-    fetch.mockResolvedValueOnce({ ok: true })
+    fetch.mockImplementation((url, opts) => {
+      if (opts && opts.method === 'POST') {
+        return Promise.resolve({ ok: true, json: async () => ({}) })
+      }
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
 
     await userEvent.click(screen.getByText('Check Answer'))
 

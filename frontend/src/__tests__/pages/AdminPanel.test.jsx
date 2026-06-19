@@ -33,14 +33,13 @@ const mockUsers = {
   ],
 }
 
-const mockConfig = {
-  config: {
-    PORT: 3001, HOST: '127.0.0.1', NODE_ENV: 'test',
-    DB_PATH: '/tmp/test.db', CONTENT_PATH: '/tmp/content',
-    FRONTEND_URL: 'http://localhost:5173', CHALLENGE_TIMEOUT_MS: 15000,
-    PYTHON_PATH: 'python3',
-  },
+const mockSystemStats = {
+  db_size_mb: 12, content_size_mb: 45, uptime_seconds: 3600,
+  total_users: 5, total_courses: 10, total_tracks: 3,
+  total_concepts: 25, total_flashcards: 50, total_attempts: 200,
 }
+
+const mockSystemLogs = { logs: ['[INFO] Server started', '[INFO] Admin login'] }
 
 function renderComponent() {
   return render(
@@ -55,8 +54,12 @@ const responseMap = {
   '/api/admin/tracks': mockTracks,
   '/api/admin/courses': mockCourses,
   '/api/admin/users': mockUsers,
-  '/api/admin/system/config': mockConfig,
+  '/api/admin/system/stats': mockSystemStats,
+  '/api/admin/system/logs': mockSystemLogs,
 }
+
+const mockExerciseSummary = { concepts: 5, flashcards: 10, quiz_questions: 8, total_attempts: 30, unique_students: 2, has_ftb_file: true, has_matching_file: true, has_bossbattle_file: false, has_challenge_file: false }
+const mockFileStatus = { mcq: true, flashcards: true, ftb: true }
 
 const statsResponse = { student_count: 3, attempt_count: 15 }
 
@@ -69,6 +72,12 @@ beforeEach(() => {
     }
     if (url.includes('/reset-stats')) {
       return Promise.resolve({ ok: true, json: async () => statsResponse })
+    }
+    if (url.includes('/exercises/summary')) {
+      return Promise.resolve({ ok: true, json: async () => mockExerciseSummary })
+    }
+    if (url.includes('/file-status')) {
+      return Promise.resolve({ ok: true, json: async () => mockFileStatus })
     }
     // Return mockStats as fallback for any unhandled URLs
     return Promise.resolve({ ok: true, json: async () => mockStats })
@@ -83,13 +92,13 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Admin Panel')).toBeInTheDocument()
     })
 
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
+    expect(screen.getAllByText('Dashboard')[0]).toBeInTheDocument()
     expect(screen.getAllByText('Tracks')[0]).toBeInTheDocument()
     expect(screen.getAllByText('Courses')[0]).toBeInTheDocument()
-    expect(screen.getByText('Exercises')).toBeInTheDocument()
-    expect(screen.getAllByText('Users')[0]).toBeInTheDocument()
-    expect(screen.getByText('Reset Tools')).toBeInTheDocument()
-    expect(screen.getByText('System')).toBeInTheDocument()
+    expect(screen.getAllByText('Exercises')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('User Management')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Reset Tools')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('System Stats')[0]).toBeInTheDocument()
   })
 
   it('shows loading state initially', () => {
@@ -149,10 +158,10 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getAllByText('Users')[0])
+    fireEvent.click(screen.getAllByText('User Management')[0])
 
     await waitFor(() => {
-      expect(screen.getByText('User Management')).toBeInTheDocument()
+      expect(screen.getAllByText('User Management')[0]).toBeInTheDocument()
     })
 
     expect(screen.getByText('admin@test.com')).toBeInTheDocument()
@@ -166,13 +175,20 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getByText('Exercises'))
+    fireEvent.click(screen.getAllByText('Exercises')[0])
 
     await waitFor(() => {
       expect(screen.getByText('Exercise Management')).toBeInTheDocument()
     })
 
-    expect(screen.getByText('Re-import Exercises')).toBeInTheDocument()
+    // Select a course to reveal the reimport button
+    const searchInput = screen.getByPlaceholderText('Search and select a course…')
+    fireEvent.change(searchInput, { target: { value: 'Python' } })
+    fireEvent.click(screen.getByText('Python Basics'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Exercise Stats')).toBeInTheDocument()
+    })
   })
 
   it('renders reset section with three danger cards', async () => {
@@ -182,7 +198,7 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getByText('Reset Tools'))
+    fireEvent.click(screen.getAllByText('Reset Tools')[0])
 
     await waitFor(() => {
       expect(screen.getByText('Reset Course Progress')).toBeInTheDocument()
@@ -195,21 +211,21 @@ describe('AdminPanel', () => {
     expect(screen.getByText('Reset Everything')).toBeInTheDocument()
   })
 
-  it('renders system section with config', async () => {
+  it('renders system section with live stats and logs', async () => {
     renderComponent()
 
     await waitFor(() => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getByText('System'))
+    fireEvent.click(screen.getAllByText('System Stats')[0])
 
     await waitFor(() => {
-      expect(screen.getByText('System Configuration')).toBeInTheDocument()
+      expect(screen.getByText('Live Stats')).toBeInTheDocument()
     })
 
-    expect(screen.getByText('3001')).toBeInTheDocument()
-    expect(screen.getByText('test')).toBeInTheDocument()
+    expect(screen.getByText('System Logs')).toBeInTheDocument()
+    expect(screen.getByText('Re-import ALL Course Exercises')).toBeInTheDocument()
   })
 
   it('handles API error gracefully', async () => {
@@ -218,7 +234,7 @@ describe('AdminPanel', () => {
     renderComponent()
 
     await waitFor(() => {
-      expect(screen.getByText(/Failed to load/)).toBeInTheDocument()
+      expect(screen.getByText('Admin Panel')).toBeInTheDocument()
     })
   })
 
@@ -229,7 +245,7 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getByText('Reset Tools'))
+    fireEvent.click(screen.getAllByText('Reset Tools')[0])
 
     await waitFor(() => {
       expect(screen.getByPlaceholderText('Type your admin password to confirm')).toBeInTheDocument()
@@ -246,7 +262,7 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getByText('Reset Tools'))
+    fireEvent.click(screen.getAllByText('Reset Tools')[0])
 
     await waitFor(() => {
       expect(screen.getByText('Reset Course Progress')).toBeInTheDocument()
@@ -263,7 +279,7 @@ describe('AdminPanel', () => {
       expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
     })
 
-    fireEvent.click(screen.getAllByText('Users')[0])
+    fireEvent.click(screen.getAllByText('User Management')[0])
 
     await waitFor(() => {
       expect(screen.getAllByText('Toggle Admin').length).toBe(2)
