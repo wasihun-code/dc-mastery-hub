@@ -150,8 +150,6 @@ export default function Tracks() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
   const [selectedHasExercises, setSelectedHasExercises] = useState('present')
   const [showFilters, setShowFilters] = useState(false)
-  const [screenWidth, setScreenWidth] = useState(() => window.innerWidth)
-
   const [selectedCourseId, setSelectedCourseId] = useState(null)
   const [scrolledDown, setScrolledDown] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -163,21 +161,30 @@ export default function Tracks() {
 
   const listRef = useRef(null)
 
+  const MIN_LIST_PANEL_WIDTH = 280
+  const MIN_DETAIL_PANEL_WIDTH = 420
+  const containerRef = useRef(null)
+  const detailRef = useRef(null)
+  const [containerWidth, setContainerWidth] = useState(0)
+
   useEffect(() => {
-    const handle = () => setScreenWidth(window.innerWidth)
-    window.addEventListener('resize', handle)
-    return () => window.removeEventListener('resize', handle)
+    if (!containerRef.current) return
+    const observer = new ResizeObserver((entries) => {
+      setContainerWidth(entries[0].contentRect.width)
+    })
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
   }, [])
 
-  const isMobile = screenWidth < 640
-  const isTablet = screenWidth >= 640 && screenWidth < 1024
+  const canFitSideBySide = containerWidth >= (MIN_LIST_PANEL_WIDTH + MIN_DETAIL_PANEL_WIDTH + 20)
+  const isMobile = containerWidth > 0 && containerWidth < MIN_LIST_PANEL_WIDTH
 
   useEffect(() => {
     localStorage.setItem('tracksLeftPanelWidth', leftPanelWidth)
   }, [leftPanelWidth])
 
   useEffect(() => {
-    if (isMobile) return
+    if (!canFitSideBySide) return
     const handleMouseMove = (e) => {
       if (!isResizing) return
       const sidebarWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')) || 0
@@ -197,7 +204,7 @@ export default function Tracks() {
       document.body.style.cursor = 'default'
       document.body.style.userSelect = 'auto'
     }
-  }, [isResizing, isMobile])
+  }, [isResizing, canFitSideBySide])
 
   useEffect(() => {
     let isMounted = true
@@ -261,16 +268,25 @@ export default function Tracks() {
 
   return (
     <div
+      ref={containerRef}
       className="fixed top-[56px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0"
-      style={{ left: isMobile ? '0px' : 'var(--sidebar-width)' }}
+      style={{
+        left: isMobile ? '0px' : 'var(--sidebar-width)',
+        flexDirection: canFitSideBySide ? 'row' : 'column',
+      }}
     >
       {/* LEFT PANEL - COURSE LIST */}
       <aside
-        className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 border-r border-[var(--border)]"
-        style={{ width: isMobile ? '100%' : `${leftPanelWidth}px` }}
+        className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0"
+        style={{
+          width: canFitSideBySide ? `${leftPanelWidth}px` : '100%',
+          maxHeight: canFitSideBySide ? undefined : '45vh',
+          borderRight: canFitSideBySide ? '1px solid var(--border)' : undefined,
+          borderBottom: canFitSideBySide ? undefined : '1px solid var(--border)',
+        }}
       >
-        {/* Resize Handle (hidden on mobile) */}
-        {!isMobile && (
+        {/* Resize Handle (only in side-by-side mode) */}
+        {canFitSideBySide && (
           <div
             onMouseDown={() => setIsResizing(true)}
             className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
@@ -349,6 +365,11 @@ export default function Tracks() {
                       navigate(`/courses/${c.slug}`)
                     } else {
                       setSelectedCourseId(c.id)
+                      if (!canFitSideBySide && detailRef.current) {
+                        requestAnimationFrame(() => {
+                          detailRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        })
+                      }
                     }
                   }}
                   selectedTrack={selectedTrack}
@@ -385,8 +406,13 @@ export default function Tracks() {
         </div>
       </aside>
 
-      {/* RIGHT PANEL - COURSE DETAIL (hidden on mobile, users navigate instead) */}
-      <main className={`flex-1 overflow-y-auto bg-[var(--bg-primary)] scroll-smooth ${isMobile ? 'hidden' : ''}`}>
+      {/* RIGHT PANEL - COURSE DETAIL */}
+      <main
+        ref={detailRef}
+        className={`overflow-y-auto bg-[var(--bg-primary)] scroll-smooth ${
+          isMobile ? 'hidden' : canFitSideBySide ? 'flex-1' : 'flex-1 min-h-0'
+        }`}
+      >
         {!selectedCourseId ? (
           <div
             className="flex h-full flex-col items-center text-center animate-in fade-in duration-300"

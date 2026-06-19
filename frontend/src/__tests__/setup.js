@@ -29,6 +29,13 @@ vi.mock('@monaco-editor/react', () => ({
   )
 }));
 
+global.ResizeObserver = class {
+  constructor(callback) { this.callback = callback }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 window.AudioContext = vi.fn().mockImplementation(() => ({
   createOscillator: vi.fn().mockReturnValue({
     connect: vi.fn(), start: vi.fn(), stop: vi.fn(),
