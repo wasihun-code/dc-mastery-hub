@@ -296,7 +296,7 @@
       "difficulty": "hard",
       "card_type": "definition",
       "front": "What is polymorphism in OOP?",
-      "back": "Polymorphism means that objects of different classes can be treated uniformly through a common interface. The same method call can behave differently depending on the object's class.\n\nExample: calling `withdraw()` on different account types works correctly for each.",
+      "back": "Objects of different classes can be treated uniformly through a common interface. The same method call can behave differently depending on the object's class.\n\nExample: calling `withdraw()` on different account types works correctly for each.",
       "hint": "Think 'many forms' – same method name, different implementations.",
       "answer_reveal_after": 5,
       "explanation": "Polymorphism is often achieved via method overriding. Code written against a parent class can work with any child class instance, as long as the child provides the expected methods.",
@@ -304,7 +304,9 @@
       "related_card_ids": [
         "fc_016",
         "fc_025"
-      ]
+      ],
+      "_exerciseType": "flashcards",
+      "blanksText": ""
     },
     {
       "id": "fc_018",
