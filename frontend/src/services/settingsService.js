@@ -98,3 +98,59 @@ export function getSessionLimit(category, courseSlug, trackSlug, totalCount) {
   }
   return baseCount;
 }
+
+// Timer preferences
+const TIMER_DEFAULTS = {
+  timer_enabled_mcq: false,
+  timer_enabled_ftb: false,
+  timer_enabled_dataset: false,
+  timer_duration_mcq_seconds: 60,
+  timer_duration_ftb_seconds: 60,
+  timer_duration_dataset_seconds: 120,
+};
+
+export const TIMER_STEPS = [30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 240, 300, 360, 420, 480];
+
+export function stepTimer(currentSeconds, direction) {
+  const idx = TIMER_STEPS.indexOf(currentSeconds);
+  if (idx === -1) return currentSeconds;
+  if (direction === 'up') return TIMER_STEPS[Math.min(idx + 1, TIMER_STEPS.length - 1)];
+  return TIMER_STEPS[Math.max(idx - 1, 0)];
+}
+
+export function formatTimerSeconds(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function getTimerPref(key) {
+  const raw = localStorage.getItem(key);
+  if (raw === null) return TIMER_DEFAULTS[key];
+  if (raw === 'true') return true;
+  if (raw === 'false') return false;
+  const num = parseInt(raw, 10);
+  return isNaN(num) ? TIMER_DEFAULTS[key] : num;
+}
+
+function setTimerPref(key, value) {
+  localStorage.setItem(key, String(value));
+}
+
+export function getTimerEnabled(prefix) {
+  return getTimerPref(`timer_enabled_${prefix}`);
+}
+
+export function setTimerEnabled(prefix, val) {
+  setTimerPref(`timer_enabled_${prefix}`, val);
+}
+
+export function getTimerDuration(prefix) {
+  return getTimerPref(`timer_duration_${prefix}_seconds`);
+}
+
+export function setTimerDuration(prefix, seconds) {
+  if (!TIMER_STEPS.includes(seconds)) return false;
+  setTimerPref(`timer_duration_${prefix}_seconds`, seconds);
+  return true;
+}

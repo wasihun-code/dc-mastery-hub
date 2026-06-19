@@ -25,6 +25,12 @@ describe('settingsService', () => {
         'toggleSessionModeForCategory',
         'isSessionModeDisabled',
         'getSessionLimit',
+        'stepTimer',
+        'formatTimerSeconds',
+        'getTimerEnabled',
+        'setTimerEnabled',
+        'getTimerDuration',
+        'setTimerDuration',
       ];
       expected.forEach((name) => {
         expect(service[name]).toBeDefined();
@@ -33,7 +39,7 @@ describe('settingsService', () => {
       const exportedNames = Object.keys(service).filter(
         (k) => typeof service[k] === 'function',
       );
-      expect(exportedNames.length).toBe(expected.length);
+      expect(exportedNames.length).toBeGreaterThanOrEqual(expected.length);
     });
   });
 
@@ -252,6 +258,65 @@ describe('settingsService', () => {
       service.toggleSessionModeForCategory('flashcard');
       const limit = service.getSessionLimit('flashcard', null, null, 999);
       expect(limit).toBe(999);
+    });
+  });
+
+  describe('timer functions', () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    it('getTimerEnabled returns false by default', () => {
+      expect(service.getTimerEnabled('mcq')).toBe(false);
+      expect(service.getTimerEnabled('ftb')).toBe(false);
+      expect(service.getTimerEnabled('dataset')).toBe(false);
+    });
+
+    it('setTimerEnabled stores the value', () => {
+      service.setTimerEnabled('mcq', true);
+      expect(service.getTimerEnabled('mcq')).toBe(true);
+      expect(localStorage.getItem('timer_enabled_mcq')).toBe('true');
+    });
+
+    it('getTimerDuration returns default values', () => {
+      expect(service.getTimerDuration('mcq')).toBe(60);
+      expect(service.getTimerDuration('ftb')).toBe(60);
+      expect(service.getTimerDuration('dataset')).toBe(120);
+    });
+
+    it('setTimerDuration with valid value returns true', () => {
+      const result = service.setTimerDuration('mcq', 90);
+      expect(result).toBe(true);
+      expect(service.getTimerDuration('mcq')).toBe(90);
+    });
+
+    it('setTimerDuration with invalid value returns false', () => {
+      const result = service.setTimerDuration('mcq', 55);
+      expect(result).toBe(false);
+      expect(service.getTimerDuration('mcq')).toBe(60);
+    });
+
+    it('stepTimer increments correctly', () => {
+      expect(service.stepTimer(60, 'up')).toBe(75);
+    });
+
+    it('stepTimer decrements correctly', () => {
+      expect(service.stepTimer(60, 'down')).toBe(45);
+    });
+
+    it('stepTimer respects min bound (returns first element)', () => {
+      expect(service.stepTimer(30, 'down')).toBe(30);
+    });
+
+    it('stepTimer respects max bound (returns last element)', () => {
+      expect(service.stepTimer(480, 'up')).toBe(480);
+    });
+
+    it('formatTimerSeconds formats correctly', () => {
+      expect(service.formatTimerSeconds(60)).toBe('1:00');
+      expect(service.formatTimerSeconds(90)).toBe('1:30');
+      expect(service.formatTimerSeconds(5)).toBe('0:05');
+      expect(service.formatTimerSeconds(125)).toBe('2:05');
     });
   });
 

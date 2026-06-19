@@ -14,8 +14,9 @@ import {
   Edit2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
-import { getSessionLimit } from '../services/settingsService';
+import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
+import ExerciseTimer from '../components/ExerciseTimer';
 
 export default function Quiz() {
   const { courseSlug } = useParams();
@@ -38,6 +39,10 @@ export default function Quiz() {
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
+
+  const [timerEnabled] = useState(() => getTimerEnabled('mcq'));
+  const [timerDuration] = useState(() => getTimerDuration('mcq'));
+  const [timerExpired, setTimerExpired] = useState(false);
 
   const [allowMultipleTries, setAllowMultipleTries] = useState(() => {
     return localStorage.getItem('allowMultipleTries') === 'true';
@@ -283,8 +288,9 @@ export default function Quiz() {
     }
   };
 
-  const finishExercise = async () => {
+  const finishExercise = async (expired) => {
     setStep(3);
+    if (expired) setTimerExpired(true);
     triggerSuccessFeedback();
     const earnedXp = 30;
     setXpEarned(earnedXp);
@@ -421,7 +427,20 @@ export default function Quiz() {
           
           <div className="text-center">
             <span className="text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">Quiz • {course?.name}</span>
-            <div className="font-bold text-sm">Question {currentIndex + 1} of {questions.length}</div>
+            <div className="font-bold text-sm flex items-center justify-center gap-2">
+              Question {currentIndex + 1} of {questions.length}
+              {timerEnabled && !timerExpired && (
+                <ExerciseTimer
+                  durationSeconds={timerDuration}
+                  isRunning={true}
+                  onExpire={() => {
+                    setTimerExpired(true);
+                    finishExercise();
+                  }}
+                  resetKey="quiz-session-timer"
+                />
+              )}
+            </div>
           </div>
           
           <div className="flex items-center gap-4">
@@ -689,6 +708,11 @@ export default function Quiz() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">
+        {timerExpired && (
+          <div style={{ background: 'color-mix(in srgb, var(--accent-blue) 10%, transparent)', borderLeft: '3px solid var(--accent-blue)', padding: '12px 16px', borderRadius: '8px', marginBottom: '16px', maxWidth: '600px', margin: '0 auto 16px', textAlign: 'left' }}>
+            <span className="text-sm text-[var(--text-primary)]">⏱ Time's up! Session ended early — your progress up to this point has been saved.</span>
+          </div>
+        )}
         <div className={`mb-6 flex h-24 w-24 items-center justify-center rounded-full ${percentage >= 70 ? 'bg-[var(--accent-green)] text-black' : 'bg-[var(--accent-red)] text-white'}`}>
           {percentage >= 70 ? <Check size={64} strokeWidth={3} /> : <X size={64} strokeWidth={3} />}
         </div>

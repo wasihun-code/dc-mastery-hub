@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { AlertTriangle, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard, Layers } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { AlertTriangle, X, CheckCircle2, RefreshCw, Volume2, VolumeX, Smartphone, Keyboard, Layers, Timer, HelpCircle, PenLine, Database } from 'lucide-react'
 import { 
   isAudioEnabled, 
   setAudioEnabled, 
@@ -34,7 +34,14 @@ import {
   getDisabledSessionTracks,
   toggleSessionModeForTrack,
   getDisabledSessionCategories,
-  toggleSessionModeForCategory
+  toggleSessionModeForCategory,
+  getTimerEnabled,
+  setTimerEnabled,
+  getTimerDuration,
+  setTimerDuration,
+  stepTimer,
+  formatTimerSeconds,
+  TIMER_STEPS
 } from '../services/settingsService'
 
 export default function Settings() {
@@ -63,6 +70,38 @@ export default function Settings() {
   });
   const [volumeLevel, setVolumeLevel] = useState(getAudioVolume())
   const [lastPlayTime, setLastPlayTime] = useState(0)
+
+  // Timer preferences state
+  const [timerMcqEnabled, setTimerMcqEnabled] = useState(() => getTimerEnabled('mcq'))
+  const [timerFtbEnabled, setTimerFtbEnabled] = useState(() => getTimerEnabled('ftb'))
+  const [timerDatasetEnabled, setTimerDatasetEnabled] = useState(() => getTimerEnabled('dataset'))
+  const [timerMcqDuration, setTimerMcqDuration] = useState(() => getTimerDuration('mcq'))
+  const [timerFtbDuration, setTimerFtbDuration] = useState(() => getTimerDuration('ftb'))
+  const [timerDatasetDuration, setTimerDatasetDuration] = useState(() => getTimerDuration('dataset'))
+
+  const debounceTimerRef = useRef(null)
+
+  const handleTimerDurationChange = (prefix, seconds) => {
+    setTimerDuration(prefix, seconds)
+    if (prefix === 'mcq') setTimerMcqDuration(seconds)
+    else if (prefix === 'ftb') setTimerFtbDuration(seconds)
+    else if (prefix === 'dataset') setTimerDatasetDuration(seconds)
+  }
+
+  const handleDebouncedDuration = (prefix, seconds) => {
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+    debounceTimerRef.current = setTimeout(() => {
+      handleTimerDurationChange(prefix, seconds)
+    }, 400)
+  }
+
+  const handleToggleTimer = (prefix, currentVal) => {
+    const nextVal = !currentVal
+    setTimerEnabled(prefix, nextVal)
+    if (prefix === 'mcq') setTimerMcqEnabled(nextVal)
+    else if (prefix === 'ftb') setTimerFtbEnabled(nextVal)
+    else if (prefix === 'dataset') setTimerDatasetEnabled(nextVal)
+  }
 
   const handleToggleAudio = () => {
     const nextVal = !audioActive
@@ -719,6 +758,202 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Exercise Timers Section */}
+      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] via-zinc-950 to-zinc-900/50 p-6 sm:p-8 shadow-xl text-left">
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-blue) 12%, transparent)' }}>
+            <Timer size={18} style={{ color: 'var(--accent-blue)' }} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-white uppercase tracking-tight italic">
+              Exercise Timers
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+              Add a countdown timer to keep your practice sessions focused. Time running out silently moves you forward — your answers up to that point are still saved.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] divide-y divide-[var(--border)]">
+          {/* Multiple Choice Quiz row */}
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-lg border border-[var(--border)]">
+                <HelpCircle size={20} style={{ color: 'var(--text-muted)' }} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white" style={{ fontWeight: 600 }}>Multiple Choice Quiz</h4>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">One timer for your whole quiz session</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              {timerMcqEnabled && (
+                <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden animate-in fade-in slide-in-from-right-2 duration-150">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerMcqDuration, 'down')
+                      handleDebouncedDuration('mcq', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerMcqDuration) <= 0}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    -
+                  </button>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <span className="px-4 py-2 text-lg font-mono font-bold text-[var(--accent-green)] text-center min-w-[3rem]">
+                    {formatTimerSeconds(timerMcqDuration)}
+                  </span>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerMcqDuration, 'up')
+                      handleDebouncedDuration('mcq', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerMcqDuration) >= TIMER_STEPS.length - 1}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => handleToggleTimer('mcq', timerMcqEnabled)}
+                className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
+                  timerMcqEnabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                }`}
+              >
+                <span
+                  className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                    timerMcqEnabled ? 'translate-x-[25px]' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Fill in the Blank row */}
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-lg border border-[var(--border)]">
+                <PenLine size={20} style={{ color: 'var(--text-muted)' }} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white" style={{ fontWeight: 600 }}>Fill in the Blank</h4>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">One timer for your whole fill-in-the-blank session</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              {timerFtbEnabled && (
+                <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden animate-in fade-in slide-in-from-right-2 duration-150">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerFtbDuration, 'down')
+                      handleDebouncedDuration('ftb', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerFtbDuration) <= 0}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    -
+                  </button>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <span className="px-4 py-2 text-lg font-mono font-bold text-[var(--accent-green)] text-center min-w-[3rem]">
+                    {formatTimerSeconds(timerFtbDuration)}
+                  </span>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerFtbDuration, 'up')
+                      handleDebouncedDuration('ftb', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerFtbDuration) >= TIMER_STEPS.length - 1}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => handleToggleTimer('ftb', timerFtbEnabled)}
+                className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
+                  timerFtbEnabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                }`}
+              >
+                <span
+                  className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                    timerFtbEnabled ? 'translate-x-[25px]' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Dataset Challenge row */}
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-lg border border-[var(--border)]">
+                <Database size={20} style={{ color: 'var(--text-muted)' }} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-white" style={{ fontWeight: 600 }}>Dataset Challenge</h4>
+                <p className="text-xs text-[var(--text-muted)] mt-0.5">Timer resets for each new challenge</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              {timerDatasetEnabled && (
+                <div className="flex items-center rounded-lg border border-[var(--border)] overflow-hidden animate-in fade-in slide-in-from-right-2 duration-150">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerDatasetDuration, 'down')
+                      handleDebouncedDuration('dataset', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerDatasetDuration) <= 0}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    -
+                  </button>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <span className="px-4 py-2 text-lg font-mono font-bold text-[var(--accent-green)] text-center min-w-[3rem]">
+                    {formatTimerSeconds(timerDatasetDuration)}
+                  </span>
+                  <div className="w-px self-stretch bg-[var(--border)]" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextVal = stepTimer(timerDatasetDuration, 'up')
+                      handleDebouncedDuration('dataset', nextVal)
+                    }}
+                    disabled={TIMER_STEPS.indexOf(timerDatasetDuration) >= TIMER_STEPS.length - 1}
+                    className="px-3.5 py-2 font-bold text-white hover:bg-[var(--card-hover)] text-lg transition-all cursor-pointer flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => handleToggleTimer('dataset', timerDatasetEnabled)}
+                className={`relative inline-flex items-center w-10 h-[22px] shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none p-[2px] ${
+                  timerDatasetEnabled ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
+                }`}
+              >
+                <span
+                  className={`inline-block w-[11px] h-[11px] rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${
+                    timerDatasetEnabled ? 'translate-x-[25px]' : 'translate-x-0'
+                  }`}
+                />
+              </button>
             </div>
           </div>
         </div>

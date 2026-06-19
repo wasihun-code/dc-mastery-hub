@@ -12,8 +12,9 @@ import {
   Trash2,
   Edit2
   } from 'lucide-react';
-  import { getSessionLimit } from '../services/settingsService';
+  import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
   import EditQuestionModal from '../components/EditQuestionModal';
+  import ExerciseTimer from '../components/ExerciseTimer';
 
 const AutoResizingInput = React.forwardRef(({ slotIndex, value, isChecked, isCorrect, activeSlot, onFocus, onChange }, ref) => {
   const spanRef = useRef(null);
@@ -91,6 +92,9 @@ export default function FillBlank() {
   const [correctExerciseCount, setCorrectExerciseCount] = useState(0);
   const [activeSlot, setActiveSlot] = useState(0);
   const [xpEarned, setXpEarned] = useState(0);
+  const [timerEnabled] = useState(() => getTimerEnabled('ftb'));
+  const [timerDuration] = useState(() => getTimerDuration('ftb'));
+  const [timerExpired, setTimerExpired] = useState(false);
   const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
   const [choicesEnabled, setChoicesEnabled] = useState(false);
 
@@ -397,8 +401,9 @@ export default function FillBlank() {
     }
   };
 
-  const finishExercise = async () => {
+  const finishExercise = async (expired) => {
     setStep(3);
+    if (expired) setTimerExpired(true);
     triggerSuccessFeedback();
     const earnedXp = 25;
     setXpEarned(earnedXp);
@@ -574,7 +579,20 @@ export default function FillBlank() {
           
           <div className="text-center">
             <span className="text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">Fill Blank • {course?.name}</span>
-            <div className="font-bold text-sm">Exercise {currentIndex + 1} of {exercises.length}</div>
+            <div className="font-bold text-sm flex items-center justify-center gap-2">
+              Exercise {currentIndex + 1} of {exercises.length}
+              {timerEnabled && !timerExpired && (
+                <ExerciseTimer
+                  durationSeconds={timerDuration}
+                  isRunning={true}
+                  onExpire={() => {
+                    setTimerExpired(true);
+                    finishExercise();
+                  }}
+                  resetKey="ftb-session-timer"
+                />
+              )}
+            </div>
           </div>
           
           <div className="w-20"></div> {/* Spacer */}
@@ -834,6 +852,11 @@ export default function FillBlank() {
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-exercise)] p-6 text-center overflow-y-auto">
+        {timerExpired && (
+          <div style={{ background: 'color-mix(in srgb, var(--accent-blue) 10%, transparent)', borderLeft: '3px solid var(--accent-blue)', padding: '12px 16px', borderRadius: '8px', marginBottom: '16px', maxWidth: '600px', margin: '0 auto 16px', textAlign: 'left' }}>
+            <span className="text-sm text-[var(--text-primary)]">⏱ Time's up! Session ended early — your progress up to this point has been saved.</span>
+          </div>
+        )}
         <div className={`mb-6 flex h-24 w-24 items-center justify-center rounded-full ${percentage >= 70 ? 'bg-[var(--accent-green)] text-black' : 'bg-[var(--accent-red)] text-white'}`}>
           {percentage >= 70 ? <Check size={64} strokeWidth={3} /> : <X size={64} strokeWidth={3} />}
         </div>

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { datasetChallengeFeedback, triggerCorrectFeedback, triggerWrongFeedback, triggerSuccessFeedback } from '../services/feedbackService'
-import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, SkipForward, Trash2, Edit2, Eye, Lightbulb } from 'lucide-react'
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle2, XCircle, Award, Terminal as TerminalIcon, RotateCcw, ArrowRight, Database, History, SkipForward, Trash2, Edit2, Eye, Lightbulb, X } from 'lucide-react'
 import Editor from '@monaco-editor/react'
-import { getSessionLimit } from '../services/settingsService'
+import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService'
 import EditQuestionModal from '../components/EditQuestionModal'
+import ExerciseTimer from '../components/ExerciseTimer'
 
 export default function DatasetChallenge() {
   const { courseSlug } = useParams()
@@ -25,6 +26,9 @@ export default function DatasetChallenge() {
   const [showSolutionModal, setShowSolutionModal] = useState(false)
   const [loadingExpectedOutput, setLoadingExpectedOutput] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState(null)
+  const [timerEnabled] = useState(() => getTimerEnabled('dataset'))
+  const [timerDuration] = useState(() => getTimerDuration('dataset'))
+  const [timerExpired, setTimerExpired] = useState(false)
 
   // Mobile tab state
   const [mobileTab, setMobileTab] = useState('problem')
@@ -270,6 +274,7 @@ export default function DatasetChallenge() {
 
   useEffect(() => {
     if (challenges.length > 0 && currentIndex < challenges.length) {
+      setTimerExpired(false)
       const currentChallenge = challenges[currentIndex]
       fetchExpectedOutput(currentChallenge, currentIndex)
       setLastRun(null)
@@ -706,6 +711,19 @@ export default function DatasetChallenge() {
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden">
+      {timerExpired && timerEnabled && (
+        <div style={{ background: 'color-mix(in srgb, var(--accent-red) 8%, transparent)', borderBottom: '1px solid color-mix(in srgb, var(--accent-red) 25%, transparent)', padding: '8px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          <span className="text-sm text-[var(--text-primary)]">⏱ Time's up for this challenge. You can keep working, or move to the next one.</span>
+          <button
+            type="button"
+            onClick={() => setTimerExpired(false)}
+            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors bg-transparent border-none cursor-pointer shrink-0"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       {/* Progress Bar & Stats */}
       <div className="w-full bg-[var(--bg-primary)] px-6 py-2 flex items-center justify-between text-xs font-bold text-[var(--text-muted)] select-none shrink-0 border-b border-[var(--border)]/20">
         <span>Dataset Challenge Progress</span>
@@ -729,7 +747,17 @@ export default function DatasetChallenge() {
         
         <div className="text-center">
           <span className="text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">Dataset Challenge • {courseSlug}</span>
-          <div className="font-bold text-sm">Challenge {currentIndex + 1} of {challenges.length}</div>
+          <div className="font-bold text-sm flex items-center justify-center gap-2">
+            Challenge {currentIndex + 1} of {challenges.length}
+            {timerEnabled && (
+              <ExerciseTimer
+                durationSeconds={timerDuration}
+                isRunning={!timerExpired}
+                onExpire={() => setTimerExpired(true)}
+                resetKey={currentIndex}
+              />
+            )}
+          </div>
         </div>
         
         <div className="w-20"></div> {/* Spacer */}
@@ -1087,8 +1115,16 @@ export default function DatasetChallenge() {
               >
                 ⟨ Prev
               </button>
-              <span className="text-[var(--text-muted)] text-xs font-mono select-none">
+              <span className="text-[var(--text-muted)] text-xs font-mono select-none flex items-center gap-2">
                 Challenge {currentIndex + 1} of {challenges.length}
+                {timerEnabled && (
+                  <ExerciseTimer
+                    durationSeconds={timerDuration}
+                    isRunning={!timerExpired}
+                    onExpire={() => setTimerExpired(true)}
+                    resetKey={currentIndex}
+                  />
+                )}
               </span>
               <button
                 onClick={handleNext}
