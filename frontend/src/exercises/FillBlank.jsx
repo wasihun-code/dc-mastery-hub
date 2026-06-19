@@ -618,7 +618,7 @@ export default function FillBlank() {
                   {currentEx?.description}
                 </h2>
                 
-                <div style={{ width: '100%' }} className={isMultiLine 
+                <div style={{ width: '100%', color: 'var(--code-text)' }} className={isMultiLine 
                   ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
                   : "flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
                 }>

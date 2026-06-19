@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '18' }
+        with: { node-version: '22' }
       - run: cd backend && npm ci
       - run: cd backend && npm test -- --coverage
       - uses: actions/upload-artifact@v4
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '18' }
+        with: { node-version: '22' }
       - run: cd frontend && npm ci
       - run: cd frontend && npm test -- --coverage
       - uses: actions/upload-artifact@v4

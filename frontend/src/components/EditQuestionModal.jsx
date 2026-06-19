@@ -92,7 +92,7 @@ export default function EditQuestionModal({ courseSlug, exerciseType, questionDa
     
     const parts = code.split(/(\[\[\d+\]\])/)
     return (
-      <div className="mt-3 p-4 bg-[#0d1117] rounded-lg border border-[var(--border)] font-mono text-sm leading-relaxed overflow-x-auto whitespace-pre">
+      <div className="mt-3 p-4 bg-[#0d1117] rounded-lg border border-[var(--border)] font-mono text-sm leading-relaxed overflow-x-auto whitespace-pre" style={{ color: 'var(--code-text)' }}>
         {parts.map((part, i) => {
           const match = part.match(/\[\[(\d+)\]\]/)
           if (match) {

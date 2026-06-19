@@ -5,6 +5,11 @@
 :root {
   --bg-primary: #13151f;
   --bg-card: #1e2235;
+  /* Code block colors are intentionally fixed regardless of site
+     theme — code blocks conventionally use a dark background with
+     light text for readability, independent of the surrounding
+     page theme. */
+  --code-text: #e6edf3;
   --bg-sidebar: #1a1c2e;
   --accent-green: #03ef62;
   --accent-red: #ff4d4d;
