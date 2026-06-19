@@ -616,7 +616,7 @@ export default function WranglingSpeedrun() {
           {/* Header card */}
           <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-8 flex flex-col justify-between shadow-lg">
             <div className="space-y-3">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-orange-400 bg-orange-950/40 border border-orange-900/40 px-2.5 py-1 rounded">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--accent-yellow)] bg-[color-mix(in_srgb,var(--accent-yellow)_10%,var(--bg-primary))] border border-[var(--accent-yellow)]/30 px-2.5 py-1 rounded">
                 Wrangling Speedruns
               </span>
               <h2 className="text-2xl font-bold text-[var(--text-primary)] mt-2">
@@ -652,12 +652,12 @@ export default function WranglingSpeedrun() {
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer flex items-center gap-1.5 ${
                       selectedTrackFilter === filter
                         ? 'bg-orange-500 border-orange-600 text-black shadow-md shadow-orange-950/20'
-                        : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-muted)] hover:text-white hover:border-zinc-700'
+                        : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--accent-yellow)]/50'
                     }`}
                   >
                     <span>{filter}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-black ${
-                      selectedTrackFilter === filter ? 'bg-black/20 text-black' : 'bg-zinc-800 text-zinc-400'
+                      selectedTrackFilter === filter ? 'bg-black/20 text-black' : 'bg-[var(--bg-card)] text-[var(--text-muted)]'
                     }`}>
                       {count}
                     </span>
@@ -696,13 +696,13 @@ export default function WranglingSpeedrun() {
                     onClick={() => setSelectedCourseSlug(c.slug)}
                     className={`rounded-2xl border p-5 cursor-pointer flex flex-col justify-between min-h-[170px] transition-all duration-200 group/card ${
                       isSelected
-                        ? 'bg-orange-950/20 border-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.25)] translate-y-[-2px]'
-                        : 'bg-[var(--bg-card)] border-[var(--border)] hover:border-zinc-700 hover:translate-y-[-2px]'
+                        ? 'bg-[color-mix(in_srgb,var(--accent-yellow)_8%,var(--bg-card))] border-[var(--accent-yellow)] shadow-[0_0_12px_color-mix(in_srgb,var(--accent-yellow)_15%,transparent)] translate-y-[-2px]'
+                        : 'bg-[var(--bg-card)] border-[var(--border)] hover:border-[var(--accent-yellow)]/30 hover:translate-y-[-2px]'
                     }`}
                   >
                     <div>
                       <div className="flex justify-between items-center text-xs text-[var(--text-muted)] font-medium">
-                        <span className="uppercase text-[10px] tracking-wider text-[var(--accent-blue)] bg-blue-950/30 px-2 py-0.5 rounded">
+                        <span className="uppercase text-[10px] tracking-wider text-[var(--accent-blue)] bg-[color-mix(in_srgb,var(--accent-blue)_10%,var(--bg-primary))] px-2 py-0.5 rounded">
                           {c.track_language || c.track_name}
                         </span>
                         <span className="font-mono text-orange-400 font-bold">

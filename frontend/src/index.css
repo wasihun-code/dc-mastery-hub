@@ -33,19 +33,20 @@
 
 /* Light Theme overrides */
 :root.light-theme {
-  --bg-primary: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-sidebar: #f1f5f9;
-  --accent-green: #00aa3a; /* Darker green for legibility on light bg */
-  --accent-red: #ef4444;
-  --accent-yellow: #d97706;
-  --accent-blue: #2563eb;
-  --text-primary: #0f172a;
-  --text-muted: #475569;
-  --border: #cbd5e1;
-  --bg-exercise: #f8fafc;
-  --accent-green-bright: #10b981;
-  --card-hover: #f1f5f9;
+  --bg-primary: #ffffff;
+  --bg-card: #f8f9fb;
+  --bg-sidebar: #f1f3f6;
+  --accent-green: #03ef62;
+  --accent-green-text: #0b9e47;
+  --accent-red: #d63838;
+  --accent-yellow: #b8860b;
+  --accent-blue: #1d6fd6;
+  --text-primary: #14171f;
+  --text-muted: #5b6270;
+  --border: #dfe2e8;
+  --bg-exercise: #ffffff;
+  --accent-green-bright: #0b9e47;
+  --card-hover: #edf0f5;
 }
 
 body {
@@ -139,7 +140,7 @@ a {
   font-size: 18px !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   :root {
     font-size: 14.5px;
   }
@@ -158,6 +159,13 @@ a {
   }
   aside:hover + header {
     left: 240px !important;
+  }
+  .code-block {
+    font-size: 15px !important;
+    padding: 12px 16px !important;
+  }
+  .inline-code {
+    font-size: 14px !important;
   }
 }
 

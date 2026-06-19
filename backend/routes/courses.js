@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 import db from '../db/database.js'
 
 const router = express.Router()
-const allowedCourseUpdates = ['status', 'notes', 'reviewed', 'has_pdf', 'has_glossary', 'difficulty']
+const allowedCourseUpdates = ['status', 'notes', 'notes_taken', 'reviewed', 'has_pdf', 'has_glossary', 'difficulty']
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
@@ -45,6 +45,7 @@ function getCourseBySlug(slug, userId) {
         COALESCE(uc.status, 'Not Started') AS status,
         COALESCE(uc.difficulty, c.difficulty) AS difficulty,
         COALESCE(uc.notes, c.notes) AS notes,
+        COALESCE(uc.notes_taken, c.notes_taken, 0) AS notes_taken,
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
         COALESCE(uc.is_deleted, 0) AS is_deleted,
         COALESCE(uc.is_archived, 0) AS is_archived,
@@ -116,6 +117,7 @@ router.get('/courses', (req, res, next) => {
         COALESCE(uc.status, 'Not Started') AS status,
         COALESCE(uc.difficulty, c.difficulty) AS difficulty,
         COALESCE(uc.notes, c.notes) AS notes,
+        COALESCE(uc.notes_taken, c.notes_taken, 0) AS notes_taken,
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
         COALESCE(uc.is_deleted, 0) AS is_deleted,
         COALESCE(uc.is_archived, 0) AS is_archived,
@@ -270,7 +272,7 @@ router.patch('/courses/:slug', (req, res, next) => {
     const globalFields = []
     const globalValues = []
 
-    const userAllowed = ['status', 'notes', 'reviewed', 'difficulty']
+    const userAllowed = ['status', 'notes', 'notes_taken', 'reviewed', 'difficulty']
     const globalAllowed = ['has_pdf', 'has_glossary']
 
     for (const key of Object.keys(updates)) {

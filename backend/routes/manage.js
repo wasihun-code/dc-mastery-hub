@@ -77,7 +77,13 @@ router.get('/manage/archived', (req, res, next) => {
       WHERE ut.is_archived = 1 AND ut.is_deleted = 0
     `).all(userId)
     const courses = db.prepare(`
-      SELECT c.*,
+      SELECT c.id, c.slug, c.name, c.difficulty, c.has_pdf, c.has_glossary, c.created_at,
+             COALESCE(uc.status, 'Not Started') AS status,
+             COALESCE(uc.notes, c.notes) AS notes,
+             COALESCE(uc.notes_taken, c.notes_taken, 0) AS notes_taken,
+             COALESCE(uc.reviewed, c.reviewed) AS reviewed,
+             COALESCE(uc.is_deleted, 0) AS is_deleted,
+             COALESCE(uc.is_archived, 0) AS is_archived,
              (
                SELECT json_group_array(json_object(
                  'id', t.id,
@@ -536,7 +542,7 @@ router.post('/manage/upload-material', (req, res, next) => {
 // 11. Update Course properties (difficulty, order, etc. - User-scoped status/notes/reviewed)
 router.post('/manage/course/update-properties', (req, res, next) => {
   try {
-    const { courseId, status, difficulty, reviewed } = req.body
+    const { courseId, status, difficulty, reviewed, notes_taken } = req.body
     if (!courseId) {
       res.status(400).json({ error: 'courseId is required' })
       return
@@ -557,6 +563,10 @@ router.post('/manage/course/update-properties', (req, res, next) => {
     if (reviewed !== undefined) {
       fields.push('reviewed = ?')
       values.push(reviewed)
+    }
+    if (notes_taken !== undefined) {
+      fields.push('notes_taken = ?')
+      values.push(notes_taken ? 1 : 0)
     }
 
     if (fields.length > 0) {

@@ -189,6 +189,8 @@ export default function CourseFilter({
   showArchiveFilter = false,
   selectedHasExercises = 'present',
   onHasExercisesChange,
+  selectedNotesTaken = 'all',
+  onNotesTakenChange,
   onReset,
   compact = false
 }) {
@@ -267,6 +269,13 @@ export default function CourseFilter({
         }
       }
 
+      // 9. Notes Taken
+      if (excludeFilter !== 'notesTaken' && selectedNotesTaken !== 'all') {
+        const taken = c.notes_taken == 1
+        if (selectedNotesTaken === 'taken' && !taken) return false
+        if (selectedNotesTaken === 'not_taken' && taken) return false
+      }
+
       return true
     })
   }
@@ -320,6 +329,12 @@ export default function CourseFilter({
     return baseForArchive.length
   }
 
+  // Calculate dynamic counts for notes taken
+  const baseForNotesTaken = getFilteredSubset('notesTaken')
+  const notesTakenCount = baseForNotesTaken.filter(c => c.notes_taken == 1).length
+  const notesNotTakenCount = baseForNotesTaken.filter(c => c.notes_taken != 1).length
+  const totalNotesTakenCount = baseForNotesTaken.length
+
   // Setup options for each dropdown
   const exercisesOptions = [
     { value: 'present', label: 'Practice Available', count: exercisesGeneratedCount },
@@ -348,6 +363,12 @@ export default function CourseFilter({
     { value: 'all', label: 'All Reviewed Statuses', count: totalReviewedCount },
     { value: 'Yes', label: 'Reviewed', count: getReviewedCount('Yes') },
     { value: 'No', label: 'Not Reviewed', count: getReviewedCount('No') }
+  ]
+
+  const notesTakenOptions = [
+    { value: 'all', label: 'All Notes Statuses', count: totalNotesTakenCount },
+    { value: 'taken', label: 'Notes Taken', count: notesTakenCount },
+    { value: 'not_taken', label: 'Notes Not Taken', count: notesNotTakenCount }
   ]
 
   const selectedTrackColor = uniqueTracks.find(t => t.name === selectedTrack)?.color
@@ -394,6 +415,14 @@ export default function CourseFilter({
             options={reviewedOptions}
             onChange={onReviewedChange}
           />
+          {onNotesTakenChange && (
+            <FilterDropdown
+              label="Notes Taken"
+              value={selectedNotesTaken}
+              options={notesTakenOptions}
+              onChange={onNotesTakenChange}
+            />
+          )}
         </div>
         <button
           type="button"
@@ -508,6 +537,16 @@ export default function CourseFilter({
             value={selectedArchive}
             options={archiveOptions}
             onChange={onArchiveChange}
+          />
+        )}
+
+        {/* Notes Taken Dropdown */}
+        {onNotesTakenChange && (
+          <FilterDropdown
+            label="Notes Taken"
+            value={selectedNotesTaken}
+            options={notesTakenOptions}
+            onChange={onNotesTakenChange}
           />
         )}
       </div>

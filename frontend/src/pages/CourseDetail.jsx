@@ -77,12 +77,12 @@ function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, dis
   return (
     <div className={`group relative flex flex-col rounded-[10px] border p-5 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 ${
       isBoss 
-        ? 'border-[var(--accent-red)] bg-gradient-to-br from-[#1e2130] to-[#2d2130]' 
+        ? 'border-[var(--accent-red)] bg-[var(--bg-card)]' 
         : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]'
-    }`}>
+    }`} style={isBoss ? { borderWidth: '1.5px', boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent-red) 20%, transparent)' } : {}}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className={`rounded-lg p-2 ${isBoss ? 'bg-[var(--accent-red)]/20 text-[var(--accent-red)]' : 'bg-[var(--bg-primary)] text-[var(--accent-blue)]'}`}>
+          <div className={`rounded-lg p-2 ${isBoss ? 'text-[var(--accent-red)]' : 'bg-[var(--bg-primary)] text-[var(--accent-blue)]'}`} style={isBoss ? { background: 'color-mix(in srgb, var(--accent-red) 12%, transparent)' } : {}}>
             <Icon size={20} />
           </div>
           <h3 className="text-[18px] font-bold text-[var(--text-primary)]">{title}</h3>

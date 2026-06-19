@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   FolderPlus,
@@ -18,7 +18,8 @@ import {
   X,
   AlertTriangle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  GraduationCap
 } from 'lucide-react'
 import CourseFilter, { getCourseCategories } from '../components/CourseFilter'
 import MasteryRing from '../components/MasteryRing'
@@ -36,15 +37,12 @@ function difficultyBadgeClass(difficulty) {
   }
 }
 
-function statusBadgeClass(status) {
-  switch (status) {
-    case 'Completed':
-      return 'bg-green-500/20 text-[var(--accent-green)]'
-    case 'In Progress':
-      return 'bg-yellow-500/20 text-[var(--accent-yellow)]'
-    default:
-      return 'bg-zinc-800 text-[var(--text-muted)]'
-  }
+function statusBadgeStyle(status) {
+  return ({
+    Completed: { bg: 'color-mix(in srgb, var(--accent-green) 15%, transparent)', color: 'var(--accent-green)' },
+    'In Progress': { bg: 'color-mix(in srgb, var(--accent-yellow) 15%, transparent)', color: 'var(--accent-yellow)' },
+    'Not Started': { bg: 'color-mix(in srgb, var(--text-muted) 10%, transparent)', color: 'var(--text-muted)' },
+  })[status] || null
 }
 
 export default function ManageContent() {
@@ -65,6 +63,7 @@ export default function ManageContent() {
   const [courseFilterArchive, setCourseFilterArchive] = useState('active') // 'active', 'archived', 'all'
   const [courseFilterReviewed, setCourseFilterReviewed] = useState('all')
   const [courseFilterHasExercises, setCourseFilterHasExercises] = useState('present')
+  const [courseFilterNotesTaken, setCourseFilterNotesTaken] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
 
   // Selection states for bulk actions
@@ -76,15 +75,40 @@ export default function ManageContent() {
   })
   const [isResizing, setIsResizing] = useState(false)
 
+  const manageListRef = useRef(null)
+  const [scrolledDown, setScrolledDown] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  const MIN_LIST_PANEL_WIDTH = 280
+  const MIN_DETAIL_PANEL_WIDTH = 420
+  const coursesContainerRef = useRef(null)
+  const manageDetailRef = useRef(null)
+  const [coursesContainerWidth, setCoursesContainerWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    if (!coursesContainerRef.current) return
+    setCoursesContainerWidth(coursesContainerRef.current.clientWidth)
+    const observer = new ResizeObserver((entries) => {
+      setCoursesContainerWidth(entries[0].contentRect.width)
+    })
+    observer.observe(coursesContainerRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const canFitSideBySide = coursesContainerWidth >= 920
+  const isMobile = coursesContainerWidth > 0 && coursesContainerWidth < MIN_LIST_PANEL_WIDTH
+
   useEffect(() => {
     localStorage.setItem('manageLeftPanelWidth', leftPanelWidth)
   }, [leftPanelWidth])
 
   useEffect(() => {
+    if (!canFitSideBySide) return
     const handleMouseMove = (e) => {
       if (!isResizing) return
       const sidebarWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')) || 0
-      const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, 600))
+      const maxLeft = canFitSideBySide ? coursesContainerWidth - MIN_DETAIL_PANEL_WIDTH - 20 : 600
+      const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, maxLeft))
       setLeftPanelWidth(newWidth)
     }
 
@@ -105,7 +129,7 @@ export default function ManageContent() {
       document.body.style.cursor = 'default'
       document.body.style.userSelect = 'auto'
     }
-  }, [isResizing])
+  }, [isResizing, canFitSideBySide])
 
   // Modal states
   const [showAddCourseModal, setShowAddCourseModal] = useState(false)
@@ -335,10 +359,24 @@ export default function ManageContent() {
     if (courseFilterCategory !== 'all') matchesCategory = getCourseCategories(course).includes(courseFilterCategory)
     const matchesTrack = courseFilterTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === courseFilterTrack)) || course.track_name === courseFilterTrack
     const matchesReviewed = courseFilterReviewed === 'all' || course.reviewed === courseFilterReviewed
+    const matchesNotesTaken = courseFilterNotesTaken === 'all' || (courseFilterNotesTaken === 'taken' && course.notes_taken == 1) || (courseFilterNotesTaken === 'not_taken' && course.notes_taken != 1)
     const hasEx = course.quiz_question_count && course.quiz_question_count > 0
     const matchesHasExercises = courseFilterHasExercises === 'all' || (courseFilterHasExercises === 'present' && hasEx) || (courseFilterHasExercises === 'absent' && !hasEx)
-    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed && matchesHasExercises
+    return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed && matchesNotesTaken && matchesHasExercises
   })
+
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target
+    setScrolledDown(scrollTop > 20)
+    const progress = (scrollTop / (scrollHeight - clientHeight)) * 100
+    setScrollProgress(isNaN(progress) ? 0 : progress)
+  }
+
+  const scrollByAmount = (amount) => {
+    if (manageListRef.current) {
+      manageListRef.current.scrollBy({ top: amount, behavior: 'smooth' })
+    }
+  }
 
   return (
     <div className="space-y-8 pb-16">
@@ -385,24 +423,33 @@ export default function ManageContent() {
           <span className="text-sm text-[var(--text-muted)] animate-pulse font-bold tracking-widest uppercase">Loading manager...</span>
         </div>
       ) : (
-        <div className="animate-in fade-in duration-200">
-          
-          {/* 1. COURSES TAB */}
+        {/* 1. COURSES TAB */}
           {activeTab === 'courses' && (
-            <div 
-              className="static lg:fixed lg:top-[220px] lg:right-0 lg:bottom-0 overflow-hidden flex flex-col lg:flex-row bg-[var(--border)] z-0"
-              style={{ left: 'var(--sidebar-width)' }}
+            <div
+              ref={coursesContainerRef}
+              className="fixed top-[240px] right-0 bottom-0 overflow-hidden flex bg-[var(--border)] z-0 animate-in fade-in duration-200"
+              style={{
+                left: isMobile ? '0px' : 'var(--sidebar-width)',
+                flexDirection: canFitSideBySide ? 'row' : 'column',
+              }}
             >
               {/* LEFT PANEL - COURSE LIST */}
-              <aside 
-                className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0 lg:border-r lg:border-[var(--border)]"
-                style={{ width: `min(100%, ${leftPanelWidth}px)` }}
+              <aside
+                className="relative flex flex-col bg-[var(--bg-primary)] overflow-hidden shrink-0"
+                style={{
+                  width: canFitSideBySide ? `${leftPanelWidth}px` : '100%',
+                  maxHeight: canFitSideBySide ? undefined : '45vh',
+                  borderRight: canFitSideBySide ? '1px solid var(--border)' : undefined,
+                  borderBottom: canFitSideBySide ? undefined : '1px solid var(--border)',
+                }}
               >
-                {/* Resize Handle */}
+                {/* Resize Handle (only in side-by-side mode) */}
+                {canFitSideBySide && (
                 <div
                   onMouseDown={() => setIsResizing(true)}
-                  className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20 hidden lg:block"
+                  className="absolute right-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-[var(--accent-green)]/30 transition-colors z-20"
                 />
+                )}
 
                 <div className="p-4 border-b border-[var(--border)] bg-[var(--bg-primary)] z-10 shrink-0">
                   <div className="flex justify-between items-center mb-4">
@@ -414,9 +461,9 @@ export default function ManageContent() {
                     </button>
                     <button
                       onClick={() => toggleSelectAll(filteredCourses)}
-                      className="text-[10px] font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border)] px-2.5 py-1 rounded-lg hover:bg-[var(--bg-primary)]"
+                      className="text-[10px] font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-dashed border-[var(--border)] px-2.5 py-1 rounded-lg hover:border-[var(--border)] transition-all"
                     >
-                      Toggle Select All
+                      Select All ({filteredCourses.length})
                     </button>
                   </div>
                   
@@ -440,6 +487,8 @@ export default function ManageContent() {
                       showArchiveFilter={true}
                       selectedHasExercises={courseFilterHasExercises}
                       onHasExercisesChange={setCourseFilterHasExercises}
+                      selectedNotesTaken={courseFilterNotesTaken}
+                      onNotesTakenChange={setCourseFilterNotesTaken}
                       onReset={() => {
                         setCourseFilterArchive('active')
                         setCourseFilterStatus('all')
@@ -448,6 +497,7 @@ export default function ManageContent() {
                         setCourseFilterCategory('all')
                         setCourseFilterTrack('all')
                         setCourseFilterHasExercises('present')
+                        setCourseFilterNotesTaken('all')
                         setCourseSearch('')
                       }}
                       compact={true}
@@ -492,97 +542,198 @@ export default function ManageContent() {
                   )}
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 pb-24 space-y-3">
+                <div
+                  ref={manageListRef}
+                  onScroll={handleScroll}
+                  className="flex-1 overflow-y-scroll p-4 pb-24 space-y-2"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                  {/* Embedded hover style matching Tracks */}
+                  <style>{`
+                    .manage-course-card:not(.is-selected):hover {
+                      border-left-color: color-mix(in srgb, var(--accent-green) 60%, transparent) !important;
+                      border-top-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+                      border-right-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+                      border-bottom-color: color-mix(in srgb, var(--accent-green) 40%, transparent) !important;
+                    }
+                  `}</style>
+
                   {filteredCourses.length === 0 ? (
                     <div className="py-12 text-center text-[var(--text-muted)] text-sm flex flex-col items-center gap-3">
                       <Layers size={40} className="opacity-20" />
                       No courses match your filters
                     </div>
                   ) : (
-                    filteredCourses.map(course => (
-                      <article
-                        key={`${course.id}-${course.is_archived}`}
-                        onClick={() => setSelectedManageCourseId(course.id)}
-                        onDoubleClick={() => navigate(`/courses/${course.slug}`)}
-                        style={{ borderRadius: 10, background: selectedManageCourseId === course.id ? 'color-mix(in srgb, var(--accent-green) 8%, var(--bg-primary))' : 'linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--bg-card), var(--accent-green) 3%) 100%)' }}
-                        className={`flex items-center justify-between border p-4 transition-all cursor-pointer select-none gap-4 group relative overflow-hidden ${
-                          selectedManageCourseId === course.id 
-                            ? 'border-[var(--accent-green)]/50 shadow-[0_0_12px_color-mix(in_srgb,var(--accent-green)_15%,transparent)]' 
-                            : 'border-[var(--border)] hover:border-[var(--accent-green)]/40 hover:translate-x-0.5'
-                        }`}
-                      >
-                        <div className="flex items-center gap-4 flex-1 min-w-0">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); toggleSelectCourse(course.id); }}
-                            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors shrink-0"
+                    <div className="space-y-2">
+                      {filteredCourses.map(course => {
+                        const activeTrackColor = course.tracks?.[0]?.color || course.track_color || 'var(--accent-blue)'
+                        const cardBorderLeftColor = selectedManageCourseId === course.id ? 'var(--accent-green)' : activeTrackColor
+                        const mastery = Math.round(Number(course.overall_mastery ?? 0))
+                        const isUnreviewed = course.reviewed !== 'Yes'
+
+                        return (
+                          <article
+                            key={`${course.id}-${course.is_archived}`}
+                            onClick={() => {
+                              if (isMobile) {
+                                navigate(`/manage/courses/${course.slug}`)
+                              } else {
+                                setSelectedManageCourseId(course.id)
+                                if (!canFitSideBySide && manageDetailRef.current) {
+                                  requestAnimationFrame(() => {
+                                    manageDetailRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                  })
+                                }
+                              }
+                            }}
+                            onDoubleClick={() => navigate(`/manage/courses/${course.slug}`)}
+                            className={`manage-course-card flex items-center justify-between rounded-[10px] border p-3 transition-all duration-150 cursor-pointer select-none gap-3 group relative overflow-hidden ${
+                              selectedManageCourseId === course.id
+                                ? 'is-selected'
+                                : 'hover:translate-x-[2px]'
+                            } ${isUnreviewed ? 'opacity-50 hover:opacity-75' : 'opacity-100'}`}
+                            style={{
+                              borderLeft: `3px solid ${cardBorderLeftColor}`,
+                              borderTop: `1px solid ${selectedManageCourseId === course.id ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+                              borderRight: `1px solid ${selectedManageCourseId === course.id ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+                              borderBottom: `1px solid ${selectedManageCourseId === course.id ? 'color-mix(in srgb, var(--accent-green) 40%, transparent)' : 'var(--border)'}`,
+                              background: selectedManageCourseId === course.id
+                                ? 'color-mix(in srgb, var(--accent-green) 6%, var(--bg-card))'
+                                : 'linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--bg-card), var(--accent-green) 3%) 100%)',
+                              boxShadow: selectedManageCourseId === course.id
+                                ? '0 0 0 1px color-mix(in srgb, var(--accent-green) 30%, transparent)'
+                                : 'none',
+                              borderRadius: 10,
+                            }}
                           >
-                            {selectedCourseIds.includes(course.id) ? <CheckSquare size={18} className="text-[var(--accent-green)]" /> : <Square size={18} />}
-                          </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); toggleSelectCourse(course.id); }}
+                              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors shrink-0 opacity-0 group-hover:opacity-100 -ml-1"
+                            >
+                              {selectedCourseIds.includes(course.id) ? <CheckSquare size={16} className="text-[var(--accent-green)]" /> : <Square size={16} />}
+                            </button>
 
-                          <div className="flex-1 min-w-0">
-                            <h2 className={`text-[15px] font-semibold leading-tight line-clamp-1 mb-2 ${selectedManageCourseId === course.id ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'}`}>
-                              {course.name || course.slug || 'Untitled Course'}
-                            </h2>
-
-                            <div className="flex flex-wrap items-center gap-1.5 text-[9px] mb-1.5">
-                              <span className="flex items-center gap-1">
-                                <span style={{ color: course.difficulty === 'Easy' ? 'var(--accent-green)' : course.difficulty === 'Medium' ? 'var(--accent-yellow)' : course.difficulty === 'Hard' ? 'var(--accent-red)' : 'var(--text-muted)' }}>●</span>
-                                <span className="font-bold text-[var(--text-muted)]">{course.difficulty}</span>
-                              </span>
-                              <span className={`rounded-full px-2 py-0.5 font-semibold ${statusBadgeClass(course.status)}`}>
-                                {course.status}
-                              </span>
-                              <span className={`px-1.5 py-0.5 rounded-[4px] text-[8px] font-bold uppercase ${course.reviewed === 'Yes' ? 'bg-green-950/20 text-[var(--accent-green)] border border-green-900/40' : 'bg-yellow-950/20 text-[var(--accent-yellow)] border border-yellow-900/40'}`}>
-                                {course.reviewed === 'Yes' ? '✓ REVIEWED' : 'NOT REVIEWED'}
-                              </span>
-                              {course.has_pdf === 1 && (
-                                <span className="bg-blue-950/20 text-[var(--accent-blue)] px-1.5 py-0.5 rounded-[4px] text-[8px] font-bold border border-blue-900/30">
-                                  PDF
+                            <div className="flex-1 min-w-0">
+                              {/* Badge row */}
+                              <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
+                                <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide" style={{ color: {
+                                  Easy: 'var(--accent-green)',
+                                  Medium: 'var(--accent-yellow)',
+                                  Hard: 'var(--accent-red)',
+                                }[course.difficulty] || 'var(--text-muted)' }}>
+                                  <span style={{ color: {
+                                    Easy: 'var(--accent-green)',
+                                    Medium: 'var(--accent-yellow)',
+                                    Hard: 'var(--accent-red)',
+                                  }[course.difficulty] || 'var(--text-muted)' }}>●</span>
+                                  {course.difficulty || 'Unknown'}
                                 </span>
-                              )}
-                            </div>
+                                {(s => s ? <span className="rounded-full px-2 py-0.5 text-[9px] font-semibold" style={{ background: s.bg, color: s.color }}>{course.status}</span> : null)(statusBadgeStyle(course.status))}
+                                {course.reviewed === 'Yes' ? (
+                                  <span className="text-[var(--accent-green)] font-bold uppercase tracking-wider text-[9px] whitespace-nowrap">✓ REVIEWED</span>
+                                ) : (
+                                  <span className="text-[var(--accent-yellow)] font-bold uppercase tracking-wider text-[9px] whitespace-nowrap">NOT REVIEWED</span>
+                                )}
+                                {course.has_pdf === 1 && (
+                                  <span className="text-[var(--accent-blue)] text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-blue) 10%, transparent)', borderRadius: 3, padding: '1px 6px' }}>PDF</span>
+                                )}
+                              </div>
 
-                            <div className="mt-1 flex flex-wrap gap-1">
+                              {/* Title */}
+                              <h2 className={`text-[15px] font-semibold leading-tight line-clamp-1 ${
+                                selectedManageCourseId === course.id ? 'text-[var(--accent-green)]' : 'text-[var(--text-primary)]'
+                              }`}>
+                                {course.name || course.slug || 'Untitled Course'}
+                              </h2>
+
+                              {/* Track pill */}
                               {(course.track_name || course.tracks?.[0]?.name) && (
-                                <span className="bg-zinc-900/60 border border-zinc-800/80 px-1.5 py-0.5 rounded text-[9px] text-zinc-400 font-semibold truncate">
-                                  {course.track_name || course.tracks?.[0]?.name}
-                                </span>
+                                <div className="mt-1.5 flex flex-wrap gap-1">
+                                  <span className="text-[9px] text-[var(--text-muted)] font-normal" style={{ background: 'color-mix(in srgb, var(--text-muted) 5%, transparent)', border: 'none', borderRadius: 3, padding: '1px 6px' }}>
+                                    {course.track_name || course.tracks?.[0]?.name}
+                                  </span>
+                                </div>
                               )}
                             </div>
-                          </div>
-                        </div>
 
-                        <div className="shrink-0 flex items-center">
-                           <ArrowRight size={16} className={`transition-transform duration-300 ${selectedManageCourseId === course.id ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'} text-[var(--accent-green)]`} />
-                        </div>
-                      </article>
-                    ))
+                            <div className="shrink-0 flex items-center gap-2">
+                              <MasteryRing percentage={mastery} size={36} />
+                              <ArrowRight size={14} className={`transition-all duration-300 ${
+                                selectedManageCourseId === course.id
+                                  ? 'opacity-100 translate-x-0'
+                                  : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'
+                              } text-[var(--accent-green)]`} />
+                            </div>
+                          </article>
+                        )
+                      })}
+                    </div>
                   )}
+                </div>
+
+                {/* Custom Scrollbar Track */}
+                <div className="absolute right-0 top-0 bottom-0 w-[8px] bg-[var(--bg-sidebar)] z-20 pointer-events-none">
+                  <div
+                    className="w-full bg-[var(--accent-green)] rounded-full transition-all duration-75"
+                    style={{ height: '10%', transform: `translateY(${scrollProgress * 9}%)` }}
+                  />
+                </div>
+
+                {/* Scroll Buttons */}
+                <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3 z-30 pointer-events-none">
+                  {scrolledDown && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); scrollByAmount(-120) }}
+                      className="pointer-events-auto h-10 w-10 flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-[var(--accent-green)] shadow-xl hover:scale-110 active:scale-95 transition-all"
+                    >
+                      <ChevronUp size={24} />
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); scrollByAmount(120) }}
+                    className="pointer-events-auto h-10 w-10 flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-[var(--accent-green)] shadow-xl hover:scale-110 active:scale-95 transition-all"
+                  >
+                    <ChevronDown size={24} />
+                  </button>
                 </div>
               </aside>
 
               {/* RIGHT PANEL - MANAGE COURSE DETAIL */}
-              <main className="flex-1 overflow-y-auto bg-[var(--bg-primary)] scroll-smooth">
+              <main
+                ref={manageDetailRef}
+                className={`overflow-y-auto bg-[var(--bg-primary)] scroll-smooth ${
+                  isMobile ? 'hidden' : canFitSideBySide ? 'flex-1' : 'flex-1 min-h-0'
+                }`}
+              >
                 {!selectedManageCourseId ? (
                   <div
                     className="flex h-full flex-col items-center text-center animate-in fade-in duration-300"
-                    style={{ paddingTop: '35%' }}
+                    style={{ justifyContent: 'center', padding: '48px' }}
                   >
-                    <div
-                      className="flex items-center justify-center"
-                      style={{
-                        width: 88, height: 88,
-                        borderRadius: '50%',
-                        background: 'radial-gradient(circle at center, color-mix(in srgb, var(--accent-green) 15%, transparent) 0%, transparent 70%)',
-                      }}
-                    >
-                      <Wrench size={36} className="text-[var(--accent-green)]" />
+                    <div style={{ transform: 'translateY(-15%)' }}>
+                      {/* Decorative dashed line */}
+                      <svg width="160" height="24" className="mb-5 opacity-25" aria-hidden="true">
+                        <line x1="0" y1="12" x2="160" y2="12" stroke="var(--border)" strokeWidth="1" strokeDasharray="4 6" />
+                        <circle cx="8" cy="12" r="2.5" fill="var(--border)" />
+                        <circle cx="80" cy="12" r="2.5" fill="var(--border)" />
+                        <circle cx="152" cy="12" r="2.5" fill="var(--border)" />
+                      </svg>
+                      <div
+                        className="flex items-center justify-center mb-5"
+                        style={{
+                          width: 88, height: 88,
+                          borderRadius: '50%',
+                          background: 'radial-gradient(circle at center, color-mix(in srgb, var(--accent-green) 15%, transparent) 0%, transparent 70%)',
+                          border: '1px solid color-mix(in srgb, var(--border) 50%, transparent)',
+                        }}
+                      >
+                        <GraduationCap size={36} className="text-[var(--text-muted)]" />
+                      </div>
+                      <h2 className="text-lg font-bold text-[var(--text-primary)] mb-2">Select a Course to Manage</h2>
+                      <p className="text-[13px] text-[var(--text-muted)] max-w-[280px] leading-relaxed">
+                        Click any course on the left to edit its properties.
+                      </p>
                     </div>
-                    <div className="my-3 w-px h-8 border-l border-dashed border-[var(--border)]" />
-                    <h2 className="text-[18px] font-bold text-[var(--text-primary)] mb-1">Select a Course to Manage</h2>
-                    <p className="text-[13px] text-[var(--text-muted)] max-w-[280px] leading-relaxed">
-                      Click any course on the left to edit its properties.
-                    </p>
                   </div>
                 ) : (() => {
                   const course = allCourses.find(c => c.id === selectedManageCourseId)
@@ -591,14 +742,14 @@ export default function ManageContent() {
                     <div key={course.id} className="animate-in fade-in duration-150 p-4 lg:p-8 space-y-8">
                        {/* Course Header */}
                        <div>
-                         <div className="flex gap-2 mb-2">
-                           <span className="bg-blue-950/20 text-[var(--accent-blue)] px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-blue-900/40">
-                             {course.track_name || course.tracks?.[0]?.name}
-                           </span>
-                           <span className="bg-purple-950/20 text-purple-400 px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-purple-900/40">
-                             {course.track_language || course.tracks?.[0]?.language}
-                           </span>
-                         </div>
+                          <div className="flex gap-2 mb-2">
+                            <span className="text-[var(--accent-blue)] px-2 py-0.5 rounded text-[10px] font-bold uppercase" style={{ background: 'color-mix(in srgb, var(--accent-blue) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--accent-blue) 25%, transparent)' }}>
+                              {course.track_name || course.tracks?.[0]?.name}
+                            </span>
+                            <span className="text-[var(--accent-blue)] px-2 py-0.5 rounded text-[10px] font-bold uppercase" style={{ background: 'color-mix(in srgb, var(--accent-blue) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--accent-blue) 15%, transparent)' }}>
+                              {course.track_language || course.tracks?.[0]?.language}
+                            </span>
+                          </div>
                          <h1 className="text-3xl font-bold text-[var(--text-primary)]">{course.name}</h1>
                          <p className="mt-1 text-xs text-[var(--text-muted)] font-mono">
                            ID: {course.id} | Slug: {course.slug}
@@ -680,22 +831,22 @@ export default function ManageContent() {
                            <h3 className="font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">Material & Resources</h3>
                            <div className="grid grid-cols-2 gap-4">
                               <div className="flex flex-col gap-2">
-                                 <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
-                                    <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
-                                       <FileText size={18} className="text-[var(--accent-blue)]" />
-                                    </div>
-                                    <span className="flex-1 text-left">PDF Slides</span>
-                                    {course.has_pdf === 1 && <span className="bg-green-500/20 text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold">Available</span>}
-                                 </button>
+                                  <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-[var(--accent-green)]/30 transition-all">
+                                     <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
+                                        <FileText size={18} className="text-[var(--accent-blue)]" />
+                                     </div>
+                                     <span className="flex-1 text-left">PDF Slides</span>
+                                     {course.has_pdf === 1 && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
+                                  </button>
                               </div>
                               <div className="flex flex-col gap-2">
-                                 <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-zinc-500 transition-all">
-                                    <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
-                                       <Layers size={18} className="text-purple-400" />
-                                    </div>
-                                    <span className="flex-1 text-left">Course Glossary</span>
-                                    {course.has_glossary === 1 && <span className="bg-green-500/20 text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold">Available</span>}
-                                 </button>
+                                  <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-xs font-bold text-[var(--text-primary)] hover:border-[var(--accent-green)]/30 transition-all">
+                                     <div className="flex items-center justify-center shrink-0 rounded-lg" style={{ width: 44, height: 44, background: 'color-mix(in srgb, var(--accent-blue) 10%, var(--bg-card))' }}>
+                                        <Layers size={18} className="text-[var(--accent-blue)]" />
+                                     </div>
+                                     <span className="flex-1 text-left">Course Glossary</span>
+                                     {course.has_glossary === 1 && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
+                                  </button>
                               </div>
                            </div>
                         </div>
@@ -712,10 +863,11 @@ export default function ManageContent() {
                               <AlertTriangle size={14} /> Danger Zone
                             </h3>
                             <div className="flex gap-4">
-                               <button
-                                 onClick={() => handleCourseAction(course.id, 'archive', course.is_archived ? 0 : 1)}
-                                 className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 text-white font-bold py-2.5 rounded-lg text-xs hover:bg-zinc-700 transition-all"
-                               >
+                                <button
+                                  onClick={() => handleCourseAction(course.id, 'archive', course.is_archived ? 0 : 1)}
+                                  className="flex-1 flex items-center justify-center gap-2 font-bold py-2.5 rounded-lg text-xs transition-all hover:brightness-110"
+                                  style={{ background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
+                                >
                                  <Archive size={14} /> {course.is_archived ? 'Restore Course' : 'Archive Course'}
                                </button>
                                <button
@@ -734,9 +886,9 @@ export default function ManageContent() {
             </div>
           )}
 
-          {/* 2. TRACKS TAB */}
+           {/* 2. TRACKS TAB */}
           {activeTab === 'tracks' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="animate-in fade-in duration-200 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-8 space-y-6">
                 <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl overflow-hidden shadow-sm">
                   <div className="p-4 border-b border-[var(--border)] bg-zinc-900/10">
@@ -783,7 +935,7 @@ export default function ManageContent() {
 
           {/* 3. UPLOAD MATERIAL TAB */}
           {activeTab === 'upload' && (
-            <div className="max-w-2xl mx-auto bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 space-y-6 shadow-md">
+            <div className="animate-in fade-in duration-200 max-w-2xl mx-auto bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 space-y-6 shadow-md">
               <h3 className="font-bold text-base text-[var(--text-primary)] flex items-center gap-2"><Upload className="text-[var(--accent-green)]" /> Upload Course Resources</h3>
               <form onSubmit={handleUploadFile} className="space-y-5">
                 <div><label className="block text-xs font-semibold text-[var(--text-muted)] mb-1.5">Select Course</label><select value={uploadData.courseId} onChange={(e) => setUploadData(prev => ({ ...prev, courseId: e.target.value }))} required className="w-full rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] p-2.5 text-xs text-[var(--text-primary)] focus:outline-none"><option value="">Choose a Course...</option>{courses.map(c => (<option key={c.id} value={c.id}>{c.name} ({c.track_language})</option>))}</select></div>
@@ -797,7 +949,7 @@ export default function ManageContent() {
 
           {/* 4. TRASH BIN TAB */}
           {activeTab === 'trash' && (
-            <div className="space-y-6">
+            <div className="animate-in fade-in duration-200 space-y-6">
               <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl overflow-hidden shadow-sm">
                 <div className="p-4 border-b border-[var(--border)] bg-zinc-950/20"><h3 className="font-bold text-sm text-[var(--text-primary)] flex items-center gap-2 text-red-400"><Trash size={16} /> Deleted Tracks in Trash ({trashItems.tracks.length})</h3></div>
                 {trashItems.tracks.length === 0 ? (<div className="p-6 text-center text-xs text-[var(--text-muted)]">No tracks in trash.</div>) : (<div className="divide-y divide-[var(--border)]">{trashItems.tracks.map(track => (<div key={track.id} className="p-4 flex items-center justify-between gap-4"><div><h4 className="text-xs font-bold text-[var(--text-primary)]">{track.name}</h4><span className="text-[9px] text-[var(--text-muted)] font-mono">Slug: {track.slug}</span></div><div className="flex items-center gap-3"><button onClick={() => handleTrackAction(track.id, 'delete', false)} className="text-xs font-semibold text-[var(--accent-green)] hover:underline flex items-center gap-1"><RotateCcw size={12} /> Restore</button><button onClick={() => handlePermanentDelete('track', track.id, track.name)} className="text-xs font-semibold text-red-450 hover:underline flex items-center gap-1"><Trash2 size={12} /> Permanent Delete</button></div></div>))}</div>)}
@@ -854,8 +1006,6 @@ export default function ManageContent() {
               </div>
             </div>
           )}
-
-        </div>
       )}
     </div>
   )

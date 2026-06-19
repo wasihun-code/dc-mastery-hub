@@ -98,6 +98,15 @@ export default function FillBlank() {
   const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
   const [choicesEnabled, setChoicesEnabled] = useState(false);
 
+  const [isWide, setIsWide] = useState(window.innerWidth >= 1024)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    setIsWide(mq.matches)
+    const handler = (e) => setIsWide(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   const [showShortcuts, setShowShortcuts] = useState(() => {
     return localStorage.getItem('showKeyboardShortcuts') !== 'false';
   });
@@ -601,7 +610,7 @@ export default function FillBlank() {
         {/* Main Content (Fullscreen Two Column Layout) */}
         <main className="flex-1 overflow-y-auto pt-16">
           <div className="w-full" style={{ maxWidth: '90vw', margin: '0 auto', padding: '32px 40px' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: '24px' }}>
+            <div style={{ display: 'flex', flexDirection: isWide ? 'row' : 'column', alignItems: 'flex-start', gap: '24px' }}>
               
               {/* LEFT COLUMN: Task Description & Code Block */}
               <div className="flex flex-col gap-3 text-left" style={{ flex: 1, minWidth: 0 }}>
@@ -618,7 +627,7 @@ export default function FillBlank() {
               </div>
 
               {/* RIGHT COLUMN: Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
-              <div className="flex flex-col gap-4" style={{ flexShrink: 0, width: '420px' }}>
+              <div className="flex flex-col gap-4" style={{ flexShrink: 0, width: isWide ? '420px' : '100%' }}>
                 {/* Mode toggle / Choices Remaining info */}
                 <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2 w-full">
                   <div className="flex items-center justify-between">

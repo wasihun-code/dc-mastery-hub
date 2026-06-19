@@ -329,7 +329,7 @@ export default function StudySession() {
               {/* Flashcard container */}
               <div
                 onClick={() => setIsFlipped(!isFlipped)}
-                className={`min-h-[260px] flex items-center justify-center p-8 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] cursor-pointer text-center relative overflow-y-auto select-none hover:border-zinc-700 transition-all duration-300 ${
+                className={`min-h-[260px] flex items-center justify-center p-8 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] cursor-pointer text-center relative overflow-y-auto select-none hover:border-[var(--accent-yellow)]/30 transition-all duration-300 ${
                   isFlipped ? 'shadow-[inset_0_0_12px_rgba(255,255,255,0.02)]' : ''
                 }`}
               >
@@ -349,7 +349,7 @@ export default function StudySession() {
                 ) : (
                   /* Back side */
                   <div className="space-y-4 w-full">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--accent-green)] bg-green-950/40 border border-green-900/40 px-2 py-0.5 rounded">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--accent-green)] bg-[color-mix(in_srgb,var(--accent-green)_10%,var(--bg-primary))] border border-[var(--accent-green)]/30 px-2 py-0.5 rounded">
                       Answer
                     </span>
                     <div className="text-left mt-2">
@@ -378,25 +378,25 @@ export default function StudySession() {
                   <div className="grid grid-cols-4 gap-2">
                     <button
                       onClick={() => handleRate('again')}
-                      className="bg-red-950/40 border border-red-800/60 hover:bg-red-900/40 text-red-400 font-semibold py-2.5 rounded-lg text-xs transition-colors"
+                      className="bg-red-950/40 border border-red-800/60 hover:bg-red-900/40 text-[var(--accent-red)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
                     >
                       Again
                     </button>
                     <button
                       onClick={() => handleRate('hard')}
-                      className="bg-orange-950/40 border border-orange-800/60 hover:bg-orange-900/40 text-orange-400 font-semibold py-2.5 rounded-lg text-xs transition-colors"
+                      className="bg-[color-mix(in_srgb,var(--accent-yellow)_10%,var(--bg-card))] border border-[var(--accent-yellow)]/30 hover:bg-[color-mix(in_srgb,var(--accent-yellow)_15%,var(--bg-card))] text-[var(--accent-yellow)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
                     >
                       Hard
                     </button>
                     <button
                       onClick={() => handleRate('good')}
-                      className="bg-blue-950/40 border border-blue-800/60 hover:bg-blue-900/40 text-[var(--accent-blue)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
+                      className="bg-[color-mix(in_srgb,var(--accent-blue)_10%,var(--bg-card))] border border-[var(--accent-blue)]/30 hover:bg-[color-mix(in_srgb,var(--accent-blue)_15%,var(--bg-card))] text-[var(--accent-blue)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
                     >
                       Good
                     </button>
                     <button
                       onClick={() => handleRate('easy')}
-                      className="bg-green-950/40 border border-[var(--accent-green)]/40 hover:bg-green-900/40 text-[var(--accent-green)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
+                      className="bg-[color-mix(in_srgb,var(--accent-green)_10%,var(--bg-card))] border border-[var(--accent-green)]/30 hover:bg-[color-mix(in_srgb,var(--accent-green)_15%,var(--bg-card))] text-[var(--accent-green)] font-semibold py-2.5 rounded-lg text-xs transition-colors"
                     >
                       Easy
                     </button>
@@ -615,7 +615,7 @@ export default function StudySession() {
                 <div>
                   <div className="flex justify-between items-start">
                     <span className="text-xs font-semibold text-[var(--text-muted)] uppercase">FTB</span>
-                    <span className="text-xs text-orange-400 font-mono font-semibold">
+                    <span className="text-xs text-[var(--accent-yellow)] font-mono font-semibold">
                       {selectedCourseStats.ftb.available} concepts
                     </span>
                   </div>
@@ -742,7 +742,7 @@ export default function StudySession() {
                     </span>
                   </div>
                   <h3 className="font-bold text-base text-[var(--text-primary)] mt-3 flex items-center gap-1.5">
-                    Boss Battle {Math.round(selectedCourse?.overall_mastery || 0) < 60 && <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-mono">LOCKED</span>}
+                    Boss Battle {Math.round(selectedCourse?.overall_mastery || 0) < 60 && <span className="text-[10px] bg-[var(--bg-card)] text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded font-mono">LOCKED</span>}
                   </h3>
                   <p className="text-xs text-[var(--text-muted)] mt-2 leading-relaxed">
                     Test your comprehensive course understanding. Needs at least 60% overall mastery to unlock. Current: {Math.round(selectedCourse?.overall_mastery || 0)}%

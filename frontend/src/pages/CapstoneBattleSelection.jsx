@@ -45,7 +45,7 @@ export default function CapstoneBattleSelection() {
   return (
     <div className="space-y-8 text-left max-w-6xl mx-auto">
       {/* Header Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-red-950/40 via-orange-950/20 to-zinc-950 border border-red-900/40 rounded-3xl p-8 sm:p-10 shadow-2xl">
+      <div className="relative overflow-hidden bg-gradient-to-r from-[#1a1410] via-[#1a1110] to-[#0d0a08] border border-red-900/40 rounded-3xl p-8 sm:p-10 shadow-2xl">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-950/30 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-950/60 border border-red-900/60 text-red-500 font-mono text-[10px] uppercase font-bold tracking-wider">
@@ -80,12 +80,12 @@ export default function CapstoneBattleSelection() {
             >
               {/* Unlock Indicator Badge */}
               <div className="absolute top-4 right-4">
-                {isUnlocked ? (
-                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-green-950/40 border border-green-800/40 text-green-400 font-mono text-[10px] uppercase font-bold">
+                  {isUnlocked ? (
+                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[var(--bg-primary)] border border-[var(--accent-green-text)]/40 text-[var(--accent-green-text)] font-mono text-[10px] uppercase font-bold">
                     <Unlock size={10} /> Unlocked
                   </span>
                 ) : (
-                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 font-mono text-[10px] uppercase font-bold">
+                  <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-muted)] font-mono text-[10px] uppercase font-bold">
                     <Lock size={10} /> Locked
                   </span>
                 )}
@@ -93,11 +93,11 @@ export default function CapstoneBattleSelection() {
 
               {/* Course Info */}
               <div className="space-y-4">
-                <span className="text-[10px] uppercase tracking-widest text-[var(--accent-blue)] bg-blue-950/30 border border-blue-900/30 px-2.5 py-1 rounded-lg font-mono font-bold">
+                <span className="text-[10px] uppercase tracking-widest text-[var(--accent-blue)] bg-[var(--bg-primary)] border border-[var(--accent-blue)]/30 px-2.5 py-1 rounded-lg font-mono font-bold">
                   {track.completed_count === track.course_count ? 'COMPLETED PATH' : 'IN PROGRESS'}
                 </span>
                 
-                <h3 className="text-xl font-bold text-white pr-20 leading-snug">
+                <h3 className="text-xl font-bold text-[var(--text-primary)] pr-20 leading-snug">
                   {track.name}
                 </h3>
 
@@ -107,15 +107,15 @@ export default function CapstoneBattleSelection() {
 
                 {/* Progress Indicators */}
                 <div className="grid grid-cols-2 gap-4 pt-2 font-mono">
-                  <div className="bg-[var(--bg-primary)]/40 border border-[var(--border)]/30 rounded-xl p-3 text-center">
+                  <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-3 text-center">
                     <div className="text-[10px] uppercase text-[var(--text-muted)] font-semibold">Track Progress</div>
-                    <div className="text-sm font-bold text-white mt-1">
+                    <div className="text-sm font-bold text-[var(--text-primary)] mt-1">
                       {track.completed_count}/{track.course_count} Courses
                     </div>
                   </div>
-                  <div className="bg-[var(--bg-primary)]/40 border border-[var(--border)]/30 rounded-xl p-3 text-center">
+                  <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-3 text-center">
                     <div className="text-[10px] uppercase text-[var(--text-muted)] font-semibold">Track Mastery</div>
-                    <div className="text-sm font-bold text-[var(--accent-green)] mt-1">
+                    <div className="text-sm font-bold text-[var(--accent-green-text)] mt-1">
                       {roundedMastery}%
                     </div>
                   </div>
@@ -154,11 +154,11 @@ export default function CapstoneBattleSelection() {
 
       {/* General tips banner */}
       <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 flex items-start gap-4">
-        <div className="p-2.5 bg-zinc-800 rounded-xl text-[var(--accent-blue)]">
+        <div className="p-2.5 bg-[var(--bg-primary)] rounded-xl text-[var(--accent-blue)]">
           <Trophy size={20} />
         </div>
         <div className="space-y-1">
-          <h4 className="text-sm font-bold text-white">How Track Mastery is Computed</h4>
+          <h4 className="text-sm font-bold text-[var(--text-primary)]">How Track Mastery is Computed</h4>
           <p className="text-xs text-[var(--text-muted)] leading-relaxed max-w-3xl">
             Overall Track Mastery is the average of overall mastery scores across all courses mapping to this path. 
             To boost track mastery, review flashcards, solve quiz challenges, complete code exercises, and submit dataset challenges on individual courses.

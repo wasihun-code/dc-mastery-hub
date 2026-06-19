@@ -68,7 +68,7 @@ function StatCard({ label, value, subtext, icon: Icon, colorClass = "", iconBg =
 function LoadingBlock() {
   return (
     <div className="animate-pulse space-y-6">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
         {Array.from({ length: 5 }).map((_, index) => (
           <div key={index} className="h-24 rounded bg-[var(--bg-card)]" />
         ))}
@@ -221,7 +221,7 @@ export default function Dashboard() {
       </div>
 
       {/* STATS GRID */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
         <StatCard 
           label="Total XP" 
           value={userStats.total_xp ?? 0} 

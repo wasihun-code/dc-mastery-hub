@@ -149,6 +149,7 @@ export default function Tracks() {
   const [selectedReviewed, setSelectedReviewed] = useState('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
   const [selectedHasExercises, setSelectedHasExercises] = useState('present')
+  const [selectedNotesTaken, setSelectedNotesTaken] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
   const [selectedCourseId, setSelectedCourseId] = useState(null)
   const [scrolledDown, setScrolledDown] = useState(false)
@@ -176,7 +177,7 @@ export default function Tracks() {
     return () => observer.disconnect()
   }, [])
 
-  const canFitSideBySide = containerWidth >= (MIN_LIST_PANEL_WIDTH + MIN_DETAIL_PANEL_WIDTH + 20)
+  const canFitSideBySide = containerWidth >= 920
   const isMobile = containerWidth > 0 && containerWidth < MIN_LIST_PANEL_WIDTH
 
   useEffect(() => {
@@ -188,7 +189,8 @@ export default function Tracks() {
     const handleMouseMove = (e) => {
       if (!isResizing) return
       const sidebarWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width')) || 0
-      const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, 600))
+      const maxLeft = canFitSideBySide ? containerWidth - MIN_DETAIL_PANEL_WIDTH - 20 : 600
+      const newWidth = Math.max(300, Math.min(e.clientX - sidebarWidth, maxLeft))
       setLeftPanelWidth(newWidth)
     }
     const handleMouseUp = () => { setIsResizing(false) }
@@ -242,13 +244,14 @@ export default function Tracks() {
     const matchesTrack = selectedTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === selectedTrack))
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
     const matchesReviewed = selectedReviewed === 'all' || course.reviewed === selectedReviewed
+    const matchesNotesTaken = selectedNotesTaken === 'all' || (selectedNotesTaken === 'taken' && course.notes_taken == 1) || (selectedNotesTaken === 'not_taken' && course.notes_taken != 1)
     const matchesDifficulty = selectedDifficulty === 'all' || (course.difficulty || 'Unknown') === selectedDifficulty
     const hasEx = course.quiz_question_count && course.quiz_question_count > 0
     const matchesHasExercises =
       selectedHasExercises === 'all' ||
       (selectedHasExercises === 'present' && hasEx) ||
       (selectedHasExercises === 'absent' && !hasEx)
-    return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesDifficulty && matchesHasExercises
+    return matchesSearch && matchesCategory && matchesTrack && matchesStatus && matchesReviewed && matchesNotesTaken && matchesDifficulty && matchesHasExercises
   })
 
   const handleScroll = (e) => {
@@ -321,6 +324,8 @@ export default function Tracks() {
                 onTrackChange={setSelectedTrack}
                 selectedHasExercises={selectedHasExercises}
                 onHasExercisesChange={setSelectedHasExercises}
+                selectedNotesTaken={selectedNotesTaken}
+                onNotesTakenChange={setSelectedNotesTaken}
                 onReset={() => {
                   setSelectedCategory('all')
                   setSelectedTrack('all')
@@ -328,6 +333,7 @@ export default function Tracks() {
                   setSelectedReviewed('all')
                   setSelectedDifficulty('all')
                   setSelectedHasExercises('present')
+                  setSelectedNotesTaken('all')
                   setSearch('')
                 }}
                 compact={true}

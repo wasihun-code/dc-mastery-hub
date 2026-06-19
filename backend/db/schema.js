@@ -381,6 +381,17 @@ export function initSchema() {
     // column already exists, ignore
   }
 
+  // Migration: Add notes_taken to courses and user_courses
+  try {
+    db.exec(`ALTER TABLE courses ADD COLUMN notes_taken INTEGER DEFAULT 0`)
+  } catch (e) {}
+  try {
+    db.exec(`ALTER TABLE user_courses ADD COLUMN notes_taken INTEGER DEFAULT 0`)
+  } catch (e) {}
+  // Seed notes_taken = 1 for completed courses
+  db.prepare(`UPDATE user_courses SET notes_taken = 1 WHERE status = 'Completed' AND notes_taken = 0`).run()
+  db.prepare(`UPDATE courses SET notes_taken = 1 WHERE status = 'Completed' AND notes_taken = 0`).run()
+
   // Migration: Add concept_id to exercise_attempts if it doesn't exist
   try {
     db.exec(`ALTER TABLE exercise_attempts ADD COLUMN concept_id TEXT DEFAULT NULL`)
