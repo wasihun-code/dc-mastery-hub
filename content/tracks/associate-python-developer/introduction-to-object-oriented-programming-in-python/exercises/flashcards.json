@@ -18,7 +18,9 @@
       "answer_reveal_after": 5,
       "explanation": "`pass` is a null operation; when executed, nothing happens. It is commonly used as a placeholder for future code. In `class Customer: pass`, it creates a syntactically correct empty class.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_002"]
+      "related_card_ids": [
+        "fc_002"
+      ]
     },
     {
       "id": "fc_002",
@@ -33,7 +35,9 @@
       "answer_reveal_after": 5,
       "explanation": "When a method is called on an object, Python automatically passes the instance as the first argument. Using the standard name `self` improves clarity and is recommended by the Python community.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_008"]
+      "related_card_ids": [
+        "fc_008"
+      ]
     },
     {
       "id": "fc_003",
@@ -48,7 +52,9 @@
       "answer_reveal_after": 5,
       "explanation": "Procedural programming organises code as a set of procedures (functions) that operate on data, rather than grouping data and behaviour together. It is often simpler for short, linear tasks.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_004"]
+      "related_card_ids": [
+        "fc_004"
+      ]
     },
     {
       "id": "fc_004",
@@ -63,7 +69,9 @@
       "answer_reveal_after": 5,
       "explanation": "OOP focuses on creating classes as blueprints and objects as instances. It leverages encapsulation, inheritance, and polymorphism to structure code more naturally for large applications.",
       "common_mistake_warning": "⚠️ Applying OOP to every trivial problem can lead to over‑engineering; not every script needs classes.",
-      "related_card_ids": ["fc_003"]
+      "related_card_ids": [
+        "fc_003"
+      ]
     },
     {
       "id": "fc_005",
@@ -78,7 +86,10 @@
       "answer_reveal_after": 5,
       "explanation": "An object encapsulates its own attributes and can use methods defined in its class. Every object is a specific realisation of the class blueprint.",
       "common_mistake_warning": "⚠️ An object is not just a data container; it also carries methods that operate on its data.",
-      "related_card_ids": ["fc_006", "fc_007"]
+      "related_card_ids": [
+        "fc_006",
+        "fc_007"
+      ]
     },
     {
       "id": "fc_006",
@@ -93,7 +104,10 @@
       "answer_reveal_after": 5,
       "explanation": "State is stored in instance variables (attributes). Different instances can have different states, e.g., two `Customer` objects with different `name` and `balance` values.",
       "common_mistake_warning": "⚠️ Confusing state with behaviour – state is the data, behaviour is the methods that act on that data.",
-      "related_card_ids": ["fc_005", "fc_007"]
+      "related_card_ids": [
+        "fc_005",
+        "fc_007"
+      ]
     },
     {
       "id": "fc_007",
@@ -108,7 +122,10 @@
       "answer_reveal_after": 5,
       "explanation": "Behavior allows objects to perform actions, often modifying or using their state. Methods like `withdraw()` or `set_name()` implement the object's behaviour.",
       "common_mistake_warning": "⚠️ Behavior ≠ state; behaviour is the actions, state is the data.",
-      "related_card_ids": ["fc_006", "fc_008"]
+      "related_card_ids": [
+        "fc_006",
+        "fc_008"
+      ]
     },
     {
       "id": "fc_008",
@@ -123,7 +140,10 @@
       "answer_reveal_after": 5,
       "explanation": "Classes encapsulate data and functionality definitions. They do not hold specific data until instantiated. `class Customer:` defines the structure, while `cust = Customer()` creates an instance with its own state.",
       "common_mistake_warning": "⚠️ A class is not an object; it's the template. Forgetting parentheses when creating an object gives the class itself.",
-      "related_card_ids": ["fc_005", "fc_009"]
+      "related_card_ids": [
+        "fc_005",
+        "fc_009"
+      ]
     },
     {
       "id": "fc_009",
@@ -138,7 +158,10 @@
       "answer_reveal_after": 5,
       "explanation": "The terms 'instance' and 'object' are often used interchangeably, but 'instance' emphasises the relationship to its class. Each instance has its own copy of instance attributes.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_008", "fc_005"]
+      "related_card_ids": [
+        "fc_008",
+        "fc_005"
+      ]
     },
     {
       "id": "fc_010",
@@ -153,7 +176,10 @@
       "answer_reveal_after": 5,
       "explanation": "Attributes hold the data for an object. Instance attributes are typically set inside `__init__` or other methods using `self.attr = value`.",
       "common_mistake_warning": "⚠️ Forgetting `self.` when assigning inside a method creates a local variable, not an instance attribute.",
-      "related_card_ids": ["fc_006", "fc_011"]
+      "related_card_ids": [
+        "fc_006",
+        "fc_011"
+      ]
     },
     {
       "id": "fc_011",
@@ -168,7 +194,10 @@
       "answer_reveal_after": 5,
       "explanation": "Methods operate on the instance's data. Unlike standalone functions, they require the instance as the first argument (automatically passed). Example: `cust.identify('Laura')`.",
       "common_mistake_warning": "⚠️ Calling a method without parentheses (`obj.method`) returns the method object itself, not the result.",
-      "related_card_ids": ["fc_007", "fc_010"]
+      "related_card_ids": [
+        "fc_007",
+        "fc_010"
+      ]
     },
     {
       "id": "fc_012",
@@ -183,7 +212,10 @@
       "answer_reveal_after": 5,
       "explanation": "This pattern shows that once an attribute is created (via `self.name = new_name`), it can be used in any other method of the same instance by referencing `self.name`.",
       "common_mistake_warning": "⚠️ If you forget `self.` when accessing the attribute, Python will look for a local variable and likely raise a `NameError`.",
-      "related_card_ids": ["fc_010", "fc_013"]
+      "related_card_ids": [
+        "fc_010",
+        "fc_013"
+      ]
     },
     {
       "id": "fc_013",
@@ -198,7 +230,10 @@
       "answer_reveal_after": 5,
       "explanation": "`__init__` is the initialiser. Python calls it after the object is created, passing the arguments provided in the instantiation call. It sets up the initial state.",
       "common_mistake_warning": "⚠️ Misspelling it as `__int__` or `_init_` means it won't be called, leaving attributes uninitialised.",
-      "related_card_ids": ["fc_014", "fc_010"]
+      "related_card_ids": [
+        "fc_014",
+        "fc_010"
+      ]
     },
     {
       "id": "fc_014",
@@ -213,7 +248,9 @@
       "answer_reveal_after": 5,
       "explanation": "Default arguments are evaluated only once at definition time. If the default is mutable (e.g., a list), all instances share the same object. Using immutable defaults like numbers or strings avoids this pitfall.",
       "common_mistake_warning": "⚠️ Never use mutable objects (lists, dicts) as default arguments in `__init__` unless you really want shared state.",
-      "related_card_ids": ["fc_013"]
+      "related_card_ids": [
+        "fc_013"
+      ]
     },
     {
       "id": "fc_015",
@@ -228,7 +265,10 @@
       "answer_reveal_after": 5,
       "explanation": "Class attributes belong to the class itself, not to any particular instance. They can be accessed via the class or any instance, but modifying them through an instance creates a shadowing instance attribute.",
       "common_mistake_warning": "⚠️ Using `self.` to define a class attribute creates an instance attribute instead, breaking the sharing.",
-      "related_card_ids": ["fc_016", "fc_010"]
+      "related_card_ids": [
+        "fc_016",
+        "fc_010"
+      ]
     },
     {
       "id": "fc_016",
@@ -243,7 +283,10 @@
       "answer_reveal_after": 5,
       "explanation": "The child class can use all public members of the parent and override or extend them. This promotes code reuse and logical hierarchy.",
       "common_mistake_warning": "⚠️ Confusing inheritance with composition – inheritance means 'is a', composition means 'has a'.",
-      "related_card_ids": ["fc_017", "fc_024"]
+      "related_card_ids": [
+        "fc_017",
+        "fc_024"
+      ]
     },
     {
       "id": "fc_017",
@@ -258,7 +301,10 @@
       "answer_reveal_after": 5,
       "explanation": "Polymorphism is often achieved via method overriding. Code written against a parent class can work with any child class instance, as long as the child provides the expected methods.",
       "common_mistake_warning": "⚠️ Adding required parameters to an overridden method breaks the interface and violates polymorphism.",
-      "related_card_ids": ["fc_016", "fc_025"]
+      "related_card_ids": [
+        "fc_016",
+        "fc_025"
+      ]
     },
     {
       "id": "fc_018",
@@ -273,7 +319,9 @@
       "answer_reveal_after": 5,
       "explanation": "Assignment via an instance creates or updates an instance attribute. It shadows the class attribute for that instance only. Other instances retain the class attribute's original value.",
       "common_mistake_warning": "⚠️ Believing that `emp1.MIN_SALARY = 50000` changes the class attribute for everyone is a classic error.",
-      "related_card_ids": ["fc_015"]
+      "related_card_ids": [
+        "fc_015"
+      ]
     },
     {
       "id": "fc_019",
@@ -288,7 +336,10 @@
       "answer_reveal_after": 5,
       "explanation": "Class methods are bound to the class, not instances. They receive the class as the first argument, conventionally named `cls`. This allows them to call class‑level functions or create alternative constructors.",
       "common_mistake_warning": "⚠️ Forgetting the `@classmethod` decorator results in a regular instance method, causing errors when called on the class.",
-      "related_card_ids": ["fc_020", "fc_021"]
+      "related_card_ids": [
+        "fc_020",
+        "fc_021"
+      ]
     },
     {
       "id": "fc_020",
@@ -303,7 +354,10 @@
       "answer_reveal_after": 5,
       "explanation": "While `self` refers to the instance, `cls` refers to the class. Python automatically passes the class as the first argument when a class method is called.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_019", "fc_021"]
+      "related_card_ids": [
+        "fc_019",
+        "fc_021"
+      ]
     },
     {
       "id": "fc_021",
@@ -318,7 +372,10 @@
       "answer_reveal_after": 5,
       "explanation": "Alternative constructors are class methods that return a new instance of the class. They typically call `cls(...)` with appropriate arguments, enabling instantiation from non‑standard sources.",
       "common_mistake_warning": "⚠️ Forgetting to `return` the new instance causes the method to return `None`.",
-      "related_card_ids": ["fc_019", "fc_022"]
+      "related_card_ids": [
+        "fc_019",
+        "fc_022"
+      ]
     },
     {
       "id": "fc_022",
@@ -328,12 +385,17 @@
       "difficulty": "hard",
       "card_type": "comparison",
       "front": "When should you use a class method instead of an instance method?",
-      "back": "Use a class method when the logic does not need access to instance‑specific data (i.e., it works with the class itself). Typical use cases: alternative constructors, factory methods, or class‑level utilities.\n\nInstance methods require an instance and are for operations on that specific object.",
+      "back": "Typical use cases: alternative constructors, factory methods, or class‑level utilities.\n\nInstance methods require an instance and are for operations on that specific object.",
       "hint": "If the method never needs `self`, it might be a candidate for a class method or static method.",
       "answer_reveal_after": 5,
       "explanation": "Class methods can modify class state or create instances, but they cannot access or modify instance attributes directly. They are called on the class (e.g., `Employee.from_file(...)`) without needing an existing instance.",
       "common_mistake_warning": "⚠️ Trying to access instance attributes inside a class method will raise an `AttributeError`.",
-      "related_card_ids": ["fc_019", "fc_008"]
+      "related_card_ids": [
+        "fc_019",
+        "fc_008"
+      ],
+      "_exerciseType": "flashcards",
+      "blanksText": ""
     },
     {
       "id": "fc_023",
@@ -348,7 +410,10 @@
       "answer_reveal_after": 5,
       "explanation": "When a child class defines its own `__init__`, the parent's `__init__` is not called automatically. The explicit call `ParentClass.__init__(self, ...)` is needed to initialise inherited attributes like `self.balance`.",
       "common_mistake_warning": "⚠️ Forgetting to call the parent's `__init__` results in missing attributes and potential `AttributeError`s.",
-      "related_card_ids": ["fc_013", "fc_024"]
+      "related_card_ids": [
+        "fc_013",
+        "fc_024"
+      ]
     },
     {
       "id": "fc_024",
@@ -363,7 +428,10 @@
       "answer_reveal_after": 5,
       "explanation": "Child classes can define new methods that rely on attributes from both the parent and the child, extending the parent’s functionality.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_023", "fc_016"]
+      "related_card_ids": [
+        "fc_023",
+        "fc_016"
+      ]
     },
     {
       "id": "fc_025",
@@ -378,7 +446,10 @@
       "answer_reveal_after": 5,
       "explanation": "Method overriding means the child's version replaces the parent's when called on a child instance. However, the child can still call the original parent method using `ParentClass.method(self, ...)`.",
       "common_mistake_warning": "⚠️ If you forget to call the parent method in the overridden version, the parent’s logic is completely skipped.",
-      "related_card_ids": ["fc_017", "fc_023"]
+      "related_card_ids": [
+        "fc_017",
+        "fc_023"
+      ]
     },
     {
       "id": "fc_026",
@@ -393,7 +464,10 @@
       "answer_reveal_after": 5,
       "explanation": "By default, `==` calls `object.__eq__`, which returns `True` only if the two operands are the exact same object (i.e., `c1 is c2`).",
       "common_mistake_warning": "⚠️ Expecting `==` to compare contents without defining `__eq__` is a common mistake.",
-      "related_card_ids": ["fc_027", "fc_028"]
+      "related_card_ids": [
+        "fc_027",
+        "fc_028"
+      ]
     },
     {
       "id": "fc_027",
@@ -408,7 +482,10 @@
       "answer_reveal_after": 5,
       "explanation": "In Python, every class definition header must end with a colon. Without it, a `SyntaxError` is raised.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_001", "fc_016"]
+      "related_card_ids": [
+        "fc_001",
+        "fc_016"
+      ]
     },
     {
       "id": "fc_028",
@@ -423,7 +500,10 @@
       "answer_reveal_after": 5,
       "explanation": "Polymorphism relies on method signatures being compatible. Adding required parameters changes the contract, so the child is no longer a drop‑in replacement for the parent.",
       "common_mistake_warning": "⚠️ This is a subtle way to break code; if you need extra arguments, make them optional with defaults.",
-      "related_card_ids": ["fc_025", "fc_017"]
+      "related_card_ids": [
+        "fc_025",
+        "fc_017"
+      ]
     },
     {
       "id": "fc_029",
@@ -438,7 +518,10 @@
       "answer_reveal_after": 5,
       "explanation": "When `__eq__` is defined, Python uses it for the `==` operator. The method compares the two attributes, and since they are equal, the result is `True`.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_026", "fc_030"]
+      "related_card_ids": [
+        "fc_026",
+        "fc_030"
+      ]
     },
     {
       "id": "fc_030",
@@ -453,7 +536,9 @@
       "answer_reveal_after": 5,
       "explanation": "Without a type check, equality could be true across unrelated classes that happen to have the same attribute names. Adding `type(self) == type(other)` ensures only objects of the exact same class are considered equal.",
       "common_mistake_warning": "⚠️ Forgetting the type check can lead to surprising equality results between objects of different classes.",
-      "related_card_ids": ["fc_029"]
+      "related_card_ids": [
+        "fc_029"
+      ]
     },
     {
       "id": "fc_031",
@@ -468,7 +553,9 @@
       "answer_reveal_after": 5,
       "explanation": "You do not need to explicitly define `__ne__` if the desired behaviour is the logical opposite of equality. Defining `__ne__` separately is only necessary for custom inequality logic.",
       "common_mistake_warning": "⚠️ If you define `__ne__` but make it inconsistent with `__eq__`, you can get confusing behaviour.",
-      "related_card_ids": ["fc_029"]
+      "related_card_ids": [
+        "fc_029"
+      ]
     },
     {
       "id": "fc_032",
@@ -483,7 +570,10 @@
       "answer_reveal_after": 5,
       "explanation": "When comparing `child_obj == parent_obj`, Python looks up `child_obj.__class__.__eq__` (the child's definition) and invokes it with `parent_obj` as the `other` argument. This can lead to different behaviour than `parent_obj == child_obj` if the implementations differ.",
       "common_mistake_warning": "⚠️ Assuming the parent's `__eq__` will be used when a child is involved – the child's override takes precedence.",
-      "related_card_ids": ["fc_029", "fc_025"]
+      "related_card_ids": [
+        "fc_029",
+        "fc_025"
+      ]
     },
     {
       "id": "fc_033",
@@ -498,7 +588,10 @@
       "answer_reveal_after": 5,
       "explanation": "`print(obj)` calls `str(obj)`, which in turn calls `obj.__str__()`. If `__str__` is defined, its return value is printed.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_034", "fc_035"]
+      "related_card_ids": [
+        "fc_034",
+        "fc_035"
+      ]
     },
     {
       "id": "fc_034",
@@ -513,7 +606,10 @@
       "answer_reveal_after": 5,
       "explanation": "If `__str__` is not defined, `str(obj)` returns `obj.__repr__()`. So `print()` shows the formal developer representation.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_033", "fc_035"]
+      "related_card_ids": [
+        "fc_033",
+        "fc_035"
+      ]
     },
     {
       "id": "fc_035",
@@ -528,7 +624,10 @@
       "answer_reveal_after": 5,
       "explanation": "`__str__` should return a nice, informal string. `__repr__` should return a string that, if passed to `eval()`, would ideally recreate the object (though not always required).",
       "common_mistake_warning": "⚠️ Relying solely on `__str__` for debugging is not recommended; always provide `__repr__` for development.",
-      "related_card_ids": ["fc_033", "fc_034"]
+      "related_card_ids": [
+        "fc_033",
+        "fc_034"
+      ]
     },
     {
       "id": "fc_036",
@@ -543,7 +642,9 @@
       "answer_reveal_after": 5,
       "explanation": "`try‑except` prevents program termination by intercepting specific exceptions. The `except` block only runs if the named exception (or a subclass) is raised.",
       "common_mistake_warning": "⚠️ Catching all exceptions with a bare `except:` can hide bugs; always specify the exception type when possible.",
-      "related_card_ids": ["fc_037"]
+      "related_card_ids": [
+        "fc_037"
+      ]
     },
     {
       "id": "fc_037",
@@ -558,7 +659,10 @@
       "answer_reveal_after": 5,
       "explanation": "After the `ZeroDivisionError` is caught and 'Oops' is printed, execution continues to the `finally` block, which prints 'Done'.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_036", "fc_038"]
+      "related_card_ids": [
+        "fc_036",
+        "fc_038"
+      ]
     },
     {
       "id": "fc_038",
@@ -573,7 +677,10 @@
       "answer_reveal_after": 5,
       "explanation": "`raise` is used to throw an exception when a condition occurs that cannot be handled locally. You can pass an error message to describe the problem.",
       "common_mistake_warning": "⚠️ Raising the wrong exception type (e.g., `Exception` instead of a more specific one) makes error handling less precise.",
-      "related_card_ids": ["fc_036", "fc_039"]
+      "related_card_ids": [
+        "fc_036",
+        "fc_039"
+      ]
     },
     {
       "id": "fc_039",
@@ -588,7 +695,10 @@
       "answer_reveal_after": 5,
       "explanation": "Custom exceptions are user‑defined error types. They are typically simple subclasses of `Exception` (or a more specific built‑in exception). They allow application‑specific error handling.",
       "common_mistake_warning": "⚠️ If you forget to inherit from `Exception`, the class cannot be used as an exception (`TypeError` when raised).",
-      "related_card_ids": ["fc_040", "fc_038"]
+      "related_card_ids": [
+        "fc_040",
+        "fc_038"
+      ]
     },
     {
       "id": "fc_040",
@@ -603,7 +713,10 @@
       "answer_reveal_after": 5,
       "explanation": "When the negative balance triggers `BalanceError`, the `except` clause catches it and executes the fallback, creating a new instance with balance 0. Then `cust.name` is printed normally.",
       "common_mistake_warning": null,
-      "related_card_ids": ["fc_039", "fc_036"]
+      "related_card_ids": [
+        "fc_039",
+        "fc_036"
+      ]
     }
   ]
 }

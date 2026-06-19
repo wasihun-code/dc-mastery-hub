@@ -584,7 +584,7 @@ export default function ManageContent() {
                                 setSelectedManageCourseId(course.id)
                                 if (!canFitSideBySide && manageDetailRef.current) {
                                   requestAnimationFrame(() => {
-                                    manageDetailRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                    manageDetailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                                   })
                                 }
                               }

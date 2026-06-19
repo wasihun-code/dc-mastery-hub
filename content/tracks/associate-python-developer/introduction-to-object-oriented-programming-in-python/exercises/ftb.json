@@ -11,10 +11,17 @@
       {
         "position": 1,
         "answer": "pass",
-        "answer_alternatives": ["Pass"]
+        "answer_alternatives": [
+          "Pass"
+        ]
       }
     ],
-    "word_bank": ["pass", "break", "continue", "return"],
+    "word_bank": [
+      "pass",
+      "break",
+      "continue",
+      "return"
+    ],
     "per_tile_feedback": {
       "pass": "Correct: `pass` is a null operation used as a placeholder for an empty class body.",
       "break": "`break` is used inside loops to exit early, not as a placeholder.",
@@ -41,7 +48,9 @@
       {
         "position": 1,
         "answer": "\"\"\"This class does nothing\"\"\"",
-        "answer_alternatives": ["'''This class does nothing'''"]
+        "answer_alternatives": [
+          "'''This class does nothing'''"
+        ]
       }
     ],
     "word_bank": [
@@ -79,7 +88,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["type", "dir", "list", "print"],
+    "word_bank": [
+      "type",
+      "dir",
+      "list",
+      "print"
+    ],
     "per_tile_feedback": {
       "type": "Correct: `type()` returns the type (class) of an object.",
       "dir": "`dir()` lists attributes and methods, not the class name.",
@@ -109,7 +123,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["dir", "type", "list", "help"],
+    "word_bank": [
+      "dir",
+      "type",
+      "list",
+      "help"
+    ],
     "per_tile_feedback": {
       "dir": "Correct: `dir()` returns a list of attributes and methods of an object.",
       "type": "`type()` returns the class, not the list of attributes.",
@@ -139,7 +158,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["()", "(self)", "[]", "{}"],
+    "word_bank": [
+      "()",
+      "(self)",
+      "[]",
+      "{}"
+    ],
     "per_tile_feedback": {
       "()": "Correct: parentheses call the class constructor, creating a new instance.",
       "(self)": "`self` is never passed explicitly; Python provides it automatically.",
@@ -166,10 +190,17 @@
       {
         "position": 1,
         "answer": "self",
-        "answer_alternatives": ["this"]
+        "answer_alternatives": [
+          "this"
+        ]
       }
     ],
-    "word_bank": ["self", "cls", "this", "obj"],
+    "word_bank": [
+      "self",
+      "cls",
+      "this",
+      "obj"
+    ],
     "per_tile_feedback": {
       "self": "Correct: `self` is the conventional first parameter of an instance method.",
       "cls": "`cls` is used for class methods, not instance methods.",
@@ -199,7 +230,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["self.name", "name", "self[name]", "self->name"],
+    "word_bank": [
+      "self.name",
+      "name",
+      "self[name]",
+      "self->name"
+    ],
     "per_tile_feedback": {
       "self.name": "Correct: `self.name` attaches the attribute to the instance using dot notation.",
       "name": "A bare `name` creates a local variable inside the method, not an instance attribute.",
@@ -229,7 +265,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["self.name", "name", "self[name]", "self->name"],
+    "word_bank": [
+      "self.name",
+      "name",
+      "self[name]",
+      "self->name"
+    ],
     "per_tile_feedback": {
       "self.name": "Correct: accesses the `name` attribute of the current instance.",
       "name": "A bare `name` would look for a local variable, which doesn't exist, causing a `NameError`.",
@@ -259,7 +300,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": [":", ";", "()", "->"],
+    "word_bank": [
+      ":",
+      ";",
+      "()",
+      "->"
+    ],
     "per_tile_feedback": {
       ":": "Correct: every class header must end with a colon.",
       ";": "Semicolons are optional statement separators, not used in class headers.",
@@ -286,7 +332,9 @@
       {
         "position": 1,
         "answer": "__init__",
-        "answer_alternatives": ["__int__"]
+        "answer_alternatives": [
+          "__int__"
+        ]
       },
       {
         "position": 2,
@@ -294,7 +342,13 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["__init__", "__int__", "self", "cls", "Customer"],
+    "word_bank": [
+      "__init__",
+      "__int__",
+      "self",
+      "cls",
+      "Customer"
+    ],
     "per_tile_feedback": {
       "__init__": "Correct: `__init__` is the special method automatically called on object creation.",
       "__int__": "A misspelling; it will never be called automatically.",
@@ -327,13 +381,21 @@
       {
         "position": 2,
         "answer": "0",
-        "answer_alternatives": ["0.0"]
+        "answer_alternatives": [
+          "0.0"
+        ]
       }
     ],
-    "word_bank": ["balance", "0", "[]", "None", "amount"],
+    "word_bank": [
+      "balance",
+      "0",
+      "[]",
+      "None",
+      "amount"
+    ],
     "per_tile_feedback": {
-      "balance": "Correct: the parameter name matches the attribute name, a common convention.",
       "0": "Correct: an integer 0 is a safe immutable default.",
+      "balance": "Correct: the parameter name matches the attribute name, a common convention.",
       "[]": "An empty list would be a mutable default, shared across all instances – a dangerous pitfall.",
       "None": "`None` would be acceptable, but the requirement is a default balance of 0.",
       "amount": "The parameter name `amount` is not consistent with the code using `balance`."
@@ -356,12 +418,17 @@
     "code_template": "class Employee:\n    _____ = 30000\n    def __init__(self, name, salary):\n        self.name = name\n        if salary >= Employee.MIN_SALARY:\n            self.salary = salary\n        else:\n            self.salary = Employee.MIN_SALARY",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "MIN_SALARY",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["MIN_SALARY", "self.MIN_SALARY", "salary", "Employee.MIN_SALARY"],
+    "word_bank": [
+      "MIN_SALARY",
+      "self.MIN_SALARY",
+      "salary",
+      "Employee.MIN_SALARY"
+    ],
     "per_tile_feedback": {
       "MIN_SALARY": "Correct: a class attribute is defined directly in the class body without `self.`.",
       "self.MIN_SALARY": "`self.` is not available at the class level and would define an instance attribute in a method.",
@@ -374,7 +441,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Class attributes belong to the class, not instances. They are defined as plain variables inside the class body. `MIN_SALARY = 30000` sets this shared value.",
-    "common_mistake_warning": "⚠️ Using `self.MIN_SALARY` in the class body is invalid; `self` does not exist there."
+    "common_mistake_warning": "⚠️ Using `self.MIN_SALARY` in the class body is invalid; `self` does not exist there.",
+    "_exerciseType": "ftb",
+    "description": "Define the class attribute with value 30000 for the `Employee` class.",
+    "code": "class Employee:\n    [[0]] = 30000\n    def __init__(self, name, salary):\n        self.name = name\n        if salary >= Employee.MIN_SALARY:\n            self.salary = salary\n        else:\n            self.salary = Employee.MIN_SALARY",
+    "answers": [
+      "MIN_SALARY"
+    ]
   },
   {
     "id": "fitb_013",
@@ -396,10 +469,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["50000", "30000", "50000 30000", "Error"],
+    "word_bank": [
+      "50000",
+      "30000",
+      "50000 30000",
+      "Error"
+    ],
     "per_tile_feedback": {
-      "50000": "Correct for the first blank: `emp1.MIN_SALARY = 50000` created an instance attribute that shadows the class attribute.",
       "30000": "Correct for the second blank: `emp2` still sees the original class attribute.",
+      "50000": "Correct for the first blank: `emp1.MIN_SALARY = 50000` created an instance attribute that shadows the class attribute.",
       "50000 30000": "This tile shows both values; it's not a valid single answer.",
       "Error": "No error occurs; the code runs successfully."
     },
@@ -431,7 +509,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["classmethod", "cls", "self", "staticmethod"],
+    "word_bank": [
+      "classmethod",
+      "cls",
+      "self",
+      "staticmethod"
+    ],
     "per_tile_feedback": {
       "classmethod": "Correct: the `@classmethod` decorator marks this as a class method.",
       "cls": "Correct: the first parameter of a class method is the class, conventionally named `cls`.",
@@ -458,10 +541,17 @@
       {
         "position": 1,
         "answer": "cls",
-        "answer_alternatives": ["Employee"]
+        "answer_alternatives": [
+          "Employee"
+        ]
       }
     ],
-    "word_bank": ["cls", "Employee", "self", "object"],
+    "word_bank": [
+      "cls",
+      "Employee",
+      "self",
+      "object"
+    ],
     "per_tile_feedback": {
       "cls": "Correct: `cls(name, salary)` calls the constructor, creating an instance of the current class.",
       "Employee": "Using the class name directly works but is less flexible if the class is subclassed.",
@@ -491,7 +581,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["BankAccount", "BankAccount()", "object", "super"],
+    "word_bank": [
+      "BankAccount",
+      "BankAccount()",
+      "object",
+      "super"
+    ],
     "per_tile_feedback": {
       "BankAccount": "Correct: the parent class name is placed inside parentheses.",
       "BankAccount()": "The parentheses call the constructor; here you need the class name, not an instance.",
@@ -521,7 +616,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["isinstance", "type", "is", "issubclass"],
+    "word_bank": [
+      "isinstance",
+      "type",
+      "is",
+      "issubclass"
+    ],
     "per_tile_feedback": {
       "isinstance": "Correct: `isinstance(obj, Class)` returns `True` if `obj` is an instance of `Class` or a subclass.",
       "type": "`type()` returns the class, but comparing with `==` does not handle inheritance.",
@@ -543,15 +643,22 @@
     "chapter": 7,
     "difficulty": "hard",
     "task_description": "In the child's `__init__`, call the parent's `__init__` to set the `balance` attribute.",
-    "code_template": "class SavingsAccount(BankAccount):\n    def __init__(self, balance, interest_rate):\n        _____ .__init__(self, balance)\n        self.interest_rate = interest_rate",
+    "code_template": "class SavingsAccount(BankAccount):\n    def __init__(self, balance, interest_rate):\n        [[0]] .[[1]]self, balance)\n        self.interest_rate = interest_rate",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "BankAccount",
-        "answer_alternatives": []
+        "distractors": [
+          "SavingsAccount"
+        ]
       }
     ],
-    "word_bank": ["BankAccount", "super", "self", "parent"],
+    "word_bank": [
+      "BankAccount",
+      "super",
+      "self",
+      "parent"
+    ],
     "per_tile_feedback": {
       "BankAccount": "Correct: the parent class name is used to call its `__init__` directly.",
       "super": "`super()` would work as `super().__init__(balance)` but doesn't fit this blank (needs argument format).",
@@ -564,7 +671,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "When overriding `__init__`, you must explicitly call the parent's `__init__` to initialise inherited attributes. The syntax is `ParentClass.__init__(self, ...)`.",
-    "common_mistake_warning": "⚠️ Forgetting to call the parent's `__init__` leaves inherited attributes uninitialised."
+    "common_mistake_warning": "⚠️ Forgetting to call the parent's `__init__` leaves inherited attributes uninitialised.",
+    "_exerciseType": "ftb",
+    "description": "In the child's `__init__`, call the parent's `__init__` to set the `balance` attribute.",
+    "code": "class SavingsAccount(BankAccount):\n    def __init__(self, balance, interest_rate):\n        [[0]] .[[1]]self, balance)\n        self.interest_rate = interest_rate",
+    "answers": [
+      "BankAccount"
+    ]
   },
   {
     "id": "fitb_019",
@@ -581,7 +694,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["=1", "=0", "=None", ""],
+    "word_bank": [
+      "=1",
+      "=0",
+      "=None",
+      ""
+    ],
     "per_tile_feedback": {
       "=1": "Correct: the default value for `n_periods` is 1, matching the course example.",
       "=0": "0 would cause the computation to return 0, not a meaningful interest.",
@@ -611,7 +729,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["BankAccount", "super", "self", "CheckingAccount"],
+    "word_bank": [
+      "BankAccount",
+      "super",
+      "self",
+      "CheckingAccount"
+    ],
     "per_tile_feedback": {
       "BankAccount": "Correct: calling the parent method by name ensures the parent's logic executes.",
       "super": "`super()` could be used but would require a different syntax (`super().withdraw(amount + fee)`).",
@@ -641,7 +764,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["__eq__", "__str__", "__init__", "__ne__"],
+    "word_bank": [
+      "__eq__",
+      "__str__",
+      "__init__",
+      "__ne__"
+    ],
     "per_tile_feedback": {
       "__eq__": "Correct: `__eq__` is called when using the `==` operator.",
       "__str__": "`__str__` is for string representation, not equality.",
@@ -676,7 +804,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["type", "isinstance", "class", "id"],
+    "word_bank": [
+      "type",
+      "isinstance",
+      "class",
+      "id"
+    ],
     "per_tile_feedback": {
       "type": "Correct: `type(self) == type(other)` ensures both objects are of the exact same class.",
       "isinstance": "`isinstance` checks inheritance, which would still allow subclasses to match.",
@@ -746,7 +879,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["__str__", "__repr__", "__print__", "str"],
+    "word_bank": [
+      "__str__",
+      "__repr__",
+      "__print__",
+      "str"
+    ],
     "per_tile_feedback": {
       "__str__": "Correct: `__str__` is called by `print()` and `str()` for an informal, readable output.",
       "__repr__": "`__repr__` is for developer‑focused representation.",
@@ -776,7 +914,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["__repr__", "__str__", "__init__", "__call__"],
+    "word_bank": [
+      "__repr__",
+      "__str__",
+      "__init__",
+      "__call__"
+    ],
     "per_tile_feedback": {
       "__repr__": "Correct: `__repr__` returns an unambiguous, developer‑oriented string.",
       "__str__": "`__str__` is for user‑friendly output; the course uses `__repr__` for this pattern.",
@@ -806,7 +949,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["except", "catch", "if", "raise"],
+    "word_bank": [
+      "except",
+      "catch",
+      "if",
+      "raise"
+    ],
     "per_tile_feedback": {
       "except": "Correct: `except` specifies the block that runs when a named exception occurs.",
       "catch": "`catch` is not a Python keyword.",
@@ -836,7 +984,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["raise", "throw", "except", "return"],
+    "word_bank": [
+      "raise",
+      "throw",
+      "except",
+      "return"
+    ],
     "per_tile_feedback": {
       "raise": "Correct: `raise` is used to trigger an exception manually.",
       "throw": "`throw` is not a Python keyword; it's used in other languages.",
@@ -866,7 +1019,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["Exception", "BaseException", "Error", "object"],
+    "word_bank": [
+      "Exception",
+      "BaseException",
+      "Error",
+      "object"
+    ],
     "per_tile_feedback": {
       "Exception": "Correct: custom exceptions should inherit from `Exception` (or a subclass) to be caught by normal `except Exception` blocks.",
       "BaseException": "Inheriting directly from `BaseException` is technically allowed but unusual for application errors.",
@@ -896,7 +1054,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["BalanceError", "ValueError", "Exception", "Error"],
+    "word_bank": [
+      "BalanceError",
+      "ValueError",
+      "Exception",
+      "Error"
+    ],
     "per_tile_feedback": {
       "BalanceError": "Correct: `BalanceError` is the custom exception defined for this purpose.",
       "ValueError": "A generic `ValueError` could work, but the course uses a custom exception for clarity.",

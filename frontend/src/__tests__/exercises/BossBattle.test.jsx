@@ -187,6 +187,80 @@ describe('BossBattle', () => {
     expect(screen.getByText('0 pts')).toBeInTheDocument()
   })
 
+  it('opens feedback modal with explanation after answering correctly', async () => {
+    Math.random = () => 0.5
+    userEvent = userEventLib.setup()
+    fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
+      .mockResolvedValueOnce({ ok: true, json: async () => mockQuestions })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('ENTER BATTLE')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('ENTER BATTLE'))
+
+    await waitFor(() => {
+      expect(screen.getByText(/What is the output/)).toBeInTheDocument()
+    })
+
+    fetch.mockResolvedValueOnce({ ok: true })
+
+    const optBtn = screen.getByText((content, el) => {
+      return el.tagName === 'SPAN' && content === '8' && !!el.closest('button')
+    }).closest('button')
+
+    await userEvent.click(optBtn)
+
+    await waitFor(() => {
+      expect(screen.getByText('Correct!')).toBeInTheDocument()
+    }, { timeout: 3000 })
+
+    expect(screen.getByText('Next Question')).toBeInTheDocument()
+  })
+
+  it('closes feedback modal when Continue clicked', async () => {
+    Math.random = () => 0.5
+    userEvent = userEventLib.setup()
+    fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
+      .mockResolvedValueOnce({ ok: true, json: async () => mockQuestions })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('ENTER BATTLE')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('ENTER BATTLE'))
+
+    await waitFor(() => {
+      expect(screen.getByText(/What is the output/)).toBeInTheDocument()
+    })
+
+    fetch.mockResolvedValueOnce({ ok: true })
+
+    const optBtn = screen.getByText((content, el) => {
+      return el.tagName === 'SPAN' && content === '8' && !!el.closest('button')
+    }).closest('button')
+
+    await userEvent.click(optBtn)
+
+    await waitFor(() => {
+      expect(screen.getByText('Next Question')).toBeInTheDocument()
+    }, { timeout: 3000 })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
+
+    await waitFor(() => {
+      expect(screen.queryByText('Next Question')).not.toBeInTheDocument()
+    })
+  })
+
   it('shows multiple questions in sequence', async () => {
     Math.random = () => 0.5
     userEvent = userEventLib.setup()
@@ -214,6 +288,12 @@ describe('BossBattle', () => {
     }).closest('button')
 
     await userEvent.click(optBtn)
+
+    await waitFor(() => {
+      expect(screen.getByText(/Next Question/i)).toBeInTheDocument()
+    }, { timeout: 3000 })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
 
     await waitFor(() => {
       expect(screen.getByText(/capital of France/)).toBeInTheDocument()
@@ -285,6 +365,12 @@ describe('BossBattle', () => {
     await userEvent.click(q1Btn)
 
     await waitFor(() => {
+      expect(screen.getByText(/Next Question/i)).toBeInTheDocument()
+    }, { timeout: 3000 })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
+
+    await waitFor(() => {
       expect(screen.getByText(/capital of France/)).toBeInTheDocument()
     }, { timeout: 3000 })
 
@@ -297,6 +383,12 @@ describe('BossBattle', () => {
     }).closest('button')
 
     await userEvent.click(q2Btn)
+
+    await waitFor(() => {
+      expect(screen.getByText(/Next Question/i)).toBeInTheDocument()
+    }, { timeout: 3000 })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
 
     await waitFor(() => {
       expect(screen.getByText(/UNDEFEATED/)).toBeInTheDocument()

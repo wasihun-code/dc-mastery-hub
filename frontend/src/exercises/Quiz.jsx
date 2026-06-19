@@ -10,13 +10,13 @@ import {
   RotateCcw, 
   HelpCircle,
   Zap,
-  Trash2,
-  Edit2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
 import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
 import ExerciseTimer from '../components/ExerciseTimer';
+import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
+import ExerciseBottomControls from '../components/ExerciseBottomControls';
 
 export default function Quiz() {
   const { courseSlug } = useParams();
@@ -37,7 +37,7 @@ export default function Quiz() {
   const [firstAttemptCorrectCount, setFirstAttemptCorrectCount] = useState(0);
   const [hintsShown, setHintsShown] = useState(0);
   const [wrongAttempts, setWrongAttempts] = useState(0);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
 
   const [timerEnabled] = useState(() => getTimerEnabled('mcq'));
@@ -76,7 +76,8 @@ export default function Quiz() {
     if (step !== 2) return;
 
     const handleKeyDown = (e) => {
-      // Ignore key events if focused on input elements
+      if (showFeedbackModal) return;
+
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
         return;
       }
@@ -110,20 +111,13 @@ export default function Quiz() {
           setWrongAttempts(0);
         }
       }
-
-      // Enter -> next question (if answered/locked and explanation is shown)
-      if (e.key === 'Enter') {
-        if (showExplanation) {
-          handleNext();
-        }
-      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [step, currentIndex, questions, isLocked, wrongSelectedOptions, showExplanation]);
+  }, [step, currentIndex, questions, isLocked, wrongSelectedOptions, showFeedbackModal]);
 
   const fetchCourseAndQuestions = async () => {
     try {
@@ -194,7 +188,7 @@ export default function Quiz() {
     setIsLocked(false);
     setHintsShown(0);
     setWrongAttempts(0);
-    setShowExplanation(false);
+    setShowFeedbackModal(false);
   };
 
   const handleOptionClick = async (optionKey) => {
@@ -215,7 +209,7 @@ export default function Quiz() {
       if (wrongSelectedOptions.length === 0) {
         setFirstAttemptCorrectCount(prev => prev + 1);
       }
-      setTimeout(() => setShowExplanation(true), 1000);
+      setShowFeedbackModal(true);
     } else {
       setWrongSelectedOptions(prev => [...prev, optionKey]);
       const nextWrongAttempts = wrongAttempts + 1;
@@ -226,7 +220,7 @@ export default function Quiz() {
         setIsLocked(true);
         shouldPost = true;
         finalCorrect = false;
-        setTimeout(() => setShowExplanation(true), 1000);
+        setShowFeedbackModal(true);
       }
     }
 
@@ -541,38 +535,12 @@ export default function Quiz() {
                   })}
                 </div>
 
-                {selectedOption && (
-                  <div className="transition-all duration-300">
-                    {showExplanation && (
-                      <div className={`rounded-xl border p-5 mb-4 animate-in slide-in-from-bottom-3 duration-300 ${
-                        selectedOption === currentQuestion?.correct_option 
-                          ? 'border-[var(--accent-green)] bg-[rgba(3,239,98,0.03)]' 
-                          : 'border-[var(--accent-red)] bg-[rgba(255,77,77,0.03)]'
-                      }`}>
-                        <h4 className="font-bold mb-1.5 text-xs uppercase tracking-wider">
-                          {selectedOption === currentQuestion?.correct_option ? 'Correct Option Feedback' : 'Option Feedback'}
-                        </h4>
-                        <p className="text-[var(--text-muted)] text-xs mb-2.5">
-                          {currentQuestion?.per_option_feedback?.[selectedOption]}
-                        </p>
-                        <hr className="border-[var(--border)] my-2.5" />
-                        <h4 className="font-bold mb-1.5 text-xs uppercase tracking-wider text-[var(--text-primary)]">Explanation</h4>
-                        <p className="text-xs leading-relaxed text-[var(--text-primary)]">
-                          {currentQuestion?.explanation}
-                        </p>
-                      </div>
-                    )}
-                    
-                    {showExplanation && (
-                      <button
-                        onClick={handleNext}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent-green)] py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors"
-                      >
-                        {currentIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
-                        <ArrowRight size={18} />
-                      </button>
-                    )}
-                  </div>
+                {isLocked && (
+                  <p className="text-xs text-[var(--text-muted)] text-center mt-2">
+                    {selectedOption === currentQuestion?.correct_option
+                      ? 'Correct!'
+                      : 'Incorrect'}
+                  </p>
                 )}
               </div>
 
@@ -580,38 +548,27 @@ export default function Quiz() {
           </div>
         </main>
 
-        {/* Left Sidebar Controls Container */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-          <div className="flex gap-2">
-            {/* Edit Question Button */}
-            <button
-              type="button"
-              onClick={() => setEditingQuestion(questions[currentIndex])}
-              className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
-            >
-              <Edit2 size={12} /> Edit
-            </button>
-
-            {/* Delete Question Button */}
-            <button
-              type="button"
-              onClick={() => handleDeleteQuestion(questions[currentIndex]?.id)}
-              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
-            >
-              <Trash2 size={12} /> Delete
-            </button>
-          </div>
-
-          {/* Multiple Tries Toggle Panel */}
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/85 backdrop-blur-md p-4 text-xs shadow-lg flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[var(--text-primary)]">Multiple Tries</span>
+        <ExerciseBottomControls
+          onEdit={() => setEditingQuestion(questions[currentIndex])}
+          onDelete={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+          shortcutItems={[
+            { label: 'Select Option', keys: ['1', '-', '4'] },
+            { label: 'Clear Choice', keys: ['Esc'] },
+            { label: 'Next Question', keys: ['Enter'] },
+          ]}
+          dotColor="var(--accent-green)"
+          showShortcuts={showShortcuts}
+          onToggleShortcuts={handleToggleShortcuts}
+          rightContent={
+            <div className="flex items-center gap-2.5">
+              <span className="text-sm font-medium text-[var(--text-primary)]">Multiple Tries</span>
               <button
                 type="button"
                 onClick={handleToggleMultipleTries}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-250 ease-in-out focus:outline-none ${
                   allowMultipleTries ? 'bg-[var(--accent-green)]' : 'bg-zinc-800'
                 }`}
+                title="Enable to get up to 3 attempts to correct wrong answers before the question locks."
               >
                 <span
                   className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-255 ease-in-out ${
@@ -620,48 +577,23 @@ export default function Quiz() {
                 />
               </button>
             </div>
-            <p className="text-[10px] text-[var(--text-muted)] leading-relaxed font-medium">
-              Enable to get up to 3 attempts to correct wrong answers before the question locks.
-            </p>
-          </div>
+          }
+        />
 
-          {/* Keyboard Shortcuts Helper */}
-          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-green)] animate-pulse"></span>
-                <span>Shortcuts</span>
-              </div>
-              <button 
-                type="button"
-                onClick={handleToggleShortcuts}
-                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer"
-              >
-                {showShortcuts ? 'Hide' : 'Show'}
-              </button>
-            </div>
-            {showShortcuts && (
-              <div className="space-y-2 font-medium text-[var(--text-muted)]">
-                <div className="flex justify-between items-center">
-                  <span>Select Option</span>
-                  <span className="flex gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                    <span>-</span>
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Clear Choice</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Next Question</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <AnswerFeedbackModal
+          isOpen={showFeedbackModal}
+          isCorrect={selectedOption === currentQuestion?.correct_option}
+          userAnswer={selectedOption ? (() => {
+            const optMap = { a: 'option_a', b: 'option_b', c: 'option_c', d: 'option_d' }
+            return currentQuestion?.[optMap[selectedOption]]
+          })() : undefined}
+          correctAnswer={(() => {
+            const optMap = { a: 'option_a', b: 'option_b', c: 'option_c', d: 'option_d' }
+            return currentQuestion?.[optMap[currentQuestion?.correct_option]]
+          })()}
+          explanation={currentQuestion?.explanation || ''}
+          onContinue={handleNext}
+        />
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

@@ -373,7 +373,7 @@ export default function Tracks() {
                       setSelectedCourseId(c.id)
                       if (!canFitSideBySide && detailRef.current) {
                         requestAnimationFrame(() => {
-                          detailRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                          detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                         })
                       }
                     }

@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import FillBlank from '../../exercises/FillBlank'
@@ -266,6 +266,200 @@ describe('FillBlank', () => {
     await waitFor(() => {
       expect(screen.getByText('Complete the function to subtract two numbers')).toBeInTheDocument()
     })
+  })
+
+  it('opens feedback modal after submitting answer', async () => {
+    fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
+      .mockResolvedValueOnce({ ok: true, json: async () => mockExercises })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('Fill in the Blanks')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('START'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to add two numbers')).toBeInTheDocument()
+    })
+
+    const input = screen.getByPlaceholderText('_____')
+    await userEvent.type(input, 'a + b')
+
+    fetch.mockResolvedValueOnce({ ok: true })
+
+    await userEvent.click(screen.getByText('Check Answer'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Next Question')).toBeInTheDocument()
+    })
+
+    expect(screen.getByText('Correct!')).toBeInTheDocument()
+    expect(screen.getByText('Explanation')).toBeInTheDocument()
+  })
+
+  it('closes feedback modal when Continue is clicked', async () => {
+    fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
+      .mockResolvedValueOnce({ ok: true, json: async () => mockExercises })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('Fill in the Blanks')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('START'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to add two numbers')).toBeInTheDocument()
+    })
+
+    const input = screen.getByPlaceholderText('_____')
+    await userEvent.type(input, 'a + b')
+
+    fetch.mockResolvedValueOnce({ ok: true })
+
+    await userEvent.click(screen.getByText('Check Answer'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Next Question')).toBeInTheDocument()
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
+
+    await waitFor(() => {
+      expect(screen.queryByText('Next Question')).not.toBeInTheDocument()
+    })
+  })
+
+  it('advances to next exercise via modal Continue', async () => {
+    const twoExercises = [
+      ...mockExercises,
+      {
+        id: 2,
+        description: 'Complete the function to subtract two numbers',
+        code: 'def subtract(a, b):\n    return [[0]]\n',
+        answers: ['a - b'],
+        word_bank: ['a + b', 'a - b', 'a * b', 'a / b'],
+        concept_id: 'c2',
+        explanation: 'The - operator subtracts two numbers.',
+        per_tile_feedback: { 'a - b': 'Correct operator!' }
+      }
+    ]
+
+    const mockMap = {
+      '/api/courses/test-course': mockCourse,
+      '/api/content/exercises/test-course/ftb': twoExercises,
+      '/api/progress/attempted-questions/test-course/fillblank': [],
+    }
+    fetch.mockImplementation((url) => {
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('Fill in the Blanks')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('START'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to add two numbers')).toBeInTheDocument()
+    })
+
+    const input = screen.getByPlaceholderText('_____')
+    await userEvent.type(input, 'a + b')
+
+    fetch.mockImplementation((url, opts) => {
+      if (opts && opts.method === 'POST') {
+        return Promise.resolve({ ok: true, json: async () => ({}) })
+      }
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
+
+    await userEvent.click(screen.getByText('Check Answer'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Next Question')).toBeInTheDocument()
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to subtract two numbers')).toBeInTheDocument()
+    })
+  })
+
+  it('starts next exercise with empty input after modal Continue', async () => {
+    const twoExercises = [
+      ...mockExercises,
+      {
+        id: 2,
+        description: 'Complete the function to subtract two numbers',
+        code: 'def subtract(a, b):\n    return [[0]]\n',
+        answers: ['a - b'],
+        word_bank: ['a + b', 'a - b', 'a * b', 'a / b'],
+        concept_id: 'c2',
+        explanation: 'The - operator subtracts two numbers.',
+        per_tile_feedback: { 'a - b': 'Correct operator!' }
+      }
+    ]
+
+    const mockMap = {
+      '/api/courses/test-course': mockCourse,
+      '/api/content/exercises/test-course/ftb': twoExercises,
+      '/api/progress/attempted-questions/test-course/fillblank': [],
+    }
+    fetch.mockImplementation((url) => {
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
+
+    renderComponent()
+
+    await waitFor(() => {
+      expect(screen.getByText('Fill in the Blanks')).toBeInTheDocument()
+    })
+
+    await userEvent.click(screen.getByText('START'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to add two numbers')).toBeInTheDocument()
+    })
+
+    const input = screen.getByPlaceholderText('_____')
+    await userEvent.type(input, 'a + b')
+
+    fetch.mockImplementation((url, opts) => {
+      if (opts && opts.method === 'POST') {
+        return Promise.resolve({ ok: true, json: async () => ({}) })
+      }
+      const data = mockMap[url]
+      return Promise.resolve({ ok: !!data, json: async () => data || {} })
+    })
+
+    await userEvent.click(screen.getByText('Check Answer'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Next Question')).toBeInTheDocument()
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText('Complete the function to subtract two numbers')).toBeInTheDocument()
+    })
+
+    const nextInput = screen.getByPlaceholderText('_____')
+    expect(nextInput.value).toBe('')
   })
 
   it('clears user input when Clear button is clicked', async () => {

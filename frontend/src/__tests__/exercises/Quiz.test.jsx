@@ -336,7 +336,7 @@ describe('Quiz', () => {
       expect(screen.getByRole('button', { name: /Next Question|Finish Quiz/i })).toBeInTheDocument()
     }, { timeout: 3000 })
 
-    fireEvent.click(screen.getByRole('button', { name: /Finish Quiz/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Next Question/i }))
 
     await waitFor(() => {
       expect(screen.getByText('Session Complete!')).toBeInTheDocument()

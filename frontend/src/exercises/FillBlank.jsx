@@ -9,12 +9,12 @@ import {
   Code2,
   ArrowRight,
   Zap,
-  Trash2,
-  Edit2
   } from 'lucide-react';
   import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
   import EditQuestionModal from '../components/EditQuestionModal';
   import ExerciseTimer from '../components/ExerciseTimer';
+  import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
+  import ExerciseBottomControls from '../components/ExerciseBottomControls';
 
 const AutoResizingInput = React.forwardRef(({ slotIndex, value, isChecked, isCorrect, activeSlot, onFocus, onChange }, ref) => {
   const spanRef = useRef(null);
@@ -92,6 +92,7 @@ export default function FillBlank() {
   const [correctExerciseCount, setCorrectExerciseCount] = useState(0);
   const [activeSlot, setActiveSlot] = useState(0);
   const [xpEarned, setXpEarned] = useState(0);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [timerEnabled] = useState(() => getTimerEnabled('ftb'));
   const [timerDuration] = useState(() => getTimerDuration('ftb'));
   const [timerExpired, setTimerExpired] = useState(false);
@@ -130,6 +131,7 @@ export default function FillBlank() {
     if (step !== 2) return;
 
     const handleKeyDown = (e) => {
+      if (showFeedbackModal) return;
       // Self-Typing mode shortcuts (when choices are NOT enabled)
       if (!choicesEnabled) {
         // Ctrl+Shift+Enter -> check answer (submit)
@@ -178,7 +180,7 @@ export default function FillBlank() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [step, currentIndex, exercises, userAnswers, isChecked, choicesEnabled, shuffledWordBank]);
+  }, [step, currentIndex, exercises, userAnswers, isChecked, choicesEnabled, shuffledWordBank, showFeedbackModal]);
 
   useEffect(() => {
     if (step === 2 && !choicesEnabled && !isChecked && inputRef.current) {
@@ -298,6 +300,7 @@ export default function FillBlank() {
   const resetState = () => {
     setUserAnswers({});
     setIsChecked(false);
+    setShowFeedbackModal(false);
     setActiveSlot(0);
     setChoicesEnabled(false);
   };
@@ -399,6 +402,8 @@ export default function FillBlank() {
     } catch (err) {
       console.error("Error saving question attempt:", err);
     }
+
+    setShowFeedbackModal(true);
   };
 
   const handleNext = () => {
@@ -711,111 +716,63 @@ export default function FillBlank() {
                   )}
                 </div>
 
-                {/* Feedback & Explanations */}
                 {isChecked && (
-                  <div className="animate-in slide-in-from-bottom-3 duration-300">
-                    <div className={`rounded-xl border p-5 ${
-                      Object.keys(userAnswers).every(k => userAnswers[k] === currentEx?.answers?.[k]) 
-                        ? 'border-[var(--accent-green)] bg-[rgba(3,239,98,0.02)]' 
-                        : 'border-[var(--accent-red)] bg-[rgba(255,77,77,0.02)]'
-                    }`}>
-                      <h4 className="font-bold mb-1.5 text-xs uppercase tracking-wider text-[var(--text-primary)]">Explanation</h4>
-                      <p className="text-xs leading-relaxed text-[var(--text-primary)]">
-                        {currentEx?.explanation}
-                      </p>
-                      
-                      {currentEx?.per_tile_feedback && (
-                        <div className="mt-4 border-t border-[var(--border)] pt-4 space-y-1.5">
-                          <h5 className="text-xxs uppercase font-extrabold text-[var(--text-muted)] tracking-wider">Tile Feedback</h5>
-                          {Object.entries(userAnswers).map(([idx, word]) => (
-                            <div key={idx} className="text-xxs flex gap-2 items-start">
-                              <span className={`font-bold ${word === currentEx.answers[idx] ? 'text-[var(--accent-green)]' : 'text-[var(--accent-red)]'}`}>{word}:</span>
-                              <span className="text-[var(--text-muted)]">{currentEx.per_tile_feedback[word]}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <p className="text-xs text-[var(--text-muted)] text-center">
+                    {Object.keys(userAnswers).every(k => userAnswers[k] === currentEx?.answers?.[k])
+                      ? 'Correct!'
+                      : 'Incorrect'}
+                  </p>
                 )}
               </div>
 
             </div>
           </div>
         </main>
-        {/* Left Sidebar Controls Container */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-          <div className="flex gap-2">
-            {/* Edit Exercise Button */}
-            <button
-              type="button"
-              onClick={() => setEditingQuestion(exercises[currentIndex])}
-              className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
-            >
-              <Edit2 size={12} /> Edit
-            </button>
-            {/* Delete Exercise Button */}
-            <button
-              type="button"
-              onClick={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
-              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
-            >
-              <Trash2 size={12} /> Delete
-            </button>
-          </div>
-
-          {/* Keyboard Shortcuts Helper */}
-          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-blue)] animate-pulse"></span>
-                <span>Shortcuts</span>
-              </div>
-              <button 
-                type="button"
-                onClick={handleToggleShortcuts}
-                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
-              >
-                {showShortcuts ? 'Hide' : 'Show'}
-              </button>
-            </div>
-            {showShortcuts && (
-              <div className="space-y-2 font-medium text-[var(--text-muted)] font-semibold">
-                {choicesEnabled ? (
-                  <>
-                    <div className="flex justify-between items-center">
-                      <span>Select Word</span>
-                      <span className="flex gap-1">
-                        <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                        <span>-</span>
-                        <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">9</kbd>
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Clear Answers</span>
-                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex justify-between items-center">
-                      <span>Submit Answer</span>
-                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Ctrl+Shift+Enter</kbd>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Clear Input</span>
-                      <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                    </div>
-                  </>
-                )}
-                <div className="flex justify-between items-center">
-                  <span>Next Question</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
+        <ExerciseBottomControls
+          onEdit={() => setEditingQuestion(exercises[currentIndex])}
+          onDelete={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
+          shortcutItems={
+            choicesEnabled
+              ? [
+                  { label: 'Select Word', keys: ['1', '-', '9'] },
+                  { label: 'Clear Answers', keys: ['Esc'] },
+                  { label: 'Next Question', keys: ['Enter'] },
+                ]
+              : [
+                  { label: 'Submit Answer', keys: ['Ctrl+Shift+Enter'] },
+                  { label: 'Clear Input', keys: ['Esc'] },
+                  { label: 'Next Question', keys: ['Enter'] },
+                ]
+          }
+          dotColor="var(--accent-blue)"
+          showShortcuts={showShortcuts}
+          onToggleShortcuts={handleToggleShortcuts}
+        />
+        <AnswerFeedbackModal
+          isOpen={showFeedbackModal}
+          isCorrect={isChecked && Object.keys(userAnswers).every(k => userAnswers[k] === exercises[currentIndex]?.answers?.[k])}
+          explanation={exercises[currentIndex]?.explanation || ''}
+          onContinue={handleNext}
+        >
+          {isChecked && exercises[currentIndex]?.per_tile_feedback && (
+            <div className="mt-4 space-y-1.5 text-sm">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                Tile Feedback
+              </p>
+              {Object.entries(userAnswers).map(([idx, word]) => (
+                <div key={idx} className="flex gap-2 items-start text-xs">
+                  <span className={`font-bold ${word === exercises[currentIndex].answers[idx] ? 'text-[var(--accent-green)]' : 'text-[var(--accent-red)]'}`}>
+                    {word}:
+                  </span>
+                  <span className="text-[var(--text-muted)]">
+                    {exercises[currentIndex].per_tile_feedback[word]}
+                  </span>
                 </div>
-              </div>
-            )}
-          </div>
-        </div>
+              ))}
+            </div>
+          )}
+        </AnswerFeedbackModal>
+
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (
           <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">

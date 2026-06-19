@@ -12,12 +12,12 @@ import {
   Lightbulb,
   Check,
   X,
-  Trash2,
-  Edit2
 } from 'lucide-react';
 import CodeBlock from '../components/CodeBlock';
 import { getSessionLimit } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
+import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
+import ExerciseBottomControls from '../components/ExerciseBottomControls';
 
 export default function BossBattle() {
   const { courseSlug } = useParams();
@@ -66,6 +66,8 @@ export default function BossBattle() {
   const [waveSurvival, setWaveSurvival] = useState({ 1: 0, 2: 0, 3: 0 });
   const [waveTotals, setWaveTotals] = useState({ 1: 20, 2: 20, 3: 20 });
   
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const continueActionRef = useRef('advance');
   const timerRef = useRef(null);
   const advanceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -80,6 +82,7 @@ export default function BossBattle() {
     if (step !== 2) return;
 
     const handleKeyDown = (e) => {
+      if (showFeedbackModal) return;
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
         return;
       }
@@ -115,7 +118,7 @@ export default function BossBattle() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [step, currentIndex, questions, isAnswered, lives, shuffledKeys]);
+  }, [step, currentIndex, questions, isAnswered, lives, shuffledKeys, showFeedbackModal]);
 
   const fetchCourseAndBattle = async () => {
     try {
@@ -317,20 +320,16 @@ export default function BossBattle() {
 
     setLives(prev => {
       const nextLives = prev - 1;
-      if (nextLives <= 0) {
-        advanceTimeoutRef.current = setTimeout(() => finishBattle('lives'), 1000);
-      } else {
-        advanceTimeoutRef.current = setTimeout(() => {
-          advanceNext();
-        }, 1200);
-      }
+      continueActionRef.current = nextLives <= 0 ? 'finish' : 'advance';
       return nextLives;
     });
+    setShowFeedbackModal(true);
   };
 
   const resetQuestionState = () => {
     setIsAnswered(false);
     setSelectedOption(null);
+    setShowFeedbackModal(false);
     setFlash(null);
     setHintsShown(0);
     setTimeLeft(15);
@@ -382,23 +381,17 @@ export default function BossBattle() {
       setScore(prev => prev + 1);
       setFlash('correct');
       quizFeedback.correct();
-      advanceTimeoutRef.current = setTimeout(() => {
-        advanceNext();
-      }, 800);
+      continueActionRef.current = 'advance';
+      setShowFeedbackModal(true);
     } else {
       setFlash('wrong');
       quizFeedback.wrong();
       setLives(prev => {
         const nextLives = prev - 1;
-        if (nextLives <= 0) {
-          advanceTimeoutRef.current = setTimeout(() => finishBattle('lives'), 1000);
-        } else {
-          advanceTimeoutRef.current = setTimeout(() => {
-            advanceNext();
-          }, 1200);
-        }
+        continueActionRef.current = nextLives <= 0 ? 'finish' : 'advance';
         return nextLives;
       });
+      setShowFeedbackModal(true);
     }
   };
 
@@ -419,6 +412,14 @@ export default function BossBattle() {
         }
         return nextTime;
       });
+    }
+  };
+
+  const handleModalContinue = () => {
+    if (continueActionRef.current === 'finish') {
+      finishBattle('lives');
+    } else {
+      advanceNext();
     }
   };
 
@@ -739,64 +740,26 @@ export default function BossBattle() {
           </div>
         </main>
 
-        {/* Left Sidebar Controls Container */}
-        <div className={`fixed ${localStorage.getItem('devMode') === 'true' ? 'bottom-[200px]' : 'bottom-6'} left-6 z-40 hidden md:flex flex-col gap-3 w-[220px] select-none text-left`}>
-          <div className="flex gap-2">
-            {/* Edit Question Button */}
-            <button
-              type="button"
-              onClick={() => setEditingQuestion(questions[currentIndex])}
-              className="flex-1 bg-[rgba(96,165,250,0.1)] hover:bg-[rgba(96,165,250,0.2)] border border-[rgba(96,165,250,0.3)] text-[var(--accent-blue)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-blue-950/20"
-            >
-              <Edit2 size={12} /> Edit
-            </button>
-            {/* Delete Question Button */}
-            <button
-              type="button"
-              onClick={() => handleDeleteQuestion(questions[currentIndex]?.id)}
-              className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
-            >
-              <Trash2 size={12} /> Delete
-            </button>
-          </div>
+        <ExerciseBottomControls
+          onEdit={() => setEditingQuestion(questions[currentIndex])}
+          onDelete={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+          shortcutItems={[
+            { label: 'Select Option', keys: ['1', '-', '4'] },
+            { label: 'Clear Choice', keys: ['Esc'] },
+            { label: 'Next Question', keys: ['Enter'] },
+          ]}
+          dotColor="var(--accent-red)"
+          showShortcuts={showShortcuts}
+          onToggleShortcuts={handleToggleShortcuts}
+        />
 
-          {/* Keyboard Shortcuts Helper */}
-          <div className="flex flex-col gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md p-4 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-center justify-between font-bold text-[var(--text-primary)] border-b border-[var(--border)]/50 pb-2 mb-1">
-              <div className="flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-[var(--accent-red)] animate-pulse"></span>
-                <span>Shortcuts</span>
-              </div>
-              <button 
-                type="button"
-                onClick={handleToggleShortcuts}
-                className="text-[10px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--bg-primary)]/50 cursor-pointer font-normal"
-              >
-                {showShortcuts ? 'Hide' : 'Show'}
-              </button>
-            </div>
-            {showShortcuts && (
-              <div className="space-y-2 font-medium text-[var(--text-muted)]">
-                <div className="flex justify-between items-center">
-                  <span>Select Option</span>
-                  <span className="flex gap-1">
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">1</kbd>
-                    <span>-</span>
-                    <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">4</kbd>
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Clear Choice</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Esc</kbd>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Next Question</span>
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-primary)] border border-[var(--border)] rounded font-mono text-[10px]">Enter</kbd>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <AnswerFeedbackModal
+          isOpen={showFeedbackModal}
+          isCorrect={flash === 'correct'}
+          explanation={currentQuestion?.explanation || ''}
+          onContinue={handleModalContinue}
+          variant="boss-battle"
+        />
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (
