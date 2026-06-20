@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 # Install Python dependencies globally
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt --break-system-packages
+RUN pip3 install -r requirements.txt
 
 WORKDIR /app
 
