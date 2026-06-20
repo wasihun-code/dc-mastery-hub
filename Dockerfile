@@ -1,5 +1,5 @@
- # Use a Node image that has Python 3 available (Debian Bullseye)
-FROM node:20-bullseye
+# Use a Node image that has Python 3 available (Debian Bookworm)
+FROM node:20-bookworm
 
 # Install Python and pip
 RUN apt-get update && \
@@ -8,7 +8,7 @@ RUN apt-get update && \
 
 # Install Python dependencies globally
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --break-system-packages
 
 WORKDIR /app
 
