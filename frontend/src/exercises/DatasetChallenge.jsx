@@ -53,8 +53,12 @@ export default function DatasetChallenge() {
   const terminalEndRef = useRef(null)
   const snippetInputRef = useRef(null)
   const codeRef = useRef(code)
+  const preloadedVarsRef = useRef(null)
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
+  const handleDeleteRef = useRef(null)
+  const currentIndexRef = useRef(currentIndex)
+  const challengesRef = useRef(challenges)
   const activeFileRef = useRef(activeFile)
 
   const [terminalHeight, setTerminalHeight] = useState(250)
@@ -64,6 +68,36 @@ export default function DatasetChallenge() {
   const rightPanelRef = useRef(null)
   const isDragging = useRef(false)
   const containerRef = useRef(null)
+
+  function renderPreLoadedDataCard(challenge) {
+    if (!challenge?.pre_loaded_data || Object.keys(challenge.pre_loaded_data).length === 0) return null
+    const entries = Object.entries(challenge.pre_loaded_data)
+    return (
+      <div ref={preloadedVarsRef} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden mb-4" id="preloaded-vars">
+        <div className="px-3 py-2 bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30">
+          <h4 className="text-xs font-bold text-[var(--accent-green)] uppercase tracking-wider">Pre-loaded Variables</h4>
+        </div>
+        <div className="divide-y divide-[var(--border)]/30">
+          {entries.map(([key, val]) => {
+            let typeHint = val.type || 'unknown'
+            if (val.type === 'csv') typeHint = 'DataFrame (from ' + (val.path || 'csv') + ')'
+            else if (val.type === 'csv_column') typeHint = 'numpy array (column from ' + (val.path || 'csv') + ')'
+            else if (val.type === 'csv_list') typeHint = 'list (column from ' + (val.path || 'csv') + ')'
+            else if (val.type === 'pickle') typeHint = 'pickle object (from ' + (val.path || 'pkl') + ')'
+            else if (val.type === 'sqlite') typeHint = 'sqlite3.Connection'
+            else if (val.type === 'dataframe') typeHint = 'DataFrame'
+            else if (val.type === 'value') typeHint = typeof val.data
+            return (
+              <div key={key} className="flex items-center justify-between px-3 py-1.5 text-xs">
+                <code className="font-mono font-bold text-[var(--accent-blue)]">{key}</code>
+                <span className="text-[var(--text-muted)] font-mono text-[10px]">{typeHint}</span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
 
   function getUserCodePortion(starterCode) {
     const lines = starterCode.split('\n')
@@ -150,11 +184,29 @@ export default function DatasetChallenge() {
   }, [handleSubmit])
 
   useEffect(() => {
+    handleDeleteRef.current = handleDeleteQuestion
+  }, [handleDeleteQuestion])
+
+  useEffect(() => {
+    currentIndexRef.current = currentIndex
+  }, [currentIndex])
+
+  useEffect(() => {
+    challengesRef.current = challenges
+  }, [challenges])
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey) {
         if (e.shiftKey && e.key === 'Enter') {
           e.preventDefault()
           handleSubmitRef.current()
+        } else if ((e.key === 'd' || e.key === 'D')) {
+          e.preventDefault()
+          const idx = currentIndexRef.current
+          const ch = challengesRef.current
+          handleDeleteRef.current(ch[idx]?.id)
+          return
         } else if (e.key === 'Enter') {
           e.preventDefault()
           handleRunRef.current()
@@ -367,7 +419,7 @@ export default function DatasetChallenge() {
     }
   }
 
-  const handleDeleteQuestion = async (questionId) => {
+  async function handleDeleteQuestion(questionId) {
     if (!window.confirm("Are you sure you want to delete this challenge? It will not be shown again.")) return;
     try {
       const res = await fetch('/api/progress/delete-question', {
@@ -400,7 +452,7 @@ export default function DatasetChallenge() {
     } catch (err) {
       console.error("Failed to delete challenge:", err);
     }
-  };
+  }
 
   async function handleRun() {
     if (isRunning || isSubmitting) return
@@ -503,7 +555,7 @@ export default function DatasetChallenge() {
               question_id: challenge.id,
               concept_id: conceptId,
               score: data.passed ? 1.0 : 0.0,
-              was_correct: data.passed ? 1 : 0,
+              was_correct: data.passed,
               time_taken_secs: 0
             })
           })
@@ -537,6 +589,19 @@ export default function DatasetChallenge() {
       setActiveFile('solution')
     } else {
       setShowSolutionModal(true)
+    }
+  }
+
+  const handleScrollToPreloadedVars = () => {
+    if (preloadedVarsRef.current) {
+      preloadedVarsRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      preloadedVarsRef.current.style.transition = 'box-shadow 0.3s ease'
+      preloadedVarsRef.current.style.boxShadow = '0 0 0 3px var(--accent-green)'
+      setTimeout(() => {
+        if (preloadedVarsRef.current) {
+          preloadedVarsRef.current.style.boxShadow = ''
+        }
+      }, 2000)
     }
   }
 
@@ -810,15 +875,16 @@ export default function DatasetChallenge() {
               Ensure you use the exact variable names requested in the description so the tests can verify your code!
             </p>
           </div>
+          {renderPreLoadedDataCard(challenge)}
           <div className="space-y-2 mb-6">
             {(challenge.hints || []).map((hint, idx) => (
               <div key={idx} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
                 <button
-                  onClick={() => { const s = [...hintsShown]; s[idx] = true; setHintsShown(s) }}
+                  onClick={() => { const s = [...hintsShown]; s[idx] = !s[idx]; setHintsShown(s) }}
                   className="w-full text-left p-2.5 flex justify-between items-center text-xs font-medium hover:bg-[var(--bg-primary)] transition-colors cursor-pointer bg-transparent border-none"
                 >
                   <span className="text-[var(--text-primary)]">💡 Hint {idx + 1}</span>
-                  {!hintsShown[idx] && <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">Reveal</span>}
+                  <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">{hintsShown[idx] ? 'Hide' : 'Reveal'}</span>
                 </button>
                 {hintsShown[idx] && (
                   <div className="p-2.5 border-t border-[var(--border)] text-xs text-[var(--text-muted)] bg-[var(--bg-primary)]">{hint}</div>
@@ -873,9 +939,6 @@ export default function DatasetChallenge() {
             <div className="absolute inset-0 flex flex-col">
               {activeFile === 'script' && (
                 <>
-                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-3 py-1 text-[10px] font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
-                    {generatePreLoadedComments(challenge)}
-                  </div>
                   <div className="grow">
                     <Editor
                       key="script-mobile"
@@ -1037,6 +1100,7 @@ export default function DatasetChallenge() {
               Ensure you use the exact variable names requested in the description so the tests can verify your code!
             </p>
           </div>
+          {renderPreLoadedDataCard(challenge)}
 
           <div className="space-y-3 mb-8">
             {(challenge.hints || []).map((hint, idx) => (
@@ -1044,13 +1108,13 @@ export default function DatasetChallenge() {
                 <button 
                   onClick={() => {
                     const newShown = [...hintsShown]
-                    newShown[idx] = true
+                    newShown[idx] = !newShown[idx]
                     setHintsShown(newShown)
                   }}
                   className="w-full text-left p-3 flex justify-between items-center text-sm font-medium hover:bg-[var(--bg-primary)] transition-colors"
                 >
                   <span className="text-[var(--text-primary)]">💡 Hint {idx + 1}</span>
-                  {!hintsShown[idx] && <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-2 py-0.5 rounded">Reveal</span>}
+                  <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-2 py-0.5 rounded">{hintsShown[idx] ? 'Hide' : 'Reveal'}</span>
                 </button>
                 {hintsShown[idx] && (
                   <div className="p-3 border-t border-[var(--border)] text-sm text-[var(--text-muted)] bg-[var(--bg-primary)]">
@@ -1144,6 +1208,13 @@ export default function DatasetChallenge() {
                 <RotateCcw size={14} />
               </button>
               <button
+                onClick={handleScrollToPreloadedVars}
+                title="Pre-loaded variables"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer flex items-center justify-center"
+              >
+                <Database size={14} />
+              </button>
+              <button
                 onClick={handleSkip}
                 disabled={isRunning || isSubmitting}
                 title="Skip this challenge"
@@ -1210,9 +1281,6 @@ export default function DatasetChallenge() {
             <div className="absolute inset-0 flex flex-col">
               {activeFile === 'script' && (
                 <>
-                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-4 py-1.5 text-xs font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
-                    {generatePreLoadedComments(challenge)}
-                  </div>
                   <div className="grow">
                     <Editor
                       key="script"
@@ -1474,7 +1542,7 @@ export default function DatasetChallenge() {
             </div>
           )}
         </div>
-        )}
+      )}
       </div>
       </div>
       )}

@@ -344,23 +344,23 @@ export default function ManageContent() {
   }
 
   const allCourses = [
-    ...courses.map(c => ({ ...c, is_archived: 0 })),
-    ...archivedItems.courses.map(c => ({ ...c, is_archived: 1 }))
+    ...courses.map(c => ({ ...c, is_archived: false })),
+    ...archivedItems.courses.map(c => ({ ...c, is_archived: true }))
   ]
 
   const filteredCourses = allCourses.filter((course) => {
     const query = courseSearch.toLowerCase()
     const matchesSearch = course.name.toLowerCase().includes(query) || course.slug.toLowerCase().includes(query) || course.track_name?.toLowerCase().includes(query) || (course.tracks && course.tracks.some(t => t.name.toLowerCase().includes(query)))
     let matchesArchive = true
-    if (courseFilterArchive === 'active') matchesArchive = course.is_archived !== 1
-    else if (courseFilterArchive === 'archived') matchesArchive = course.is_archived === 1
+    if (courseFilterArchive === 'active') matchesArchive = course.is_archived !== true
+    else if (courseFilterArchive === 'archived') matchesArchive = course.is_archived === true
     const matchesStatus = courseFilterStatus === 'all' || course.status === courseFilterStatus
     const matchesDifficulty = courseFilterDifficulty === 'all' || (course.difficulty || 'Unknown') === courseFilterDifficulty
     let matchesCategory = true
     if (courseFilterCategory !== 'all') matchesCategory = getCourseCategories(course).includes(courseFilterCategory)
     const matchesTrack = courseFilterTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === courseFilterTrack)) || course.track_name === courseFilterTrack
     const matchesReviewed = courseFilterReviewed === 'all' || course.reviewed === courseFilterReviewed
-    const matchesNotesTaken = courseFilterNotesTaken === 'all' || (courseFilterNotesTaken === 'taken' && course.notes_taken == 1) || (courseFilterNotesTaken === 'not_taken' && course.notes_taken != 1)
+    const matchesNotesTaken = courseFilterNotesTaken === 'all' || (courseFilterNotesTaken === 'taken' && course.notes_taken === true) || (courseFilterNotesTaken === 'not_taken' && course.notes_taken !== true)
     const hasEx = course.quiz_question_count && course.quiz_question_count > 0
     const matchesHasExercises = courseFilterHasExercises === 'all' || (courseFilterHasExercises === 'present' && hasEx) || (courseFilterHasExercises === 'absent' && !hasEx)
     return matchesSearch && matchesArchive && matchesStatus && matchesDifficulty && matchesCategory && matchesTrack && matchesReviewed && matchesNotesTaken && matchesHasExercises
@@ -637,7 +637,7 @@ export default function ManageContent() {
                                 ) : (
                                   <span className="text-[var(--accent-yellow)] font-bold uppercase tracking-wider text-[9px] whitespace-nowrap">NOT REVIEWED</span>
                                 )}
-                                {course.has_pdf === 1 && (
+                                {course.has_pdf === true && (
                                   <span className="text-[var(--accent-blue)] text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-blue) 10%, transparent)', borderRadius: 3, padding: '1px 6px' }}>PDF</span>
                                 )}
                               </div>
@@ -829,16 +829,16 @@ export default function ManageContent() {
                                <div>
                                  <label className="block text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Notes Taken</label>
                                  <div className="flex bg-[var(--bg-primary)] border border-[var(--border)] rounded-full p-[3px]">
-                                   {[{ val: 0, label: 'Not Yet' }, { val: 1, label: 'Taken ✓' }].map(n => (
+                                   {[{ val: false, label: 'Not Yet' }, { val: true, label: 'Taken ✓' }].map(n => (
                                      <button
                                        key={n.val}
                                        onClick={() => handleUpdateCourseProperties(course.id, { notes_taken: n.val })}
                                        className="flex-1 py-2 rounded-full text-[13px] transition-all cursor-pointer"
                                        style={{
-                                         background: (course.notes_taken || 0) === n.val ? 'var(--accent-green)' : 'var(--bg-card)',
-                                         color: (course.notes_taken || 0) === n.val ? '#000' : 'var(--text-muted)',
-                                         fontWeight: (course.notes_taken || 0) === n.val ? 600 : 400,
-                                         boxShadow: (course.notes_taken || 0) === n.val ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+                                         background: (course.notes_taken || false) === n.val ? 'var(--accent-green)' : 'var(--bg-card)',
+                                         color: (course.notes_taken || false) === n.val ? '#000' : 'var(--text-muted)',
+                                         fontWeight: (course.notes_taken || false) === n.val ? 600 : 400,
+                                         boxShadow: (course.notes_taken || false) === n.val ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
                                        }}
                                      >
                                        {n.label}
@@ -859,7 +859,7 @@ export default function ManageContent() {
                                         <FileText size={18} className="text-[var(--accent-blue)]" />
                                      </div>
                                      <span className="flex-1 text-left">PDF Slides</span>
-                                     {course.has_pdf === 1 && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
+                                     {course.has_pdf === true && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
                                   </button>
                               </div>
                               <div className="flex flex-col gap-2">
@@ -868,7 +868,7 @@ export default function ManageContent() {
                                         <Layers size={18} className="text-[var(--accent-blue)]" />
                                      </div>
                                      <span className="flex-1 text-left">Course Glossary</span>
-                                     {course.has_glossary === 1 && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
+                                     {course.has_glossary === true && <span className="text-[var(--accent-green)] px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'color-mix(in srgb, var(--accent-green) 15%, transparent)' }}>Available</span>}
                                   </button>
                               </div>
                             </div>
@@ -887,7 +887,7 @@ export default function ManageContent() {
                             </h3>
                             <div className="flex gap-4">
                                 <button
-                                  onClick={() => handleCourseAction(course.id, 'archive', course.is_archived ? 0 : 1)}
+                                  onClick={() => handleCourseAction(course.id, 'archive', !course.is_archived)}
                                   className="flex-1 flex items-center justify-center gap-2 font-bold py-2.5 rounded-lg text-xs transition-all hover:brightness-110"
                                   style={{ background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
                                 >

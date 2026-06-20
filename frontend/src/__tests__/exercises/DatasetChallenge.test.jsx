@@ -56,9 +56,9 @@ describe('DatasetChallenge', () => {
     })
 
     expect(screen.getByTestId('monaco-editor')).toBeInTheDocument()
-    expect(screen.getByText(/Pre-loaded variables/)).toBeInTheDocument()
-    expect(screen.getByText(/df : DataFrame/)).toBeInTheDocument()
-    expect(screen.getByText(/x : number/)).toBeInTheDocument()
+    expect(screen.getByText('Pre-loaded Variables')).toBeInTheDocument()
+    expect(screen.getByText('df')).toBeInTheDocument()
+    expect(screen.getByText('x')).toBeInTheDocument()
   })
 
   it('calls POST /api/content/run-code on Run Code click and shows output', async () => {
@@ -291,7 +291,9 @@ describe('DatasetChallenge', () => {
       expect(screen.getByText('Preview')).toBeInTheDocument()
     })
 
-    expect(screen.getByText('df')).toBeInTheDocument()
+    const dfElements = screen.getAllByText('df')
+    expect(dfElements.length).toBe(2)
+    expect(dfElements[1]).toBeInTheDocument()
     expect(screen.getByText('DataFrame ((100, 5))')).toBeInTheDocument()
   })
 

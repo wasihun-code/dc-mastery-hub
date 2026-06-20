@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { afterEach } from 'vitest';
 import React from 'react';
 
 global.fetch = vi.fn();

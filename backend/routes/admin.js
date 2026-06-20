@@ -99,7 +99,11 @@ router.patch('/admin/tracks/:id', (req, res, next) => {
     for (const field of allowed) {
       if (req.body[field] !== undefined) {
         updates.push(`${field} = ?`)
-        values.push(req.body[field])
+        if (field === 'is_archived' || field === 'is_deleted') {
+          values.push(req.body[field] ? 1 : 0)
+        } else {
+          values.push(req.body[field])
+        }
       }
     }
     if (updates.length > 0) {

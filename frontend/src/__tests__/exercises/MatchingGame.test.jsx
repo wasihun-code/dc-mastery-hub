@@ -195,7 +195,7 @@ describe('MatchingGame', () => {
     )
     const body = JSON.parse(attemptCall[1].body)
     expect(body.score).toBe(1.0)
-    expect(body.was_correct).toBe(1)
+    expect(body.was_correct).toBe(true)
     expect(body.question_id).toBe(1)
   })
 })

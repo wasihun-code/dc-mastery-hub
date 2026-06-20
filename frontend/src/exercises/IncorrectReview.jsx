@@ -96,6 +96,13 @@ export default function IncorrectReview() {
   }, [courseSlug])
 
   const handleKeyDown = (e) => {
+    // Ctrl+D -> delete question
+    if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+      e.preventDefault()
+      handleDeleteQuestion(currentItem?.question_id, currentItem?.exercise_type)
+      return
+    }
+
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
       if (e.key === 'Enter' && currentItem?.exercise_type === 'fillblank') {
         e.preventDefault()
@@ -297,7 +304,7 @@ export default function IncorrectReview() {
           question_id: currentItem.question_id,
           concept_id: currentItem.concept_id,
           score: userAnswerCorrect ? ratingScore : 0.0,
-          was_correct: userAnswerCorrect ? 1 : 0
+          was_correct: userAnswerCorrect
         })
       })
     } catch (err) {

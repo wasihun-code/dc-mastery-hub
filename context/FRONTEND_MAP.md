@@ -1,4 +1,5 @@
 # Frontend Map
+**Status**: Boolean usage for 14 specified fields has been verified and fully resolved to `true`/`false`. `WranglingSpeedrun.jsx` and `TrackTest.jsx` are already correctly documented below.
 
 ## Pages (`frontend/src/pages/`)
 
@@ -42,7 +43,7 @@
 | `PdfViewer.jsx` | `{ courseSlug, type?: 'slides'\|'glossary' }` | Embedded PDF viewer with page navigation |
 | `CourseFilter.jsx` | `{ courses, compact?, onFilterChange, notesTakenOptions }` | Filter/sort controls (status, difficulty, notes taken, search) |
 | `QuestionManager.jsx` | `{ courseSlug, exerciseType }` | List/add/edit/delete questions for a specific exercise type |
-| `EditQuestionModal.jsx` | `{ isOpen, question, exerciseType, onSave, onClose }` | Modal form for editing MCQ/FillBlank/Flashcard questions |
+| `EditQuestionModal.jsx` | `{ courseSlug, exerciseType, questionData, onClose, onSave }` | Modal form for editing MCQ/FillBlank/Flashcard/Challenge questions. FTB: transforms `_____` → `[[N]]` markers on init, converts back on save. |
 | `ErrorBoundary.jsx` | `{ children }` | Catches render errors, shows fallback |
 | `Login.jsx` | — | Login form |
 | `Signup.jsx` | — | Registration form |
@@ -69,6 +70,7 @@
 | File | Purpose |
 |---|---|
 | `renderWithCode.jsx` | Renders text with embedded `<CodeBlock>` for `{code}` markers in question text |
+| `apiInterceptor.js` | Scoped `fetch` interceptor for `/api/` routes. Recursively coerces legacy 1/0 to `true`/`false` for 14 specific boolean columns. Includes self-reporting removal warnings. |
 
 ## Notable Patterns
 

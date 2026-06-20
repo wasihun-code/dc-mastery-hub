@@ -16,7 +16,7 @@ const mockCourses = [
     track_color: '#a78bfa',
     track_language: 'Python',
     quiz_question_count: 10,
-    is_archived: 0
+    is_archived: false
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const mockCourses = [
     track_color: '#34d399',
     track_language: 'SQL',
     quiz_question_count: 0,
-    is_archived: 0
+    is_archived: false
   },
   {
     id: 3,
@@ -46,7 +46,7 @@ const mockCourses = [
     track_color: '#a78bfa',
     track_language: 'Python',
     quiz_question_count: 8,
-    is_archived: 1
+    is_archived: true
   }
 ]
 

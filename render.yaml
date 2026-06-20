@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: dc-mastery-hub
+    env: docker
+    plan: free
+    disk:
+      name: dc-mastery-data
+      mountPath: /var/data
+      sizeGB: 1

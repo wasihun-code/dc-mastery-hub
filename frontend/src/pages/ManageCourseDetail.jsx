@@ -398,14 +398,14 @@ export default function ManageCourseDetail() {
             </h3>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
-                onClick={() => handleCourseAction('archive', course.is_archived === 1 ? false : true)}
+                onClick={() => handleCourseAction('archive', !course.is_archived)}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
-                  course.is_archived === 1
+                  course.is_archived === true
                     ? 'border-[var(--accent-blue)] text-[var(--accent-blue)] bg-[var(--accent-blue)]/5 hover:bg-[var(--accent-blue)] hover:text-black hover:border-[var(--accent-blue)]'
                     : 'border-zinc-700 text-zinc-300 bg-zinc-950/20 hover:border-zinc-400 hover:text-white'
                 }`}
               >
-                {course.is_archived === 1 ? (
+                {course.is_archived === true ? (
                   <>
                     <ArchiveRestore size={14} /> Restore from Archive
                   </>

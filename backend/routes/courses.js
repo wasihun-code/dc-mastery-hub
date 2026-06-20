@@ -3,7 +3,7 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 
 const router = express.Router()
 const allowedCourseUpdates = ['status', 'notes', 'notes_taken', 'reviewed', 'has_pdf', 'has_glossary', 'difficulty']
@@ -31,8 +31,8 @@ function getCourseFolder(contentFolder, courseSlug, trackSlug) {
   return primaryPath
 }
 
-function getCourseBySlug(slug, userId) {
-  const course = db
+async function getCourseBySlug(slug, userId) {
+  const course = await db
     .prepare(`
       SELECT
         c.id,
@@ -45,12 +45,12 @@ function getCourseBySlug(slug, userId) {
         COALESCE(uc.status, 'Not Started') AS status,
         COALESCE(uc.difficulty, c.difficulty) AS difficulty,
         COALESCE(uc.notes, c.notes) AS notes,
-        COALESCE(uc.notes_taken, c.notes_taken, 0) AS notes_taken,
+        COALESCE(uc.notes_taken, c.notes_taken, false) AS notes_taken,
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
-        COALESCE(uc.is_deleted, 0) AS is_deleted,
-        COALESCE(uc.is_archived, 0) AS is_archived,
+        COALESCE(uc.is_deleted, false) AS is_deleted,
+        COALESCE(uc.is_archived, false) AS is_archived,
         (
-          SELECT json_group_array(json_object(
+          SELECT json_agg(json_build_object(
             'id', t.id,
             'slug', t.slug,
             'name', t.name,
@@ -69,7 +69,7 @@ function getCourseBySlug(slug, userId) {
     .get(userId, slug)
 
   if (course) {
-    course.tracks = JSON.parse(course.tracks_json || '[]')
+    course.tracks = typeof course.tracks_json === 'string' ? JSON.parse(course.tracks_json || '[]') : (course.tracks_json || [])
     if (course.tracks.length > 0) {
       course.track_id = course.tracks[0].id
       course.track_slug = course.tracks[0].slug
@@ -82,8 +82,8 @@ function getCourseBySlug(slug, userId) {
   return course
 }
 
-function getMasteryScores(courseId, userId) {
-  const scores = db
+async function getMasteryScores(courseId, userId) {
+  const scores = await db
     .prepare(`
       SELECT * FROM mastery_scores WHERE course_id = ? AND user_id = ?
     `)
@@ -103,10 +103,10 @@ function getMasteryScores(courseId, userId) {
   return scores
 }
 
-router.get('/courses', (req, res, next) => {
+router.get('/courses', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const courses = db.prepare(`
+    const courses = await db.prepare(`
       SELECT 
         c.id,
         c.slug,
@@ -117,10 +117,10 @@ router.get('/courses', (req, res, next) => {
         COALESCE(uc.status, 'Not Started') AS status,
         COALESCE(uc.difficulty, c.difficulty) AS difficulty,
         COALESCE(uc.notes, c.notes) AS notes,
-        COALESCE(uc.notes_taken, c.notes_taken, 0) AS notes_taken,
+        COALESCE(uc.notes_taken, c.notes_taken, false) AS notes_taken,
         COALESCE(uc.reviewed, c.reviewed) AS reviewed,
-        COALESCE(uc.is_deleted, 0) AS is_deleted,
-        COALESCE(uc.is_archived, 0) AS is_archived,
+        COALESCE(uc.is_deleted, false) AS is_deleted,
+        COALESCE(uc.is_archived, false) AS is_archived,
         ms.overall_mastery,
         ms.flashcard_score,
         ms.quiz_score,
@@ -130,7 +130,7 @@ router.get('/courses', (req, res, next) => {
         ms.boss_score,
         (SELECT COUNT(*) FROM quiz_questions WHERE course_id = c.id) AS quiz_question_count,
         (
-          SELECT json_group_array(json_object(
+          SELECT json_agg(json_build_object(
             'id', t.id,
             'slug', t.slug,
             'name', t.name,
@@ -145,13 +145,14 @@ router.get('/courses', (req, res, next) => {
       FROM courses c
       LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
       LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
-      WHERE COALESCE(uc.is_deleted, 0) = 0 AND COALESCE(uc.is_archived, 0) = 0
+      WHERE COALESCE(uc.is_deleted, false) = false AND COALESCE(uc.is_archived, false) = false
       ORDER BY c.name
     `).all(userId, userId);
     const contentFolder = config.CONTENT_PATH
 
     for (const c of courses) {
-      c.tracks = JSON.parse(c.tracks_json || '[]')
+      c.quiz_question_count = parseInt(c.quiz_question_count || 0, 10)
+      c.tracks = typeof c.tracks_json === 'string' ? JSON.parse(c.tracks_json || '[]') : (c.tracks_json || [])
       if (c.tracks.length > 0) {
         c.track_id = c.tracks[0].id
         c.track_slug = c.tracks[0].slug
@@ -179,30 +180,35 @@ router.get('/courses', (req, res, next) => {
   }
 });
 
-router.get('/courses/:slug', (req, res, next) => {
+router.get('/courses/:slug', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const course = getCourseBySlug(req.params.slug, userId)
+    const course = await getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return
     }
 
-    const scores = getMasteryScores(course.id, userId)
+    const scores = await getMasteryScores(course.id, userId)
     const { id: _msId, course_id: _msCourseId, user_id: _msUserId, ...scoresData } = scores
 
-    let conceptCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
-    let flashcardCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id).count
-    let quizQuestionCount = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id).count
-    const dueToday = db
+    let { count: conceptCount } = await db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id)
+    let { count: flashcardCount } = await db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course.id)
+    let { count: quizQuestionCount } = await db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course.id)
+    const { count: dueToday } = await db
       .prepare(`
         SELECT COUNT(*) AS count 
         FROM flashcards f
         LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
-        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, date('now')) <= date('now')
+        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, CURRENT_DATE) <= CURRENT_DATE
       `)
-      .get(userId, course.id).count
+      .get(userId, course.id)
+
+    conceptCount = parseInt(conceptCount || 0, 10)
+    flashcardCount = parseInt(flashcardCount || 0, 10)
+    quizQuestionCount = parseInt(quizQuestionCount || 0, 10)
+    const dueTodayInt = parseInt(dueToday || 0, 10)
 
     const contentFolder = config.CONTENT_PATH
 
@@ -249,17 +255,17 @@ router.get('/courses/:slug', (req, res, next) => {
       concept_count: conceptCount,
       flashcard_count: flashcardCount,
       quiz_question_count: quizQuestionCount,
-      flashcards_due_today: dueToday,
+      flashcards_due_today: dueTodayInt,
     })
   } catch (err) {
     next(err)
   }
 })
 
-router.patch('/courses/:slug', (req, res, next) => {
+router.patch('/courses/:slug', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const course = getCourseBySlug(req.params.slug, userId)
+    const course = await getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
@@ -278,25 +284,33 @@ router.patch('/courses/:slug', (req, res, next) => {
     for (const key of Object.keys(updates)) {
       if (userAllowed.includes(key)) {
         userFields.push(`${key} = ?`)
-        userValues.push(updates[key])
+        if (key === 'notes_taken') {
+          userValues.push(!!updates[key])
+        } else {
+          userValues.push(updates[key])
+        }
       } else if (globalAllowed.includes(key)) {
         globalFields.push(`${key} = ?`)
-        globalValues.push(updates[key])
+        if (key === 'has_pdf' || key === 'has_glossary') {
+          globalValues.push(!!updates[key])
+        } else {
+          globalValues.push(updates[key])
+        }
       }
     }
 
     if (globalFields.length > 0) {
       globalValues.push(course.id)
-      db.prepare(`UPDATE courses SET ${globalFields.join(', ')} WHERE id = ?`).run(...globalValues)
+      await db.prepare(`UPDATE courses SET ${globalFields.join(', ')} WHERE id = ?`).run(...globalValues)
     }
 
     if (userFields.length > 0) {
-      const exists = db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, course.id)
+      const exists = await db.prepare('SELECT 1 FROM user_courses WHERE user_id = ? AND course_id = ?').get(userId, course.id)
       if (!exists) {
-        db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, course.id)
+        await db.prepare('INSERT INTO user_courses (user_id, course_id) VALUES (?, ?)').run(userId, course.id)
       }
       userValues.push(userId, course.id)
-      db.prepare(`UPDATE user_courses SET ${userFields.join(', ')} WHERE user_id = ? AND course_id = ?`).run(...userValues)
+      await db.prepare(`UPDATE user_courses SET ${userFields.join(', ')} WHERE user_id = ? AND course_id = ?`).run(...userValues)
     }
 
     res.status(200).json({ status: 'ok' })
@@ -305,17 +319,17 @@ router.patch('/courses/:slug', (req, res, next) => {
   }
 })
 
-router.get('/courses/:slug/concepts', (req, res, next) => {
+router.get('/courses/:slug/concepts', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const course = getCourseBySlug(req.params.slug, userId)
+    const course = await getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return
     }
 
-    const concepts = db.prepare('SELECT * FROM concepts WHERE course_id = ? ORDER BY source_page, id').all(course.id)
+    const concepts = await db.prepare('SELECT * FROM concepts WHERE course_id = ? ORDER BY source_page, id').all(course.id)
 
     res.status(200).json(concepts)
   } catch (err) {
@@ -323,17 +337,17 @@ router.get('/courses/:slug/concepts', (req, res, next) => {
   }
 })
 
-router.get('/courses/:slug/flashcards/due', (req, res, next) => {
+router.get('/courses/:slug/flashcards/due', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const course = getCourseBySlug(req.params.slug, userId)
+    const course = await getCourseBySlug(req.params.slug, userId)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return
     }
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     const contentFolder = config.CONTENT_PATH
       
     const exercisePath = path.join(contentFolder, 'tracks', track.slug, req.params.slug, 'exercises', 'flashcards.json');
@@ -348,7 +362,7 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
       return res.status(200).json(flashcards);
     }
 
-    const flashcards = db
+    const flashcards = await db
       .prepare(`
         SELECT
           f.*,
@@ -356,12 +370,12 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
           COALESCE(ufp.interval_days, 1) AS interval_days,
           COALESCE(ufp.ease_factor, 2.5) AS ease_factor,
           COALESCE(ufp.repetitions, 0) AS repetitions,
-          COALESCE(ufp.next_review_date, date('now')) AS next_review_date
+          COALESCE(ufp.next_review_date, CURRENT_DATE) AS next_review_date
         FROM flashcards f
         LEFT JOIN concepts c ON c.id = f.concept_id
         LEFT JOIN user_flashcard_progress ufp ON ufp.flashcard_id = f.id AND ufp.user_id = ?
-        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, date('now')) <= date('now')
-        ORDER BY COALESCE(ufp.next_review_date, date('now'))
+        WHERE f.course_id = ? AND COALESCE(ufp.next_review_date, CURRENT_DATE) <= CURRENT_DATE
+        ORDER BY COALESCE(ufp.next_review_date, CURRENT_DATE)
       `)
       .all(userId, course.id)
 
@@ -371,16 +385,16 @@ router.get('/courses/:slug/flashcards/due', (req, res, next) => {
   }
 })
 
-router.get('/courses/:slug/quiz-questions', (req, res, next) => {
+router.get('/courses/:slug/quiz-questions', async (req, res, next) => {
   try {
-    const course = getCourseBySlug(req.params.slug, req.user.id)
+    const course = await getCourseBySlug(req.params.slug, req.user.id)
 
     if (!course) {
       res.status(404).json({ error: 'Course not found' })
       return
     }
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     const contentFolder = config.CONTENT_PATH
       
     const exercisePath = path.join(contentFolder, 'tracks', track.slug, req.params.slug, 'exercises', 'mcq.json');
@@ -445,7 +459,7 @@ router.get('/courses/:slug/quiz-questions', (req, res, next) => {
     queryStr += ` ORDER BY RANDOM() LIMIT ?`
     queryParams.push(count)
 
-    const questions = db.prepare(queryStr).all(...queryParams)
+    const questions = await db.prepare(queryStr).all(...queryParams)
 
     res.status(200).json(questions)
   } catch (err) {
@@ -453,29 +467,29 @@ router.get('/courses/:slug/quiz-questions', (req, res, next) => {
   }
 })
 
-router.get('/courses/:courseSlug/incorrect-review-status', (req, res, next) => {
+router.get('/courses/:courseSlug/incorrect-review-status', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const userId = req.user.id
 
-    const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+    const course = await db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
     if (!course) {
       return res.status(404).json({ error: 'Course not found' })
     }
     const courseId = course.id
 
     // a) Query exercise_attempts for attempted count
-    const attemptedRow = db.prepare(`
+    const attemptedRow = await db.prepare(`
       SELECT COUNT(DISTINCT question_id) as attempted 
       FROM exercise_attempts 
       WHERE user_id = ? AND course_id = ? AND exercise_type IN ('quiz','fillblank','bossbattle')
     `).get(userId, courseId)
-    const attempted = attemptedRow.attempted || 0
+    const attempted = parseInt(attemptedRow.attempted || 0, 10)
 
     // b) Query total available questions
-    const quizCount = db.prepare('SELECT COUNT(*) as count FROM quiz_questions WHERE course_id = ?').get(courseId).count
-    const conceptCount = db.prepare('SELECT COUNT(*) as count FROM concepts WHERE course_id = ?').get(courseId).count
-    const total = quizCount + (conceptCount * 2)
+    const { count: quizCount } = await db.prepare('SELECT COUNT(*) as count FROM quiz_questions WHERE course_id = ?').get(courseId)
+    const { count: conceptCount } = await db.prepare('SELECT COUNT(*) as count FROM concepts WHERE course_id = ?').get(courseId)
+    const total = parseInt(quizCount || 0) + (parseInt(conceptCount || 0) * 2)
 
     // c) Compute attemptRatio
     const attemptRatio = total > 0 ? attempted / total : 0
@@ -485,11 +499,11 @@ router.get('/courses/:courseSlug/incorrect-review-status', (req, res, next) => {
     const countStmt = db.prepare(`
       SELECT COUNT(DISTINCT question_id || '-' || exercise_type) as cnt
       FROM exercise_attempts
-      WHERE user_id = ? AND course_id = ? AND was_correct = 0
+      WHERE user_id = ? AND course_id = ? AND was_correct = false
       AND exercise_type IN ('quiz','fillblank','bossbattle','flashcard','matching')
     `);
-    const { cnt } = countStmt.get(userId, courseId);
-    const incorrectCount = cnt || 0
+    const { cnt } = await countStmt.get(userId, courseId);
+    const incorrectCount = parseInt(cnt || 0)
 
     res.json({
       attemptRatio,

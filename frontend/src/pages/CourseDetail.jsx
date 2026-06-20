@@ -530,12 +530,12 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
           <span className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${course.track.language === 'SQL' ? 'bg-[color-mix(in_srgb,var(--accent-green)_16%,transparent)] text-[var(--accent-green)]' : 'bg-[color-mix(in_srgb,var(--accent-blue)_16%,transparent)] text-[var(--accent-blue)]'}`}>
             {course.track.language}
           </span>
-          {course.has_pdf === 1 && (
+          {course.has_pdf === true && (
             <span className="rounded-full bg-[color-mix(in_srgb,var(--accent-green)_10%,transparent)] text-[var(--accent-green)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
               Slides Available
             </span>
           )}
-          {course.has_glossary === 1 && (
+          {course.has_glossary === true && (
             <span className="rounded-full bg-[color-mix(in_srgb,var(--accent-blue)_10%,transparent)] text-[var(--accent-blue)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
               Glossary Ready
             </span>
@@ -622,7 +622,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
             <p className="text-sm text-[var(--text-muted)]">Choose an exercise type to practice this course</p>
           </div>
           <div className="flex gap-2">
-            {course.has_pdf === 1 && (
+            {course.has_pdf === true && (
               <button 
                 onClick={() => { setPdfType('slides'); setShowPdf(true); }}
                 className="flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all"
@@ -630,7 +630,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
                 <FileText size={14} /> View Slides
               </button>
             )}
-            {course.has_glossary === 1 && (
+            {course.has_glossary === true && (
               <button 
                 onClick={() => { setPdfType('glossary'); setShowPdf(true); }}
                 className="flex items-center gap-2 rounded border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-xs font-bold text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-all"

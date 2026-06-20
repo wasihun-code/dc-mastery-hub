@@ -259,7 +259,7 @@ export default function WranglingSpeedrun() {
             question_id: currentQ.id,
             concept_id: currentQ.concept_id,
             score: isCorrect ? 1.0 : 0.0,
-            was_correct: isCorrect ? 1 : 0
+            was_correct: isCorrect
           })
         })
       }

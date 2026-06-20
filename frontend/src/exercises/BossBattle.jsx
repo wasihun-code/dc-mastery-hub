@@ -99,6 +99,13 @@ export default function BossBattle() {
         }
       }
 
+      // Ctrl+D -> delete question
+      if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault();
+        handleDeleteQuestion(questions[currentIndex]?.id);
+        return;
+      }
+
       // Escape -> clear selected option if not answered
       if (e.key === 'Escape') {
         if (!isAnswered) {
@@ -311,7 +318,7 @@ export default function BossBattle() {
           concept_id: currentQuestion?.concept_id,
           score: 0.0,
           time_taken_secs: 15,
-          was_correct: 0
+          was_correct: false
         })
       });
     } catch (err) {
@@ -370,7 +377,7 @@ export default function BossBattle() {
           concept_id: currentQuestion.concept_id,
           score: isCorrect ? 1.0 : 0.0,
           time_taken_secs: timeTaken,
-          was_correct: isCorrect ? 1 : 0
+          was_correct: isCorrect
         })
       });
     } catch (err) {
@@ -747,6 +754,7 @@ export default function BossBattle() {
             { label: 'Select Option', keys: ['1', '-', '4'] },
             { label: 'Clear Choice', keys: ['Esc'] },
             { label: 'Next Question', keys: ['Enter'] },
+            { label: 'Delete Question', keys: ['Ctrl+D'] },
           ]}
           dotColor="var(--accent-red)"
           showShortcuts={showShortcuts}

@@ -204,7 +204,7 @@ export default function StudySession() {
           question_id: card.id,
           concept_id: card.concept_id,
           score: score,
-          was_correct: wasCorrect ? 1 : 0
+          was_correct: wasCorrect
         })
       })
     } catch (err) {

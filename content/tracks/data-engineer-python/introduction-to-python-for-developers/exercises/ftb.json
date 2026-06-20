@@ -14,10 +14,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["pasta", "2", "True", "[1,2,3]"],
+    "word_bank": [
+      "pasta",
+      "2",
+      "True",
+      "[1,2,3]"
+    ],
     "per_tile_feedback": {
-      "pasta": "Correct! 'pasta' is a string literal enclosed in quotes.",
       "2": "That would create an integer, not a string. Strings need quotes.",
+      "pasta": "Correct! 'pasta' is a string literal enclosed in quotes.",
       "True": "True is a Boolean, not a string. Without quotes it's not 'pasta'.",
       "[1,2,3]": "That would create a list, not a string with the value 'pasta'."
     },
@@ -44,7 +49,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["2", "\"2\"", "2.0", "True"],
+    "word_bank": [
+      "2",
+      "\"2\"",
+      "2.0",
+      "True"
+    ],
     "per_tile_feedback": {
       "2": "Correct! 2 is an integer because it's a whole number without quotes.",
       "\"2\"": "Quotes make '2' a string, not an integer.",
@@ -69,12 +79,17 @@
     "code_template": "_____(\"Hello, world!\")",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "print",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["print", "type", "len", "str"],
+    "word_bank": [
+      "print",
+      "type",
+      "len",
+      "str"
+    ],
     "per_tile_feedback": {
       "print": "Correct! print() is the built-in function for console output.",
       "type": "type() returns the data type, it doesn't print the given text.",
@@ -87,7 +102,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "The print function is the standard way to output text or values to the console.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Use the built-in function to display the text 'Hello, world!'.",
+    "code": "[[0]](\"Hello, world!\")",
+    "answers": [
+      "print"
+    ]
   },
   {
     "id": "fitb_004",
@@ -104,7 +125,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["type", "print", "class", "str"],
+    "word_bank": [
+      "type",
+      "print",
+      "class",
+      "str"
+    ],
     "per_tile_feedback": {
       "type": "Correct! type() returns the type of its argument.",
       "print": "print() would try to print the function object, not the type.",
@@ -134,7 +160,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["replace", "substitute", "change", "swap"],
+    "word_bank": [
+      "replace",
+      "substitute",
+      "change",
+      "swap"
+    ],
     "per_tile_feedback": {
       "replace": "Correct! .replace() is the string method for replacing substrings.",
       "substitute": "There is no .substitute() method on strings.",
@@ -164,7 +195,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["lower", "tolower", "lowercase", "downcase"],
+    "word_bank": [
+      "lower",
+      "tolower",
+      "lowercase",
+      "downcase"
+    ],
     "per_tile_feedback": {
       "lower": "Correct! .lower() returns the lowercased copy.",
       "tolower": "No such method exists; it's not Python.",
@@ -194,7 +230,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["upper", "toupper", "uppercase", "upcase"],
+    "word_bank": [
+      "upper",
+      "toupper",
+      "uppercase",
+      "upcase"
+    ],
     "per_tile_feedback": {
       "upper": "Correct! .upper() returns the uppercased copy.",
       "toupper": "No such method.",
@@ -224,7 +265,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["values", "items", "keys", "list"],
+    "word_bank": [
+      "values",
+      "items",
+      "keys",
+      "list"
+    ],
     "per_tile_feedback": {
       "values": "Correct! .values() returns a view of all dictionary values.",
       "items": ".items() returns key-value pairs, not just values.",
@@ -254,7 +300,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["keys", "values", "items", "get"],
+    "word_bank": [
+      "keys",
+      "values",
+      "items",
+      "get"
+    ],
     "per_tile_feedback": {
       "keys": "Correct! .keys() returns a view of all dictionary keys.",
       "values": ".values() returns the values, not the keys.",
@@ -284,7 +335,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["items", "entries", "pairs", "couples"],
+    "word_bank": [
+      "items",
+      "entries",
+      "pairs",
+      "couples"
+    ],
     "per_tile_feedback": {
       "items": "Correct! .items() returns a view of key-value tuples.",
       "entries": "There is no .entries() method on dict.",
@@ -309,12 +365,17 @@
     "code_template": "unique_ingredients = _____(ingredients_list)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "set",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["set", "list", "tuple", "dict"],
+    "word_bank": [
+      "set",
+      "list",
+      "tuple",
+      "dict"
+    ],
     "per_tile_feedback": {
       "set": "Correct! set() creates a set, removing duplicates.",
       "list": "list() would create another list, not a set.",
@@ -327,7 +388,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "The set() function transforms any iterable into a set, discarding repeated elements.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Convert the list `ingredients_list` to a different data type to obtain unique ingredients.",
+    "code": "unique_ingredients = [[0]](ingredients_list)",
+    "answers": [
+      "set"
+    ]
   },
   {
     "id": "fitb_012",
@@ -344,7 +411,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["sorted", "sort", "order", "arrange"],
+    "word_bank": [
+      "sorted",
+      "sort",
+      "order",
+      "arrange"
+    ],
     "per_tile_feedback": {
       "sorted": "Correct! sorted() returns a new sorted list.",
       "sort": "list.sort() sorts in place and returns None; it won't work on a set.",
@@ -374,7 +446,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["#", "//", "/*", "--"],
+    "word_bank": [
+      "#",
+      "//",
+      "/*",
+      "--"
+    ],
     "per_tile_feedback": {
       "#": "Correct! Python comments start with a hash symbol.",
       "//": "// is used in languages like Java or C++; it's invalid in Python.",
@@ -401,10 +478,17 @@
       {
         "position": 1,
         "answer": "ingredient_name",
-        "answer_alternatives": ["ingredient_name"]
+        "answer_alternatives": [
+          "ingredient_name"
+        ]
       }
     ],
-    "word_bank": ["ingredient_name", "ingredientName", "ingredient name", "var"],
+    "word_bank": [
+      "ingredient_name",
+      "ingredientName",
+      "ingredient name",
+      "var"
+    ],
     "per_tile_feedback": {
       "ingredient_name": "Correct! snake_case with underscore is the Python convention.",
       "ingredientName": "camelCase is not standard in Python and may confuse readers.",
@@ -434,7 +518,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["ingredient_name", "\"ingredient_name\"", "ingredientName", "name"],
+    "word_bank": [
+      "ingredient_name",
+      "\"ingredient_name\"",
+      "ingredientName",
+      "name"
+    ],
     "per_tile_feedback": {
       "ingredient_name": "Correct! Pass the variable without quotes to print its value.",
       "\"ingredient_name\"": "That would print the literal text 'ingredient_name', not the stored value.",
@@ -464,7 +553,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["3", "\"3\"", "3.0", "True"],
+    "word_bank": [
+      "3",
+      "\"3\"",
+      "3.0",
+      "True"
+    ],
     "per_tile_feedback": {
       "3": "Correct! The integer 3 replaces the previous value.",
       "\"3\"": "A string is not an integer; type matters.",
@@ -494,7 +588,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["True", "False", "true", "\"True\""],
+    "word_bank": [
+      "True",
+      "False",
+      "true",
+      "\"True\""
+    ],
     "per_tile_feedback": {
       "True": "Correct! True is a Boolean constant in Python.",
       "False": "That would set it to False, not True.",
@@ -521,15 +620,24 @@
       {
         "position": 1,
         "answer": "\"",
-        "answer_alternatives": ["\""]
+        "answer_alternatives": [
+          "\""
+        ]
       },
       {
         "position": 2,
         "answer": "\"",
-        "answer_alternatives": ["\""]
+        "answer_alternatives": [
+          "\""
+        ]
       }
     ],
-    "word_bank": ["\"", "'", "\"\"\"", "'''"],
+    "word_bank": [
+      "\"",
+      "'",
+      "\"\"\"",
+      "'''"
+    ],
     "per_tile_feedback": {
       "\"": "Correct! Double quotes allow apostrophes without escaping.",
       "'": "Single quotes would conflict with the apostrophe, causing a SyntaxError.",
@@ -556,15 +664,24 @@
       {
         "position": 1,
         "answer": "\"\"\"",
-        "answer_alternatives": ["\"\"\""]
+        "answer_alternatives": [
+          "\"\"\""
+        ]
       },
       {
         "position": 2,
         "answer": "\"\"\"",
-        "answer_alternatives": ["\"\"\""]
+        "answer_alternatives": [
+          "\"\"\""
+        ]
       }
     ],
-    "word_bank": ["\"\"\"", "'''", "\"", "'"],
+    "word_bank": [
+      "\"\"\"",
+      "'''",
+      "\"",
+      "'"
+    ],
     "per_tile_feedback": {
       "\"\"\"": "Correct! Triple double quotes enclose multi‑line strings.",
       "'''": "Triple single quotes also work, but the example uses double quotes for consistency.",
@@ -591,15 +708,24 @@
       {
         "position": 1,
         "answer": "[",
-        "answer_alternatives": ["["]
+        "answer_alternatives": [
+          "["
+        ]
       },
       {
         "position": 2,
         "answer": "]",
-        "answer_alternatives": ["]"]
+        "answer_alternatives": [
+          "]"
+        ]
       }
     ],
-    "word_bank": ["[", "(", "{", "]"],
+    "word_bank": [
+      "[",
+      "(",
+      "{",
+      "]"
+    ],
     "per_tile_feedback": {
       "[": "Correct! Lists use square brackets.",
       "(": "Parentheses create a tuple, not a list.",
@@ -626,10 +752,17 @@
       {
         "position": 1,
         "answer": "0",
-        "answer_alternatives": ["0"]
+        "answer_alternatives": [
+          "0"
+        ]
       }
     ],
-    "word_bank": ["0", "1", "-1", "first"],
+    "word_bank": [
+      "0",
+      "1",
+      "-1",
+      "first"
+    ],
     "per_tile_feedback": {
       "0": "Correct! Indexing starts at 0.",
       "1": "Index 1 would give the second element ('tomatoes').",
@@ -654,16 +787,21 @@
     "code_template": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\"]\nprint(ingredients[_____])",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "-1",
-        "answer_alternatives": ["-1"]
+        "distractors": []
       }
     ],
-    "word_bank": ["-1", "0", "3", "last"],
+    "word_bank": [
+      "-1",
+      "0",
+      "3",
+      "last"
+    ],
     "per_tile_feedback": {
-      "-1": "Correct! -1 always refers to the last item.",
       "0": "0 gives the first item.",
       "3": "Index 3 is out of range (only 0‑2 exist).",
+      "-1": "Correct! -1 always refers to the last item.",
       "last": "Must be an integer, not a word."
     },
     "hints": [
@@ -672,7 +810,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Negative indexing simplifies access to elements relative to the end of a sequence.",
-    "common_mistake_warning": "⚠️ Using -0 would give the first element, not the last."
+    "common_mistake_warning": "⚠️ Using -0 would give the first element, not the last.",
+    "_exerciseType": "ftb",
+    "description": "Access the last element of `ingredients`.",
+    "code": "ingredients = [\"pasta\", \"tomatoes\", \"garlic\"]\nprint(ingredients[[[0]]])",
+    "answers": [
+      "-1"
+    ]
   },
   {
     "id": "fitb_023",
@@ -686,10 +830,17 @@
       {
         "position": 1,
         "answer": "1:3",
-        "answer_alternatives": ["1:3"]
+        "answer_alternatives": [
+          "1:3"
+        ]
       }
     ],
-    "word_bank": ["1:3", "0:2", "1:2", "2:4"],
+    "word_bank": [
+      "1:3",
+      "0:2",
+      "1:2",
+      "2:4"
+    ],
     "per_tile_feedback": {
       "1:3": "Correct! Slices from index 1 to 3 (exclusive) gives ['tomatoes', 'garlic'].",
       "0:2": "That would give first two elements.",
@@ -716,15 +867,24 @@
       {
         "position": 1,
         "answer": "{",
-        "answer_alternatives": ["{"]
+        "answer_alternatives": [
+          "{"
+        ]
       },
       {
         "position": 2,
         "answer": ":",
-        "answer_alternatives": [":"]
+        "answer_alternatives": [
+          ":"
+        ]
       }
     ],
-    "word_bank": ["{", ":", "=", "["],
+    "word_bank": [
+      "{",
+      ":",
+      "=",
+      "["
+    ],
     "per_tile_feedback": {
       "{": "Correct! Dictionaries start with a curly brace.",
       ":": "Correct! Keys and values are separated by a colon.",
@@ -751,10 +911,18 @@
       {
         "position": 1,
         "answer": "\"pasta\"",
-        "answer_alternatives": ["\"pasta\"", "'pasta'"]
+        "answer_alternatives": [
+          "\"pasta\"",
+          "'pasta'"
+        ]
       }
     ],
-    "word_bank": ["\"pasta\"", "pasta", "'pasta'", "key"],
+    "word_bank": [
+      "\"pasta\"",
+      "pasta",
+      "'pasta'",
+      "key"
+    ],
     "per_tile_feedback": {
       "\"pasta\"": "Correct! The key must be a string enclosed in quotes.",
       "pasta": "Without quotes, Python looks for a variable named pasta, causing a NameError.",
@@ -781,10 +949,18 @@
       {
         "position": 1,
         "answer": "\"parmesan\"",
-        "answer_alternatives": ["\"parmesan\"", "'parmesan'"]
+        "answer_alternatives": [
+          "\"parmesan\"",
+          "'parmesan'"
+        ]
       }
     ],
-    "word_bank": ["\"parmesan\"", "parmesan", "'parmesan'", "new_key"],
+    "word_bank": [
+      "\"parmesan\"",
+      "parmesan",
+      "'parmesan'",
+      "new_key"
+    ],
     "per_tile_feedback": {
       "\"parmesan\"": "Correct! Assigning to a new key adds it to the dict.",
       "parmesan": "Without quotes, it's a variable, causing a NameError.",
@@ -806,20 +982,41 @@
     "chapter": 6,
     "difficulty": "hard",
     "task_description": "Update the value of the key 'pasta' to 1000 in the dictionary `recipe`.",
-    "code_template": "recipe = {\"pasta\": 500}\nrecipe[_____] = 1000",
+    "code_template": "recipe = {\"pasta\": 500}\nrecipe[_____] _____ _____",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "\"pasta\"",
-        "answer_alternatives": ["\"pasta\"", "'pasta'"]
+        "answer_alternatives": [
+          "\"pasta\""
+        ]
+      },
+      {
+        "position": 1,
+        "answer": "=",
+        "answer_alternatives": [
+          ":"
+        ]
+      },
+      {
+        "position": 2,
+        "answer": "1000",
+        "answer_alternatives": [
+          "500"
+        ]
       }
     ],
-    "word_bank": ["\"pasta\"", "pasta", "'pasta'", "500"],
+    "word_bank": [
+      "\"pasta\"",
+      "=",
+      "'pasta'",
+      "1000"
+    ],
     "per_tile_feedback": {
+      "500": "500 is the old value, not the key.",
       "\"pasta\"": "Correct! Assigning to an existing key overwrites the value.",
       "pasta": "Without quotes, it's treated as a variable name.",
-      "'pasta'": "Single quotes also work.",
-      "500": "500 is the old value, not the key."
+      "'pasta'": "Single quotes also work."
     },
     "hints": [
       "Use the same key you want to modify.",
@@ -827,7 +1024,12 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Reassigning a value to an existing key updates it.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Update the value of the key 'pasta' to 1000 in the dictionary `recipe`.",
+    "answers": [
+      "\"pasta\""
+    ]
   },
   {
     "id": "fitb_028",
@@ -841,10 +1043,18 @@
       {
         "position": 1,
         "answer": "\"garlic\"",
-        "answer_alternatives": ["\"garlic\"", "'garlic'"]
+        "answer_alternatives": [
+          "\"garlic\"",
+          "'garlic'"
+        ]
       }
     ],
-    "word_bank": ["\"garlic\"", "garlic", "'garlic'", "\"parmesan\""],
+    "word_bank": [
+      "\"garlic\"",
+      "garlic",
+      "'garlic'",
+      "\"parmesan\""
+    ],
     "per_tile_feedback": {
       "\"garlic\"": "Correct! Duplicate key; the last value (15) will overwrite 5.",
       "garlic": "Without quotes, causes a NameError.",
@@ -871,15 +1081,24 @@
       {
         "position": 1,
         "answer": "{",
-        "answer_alternatives": ["{"]
+        "answer_alternatives": [
+          "{"
+        ]
       },
       {
         "position": 2,
         "answer": "}",
-        "answer_alternatives": ["}"]
+        "answer_alternatives": [
+          "}"
+        ]
       }
     ],
-    "word_bank": ["{", "(", "[", "}"],
+    "word_bank": [
+      "{",
+      "(",
+      "[",
+      "}"
+    ],
     "per_tile_feedback": {
       "{": "Correct! Sets use curly braces (without colons).",
       "(": "Parentheses create a tuple.",
@@ -906,15 +1125,24 @@
       {
         "position": 1,
         "answer": "(",
-        "answer_alternatives": ["("]
+        "answer_alternatives": [
+          "("
+        ]
       },
       {
         "position": 2,
         "answer": ")",
-        "answer_alternatives": [")"]
+        "answer_alternatives": [
+          ")"
+        ]
       }
     ],
-    "word_bank": ["(", "[", "{", ")"],
+    "word_bank": [
+      "(",
+      "[",
+      "{",
+      ")"
+    ],
     "per_tile_feedback": {
       "(": "Correct! Tuples are defined with parentheses.",
       "[": "Square brackets create a list.",
@@ -944,10 +1172,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1", "0", "2", "-1"],
+    "word_bank": [
+      "1",
+      "0",
+      "2",
+      "-1"
+    ],
     "per_tile_feedback": {
-      "1": "Correct! Index 1 gives the second element (2).",
       "0": "0 gives the first element (1).",
+      "1": "Correct! Index 1 gives the second element (2).",
       "2": "2 gives the third element (4).",
       "-1": "-1 gives the last element (4)."
     },
@@ -974,7 +1207,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["else", "elif", "else if", "otherwise"],
+    "word_bank": [
+      "else",
+      "elif",
+      "else if",
+      "otherwise"
+    ],
     "per_tile_feedback": {
       "else": "Correct! else catches all remaining cases.",
       "elif": "elif requires a condition; else doesn't.",
@@ -1004,7 +1242,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["=", "==", ":=", "is"],
+    "word_bank": [
+      "=",
+      "==",
+      ":=",
+      "is"
+    ],
     "per_tile_feedback": {
       "=": "Correct! A single equals sign is the assignment operator.",
       "==": "Double equals is comparison, not assignment – it would not store the value.",
@@ -1034,7 +1277,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["+", "-", "*", "/"],
+    "word_bank": [
+      "+",
+      "-",
+      "*",
+      "/"
+    ],
     "per_tile_feedback": {
       "+": "Correct! + adds numbers.",
       "-": "Subtraction would give 0.5, not addition.",
@@ -1064,7 +1312,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["+", "-", "*", "&"],
+    "word_bank": [
+      "+",
+      "-",
+      "*",
+      "&"
+    ],
     "per_tile_feedback": {
       "+": "Correct! The + operator concatenates strings.",
       "-": "Subtraction is not defined for strings.",
@@ -1091,10 +1344,17 @@
       {
         "position": 1,
         "answer": "::2",
-        "answer_alternatives": ["::2"]
+        "answer_alternatives": [
+          "::2"
+        ]
       }
     ],
-    "word_bank": ["::2", "0:2", "1::2", ":2"],
+    "word_bank": [
+      "::2",
+      "0:2",
+      "1::2",
+      ":2"
+    ],
     "per_tile_feedback": {
       "::2": "Correct! ::2 slices the whole list with step 2, taking every second element.",
       "0:2": "That slices indices 0 to 1, not every second.",
@@ -1124,7 +1384,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["==", "=", "!=", "is"],
+    "word_bank": [
+      "==",
+      "=",
+      "!=",
+      "is"
+    ],
     "per_tile_feedback": {
       "==": "Correct! == tests equality, returning False.",
       "=": "Assignment is not allowed in print; it would be a SyntaxError.",
@@ -1154,7 +1419,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": [">", "<", ">=", "=="],
+    "word_bank": [
+      ">",
+      "<",
+      ">=",
+      "=="
+    ],
     "per_tile_feedback": {
       ">": "Correct! 'James' > 'Brian' is True because 'J' comes after 'B'.",
       "<": "That would check if James is less than Brian, which is False.",
@@ -1189,7 +1459,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["if", "elif", ":", ";"],
+    "word_bank": [
+      "if",
+      "elif",
+      ":",
+      ";"
+    ],
     "per_tile_feedback": {
       "if": "Correct! The if keyword starts a conditional block.",
       "elif": "elif would be used after an initial if, not as the first condition.",
@@ -1229,7 +1504,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["for", "in", ":", "while"],
+    "word_bank": [
+      "for",
+      "in",
+      ":",
+      "while"
+    ],
     "per_tile_feedback": {
       "for": "Correct! 'for' starts a definite loop.",
       "in": "Correct! 'in' connects the loop variable to the iterable.",

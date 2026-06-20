@@ -103,6 +103,13 @@ export default function Quiz() {
         }
       }
 
+      // Ctrl+D -> delete question
+      if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault();
+        handleDeleteQuestion(questions[currentIndex]?.id);
+        return;
+      }
+
       // Escape -> clear selections if not locked
       if (e.key === 'Escape') {
         if (!isLocked) {
@@ -235,7 +242,7 @@ export default function Quiz() {
             question_id: currentQuestion.id,
             concept_id: currentQuestion.concept_id,
             score: finalCorrect ? 1.0 : 0.0,
-            was_correct: finalCorrect ? 1 : 0
+            was_correct: finalCorrect
           })
         });
       } catch (err) {
@@ -555,6 +562,7 @@ export default function Quiz() {
             { label: 'Select Option', keys: ['1', '-', '4'] },
             { label: 'Clear Choice', keys: ['Esc'] },
             { label: 'Next Question', keys: ['Enter'] },
+            { label: 'Delete Question', keys: ['Ctrl+D'] },
           ]}
           dotColor="var(--accent-green)"
           showShortcuts={showShortcuts}

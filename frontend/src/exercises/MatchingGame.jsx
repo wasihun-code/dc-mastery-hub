@@ -74,6 +74,13 @@ export default function MatchingGame() {
 
       if (wrongMatch) return;
 
+      // Ctrl+D -> delete selected pair
+      if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault();
+        handleDeletePair();
+        return;
+      }
+
       const numKeys = ['1', '2', '3', '4', '5'];
       const alphaKeys = ['q', 'w', 'e', 'r', 't'];
 
@@ -373,7 +380,7 @@ export default function MatchingGame() {
         question_id: term.id,
         concept_id: term.concept_id || term.id,
         score: isCorrect ? 1.0 : 0.0,
-        was_correct: isCorrect ? 1 : 0
+        was_correct: isCorrect
       })
     }).catch(err => console.error("Error saving match attempt:", err));
 
@@ -402,7 +409,7 @@ export default function MatchingGame() {
               question_id: remainingPair.id,
               concept_id: remainingPair.concept_id || remainingPair.id,
               score: 1.0,
-              was_correct: 1
+              was_correct: true
             })
           }).catch(err => console.error("Error saving automatic last match attempt:", err));
         }
@@ -658,32 +665,51 @@ export default function MatchingGame() {
 
             </div>
 
-            {/* Post-Round Transition panel */}
+            {/* Round complete modal */}
             {roundCompleted && (
-              <div className="mt-8 flex flex-col items-center justify-center p-6 border-t border-[var(--border)] animate-in zoom-in-95 duration-300">
-                <div className="flex items-center gap-2 text-[var(--accent-green)] font-bold text-xl mb-3">
-                  <Check size={24} />
-                  <span>All pairs matched!</span>
-                </div>
-                <div className="mb-6 flex flex-wrap gap-4 justify-center">
-                  <div className="px-4 py-2 rounded-xl bg-[rgba(3,239,98,0.08)] border border-[rgba(3,239,98,0.3)] text-sm font-bold text-[var(--accent-green)]">
-                    +15 XP Earned
-                  </div>
-                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
-                    Round Time: <span className="text-[var(--accent-green)] font-mono">{formatTime(roundTime)}</span>
-                  </div>
-                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
-                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round((totalPairsInRound / (attempts || 1)) * 100)}%</span>
-                  </div>
-                </div>
-                
-                <button
-                  onClick={handleNextRound}
-                  className="flex items-center gap-2 rounded-xl bg-[var(--accent-green)] px-10 py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)] uppercase tracking-wider"
+              <div
+                className="fixed inset-0 z-[200] flex items-center justify-center bg-[rgba(0,0,0,0.6)] animate-in fade-in duration-150"
+                onClick={() => handleNextRound()}
+              >
+                <div
+                  className="w-[90vw] max-w-[480px] bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-8 shadow-[0_20px_60px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-200"
+                  onClick={e => e.stopPropagation()}
+                  style={{ transformOrigin: 'center' }}
                 >
-                  {currentRoundIndex < allRounds.length - 1 ? 'Continue to Next Round' : 'Finish Match Game'}
-                  <ArrowRight size={18} />
-                </button>
+                  <div className="flex flex-col items-center text-center">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(3,239,98,0.12)] mb-4">
+                      <Check size={36} className="text-[var(--accent-green)]" strokeWidth={3} />
+                    </div>
+                    <h2 className="text-xl font-bold text-[var(--text-primary)]">
+                      All pairs matched!
+                    </h2>
+                  </div>
+                  
+                  <div className="mt-6 flex flex-col gap-3">
+                    <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[rgba(3,239,98,0.08)] border border-[rgba(3,239,98,0.3)]">
+                      <span className="text-sm font-semibold text-[var(--text-muted)]">XP Earned</span>
+                      <span className="text-sm font-bold text-[var(--accent-green)]">+15 XP</span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)]">
+                      <span className="text-sm font-semibold text-[var(--text-muted)]">Round Time</span>
+                      <span className="text-sm font-bold text-[var(--text-primary)] font-mono">{formatTime(roundTime)}</span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)]">
+                      <span className="text-sm font-semibold text-[var(--text-muted)]">Accuracy</span>
+                      <span className="text-sm font-bold text-[var(--accent-green)]">{Math.round((totalPairsInRound / (attempts || 1)) * 100)}%</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6">
+                    <button
+                      onClick={handleNextRound}
+                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[var(--accent-green)] px-8 py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)]"
+                    >
+                      {currentRoundIndex < allRounds.length - 1 ? 'Continue to Next Round' : 'Finish Match Game'}
+                      <ArrowRight size={18} />
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
 

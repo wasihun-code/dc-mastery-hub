@@ -185,7 +185,7 @@ export default function TrackTest() {
               question_id: currentQuestion.id,
               score: 0.0,
               time_taken_secs: 15,
-              was_correct: 0
+              was_correct: false
             })
           })
         }
@@ -233,7 +233,7 @@ export default function TrackTest() {
               question_id: currentQuestion.id,
               score: isCorrect ? 1.0 : 0.0,
               time_taken_secs: timeTaken,
-              was_correct: isCorrect ? 1 : 0
+              was_correct: isCorrect
             })
           })
         }

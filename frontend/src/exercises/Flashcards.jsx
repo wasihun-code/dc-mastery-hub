@@ -92,6 +92,13 @@ export default function Flashcards() {
         return;
       }
 
+      // Ctrl+D -> delete card
+      if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault();
+        handleDeleteCard(cards[currentIndex]?.id);
+        return;
+      }
+
       // Spacebar -> flip card
       if (e.key === ' ' || e.key === 'Spacebar') {
         e.preventDefault(); // Prevent page scrolling
@@ -219,7 +226,7 @@ export default function Flashcards() {
           question_id: cards[currentIndex].id,
           concept_id: cards[currentIndex].concept_id,
           score: score,
-          was_correct: wasCorrect ? 1 : 0
+          was_correct: wasCorrect
         })
       });
     } catch (err) {

@@ -16,8 +16,8 @@ const mockCourse = {
   status: 'In Progress',
   reviewed: 'Yes',
   overall_mastery: 72,
-  has_pdf: 1,
-  has_glossary: 1,
+  has_pdf: true,
+  has_glossary: true,
   track: { slug: 'python-track', language: 'Python' }
 }
 

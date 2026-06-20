@@ -262,16 +262,16 @@ export default function CourseFilter({
       // 8. Archive status
       if (excludeFilter !== 'archive') {
         if (showArchiveFilter) {
-          if (selectedArchive === 'active' && c.is_archived === 1) return false
-          if (selectedArchive === 'archived' && c.is_archived !== 1) return false
+          if (selectedArchive === 'active' && c.is_archived === true) return false
+          if (selectedArchive === 'archived' && c.is_archived !== true) return false
         } else {
-          if (c.is_archived === 1) return false
+          if (c.is_archived === true) return false
         }
       }
 
       // 9. Notes Taken
       if (excludeFilter !== 'notesTaken' && selectedNotesTaken !== 'all') {
-        const taken = c.notes_taken == 1
+        const taken = c.notes_taken === true
         if (selectedNotesTaken === 'taken' && !taken) return false
         if (selectedNotesTaken === 'not_taken' && taken) return false
       }
@@ -324,15 +324,15 @@ export default function CourseFilter({
   // Calculate dynamic counts for archive status
   const baseForArchive = getFilteredSubset('archive')
   const getArchiveCount = (archiveVal) => {
-    if (archiveVal === 'active') return baseForArchive.filter((c) => c.is_archived !== 1).length
-    if (archiveVal === 'archived') return baseForArchive.filter((c) => c.is_archived === 1).length
+    if (archiveVal === 'active') return baseForArchive.filter((c) => c.is_archived !== true).length
+    if (archiveVal === 'archived') return baseForArchive.filter((c) => c.is_archived === true).length
     return baseForArchive.length
   }
 
   // Calculate dynamic counts for notes taken
   const baseForNotesTaken = getFilteredSubset('notesTaken')
-  const notesTakenCount = baseForNotesTaken.filter(c => c.notes_taken == 1).length
-  const notesNotTakenCount = baseForNotesTaken.filter(c => c.notes_taken != 1).length
+  const notesTakenCount = baseForNotesTaken.filter(c => c.notes_taken === true).length
+  const notesNotTakenCount = baseForNotesTaken.filter(c => c.notes_taken !== true).length
   const totalNotesTakenCount = baseForNotesTaken.length
 
   // Setup options for each dropdown

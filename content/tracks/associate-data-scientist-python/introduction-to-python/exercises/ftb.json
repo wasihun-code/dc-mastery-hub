@@ -14,7 +14,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["print", "type", "help", "max"],
+    "word_bank": [
+      "print",
+      "type",
+      "help",
+      "max"
+    ],
     "per_tile_feedback": {
       "print": "Correct – print() is the built‑in function that displays values to the console.",
       "type": "type() returns the type of an object, not the value. It would output <class 'int'> instead of 9.",
@@ -44,7 +49,13 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["**", "^", "*", "+", "/"],
+    "word_bank": [
+      "**",
+      "^",
+      "*",
+      "+",
+      "/"
+    ],
     "per_tile_feedback": {
       "**": "Correct – ** is the exponentiation operator in Python.",
       "^": "The ^ operator is bitwise XOR, not exponentiation. This is a common mistake from other languages.",
@@ -75,7 +86,13 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["weight", "height", "bmi", "x", "y"],
+    "word_bank": [
+      "weight",
+      "height",
+      "bmi",
+      "x",
+      "y"
+    ],
     "per_tile_feedback": {
       "weight": "Correct – the variable name on the left receives the value 68.7.",
       "height": "height is a different variable; the task specifically asks for weight.",
@@ -106,7 +123,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["=", "==", ":=", "is"],
+    "word_bank": [
+      "=",
+      "==",
+      ":=",
+      "is"
+    ],
     "per_tile_feedback": {
       "=": "Correct – the assignment operator stores the right‑hand value into the variable.",
       "==": "== is the equality comparison operator, not assignment.",
@@ -136,7 +158,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["type", "int", "float", "str"],
+    "word_bank": [
+      "type",
+      "int",
+      "float",
+      "str"
+    ],
     "per_tile_feedback": {
       "type": "Correct – type() is the built‑in function that returns the type of an object.",
       "int": "int is a type, not a function to check types; it would attempt to convert bmi to integer.",
@@ -166,7 +193,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["float", "int", "str", "bool"],
+    "word_bank": [
+      "float",
+      "int",
+      "str",
+      "bool"
+    ],
     "per_tile_feedback": {
       "float": "Correct – type(bmi) returns float, so comparing to float yields True.",
       "int": "bmi is a float, not an integer, so this would be False.",
@@ -196,7 +228,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["int", "float", "str", "round"],
+    "word_bank": [
+      "int",
+      "float",
+      "str",
+      "round"
+    ],
     "per_tile_feedback": {
       "int": "Correct – int() truncates the decimal and returns 5.",
       "float": "float() would convert to float (already float), returning 5.7.",
@@ -223,10 +260,18 @@
       {
         "position": 1,
         "answer": "[1.73,1.68,1.71]",
-        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+        "answer_alternatives": [
+          "[1.73, 1.68, 1.71]"
+        ]
       }
     ],
-    "word_bank": ["[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "{1.73,1.68,1.71}", "'1.73,1.68,1.71'", "1.73,1.68,1.71"],
+    "word_bank": [
+      "[1.73,1.68,1.71]",
+      "(1.73,1.68,1.71)",
+      "{1.73,1.68,1.71}",
+      "'1.73,1.68,1.71'",
+      "1.73,1.68,1.71"
+    ],
     "per_tile_feedback": {
       "[1.73,1.68,1.71]": "Correct – square brackets create a list.",
       "(1.73,1.68,1.71)": "Parentheses create a tuple, not a list.",
@@ -254,10 +299,18 @@
       {
         "position": 1,
         "answer": "[[1.73],[1.68]]",
-        "answer_alternatives": ["[[1.73], [1.68]]"]
+        "answer_alternatives": [
+          "[[1.73], [1.68]]"
+        ]
       }
     ],
-    "word_bank": ["[[1.73],[1.68]]", "([1.73],[1.68])", "[1.73,1.68]", "[(1.73),(1.68)]", "[[1.73,1.68]]"],
+    "word_bank": [
+      "[[1.73],[1.68]]",
+      "([1.73],[1.68])",
+      "[1.73,1.68]",
+      "[(1.73),(1.68)]",
+      "[[1.73,1.68]]"
+    ],
     "per_tile_feedback": {
       "[[1.73],[1.68]]": "Correct – a list of lists with two inner lists.",
       "([1.73],[1.68])": "This is a tuple of lists, not a list of lists.",
@@ -288,7 +341,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["list", "int", "float", "str"],
+    "word_bank": [
+      "list",
+      "int",
+      "float",
+      "str"
+    ],
     "per_tile_feedback": {
       "list": "Correct – type(fam) returns list, so comparison is True.",
       "int": "fam is a list, not an integer.",
@@ -318,12 +376,17 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["6", "7", "-1", "0"],
+    "word_bank": [
+      "6",
+      "7",
+      "-1",
+      "0"
+    ],
     "per_tile_feedback": {
+      "0": "0 would give the first element 'liz'.",
       "6": "Correct – fam[6] returns 'dad' because indexing starts at 0.",
       "7": "fam[7] would give the last element 1.89, but the task asks for index 6.",
-      "-1": "-1 would give the last element, not the one at index 6.",
-      "0": "0 would give the first element 'liz'."
+      "-1": "-1 would give the last element, not the one at index 6."
     },
     "hints": [
       "Count positions starting from 0.",
@@ -343,17 +406,22 @@
     "code_template": "fam[_____]",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "-1",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["-1", "0", "1", "7"],
+    "word_bank": [
+      "-1",
+      "0",
+      "1",
+      "7"
+    ],
     "per_tile_feedback": {
-      "-1": "Correct – negative index -1 always refers to the last element.",
       "0": "0 gives the first element, not the last.",
       "1": "1 gives the second element.",
-      "7": "7 is out of range for this list (max index 7 exists, but -1 is the idiomatic way)."
+      "7": "7 is out of range for this list (max index 7 exists, but -1 is the idiomatic way).",
+      "-1": "Correct – negative index -1 always refers to the last element."
     },
     "hints": [
       "How do you refer to the last item without knowing the length?",
@@ -361,7 +429,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Negative indices count backwards from the end. -1 is the last element, -2 second‑last, etc.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Get the last element of fam.",
+    "code": "fam[[[0]]]",
+    "answers": [
+      "-1"
+    ]
   },
   {
     "id": "fitb_013",
@@ -383,7 +457,14 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["0", "1", "2", "3", "4", "5"],
+    "word_bank": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
     "per_tile_feedback": {
       "0": "Index 0 is the start, but we want to start at index 1.",
       "1": "Correct – start index 1 gives the second element (1.73).",
@@ -415,12 +496,17 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["5", "4", "6", "0"],
+    "word_bank": [
+      "5",
+      "4",
+      "6",
+      "0"
+    ],
     "per_tile_feedback": {
-      "5": "Correct – starting at index 5 and going to the end includes indices 5,6,7.",
+      "0": "This would start from the beginning, not index 5.",
       "4": "This would include index 4 ('mom'), which is not wanted.",
-      "6": "This would skip index 5 (1.71).",
-      "0": "This would start from the beginning, not index 5."
+      "5": "Correct – starting at index 5 and going to the end includes indices 5,6,7.",
+      "6": "This would skip index 5 (1.71)."
     },
     "hints": [
       "Omit the second index to go to the end.",
@@ -445,10 +531,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["7", "6", "8", "-1"],
+    "word_bank": [
+      "7",
+      "6",
+      "8",
+      "-1"
+    ],
     "per_tile_feedback": {
-      "7": "Correct – index 7 targets the last element (1.89 originally).",
       "6": "Index 6 is 'dad', not the last element.",
+      "7": "Correct – index 7 targets the last element (1.89 originally).",
       "8": "Index 8 is out of range.",
       "-1": "-1 would also target the last element, but the task asks for index 7."
     },
@@ -472,10 +563,19 @@
       {
         "position": 1,
         "answer": "0:2",
-        "answer_alternatives": [":2", "0:2"]
+        "answer_alternatives": [
+          ":2",
+          "0:2"
+        ]
       }
     ],
-    "word_bank": ["0:2", "0:1", "1:2", "0:3", ":2"],
+    "word_bank": [
+      "0:2",
+      "0:1",
+      "1:2",
+      "0:3",
+      ":2"
+    ],
     "per_tile_feedback": {
       "0:2": "Correct – slice 0:2 selects the first two elements (indices 0 and 1).",
       "0:1": "This would only replace the first element.",
@@ -506,7 +606,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["+", "-", "*", "and"],
+    "word_bank": [
+      "+",
+      "-",
+      "*",
+      "and"
+    ],
     "per_tile_feedback": {
       "+": "Correct – the + operator concatenates two lists.",
       "-": "Subtraction is not defined for lists.",
@@ -536,7 +641,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["del", "remove", "delete", "pop"],
+    "word_bank": [
+      "del",
+      "remove",
+      "delete",
+      "pop"
+    ],
     "per_tile_feedback": {
       "del": "Correct – del is the statement that removes an element by index.",
       "remove": "remove() is a method that removes by value, not index.",
@@ -561,12 +671,17 @@
     "code_template": "y = _____(x)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "list",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["list", "copy", "clone", "array"],
+    "word_bank": [
+      "list",
+      "copy",
+      "clone",
+      "array"
+    ],
     "per_tile_feedback": {
       "list": "Correct – list(x) creates a new list with the same elements.",
       "copy": "There is no built‑in function named copy; copying lists uses list() or slicing.",
@@ -579,7 +694,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "list(x) creates a new list that is a shallow copy of x. Changes to y do not affect x.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Create an independent copy y of the list x.",
+    "code": "y = [[0]](x)",
+    "answers": [
+      "list"
+    ]
   },
   {
     "id": "fitb_020",
@@ -591,12 +712,17 @@
     "code_template": "y = x[_____]",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": ":",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": [":", ":-1", "::", "0:"],
+    "word_bank": [
+      ":",
+      ":-1",
+      "::",
+      "0:"
+    ],
     "per_tile_feedback": {
       ":": "Correct – a full slice x[:] creates a copy of the whole list.",
       ":-1": "This would slice off the last element.",
@@ -609,7 +735,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "x[:] returns a new list containing all elements of x. It’s a common Python idiom for shallow copying.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Create an independent copy y of the list x",
+    "code": "y = x[[[0]]]",
+    "answers": [
+      ":"
+    ]
   },
   {
     "id": "fitb_021",
@@ -621,12 +753,17 @@
     "code_template": "y = _____\ny[1] = 'z'\nprint(x)  # shows ['a','z','c']",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "x",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["x", "list(x)", "x[:]", "x.copy()"],
+    "word_bank": [
+      "x",
+      "list(x)",
+      "x[:]",
+      "x.copy()"
+    ],
     "per_tile_feedback": {
       "x": "Correct – y = x makes y a reference to the same list object, so modifications are shared.",
       "list(x)": "list(x) creates a copy, so x would not be changed.",
@@ -639,7 +776,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Assignment y = x does not copy the list; it creates an alias. Both names refer to the same object, so mutations through one affect the other.",
-    "common_mistake_warning": "⚠️ y = x creates a reference, not a copy. Any change to y will appear in x."
+    "common_mistake_warning": "⚠️ y = x creates a reference, not a copy. Any change to y will appear in x.",
+    "_exerciseType": "ftb",
+    "description": "Complete the code so that changing y also changes x (create a reference). x is defined as ['a', 'b', 'c'].",
+    "code": "y = [[0]]\ny[1] = 'z'\nprint(x)  # shows ['a','z','c']",
+    "answers": [
+      "x"
+    ]
   },
   {
     "id": "fitb_022",
@@ -653,10 +796,17 @@
       {
         "position": 1,
         "answer": "list(x)",
-        "answer_alternatives": ["x[:]"]
+        "answer_alternatives": [
+          "x[:]"
+        ]
       }
     ],
-    "word_bank": ["list(x)", "x[:]", "x", "x.copy()"],
+    "word_bank": [
+      "list(x)",
+      "x[:]",
+      "x",
+      "x.copy()"
+    ],
     "per_tile_feedback": {
       "list(x)": "Correct – list(x) produces a new list, so x remains unchanged.",
       "x[:]": "Also correct – slicing returns a new list.",
@@ -681,12 +831,17 @@
     "code_template": "_____(fam)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "max",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["max", "min", "sum", "print"],
+    "word_bank": [
+      "max",
+      "min",
+      "sum",
+      "print"
+    ],
     "per_tile_feedback": {
       "max": "Correct – max() returns the largest item in fam.",
       "min": "min() would return the smallest, not the maximum.",
@@ -699,7 +854,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Functions are called by name with parentheses. max() is a built‑in that scans an iterable and returns the maximum element.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Get the largest element in the list fam.",
+    "code": "[[0]](fam)",
+    "answers": [
+      "max"
+    ]
   },
   {
     "id": "fitb_024",
@@ -716,7 +877,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["fam", "bmi", "np_height", "np_weight"],
+    "word_bank": [
+      "fam",
+      "bmi",
+      "np_height",
+      "np_weight"
+    ],
     "per_tile_feedback": {
       "fam": "Correct – fam contains the heights [1.73, 1.68, 1.71, 1.89].",
       "bmi": "bmi is a float, not a list of heights.",
@@ -746,10 +912,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1", "0", "2", "10"],
+    "word_bank": [
+      "1",
+      "0",
+      "2",
+      "10"
+    ],
     "per_tile_feedback": {
-      "1": "Correct – the second argument specifies one decimal digit.",
       "0": "0 would round to 0 decimals, giving a float like 21.0.",
+      "1": "Correct – the second argument specifies one decimal digit.",
       "2": "2 would give two decimal places, not one.",
       "10": "10 would give ten decimal places, too many."
     },
@@ -776,7 +947,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["round(1.68)", "int(1.68)", "1.68", "float(1.68)"],
+    "word_bank": [
+      "round(1.68)",
+      "int(1.68)",
+      "1.68",
+      "float(1.68)"
+    ],
     "per_tile_feedback": {
       "round(1.68)": "Correct – round without ndigits returns an integer, so type is int.",
       "int(1.68)": "int() would also return an integer, but the exercise is about round specifically.",
@@ -801,12 +977,17 @@
     "code_template": "_____(round)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "help",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["help", "doc", "info", "man"],
+    "word_bank": [
+      "help",
+      "doc",
+      "info",
+      "man"
+    ],
     "per_tile_feedback": {
       "help": "Correct – help() opens the documentation page for the given object.",
       "doc": "doc is not a built‑in Python function.",
@@ -819,7 +1000,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "help() is a built‑in that displays the docstring of a function, module, or object. Call it with parentheses.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Use a function to display the documentation for round function.",
+    "code": "[[0]](round)",
+    "answers": [
+      "help"
+    ]
   },
   {
     "id": "fitb_028",
@@ -836,7 +1023,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["capitalize", "upper", "lower", "title"],
+    "word_bank": [
+      "capitalize",
+      "upper",
+      "lower",
+      "title"
+    ],
     "per_tile_feedback": {
       "capitalize": "Correct – capitalize() returns a copy with the first character uppercased.",
       "upper": "upper() would convert all characters to uppercase, giving 'LIZ'.",
@@ -863,10 +1055,17 @@
       {
         "position": 1,
         "answer": "'mom'",
-        "answer_alternatives": ["\"mom\""]
+        "answer_alternatives": [
+          "\"mom\""
+        ]
       }
     ],
-    "word_bank": ["'mom'", "\"mom\"", "mom", "'dad'"],
+    "word_bank": [
+      "'mom'",
+      "\"mom\"",
+      "mom",
+      "'dad'"
+    ],
     "per_tile_feedback": {
       "'mom'": "Correct – the string 'mom' is passed to index() to find its position.",
       "\"mom\"": "Also correct; both single and double quotes represent the same string.",
@@ -896,7 +1095,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["index", "count", "find", "search"],
+    "word_bank": [
+      "index",
+      "count",
+      "find",
+      "search"
+    ],
     "per_tile_feedback": {
       "index": "Correct – index() returns the position of the given element.",
       "count": "count() returns the number of occurrences, not the index.",
@@ -926,7 +1130,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["count", "index", "sum", "length"],
+    "word_bank": [
+      "count",
+      "index",
+      "sum",
+      "length"
+    ],
     "per_tile_feedback": {
       "count": "Correct – count() returns the number of occurrences of 1.73.",
       "index": "index() would return the position, not the count.",
@@ -956,7 +1165,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["append", "add", "insert", "extend"],
+    "word_bank": [
+      "append",
+      "add",
+      "insert",
+      "extend"
+    ],
     "per_tile_feedback": {
       "append": "Correct – append() adds one element to the end.",
       "add": "add() is not a Python list method.",
@@ -986,7 +1200,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1.79", "1.73", "1.68", "1.89"],
+    "word_bank": [
+      "1.79",
+      "1.73",
+      "1.68",
+      "1.89"
+    ],
     "per_tile_feedback": {
       "1.79": "Correct – this value is appended to the list.",
       "1.73": "1.73 is already in fam; it would duplicate the value.",
@@ -1016,7 +1235,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["append", "extend", "insert", "add"],
+    "word_bank": [
+      "append",
+      "extend",
+      "insert",
+      "add"
+    ],
     "per_tile_feedback": {
       "append": "Correct – append() adds the whole list as one element.",
       "extend": "extend() would add each element of the iterable individually (1 and 2).",
@@ -1046,7 +1270,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["capitalize", "upper", "title", "capital"],
+    "word_bank": [
+      "capitalize",
+      "upper",
+      "title",
+      "capital"
+    ],
     "per_tile_feedback": {
       "capitalize": "Correct – capitalize() makes the first character uppercase and the rest lowercase.",
       "upper": "upper() makes all characters uppercase, not just the first.",
@@ -1076,7 +1305,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["replace", "change", "substitute", "swap"],
+    "word_bank": [
+      "replace",
+      "change",
+      "substitute",
+      "swap"
+    ],
     "per_tile_feedback": {
       "replace": "Correct – replace() returns a new string with the substitutions.",
       "change": "change is not a string method.",
@@ -1103,10 +1337,17 @@
       {
         "position": 1,
         "answer": "'sa'",
-        "answer_alternatives": ["\"sa\""]
+        "answer_alternatives": [
+          "\"sa\""
+        ]
       }
     ],
-    "word_bank": ["'sa'", "'za'", "'s'", "'a'"],
+    "word_bank": [
+      "'sa'",
+      "'za'",
+      "'s'",
+      "'a'"
+    ],
     "per_tile_feedback": {
       "'sa'": "Correct – 'z' becomes 'sa', giving 'Lisa'.",
       "'za'": "'za' would give 'liza', not 'Lisa'.",
@@ -1133,10 +1374,17 @@
       {
         "position": 1,
         "answer": "'z'",
-        "answer_alternatives": ["\"z\""]
+        "answer_alternatives": [
+          "\"z\""
+        ]
       }
     ],
-    "word_bank": ["'z'", "'l'", "'i'", "'s'"],
+    "word_bank": [
+      "'z'",
+      "'l'",
+      "'i'",
+      "'s'"
+    ],
     "per_tile_feedback": {
       "'z'": "Correct – the 'z' in 'liz' is replaced.",
       "'l'": "Would replace 'l' instead, giving '?isa'.",
@@ -1166,7 +1414,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["remove", "delete", "del", "pop"],
+    "word_bank": [
+      "remove",
+      "delete",
+      "del",
+      "pop"
+    ],
     "per_tile_feedback": {
       "remove": "Correct – remove() deletes the first occurrence of a value.",
       "delete": "delete is not a Python list method.",
@@ -1196,7 +1449,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["reverse", "sort", "flip", "invert"],
+    "word_bank": [
+      "reverse",
+      "sort",
+      "flip",
+      "invert"
+    ],
     "per_tile_feedback": {
       "reverse": "Correct – reverse() reverses the list in place.",
       "sort": "sort() orders the elements, not simply reverse them.",
@@ -1226,7 +1484,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["import", "from", "include", "using"],
+    "word_bank": [
+      "import",
+      "from",
+      "include",
+      "using"
+    ],
     "per_tile_feedback": {
       "import": "Correct – 'import numpy' makes the numpy module available in your script.",
       "from": "'from' is used with 'import' to bring in specific names, e.g., 'from numpy import array'. Alone it's incomplete.",
@@ -1253,10 +1516,17 @@
       {
         "position": 1,
         "answer": "numpy.array",
-        "answer_alternatives": ["np.array"]
+        "answer_alternatives": [
+          "np.array"
+        ]
       }
     ],
-    "word_bank": ["numpy.array", "array", "np.array", "list.array"],
+    "word_bank": [
+      "numpy.array",
+      "array",
+      "np.array",
+      "list.array"
+    ],
     "per_tile_feedback": {
       "numpy.array": "Correct – after 'import numpy', the function must be called with the module prefix.",
       "array": "array is not defined; you need the module prefix. Python looks for a function named 'array' in the current scope.",
@@ -1286,7 +1556,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["as", "like", "alias", "to"],
+    "word_bank": [
+      "as",
+      "like",
+      "alias",
+      "to"
+    ],
     "per_tile_feedback": {
       "as": "Correct – 'import numpy as np' is the standard way to create an alias.",
       "like": "'like' is not valid Python syntax for aliasing imports.",
@@ -1316,7 +1591,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["mean", "average", "median", "sum"],
+    "word_bank": [
+      "mean",
+      "average",
+      "median",
+      "sum"
+    ],
     "per_tile_feedback": {
       "mean": "Correct – np.mean(arr) computes the arithmetic mean using the alias.",
       "average": "There is no function np.average; use np.mean or np.average (not covered in this course).",
@@ -1346,7 +1626,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["np", "numpy", "numpy.mean", "mean"],
+    "word_bank": [
+      "np",
+      "numpy",
+      "numpy.mean",
+      "mean"
+    ],
     "per_tile_feedback": {
       "np": "Correct – the alias 'np' must be used consistently after 'import numpy as np'.",
       "numpy": "Using 'numpy' would cause a NameError because only the alias 'np' is defined in this scope.",
@@ -1376,7 +1661,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["from", "import", "using", "as"],
+    "word_bank": [
+      "from",
+      "import",
+      "using",
+      "as"
+    ],
     "per_tile_feedback": {
       "from": "Correct – 'from numpy import array' brings only the name 'array' into the current namespace.",
       "import": "'import numpy import array' is invalid syntax; use 'from...import'.",
@@ -1406,7 +1696,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["array", "numpy.array", "np.array", "list.array"],
+    "word_bank": [
+      "array",
+      "numpy.array",
+      "np.array",
+      "list.array"
+    ],
     "per_tile_feedback": {
       "array": "Correct – with selective import, 'array' is directly available.",
       "numpy.array": "The name 'numpy' is not defined because only 'array' was imported.",
@@ -1436,7 +1731,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["import", "from", "install", "package"],
+    "word_bank": [
+      "import",
+      "from",
+      "install",
+      "package"
+    ],
     "per_tile_feedback": {
       "import": "Correct – 'import numpy' loads the entire package.",
       "from": "'from' alone is incomplete; you need 'from numpy import ...'.",
@@ -1466,7 +1766,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["height", "[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "'1.73,1.68,1.71'"],
+    "word_bank": [
+      "height",
+      "[1.73,1.68,1.71]",
+      "(1.73,1.68,1.71)",
+      "'1.73,1.68,1.71'"
+    ],
     "per_tile_feedback": {
       "height": "Correct – passing the list variable 'height' creates an array from its elements.",
       "[1.73,1.68,1.71]": "This would create an array but doesn't use the variable 'height' as requested.",
@@ -1493,10 +1798,17 @@
       {
         "position": 1,
         "answer": "[1.73,1.68,1.71]",
-        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+        "answer_alternatives": [
+          "[1.73, 1.68, 1.71]"
+        ]
       }
     ],
-    "word_bank": ["[1.73,1.68,1.71]", "(1.73,1.68,1.71)", "1.73,1.68,1.71", "'1.73,1.68,1.71'"],
+    "word_bank": [
+      "[1.73,1.68,1.71]",
+      "(1.73,1.68,1.71)",
+      "1.73,1.68,1.71",
+      "'1.73,1.68,1.71'"
+    ],
     "per_tile_feedback": {
       "[1.73,1.68,1.71]": "Correct – a list is the most common way to pass multiple values to np.array().",
       "(1.73,1.68,1.71)": "This tuple would also work, but the task specifically asks for a list.",
@@ -1526,7 +1838,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["**", "^", "*", "+"],
+    "word_bank": [
+      "**",
+      "^",
+      "*",
+      "+"
+    ],
     "per_tile_feedback": {
       "**": "Correct – exponentiation is performed with **, applied element‑wise.",
       "^": "The ^ operator is bitwise XOR, not exponentiation. This is a common mistake from other languages.",
@@ -1556,7 +1873,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["*", "+", "**", "x"],
+    "word_bank": [
+      "*",
+      "+",
+      "**",
+      "x"
+    ],
     "per_tile_feedback": {
       "*": "Correct – the multiplication operator applied to a NumPy array performs element‑wise scaling.",
       "+": "Addition would shift each element by 2, not multiply.",
@@ -1586,7 +1908,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": [">", "<", "==", "!="],
+    "word_bank": [
+      ">",
+      "<",
+      "==",
+      "!="
+    ],
     "per_tile_feedback": {
       ">": "Correct – the greater‑than operator compares each element to 23 and returns a Boolean array.",
       "<": "Less than would give True for elements below 23, the opposite of the task.",
@@ -1611,12 +1938,17 @@
     "code_template": "arr = np.array([1.0, \"is\", True])\nprint(arr._____)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "dtype",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["dtype", "type", "shape", "kind"],
+    "word_bank": [
+      "dtype",
+      "type",
+      "shape",
+      "kind"
+    ],
     "per_tile_feedback": {
       "dtype": "Correct – arr.dtype reveals the homogeneous data type of the array (in this case, string).",
       "type": "type(arr) returns the type object (numpy.ndarray), not the internal data type.",
@@ -1629,7 +1961,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "When mixed types are passed to np.array(), all elements are coerced to a common type (often string). .dtype lets you check the resulting type.",
-    "common_mistake_warning": "⚠️ NumPy silently coerces mixed types to a single type; always check .dtype if you're unsure."
+    "common_mistake_warning": "⚠️ NumPy silently coerces mixed types to a single type; always check .dtype if you're unsure.",
+    "_exerciseType": "ftb",
+    "description": "The array created below has unexpected type because of mixed types. Print its data type to inspect it.",
+    "code": "arr = np.array([1.0, \"is\", True])\nprint(arr.[[0]])",
+    "answers": [
+      "dtype"
+    ]
   },
   {
     "id": "fitb_055",
@@ -1646,7 +1984,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1.71", "'1.71'", "1,71", "1.71f"],
+    "word_bank": [
+      "1.71",
+      "'1.71'",
+      "1,71",
+      "1.71f"
+    ],
     "per_tile_feedback": {
       "1.71": "Correct – passing the number 1.71 keeps all elements numeric.",
       "'1.71'": "A string would cause the entire array to become a string array.",
@@ -1676,7 +2019,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["+", "-", "*", "&"],
+    "word_bank": [
+      "+",
+      "-",
+      "*",
+      "&"
+    ],
     "per_tile_feedback": {
       "+": "Correct – list concatenation creates a new list with the elements of both operands.",
       "-": "Subtraction is not defined for lists.",
@@ -1706,7 +2054,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["+", "-", "*", "/"],
+    "word_bank": [
+      "+",
+      "-",
+      "*",
+      "/"
+    ],
     "per_tile_feedback": {
       "+": "Correct – array + scalar adds 10 to each element using broadcasting.",
       "-": "Subtraction would decrease each element by 10.",
@@ -1736,7 +2089,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": [">", ">=", "<", "=="],
+    "word_bank": [
+      ">",
+      ">=",
+      "<",
+      "=="
+    ],
     "per_tile_feedback": {
       ">": "Correct – selects elements where the condition is True.",
       ">=": "This would include elements equal to 23, which may not be desired.",
@@ -1766,7 +2124,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["&", "and", "|", "or"],
+    "word_bank": [
+      "&",
+      "and",
+      "|",
+      "or"
+    ],
     "per_tile_feedback": {
       "&": "Correct – & is the element‑wise AND operator for NumPy arrays.",
       "and": "'and' works only on Python scalars; it cannot be used with arrays and will cause a ValueError.",
@@ -1796,7 +2159,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["&", "and", "&&", "andalso"],
+    "word_bank": [
+      "&",
+      "and",
+      "&&",
+      "andalso"
+    ],
     "per_tile_feedback": {
       "&": "Correct – the bitwise AND operator works element‑wise on NumPy arrays.",
       "and": "Incorrect and causes the error; 'and' expects a single Boolean, not an array of Booleans.",
@@ -1826,7 +2194,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["array", "list", "tuple", "set"],
+    "word_bank": [
+      "array",
+      "list",
+      "tuple",
+      "set"
+    ],
     "per_tile_feedback": {
       "array": "Correct – np.array() converts a list to a NumPy array.",
       "list": "list is a Python built‑in, not a NumPy function.",
@@ -1853,10 +2226,17 @@
       {
         "position": 1,
         "answer": "np.ndarray",
-        "answer_alternatives": ["numpy.ndarray"]
+        "answer_alternatives": [
+          "numpy.ndarray"
+        ]
       }
     ],
-    "word_bank": ["np.ndarray", "list", "array", "ndarray"],
+    "word_bank": [
+      "np.ndarray",
+      "list",
+      "array",
+      "ndarray"
+    ],
     "per_tile_feedback": {
       "np.ndarray": "Correct – the full class name is numpy.ndarray, often accessed as np.ndarray.",
       "list": "arr is not a Python list.",
@@ -1883,15 +2263,26 @@
       {
         "position": 1,
         "answer": "[1.73,1.68,1.71]",
-        "answer_alternatives": ["[1.73, 1.68, 1.71]"]
+        "answer_alternatives": [
+          "[1.73, 1.68, 1.71]"
+        ]
       },
       {
         "position": 2,
         "answer": "[65.4,59.2,63.6]",
-        "answer_alternatives": ["[65.4, 59.2, 63.6]"]
+        "answer_alternatives": [
+          "[65.4, 59.2, 63.6]"
+        ]
       }
     ],
-    "word_bank": ["[1.73,1.68,1.71]", "[65.4,59.2,63.6]", "(1.73,1.68,1.71)", "(65.4,59.2,63.6)", "1.73,1.68,1.71", "65.4,59.2,63.6"],
+    "word_bank": [
+      "[1.73,1.68,1.71]",
+      "[65.4,59.2,63.6]",
+      "(1.73,1.68,1.71)",
+      "(65.4,59.2,63.6)",
+      "1.73,1.68,1.71",
+      "65.4,59.2,63.6"
+    ],
     "per_tile_feedback": {
       "[1.73,1.68,1.71]": "Correct – this list becomes the first row.",
       "[65.4,59.2,63.6]": "Correct – this list becomes the second row.",
@@ -1918,12 +2309,17 @@
     "code_template": "print(np_2d._____)",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "shape",
-        "answer_alternatives": []
+        "distractors": []
       }
     ],
-    "word_bank": ["shape", "size", "ndim", "dtype"],
+    "word_bank": [
+      "shape",
+      "size",
+      "ndim",
+      "dtype"
+    ],
     "per_tile_feedback": {
       "shape": "Correct – .shape is the attribute that returns a tuple of dimensions (rows, columns).",
       "size": ".size returns the total number of elements, not the dimensions.",
@@ -1936,7 +2332,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "shape is a property (attribute) of a NumPy array. It is accessed without parentheses; shape() would give an error.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Print the dimensions of the 2D array np_2d.",
+    "code": "print(np_2d.[[0]])",
+    "answers": [
+      "shape"
+    ]
   },
   {
     "id": "fitb_065",
@@ -1953,7 +2355,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["0", "1", "2", "-1"],
+    "word_bank": [
+      "0",
+      "1",
+      "2",
+      "-1"
+    ],
     "per_tile_feedback": {
       "0": "Correct – indexing the shape tuple at 0 returns the number of rows.",
       "1": "Index 1 returns the number of columns, not rows.",
@@ -1988,7 +2395,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["0", "1", "2", "3"],
+    "word_bank": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
     "per_tile_feedback": {
       "0": "Correct – rows are zero‑indexed, so the first row is index 0.",
       "1": "Index 1 is the second row.",
@@ -2018,12 +2430,17 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["2", "1", "3", "0"],
+    "word_bank": [
+      "2",
+      "1",
+      "3",
+      "0"
+    ],
     "per_tile_feedback": {
-      "2": "Correct – column index 2 corresponds to the third column.",
+      "0": "Index 0 is the first column.",
       "1": "Index 1 is the second column.",
-      "3": "Index 3 is the fourth column.",
-      "0": "Index 0 is the first column."
+      "2": "Correct – column index 2 corresponds to the third column.",
+      "3": "Index 3 is the fourth column."
     },
     "hints": [
       "Counting starts at 0 for columns.",
@@ -2048,11 +2465,16 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["2", "0", "1", "3"],
+    "word_bank": [
+      "2",
+      "0",
+      "1",
+      "3"
+    ],
     "per_tile_feedback": {
-      "2": "Correct – np_2d[0][2] and np_2d[0, 2] return the same element.",
       "0": "Column 0 is the first column, not matching.",
       "1": "Column 1 is the second column, not matching.",
+      "2": "Correct – np_2d[0][2] and np_2d[0, 2] return the same element.",
       "3": "Column 3 is the fourth column, not matching."
     },
     "hints": [
@@ -2078,10 +2500,15 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1", "0", "2", "3"],
+    "word_bank": [
+      "1",
+      "0",
+      "2",
+      "3"
+    ],
     "per_tile_feedback": {
-      "1": "Correct – column index 1 is the second column.",
       "0": "Column 0 is the first column.",
+      "1": "Correct – column index 1 is the second column.",
       "2": "Column 2 is the third column.",
       "3": "Column 3 is the fourth column."
     },
@@ -2103,12 +2530,17 @@
     "code_template": "np_2d[_____, :]",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": ":2",
-        "answer_alternatives": ["0:2"]
+        "distractors": []
       }
     ],
-    "word_bank": [":2", "0:2", "1:3", "0:1"],
+    "word_bank": [
+      ":2",
+      "0:2",
+      "1:3",
+      "0:1"
+    ],
     "per_tile_feedback": {
       ":2": "Correct – omitting the start implicitly begins at 0, so :2 selects rows 0 and 1.",
       "0:2": "Also correct – explicitly starting at 0 is equivalent to :2.",
@@ -2121,7 +2553,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "Slicing with start:end includes start and excludes end. :2 means 'up to index 2', giving rows 0 and 1.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Select the first two rows and all columns from np_2d. Use the mot efficient slicing method.",
+    "code": "np_2d[[[0]], :]",
+    "answers": [
+      ":2"
+    ]
   },
   {
     "id": "fitb_071",
@@ -2143,7 +2581,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["0", "1", "2", "3"],
+    "word_bank": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
     "per_tile_feedback": {
       "0": "Column 0 is the first column; not part of the desired range.",
       "1": "Correct – start at column 1 (inclusive).",
@@ -2173,7 +2616,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["median", "mean", "average", "middle"],
+    "word_bank": [
+      "median",
+      "mean",
+      "average",
+      "middle"
+    ],
     "per_tile_feedback": {
       "median": "Correct – np.median() calculates the median value.",
       "mean": "np.mean() returns the arithmetic mean, not the median.",
@@ -2203,7 +2651,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["mean", "median", "sum", "average"],
+    "word_bank": [
+      "mean",
+      "median",
+      "sum",
+      "average"
+    ],
     "per_tile_feedback": {
       "mean": "Correct – np.mean() returns the arithmetic average.",
       "median": "np.median() returns the middle value, not the average.",
@@ -2233,7 +2686,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["sum", "total", "add", "plus"],
+    "word_bank": [
+      "sum",
+      "total",
+      "add",
+      "plus"
+    ],
     "per_tile_feedback": {
       "sum": "Correct – np.sum() adds all elements together.",
       "total": "'total' is not a NumPy function.",
@@ -2263,7 +2721,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["sort", "sorted", "order", "arr.sort"],
+    "word_bank": [
+      "sort",
+      "sorted",
+      "order",
+      "arr.sort"
+    ],
     "per_tile_feedback": {
       "sort": "Correct – np.sort() returns a sorted copy of the array.",
       "sorted": "Python's built‑in sorted() also returns a sorted list, but the task asks for a NumPy function.",
@@ -2295,7 +2758,9 @@
       {
         "position": 2,
         "answer": "0.20",
-        "answer_alternatives": ["0.2"]
+        "answer_alternatives": [
+          "0.2"
+        ]
       },
       {
         "position": 3,
@@ -2303,12 +2768,19 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["1.75", "0.20", "5000", "0.2", "1.5", "0.10"],
+    "word_bank": [
+      "1.75",
+      "0.20",
+      "5000",
+      "0.2",
+      "1.5",
+      "0.10"
+    ],
     "per_tile_feedback": {
+      "5000": "Correct – the third argument (size) is the number of samples.",
       "1.75": "Correct – the first argument (loc) is the mean.",
       "0.20": "Correct – the second argument (scale) is the standard deviation.",
       "0.2": "Also correct – 0.2 is equivalent to 0.20.",
-      "5000": "Correct – the third argument (size) is the number of samples.",
       "1.5": "This is not the mean used in the course example; the course uses 1.75.",
       "0.10": "This is not the standard deviation; the course uses 0.20."
     },
@@ -2335,11 +2807,16 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["10", "1", "0", "None"],
+    "word_bank": [
+      "10",
+      "1",
+      "0",
+      "None"
+    ],
     "per_tile_feedback": {
-      "10": "Correct – size 10 gives an array of 10 samples.",
-      "1": "Size 1 would return a single sample, not 10.",
       "0": "Size 0 would give an empty array.",
+      "1": "Size 1 would return a single sample, not 10.",
+      "10": "Correct – size 10 gives an array of 10 samples.",
       "None": "Omitting size (or None) returns a single scalar, not 10 samples."
     },
     "hints": [
@@ -2365,7 +2842,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["round", "ceil", "floor", "trunc"],
+    "word_bank": [
+      "round",
+      "ceil",
+      "floor",
+      "trunc"
+    ],
     "per_tile_feedback": {
       "round": "Correct – np.round() rounds array elements to the specified number of decimals.",
       "ceil": "np.ceil() rounds up to the nearest integer, not to 2 decimals.",
@@ -2400,7 +2882,13 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["height", "weight", "np_height", "np_weight", "bmi"],
+    "word_bank": [
+      "height",
+      "weight",
+      "np_height",
+      "np_weight",
+      "bmi"
+    ],
     "per_tile_feedback": {
       "height": "Correct – height becomes the first column.",
       "weight": "Correct – weight becomes the second column.",
@@ -2431,7 +2919,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["weight", "height", "bmi", "np_weight"],
+    "word_bank": [
+      "weight",
+      "height",
+      "bmi",
+      "np_weight"
+    ],
     "per_tile_feedback": {
       "weight": "Correct – the second argument is the other variable to correlate with height.",
       "height": "This would give the correlation of height with itself (always 1).",

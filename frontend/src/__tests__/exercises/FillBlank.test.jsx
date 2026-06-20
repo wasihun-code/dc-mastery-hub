@@ -297,7 +297,7 @@ describe('FillBlank', () => {
       expect(screen.getByText('Next Question')).toBeInTheDocument()
     })
 
-    expect(screen.getByText('Correct!')).toBeInTheDocument()
+    expect(screen.getAllByText('Correct!')[0]).toBeInTheDocument()
     expect(screen.getByText('Explanation')).toBeInTheDocument()
   })
 
@@ -513,10 +513,10 @@ describe('FillBlank', () => {
     await userEvent.click(screen.getByText('Enable Choices'))
 
     await waitFor(() => {
-      expect(screen.getByText('Disable')).toBeInTheDocument()
+      expect(screen.getByText('Disable Choices')).toBeInTheDocument()
     })
 
-    await userEvent.click(screen.getByText('Disable'))
+    await userEvent.click(screen.getByText('Disable Choices'))
 
     await waitFor(() => {
       expect(screen.getByText('Enable Choices')).toBeInTheDocument()

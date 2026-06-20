@@ -244,7 +244,7 @@ export default function Tracks() {
     const matchesTrack = selectedTrack === 'all' || (course.tracks && course.tracks.some(t => t.name === selectedTrack))
     const matchesStatus = selectedStatus === 'all' || course.status === selectedStatus
     const matchesReviewed = selectedReviewed === 'all' || course.reviewed === selectedReviewed
-    const matchesNotesTaken = selectedNotesTaken === 'all' || (selectedNotesTaken === 'taken' && course.notes_taken == 1) || (selectedNotesTaken === 'not_taken' && course.notes_taken != 1)
+    const matchesNotesTaken = selectedNotesTaken === 'all' || (selectedNotesTaken === 'taken' && course.notes_taken === true) || (selectedNotesTaken === 'not_taken' && course.notes_taken !== true)
     const matchesDifficulty = selectedDifficulty === 'all' || (course.difficulty || 'Unknown') === selectedDifficulty
     const hasEx = course.quiz_question_count && course.quiz_question_count > 0
     const matchesHasExercises =

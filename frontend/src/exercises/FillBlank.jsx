@@ -9,12 +9,14 @@ import {
   Code2,
   ArrowRight,
   Zap,
+  AlertTriangle,
   } from 'lucide-react';
   import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
   import EditQuestionModal from '../components/EditQuestionModal';
   import ExerciseTimer from '../components/ExerciseTimer';
   import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
   import ExerciseBottomControls from '../components/ExerciseBottomControls';
+  import ConfirmModal from '../components/admin/ConfirmModal';
 
 const AutoResizingInput = React.forwardRef(({ slotIndex, value, isChecked, isCorrect, activeSlot, onFocus, onChange }, ref) => {
   const spanRef = useRef(null);
@@ -99,6 +101,10 @@ export default function FillBlank() {
   const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
   const [choicesEnabled, setChoicesEnabled] = useState(false);
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showQuitConfirm, setShowQuitConfirm] = useState(false);
+  const escapeTimer = useRef(null);
+
   const [isWide, setIsWide] = useState(window.innerWidth >= 1024)
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
@@ -132,6 +138,22 @@ export default function FillBlank() {
 
     const handleKeyDown = (e) => {
       if (showFeedbackModal) return;
+      const inInput = document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA';
+
+      // Ctrl+D -> delete question
+      if (e.ctrlKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault();
+        setShowDeleteConfirm(true);
+        return;
+      }
+
+      // S -> toggle choices mode (not in input)
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S') && !inInput && !isChecked) {
+        e.preventDefault();
+        handleToggleChoices();
+        return;
+      }
+
       // Self-Typing mode shortcuts (when choices are NOT enabled)
       if (!choicesEnabled) {
         // Ctrl+Shift+Enter -> check answer (submit)
@@ -145,9 +167,7 @@ export default function FillBlank() {
         }
       } else {
         // Choices Mode: numeric keys to select tiles
-        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-          return;
-        }
+        if (inInput) return;
 
         if (!isChecked && ['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(e.key)) {
           const idx = parseInt(e.key) - 1;
@@ -161,10 +181,22 @@ export default function FillBlank() {
         }
       }
 
-      // Escape key -> clear answers if not checked
+      // Escape -> clear answers; double Escape -> quit
       if (e.key === 'Escape') {
         if (!isChecked) {
-          setUserAnswers({});
+          const hasAnswers = Object.keys(userAnswers).length > 0;
+          if (hasAnswers) {
+            setUserAnswers({});
+            escapeTimer.current = null;
+          } else {
+            const now = Date.now();
+            if (escapeTimer.current && (now - escapeTimer.current) < 500) {
+              setShowQuitConfirm(true);
+              escapeTimer.current = null;
+            } else {
+              escapeTimer.current = now;
+            }
+          }
         }
       }
 
@@ -261,7 +293,7 @@ export default function FillBlank() {
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm("Are you sure you want to delete this exercise? It will not be shown again.")) return;
+    setShowDeleteConfirm(false);
     try {
       const res = await fetch('/api/progress/delete-question', {
         method: 'POST',
@@ -396,7 +428,7 @@ export default function FillBlank() {
           question_id: currentEx.id,
           concept_id: currentEx.concept_id || currentEx.id,
           score: allCorrect ? 1.0 : 0.0,
-          was_correct: allCorrect ? 1 : 0
+          was_correct: allCorrect
         })
       });
     } catch (err) {
@@ -612,55 +644,30 @@ export default function FillBlank() {
           <div className="w-20"></div> {/* Spacer */}
         </header>
 
-        {/* Main Content (Fullscreen Two Column Layout) */}
+        {/* Main Content (Fullscreen Vertical Layout) */}
         <main className="flex-1 overflow-y-auto pt-16">
           <div className="w-full" style={{ maxWidth: '90vw', margin: '0 auto', padding: '32px 40px' }}>
-            <div style={{ display: 'flex', flexDirection: isWide ? 'row' : 'column', alignItems: 'flex-start', gap: '24px' }}>
-              
-              {/* LEFT COLUMN: Task Description & Code Block */}
-              <div className="flex flex-col gap-3 text-left" style={{ flex: 1, minWidth: 0 }}>
+            <div className="flex flex-col gap-6">
+
+              {/* TOP: Task Description & Code Block */}
+              <div className="flex flex-col gap-3 text-left">
                 <h2 className="text-xl font-bold leading-relaxed text-[var(--text-primary)]">
                   {currentEx?.description}
                 </h2>
-                
-                <div style={{ width: '100%', color: 'var(--code-text)' }} className={isMultiLine 
-                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
+
+                <div style={{ width: '100%', color: 'var(--code-text)' }} className={isMultiLine
+                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre"
                   : "flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
                 }>
                   {renderCodeWithSlots()}
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
-              <div className="flex flex-col gap-4" style={{ flexShrink: 0, width: isWide ? '420px' : '100%' }}>
-                {/* Mode toggle / Choices Remaining info */}
-                <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                        {choicesEnabled ? "Choices Enabled" : "Self-Typing Mode (Recommended)"}
-                      </h4>
-                      <p className="text-xxs text-[var(--text-muted)] mt-0.5">
-                        Choices Remaining: <span className="font-bold text-[var(--accent-blue)]">{choicesLeft}</span> / {maxChoicesAllowed}
-                      </p>
-                    </div>
-                    <button
-                      onClick={handleToggleChoices}
-                      disabled={isChecked || (choicesLeft <= 0 && !choicesEnabled && !questionsWithChoicesUsed.has(currentIndex))}
-                      className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
-                        choicesEnabled
-                          ? "bg-[var(--accent-red)] text-white hover:brightness-110"
-                          : "bg-[var(--accent-blue)] text-white hover:brightness-110 disabled:opacity-40"
-                      }`}
-                    >
-                      {choicesEnabled ? "Disable" : "Enable Choices"}
-                    </button>
-                  </div>
-                </div>
-
+              {/* BOTTOM: Word Bank + Actions */}
+              <div className="flex flex-col gap-4">
                 {/* Word Bank */}
                 {choicesEnabled && (
-                  <div className="flex flex-wrap gap-2.5 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="flex flex-wrap gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] animate-in fade-in slide-in-from-top-2 duration-200">
                     <h4 className="w-full text-xxs uppercase tracking-wider text-zinc-500 font-extrabold mb-1.5 text-left">Word Bank</h4>
                     {shuffledWordBank.map((word, i) => {
                       const isUsed = Object.values(userAnswers).includes(word);
@@ -670,8 +677,8 @@ export default function FillBlank() {
                           onClick={() => handleTileClick(word)}
                           disabled={isChecked || isUsed}
                           className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all flex items-center gap-2 group ${
-                            isUsed 
-                              ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]' 
+                            isUsed
+                              ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]'
                               : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)]'
                           }`}
                         >
@@ -696,7 +703,7 @@ export default function FillBlank() {
                   >
                     Clear
                   </button>
-                  
+
                   {!isChecked ? (
                     <button
                       onClick={checkAnswer}
@@ -731,22 +738,40 @@ export default function FillBlank() {
         <ExerciseBottomControls
           onEdit={() => setEditingQuestion(exercises[currentIndex])}
           onDelete={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
-          shortcutItems={
-            choicesEnabled
-              ? [
-                  { label: 'Select Word', keys: ['1', '-', '9'] },
-                  { label: 'Clear Answers', keys: ['Esc'] },
-                  { label: 'Next Question', keys: ['Enter'] },
-                ]
-              : [
-                  { label: 'Submit Answer', keys: ['Ctrl+Shift+Enter'] },
-                  { label: 'Clear Input', keys: ['Esc'] },
-                  { label: 'Next Question', keys: ['Enter'] },
-                ]
-          }
+          shortcutItems={[
+            ...(choicesEnabled
+              ? [{ label: 'Select Word', keys: ['1', '-', '9'] }]
+              : [{ label: 'Submit Answer', keys: ['Ctrl+Shift+Enter'] }]
+            ),
+            { label: 'Clear Answers', keys: ['Esc'] },
+            { label: 'Next Question', keys: ['Enter'] },
+            { label: 'Delete Question', keys: ['Ctrl+D'] },
+            { label: 'Toggle Choices', keys: ['Ctrl+S'] },
+            { label: 'Quit', keys: ['Esc', 'Esc'] },
+          ]}
           dotColor="var(--accent-blue)"
           showShortcuts={showShortcuts}
           onToggleShortcuts={handleToggleShortcuts}
+          rightContent={
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-[var(--text-muted)] whitespace-nowrap">
+                {choicesEnabled
+                  ? `Choices: ${choicesLeft}/${maxChoicesAllowed}`
+                  : 'Self-Typing'}
+              </span>
+              <button
+                onClick={handleToggleChoices}
+                disabled={isChecked || (choicesLeft <= 0 && !choicesEnabled && !questionsWithChoicesUsed.has(currentIndex))}
+                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                  choicesEnabled
+                    ? "bg-[var(--accent-red)] text-white hover:brightness-110"
+                    : "bg-[var(--accent-blue)] text-white hover:brightness-110 disabled:opacity-40"
+                }`}
+              >
+                {choicesEnabled ? 'Disable Choices' : 'Enable Choices'}
+              </button>
+            </div>
+          }
         />
         <AnswerFeedbackModal
           isOpen={showFeedbackModal}
@@ -805,6 +830,26 @@ export default function FillBlank() {
             }}
           />
         )}
+
+        <ConfirmModal
+          isOpen={showDeleteConfirm}
+          title="Delete Exercise"
+          message="Are you sure you want to delete this exercise? It will not be shown again."
+          confirmLabel="Delete"
+          confirmDanger
+          onConfirm={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
+
+        <ConfirmModal
+          isOpen={showQuitConfirm}
+          title="Quit Exercise"
+          message="Are you sure you want to quit? Your progress so far will be saved."
+          confirmLabel="Quit"
+          confirmDanger={false}
+          onConfirm={() => navigate(`/courses/${courseSlug}?refresh=1`)}
+          onCancel={() => setShowQuitConfirm(false)}
+        />
       </div>
     );
   }

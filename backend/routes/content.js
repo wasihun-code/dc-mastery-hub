@@ -299,7 +299,8 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
           ...ex,
           description: ex.task_description || ex.description,
           code,
-          answers
+          answers,
+          blanks: ex.blanks || []
         };
       });
     }
@@ -782,16 +783,49 @@ router.post('/submit-challenge', (req, res, next) => {
       return res.status(400).json({ error: result.error })
     }
 
+    // Extract user output (remove the last validation JSON line from stdout)
+    const stdoutLines = (result.stdout || '').trim().split('\n')
+    const userOutput = stdoutLines.length > 1
+      ? stdoutLines.slice(0, -1).join('\n').trim()
+      : ''
+
+    // Compare against expected_output when available (overrides trivial validation_rules)
+    let passed = result.passed
+    let total = result.total
+    let results = result.results
+    let score = result.success ? 100 : 0
+    let feedback = result.success ? 'Correct! Your output matches perfectly.' : 'Not quite. Check the validation rules below.'
+
+    if (challengeData.expected_output) {
+      const normalizedUser = normalizeOutput(userOutput)
+      const normalizedExpected = normalizeOutput(challengeData.expected_output)
+      const outputMatch = normalizedUser === normalizedExpected
+
+      passed = outputMatch ? 1 : 0
+      total = 1
+      results = [{
+        rule: 'Output matches expected result',
+        passed: outputMatch,
+        message: outputMatch ? 'Output matches expected' : 'Output does not match expected'
+      }]
+      score = outputMatch ? 100 : 0
+      feedback = outputMatch
+        ? 'Correct! Your output matches perfectly.'
+        : 'Not quite. Compare your output with the expected result below.'
+    }
+
     res.json({
       success: true,
-      passed: result.passed,
-      total: result.total,
-      results: result.results,
-      stdout: result.stdout,
+      passed,
+      total,
+      results,
+      stdout: userOutput,
       stderr: result.stderr,
       executionTime: result.executionTime,
-      score: result.success ? 100 : 0,
-      feedback: result.success ? 'Correct! Your output matches perfectly.' : 'Not quite. Check the validation rules below.'
+      score,
+      user_output: userOutput,
+      expected_output: challengeData.expected_output || null,
+      feedback
     })
   } catch (err) {
     next(err)

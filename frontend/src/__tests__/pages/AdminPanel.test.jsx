@@ -28,8 +28,8 @@ const mockCourses = {
 
 const mockUsers = {
   users: [
-    { id: 1, username: 'admin@test.com', is_admin: 1, total_xp: 5000, level: 'Expert', current_streak: 10, created_at: '2026-01-01' },
-    { id: 2, username: 'student@test.com', is_admin: 0, total_xp: 1500, level: 'Intermediate', current_streak: 3, created_at: '2026-02-01' },
+    { id: 1, username: 'admin@test.com', is_admin: true, total_xp: 5000, level: 'Expert', current_streak: 10, created_at: '2026-01-01' },
+    { id: 2, username: 'student@test.com', is_admin: false, total_xp: 1500, level: 'Intermediate', current_streak: 3, created_at: '2026-02-01' },
   ],
 }
 

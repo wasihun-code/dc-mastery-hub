@@ -654,7 +654,7 @@ describe('Flashcards', () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('/api/progress/attempt', expect.objectContaining({
         method: 'POST',
-        body: expect.stringContaining('"was_correct":0')
+        body: expect.stringContaining('"was_correct":false')
       }))
     })
   })

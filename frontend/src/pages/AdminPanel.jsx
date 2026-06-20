@@ -1117,7 +1117,7 @@ function UsersSection({ users, currentUser, onRefresh, onMessage }) {
                 </td>
                 <td className="px-3 py-3">
                   {editingId === u.id && u.id !== currentUser?.id ? (
-                    <input type="checkbox" checked={!!editData.is_admin} onChange={e => setEditData({ ...editData, is_admin: e.target.checked ? 1 : 0 })} className="cursor-pointer" />
+                    <input type="checkbox" checked={!!editData.is_admin} onChange={e => setEditData({ ...editData, is_admin: e.target.checked })} className="cursor-pointer" />
                   ) : (
                     <StatusBadge status={u.is_admin ? 'Admin' : 'Student'} variant={u.is_admin ? 'green' : 'muted'} />
                   )}

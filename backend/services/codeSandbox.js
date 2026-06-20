@@ -221,7 +221,7 @@ print(json.dumps(_results))
           results = JSON.parse(lastLine)
           if (Array.isArray(results)) {
             passed = results.filter(r => r.passed).length
-            success = passed === total
+            success = total > 0 && passed === total
           }
         } catch (e) {
           stderr += '\nFailed to parse validation results: ' + e.message

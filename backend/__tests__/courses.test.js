@@ -1,61 +1,60 @@
 import { jest } from '@jest/globals'
 import request from 'supertest'
 import express from 'express'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
+import db from '../db/database.pg.js'
 
-let db, testData, env, app
+jest.setTimeout(30000)
 
-function getSessionUser(req) {
+let testData, env, app
+
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
-
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
-
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-
-  testData = seedTestData(db)
+  // We don't need initSchema or SQLite setup for Postgres test tests,
+  // since testEnv.pg.js truncates tables and uses schema.pg.js tables.
+  testData = await seedTestData()
 
   const coursesRouter = (await import('../routes/courses.js')).default
 
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
-    if (!user) return res.status(401).json({ error: 'Unauthorized' })
-    req.user = user
-    next()
+  app.use(async (req, res, next) => {
+    try {
+      const user = await getSessionUser(req)
+      if (!user) return res.status(401).json({ error: 'Unauthorized' })
+      req.user = user
+      next()
+    } catch (e) {
+      next(e)
+    }
   })
 
   app.use('/api', coursesRouter)
 
   app.use((err, req, res, next) => {
+    console.error('Test Error:', err)
     res.status(500).json({ error: err.message })
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment()
 })
 
 describe('Courses Routes', () => {
@@ -327,9 +326,8 @@ describe('Courses Routes', () => {
     expect(res.body).toHaveProperty('flashcard_count')
     expect(res.body).toHaveProperty('flashcards_due_today')
 
-    const dbCount = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?')
-      .get(testData.courses.course1.id).count
-    expect(res.body.flashcard_count).toBe(dbCount)
+    const dbCount = await db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(testData.courses.course1.id)
+    expect(res.body.flashcard_count).toBe(parseInt(dbCount.count))
   })
 
   test('GET /api/courses/:slug returns all concepts for the course', async () => {
@@ -339,9 +337,8 @@ describe('Courses Routes', () => {
 
     expect(conceptsRes.status).toBe(200)
 
-    const dbCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?')
-      .get(testData.courses.course1.id).count
-    expect(conceptsRes.body.length).toBe(dbCount)
+    const dbCount = await db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(testData.courses.course1.id)
+    expect(conceptsRes.body.length).toBe(parseInt(dbCount.count))
 
     for (const c of conceptsRes.body) {
       expect(c.course_id).toBe(testData.courses.course1.id)

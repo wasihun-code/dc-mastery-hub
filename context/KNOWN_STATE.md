@@ -1,6 +1,6 @@
 # Known State
 
-**Last updated**: 2026-06-19
+**Last updated**: 2026-06-20 13:05
 
 If this file is more than 2 weeks old, verify key claims against actual code
 before trusting them for anything load-bearing.
@@ -9,12 +9,22 @@ before trusting them for anything load-bearing.
 
 | Layer | Tests | Files | Command |
 |---|---|---|---|
-| Frontend (Vitest) | 276 passing | 17 | `cd frontend && npm test` |
+| Frontend (Vitest) | 297 passing | 19 | `cd frontend && npm test` |
 | Backend (Jest) | 288 passing | 15 | `cd backend && npm test` |
 
 ## Recently Completed (newest first)
 
-1. Code block text color fix — Added `--code-text` CSS var at `:root` level,
+1. EditQuestionModal FTB fix — `code_template` with `_____` placeholders now transformed to `[[0]]`/`[[1]]` markers on init (same transform as backend); `blanksToText`/`textToBlanks` now use `answer_alternatives` from ftb.json (with fallback to `distractors`); save converts `[[N]]` back to `_____` for storage; FTB editing sections redesigned with card-based layout, contextual icons, and muted helper text.
+2. CRITICAL BUG FIX: Dataset challenge submissions were always accepted as correct — `validation_rules` in challenge.json only checked `True` and `runDatasetChallenge` never compared user output against `expected_output`. Fixed in `routes/content.js` (`/submit-challenge`): now extracts actual user stdout from sandbox, strips validation JSON, and compares against `expected_output` field from challenge.json. Also hardened `codeSandbox.js` to set `success = total > 0 && passed === total` preventing empty validation rules from passing.
+2. Pre-Stage 3 Hardening: Test DB cleaned, multi-row wrapper guard added, full boolean bug inventory recorded.
+2. Postgres migration Stage 3 complete: `courses.js` fully converted to Postgres; coexistence with remaining SQLite routes verified.
+3. Postgres migration Stage 2 (and Verification) complete: Schema translated, wrapper behavior verified, test strategy chosen.
+- **Recent changes**: 
+  - [Stage 1] Confirmed Neon DB creation and tested connection via pg wrapper.
+  - [Stage 2] Built unified SQL wrapper (database.pg.js) with integer-boolean coercion for legacy app.
+  - [Stage 2.5] Audited frontend for 1/0 integer boolean assumptions across all components and fixed them to use true/false natively. 
+  - [Stage 2.6] Replaced global fetch override with scoped API-client normalization; verified and fixed backend write-path boolean coercion gaps.
+2. Code block text color fix — Added `--code-text` CSS var at `:root` level,
    applied to FillBlank.jsx and EditQuestionModal.jsx code containers (text was
    invisible in light theme).
 2. CI workflow Node 18 → 22 — Node 18 is EOL; GitHub Actions runner deprecating
@@ -35,9 +45,13 @@ before trusting them for anything load-bearing.
 9. Dashboard stat card responsive grid — `grid-cols-*` → `auto-fit minmax(160px, 1fr)`.
 10. Boss Battle answer shuffle per question — `shuffledKeys` state randomized on
     each `currentIndex` change; correct track by letter, not position.
+11. Deployed to Render — live at https://dc-mastery-hub.onrender.com, required 2 attempts,
+    fixed Express 5 SPA fallback route (PathError) and `better-sqlite3` build errors (`.dockerignore`).
 
 ## Known Issues / Feature Gaps
 
+- Generated challenges (from `challengeGenerator.js`) have no `expected_output` field and use `expected_output_code` instead. The `/submit-challenge` route only checks `expected_output`. Generated challenges also can't be submitted because `/submit-challenge` requires `challenge.json` on disk with no fallback to the generator.
+- Challenge `validation_rules` in all challenge.json files still use `[{"check": "True"}]` — submission correctness now relies on `expected_output` comparison in the route handler.
 - Dataset Challenge console output: Monaco editor keeps `'dc-dark'` theme
   unconditionally — no light theme variant for the editor itself (intentional
   — code editors conventionally dark).
