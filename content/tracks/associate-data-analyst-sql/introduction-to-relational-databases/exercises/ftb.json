@@ -11,10 +11,19 @@
       {
         "position": 1,
         "answer": "numeric",
-        "answer_alternatives": ["numeric()", "numeric "]
+        "answer_alternatives": [
+          "numeric()",
+          "numeric "
+        ]
       }
     ],
-    "word_bank": ["numeric", "number", "decimal", "float", "integer"],
+    "word_bank": [
+      "numeric",
+      "number",
+      "decimal",
+      "float",
+      "integer"
+    ],
     "per_tile_feedback": {
       "numeric": "Correct. `numeric` is an arbitrary precision number type suitable for temperature.",
       "number": "`number` is not a valid SQL data type in PostgreSQL.",
@@ -45,7 +54,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["information_schema.tables", "pg_catalog.tables", "sys.tables", "public.tables"],
+    "word_bank": [
+      "information_schema.tables",
+      "pg_catalog.tables",
+      "sys.tables",
+      "public.tables"
+    ],
     "per_tile_feedback": {
       "information_schema.tables": "Correct. `information_schema.tables` contains metadata about every table in the database.",
       "pg_catalog.tables": "`pg_catalog` is another system schema, but the portable way to access table metadata is through `information_schema.tables`.",
@@ -72,10 +86,18 @@
       {
         "position": 1,
         "answer": "table_name = 'pg_config'",
-        "answer_alternatives": ["table_name = 'pg_config'", "table_name='pg_config'"]
+        "answer_alternatives": [
+          "table_name = 'pg_config'",
+          "table_name='pg_config'"
+        ]
       }
     ],
-    "word_bank": ["table_name = 'pg_config'", "column_name = 'pg_config'", "table_schema = 'pg_config'", "table_name IS 'pg_config'"],
+    "word_bank": [
+      "table_name = 'pg_config'",
+      "column_name = 'pg_config'",
+      "table_schema = 'pg_config'",
+      "table_name IS 'pg_config'"
+    ],
     "per_tile_feedback": {
       "table_name = 'pg_config'": "Correct. Filters the columns metadata to only those belonging to the `pg_config` table.",
       "column_name = 'pg_config'": "This would look for a column named `pg_config`, not a table.",
@@ -105,7 +127,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["DISTINCT", "UNIQUE", "DISTINCT ON", "ALL"],
+    "word_bank": [
+      "DISTINCT",
+      "UNIQUE",
+      "DISTINCT ON",
+      "ALL"
+    ],
     "per_tile_feedback": {
       "DISTINCT": "Correct. `DISTINCT` removes duplicate combinations of the selected columns before inserting.",
       "UNIQUE": "`UNIQUE` is a constraint, not a keyword usable in a SELECT clause.",
@@ -135,7 +162,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["varchar(64)", "char(64)", "text(64)", "string(64)"],
+    "word_bank": [
+      "varchar(64)",
+      "char(64)",
+      "text(64)",
+      "string(64)"
+    ],
     "per_tile_feedback": {
       "varchar(64)": "Correct. `varchar(n)` is the variable‑length type with a maximum of 64 characters.",
       "char(64)": "`char(64)` is fixed‑length and pads values with spaces, which is wasteful.",
@@ -162,10 +194,17 @@
       {
         "position": 1,
         "answer": "char(5)",
-        "answer_alternatives": ["char (5)"]
+        "answer_alternatives": [
+          "char (5)"
+        ]
       }
     ],
-    "word_bank": ["char(5)", "varchar(5)", "text", "character varying(5)"],
+    "word_bank": [
+      "char(5)",
+      "varchar(5)",
+      "text",
+      "character varying(5)"
+    ],
     "per_tile_feedback": {
       "char(5)": "Correct. `char(5)` is fixed‑length and pads shorter strings with spaces.",
       "varchar(5)": "`varchar(5)` allows strings up to 5 characters but does not pad; it is not fixed‑length.",
@@ -192,10 +231,17 @@
       {
         "position": 1,
         "answer": "numeric(3,2)",
-        "answer_alternatives": ["numeric (3,2)"]
+        "answer_alternatives": [
+          "numeric (3,2)"
+        ]
       }
     ],
-    "word_bank": ["numeric(3,2)", "numeric(2,3)", "decimal(2,3)", "float(3)"],
+    "word_bank": [
+      "numeric(3,2)",
+      "numeric(2,3)",
+      "decimal(2,3)",
+      "float(3)"
+    ],
     "per_tile_feedback": {
       "numeric(3,2)": "Correct. Precision 3 (total digits) and scale 2 (digits after decimal) matches the requirement.",
       "numeric(2,3)": "This would allow 2 total digits with 3 after decimal – impossible and the other way round.",
@@ -225,7 +271,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["serial", "integer", "autoincrement", "sequence"],
+    "word_bank": [
+      "serial",
+      "integer",
+      "autoincrement",
+      "sequence"
+    ],
     "per_tile_feedback": {
       "serial": "Correct. `serial` creates an auto‑incrementing integer using a sequence.",
       "integer": "`integer` alone does not auto‑increment; you would need an additional default from a sequence.",
@@ -252,10 +303,17 @@
       {
         "position": 1,
         "answer": "CAST(wind_speed AS integer)",
-        "answer_alternatives": ["CAST(wind_speed as integer)"]
+        "answer_alternatives": [
+          "CAST(wind_speed as integer)"
+        ]
       }
     ],
-    "word_bank": ["CAST(wind_speed AS integer)", "CONVERT(wind_speed, integer)", "TO_INTEGER(wind_speed)", "wind_speed::integer"],
+    "word_bank": [
+      "CAST(wind_speed AS integer)",
+      "CONVERT(wind_speed, integer)",
+      "TO_INTEGER(wind_speed)",
+      "wind_speed::integer"
+    ],
     "per_tile_feedback": {
       "CAST(wind_speed AS integer)": "Correct. The `CAST` function explicitly converts `wind_speed` to integer for the multiplication.",
       "CONVERT(wind_speed, integer)": "`CONVERT` is a function in some databases (like SQL Server) but not standard PostgreSQL syntax.",
@@ -277,15 +335,19 @@
     "chapter": 3,
     "difficulty": "medium",
     "task_description": "Count the number of unique organizations in the university_professors table. Fill in the keyword that removes duplicate entries before counting.",
-    "code_template": "SELECT COUNT(____________________)\nFROM university_professors;",
+    "code_template": "SELECT COUNT(_____)\nFROM university_professors;",
     "blanks": [
       {
-        "position": 1,
-        "answer": "DISTINCT organization",
-        "answer_alternatives": []
+        "position": 0,
+        "answer": ""
       }
     ],
-    "word_bank": ["DISTINCT organization", "UNIQUE organization", "organization", "ALL organization"],
+    "word_bank": [
+      "DISTINCT organization",
+      "UNIQUE organization",
+      "organization",
+      "ALL organization"
+    ],
     "per_tile_feedback": {
       "DISTINCT organization": "Correct. `COUNT(DISTINCT column)` counts only the unique values of that column.",
       "UNIQUE organization": "`UNIQUE` is a constraint, not a keyword that can be used inside `COUNT()`.",
@@ -298,7 +360,12 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "`COUNT(DISTINCT organization)` returns the number of different organization names, ignoring duplicates.",
-    "common_mistake_warning": null
+    "common_mistake_warning": null,
+    "_exerciseType": "ftb",
+    "description": "Count the number of unique `organization` in the university_professors table. Fill in the keyword that removes duplicate entries before counting.",
+    "answers": [
+      "DISTINCT organization"
+    ]
   },
   {
     "id": "fitb_011",
@@ -315,7 +382,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["VALUES", "VALUE", "SET", "INSERT"],
+    "word_bank": [
+      "VALUES",
+      "VALUE",
+      "SET",
+      "INSERT"
+    ],
     "per_tile_feedback": {
       "VALUES": "Correct. The `VALUES` clause specifies the data to insert.",
       "VALUE": "The keyword must be `VALUES`, not the singular `VALUE`.",
@@ -345,7 +417,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["old_name TO new_name", "old_name AS new_name", "old_name new_name", "TO new_name"],
+    "word_bank": [
+      "old_name TO new_name",
+      "old_name AS new_name",
+      "old_name new_name",
+      "TO new_name"
+    ],
     "per_tile_feedback": {
       "old_name TO new_name": "Correct. The syntax is `RENAME COLUMN old_name TO new_name`.",
       "old_name AS new_name": "`AS` is used for aliases, not for renaming columns.",
@@ -375,7 +452,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["column_name", "COLUMN column_name", "table_name.column_name", "column_name CASCADE"],
+    "word_bank": [
+      "column_name",
+      "COLUMN column_name",
+      "table_name.column_name",
+      "column_name CASCADE"
+    ],
     "per_tile_feedback": {
       "column_name": "Correct. The column name alone follows `DROP COLUMN`.",
       "COLUMN column_name": "The word `COLUMN` is already before the blank; repeating it would be invalid.",
@@ -405,7 +487,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["SET NOT NULL", "ADD NOT NULL", "NOT NULL", "DROP NOT NULL"],
+    "word_bank": [
+      "SET NOT NULL",
+      "ADD NOT NULL",
+      "NOT NULL",
+      "DROP NOT NULL"
+    ],
     "per_tile_feedback": {
       "SET NOT NULL": "Correct. `ALTER COLUMN … SET NOT NULL` adds the constraint.",
       "ADD NOT NULL": "`ADD` is used for table‑level constraints with `ADD CONSTRAINT`, not with `ALTER COLUMN`.",
@@ -435,7 +522,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["UNIQUE(column_name)", "UNIQUE column_name", "ADD UNIQUE column_name", "UNIQUE"],
+    "word_bank": [
+      "UNIQUE(column_name)",
+      "UNIQUE column_name",
+      "ADD UNIQUE column_name",
+      "UNIQUE"
+    ],
     "per_tile_feedback": {
       "UNIQUE(column_name)": "Correct. `ADD CONSTRAINT` requires the constraint type and column in parentheses.",
       "UNIQUE column_name": "The column must be enclosed in parentheses: `UNIQUE(column_name)`.",
@@ -465,7 +557,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["PRIMARY KEY", "PRIMARY", "KEY", "UNIQUE NOT NULL"],
+    "word_bank": [
+      "PRIMARY KEY",
+      "PRIMARY",
+      "KEY",
+      "UNIQUE NOT NULL"
+    ],
     "per_tile_feedback": {
       "PRIMARY KEY": "Correct. `PRIMARY KEY` sets the column as the unique, non‑null row identifier.",
       "PRIMARY": "The keyword `KEY` must follow `PRIMARY`.",
@@ -495,7 +592,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["PRIMARY KEY (a, c)", "KEY (a, c)", "PRIMARY (a, c)", "UNIQUE (a, c)"],
+    "word_bank": [
+      "PRIMARY KEY (a, c)",
+      "KEY (a, c)",
+      "PRIMARY (a, c)",
+      "UNIQUE (a, c)"
+    ],
     "per_tile_feedback": {
       "PRIMARY KEY (a, c)": "Correct. This defines a composite primary key on columns a and c.",
       "KEY (a, c)": "Missing the word `PRIMARY`; `KEY` alone is not a constraint.",
@@ -525,7 +627,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["serial PRIMARY KEY", "integer PRIMARY KEY", "serial UNIQUE", "id serial"],
+    "word_bank": [
+      "serial PRIMARY KEY",
+      "integer PRIMARY KEY",
+      "serial UNIQUE",
+      "id serial"
+    ],
     "per_tile_feedback": {
       "serial PRIMARY KEY": "Correct. `serial` provides auto‑increment and `PRIMARY KEY` makes it the unique identifier.",
       "integer PRIMARY KEY": "`integer` alone does not auto‑increment; a default from a sequence would be needed.",
@@ -555,7 +662,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["CONCAT", "CONCATENATE", "JOIN", "||"],
+    "word_bank": [
+      "CONCAT",
+      "CONCATENATE",
+      "JOIN",
+      "||"
+    ],
     "per_tile_feedback": {
       "CONCAT": "Correct. `CONCAT` is the PostgreSQL function to join strings, ignoring NULL arguments.",
       "CONCATENATE": "There is no built‑in function named `CONCATENATE` in PostgreSQL.",
@@ -585,7 +697,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["REFERENCES manufacturers (name)", "REFERENCES manufacturers name", "REFERENCES name", "FOREIGN KEY (name)"],
+    "word_bank": [
+      "REFERENCES manufacturers (name)",
+      "REFERENCES manufacturers name",
+      "REFERENCES name",
+      "FOREIGN KEY (name)"
+    ],
     "per_tile_feedback": {
       "REFERENCES manufacturers (name)": "Correct. This defines a foreign key pointing to the `name` column of `manufacturers`.",
       "REFERENCES manufacturers name": "The referenced column must be in parentheses: `(name)`.",
@@ -615,7 +732,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["organization_id varchar(256) REFERENCES organizations(id)", "organization_id varchar(256)", "FOREIGN KEY (organization_id) REFERENCES organizations(id)", "organization REFERENCES organizations(id)"],
+    "word_bank": [
+      "organization_id varchar(256) REFERENCES organizations(id)",
+      "organization_id varchar(256)",
+      "FOREIGN KEY (organization_id) REFERENCES organizations(id)",
+      "organization REFERENCES organizations(id)"
+    ],
     "per_tile_feedback": {
       "organization_id varchar(256) REFERENCES organizations(id)": "Correct. This adds a foreign key to the organizations table while defining the column.",
       "organization_id varchar(256)": "This defines the column but without the foreign key constraint.",
@@ -645,7 +767,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["ON DELETE NO ACTION", "ON DELETE CASCADE", "ON DELETE SET NULL", "ON UPDATE NO ACTION"],
+    "word_bank": [
+      "ON DELETE NO ACTION",
+      "ON DELETE CASCADE",
+      "ON DELETE SET NULL",
+      "ON UPDATE NO ACTION"
+    ],
     "per_tile_feedback": {
       "ON DELETE NO ACTION": "Correct. `NO ACTION` prevents deletion of the parent row if children exist.",
       "ON DELETE CASCADE": "`CASCADE` would automatically delete child rows, which is not the intended restrictive behavior.",
@@ -675,7 +802,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["ON DELETE CASCADE", "ON DELETE SET NULL", "ON DELETE RESTRICT", "CASCADE DELETE"],
+    "word_bank": [
+      "ON DELETE CASCADE",
+      "ON DELETE SET NULL",
+      "ON DELETE RESTRICT",
+      "CASCADE DELETE"
+    ],
     "per_tile_feedback": {
       "ON DELETE CASCADE": "Correct. `CASCADE` propagates the delete to referencing rows.",
       "ON DELETE SET NULL": "This would set the foreign key to NULL, not delete the child rows.",
@@ -705,7 +837,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["ON DELETE SET NULL", "ON DELETE CASCADE", "ON DELETE SET DEFAULT", "ON DELETE NO ACTION"],
+    "word_bank": [
+      "ON DELETE SET NULL",
+      "ON DELETE CASCADE",
+      "ON DELETE SET DEFAULT",
+      "ON DELETE NO ACTION"
+    ],
     "per_tile_feedback": {
       "ON DELETE SET NULL": "Correct. `SET NULL` sets the foreign key to NULL when the parent is deleted, preserving the child row.",
       "ON DELETE CASCADE": "This would delete the child row entirely.",
@@ -735,7 +872,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["ROUND(average_grade)", "CAST(average_grade AS integer)", "average_grade::integer", "TRUNC(average_grade)"],
+    "word_bank": [
+      "ROUND(average_grade)",
+      "CAST(average_grade AS integer)",
+      "average_grade::integer",
+      "TRUNC(average_grade)"
+    ],
     "per_tile_feedback": {
       "ROUND(average_grade)": "Correct. `ROUND` converts each value to the nearest integer before the type change.",
       "CAST(average_grade AS integer)": "`CAST` would truncate, not round, leading to data loss for decimal values.",
@@ -765,7 +907,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["pk", "primary_key", "PK_column_c", "constraint"],
+    "word_bank": [
+      "pk",
+      "primary_key",
+      "PK_column_c",
+      "constraint"
+    ],
     "per_tile_feedback": {
       "pk": "Correct. `pk` is the name given to the constraint as shown in the course example.",
       "primary_key": "The course uses the simple name `pk`.",
@@ -795,7 +942,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["text", "varchar", "char", "string"],
+    "word_bank": [
+      "text",
+      "varchar",
+      "char",
+      "string"
+    ],
     "per_tile_feedback": {
       "text": "Correct. `text` is the PostgreSQL type for unlimited‑length character data.",
       "varchar": "`varchar` without a length is equivalent to `text`, but the course explicitly uses `text`.",
@@ -825,7 +977,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["boolean", "bool", "bit", "integer"],
+    "word_bank": [
+      "boolean",
+      "bool",
+      "bit",
+      "integer"
+    ],
     "per_tile_feedback": {
       "boolean": "Correct. `boolean` is the standard SQL type for true/false values.",
       "bool": "`bool` is a valid shorthand, but the course uses `boolean`.",
@@ -855,7 +1012,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["integer", "int", "number", "smallint"],
+    "word_bank": [
+      "integer",
+      "int",
+      "number",
+      "smallint"
+    ],
     "per_tile_feedback": {
       "integer": "Correct. `integer` is the 4‑byte whole number type.",
       "int": "`int` is a synonym, but the course consistently uses `integer`.",
@@ -885,7 +1047,12 @@
         "answer_alternatives": []
       }
     ],
-    "word_bank": ["date", "timestamp", "time", "varchar"],
+    "word_bank": [
+      "date",
+      "timestamp",
+      "time",
+      "varchar"
+    ],
     "per_tile_feedback": {
       "date": "Correct. `date` stores only the calendar date, no time component.",
       "timestamp": "`timestamp` stores date and time, which is overkill and may cause confusion.",

@@ -259,3 +259,51 @@ The following locations assume `1` or `0` for boolean columns. In Stage 3+, **in
 - **Coexistence Verified**: `courses.test.js` successfully runs against Postgres, while `tracks.test.js` successfully runs against the parallel local SQLite implementation.
 
 **Stage 4: Convert Remaining Core Routes**
+
+---
+
+### PRE-STAGE 4 CHECKLIST: Postgres JSON & Aggregate Handling
+The following locations require specific handling during Stage 4+ due to node-postgres driver behavior:
+1. `COUNT()`, `SUM()`, `AVG()` return as **strings** (BigInt precision preservation) and must be parsed (`parseInt`/`parseFloat`).
+2. SQLite `json_group_array(json_object(...))` must be translated to Postgres `json_agg(json_build_object(...))`.
+3. Postgres `json_agg` returns a native JS array/object, unlike SQLite which returns a serialized JSON string. Existing `JSON.parse` calls on these outputs must be guarded with `typeof === 'string'`.
+
+**`admin.js`**
+- Lines 36-46: `COUNT(*)` aggregates (`userCount`, `trackCount`, etc.) — needs `parseInt`
+- Line 44: `SUM(total_xp)` aggregate (`totalXp`) — needs `parseInt`
+- Line 123: `COUNT(*)` aggregate (`hasCourses`) — needs `parseInt`
+- Line 171: `json_group_array(json_object(...))` — needs `json_agg(json_build_object(...))`
+- Line 173-174: `COUNT(*)` in subquery (`has_exercises`, `student_count`) — needs `parseInt` when mapped
+- Line 175: `AVG(...)` in subquery (`mastery_avg`) — needs `parseFloat` when mapped
+- Line 184: `JSON.parse(c.tracks_json)` — needs type check (Postgres native array)
+- Lines 312-316: `COUNT(*)` aggregates — needs `parseInt`
+- Lines 370-371: `COUNT(*)` aggregates — needs `parseInt`
+- Line 382: `totalAttempts += ...count` — **critically** needs `parseInt` to avoid string concatenation
+- Lines 454-455: `COUNT(*)` in subquery (`courses_started`, `courses_completed`) — needs `parseInt` when mapped
+- Lines 577-583: `COUNT(*)` aggregates (`total_users`, etc.) — needs `parseInt`
+
+**`auth.js`**
+- Line 26: `COUNT(*)` aggregate (`userCount`) — needs `parseInt`
+
+**`manage.js`**
+- Lines 41, 88: `json_group_array(json_object(...))` — needs `json_agg(json_build_object(...))`
+- Lines 57, 104: `JSON.parse(c.tracks_json)` — needs type check (Postgres native array)
+
+**`progress.js`**
+- Line 34: `COUNT(c.id)` (`course_count`) — needs `parseInt`
+- Lines 35-36: `SUM(...)` (`completed_count`, `in_progress_count`) — needs `parseInt`
+- Line 37: `AVG(...)` (`overall_mastery`) — needs `parseFloat`
+- Line 54: `AVG(...)` (`score`) — needs `parseFloat`
+- Lines 356, 365: `COUNT(DISTINCT ...)` (`totalQuestions.count`, `attemptedQuestions.count`) — needs `parseInt`
+- Lines 426-427: `COUNT(*)` (`attempt_count`), `SUM(...)/COUNT(*)` (`correct_rate`) — needs `parseInt`/`parseFloat`
+- Line 457: `COUNT(*)` (`totalRow.count`) — needs `parseInt`
+- Lines 468-471: `COUNT(*)`, `SUM(...)`, `AVG(...)` — needs `parseInt`/`parseFloat`
+- Lines 487-488: `SUM(...)` (`correct_attempts`, `total_time_secs`) — needs `parseInt`
+- Lines 500-502: `SUM(...)`, `AVG(...)` — needs `parseInt`/`parseFloat`
+
+**`tracks.js`**
+- Lines 22-24: `SUM(...)`, `AVG(...)` — needs `parseInt`/`parseFloat`
+- Lines 59-61: `SUM(...)`, `AVG(...)` — needs `parseInt`/`parseFloat`
+
+**`content.js` & `manage-questions.js`**
+- No structural JSON/aggregate query issues found. All `JSON.parse` usage is directly against filesystem data, which remains correct.

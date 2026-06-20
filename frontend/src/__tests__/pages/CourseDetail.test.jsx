@@ -186,10 +186,11 @@ describe('CourseDetail', () => {
     expect(screen.getByText('Boss Battle 🔥')).toBeInTheDocument()
 
     const battleBtn = screen.getByText('Enter Battle').closest('button')
-    expect(battleBtn.className).toContain('accent-red')
+    expect(battleBtn).toHaveStyle('background-color: var(--accent-red)')
+    expect(battleBtn).not.toBeDisabled()
   })
 
-  it('exercise cards show hover green border glow', async () => {
+  it('exercise cards render with correct structure', async () => {
     fetch
       .mockResolvedValueOnce({ ok: true, json: async () => mockCourse })
       .mockResolvedValueOnce({ ok: true, json: async () => mockStats })
@@ -203,6 +204,12 @@ describe('CourseDetail', () => {
 
     const flashcardsCard = screen.getByText('Flashcards').closest('[class*="group"]') || screen.getByText('Flashcards')
     expect(flashcardsCard).toBeInTheDocument()
+
+    const segBars = document.querySelectorAll('.rounded-full.overflow-hidden')
+    expect(segBars.length).toBeGreaterThanOrEqual(6)
+
+    expect(screen.getByText('15')).toBeInTheDocument()
+    expect(screen.getAllByText('5').length).toBeGreaterThanOrEqual(1)
   })
 
   it('mastery bar color changes based on percentage ranges', async () => {

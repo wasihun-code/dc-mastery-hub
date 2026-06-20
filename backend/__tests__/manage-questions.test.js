@@ -3,21 +3,24 @@ import request from 'supertest'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
+import db from '../db/database.pg.js'
 
-let db, testData, env, app
+jest.setTimeout(30000)
 
-function getSessionUser(req) {
+let testData, env, app
+
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
 function createExerciseFile(courseFolder, fileName, data) {
@@ -27,24 +30,11 @@ function createExerciseFile(courseFolder, fileName, data) {
 }
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
-
+  env = await setupTestEnvironment()
   process.env.CONTENT_PATH = path.join(env.tmpDir, 'content')
-
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
-
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
-
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-
-  testData = seedTestData(db)
+  testData = await seedTestData()
 
   const contentDir = path.join(env.tmpDir, 'content')
   const dsCourseFolder = path.join(contentDir, 'tracks', 'data-science', 'python-basics')
@@ -72,11 +62,15 @@ beforeAll(async () => {
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
-    if (!user) return res.status(401).json({ error: 'Unauthorized' })
-    req.user = user
-    next()
+  app.use(async (req, res, next) => {
+    try {
+      const user = await getSessionUser(req)
+      if (!user) return res.status(401).json({ error: 'Unauthorized' })
+      req.user = user
+      next()
+    } catch (e) {
+      next(e)
+    }
   })
 
   app.use('/', manageQuestionsRouter)
@@ -86,8 +80,8 @@ beforeAll(async () => {
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment()
 })
 
 describe('Manage Questions Routes', () => {

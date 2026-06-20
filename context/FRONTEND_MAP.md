@@ -8,7 +8,7 @@
 | `Tracks.jsx` | Track listing with mastery rings, filter by language | `tracks`, `filter`, `canFitSideBySide` (ResizeObserver, 920px threshold) | GET `/api/tracks` |
 | `TrackDetail.jsx` | Single track with its courses, progress bars | `track`, `courses` | GET `/api/tracks/:slug` |
 | `TrackTest.jsx` | 20-question random MCQ across a whole track | `questions`, `currentIndex`, `score` | GET `/api/track-test/:trackSlug` |
-| `CourseDetail.jsx` | Course overview with PDF viewer + exercise links | `course`, `mastery` breakdown | GET `/api/courses/:slug`, GET `/api/progress/exercise-stats/:courseSlug` |
+| `CourseDetail.jsx` | Course overview with PDF viewer + exercise links; ExerciseHub cards redesigned with segmented progress bars, per-type accent stripes, compact action buttons, status dots. | `course`, `mastery` breakdown | GET `/api/courses/:slug`, GET `/api/progress/exercise-stats/:courseSlug` |
 | `Dashboard.jsx` | Aggregated stats, charts, weak spots, activity | all dashboard data | GET `/api/progress/dashboard` |
 | `ManageContent.jsx` | Course management: trash, archive, custom courses | `activeTab`, `canFitSideBySide`, `loading` | GET `/api/manage/trash`, `/api/manage/archived`, GET/POST `/api/courses` |
 | `ManageCourseDetail.jsx` | Single course manage view (edit properties) | `course`, `courses` | GET `/api/courses/:slug`, POST `/api/manage/course/update-properties` |
@@ -84,3 +84,14 @@
 - **No async DB**: API routes are synchronous; all route handlers use `try/catch` + `next(err)`.
 - **Audio**: `feedbackService.js` creates oscillator tones on the fly. No audio files.
   `playTone(freq, duration, type)`, sequences via `playSequence()`.
+- **ExerciseCard design system**: All 6 exercise cards + Incorrect Review share one template in `CourseDetail.jsx`:
+  - **Top accent stripe** (3px, `rounded-t-[10px]`) colored per type via `CARD_ACCENTS` map (flashcard=blue, mcq=green, ftb=yellow, dataset=blue, matching=green, boss_battle=red).
+  - **StatusDot** replaces bordered pill: 7px colored circle + 10px uppercase label.
+  - **SegmentedBar**: proportional green (correct)/red (wrong)/muted (unattempted) segments in a 6px flex bar.
+  - **Compact stats**: single-line "X correct · Y wrong · Z available" below the bar, green/red color-coded.
+  - **Compact button**: right-aligned, `min-h-[44px]`, colored by `accentColor`, not full-width.
+  - **Dataset Challenge**: stat numbers render in `font-mono` for visual distinction.
+  - **Boss Battle**: red accent, red border glow (`1px color-mix`), "Enter Battle" text.
+  - **Incorrect Review locked state**: red accent stripe, progress-to-unlock bar, "Check Unlock Status" compact button.
+  - **Incorrect Review unlocked state**: yellow/green accent stripe based on `incorrectCount`, large `28px` stat,
+    compact "Start Incorrect Review" button.

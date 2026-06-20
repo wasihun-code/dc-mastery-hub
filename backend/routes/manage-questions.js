@@ -3,19 +3,19 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 
 const router = express.Router()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
-function getCourseFolder(courseSlug) {
-  const course = db.prepare(`
+async function getCourseFolder(courseSlug) {
+  const course = await db.prepare(`
     SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
     FROM courses c WHERE c.slug = ?
   `).get(courseSlug)
   if (!course) return null
-  const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+  const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
   if (!track) return null
   const contentFolder = config.CONTENT_PATH
   return path.join(contentFolder, 'tracks', track.slug, courseSlug)
@@ -38,10 +38,10 @@ function getFileNameForType(type) {
   return mapping[type]
 }
 
-router.get('/manage/courses/:courseSlug/questions', (req, res, next) => {
+router.get('/manage/courses/:courseSlug/questions', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
-    const folder = getCourseFolder(courseSlug)
+    const folder = await getCourseFolder(courseSlug)
     if (!folder) return res.status(404).json({ error: 'Course not found' })
 
     const exercisesDir = path.join(folder, 'exercises')
@@ -71,14 +71,14 @@ router.get('/manage/courses/:courseSlug/questions', (req, res, next) => {
   }
 })
 
-router.post('/manage/courses/:courseSlug/questions/save', (req, res, next) => {
+router.post('/manage/courses/:courseSlug/questions/save', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const { exerciseType, questionData } = req.body
     
     if (!exerciseType || !questionData) return res.status(400).json({ error: 'Missing type or data' })
 
-    const folder = getCourseFolder(courseSlug)
+    const folder = await getCourseFolder(courseSlug)
     if (!folder) return res.status(404).json({ error: 'Course not found' })
 
     const fileName = getFileNameForType(exerciseType)
@@ -141,14 +141,14 @@ router.post('/manage/courses/:courseSlug/questions/save', (req, res, next) => {
 })
 
 // Physical delete from JSON (unlike the user-specific deleted_questions)
-router.post('/manage/courses/:courseSlug/questions/delete', (req, res, next) => {
+router.post('/manage/courses/:courseSlug/questions/delete', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const { exerciseType, questionId } = req.body
     
     if (!exerciseType || !questionId) return res.status(400).json({ error: 'Missing type or id' })
 
-    const folder = getCourseFolder(courseSlug)
+    const folder = await getCourseFolder(courseSlug)
     if (!folder) return res.status(404).json({ error: 'Course not found' })
 
     const fileName = getFileNameForType(exerciseType)
@@ -187,3 +187,4 @@ router.post('/manage/courses/:courseSlug/questions/delete', (req, res, next) => 
 })
 
 export default router
+

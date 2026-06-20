@@ -1,6 +1,6 @@
 # Known State
 
-**Last updated**: 2026-06-20 13:05
+**Last updated**: 2026-06-20 17:28
 
 If this file is more than 2 weeks old, verify key claims against actual code
 before trusting them for anything load-bearing.
@@ -14,11 +14,12 @@ before trusting them for anything load-bearing.
 
 ## Recently Completed (newest first)
 
-1. EditQuestionModal FTB fix — `code_template` with `_____` placeholders now transformed to `[[0]]`/`[[1]]` markers on init (same transform as backend); `blanksToText`/`textToBlanks` now use `answer_alternatives` from ftb.json (with fallback to `distractors`); save converts `[[N]]` back to `_____` for storage; FTB editing sections redesigned with card-based layout, contextual icons, and muted helper text.
-2. CRITICAL BUG FIX: Dataset challenge submissions were always accepted as correct — `validation_rules` in challenge.json only checked `True` and `runDatasetChallenge` never compared user output against `expected_output`. Fixed in `routes/content.js` (`/submit-challenge`): now extracts actual user stdout from sandbox, strips validation JSON, and compares against `expected_output` field from challenge.json. Also hardened `codeSandbox.js` to set `success = total > 0 && passed === total` preventing empty validation rules from passing.
-2. Pre-Stage 3 Hardening: Test DB cleaned, multi-row wrapper guard added, full boolean bug inventory recorded.
-2. Postgres migration Stage 3 complete: `courses.js` fully converted to Postgres; coexistence with remaining SQLite routes verified.
-3. Postgres migration Stage 2 (and Verification) complete: Schema translated, wrapper behavior verified, test strategy chosen.
+1. Exercise Hub card redesign — Replaced flat 2x2 stat grid cards with a structured template: per-type accent stripe, 7px StatusDot (replacing bordered pills), SegmentedBar (proportional green/red/muted progress), compact single-line stats, right-aligned min-h-[44px] buttons, monospace Dataset Challenge numbers, Boss Battle red accent preserved, Incorrect Review locked/unlocked both integrated into same template. All 297 frontend tests pass.
+2. EditQuestionModal FTB fix — `code_template` with `_____` placeholders now transformed to `[[0]]`/`[[1]]` markers on init (same transform as backend); `blanksToText`/`textToBlanks` now use `answer_alternatives` from ftb.json (with fallback to `distractors`); save converts `[[N]]` back to `_____` for storage; FTB editing sections redesigned with card-based layout, contextual icons, and muted helper text.
+3. CRITICAL BUG FIX: Dataset challenge submissions were always accepted as correct — `validation_rules` in challenge.json only checked `True` and `runDatasetChallenge` never compared user output against `expected_output`. Fixed in `routes/content.js` (`/submit-challenge`): now extracts actual user stdout from sandbox, strips validation JSON, and compares against `expected_output` field from challenge.json. Also hardened `codeSandbox.js` to set `success = total > 0 && passed === total` preventing empty validation rules from passing.
+4. Pre-Stage 3 Hardening: Test DB cleaned, multi-row wrapper guard added, full boolean bug inventory recorded.
+5. Postgres migration Stage 3 complete: `courses.js` fully converted to Postgres; coexistence with remaining SQLite routes verified.
+6. Postgres migration Stage 2 (and Verification) complete: Schema translated, wrapper behavior verified, test strategy chosen.
 - **Recent changes**: 
   - [Stage 1] Confirmed Neon DB creation and tested connection via pg wrapper.
   - [Stage 2] Built unified SQL wrapper (database.pg.js) with integer-boolean coercion for legacy app.
