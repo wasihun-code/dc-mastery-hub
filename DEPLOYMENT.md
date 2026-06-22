@@ -53,6 +53,30 @@ Follow this guide to deploy DC Mastery Hub to a production server.
     pm2 start npm --name "dc-mastery-hub" -- start
     ```
 
+## 💾 Preserving Local Data on Deploy
+
+The SQLite database (`mastery.db`) resets on each deploy because it's not committed
+to git. To carry your local progress to the deployed instance:
+
+1. **Dump your local database:**
+   ```bash
+   npm run dump-seed
+   ```
+   This generates `backend/db/seed-data.sql` — a full snapshot of your local DB.
+
+2. **Commit and push the dump:**
+   ```bash
+   git add backend/db/seed-data.sql
+   git commit -m "update seed data snapshot"
+   git push
+   ```
+
+3. **Deploy.** On startup, the app detects `backend/db/seed-data.sql` and restores
+   the database from it instead of running the normal seed/init flow.
+
+4. **Refresh the dump** whenever you want to sync latest local progress to production.
+   Regenerate with `npm run dump-seed`, commit, and deploy.
+
 7.  **Final Verification:**
     Confirm the backend is running and all challenges are passing:
     ```bash

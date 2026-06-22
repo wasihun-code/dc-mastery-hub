@@ -12,6 +12,7 @@ import {
   } from 'lucide-react';
   import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
   import EditQuestionModal from '../components/EditQuestionModal';
+  import ConfirmModal from '../components/admin/ConfirmModal';
   import ExerciseTimer from '../components/ExerciseTimer';
   import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
   import ExerciseBottomControls from '../components/ExerciseBottomControls';
@@ -98,6 +99,7 @@ export default function FillBlank() {
   const [timerExpired, setTimerExpired] = useState(false);
   const [questionsWithChoicesUsed, setQuestionsWithChoicesUsed] = useState(new Set());
   const [choicesEnabled, setChoicesEnabled] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const [isWide, setIsWide] = useState(window.innerWidth >= 1024)
   useEffect(() => {
@@ -132,6 +134,33 @@ export default function FillBlank() {
 
     const handleKeyDown = (e) => {
       if (showFeedbackModal) return;
+
+      // Ctrl+S -> toggle choices
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        if (!isChecked) {
+          if (choicesEnabled) {
+            setChoicesEnabled(false);
+          } else {
+            if (choicesLeft > 0 || questionsWithChoicesUsed.has(currentIndex)) {
+              setChoicesEnabled(true);
+              if (!questionsWithChoicesUsed.has(currentIndex)) {
+                setQuestionsWithChoicesUsed(prev => new Set(prev).add(currentIndex));
+              }
+            }
+          }
+        }
+        return;
+      }
+
+      // Ctrl+D -> delete current question
+      if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        const ex = exercises[currentIndex];
+        if (ex) setConfirmDelete(ex);
+        return;
+      }
+
       // Self-Typing mode shortcuts (when choices are NOT enabled)
       if (!choicesEnabled) {
         // Ctrl+Shift+Enter -> check answer (submit)
@@ -164,7 +193,16 @@ export default function FillBlank() {
       // Escape key -> clear answers if not checked
       if (e.key === 'Escape') {
         if (!isChecked) {
-          setUserAnswers({});
+          if (Object.keys(userAnswers).length > 0) {
+            setUserAnswers({});
+          }
+        }
+      }
+
+      // Double Escape -> quit confirmation
+      if (e.key === 'Escape') {
+        if (isChecked || Object.keys(userAnswers).length === 0) {
+          setConfirmDelete({quit: true});
         }
       }
 
@@ -180,7 +218,7 @@ export default function FillBlank() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [step, currentIndex, exercises, userAnswers, isChecked, choicesEnabled, shuffledWordBank, showFeedbackModal]);
+  }, [step, currentIndex, exercises, userAnswers, isChecked, choicesEnabled, shuffledWordBank, showFeedbackModal, questionsWithChoicesUsed, choicesLeft]);
 
   useEffect(() => {
     if (step === 2 && !choicesEnabled && !isChecked && inputRef.current) {
@@ -261,7 +299,6 @@ export default function FillBlank() {
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm("Are you sure you want to delete this exercise? It will not be shown again.")) return;
     try {
       const res = await fetch('/api/progress/delete-question', {
         method: 'POST',
@@ -612,56 +649,32 @@ export default function FillBlank() {
           <div className="w-20"></div> {/* Spacer */}
         </header>
 
-        {/* Main Content (Fullscreen Two Column Layout) */}
+        {/* Main Content */}
         <main className="flex-1 overflow-y-auto pt-16">
           <div className="w-full" style={{ maxWidth: '90vw', margin: '0 auto', padding: '32px 40px' }}>
-            <div style={{ display: 'flex', flexDirection: isWide ? 'row' : 'column', alignItems: 'flex-start', gap: '24px' }}>
+            <div className="flex flex-col gap-6">
               
-              {/* LEFT COLUMN: Task Description & Code Block */}
-              <div className="flex flex-col gap-3 text-left" style={{ flex: 1, minWidth: 0 }}>
-                <h2 className="text-xl font-bold leading-relaxed text-[var(--text-primary)]">
+              {/* Task Description & Code Block */}
+              <div className="flex flex-col gap-3 text-left">
+                <h2 className="text-base sm:text-xl font-bold leading-relaxed text-[var(--text-primary)]">
                   {currentEx?.description}
                 </h2>
                 
                 <div style={{ width: '100%', color: 'var(--code-text)' }} className={isMultiLine 
-                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-6 font-mono text-lg leading-relaxed mb-4 overflow-x-auto whitespace-pre" 
-                  : "flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-5 py-3 font-mono text-lg mb-4 overflow-x-auto max-w-full whitespace-pre"
+                  ? "rounded-2xl border border-[var(--border)] bg-[#0d1117] p-4 sm:p-6 font-mono text-sm sm:text-lg leading-relaxed overflow-x-auto whitespace-pre" 
+                  : "flex items-center rounded-xl border border-[var(--border)] bg-[#0d1117] px-3 sm:px-5 py-2 sm:py-3 font-mono text-sm sm:text-lg overflow-x-auto max-w-full whitespace-pre"
                 }>
                   {renderCodeWithSlots()}
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
-              <div className="flex flex-col gap-4" style={{ flexShrink: 0, width: isWide ? '420px' : '100%' }}>
-                {/* Mode toggle / Choices Remaining info */}
-                <div className="flex flex-col gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] text-left mb-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                        {choicesEnabled ? "Choices Enabled" : "Self-Typing Mode (Recommended)"}
-                      </h4>
-                      <p className="text-xxs text-[var(--text-muted)] mt-0.5">
-                        Choices Remaining: <span className="font-bold text-[var(--accent-blue)]">{choicesLeft}</span> / {maxChoicesAllowed}
-                      </p>
-                    </div>
-                    <button
-                      onClick={handleToggleChoices}
-                      disabled={isChecked || (choicesLeft <= 0 && !choicesEnabled && !questionsWithChoicesUsed.has(currentIndex))}
-                      className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
-                        choicesEnabled
-                          ? "bg-[var(--accent-red)] text-white hover:brightness-110"
-                          : "bg-[var(--accent-blue)] text-white hover:brightness-110 disabled:opacity-40"
-                      }`}
-                    >
-                      {choicesEnabled ? "Disable" : "Enable Choices"}
-                    </button>
-                  </div>
-                </div>
+              {/* Word Bank tiles, Clear/Submit Actions, and Feedback panel */}
+              <div className="flex flex-col gap-4">
 
                 {/* Word Bank */}
                 {choicesEnabled && (
-                  <div className="flex flex-wrap gap-2.5 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <h4 className="w-full text-xxs uppercase tracking-wider text-zinc-500 font-extrabold mb-1.5 text-left">Word Bank</h4>
+                  <div className="flex flex-wrap gap-3 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <h4 className="w-full text-[10px] uppercase tracking-wider text-zinc-500 font-extrabold mb-1.5 text-left">Word Bank</h4>
                     {shuffledWordBank.map((word, i) => {
                       const isUsed = Object.values(userAnswers).includes(word);
                       return (
@@ -669,7 +682,7 @@ export default function FillBlank() {
                           key={i}
                           onClick={() => handleTileClick(word)}
                           disabled={isChecked || isUsed}
-                          className={`px-4 py-2.5 rounded-lg border font-mono text-xs font-bold transition-all flex items-center gap-2 group ${
+                          className={`px-3 py-2 rounded-lg border font-mono text-[11px] font-bold transition-all flex items-center gap-2 group ${
                             isUsed 
                               ? 'bg-[var(--bg-primary)] border-[var(--border)] opacity-35 cursor-not-allowed text-[var(--text-muted)]' 
                               : 'bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--accent-blue)] hover:bg-[var(--card-hover)]'
@@ -688,11 +701,11 @@ export default function FillBlank() {
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-4">
+                <div className="flex gap-3 sm:gap-4">
                   <button
                     onClick={() => setUserAnswers({})}
                     disabled={isChecked || Object.keys(userAnswers).length === 0}
-                    className="flex-1 py-4 rounded-xl border border-[var(--border)] font-bold text-sm text-[var(--text-muted)] hover:bg-[var(--bg-card)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="flex-1 py-3 sm:py-4 rounded-xl border border-[var(--border)] font-bold text-xs sm:text-sm text-[var(--text-muted)] hover:bg-[var(--bg-card)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   >
                     Clear
                   </button>
@@ -701,17 +714,17 @@ export default function FillBlank() {
                     <button
                       onClick={checkAnswer}
                       disabled={!allFilled}
-                      className="flex-[2] py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-sm hover:bg-[var(--accent-green-bright)] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md shadow-[rgba(3,239,98,0.15)]"
+                      className="flex-[2] py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md shadow-[rgba(3,239,98,0.15)]"
                     >
                       Check Answer
                     </button>
                   ) : (
                     <button
                       onClick={handleNext}
-                      className="flex-[2] py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-sm hover:bg-[var(--accent-green-bright)] flex items-center justify-center gap-2 transition-all"
+                      className="flex-[2] py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] flex items-center justify-center gap-2 transition-all"
                     >
                       {currentIndex < exercises.length - 1 ? 'Next Exercise' : 'Finish Exercise'}
-                      <ArrowRight size={18} />
+                      <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
                     </button>
                   )}
                 </div>
@@ -730,16 +743,19 @@ export default function FillBlank() {
         </main>
         <ExerciseBottomControls
           onEdit={() => setEditingQuestion(exercises[currentIndex])}
-          onDelete={() => handleDeleteQuestion(exercises[currentIndex]?.id)}
+          onDelete={() => setConfirmDelete(exercises[currentIndex])}
           shortcutItems={
             choicesEnabled
               ? [
                   { label: 'Select Word', keys: ['1', '-', '9'] },
+                  { label: 'Delete Question', keys: ['Ctrl+D'] },
                   { label: 'Clear Answers', keys: ['Esc'] },
                   { label: 'Next Question', keys: ['Enter'] },
                 ]
               : [
                   { label: 'Submit Answer', keys: ['Ctrl+Shift+Enter'] },
+                  { label: 'Delete Question', keys: ['Ctrl+D'] },
+                  { label: 'Toggle Choices', keys: ['Ctrl+S'] },
                   { label: 'Clear Input', keys: ['Esc'] },
                   { label: 'Next Question', keys: ['Enter'] },
                 ]
@@ -747,6 +763,15 @@ export default function FillBlank() {
           dotColor="var(--accent-blue)"
           showShortcuts={showShortcuts}
           onToggleShortcuts={handleToggleShortcuts}
+          rightContent={
+            <div className="flex items-center gap-2.5">
+              <span className="text-xs text-[var(--text-muted)]">
+                {choicesEnabled ? 'Choices' : 'Self-Type'}
+              </span>
+              <span className="text-xs font-bold text-[var(--accent-blue)]">{choicesLeft}/{maxChoicesAllowed}</span>
+              <span className="text-[10px] text-[var(--text-muted)]">Ctrl+S</span>
+            </div>
+          }
         />
         <AnswerFeedbackModal
           isOpen={showFeedbackModal}
@@ -772,6 +797,27 @@ export default function FillBlank() {
             </div>
           )}
         </AnswerFeedbackModal>
+
+        {/* Confirm Delete Modal */}
+        {confirmDelete && (
+          <ConfirmModal
+            isOpen={!!confirmDelete}
+            title={confirmDelete.quit ? 'Quit Exercise' : 'Delete Exercise'}
+            message={confirmDelete.quit ? 'Are you sure you want to quit this exercise? Your progress will be saved.' : 'Are you sure you want to delete this exercise? It will not be shown again.'}
+            confirmLabel={confirmDelete.quit ? 'Quit' : 'Delete'}
+            confirmDanger={!confirmDelete.quit}
+            onConfirm={() => {
+              if (confirmDelete.quit) {
+                navigate(`/courses/${courseSlug}?refresh=1`);
+              } else {
+                const id = confirmDelete.id;
+                setConfirmDelete(null);
+                handleDeleteQuestion(id);
+              }
+            }}
+            onCancel={() => setConfirmDelete(null)}
+          />
+        )}
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

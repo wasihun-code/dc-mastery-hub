@@ -27,6 +27,7 @@ import {
 import CodeBlock from '../components/CodeBlock'
 import { getSessionLimit } from '../services/settingsService'
 import EditQuestionModal from '../components/EditQuestionModal'
+import ConfirmModal from '../components/admin/ConfirmModal'
 
 export default function IncorrectReview() {
   const { courseSlug } = useParams()
@@ -49,6 +50,7 @@ export default function IncorrectReview() {
   const [isLocked, setIsLocked] = useState(false)
   const [lockedPct, setLockedPct] = useState(0)
   const [editingQuestion, setEditingQuestion] = useState(null)
+  const [confirmDelete, setConfirmDelete] = useState(null)
 
   const renderContentWithCode = (text) => {
     if (!text) return null;
@@ -96,6 +98,13 @@ export default function IncorrectReview() {
   }, [courseSlug])
 
   const handleKeyDown = (e) => {
+    // Ctrl+D -> delete current question
+    if (e.ctrlKey && e.key === 'd') {
+      e.preventDefault()
+      if (currentItem) setConfirmDelete(currentItem)
+      return
+    }
+
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
       if (e.key === 'Enter' && currentItem?.exercise_type === 'fillblank') {
         e.preventDefault()
@@ -198,7 +207,6 @@ export default function IncorrectReview() {
   }
 
   const handleDeleteQuestion = async (questionId, exerciseType) => {
-    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
     
     const typeMapping = {
       quiz: 'mcq',
@@ -813,7 +821,7 @@ export default function IncorrectReview() {
           {/* Delete Question Button */}
           <button
             type="button"
-            onClick={() => handleDeleteQuestion(currentItem?.question_id, currentItem?.exercise_type)}
+            onClick={() => setConfirmDelete(currentItem)}
             className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
           >
             <Trash2 size={12} /> Delete
@@ -847,6 +855,23 @@ export default function IncorrectReview() {
           </div>
         )}
       </div>
+
+      {/* Confirm Delete Modal */}
+      {confirmDelete && (
+        <ConfirmModal
+          isOpen={!!confirmDelete}
+          title="Delete Question"
+          message="Are you sure you want to delete this question? It will not be shown again."
+          confirmLabel="Delete"
+          confirmDanger
+          onConfirm={() => {
+            const item = confirmDelete
+            setConfirmDelete(null)
+            handleDeleteQuestion(item?.question_id, item?.exercise_type)
+          }}
+          onCancel={() => setConfirmDelete(null)}
+        />
+      )}
 
       {editingQuestion && (
         <EditQuestionModal

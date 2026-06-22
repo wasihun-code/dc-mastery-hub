@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle2, XCircle, Award, Term
 import Editor from '@monaco-editor/react'
 import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService'
 import EditQuestionModal from '../components/EditQuestionModal'
+import ConfirmModal from '../components/admin/ConfirmModal'
 import ExerciseTimer from '../components/ExerciseTimer'
 
 export default function DatasetChallenge() {
@@ -29,6 +30,7 @@ export default function DatasetChallenge() {
   const [timerEnabled] = useState(() => getTimerEnabled('dataset'))
   const [timerDuration] = useState(() => getTimerDuration('dataset'))
   const [timerExpired, setTimerExpired] = useState(false)
+  const [confirmDeleteChallenge, setConfirmDeleteChallenge] = useState(null)
 
   // Mobile tab state
   const [mobileTab, setMobileTab] = useState('problem')
@@ -51,11 +53,15 @@ export default function DatasetChallenge() {
   const [snippetHistoryIndex, setSnippetHistoryIndex] = useState(-1)
 
   const terminalEndRef = useRef(null)
+  const preloadedVarsRef = useRef(null)
   const snippetInputRef = useRef(null)
   const codeRef = useRef(code)
   const handleRunRef = useRef(handleRun)
   const handleSubmitRef = useRef(handleSubmit)
   const activeFileRef = useRef(activeFile)
+  const handleDeleteRef = useRef(null)
+  const currentIndexRef = useRef(null)
+  const challengesRef = useRef(null)
 
   const [terminalHeight, setTerminalHeight] = useState(250)
   const [leftWidth, setLeftWidth] = useState(38)
@@ -150,6 +156,18 @@ export default function DatasetChallenge() {
   }, [handleSubmit])
 
   useEffect(() => {
+    handleDeleteRef.current = handleDeleteQuestion
+  }, [handleDeleteQuestion])
+
+  useEffect(() => {
+    currentIndexRef.current = currentIndex
+  }, [currentIndex])
+
+  useEffect(() => {
+    challengesRef.current = challenges
+  }, [challenges])
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey) {
         if (e.shiftKey && e.key === 'Enter') {
@@ -158,6 +176,12 @@ export default function DatasetChallenge() {
         } else if (e.key === 'Enter') {
           e.preventDefault()
           handleRunRef.current()
+        } else if (e.key === 'd') {
+          e.preventDefault()
+          const challenge = challengesRef.current?.[currentIndexRef.current]
+          if (challenge) {
+            setConfirmDeleteChallenge(challenge)
+          }
         }
       }
     }
@@ -367,8 +391,7 @@ export default function DatasetChallenge() {
     }
   }
 
-  const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm("Are you sure you want to delete this challenge? It will not be shown again.")) return;
+  async function handleDeleteQuestion(questionId) {
     try {
       const res = await fetch('/api/progress/delete-question', {
         method: 'POST',
@@ -814,11 +837,11 @@ export default function DatasetChallenge() {
             {(challenge.hints || []).map((hint, idx) => (
               <div key={idx} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
                 <button
-                  onClick={() => { const s = [...hintsShown]; s[idx] = true; setHintsShown(s) }}
+                  onClick={() => { const s = [...hintsShown]; s[idx] = !s[idx]; setHintsShown(s) }}
                   className="w-full text-left p-2.5 flex justify-between items-center text-xs font-medium hover:bg-[var(--bg-primary)] transition-colors cursor-pointer bg-transparent border-none"
                 >
                   <span className="text-[var(--text-primary)]">💡 Hint {idx + 1}</span>
-                  {!hintsShown[idx] && <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">Reveal</span>}
+                  <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-1.5 py-0.5 rounded">{hintsShown[idx] ? 'Hide' : 'Reveal'}</span>
                 </button>
                 {hintsShown[idx] && (
                   <div className="p-2.5 border-t border-[var(--border)] text-xs text-[var(--text-muted)] bg-[var(--bg-primary)]">{hint}</div>
@@ -872,11 +895,7 @@ export default function DatasetChallenge() {
           <div className="grow relative">
             <div className="absolute inset-0 flex flex-col">
               {activeFile === 'script' && (
-                <>
-                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-3 py-1 text-[10px] font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
-                    {generatePreLoadedComments(challenge)}
-                  </div>
-                  <div className="grow">
+                <div className="grow">
                     <Editor
                       key="script-mobile"
                       height="100%" width="100%" language="python" theme="dc-dark"
@@ -884,7 +903,6 @@ export default function DatasetChallenge() {
                       options={{ minimap: { enabled: false }, fontSize: 13, fontFamily: "'Courier New', Courier, monospace", lineHeight: 1.5, padding: { top: 6 }, scrollBeyondLastLine: false, wordWrap: 'on', readOnly: false }}
                     />
                   </div>
-                </>
               )}
               {activeFile === 'expected_output' && (
                 <Editor
@@ -1038,19 +1056,50 @@ export default function DatasetChallenge() {
             </p>
           </div>
 
+          {/* Pre-loaded Variables Card */}
+          {challenge.pre_loaded_data && Object.keys(challenge.pre_loaded_data).length > 0 && (
+            <div id="preloaded-vars-card" ref={preloadedVarsRef} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden mb-8 transition-all duration-300">
+              <div className="flex items-center gap-2 p-3 bg-[var(--bg-primary)] border-b border-[var(--border)]">
+                <Database size={16} className="text-[var(--accent-blue)]" />
+                <span className="text-sm font-bold text-[var(--text-primary)]">Pre-loaded Variables</span>
+              </div>
+              <div className="p-3 space-y-2 text-xs font-mono">
+                {Object.entries(challenge.pre_loaded_data).map(([key, val]) => {
+                  let typeHint = val.type || 'unknown'
+                  if (val.type === 'csv') typeHint = 'DataFrame (from ' + (val.path || 'csv') + ')'
+                  else if (val.type === 'csv_column') typeHint = 'numpy array (column from ' + (val.path || 'csv') + ')'
+                  else if (val.type === 'csv_list') typeHint = 'list (column from ' + (val.path || 'csv') + ')'
+                  else if (val.type === 'pickle') typeHint = 'pickle object (from ' + (val.path || 'pkl') + ')'
+                  else if (val.type === 'sqlite') typeHint = 'sqlite3.Connection'
+                  else if (val.type === 'dataframe') typeHint = 'DataFrame'
+                  else if (val.type === 'value') typeHint = typeof val.data
+                  return (
+                    <div key={key} className="flex items-center gap-2">
+                      <span className="text-[var(--accent-green)] font-bold">{key}</span>
+                      <span className="text-[var(--text-muted)]">:</span>
+                      <span className="text-[var(--accent-blue)]">{typeHint}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           <div className="space-y-3 mb-8">
             {(challenge.hints || []).map((hint, idx) => (
               <div key={idx} className="border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
                 <button 
                   onClick={() => {
                     const newShown = [...hintsShown]
-                    newShown[idx] = true
+                    newShown[idx] = !newShown[idx]
                     setHintsShown(newShown)
                   }}
                   className="w-full text-left p-3 flex justify-between items-center text-sm font-medium hover:bg-[var(--bg-primary)] transition-colors"
                 >
                   <span className="text-[var(--text-primary)]">💡 Hint {idx + 1}</span>
-                  {!hintsShown[idx] && <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-2 py-0.5 rounded">Reveal</span>}
+                  <span className="text-xs text-[var(--text-muted)] border border-[var(--border)] px-2 py-0.5 rounded">
+                    {hintsShown[idx] ? 'Hide' : 'Reveal'}
+                  </span>
                 </button>
                 {hintsShown[idx] && (
                   <div className="p-3 border-t border-[var(--border)] text-sm text-[var(--text-muted)] bg-[var(--bg-primary)]">
@@ -1072,7 +1121,7 @@ export default function DatasetChallenge() {
             </button>
             <button
               type="button"
-              onClick={() => handleDeleteQuestion(challenge?.id)}
+              onClick={() => setConfirmDeleteChallenge(challenge)}
               className="bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-red-950/20"
             >
               <Trash2 size={14} /> Delete
@@ -1144,6 +1193,22 @@ export default function DatasetChallenge() {
                 <RotateCcw size={14} />
               </button>
               <button
+                onClick={() => {
+                  const el = document.getElementById('preloaded-vars-card')
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    el.style.transition = 'box-shadow 0.3s ease'
+                    el.style.boxShadow = '0 0 0 3px var(--accent-green)'
+                    setTimeout(() => { el.style.boxShadow = '' }, 2000)
+                  }
+                }}
+                disabled={!challenge?.pre_loaded_data || Object.keys(challenge.pre_loaded_data).length === 0}
+                title="View pre-loaded variables"
+                className="w-8 h-8 rounded-md bg-transparent border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--bg-card)] hover:text-[var(--text-primary)] hover:border-[var(--accent-green)] transition-all duration-150 cursor-pointer disabled:opacity-40 flex items-center justify-center"
+              >
+                <Database size={14} />
+              </button>
+              <button
                 onClick={handleSkip}
                 disabled={isRunning || isSubmitting}
                 title="Skip this challenge"
@@ -1209,10 +1274,6 @@ export default function DatasetChallenge() {
           <div className="grow relative">
             <div className="absolute inset-0 flex flex-col">
               {activeFile === 'script' && (
-                <>
-                  <div className="bg-[var(--bg-primary)]/60 border-b border-[var(--border)]/30 px-4 py-1.5 text-xs font-mono text-[var(--accent-green)] select-none whitespace-pre-wrap shrink-0 opacity-80">
-                    {generatePreLoadedComments(challenge)}
-                  </div>
                   <div className="grow">
                     <Editor
                       key="script"
@@ -1235,7 +1296,6 @@ export default function DatasetChallenge() {
                       }}
                     />
                   </div>
-                </>
               )}
               {activeFile === 'expected_output' && (
                 <Editor
@@ -1399,10 +1459,10 @@ export default function DatasetChallenge() {
                   onKeyDown={handleSnippetKeyDown}
                   placeholder="Run a Python line..."
                   className="flex-1 bg-transparent border-none outline-none text-gray-200 font-mono text-base placeholder-zinc-600"
-                />
-              </div>
+                    />
+                  </div>
             </div>
-          )}
+              )}
 
           {/* Variables Tab */}
           {consoleTab === 'variables' && (
@@ -1580,6 +1640,23 @@ export default function DatasetChallenge() {
            </div>
         </div>
       )}
+      {/* Confirm Delete Modal */}
+      {confirmDeleteChallenge && (
+        <ConfirmModal
+          isOpen={!!confirmDeleteChallenge}
+          title="Delete Challenge"
+          message="Are you sure you want to delete this challenge? It will not be shown again."
+          confirmLabel="Delete"
+          confirmDanger
+          onConfirm={() => {
+            const id = confirmDeleteChallenge.id
+            setConfirmDeleteChallenge(null)
+            handleDeleteQuestion(id)
+          }}
+          onCancel={() => setConfirmDeleteChallenge(null)}
+        />
+      )}
+
       {/* QA Debug Panel */}
       {localStorage.getItem('devMode') === 'true' && (
         <div className="fixed bottom-4 left-4 z-50 rounded-xl border border-[var(--accent-yellow)] bg-black/90 p-4 text-xs font-mono text-[var(--accent-yellow)] shadow-2xl max-w-sm select-none">

@@ -23,6 +23,7 @@ Built for one primary user + occasional admin login — no multi-tenant isolatio
 | Auth | Cookie-based sessions | — | `session_id` cookie, HttpOnly, SameSite=Lax, 30-day expiry |
 | Code sandbox | Python subprocess | 3.14 | Runs in `project/venv/`, 15s timeout |
 | DB migrations | Inline in `schema.js` | — | `ALTER TABLE ADD COLUMN` wrapped in try/catch |
+| DB seed dump | `backend/db/dumpSeed.js` + `backend/db/seed-data.sql` | — | `npm run dump-seed` → SQLite `.dump` → committed `.sql` for deploy restore |
 | Testing (FE) | Vitest | — | 276 tests, 17 files |
 | Testing (BE) | Jest | — | `--experimental-vm-modules`, 288 tests, 15 suites |
 
@@ -33,7 +34,7 @@ dc-mastery-hub/
 ├── backend/                   Express server (port 3001)
 │   ├── __tests__/             Jest test suites (288 tests)
 │   ├── data/                  SQLite DB files
-│   ├── db/                    Database connection, schema init, seed, JSON importer
+│   ├── db/                    Database connection, schema init, seed, JSON importer, seed-data.sql dump/restore
 │   ├── middleware/            Auth middleware (requireAdmin)
 │   ├── routes/                All API route handlers (8 files)
 │   └── services/              Content scanner, PDF parser, challenge generator, code sandbox

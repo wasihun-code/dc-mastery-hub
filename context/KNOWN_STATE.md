@@ -1,6 +1,6 @@
 # Known State
 
-**Last updated**: 2026-06-19
+**Last updated**: 2026-06-22
 
 If this file is more than 2 weeks old, verify key claims against actual code
 before trusting them for anything load-bearing.
@@ -14,7 +14,26 @@ before trusting them for anything load-bearing.
 
 ## Recently Completed (newest first)
 
-1. Code block text color fix — Added `--code-text` CSS var at `:root` level,
+1. DB seed dump/restore workflow — New `backend/db/dumpSeed.js` + `npm run dump-seed`
+   generates `backend/db/seed-data.sql` (SQLite `.dump` of all data). On deploy,
+   `backend/index.js` restores from this file if present, skipping normal seed/init
+   to preserve local data.
+2. MCQ vertical layout + adaptive columns — Quiz.jsx changed from `exercise-layout`
+   (two-column) to single-column vertical layout. Options grid adapts: `grid-cols-1`
+   when any choice text > 40 chars (4 rows), `grid-cols-1 sm:grid-cols-2` when all
+   short (2 rows).
+3. MCQ option shuffle — Quiz.jsx options now shuffled per question via `shuffleCache`
+   (useRef), preventing correct answer from always being choice A.
+4. Preloaded vars dedup — DatasetChallenge.jsx: removed `generatePreLoadedComments`
+   from both mobile and desktop script panels; vars only appear in the description
+   panel card (`#preloaded-vars-card`).
+5. ExerciseBottomControls margin — Increased `marginTop` 32px, `paddingBottom` 24px,
+   added `marginBottom` 16px.
+6. Mobile-responsive exercise sizing — FillBlank/MatchingGame/Quiz: reduced text
+   sizes, padding, and min-heights on mobile via `text-xs sm:text-base`, `p-3 sm:p-5`,
+   `min-h-[56px] sm:min-h-[76px]`, etc.
+7. FillBlank word bank gap fix — `gap-2.5` → `gap-3` for tighter layout.
+8. Code block text color fix — Added `--code-text` CSS var at `:root` level,
    applied to FillBlank.jsx and EditQuestionModal.jsx code containers (text was
    invisible in light theme).
 2. CI workflow Node 18 → 22 — Node 18 is EOL; GitHub Actions runner deprecating

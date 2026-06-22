@@ -61,7 +61,45 @@ function SkeletonHeader() {
   )
 }
 
-function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, disabled, isBoss, stats }) {
+const CARD_ACCENTS = {
+  flashcard: 'var(--accent-blue)',
+  mcq: 'var(--accent-green)',
+  ftb: 'var(--accent-yellow)',
+  dataset: 'var(--accent-blue)',
+  matching: 'var(--accent-green)',
+  boss_battle: 'var(--accent-red)',
+}
+
+function StatusDot({ color, label }) {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="w-[7px] h-[7px] rounded-full" style={{ backgroundColor: color }} />
+      <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color }}>
+        {label}
+      </span>
+    </span>
+  )
+}
+
+function SegmentedBar({ correct, wrong, total }) {
+  if (total === 0) {
+    return <div className="h-[6px] w-full rounded-full bg-[var(--border)]" />
+  }
+  const correctPct = (correct / total) * 100
+  const wrongPct = (wrong / total) * 100
+  return (
+    <div className="flex h-[6px] w-full rounded-full overflow-hidden bg-[var(--border)]">
+      {correct > 0 && (
+        <div className="h-full transition-all duration-700" style={{ width: `${correctPct}%`, backgroundColor: 'var(--accent-green)' }} />
+      )}
+      {wrong > 0 && (
+        <div className="h-full transition-all duration-700" style={{ width: `${wrongPct}%`, backgroundColor: 'var(--accent-red)' }} />
+      )}
+    </div>
+  )
+}
+
+function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, disabled, isBoss, stats, accentColor }) {
   const getStatus = () => {
     if (disabled) return { label: 'Locked', color: 'var(--accent-red)' }
     if (!stats || stats.sessions === 0) return { label: 'Not Started', color: 'var(--text-muted)' }
@@ -70,76 +108,61 @@ function ExerciseCard({ icon: Icon, title, description, buttonText, onClick, dis
   }
 
   const status = getStatus()
-  const successRate = stats && (stats.correct + stats.wrong > 0) 
-    ? (stats.correct / (stats.correct + stats.wrong)) * 100 
-    : 0
+  const total = stats ? (stats.correct + stats.wrong + (stats.unattempted || 0)) : 0
+  const isDataset = title === 'Dataset Challenge'
 
   return (
-    <div className={`group relative flex flex-col rounded-[10px] border p-5 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 ${
+    <div className={`group relative flex flex-col rounded-[10px] border transition-all duration-200 overflow-hidden ${
+      disabled ? 'opacity-60' : 'hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5'
+    } ${
       isBoss 
         ? 'border-[var(--accent-red)] bg-[var(--bg-card)]' 
         : 'border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent-green)]'
     }`} style={isBoss ? { borderWidth: '1.5px', boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent-red) 20%, transparent)' } : {}}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className={`rounded-lg p-2 ${isBoss ? 'text-[var(--accent-red)]' : 'bg-[var(--bg-primary)] text-[var(--accent-blue)]'}`} style={isBoss ? { background: 'color-mix(in srgb, var(--accent-red) 12%, transparent)' } : {}}>
-            <Icon size={20} />
+      <div className="h-[3px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
+      <div className="p-4 flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="rounded-lg p-1.5 shrink-0" style={{ background: `color-mix(in srgb, ${accentColor} 15%, transparent)`, color: accentColor }}>
+              <Icon size={18} />
+            </div>
+            <h3 className="text-[16px] font-bold text-[var(--text-primary)] truncate">{title}</h3>
           </div>
-          <h3 className="text-[18px] font-bold text-[var(--text-primary)]">{title}</h3>
+          <StatusDot color={status.color} label={status.label} />
         </div>
-        <span 
-          className="rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider" 
-          style={{ borderColor: status.color, color: status.color }}
-        >
-          {status.label}
-        </span>
-      </div>
-      
-      <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">{description}</p>
-      
-      <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <span className="text-[20px] font-bold text-[var(--text-primary)]">{stats?.sessions || 0}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Attempted</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-[20px] font-bold text-[var(--accent-green)]">{stats?.correct || 0}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Correct</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-[20px] font-bold text-[var(--accent-red)]">{stats?.wrong || 0}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Wrong</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-[20px] font-bold text-[var(--text-primary)]">{stats?.available || 0}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Available</span>
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <div className="h-[4px] w-full rounded-full bg-[var(--border)]">
-          <div 
-            className="h-full rounded-full bg-[var(--accent-green)] transition-all duration-500"
-            style={{ width: `${successRate}%` }}
-          />
+        
+        <p className="text-[12px] leading-relaxed text-[var(--text-muted)]">{description}</p>
+        
+        {stats && (
+          <div className="space-y-1.5">
+            <SegmentedBar correct={stats.correct} wrong={stats.wrong} total={total} />
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px]">
+              <span className={`font-bold text-[var(--accent-green)] ${isDataset ? 'font-mono' : ''}`}>{stats.correct}</span>
+              <span className="text-[var(--text-muted)]">correct</span>
+              <span className="text-[var(--text-muted)]">·</span>
+              <span className={`font-bold text-[var(--accent-red)] ${isDataset ? 'font-mono' : ''}`}>{stats.wrong}</span>
+              <span className="text-[var(--text-muted)]">wrong</span>
+              <span className="text-[var(--text-muted)]">·</span>
+              <span className={`font-bold text-[var(--text-muted)] ${isDataset ? 'font-mono' : ''}`}>{stats.available}</span>
+              <span className="text-[var(--text-muted)]">available</span>
+            </div>
+          </div>
+        )}
+        
+        <div className="flex justify-end pt-1">
+          <button
+            onClick={onClick}
+            disabled={disabled}
+            className="min-h-[44px] rounded-lg px-5 py-2.5 text-[13px] font-bold transition-all duration-200 disabled:cursor-not-allowed"
+            style={{
+              backgroundColor: disabled ? 'var(--border)' : accentColor,
+              color: disabled ? 'var(--text-muted)' : '#ffffff',
+            }}
+          >
+            {disabled ? 'Locked' : isBoss ? 'Enter Battle' : buttonText}
+          </button>
         </div>
       </div>
-
-      <button
-        onClick={onClick}
-        disabled={disabled}
-        className={`mt-6 w-full rounded-lg py-3 text-sm font-bold transition-all ${
-          disabled
-            ? 'cursor-not-allowed bg-[var(--border)] text-[var(--text-muted)]'
-            : isBoss
-            ? 'bg-[var(--accent-red)] text-white hover:brightness-110'
-            : 'bg-[var(--accent-green)] text-[var(--bg-primary)] hover:brightness-110'
-        }`}
-      >
-        {disabled ? '🔒 Locked' : isBoss ? 'Enter Battle' : buttonText}
-      </button>
     </div>
   )
 }
@@ -148,109 +171,98 @@ function IncorrectReviewCard({ status, onCheckUnlock, checking, message, onStart
   if (!status) return null
 
   const { isUnlocked, attempted, total, attemptRatio, incorrectCount } = status
-  
+
   if (!isUnlocked) {
     return (
-      <div 
-        className="group relative flex flex-col rounded-[10px] border border-[var(--accent-red)] p-5 transition-all duration-200 bg-[var(--bg-card)] overflow-hidden shadow-lg shadow-red-950/10"
-        style={{ backgroundColor: 'rgba(255, 0, 0, 0.03)' }}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg p-2 bg-[var(--bg-primary)] text-[var(--accent-red)]">
-              <AlertTriangle size={20} />
+      <div className="group relative flex flex-col rounded-[10px] border border-[var(--accent-red)] bg-[var(--bg-card)] transition-all duration-200 overflow-hidden"
+        style={{ backgroundColor: 'rgba(255, 0, 0, 0.03)' }}>
+        <div className="h-[3px] w-full shrink-0 bg-[var(--accent-red)]" />
+        <div className="p-4 flex flex-col gap-3">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="rounded-lg p-1.5 shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-red) 15%, transparent)', color: 'var(--accent-red)' }}>
+                <AlertTriangle size={18} />
+              </div>
+              <h3 className="text-[16px] font-bold text-[var(--text-primary)]">Incorrect Review</h3>
             </div>
-            <h3 className="text-[18px] font-bold text-[var(--text-primary)] flex items-center gap-2">
-              Incorrect Review <span className="text-sm">🔒</span>
-            </h3>
+            <StatusDot color="var(--accent-red)" label="Locked" />
           </div>
-          <span className="rounded-full border border-[var(--accent-red)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-red)]">
-            Locked
-          </span>
-        </div>
-        
-        <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">
-          Complete 70% of questions across Quiz, Fill in the Blank, and Boss Battle to unlock.
-        </p>
-        
-        <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
-
-        <div className="space-y-2">
-          <div className="flex justify-between text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">
-            <span>Progress to Unlock</span>
-            <span>{attempted} / {total} ({Math.round(attemptRatio * 100)}%)</span>
+          
+          <p className="text-[12px] leading-relaxed text-[var(--text-muted)]">
+            Complete 70% of questions across Quiz, Fill in the Blank, and Boss Battle to unlock.
+          </p>
+          
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-[11px] font-bold text-[var(--text-muted)]">
+              <span>Progress to Unlock</span>
+              <span>{attempted} / {total} ({Math.round(attemptRatio * 100)}%)</span>
+            </div>
+            <div className="h-[6px] w-full rounded-full bg-[var(--bg-primary)] overflow-hidden border border-[var(--border)]">
+              <div className="h-full rounded-full bg-[var(--accent-yellow)] transition-all duration-500"
+                style={{ width: `${Math.min(100, attemptRatio * 100)}%` }} />
+            </div>
           </div>
-          <div className="h-[8px] w-full rounded-full bg-[var(--bg-primary)] overflow-hidden border border-[var(--border)]">
-            <div 
-              className="h-full rounded-full bg-[var(--accent-yellow)] transition-all duration-500"
-              style={{ width: `${Math.min(100, attemptRatio * 100)}%` }}
-            />
+
+          <div className="flex flex-col gap-2 pt-1">
+            <div className="flex justify-center">
+              <button
+                onClick={onCheckUnlock}
+                disabled={checking}
+                className="min-h-[44px] rounded-lg px-5 py-2.5 text-[13px] font-bold bg-[var(--accent-blue)] text-white transition-all hover:opacity-90 disabled:opacity-50"
+              >
+                {checking ? 'Checking...' : 'Check Unlock Status'}
+              </button>
+            </div>
+            {message && (
+              <p className={`text-center text-[11px] font-medium ${message.includes('🎉') ? 'text-[var(--accent-green)] animate-pulse' : 'text-[var(--accent-red)]'}`}>
+                {message}
+              </p>
+            )}
           </div>
         </div>
-
-        <div className="mt-6 flex flex-col gap-2">
-          <button
-            onClick={onCheckUnlock}
-            disabled={checking}
-            className="w-full rounded-lg py-2 text-xs font-bold transition-all bg-[var(--accent-blue)] text-white hover:opacity-90 disabled:opacity-50"
-          >
-            {checking ? 'Checking...' : 'Check Unlock Status'}
-          </button>
-          {message && (
-            <p className={`text-center text-[11px] font-medium ${message.includes('🎉') ? 'text-[var(--accent-green)] animate-pulse' : 'text-[var(--accent-red)]'}`}>
-              {message}
-            </p>
-          )}
-        </div>
-
-        <button
-          disabled={true}
-          className="mt-4 w-full rounded-lg py-3 text-sm font-bold transition-all cursor-not-allowed bg-[var(--border)] text-[var(--text-muted)]"
-        >
-          🔒 Locked
-        </button>
       </div>
     )
   }
 
-  // Unlocked State
   return (
-    <div className="group relative flex flex-col rounded-[10px] border border-[var(--border)] p-5 transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 bg-[var(--bg-card)] hover:border-[var(--accent-green)]">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="rounded-lg p-2 bg-[var(--bg-primary)] text-[var(--accent-red)]">
-            <AlertTriangle size={20} />
+    <div className="group relative flex flex-col rounded-[10px] border border-[var(--border)] bg-[var(--bg-card)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:border-[var(--accent-green)] overflow-hidden">
+      <div className="h-[3px] w-full shrink-0" style={{ backgroundColor: incorrectCount > 0 ? 'var(--accent-yellow)' : 'var(--accent-green)' }} />
+      <div className="p-4 flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="rounded-lg p-1.5 shrink-0" style={{ background: 'color-mix(in srgb, var(--accent-red) 15%, transparent)', color: 'var(--accent-red)' }}>
+              <AlertTriangle size={18} />
+            </div>
+            <h3 className="text-[16px] font-bold text-[var(--text-primary)]">Incorrect Review</h3>
           </div>
-          <h3 className="text-[18px] font-bold text-[var(--text-primary)]">Incorrect Review</h3>
+          <StatusDot 
+            color={incorrectCount > 0 ? 'var(--accent-yellow)' : 'var(--accent-green)'} 
+            label={incorrectCount > 0 ? 'In Progress' : 'Ready'} 
+          />
         </div>
-        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${incorrectCount > 0 ? 'border-[var(--accent-yellow)] text-[var(--accent-yellow)]' : 'border-[var(--accent-green)] text-[var(--accent-green)]'}`}>
-          {incorrectCount > 0 ? 'In Progress' : 'Ready'}
-        </span>
-      </div>
-      
-      <p className="mt-1 text-[13px] italic text-[var(--text-muted)]">
-        Re-attempt questions you answered incorrectly in other categories.
-      </p>
-      
-      <div className="my-4 h-[1px] w-full bg-[var(--border)]" />
-
-      <div className="flex flex-col">
-        <span className="text-[20px] font-bold text-[var(--text-primary)]">{incorrectCount}</span>
-        <span className="text-[11px] font-bold uppercase tracking-wide text-[var(--text-muted)]">Items in your review queue</span>
-      </div>
-
-      <div className="mt-auto pt-10">
-        <button
-          onClick={onStart}
-          disabled={incorrectCount === 0}
-          className={`w-full rounded-lg py-3 text-sm font-bold transition-all ${
-            incorrectCount === 0
-              ? 'bg-[rgba(3,239,98,0.1)] text-[var(--accent-green)] cursor-default border border-[var(--accent-green)]/30'
-              : 'bg-[var(--accent-red)] text-white hover:brightness-110'
-          }`}
-        >
-          {incorrectCount === 0 ? 'Queue Empty — Great Work! ✓' : 'Start Incorrect Review'}
-        </button>
+        
+        <p className="text-[12px] leading-relaxed text-[var(--text-muted)]">
+          Re-attempt questions you answered incorrectly in other categories.
+        </p>
+        
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[28px] font-bold text-[var(--text-primary)] leading-none">{incorrectCount}</span>
+          <span className="text-[11px] text-[var(--text-muted)]">items in your review queue</span>
+        </div>
+        
+        <div className="flex justify-end pt-1">
+          <button
+            onClick={onStart}
+            disabled={incorrectCount === 0}
+            className="min-h-[44px] rounded-lg px-5 py-2.5 text-[13px] font-bold transition-all duration-200 disabled:cursor-not-allowed"
+            style={{
+              backgroundColor: incorrectCount === 0 ? 'var(--border)' : 'var(--accent-red)',
+              color: incorrectCount === 0 ? 'var(--text-muted)' : '#ffffff',
+            }}
+          >
+            {incorrectCount === 0 ? "Queue Empty \u2014 Great Work!" : 'Start Incorrect Review'}
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -654,6 +666,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/flashcards/${courseSlug}`)}
               disabled={stats.flashcard.available === 0}
               stats={stats.flashcard}
+              accentColor={CARD_ACCENTS.flashcard}
             />
           )}
 
@@ -667,6 +680,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/quiz/${courseSlug}`)}
               disabled={stats.mcq.available === 0}
               stats={stats.mcq}
+              accentColor={CARD_ACCENTS.mcq}
             />
           )}
 
@@ -680,6 +694,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/fillblank/${courseSlug}`)}
               disabled={stats.ftb.available === 0}
               stats={stats.ftb}
+              accentColor={CARD_ACCENTS.ftb}
             />
           )}
 
@@ -693,6 +708,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/dataset/${courseSlug}`)}
               disabled={stats.dataset.available === 0}
               stats={stats.dataset}
+              accentColor={CARD_ACCENTS.dataset}
             />
           )}
 
@@ -706,6 +722,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/matching/${courseSlug}`)}
               disabled={stats.matching.available === 0}
               stats={stats.matching}
+              accentColor={CARD_ACCENTS.matching}
             />
           )}
 
@@ -720,6 +737,7 @@ export default function CourseDetail({ overrideCourseSlug, isInline }) {
               onClick={() => navigate(`/exercise/boss/${courseSlug}`)}
               disabled={stats.boss_battle.available === 0}
               stats={stats.boss_battle}
+              accentColor={CARD_ACCENTS.boss_battle}
             />
           )}
 

@@ -16,6 +16,7 @@ import {
 import CodeBlock from '../components/CodeBlock';
 import { getSessionLimit } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
+import ConfirmModal from '../components/admin/ConfirmModal';
 import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
 import ExerciseBottomControls from '../components/ExerciseBottomControls';
 
@@ -67,6 +68,7 @@ export default function BossBattle() {
   const [waveTotals, setWaveTotals] = useState({ 1: 20, 2: 20, 3: 20 });
   
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const continueActionRef = useRef('advance');
   const timerRef = useRef(null);
   const advanceTimeoutRef = useRef(null);
@@ -83,6 +85,15 @@ export default function BossBattle() {
 
     const handleKeyDown = (e) => {
       if (showFeedbackModal) return;
+
+      // Ctrl+D -> delete question
+      if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        const q = questions[currentIndex];
+        if (q) setConfirmDelete(q);
+        return;
+      }
+
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
         return;
       }
@@ -230,7 +241,6 @@ export default function BossBattle() {
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
     try {
       const res = await fetch('/api/progress/delete-question', {
         method: 'POST',
@@ -742,9 +752,10 @@ export default function BossBattle() {
 
         <ExerciseBottomControls
           onEdit={() => setEditingQuestion(questions[currentIndex])}
-          onDelete={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+          onDelete={() => setConfirmDelete(questions[currentIndex])}
           shortcutItems={[
             { label: 'Select Option', keys: ['1', '-', '4'] },
+            { label: 'Delete Question', keys: ['Ctrl+D'] },
             { label: 'Clear Choice', keys: ['Esc'] },
             { label: 'Next Question', keys: ['Enter'] },
           ]}
@@ -760,6 +771,23 @@ export default function BossBattle() {
           onContinue={handleModalContinue}
           variant="boss-battle"
         />
+
+        {/* Confirm Delete Modal */}
+        {confirmDelete && (
+          <ConfirmModal
+            isOpen={!!confirmDelete}
+            title="Delete Question"
+            message="Are you sure you want to delete this question? It will not be shown again."
+            confirmLabel="Delete"
+            confirmDanger
+            onConfirm={() => {
+              const id = confirmDelete.id;
+              setConfirmDelete(null);
+              handleDeleteQuestion(id);
+            }}
+            onCancel={() => setConfirmDelete(null)}
+          />
+        )}
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (

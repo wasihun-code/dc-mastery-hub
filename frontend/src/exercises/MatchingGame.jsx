@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { getSessionLimit } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
+import ConfirmModal from '../components/admin/ConfirmModal';
 
 export default function MatchingGame() {
   const { courseSlug } = useParams();
@@ -40,6 +41,7 @@ export default function MatchingGame() {
   const [attempts, setAttempts] = useState(0);
   const [xpEarned, setXpEarned] = useState(0);
   const [roundTime, setRoundTime] = useState(0);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const [showShortcuts, setShowShortcuts] = useState(() => {
     return localStorage.getItem('showKeyboardShortcuts') !== 'false';
@@ -68,6 +70,17 @@ export default function MatchingGame() {
     if (step !== 2) return;
 
     const handleKeyDown = (e) => {
+      // Ctrl+D -> delete selected pair
+      if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        if (!selectedTerm) {
+          alert("Please select a term on the left first to delete it.");
+          return;
+        }
+        setConfirmDelete({action: 'delete'});
+        return;
+      }
+
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
         return;
       }
@@ -229,8 +242,6 @@ export default function MatchingGame() {
       return;
     }
     const pairId = selectedTerm.id;
-    const termText = selectedTerm.term;
-    if (!window.confirm(`Are you sure you want to delete the pair for "${termText}"? It will not be shown again.`)) return;
 
     try {
       const res = await fetch('/api/progress/delete-question', {
@@ -606,7 +617,7 @@ export default function MatchingGame() {
                       key={term.id}
                       disabled={isMatched}
                       onClick={() => handleTermClick(term)}
-                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-mono font-bold text-base transition-all flex items-center justify-between group ${itemStyle}`}
+                      className={`w-full min-h-[56px] sm:min-h-[76px] p-3 sm:p-5 rounded-xl border-2 text-left font-mono font-bold text-sm sm:text-base transition-all flex items-center justify-between group ${itemStyle}`}
                     >
                       <span>{term.term}</span>
                       {!isMatched && (
@@ -643,7 +654,7 @@ export default function MatchingGame() {
                       key={def.id}
                       disabled={isMatched}
                       onClick={() => handleDefClick(def)}
-                      className={`w-full min-h-[76px] p-5 rounded-xl border-2 text-left font-semibold text-sm leading-snug transition-all flex items-center justify-between group ${itemStyle}`}
+                      className={`w-full min-h-[56px] sm:min-h-[76px] p-3 sm:p-5 rounded-xl border-2 text-left font-semibold text-xs sm:text-sm leading-snug transition-all flex items-center justify-between group ${itemStyle}`}
                     >
                       <span className="flex-1 pr-3">{def.definition}</span>
                       {!isMatched && (
@@ -673,7 +684,7 @@ export default function MatchingGame() {
                     Round Time: <span className="text-[var(--accent-green)] font-mono">{formatTime(roundTime)}</span>
                   </div>
                   <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
-                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round((totalPairsInRound / (attempts || 1)) * 100)}%</span>
+                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round(((roundData?.pairs?.length || 5) / (attempts || 1)) * 100)}%</span>
                   </div>
                 </div>
                 
@@ -703,7 +714,7 @@ export default function MatchingGame() {
             {/* Delete Pair Button */}
             <button
               type="button"
-              onClick={handleDeletePair}
+              onClick={() => setConfirmDelete({action: 'delete'})}
               className="flex-1 bg-[rgba(239,68,68,0.1)] hover:bg-[rgba(239,68,68,0.2)] border border-[rgba(239,68,68,0.3)] text-[var(--accent-red)] font-bold py-3 px-2 rounded-xl text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-red-950/20"
             >
               <Trash2 size={12} /> Delete
@@ -772,6 +783,61 @@ export default function MatchingGame() {
               <div>Current Exercise Count: {allRounds.length}</div>
               <div className="pt-1.5 border-t border-[var(--accent-yellow)]/10 text-[10px] text-zinc-500 overflow-x-auto max-w-xs whitespace-nowrap">
                 Round ID: {roundData?.id} | XP: {xpEarned}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Confirm Delete Modal */}
+        {confirmDelete && (
+          <ConfirmModal
+            isOpen={!!confirmDelete}
+            title={confirmDelete.action === 'delete' ? 'Delete Pair' : 'Delete Pair'}
+            message={confirmDelete.action === 'delete' ? 'Are you sure you want to delete this pair? It will not be shown again.' : ''}
+            confirmLabel="Delete"
+            confirmDanger
+            onConfirm={() => {
+              setConfirmDelete(null);
+              handleDeletePair();
+            }}
+            onCancel={() => setConfirmDelete(null)}
+          />
+        )}
+
+        {/* Round Complete Modal Overlay */}
+        {roundCompleted && (
+          <div
+            className="fixed inset-0 z-[150] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+            onClick={handleNextRound}
+          >
+            <div
+              className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200 text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col items-center p-8 text-center">
+                <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--accent-green)] text-black">
+                  <Check size={40} strokeWidth={3} />
+                </div>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Round Complete!</h2>
+                <div className="flex flex-wrap gap-4 justify-center mb-6">
+                  <div className="px-4 py-2 rounded-xl bg-[rgba(3,239,98,0.08)] border border-[rgba(3,239,98,0.3)] text-sm font-bold text-[var(--accent-green)]">
+                    +15 XP
+                  </div>
+                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
+                    Time: <span className="text-[var(--accent-green)] font-mono">{formatTime(roundTime)}</span>
+                  </div>
+                  <div className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-sm font-semibold text-[var(--text-primary)]">
+                    Accuracy: <span className="text-[var(--accent-green)] font-bold">{Math.round(((roundData?.pairs?.length || 5) / (attempts || 1)) * 100)}%</span>
+                  </div>
+                </div>
+                <button
+                  onClick={handleNextRound}
+                  className="flex items-center gap-2 rounded-xl bg-[var(--accent-green)] px-10 py-4 text-base font-bold text-black hover:bg-[var(--accent-green-bright)] transition-colors shadow-md shadow-[rgba(3,239,98,0.2)] uppercase tracking-wider"
+                >
+                  {currentRoundIndex < allRounds.length - 1 ? 'Continue' : 'Finish'}
+                  <ArrowRight size={18} />
+                </button>
+                <p className="text-xs text-[var(--text-muted)] mt-3">Click anywhere outside to proceed</p>
               </div>
             </div>
           </div>

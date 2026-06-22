@@ -3,6 +3,7 @@ import { Edit2, Trash2, Keyboard, ChevronDown, Info } from 'lucide-react'
 
 function ShortcutPopover({ items, dotColor, show, onToggle }) {
   const [open, setOpen] = useState(false)
+  const [openUp, setOpenUp] = useState(true)
   const containerRef = useRef(null)
   const triggerRef = useRef(null)
 
@@ -31,6 +32,10 @@ function ShortcutPopover({ items, dotColor, show, onToggle }) {
   }, [open])
 
   const handleTrigger = () => {
+    if (!open) {
+      const rect = triggerRef.current?.getBoundingClientRect()
+      setOpenUp(rect ? rect.top > 300 : true)
+    }
     setOpen((prev) => !prev)
     if (!open) onToggle?.()
   }
@@ -59,8 +64,10 @@ function ShortcutPopover({ items, dotColor, show, onToggle }) {
 
       {open && (
         <div
-          className="absolute z-50 bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 min-w-[200px] bg-[var(--bg-card)] border border-[var(--border)] rounded-lg p-3 shadow-[0_-4px_16px_rgba(0,0,0,0.2)] animate-in fade-in zoom-in-95 duration-150"
-          style={{ transformOrigin: 'bottom center' }}
+          className={`absolute z-50 left-1/2 -translate-x-1/2 min-w-[200px] bg-[var(--bg-card)] border border-[var(--border)] rounded-lg p-3 shadow-lg animate-in fade-in zoom-in-95 duration-150 ${
+            openUp ? 'bottom-[calc(100%+8px)]' : 'top-[calc(100%+8px)]'
+          }`}
+          style={{ transformOrigin: openUp ? 'bottom center' : 'top center' }}
         >
           <div className="space-y-2">
             {items.map((item, i) => (
@@ -99,7 +106,7 @@ export default function ExerciseBottomControls({
   return (
     <div
       className="flex flex-wrap items-center justify-between gap-3 pt-3 pb-0 sm:gap-4 sm:pt-4"
-      style={{ borderTop: '1px solid var(--border)', marginTop: '24px', paddingBottom: '16px' }}
+      style={{ borderTop: '1px solid var(--border)', marginTop: '32px', paddingBottom: '24px', marginBottom: '16px' }}
     >
       <div className="flex items-center gap-2">
         <button
@@ -118,12 +125,14 @@ export default function ExerciseBottomControls({
         </button>
       </div>
 
-      <ShortcutPopover
-        items={shortcutItems}
-        dotColor={dotColor}
-        show={showShortcuts}
-        onToggle={onToggleShortcuts}
-      />
+      <div className="sm:flex-1 flex justify-center">
+        <ShortcutPopover
+          items={shortcutItems}
+          dotColor={dotColor}
+          show={showShortcuts}
+          onToggle={onToggleShortcuts}
+        />
+      </div>
 
       {rightContent && (
         <div className="flex items-center gap-2.5 text-sm">

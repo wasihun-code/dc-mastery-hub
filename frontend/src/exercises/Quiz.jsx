@@ -14,6 +14,7 @@ import {
 import CodeBlock from '../components/CodeBlock';
 import { getSessionLimit, getTimerEnabled, getTimerDuration } from '../services/settingsService';
 import EditQuestionModal from '../components/EditQuestionModal';
+import ConfirmModal from '../components/admin/ConfirmModal';
 import ExerciseTimer from '../components/ExerciseTimer';
 import AnswerFeedbackModal from '../components/AnswerFeedbackModal';
 import ExerciseBottomControls from '../components/ExerciseBottomControls';
@@ -39,10 +40,19 @@ export default function Quiz() {
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
+  const [confirmDelete, setConfirmDelete] = useState(null);
 
   const [timerEnabled] = useState(() => getTimerEnabled('mcq'));
   const [timerDuration] = useState(() => getTimerDuration('mcq'));
   const [timerExpired, setTimerExpired] = useState(false);
+
+  const shuffleCache = useRef({});
+  const getShuffledOrder = (index) => {
+    if (!shuffleCache.current[index]) {
+      shuffleCache.current[index] = ['a', 'b', 'c', 'd'].sort(() => Math.random() - 0.5);
+    }
+    return shuffleCache.current[index];
+  };
 
   const [allowMultipleTries, setAllowMultipleTries] = useState(() => {
     return localStorage.getItem('allowMultipleTries') === 'true';
@@ -77,6 +87,14 @@ export default function Quiz() {
 
     const handleKeyDown = (e) => {
       if (showFeedbackModal) return;
+
+      // Ctrl+D -> delete question
+      if (e.ctrlKey && e.key === 'd') {
+        e.preventDefault();
+        const q = questions[currentIndex];
+        if (q) setConfirmDelete(q);
+        return;
+      }
 
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
         return;
@@ -245,7 +263,6 @@ export default function Quiz() {
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm("Are you sure you want to delete this question? It will not be shown again.")) return;
     try {
       const res = await fetch('/api/progress/delete-question', {
         method: 'POST',
@@ -389,12 +406,9 @@ export default function Quiz() {
   if (step === 2) {
     const currentQuestion = questions[currentIndex];
 
-    const options = [
-      { key: 'a', text: currentQuestion?.option_a },
-      { key: 'b', text: currentQuestion?.option_b },
-      { key: 'c', text: currentQuestion?.option_c },
-      { key: 'd', text: currentQuestion?.option_d },
-    ].filter(o => o.text !== undefined && o.text !== null);
+    const options = getShuffledOrder(currentIndex)
+      .map(key => ({ key, text: currentQuestion?.[`option_${key}`] }))
+      .filter(o => o.text !== undefined && o.text !== null);
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-exercise)] text-[var(--text-primary)] overflow-hidden">
@@ -456,18 +470,17 @@ export default function Quiz() {
           </div>
         </header>
 
-        {/* Main Content (Fullscreen Two Column Layout) */}
+        {/* Main Content (Vertical Layout) */}
         <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 flex items-start justify-center pt-16">
-          <div className="w-full max-w-[1280px]">
-            <div className="exercise-layout">
+          <div className="w-full max-w-[800px]">
+            <div className="flex flex-col gap-6">
               
-              {/* LEFT COLUMN: Question text, inline/block code, and hints */}
+              {/* Question text, inline/block code, and hints */}
               <div className="flex flex-col gap-4 text-left">
-                <h2 className="text-2xl font-bold leading-snug">
+                <h2 className="text-xl sm:text-2xl font-bold leading-snug">
                   {renderContentWithCode(currentQuestion?.question_text)}
                 </h2>
                 
-                {/* Secondary fallback code rendering if present in DB schema */}
                 {currentQuestion?.code && (
                   <div className="rounded-xl border border-[var(--border)] overflow-hidden">
                     <CodeBlock code={currentQuestion.code} language="python" />
@@ -487,10 +500,9 @@ export default function Quiz() {
                 )}
               </div>
 
-              {/* RIGHT COLUMN: MCQ options, Option Feedback, Explanation, and Next Button */}
-              <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 gap-[10px] sm:gap-3">
-                  {options.map((option, idx) => {
+              {/* MCQ Options grid — 2 columns when choices are short, 1 column when any is long */}
+              <div className={`grid gap-[10px] sm:gap-3 ${options.some(o => (o.text?.length || 0) > 40) ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                {options.map((option, idx) => {
                     const isSelected = selectedOption === option.key;
                     const isWrongSelected = wrongSelectedOptions.includes(option.key);
                     const isCorrect = option.key === currentQuestion?.correct_option;
@@ -518,9 +530,9 @@ export default function Quiz() {
                         key={option.key}
                         disabled={isLocked || isWrongSelected}
                         onClick={() => handleOptionClick(option.key)}
-                        className={`flex items-center justify-between rounded-xl border-2 p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium group ${buttonStyle}`}
+                          className={`flex items-center justify-between rounded-xl border-2 p-3 sm:p-5 min-h-[72px] w-full text-left transition-all duration-150 font-medium group ${buttonStyle}`}
                       >
-                        <span className="text-lg w-full">{renderContentWithCode(option.text)}</span>
+                            <span className="text-sm sm:text-lg w-full">{renderContentWithCode(option.text)}</span>
                         <div className="flex items-center gap-2 shrink-0 ml-2">
                           {!isLocked && !isWrongSelected && (
                             <kbd className="inline-flex items-center justify-center w-6 h-6 text-xs font-mono font-bold text-[var(--text-muted)] bg-[var(--bg-primary)] border border-[var(--border)] rounded shadow-sm select-none transition-colors group-hover:border-[var(--accent-green)] group-hover:text-[var(--accent-green)]">
@@ -545,14 +557,14 @@ export default function Quiz() {
               </div>
 
             </div>
-          </div>
         </main>
 
         <ExerciseBottomControls
           onEdit={() => setEditingQuestion(questions[currentIndex])}
-          onDelete={() => handleDeleteQuestion(questions[currentIndex]?.id)}
+          onDelete={() => setConfirmDelete(questions[currentIndex])}
           shortcutItems={[
             { label: 'Select Option', keys: ['1', '-', '4'] },
+            { label: 'Delete Question', keys: ['Ctrl+D'] },
             { label: 'Clear Choice', keys: ['Esc'] },
             { label: 'Next Question', keys: ['Enter'] },
           ]}
@@ -594,6 +606,23 @@ export default function Quiz() {
           explanation={currentQuestion?.explanation || ''}
           onContinue={handleNext}
         />
+
+        {/* Confirm Delete Modal */}
+        {confirmDelete && (
+          <ConfirmModal
+            isOpen={!!confirmDelete}
+            title="Delete Question"
+            message="Are you sure you want to delete this question? It will not be shown again."
+            confirmLabel="Delete"
+            confirmDanger
+            onConfirm={() => {
+              const id = confirmDelete.id;
+              setConfirmDelete(null);
+              handleDeleteQuestion(id);
+            }}
+            onCancel={() => setConfirmDelete(null)}
+          />
+        )}
 
         {/* QA Debug Panel */}
         {localStorage.getItem('devMode') === 'true' && (
