@@ -552,7 +552,7 @@
     "explanation": "`Series.agg(func)` applies the function to the column and returns a scalar or Series.",
     "common_mistake_warning": "⚠️ The function must handle missing values if present.",
     "_exerciseType": "ftb",
-    "description": "Compute the 30th percentile of weight_kg using a custom function `pct30`",
+    "description": "Compute the 30th percentile of weight_kg using a custom function `pct30`,",
     "code": "dogs['weight_kg'].[[0]](pct30)",
     "answers": [
       "agg"
@@ -787,7 +787,7 @@
     "chapter": 3,
     "difficulty": "hard",
     "task_description": "Select the third, fourth, and fifth rows (positions 2,3,4) and the second, third, and fourth columns (positions 1,2,3) from dogs.",
-    "code_template": "dogs.iloc[_____]",
+    "code_template": "            dogs.iloc[[[0]]]",
     "blanks": [
       {
         "position": 0,
@@ -815,8 +815,8 @@
     "explanation": "`.iloc` uses Python slice semantics: `2:5` gives indices 2,3,4; `1:4` gives 1,2,3.",
     "common_mistake_warning": "⚠️ Confusing `.iloc` exclusive end with `.loc` inclusive end is common.",
     "_exerciseType": "ftb",
-    "description": "Select the third, fourth, and fifth rows (positions 2,3,4) and the second, third, and fourth columns (positions 1,2,3) from dogs. Use slicing.",
-    "code": "dogs.iloc[[[0]]]",
+    "description": "Select the third, fourth, and fifth rows (positions 2,3,4) and the second, third, and fourth columns (positions 1,2,3) from dogs. Use SLICING",
+    "code": "            dogs.iloc[[[0]]]",
     "answers": [
       "2:5, 1:4"
     ]

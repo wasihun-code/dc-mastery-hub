@@ -1,7 +1,7 @@
 import cors from 'cors'
 import express from 'express'
-import Database from 'better-sqlite3'
 import config from './config.js'
+import db from './db/database.js'
 import { seedDatabase } from './db/seed.js'
 import { initSchema } from './db/schema.js'
 import coursesRouter from './routes/courses.js'
@@ -14,59 +14,33 @@ import authRouter from './routes/auth.js'
 import adminRouter from './routes/admin.js'
 import { scanContent } from './services/contentScanner.js'
 import { importJsonExercises } from './db/jsonImporter.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import fs from 'fs'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = config.PORT
 const HOST = config.HOST
 
-// Create or restore database
-const seedDumpPath = path.resolve(__dirname, 'db', 'seed-data.sql')
-if (fs.existsSync(seedDumpPath)) {
-  console.log('Seed dump found — restoring database from seed-data.sql...')
-  // Delete old DB files so CREATE TABLE statements don't conflict
-  for (const suffix of ['', '-wal', '-shm']) {
-    try { fs.unlinkSync(config.DB_PATH + suffix) } catch {}
-  }
-  fs.mkdirSync(path.dirname(config.DB_PATH), { recursive: true })
-}
-const db = new Database(config.DB_PATH)
-db.pragma('journal_mode = WAL')
+initSchema()
+seedDatabase()
+console.log('DB initialized and seeded')
 
-if (fs.existsSync(seedDumpPath)) {
-  const sql = fs.readFileSync(seedDumpPath, 'utf-8')
-  // Strip sqlite_sequence lines — it's an internal table that can't be re-created
-  const filteredSql = sql.split('\n').filter(l => !l.includes('sqlite_sequence')).join('\n')
-  db.exec(filteredSql)
-  console.log('Database restored from seed-data.sql')
-} else {
-  initSchema()
-  seedDatabase()
-  console.log('DB initialized and seeded')
+const scanResult = scanContent()
+console.log('Content scan result:', scanResult)
 
-  const scanResult = scanContent()
-  console.log('Content scan result:', scanResult)
+const importResult = importJsonExercises()
+console.log('JSON exercises import result:', importResult)
 
-  const importResult = importJsonExercises()
-  console.log('JSON exercises import result:', importResult)
-
-  // Recalculate mastery for all courses on startup to ensure consistency
-  try {
-    const allUsers = db.prepare('SELECT id FROM users').all()
-    const allCourses = db.prepare('SELECT id FROM courses').all()
-    for (const u of allUsers) {
-      for (const c of allCourses) {
-        recalculateMastery(c.id, u.id)
-      }
+// Recalculate mastery for all courses on startup to ensure consistency
+try {
+  const allUsers = db.prepare('SELECT id FROM users').all()
+  const allCourses = db.prepare('SELECT id FROM courses').all()
+  for (const u of allUsers) {
+    for (const c of allCourses) {
+      recalculateMastery(c.id, u.id)
     }
-    console.log('All course mastery scores recalculated successfully.')
-  } catch (e) {
-    console.error('Failed to recalculate mastery scores on startup:', e)
   }
+  console.log('All course mastery scores recalculated successfully.')
+} catch (e) {
+  console.error('Failed to recalculate mastery scores on startup:', e)
 }
 
 app.use(cors())
