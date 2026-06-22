@@ -14,6 +14,10 @@ import authRouter from './routes/auth.js'
 import adminRouter from './routes/admin.js'
 import { scanContent } from './services/contentScanner.js'
 import { importJsonExercises } from './db/jsonImporter.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = config.PORT
