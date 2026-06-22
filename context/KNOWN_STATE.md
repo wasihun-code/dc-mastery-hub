@@ -1,6 +1,6 @@
 # Known State
 
-**Last updated**: 2026-06-20 17:28
+**Last updated**: 2026-06-20 18:16
 
 If this file is more than 2 weeks old, verify key claims against actual code
 before trusting them for anything load-bearing.
@@ -19,12 +19,14 @@ before trusting them for anything load-bearing.
 3. CRITICAL BUG FIX: Dataset challenge submissions were always accepted as correct — `validation_rules` in challenge.json only checked `True` and `runDatasetChallenge` never compared user output against `expected_output`. Fixed in `routes/content.js` (`/submit-challenge`): now extracts actual user stdout from sandbox, strips validation JSON, and compares against `expected_output` field from challenge.json. Also hardened `codeSandbox.js` to set `success = total > 0 && passed === total` preventing empty validation rules from passing.
 4. Pre-Stage 3 Hardening: Test DB cleaned, multi-row wrapper guard added, full boolean bug inventory recorded.
 5. Postgres migration Stage 3 complete: `courses.js` fully converted to Postgres; coexistence with remaining SQLite routes verified.
-6. Postgres migration Stage 2 (and Verification) complete: Schema translated, wrapper behavior verified, test strategy chosen.
+6. Postgres migration Stage 4 completed (content.js async/await refactored and test failures resolved).
+7. Postgres migration Stage 5 completed: `auth.js` migrated, tested, and a critical mismatch in session validation middleware was found and fixed in `backend/index.js` to align with Postgres.
 - **Recent changes**: 
   - [Stage 1] Confirmed Neon DB creation and tested connection via pg wrapper.
   - [Stage 2] Built unified SQL wrapper (database.pg.js) with integer-boolean coercion for legacy app.
   - [Stage 2.5] Audited frontend for 1/0 integer boolean assumptions across all components and fixed them to use true/false natively. 
   - [Stage 2.6] Replaced global fetch override with scoped API-client normalization; verified and fixed backend write-path boolean coercion gaps.
+  - [Stage 4a.5] Proactive hardening: Verified `--runInBand` test serialization, audited implicit GROUP BY syntax strictness, and mapped boolean integer coercion gaps for Postgres.
 2. Code block text color fix — Added `--code-text` CSS var at `:root` level,
    applied to FillBlank.jsx and EditQuestionModal.jsx code containers (text was
    invisible in light theme).

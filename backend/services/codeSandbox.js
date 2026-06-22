@@ -17,7 +17,7 @@ const BLOCKED_TERMS = [
   'shutil', 'pathlib', 'import glob', 'from glob'
 ]
 
-function checkSecurity(code) {
+async function checkSecurity(code) {
   if (typeof code !== 'string') return null
   for (const blockedTerm of BLOCKED_TERMS) {
     if (code.includes(blockedTerm)) {
@@ -32,7 +32,7 @@ function checkSecurity(code) {
   return null
 }
 
-export function runSql(code) {
+export async function runSql(code) {
   // SQL Sandbox using an in-memory SQLite database
   const db = new Database(':memory:')
   try {
@@ -43,7 +43,7 @@ export function runSql(code) {
 
     for (const stmt of statements) {
       if (stmt.toLowerCase().startsWith('select')) {
-        const rows = db.prepare(stmt).all()
+        const rows = await db.prepare(stmt).all()
         lastResult = rows
         if (rows.length > 0) {
           const keys = Object.keys(rows[0])
@@ -54,7 +54,7 @@ export function runSql(code) {
           lastOutput = '(no results)'
         }
       } else {
-        db.prepare(stmt).run()
+        await db.prepare(stmt).run()
         lastOutput = 'Statement executed successfully.'
       }
     }
@@ -77,7 +77,7 @@ export function runSql(code) {
   }
 }
 
-export function runDatasetChallenge(solutionCode, preLoadedData, validationRules, datasetsAbsolutePath, userId, challengeId, options = {}) {
+export async function runDatasetChallenge(solutionCode, preLoadedData, validationRules, datasetsAbsolutePath, userId, challengeId, options = {}) {
   const { runOnly = false } = options
   const securityViolation = checkSecurity(solutionCode)
   if (securityViolation) return securityViolation
@@ -268,7 +268,7 @@ print(json.dumps(_results))
   }
 }
 
-export function runCode(code, datasetPaths) {
+export async function runCode(code, datasetPaths) {
   // Legacy code sandbox - keep it for other components if needed, or remove if unused.
   const securityViolation = checkSecurity(code)
   if (securityViolation) return securityViolation
@@ -372,7 +372,7 @@ except:
   }
 }
 
-export function runShellCommand(historyCode, command, preLoadedData, datasetsAbsolutePath, userId, challengeId) {
+export async function runShellCommand(historyCode, command, preLoadedData, datasetsAbsolutePath, userId, challengeId) {
   const securityViolation = checkSecurity(command) || checkSecurity(historyCode)
   if (securityViolation) return securityViolation
 

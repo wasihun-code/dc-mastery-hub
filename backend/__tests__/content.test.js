@@ -3,21 +3,24 @@ import request from 'supertest'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
+import db from '../db/database.pg.js'
 
-let db, testData, env, app, contentDir
+jest.setTimeout(30000)
 
-function getSessionUser(req) {
+let testData, env, app, contentDir
+
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
 function createExerciseFile(courseFolder, fileName, data) {
@@ -27,25 +30,21 @@ function createExerciseFile(courseFolder, fileName, data) {
 }
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
 
   contentDir = path.join(env.tmpDir, 'content')
   process.env.CONTENT_PATH = contentDir
 
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
 
-  testData = seedTestData(db)
+  await db.prepare('DELETE FROM user_stats').run()
+  await db.prepare('DELETE FROM sessions').run()
+  await db.prepare('DELETE FROM users').run()
+
+  testData = await seedTestData(db)
 
   const dsCourseFolder = path.join(contentDir, 'tracks', 'data-science', 'python-basics')
   createExerciseFile(dsCourseFolder, 'mcq.json', {
@@ -104,29 +103,33 @@ beforeAll(async () => {
   const emptyChalCourseFolder = path.join(contentDir, 'tracks', 'data-science', 'empty-challenges')
   fs.mkdirSync(path.join(emptyChalCourseFolder, 'exercises'), { recursive: true })
   fs.writeFileSync(path.join(emptyChalCourseFolder, 'exercises', 'challenge.json'), JSON.stringify({ challenges: [] }), 'utf-8')
-  db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('empty-challenges', 'Empty Challenges', 'Easy', 'Not Started')
-  const emptyChalCourse = db.prepare('SELECT id FROM courses WHERE slug = ?').get('empty-challenges')
-  db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, emptyChalCourse.id, 10)
+  await db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('empty-challenges', 'Empty Challenges', 'Easy', 'Not Started')
+  const emptyChalCourse = await db.prepare('SELECT id FROM courses WHERE slug = ?').get('empty-challenges')
+  await db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, emptyChalCourse.id, 10)
 
   // Course with only dotfiles in datasets
   const dotfilesCourseFolder = path.join(contentDir, 'tracks', 'data-science', 'dotfiles-datasets')
   fs.mkdirSync(path.join(dotfilesCourseFolder, 'datasets'), { recursive: true })
   fs.writeFileSync(path.join(dotfilesCourseFolder, 'datasets', '.DS_Store'), '', 'utf-8')
   fs.writeFileSync(path.join(dotfilesCourseFolder, 'datasets', '.gitkeep'), '', 'utf-8')
-  db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('dotfiles-datasets', 'Dotfiles Datasets', 'Easy', 'Not Started')
-  const dotfilesCourse = db.prepare('SELECT id FROM courses WHERE slug = ?').get('dotfiles-datasets')
-  db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, dotfilesCourse.id, 11)
+  await db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('dotfiles-datasets', 'Dotfiles Datasets', 'Easy', 'Not Started')
+  const dotfilesCourse = await db.prepare('SELECT id FROM courses WHERE slug = ?').get('dotfiles-datasets')
+  await db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, dotfilesCourse.id, 11)
 
   const contentRouter = (await import('../routes/content.js')).default
 
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
-    if (!user) return res.status(401).json({ error: 'Unauthorized' })
-    req.user = user
-    next()
+  app.use(async (req, res, next) => {
+    try {
+      const user = await getSessionUser(req)
+      if (!user) return res.status(401).json({ error: 'Unauthorized' })
+      req.user = user
+      next()
+    } catch (e) {
+      next(e)
+    }
   })
 
   app.use('/api/content', contentRouter)
@@ -136,8 +139,9 @@ beforeAll(async () => {
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Content Routes', () => {
@@ -147,6 +151,7 @@ describe('Content Routes', () => {
         .get('/api/content/exercises/python-basics/mcq')
         .set('Cookie', testData.studentSession)
 
+      if (res.status !== 200) console.log(res.body, res.text)
       expect(res.status).toBe(200)
       expect(Array.isArray(res.body)).toBe(true)
       expect(res.body.length).toBe(2)

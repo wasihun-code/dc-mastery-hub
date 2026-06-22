@@ -1,47 +1,40 @@
 import { jest } from '@jest/globals'
 import request from 'supertest'
 import express from 'express'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
+import db from '../db/database.pg.js'
 
-let db, testData, env, app
+let testData, env, app
 
-function getSessionUser(req) {
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
+jest.setTimeout(60000);
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-
-  testData = seedTestData(db)
+  testData = await seedTestData()
 
   const manageRouter = (await import('../routes/manage.js')).default
 
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
+  app.use(async (req, res, next) => {
+    const user = await getSessionUser(req)
     if (!user) return res.status(401).json({ error: 'Unauthorized' })
     req.user = user
     next()
@@ -54,8 +47,9 @@ beforeAll(async () => {
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Manage Routes', () => {
@@ -113,7 +107,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const track = db.prepare('SELECT * FROM tracks WHERE slug = ?').get('test-track')
+      const track = await db.prepare('SELECT * FROM tracks WHERE slug = ?').get('test-track')
       expect(track).toBeDefined()
       expect(track.name).toBe('Test Track')
     })
@@ -139,10 +133,10 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const ut = db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
+      const ut = await db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
         .get(testData.studentUser.id, testData.tracks.track1.id)
-      expect(ut.is_deleted).toBe(1)
-      expect(ut.is_archived).toBe(0)
+      expect(ut.is_deleted).toBe(true)
+      expect(ut.is_archived).toBe(false)
     })
 
     test('rejects missing trackId', async () => {
@@ -165,11 +159,11 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const course = db.prepare('SELECT * FROM courses WHERE slug = ?').get('new-course')
+      const course = await db.prepare('SELECT * FROM courses WHERE slug = ?').get('new-course')
       expect(course).toBeDefined()
       expect(course.name).toBe('New Course')
 
-      const tc = db.prepare('SELECT * FROM track_courses WHERE track_id = ? AND course_id = ?')
+      const tc = await db.prepare('SELECT * FROM track_courses WHERE track_id = ? AND course_id = ?')
         .get(testData.tracks.track1.id, course.id)
       expect(tc).toBeDefined()
     })
@@ -204,9 +198,9 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
-      expect(uc.is_archived).toBe(1)
+      expect(uc.is_archived).toBe(true)
     })
 
     test('rejects missing courseId', async () => {
@@ -278,10 +272,10 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const ut = db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
+      const ut = await db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
         .get(testData.studentUser.id, testData.tracks.track2.id)
-      expect(ut.is_archived).toBe(1)
-      expect(ut.is_deleted).toBe(0)
+      expect(ut.is_archived).toBe(true)
+      expect(ut.is_deleted).toBe(false)
     })
   })
 
@@ -295,10 +289,10 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const ut = db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
+      const ut = await db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
         .get(testData.studentUser.id, testData.tracks.track1.id)
-      expect(ut.is_deleted).toBe(1)
-      expect(ut.is_archived).toBe(1)
+      expect(ut.is_deleted).toBe(true)
+      expect(ut.is_archived).toBe(true)
     })
   })
 
@@ -312,9 +306,9 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course3.id)
-      expect(uc.is_deleted).toBe(1)
+      expect(uc.is_deleted).toBe(true)
     })
   })
 
@@ -328,7 +322,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
       expect(uc.status).toBe('In Progress')
     })
@@ -342,7 +336,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course2.id)
       expect(uc.difficulty).toBe('Hard')
     })
@@ -356,7 +350,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course3.id)
       expect(uc.reviewed).toBe('Yes')
     })
@@ -385,7 +379,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course2.id)
       expect(uc.status).toBe('Completed')
       expect(uc.difficulty).toBe('Hard')
@@ -411,9 +405,9 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
-      expect(uc.is_deleted).toBe(0)
+      expect(uc.is_deleted).toBe(false)
     })
   })
 
@@ -435,9 +429,9 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
-      expect(uc.is_archived).toBe(0)
+      expect(uc.is_archived).toBe(false)
     })
   })
 
@@ -454,7 +448,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
       expect(uc.reviewed).toBe('Yes')
     })
@@ -473,7 +467,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course2.id)
       expect(uc.reviewed).toBe('No')
     })
@@ -493,7 +487,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const tc = db.prepare('SELECT * FROM track_courses WHERE course_id = ?')
+      const tc = await db.prepare('SELECT * FROM track_courses WHERE course_id = ?')
         .get(testData.courses.course3.id)
       expect(tc.track_id).toBe(testData.tracks.track1.id)
     })
@@ -509,7 +503,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course1.id)
       expect(uc).toBeUndefined()
     })
@@ -523,7 +517,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const ut = db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
+      const ut = await db.prepare('SELECT * FROM user_tracks WHERE user_id = ? AND track_id = ?')
         .get(testData.studentUser.id, testData.tracks.track2.id)
       expect(ut).toBeUndefined()
     })
@@ -538,7 +532,7 @@ describe('Manage Routes', () => {
 
       expect(createRes.status).toBe(200)
 
-      const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get('admin-delete-course')
+      const course = await db.prepare('SELECT id FROM courses WHERE slug = ?').get('admin-delete-course')
       expect(course).toBeDefined()
 
       const res = await request(app)
@@ -549,7 +543,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const deleted = db.prepare('SELECT * FROM courses WHERE id = ?').get(course.id)
+      const deleted = await db.prepare('SELECT * FROM courses WHERE id = ?').get(course.id)
       expect(deleted).toBeUndefined()
     })
 
@@ -561,7 +555,7 @@ describe('Manage Routes', () => {
 
       expect(createRes.status).toBe(200)
 
-      const track = db.prepare('SELECT id FROM tracks WHERE slug = ?').get('admin-delete-track')
+      const track = await db.prepare('SELECT id FROM tracks WHERE slug = ?').get('admin-delete-track')
       expect(track).toBeDefined()
 
       const res = await request(app)
@@ -572,7 +566,7 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const deleted = db.prepare('SELECT * FROM tracks WHERE id = ?').get(track.id)
+      const deleted = await db.prepare('SELECT * FROM tracks WHERE id = ?').get(track.id)
       expect(deleted).toBeUndefined()
     })
   })
@@ -587,10 +581,10 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const uc = db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
+      const uc = await db.prepare('SELECT * FROM user_courses WHERE user_id = ? AND course_id = ?')
         .get(testData.studentUser.id, testData.courses.course3.id)
-      expect(uc.is_deleted).toBe(1)
-      expect(uc.is_archived).toBe(1)
+      expect(uc.is_deleted).toBe(true)
+      expect(uc.is_archived).toBe(true)
     })
   })
 
@@ -649,8 +643,8 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const course = db.prepare('SELECT has_pdf FROM courses WHERE id = ?').get(testData.courses.course2.id)
-      expect(course.has_pdf).toBe(1)
+      const course = await db.prepare('SELECT has_pdf FROM courses WHERE id = ?').get(testData.courses.course2.id)
+      expect(course.has_pdf).toBe(true)
     })
 
     test('uploads a glossary file successfully as admin', async () => {
@@ -667,8 +661,8 @@ describe('Manage Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const course = db.prepare('SELECT has_glossary FROM courses WHERE id = ?').get(testData.courses.course2.id)
-      expect(course.has_glossary).toBe(1)
+      const course = await db.prepare('SELECT has_glossary FROM courses WHERE id = ?').get(testData.courses.course2.id)
+      expect(course.has_glossary).toBe(true)
     })
 
     test('uploads a dataset file successfully as admin', async () => {
@@ -716,7 +710,7 @@ describe('Manage Routes', () => {
       expect(res.body.success).toBe(true)
       expect(res.body.newCourseId).toBe(testData.courses.course2.id)
 
-      const tc = db.prepare('SELECT * FROM track_courses WHERE track_id = ? AND course_id = ?')
+      const tc = await db.prepare('SELECT * FROM track_courses WHERE track_id = ? AND course_id = ?')
         .get(testData.tracks.track2.id, testData.courses.course2.id)
       expect(tc).toBeDefined()
     })

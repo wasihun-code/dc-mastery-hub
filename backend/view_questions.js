@@ -15,8 +15,8 @@ if (!fs.existsSync(dbPath)) {
 
 const db = new Database(dbPath)
 
-function viewQuestions(courseSlug) {
-  const course = db.prepare('SELECT id, name FROM courses WHERE slug = ?').get(courseSlug)
+async function viewQuestions(courseSlug) {
+  const course = await db.prepare('SELECT id, name FROM courses WHERE slug = ?').get(courseSlug)
   
   if (!course) {
     console.error(`Course "${courseSlug}" not found in database.`)
@@ -26,7 +26,7 @@ function viewQuestions(courseSlug) {
   console.log(`\n=== QUESTIONS FOR: ${course.name} ===\n`)
 
   // 1. CONCEPTS
-  const concepts = db.prepare('SELECT name, category, definition, code_snippet FROM concepts WHERE course_id = ?').all(course.id)
+  const concepts = await db.prepare('SELECT name, category, definition, code_snippet FROM concepts WHERE course_id = ?').all(course.id)
   console.log(`--- CONCEPTS (${concepts.length}) ---`)
   concepts.forEach((c, i) => {
     console.log(`${i + 1}. [${c.category.toUpperCase()}] ${c.name}`)
@@ -36,7 +36,7 @@ function viewQuestions(courseSlug) {
   })
 
   // 2. FLASHCARDS
-  const flashcards = db.prepare('SELECT front, back FROM flashcards WHERE course_id = ?').all(course.id)
+  const flashcards = await db.prepare('SELECT front, back FROM flashcards WHERE course_id = ?').all(course.id)
   console.log(`--- FLASHCARDS (${flashcards.length}) ---`)
   flashcards.forEach((f, i) => {
     console.log(`${i + 1}. FRONT: ${f.front.replace(/\n/g, ' ')}`)

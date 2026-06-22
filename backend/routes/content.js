@@ -3,7 +3,7 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 import { scanContent } from '../services/contentScanner.js'
 import { extractRawText, storeExtractedContent } from '../services/pdfParser.js'
 import { runSql, runDatasetChallenge } from '../services/codeSandbox.js'
@@ -40,7 +40,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
+router.get('/exercises/:courseSlug/:exerciseType', async (req, res, next) => {
   try {
     const { courseSlug } = req.params;
     let { exerciseType } = req.params;
@@ -50,20 +50,21 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     }
     if (exerciseType === 'quiz') exerciseType = 'mcq';
 
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' });
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' });
 
     const userId = req.user.id;
-    const deletedQuestions = db.prepare(`
+    const deletedQuestionsRows = await db.prepare(`
       SELECT question_id FROM deleted_questions 
       WHERE user_id = ? AND course_slug = ? AND (exercise_type = ? OR (exercise_type = 'flashcard' AND ? = 'flashcards') OR (exercise_type = 'flashcards' AND ? = 'flashcard'))
-    `).all(userId, courseSlug, exerciseType, exerciseType, exerciseType).map(row => String(row.question_id));
+    `).all(userId, courseSlug, exerciseType, exerciseType, exerciseType);
+    const deletedQuestions = deletedQuestionsRows.map(row => String(row.question_id));
 
     const contentFolder = config.CONTENT_PATH
 
@@ -73,7 +74,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     // Try serving from database first if data is present and JSON file is missing
     if (exerciseType === 'mcq') {
       if (!fs.existsSync(exercisePath)) {
-        let dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        let dbQuestions = await db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
         dbQuestions = dbQuestions.filter(q => !deletedQuestions.includes(String(q.id)));
         if (dbQuestions.length > 0) {
           let items = dbQuestions.map(q => ({
@@ -102,7 +103,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
 
     if (exerciseType === 'flashcards') {
       if (!fs.existsSync(exercisePath)) {
-        let dbFlashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
+        let dbFlashcards = await db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course.id);
         dbFlashcards = dbFlashcards.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbFlashcards.length > 0) {
           let items = dbFlashcards.map(c => ({
@@ -127,7 +128,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     if (exerciseType === 'matching') {
       // Prioritize matching.json file on disk. Fall back to database concepts only if file is missing.
       if (!fs.existsSync(exercisePath)) {
-        let dbConcepts = db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
+        let dbConcepts = await db.prepare('SELECT id, name, definition FROM concepts WHERE course_id = ?').all(course.id);
         dbConcepts = dbConcepts.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbConcepts.length >= 5) {
           const rounds = [];
@@ -156,7 +157,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
 
     if (exerciseType === 'bossbattle') {
       if (!fs.existsSync(exercisePath)) {
-        let dbQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
+        let dbQuestions = await db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course.id);
         dbQuestions = dbQuestions.filter(q => !deletedQuestions.includes(String(q.id)));
         if (dbQuestions.length > 0) {
           let items = dbQuestions.map(q => ({
@@ -180,7 +181,7 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     if (exerciseType === 'ftb') {
       // Prioritize ftb.json file on disk. Fall back to database concepts only if file is missing.
       if (!fs.existsSync(exercisePath)) {
-        let dbConcepts = db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
+        let dbConcepts = await db.prepare('SELECT id, name, definition, code_snippet FROM concepts WHERE course_id = ? AND code_snippet IS NOT NULL').all(course.id);
         dbConcepts = dbConcepts.filter(c => !deletedQuestions.includes(String(c.id)));
         if (dbConcepts.length > 0) {
           const items = dbConcepts.map((concept) => {
@@ -329,10 +330,10 @@ router.get('/exercises/:courseSlug/:exerciseType', (req, res, next) => {
     next(err);
   }
 });
-router.post('/scan', (req, res, next) => {
+router.post('/scan', async (req, res, next) => {
   try {
-    const summary = scanContent()
-    res.status(200).json(summary)
+    const scanResult = await scanContent()
+    res.status(200).json(scanResult)
   } catch (err) {
     next(err)
   }
@@ -342,7 +343,7 @@ router.post('/scan', (req, res, next) => {
  * Returns raw text extracted from the course PDF.
  * Called by Gemini CLI subagent.
  */
-router.get('/extract-text/:courseSlug', (req, res, next) => {
+router.get('/extract-text/:courseSlug', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const data = extractRawText(courseSlug)
@@ -356,7 +357,7 @@ router.get('/extract-text/:courseSlug', (req, res, next) => {
  * Stores concepts and quiz questions generated by the AI.
  * Called by Gemini CLI subagent.
  */
-router.post('/store/:courseSlug', (req, res, next) => {
+router.post('/store/:courseSlug', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const result = storeExtractedContent(courseSlug, req.body)
@@ -369,19 +370,19 @@ router.post('/store/:courseSlug', (req, res, next) => {
 /**
  * Deprecated endpoint. Direct parsing removed.
  */
-router.post('/parse/:courseSlug', (req, res) => {
+router.post('/parse/:courseSlug', async (req, res) => {
   res.status(410).json({ 
     error: "Direct parsing removed. Use Gemini CLI extract-course command instead." 
   })
 })
 
-router.get('/track-test/:trackSlug', (req, res, next) => {
+router.get('/track-test/:trackSlug', async (req, res, next) => {
   try {
     const { trackSlug } = req.params
-    const track = db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
+    const track = await db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
-    const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(track.id)
+    const courses = await db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ?').all(track.id)
     const courseIds = courses.map(c => c.id)
 
     if (courseIds.length === 0) {
@@ -389,7 +390,7 @@ router.get('/track-test/:trackSlug', (req, res, next) => {
     }
 
     const placeholders = courseIds.map(() => '?').join(',')
-    const questions = db.prepare(`
+    const questions = await db.prepare(`
       SELECT q.*, c.name AS course_name, c.slug AS course_slug
       FROM quiz_questions q
       JOIN courses c ON c.id = q.course_id
@@ -417,12 +418,12 @@ router.get('/track-test/:trackSlug', (req, res, next) => {
   }
 })
 
-router.get('/pdf/:courseSlug', (req, res, next) => {
+router.get('/pdf/:courseSlug', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     const type = req.query.type || 'slides'
     
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, c.has_pdf, c.has_glossary,
              (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
@@ -432,7 +433,7 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
     if (type === 'slides' && !course.has_pdf) return res.status(404).json({ error: 'Slides PDF not found' })
     if (type === 'glossary' && !course.has_glossary) return res.status(404).json({ error: 'Glossary PDF not found' })
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
     const contentFolder = config.CONTENT_PATH
@@ -452,16 +453,16 @@ router.get('/pdf/:courseSlug', (req, res, next) => {
   }
 })
 
-router.get('/datasets/:courseSlug', (req, res, next) => {
+router.get('/datasets/:courseSlug', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
     const contentFolder = config.CONTENT_PATH
@@ -493,24 +494,25 @@ router.get('/datasets/:courseSlug', (req, res, next) => {
   }
 })
 
-router.get('/challenges/:courseSlug', (req, res, next) => {
+router.get('/challenges/:courseSlug', async (req, res, next) => {
   try {
     const { courseSlug } = req.params
     
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug);
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
     const userId = req.user.id
-    const deletedQuestions = db.prepare(`
+    const deletedQuestionsRows = await db.prepare(`
       SELECT question_id FROM deleted_questions 
       WHERE user_id = ? AND course_slug = ? AND (exercise_type = 'challenge' OR exercise_type = 'dataset')
-    `).all(userId, courseSlug).map(row => String(row.question_id));
+    `).all(userId, courseSlug);
+    const deletedQuestions = deletedQuestionsRows.map(row => String(row.question_id));
 
     let challenges = [];
-    const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
+    const track = await db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id);
     if (track) {
       const contentFolder = config.CONTENT_PATH
 
@@ -536,12 +538,12 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
     }
 
     // Fetch solved challenge IDs for this course
-    const solvedAttempts = db.prepare(`
+    const solvedAttemptsRows = await db.prepare(`
       SELECT DISTINCT question_id
       FROM exercise_attempts
-      WHERE course_id = ? AND exercise_type = 'dataset' AND was_correct = 1 AND question_id IS NOT NULL
+      WHERE course_id = ? AND exercise_type = 'dataset' AND was_correct = true AND question_id IS NOT NULL
     `).all(course.id);
-    const solvedIds = new Set(solvedAttempts.map(a => a.question_id));
+    const solvedIds = new Set(solvedAttemptsRows.map(a => a.question_id));
 
     // Filter challenges to find those not yet solved
     const unsolvedChallenges = challenges.filter(c => {
@@ -570,7 +572,7 @@ router.get('/challenges/:courseSlug', (req, res, next) => {
   }
 })
 
-router.post('/run-code', (req, res, next) => {
+router.post('/run-code', async (req, res, next) => {
   try {
     const { solution_code, code, courseSlug, challenge_id, challengeId } = req.body
     const userCode = solution_code || code || ''
@@ -582,13 +584,13 @@ router.post('/run-code', (req, res, next) => {
       return res.status(400).json({ error: 'No code provided to execute' })
     }
 
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
+    const track = await db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
     // Handle SQL courses
@@ -632,20 +634,20 @@ router.post('/run-code', (req, res, next) => {
   }
 })
 
-router.post('/run-snippet', (req, res, next) => {
+router.post('/run-snippet', async (req, res, next) => {
   try {
     const { code, snippet, courseSlug, challengeId } = req.body
     if (!courseSlug || !snippet) {
       return res.status(400).json({ error: 'Missing required fields: courseSlug and snippet' })
     }
 
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
+    const track = await db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
     if (track.language === 'SQL' || courseSlug.includes('sql')) {
@@ -688,18 +690,18 @@ router.post('/run-snippet', (req, res, next) => {
 
 
 
-router.post('/submit-challenge', (req, res, next) => {
+router.post('/submit-challenge', async (req, res, next) => {
   try {
     const { code, courseSlug, challengeId } = req.body
     console.log(`[submit-challenge] Request received for ${courseSlug} - ${challengeId}`)
     
-    const course = db.prepare(`
+    const course = await db.prepare(`
       SELECT c.id, (SELECT track_id FROM track_courses WHERE course_id = c.id LIMIT 1) AS track_id
       FROM courses c WHERE c.slug = ?
     `).get(courseSlug)
     if (!course) return res.status(404).json({ error: 'Course not found' })
 
-    const track = db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
+    const track = await db.prepare('SELECT slug, language FROM tracks WHERE id = ?').get(course.track_id)
     if (!track) return res.status(404).json({ error: 'Track not found' })
 
     function normalizeOutput(output) {

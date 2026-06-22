@@ -2,19 +2,19 @@ import config from '../config.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import db from './database.js'
+import db from './database.pg.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
-export function importJsonExercises() {
+export async function importJsonExercises() {
   const rawContentFolder = config.CONTENT_PATH
   const contentFolder = rawContentFolder
     ? (path.isAbsolute(rawContentFolder) ? rawContentFolder : path.resolve(__dirname, '..', rawContentFolder))
     : DEFAULT_CONTENT_FOLDER
   
   try {
-    const courses = db.prepare(`
+    const courses = await db.prepare(`
       SELECT c.id, c.slug 
       FROM courses c
     `).all()
@@ -48,7 +48,7 @@ export function importJsonExercises() {
       if (!fs.existsSync(mcqPath) || !fs.existsSync(fcPath) || !fs.existsSync(ftbPath)) continue
 
       // Check if already in DB
-      const currentConceptsCount = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
+      const currentConceptsCount = await db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course.id).count
       if (currentConceptsCount > 0) {
         // Already seeded in DB, skip
         continue
@@ -81,19 +81,19 @@ export function importJsonExercises() {
           }
         }
 
-        db.transaction(() => {
+        await db.transaction(async () => {
           // 1. Clear existing course data in proper dependency order
-          db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
-          db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
-          db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
-          db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
-          db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
+          await db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+          await db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+          await db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
+          await db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
+          await db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
 
           // 2. Resolve and insert concepts
           const insertConcept = db.prepare(`
             INSERT INTO concepts 
               (course_id, name, definition, code_snippet, source_page, category, difficulty)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id
           `)
 
           // Collect all unique concept IDs referenced across exercises, flashcards, quiz questions, and matching pairs
@@ -164,7 +164,7 @@ export function importJsonExercises() {
           for (const conceptIdStr of uniqueConceptIdStrs) {
             const { name, definition, codeSnippet, chapter, difficulty } = resolveConceptData(conceptIdStr)
 
-            const r = insertConcept.run(
+            const r = await insertConcept.run(
               course.id,
               name.slice(0, 200),
               definition.slice(0, 500),
@@ -192,7 +192,7 @@ export function importJsonExercises() {
             const conceptIdStr = card.concept_id
             const conceptId = getConceptId(conceptIdStr)
             if (conceptId) {
-              insertFlashcard.run(
+              await insertFlashcard.run(
                 conceptId,
                 course.id,
                 card.front.slice(0, 500),
@@ -203,9 +203,21 @@ export function importJsonExercises() {
 
           // 4. Insert quiz questions
           const insertQuestion = db.prepare(`
-            INSERT OR REPLACE INTO quiz_questions
+            INSERT INTO quiz_questions
               (id, course_id, concept_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation, question_type, difficulty)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+            ON CONFLICT (id) DO UPDATE SET
+              course_id = EXCLUDED.course_id,
+              concept_id = EXCLUDED.concept_id,
+              question_text = EXCLUDED.question_text,
+              option_a = EXCLUDED.option_a,
+              option_b = EXCLUDED.option_b,
+              option_c = EXCLUDED.option_c,
+              option_d = EXCLUDED.option_d,
+              correct_option = EXCLUDED.correct_option,
+              explanation = EXCLUDED.explanation,
+              question_type = EXCLUDED.question_type,
+              difficulty = EXCLUDED.difficulty
           `)
 
           for (const q of questions) {
@@ -214,7 +226,7 @@ export function importJsonExercises() {
             const conceptId = getConceptId(conceptIdStr)
             
             if (qId && conceptId) {
-              insertQuestion.run(
+              await insertQuestion.run(
                 qId,
                 course.id,
                 conceptId,

@@ -2,47 +2,39 @@ import { jest } from '@jest/globals'
 import request from 'supertest'
 import express from 'express'
 import crypto from 'crypto'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
 
-let db, testData, env, app
+import db from '../db/database.pg.js'
+let testData, env, app
 
-function getSessionUser(req) {
+jest.setTimeout(60000)
+
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
-
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
-
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-
-  testData = seedTestData(db)
+  testData = await seedTestData()
 
   const adminRouter = (await import('../routes/admin.js')).default
 
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
+  app.use(async (req, res, next) => {
+    const user = await getSessionUser(req)
     if (!user) return res.status(401).json({ error: 'Unauthorized' })
     req.user = user
     next()
@@ -55,8 +47,9 @@ beforeAll(async () => {
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env ? env.tmpDir : undefined)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Admin Routes', () => {
@@ -109,11 +102,11 @@ describe('Admin Routes', () => {
       expect(res.body.users).toBeInstanceOf(Array)
       expect(res.body.users.length).toBeGreaterThanOrEqual(2)
 
-      const adminUser = res.body.users.find(u => u.is_admin === 1)
+      const adminUser = res.body.users.find(u => u.is_admin === true)
       expect(adminUser).toBeDefined()
       expect(adminUser.username).toBe('admin@test.com')
 
-      const studentUser = res.body.users.find(u => u.is_admin === 0)
+      const studentUser = res.body.users.find(u => u.is_admin === false)
       expect(studentUser).toBeDefined()
       expect(studentUser).not.toHaveProperty('password_hash')
       expect(studentUser).not.toHaveProperty('salt')
@@ -151,10 +144,10 @@ describe('Admin Routes', () => {
 
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
-      expect(res.body.is_admin).toBe(1)
+      expect(res.body.is_admin).toBe(true)
 
-      const user = db.prepare('SELECT is_admin FROM users WHERE id = ?').get(testData.studentUser.id)
-      expect(user.is_admin).toBe(1)
+      const user = await db.prepare('SELECT is_admin FROM users WHERE id = ?').get(testData.studentUser.id)
+      expect(user.is_admin).toBe(true)
     })
 
     test('prevents self-demotion', async () => {
@@ -195,7 +188,7 @@ describe('Admin Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const deleted = db.prepare('SELECT id FROM users WHERE id = ?').get(targetId)
+      const deleted = await db.prepare('SELECT id FROM users WHERE id = ?').get(targetId)
       expect(deleted).toBeUndefined()
     })
 
@@ -227,7 +220,7 @@ describe('Admin Routes', () => {
 
   describe('PUT /api/admin/tracks/:id', () => {
     test('updates track fields', async () => {
-      const track = db.prepare('SELECT id FROM tracks LIMIT 1').get()
+      const track = await db.prepare('SELECT id FROM tracks LIMIT 1').get()
 
       const res = await request(app)
         .patch(`/api/admin/tracks/${track.id}`)
@@ -237,7 +230,7 @@ describe('Admin Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const updated = db.prepare('SELECT * FROM tracks WHERE id = ?').get(track.id)
+      const updated = await db.prepare('SELECT * FROM tracks WHERE id = ?').get(track.id)
       expect(updated.name).toBe('Updated Track')
       expect(updated.color).toBe('#ff0000')
     })
@@ -254,8 +247,8 @@ describe('Admin Routes', () => {
 
   describe('POST /api/admin/tracks/reorder', () => {
     test('reorders courses within a track', async () => {
-      const track = db.prepare('SELECT id FROM tracks LIMIT 1').get()
-      const courses = db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ? ORDER BY order_in_track ASC').all(track.id)
+      const track = await db.prepare('SELECT id FROM tracks LIMIT 1').get()
+      const courses = await db.prepare('SELECT course_id AS id FROM track_courses WHERE track_id = ? ORDER BY order_in_track ASC').all(track.id)
       const reversedIds = courses.map(c => c.id).reverse()
 
       const res = await request(app)
@@ -266,7 +259,7 @@ describe('Admin Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const updated = db.prepare('SELECT course_id, order_in_track FROM track_courses WHERE track_id = ? ORDER BY order_in_track ASC').all(track.id)
+      const updated = await db.prepare('SELECT course_id, order_in_track FROM track_courses WHERE track_id = ? ORDER BY order_in_track ASC').all(track.id)
       expect(updated[0].course_id).toBe(reversedIds[0])
     })
 
@@ -295,7 +288,7 @@ describe('Admin Routes', () => {
 
   describe('PUT /api/admin/courses/:id', () => {
     test('updates course fields', async () => {
-      const course = db.prepare('SELECT id FROM courses LIMIT 1').get()
+      const course = await db.prepare('SELECT id FROM courses LIMIT 1').get()
 
       const res = await request(app)
         .put(`/api/admin/courses/${course.id}`)
@@ -305,7 +298,7 @@ describe('Admin Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const updated = db.prepare('SELECT * FROM courses WHERE id = ?').get(course.id)
+      const updated = await db.prepare('SELECT * FROM courses WHERE id = ?').get(course.id)
       expect(updated.name).toBe('Updated Course')
       expect(updated.difficulty).toBe('Hard')
     })
@@ -352,8 +345,8 @@ describe('Admin Routes', () => {
   describe('POST /api/admin/reset/nuclear', () => {
     let savedAdminSession
 
-    beforeAll(() => {
-      const sessionRow = db.prepare('SELECT id FROM sessions WHERE user_id = ?').get(testData.adminUser.id)
+    beforeAll(async () => {
+      const sessionRow = await db.prepare('SELECT id FROM sessions WHERE user_id = ?').get(testData.adminUser.id)
       savedAdminSession = `session_id=${sessionRow.id}`
     })
 
@@ -387,15 +380,15 @@ describe('Admin Routes', () => {
       expect(res.body.success).toBe(true)
       expect(res.body.message).toMatch(/Nuclear reset complete/)
 
-      const courseCount = db.prepare('SELECT COUNT(*) AS count FROM courses').get().count
-      const trackCount = db.prepare('SELECT COUNT(*) AS count FROM tracks').get().count
-      const attemptCount = db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts').get().count
+      const courseCount = (await db.prepare('SELECT COUNT(*) AS count FROM courses').get()).count
+      const trackCount = (await db.prepare('SELECT COUNT(*) AS count FROM tracks').get()).count
+      const attemptCount = (await db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts').get()).count
 
-      expect(courseCount).toBe(0)
-      expect(trackCount).toBe(0)
-      expect(attemptCount).toBe(0)
+      expect(parseInt(courseCount)).toBe(0)
+      expect(parseInt(trackCount)).toBe(0)
+      expect(parseInt(attemptCount)).toBe(0)
 
-      const admin = db.prepare('SELECT id FROM users WHERE username = ?').get('admin@test.com')
+      const admin = await db.prepare('SELECT id FROM users WHERE username = ?').get('admin@test.com')
       expect(admin).toBeDefined()
     })
   })

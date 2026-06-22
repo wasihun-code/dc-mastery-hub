@@ -2,12 +2,12 @@ import { jest } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
 
 let db, testData, env, contentDir, getChallenges
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
 
   contentDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dc-content-'))
   process.env.CONTENT_PATH = contentDir
@@ -15,26 +15,18 @@ beforeAll(async () => {
   jest.resetModules()
 
   const { initSchema } = await import('../db/schema.js')
-  initSchema()
+  console.log('2. initSchema'); await initSchema(); console.log('2. done')
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
+  const pgDb = (await import('../db/database.pg.js')).default
+  db = pgDb
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
+  console.log('3. delete'); await db.prepare('DELETE FROM user_stats').run()
+  await db.prepare('DELETE FROM sessions').run()
+  await db.prepare('DELETE FROM users').run()
 
-  testData = seedTestData(db)
+  console.log('4. seedTestData'); testData = await seedTestData(db); console.log('4. done')
 
-  // seedTestData does not set track_id on courses, but
-  // getChallenges needs course.track_id to resolve the track.
-  const dsTrack = db.prepare('SELECT id FROM tracks WHERE slug = ?').get('data-science')
-  db.prepare('UPDATE courses SET track_id = ? WHERE slug = ?').run(dsTrack.id, 'python-basics')
-  db.prepare('UPDATE courses SET track_id = ? WHERE slug = ?').run(dsTrack.id, 'pandas-fundamentals')
-
-  const sqlTrack = db.prepare('SELECT id FROM tracks WHERE slug = ?').get('sql-mastery')
-  db.prepare('UPDATE courses SET track_id = ? WHERE slug = ?').run(sqlTrack.id, 'advanced-sql')
+  // The courses are already associated with their tracks via seedTestData.
 
   // Create a datasets folder for pandas-fundamentals (data-science track)
   const datasetsDir = path.join(contentDir, 'tracks', 'data-science', 'pandas-fundamentals', 'datasets')
@@ -47,32 +39,33 @@ beforeAll(async () => {
   getChallenges = mod.getChallenges
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
   try { fs.rmSync(contentDir, { recursive: true, force: true }) } catch (e) {}
   delete process.env.CONTENT_PATH
 })
 
 describe('getChallenges', () => {
-  test('returns empty array when course does not exist', () => {
-    const result = getChallenges('non-existent-course')
+  test('returns empty array when course does not exist', async () => {
+    const result = await getChallenges('non-existent-course')
     expect(result).toEqual([])
   })
 
-  test('returns empty array when no datasets folder exists', () => {
-    const result = getChallenges('python-basics')
+  test('returns empty array when no datasets folder exists', async () => {
+    const result = await getChallenges('python-basics')
     expect(result).toEqual([])
   })
 
-  test('returns challenges when valid CSV dataset exists in folder', () => {
-    const result = getChallenges('pandas-fundamentals')
+  test('returns challenges when valid CSV dataset exists in folder', async () => {
+    const result = await getChallenges('pandas-fundamentals')
     expect(Array.isArray(result)).toBe(true)
     expect(result.length).toBeGreaterThan(0)
     expect(result.every(c => typeof c.title === 'string')).toBe(true)
   })
 
-  test('challenges have correct structure', () => {
-    const result = getChallenges('pandas-fundamentals')
+  test('challenges have correct structure', async () => {
+    const result = await getChallenges('pandas-fundamentals')
     for (const challenge of result) {
       expect(challenge).toHaveProperty('id')
       expect(typeof challenge.id).toBe('string')
@@ -93,9 +86,9 @@ describe('getChallenges', () => {
     }
   })
 
-  test('returns at most 10 challenges', () => {
+  test('returns at most 10 challenges', async () => {
     // 3 CSV files x 4 challenges each = 12, but .slice(0, 10) caps at 10
-    const result = getChallenges('pandas-fundamentals')
+    const result = await getChallenges('pandas-fundamentals')
     expect(result.length).toBeLessThanOrEqual(10)
   })
 })

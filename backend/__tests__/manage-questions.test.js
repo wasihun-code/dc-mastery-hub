@@ -82,6 +82,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await cleanupTestEnvironment()
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Manage Questions Routes', () => {

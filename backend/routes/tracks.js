@@ -21,7 +21,7 @@ router.get('/tracks', async (req, res, next) => {
           COUNT(c.id) AS course_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
-          ROUND(AVG(COALESCE(ms.overall_mastery, 0)), 1) AS overall_mastery
+          ROUND(CAST(AVG(COALESCE(ms.overall_mastery, 0)) AS numeric), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
         LEFT JOIN track_courses tc ON tc.track_id = t.id
@@ -29,7 +29,7 @@ router.get('/tracks', async (req, res, next) => {
         LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
         WHERE COALESCE(ut.is_deleted, false) = false AND COALESCE(ut.is_archived, false) = false
-        GROUP BY t.id
+        GROUP BY t.id, ut.is_deleted, ut.is_archived
         ORDER BY t.id
       `)
       .all(userId, userId, userId, userId, userId)
@@ -64,7 +64,7 @@ router.get('/tracks/:slug', async (req, res, next) => {
           COUNT(c.id) AS course_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'Completed' THEN 1 ELSE 0 END) AS completed_count,
           SUM(CASE WHEN COALESCE(uc.status, 'Not Started') = 'In Progress' THEN 1 ELSE 0 END) AS in_progress_count,
-          ROUND(AVG(COALESCE(ms.overall_mastery, 0)), 1) AS overall_mastery
+          ROUND(CAST(AVG(COALESCE(ms.overall_mastery, 0)) AS numeric), 1) AS overall_mastery
         FROM tracks t
         LEFT JOIN user_tracks ut ON ut.track_id = t.id AND ut.user_id = ?
         LEFT JOIN track_courses tc ON tc.track_id = t.id
@@ -72,7 +72,7 @@ router.get('/tracks/:slug', async (req, res, next) => {
         LEFT JOIN user_courses uc ON uc.course_id = c.id AND uc.user_id = ?
         LEFT JOIN mastery_scores ms ON ms.course_id = c.id AND ms.user_id = ?
         WHERE t.slug = ? AND COALESCE(ut.is_deleted, false) = false AND COALESCE(ut.is_archived, false) = false
-        GROUP BY t.id
+        GROUP BY t.id, ut.is_deleted, ut.is_archived
       `)
       .get(userId, userId, userId, userId, userId, req.params.slug)
 

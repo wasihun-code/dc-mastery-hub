@@ -1,26 +1,25 @@
 import { jest } from '@jest/globals'
 import request from 'supertest'
 import express from 'express'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
 
 let db, testData, env, app
 
+jest.setTimeout(60000)
+
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
+  // initSchema is handled by testEnv.pg.js
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
+  db = (await import('../db/database.pg.js')).default
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
+  await db.prepare('DELETE FROM user_stats').run()
+  await db.prepare('DELETE FROM sessions').run()
+  await db.prepare('DELETE FROM users').run()
 
-  testData = seedTestData(db)
+  testData = await seedTestData(db)
 
   const authRouter = (await import('../routes/auth.js')).default
 
@@ -31,10 +30,11 @@ beforeAll(async () => {
   app.use((err, req, res, next) => {
     res.status(500).json({ error: err.message })
   })
-})
+}, 60000)
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Auth Routes', () => {
@@ -46,7 +46,7 @@ describe('Auth Routes', () => {
     expect(res.status).toBe(200)
     expect(res.body.success).toBe(true)
     expect(res.body.user.username).toBe('newuser@test.com')
-    expect(res.body.user.is_admin).toBe(0)
+    expect(res.body.user.is_admin).toBe(false)
     expect(res.headers['set-cookie']).toBeDefined()
     expect(res.headers['set-cookie'][0]).toMatch(/session_id=/)
   })
@@ -134,7 +134,7 @@ describe('Auth Routes', () => {
     expect(res.status).toBe(200)
     expect(res.body.authenticated).toBe(true)
     expect(res.body.user.username).toBe('student@test.com')
-    expect(res.body.user.is_admin).toBe(0)
+    expect(res.body.user.is_admin).toBe(false)
   })
 
   test('GET /api/auth/session returns unauthenticated with no cookie', async () => {

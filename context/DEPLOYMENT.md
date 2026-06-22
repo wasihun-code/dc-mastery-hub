@@ -259,6 +259,19 @@ The following locations assume `1` or `0` for boolean columns. In Stage 3+, **in
 - **Coexistence Verified**: `courses.test.js` successfully runs against Postgres, while `tracks.test.js` successfully runs against the parallel local SQLite implementation.
 
 **Stage 4: Convert Remaining Core Routes**
+- Completed `tracks.js`, `manage-questions.js`, and `content.js` to Postgres. All core non-user routes are now verified.
+
+**Stage 5: Convert `auth.js` & Verification**
+- **CRITICAL BUG DISCOVERED & FIXED**: Converting `auth.js` independently caused a mismatch where `auth.js` wrote sessions to Postgres while the global middleware in `backend/index.js` checked SQLite. This meant `login` worked but all protected endpoints returned `401 Unauthorized`.
+  - **The Fix**: `backend/index.js` was updated to import `database.pg.js` specifically for the `getSessionUser` middleware and was refactored to use `async/await`. This ensures session verification runs against the same Neon Postgres DB that `auth.js` writes to.
+- **End-to-End Test Results**: A live, manual E2E test verified the fix.
+  - POST `/api/auth/register` returned `200 OK` (session created in Postgres).
+  - GET `/api/auth/session` returned `200 OK` (session correctly identified by pg-backed middleware).
+  - GET `/api/progress/dashboard` (SQLite-backed) returned `403 Forbidden` (Admin access required), correctly indicating that the auth middleware passed the user context down to the route, proving Postgres auth validation works seamlessly with SQLite routes.
+  - POST `/api/auth/logout` returned `200 OK`.
+  - Subsequent GET `/api/auth/session` returned `200 OK` with `{"authenticated":false,"code":"UNAUTHORIZED"}` (session properly invalidated).
+- **Admin Account Status**: The real existing admin account (`admin@gmail.com`) currently **DOES NOT WORK** and cannot log in (`400 Bad Request: Invalid username or password`). This is expected because Postgres has no user data yet (Stage 6 data migration hasn't happened), but the user must be aware they cannot use the app normally during this window.
+- **Rollback Plan**: All changes for `auth.js` and `index.js` are uncommitted in the git working tree. If necessary, a clean rollback to the SQLite version can be achieved by running `git restore backend/routes/auth.js backend/index.js backend/__tests__/auth.test.js`.
 
 ---
 
@@ -307,3 +320,12 @@ The following locations require specific handling during Stage 4+ due to node-po
 
 **`content.js` & `manage-questions.js`**
 - No structural JSON/aggregate query issues found. All `JSON.parse` usage is directly against filesystem data, which remains correct.
+
+### PRE-STAGE 4 CHECKLIST: Postgres Syntax Strictness (GROUP BY & Types)
+The following locations require specific handling during Stage 4+ due to Postgres being stricter than SQLite:
+1. **GROUP BY Ambiguity**: Postgres requires all selected non-aggregate columns to be present in the `GROUP BY` clause (unless the `GROUP BY` column is the primary key of the selected table).
+   - `progress.js:421-438` | Purpose: Weak spots calculation | Missing columns: `con.name`, `crs.name` | Recommended fix: Add `con.name, crs.name` to `GROUP BY` | Pre-existing logic bug? No, names are functionally dependent on concept.
+   - `progress.js:1200-1211` | Purpose: Retrieve wrong attempt counts for course map | Missing columns: `course_id`, `concept_id` | Recommended fix: Add `course_id, concept_id` to `GROUP BY` | Pre-existing logic bug? No, IDs are constant for a given question.
+   - *(Note: Queries using `GROUP BY c.id` or `t.id` in `admin.js` and `progress.js` are natively valid in Postgres due to primary key functional dependency).*
+2. **Implicit Boolean Coercion**: SQLite allows integer-to-boolean comparisons (e.g. `is_deleted = 0`). Postgres does not.
+   - Found dozens of occurrences across `admin.js`, `manage.js`, `progress.js`, etc. (e.g., `WHERE is_admin = 1`, `c.is_deleted = 0`). During Stage 4 conversion, all such queries MUST be updated to `is_admin = true`, `is_deleted = false`, etc.

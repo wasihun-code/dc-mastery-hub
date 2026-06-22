@@ -1,4 +1,4 @@
-import db from './database.js'
+import db from './database.pg.js'
 
 const tracks = [
   {
@@ -141,8 +141,8 @@ function courseNameFromSlug(slug) {
     .join(' ')
 }
 
-export function seedDatabase() {
-  const existingTracks = db.prepare('SELECT COUNT(*) AS count FROM tracks').get().count
+export async function seedDatabase() {
+  const existingTracks = await db.prepare('SELECT COUNT(*) AS count FROM tracks').get().count
 
   if (existingTracks > 0) {
     return
@@ -150,40 +150,42 @@ export function seedDatabase() {
 
   const insertTrack = db.prepare(`
     INSERT INTO tracks (slug, name, description, language, color)
-    VALUES (@slug, @name, @description, @language, @color)
+    VALUES (?, ?, ?, ?, ?)
   `)
 
   const getTrackId = db.prepare('SELECT id FROM tracks WHERE slug = ?')
 
   const insertCourse = db.prepare(`
-    INSERT OR IGNORE INTO courses (slug, name, difficulty, status, notes, reviewed)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO courses (slug, name, difficulty, status, notes, reviewed)
+    VALUES (?, ?, ?, ?, ?, ?) RETURNING id
   `)
 
   const getCourseId = db.prepare('SELECT id FROM courses WHERE slug = ?')
 
   const insertTrackCourse = db.prepare(`
-    INSERT OR IGNORE INTO track_courses (track_id, course_id, order_in_track)
+    INSERT INTO track_courses (track_id, course_id, order_in_track)
     VALUES (?, ?, ?)
   `)
 
   const insertMasteryScore = db.prepare(`
-    INSERT OR IGNORE INTO mastery_scores (user_id, course_id)
+    INSERT INTO mastery_scores (user_id, course_id)
     SELECT id, ? FROM users
   `)
 
   const insertUserStats = db.prepare('INSERT INTO user_stats DEFAULT VALUES')
 
-  const seed = db.transaction(() => {
+  const seed = await db.transaction(async () => {
     for (const track of tracks) {
-      insertTrack.run(track)
+      await insertTrack.run(track.slug, track.name, track.description, track.language, track.color)
     }
 
     for (const [trackSlug, courses] of Object.entries(coursesByTrack)) {
-      const trackId = getTrackId.get(trackSlug).id
+      const trackRow = await getTrackId.get(trackSlug)
+      const trackId = trackRow.id
 
-      courses.forEach(([slug, status, difficulty, notes, reviewed], index) => {
-        insertCourse.run(
+      let index = 0
+      for (const [slug, status, difficulty, notes, reviewed] of courses) {
+        await insertCourse.run(
           slug,
           courseNameFromSlug(slug),
           difficulty,
@@ -191,21 +193,23 @@ export function seedDatabase() {
           notes,
           reviewed
         )
-        const courseId = getCourseId.get(slug).id
-        insertTrackCourse.run(trackId, courseId, index + 1)
-      })
+        const courseRow = await getCourseId.get(slug)
+        const courseId = courseRow.id
+        await insertTrackCourse.run(trackId, courseId, index + 1)
+        index++
+      }
     }
 
-    const courseIds = db.prepare('SELECT id FROM courses').all()
+    const courseIds = await db.prepare('SELECT id FROM courses').all()
 
     for (const course of courseIds) {
-      insertMasteryScore.run(course.id)
+      await insertMasteryScore.run(course.id)
     }
 
     // Seed default stats if empty
-    const statsCount = db.prepare('SELECT COUNT(*) AS count FROM user_stats').get().count
+    const statsCount = await db.prepare('SELECT COUNT(*) AS count FROM user_stats').get().count
     if (statsCount === 0) {
-      insertUserStats.run()
+      await insertUserStats.run()
     }
   })
 

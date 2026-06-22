@@ -3,18 +3,18 @@ import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * Runs the Python script to extract raw text from PDF files.
  */
-export function extractRawText(courseSlug) {
-  const course = db.prepare('SELECT * FROM courses WHERE slug = ?').get(courseSlug)
+export async function extractRawText(courseSlug) {
+  const course = await db.prepare('SELECT * FROM courses WHERE slug = ?').get(courseSlug)
   if (!course) throw new Error('Course not found')
   
-  const track = db.prepare('SELECT * FROM tracks WHERE id = ?').get(course.track_id)
+  const track = await db.prepare('SELECT * FROM tracks WHERE id = ?').get(course.track_id)
 
   const contentFolder = config.CONTENT_PATH
     
@@ -54,18 +54,18 @@ export function extractRawText(courseSlug) {
  * Stores concepts and quiz questions into the database.
  * Generates flashcards from concepts.
  */
-export function storeExtractedContent(courseSlug, extractedData) {
-  const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
+export async function storeExtractedContent(courseSlug, extractedData) {
+  const course = await db.prepare('SELECT id FROM courses WHERE slug = ?').get(courseSlug)
   if (!course) throw new Error('Course not found')
 
   const { concepts, quiz_questions } = extractedData
 
   // 1. Clear existing data in correct order (child tables first)
-  db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
-  db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
-  db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
-  db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
-  db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
+  await db.prepare('DELETE FROM user_flashcard_progress WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+  await db.prepare('DELETE FROM spaced_repetition_queue WHERE flashcard_id IN (SELECT id FROM flashcards WHERE course_id = ?)').run(course.id)
+  await db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course.id)
+  await db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course.id)
+  await db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course.id)
 
   // 2. Insert concepts and build map
   const insertConcept = db.prepare(`

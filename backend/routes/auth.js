@@ -1,6 +1,6 @@
 import express from 'express'
 import crypto from 'crypto'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 
 const router = express.Router()
 
@@ -18,12 +18,12 @@ function verifyPassword(password, salt, hash) {
 }
 
 // GET /api/auth/session
-router.get('/session', (req, res) => {
+router.get('/session', async (req, res) => {
   try {
     const cookieHeader = req.headers.cookie || ''
     const match = cookieHeader.match(/session_id=([^;]+)/)
     
-    const userCount = db.prepare('SELECT COUNT(*) AS count FROM users').get().count
+    const userCount = parseInt((await db.prepare('SELECT COUNT(*) AS count FROM users').get()).count)
     if (userCount === 0) {
       return res.json({ authenticated: false, code: 'NO_USERS' })
     }
@@ -33,18 +33,18 @@ router.get('/session', (req, res) => {
     }
 
     const sessionId = match[1]
-    const session = db.prepare('SELECT * FROM sessions WHERE id = ?').get(sessionId)
+    const session = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(sessionId)
     if (!session) {
       return res.json({ authenticated: false, code: 'UNAUTHORIZED' })
     }
 
     const now = new Date().toISOString()
     if (session.expires_at < now) {
-      db.prepare('DELETE FROM sessions WHERE id = ?').run(sessionId)
+      await db.prepare('DELETE FROM sessions WHERE id = ?').run(sessionId)
       return res.json({ authenticated: false, code: 'UNAUTHORIZED' })
     }
 
-    const user = db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(session.user_id)
+    const user = await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(session.user_id)
     if (!user) {
       return res.json({ authenticated: false, code: 'UNAUTHORIZED' })
     }
@@ -56,7 +56,7 @@ router.get('/session', (req, res) => {
 })
 
 // POST /api/auth/register
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body
     if (!username || !password) {
@@ -72,14 +72,14 @@ router.post('/register', (req, res) => {
     }
 
     // Check if username already exists
-    const existing = db.prepare('SELECT id FROM users WHERE username = ?').get(trimmedUsername)
+    const existing = await db.prepare('SELECT id FROM users WHERE username = ?').get(trimmedUsername)
     if (existing) {
       return res.status(400).json({ error: 'Username is already taken' })
     }
 
     const { salt, hash } = hashPassword(password)
     
-    const result = db.prepare(`
+    const result = await db.prepare(`
       INSERT INTO users (username, password_hash, salt)
       VALUES (?, ?, ?)
     `).run(trimmedUsername, hash, salt)
@@ -90,27 +90,27 @@ router.post('/register', (req, res) => {
     const sessionId = crypto.randomBytes(32).toString('hex')
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
     
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO sessions (id, user_id, expires_at)
       VALUES (?, ?, ?)
     `).run(sessionId, userId, expiresAt)
 
     res.setHeader('Set-Cookie', `session_id=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`)
-    res.json({ success: true, user: { id: userId, username: trimmedUsername, is_admin: 0 } })
+    res.json({ success: true, user: { id: userId, username: trimmedUsername, is_admin: false } })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
 })
 
 // POST /api/auth/login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body
     if (!username || !password) {
       return res.status(400).json({ error: 'Username and password are required' })
     }
 
-    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username.trim())
+    const user = await db.prepare('SELECT * FROM users WHERE username = ?').get(username.trim())
     if (!user || !verifyPassword(password, user.salt, user.password_hash)) {
       return res.status(400).json({ error: 'Invalid username or password' })
     }
@@ -119,7 +119,7 @@ router.post('/login', (req, res) => {
     const sessionId = crypto.randomBytes(32).toString('hex')
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
     
-    db.prepare(`
+    await db.prepare(`
       INSERT INTO sessions (id, user_id, expires_at)
       VALUES (?, ?, ?)
     `).run(sessionId, user.id, expiresAt)
@@ -132,12 +132,12 @@ router.post('/login', (req, res) => {
 })
 
 // POST /api/auth/logout
-router.post('/logout', (req, res) => {
+router.post('/logout', async (req, res) => {
   try {
     const cookieHeader = req.headers.cookie || ''
     const match = cookieHeader.match(/session_id=([^;]+)/)
     if (match) {
-      db.prepare('DELETE FROM sessions WHERE id = ?').run(match[1])
+      await db.prepare('DELETE FROM sessions WHERE id = ?').run(match[1])
     }
     res.setHeader('Set-Cookie', 'session_id=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0')
     res.json({ success: true })

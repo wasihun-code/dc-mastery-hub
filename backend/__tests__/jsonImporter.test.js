@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
 
 function createExerciseFile(courseFolder, fileName, data) {
   const exercisesDir = path.join(courseFolder, 'exercises')
@@ -12,39 +12,39 @@ function createExerciseFile(courseFolder, fileName, data) {
 let env, contentDir, db, importJsonExercises
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   contentDir = path.join(env.tmpDir, 'content')
   process.env.CONTENT_PATH = contentDir
 
   jest.resetModules()
 
   const { initSchema } = await import('../db/schema.js')
-  initSchema()
+  await initSchema()
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
+  const pgDb = (await import('../db/database.pg.js')).default
+  db = pgDb
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-  seedTestData(db)
+  await db.prepare('DELETE FROM user_stats').run()
+  await db.prepare('DELETE FROM sessions').run()
+  await db.prepare('DELETE FROM users').run()
+  await seedTestData(db)
 
   const mod = await import('../db/jsonImporter.js')
   importJsonExercises = mod.importJsonExercises
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
-afterEach(() => {
+afterEach(async () => {
   // Clean imported data from previous tests
-  const course3 = db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
+  const course3 = await db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
   if (course3) {
-    db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course3.id)
-    db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course3.id)
-    db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course3.id)
+    await db.prepare('DELETE FROM flashcards WHERE course_id = ?').run(course3.id)
+    await db.prepare('DELETE FROM quiz_questions WHERE course_id = ?').run(course3.id)
+    await db.prepare('DELETE FROM concepts WHERE course_id = ?').run(course3.id)
   }
   // Remove all content files so each test starts clean
   if (fs.existsSync(contentDir)) {
@@ -53,7 +53,7 @@ afterEach(() => {
 })
 
 describe('importJsonExercises', () => {
-  test('returns success with courses_imported when exercises are imported', () => {
+  test('returns success with courses_imported when exercises are imported', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'sql-mastery', 'advanced-sql')
     createExerciseFile(courseFolder, 'mcq.json', {
       questions: [
@@ -119,13 +119,13 @@ describe('importJsonExercises', () => {
     expect(result.courses_imported).toBe(1)
   })
 
-  test('returns courses_imported: 0 when no content folder exists', () => {
+  test('returns courses_imported: 0 when no content folder exists', async () => {
     const result = importJsonExercises()
     expect(result.status).toBe('success')
     expect(result.courses_imported).toBe(0)
   })
 
-  test('creates concepts, flashcards, and quiz_questions in DB', () => {
+  test('creates concepts, flashcards, and quiz_questions in DB', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'sql-mastery', 'advanced-sql')
     createExerciseFile(courseFolder, 'mcq.json', {
       questions: [
@@ -188,27 +188,27 @@ describe('importJsonExercises', () => {
 
     importJsonExercises()
 
-    const course3 = db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
+    const course3 = await db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
     expect(course3).toBeTruthy()
 
-    const concepts = db.prepare('SELECT * FROM concepts WHERE course_id = ?').all(course3.id)
+    const concepts = await db.prepare('SELECT * FROM concepts WHERE course_id = ?').all(course3.id)
     expect(concepts.length).toBe(2)
     const conceptNames = concepts.map(c => c.name)
     expect(conceptNames).toContain('Window Functions')
     expect(conceptNames).toContain('CTE')
 
-    const flashcards = db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course3.id)
+    const flashcards = await db.prepare('SELECT * FROM flashcards WHERE course_id = ?').all(course3.id)
     expect(flashcards.length).toBe(2)
     expect(flashcards[0].front).toBeTruthy()
     expect(flashcards[0].back).toBeTruthy()
 
-    const quizQuestions = db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course3.id)
+    const quizQuestions = await db.prepare('SELECT * FROM quiz_questions WHERE course_id = ?').all(course3.id)
     expect(quizQuestions.length).toBe(2)
     expect(quizQuestions[0].question_text).toBeTruthy()
     expect(quizQuestions[0].option_a).toBeTruthy()
   })
 
-  test('skips courses that already have concepts (already seeded)', () => {
+  test('skips courses that already have concepts (already seeded)', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'data-science', 'python-basics')
     createExerciseFile(courseFolder, 'mcq.json', {
       questions: [
@@ -246,7 +246,7 @@ describe('importJsonExercises', () => {
     expect(result.courses_imported).toBe(0)
   })
 
-  test('imports matching.json pairs as concepts', () => {
+  test('imports matching.json pairs as concepts', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'sql-mastery', 'advanced-sql')
     createExerciseFile(courseFolder, 'mcq.json', {
       questions: [{
@@ -292,14 +292,14 @@ describe('importJsonExercises', () => {
     expect(result.status).toBe('success')
     expect(result.courses_imported).toBe(1)
 
-    const course3 = db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
-    const concepts = db.prepare('SELECT name FROM concepts WHERE course_id = ?').all(course3.id)
+    const course3 = await db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
+    const concepts = await db.prepare('SELECT name FROM concepts WHERE course_id = ?').all(course3.id)
     const conceptNames = concepts.map(c => c.name)
     expect(conceptNames).toContain('SQL Basics')
     expect(conceptNames).toContain('JOIN')
   })
 
-  test('handles malformed mcq.json gracefully', () => {
+  test('handles malformed mcq.json gracefully', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'sql-mastery', 'advanced-sql')
     const exercisesDir = path.join(courseFolder, 'exercises')
     fs.mkdirSync(exercisesDir, { recursive: true })
@@ -312,7 +312,7 @@ describe('importJsonExercises', () => {
     expect(result.courses_imported).toBe(0)
   })
 
-  test('handles exercises with no concept_ids', () => {
+  test('handles exercises with no concept_ids', async () => {
     const courseFolder = path.join(contentDir, 'tracks', 'sql-mastery', 'advanced-sql')
     createExerciseFile(courseFolder, 'mcq.json', {
       questions: [{
@@ -339,12 +339,12 @@ describe('importJsonExercises', () => {
     expect(result.status).toBe('success')
     expect(result.courses_imported).toBe(1)
 
-    const course3 = db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
-    const concepts = db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course3.id)
+    const course3 = await db.prepare("SELECT id FROM courses WHERE slug = 'advanced-sql'").get()
+    const concepts = await db.prepare('SELECT COUNT(*) AS count FROM concepts WHERE course_id = ?').get(course3.id)
     expect(concepts.count).toBe(0)
-    const flashcards = db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course3.id)
+    const flashcards = await db.prepare('SELECT COUNT(*) AS count FROM flashcards WHERE course_id = ?').get(course3.id)
     expect(flashcards.count).toBe(0)
-    const quizQuestions = db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course3.id)
+    const quizQuestions = await db.prepare('SELECT COUNT(*) AS count FROM quiz_questions WHERE course_id = ?').get(course3.id)
     expect(quizQuestions.count).toBe(0)
   })
 })

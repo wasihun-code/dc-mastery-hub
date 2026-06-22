@@ -24,7 +24,7 @@ Built for one primary user + occasional admin login — no multi-tenant isolatio
 | Code sandbox | Python subprocess | 3.14 | Runs in `project/venv/`, 15s timeout |
 | DB migrations | Inline in `schema.js` | — | `ALTER TABLE ADD COLUMN` wrapped in try/catch |
 | Testing (FE) | Vitest | — | 276 tests, 17 files |
-| Testing (BE) | Jest | — | `--experimental-vm-modules`, 288 tests, 15 suites |
+| Testing (BE) | Jest | — | `--experimental-vm-modules` + `--runInBand` (serialized for Postgres) |
 
 ## Directory Tree
 

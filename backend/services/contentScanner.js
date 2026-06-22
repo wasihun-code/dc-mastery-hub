@@ -2,12 +2,12 @@ import config from '../config.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
-export function scanContent() {
+export async function scanContent() {
   const rawContentFolder = config.CONTENT_PATH
   const contentFolder = rawContentFolder
     ? (path.isAbsolute(rawContentFolder) ? rawContentFolder : path.resolve(__dirname, '..', rawContentFolder))
@@ -44,7 +44,7 @@ export function scanContent() {
     try {
       const trackData = JSON.parse(fs.readFileSync(trackJsonPath, 'utf8'))
       const trackSlug = trackData.slug
-      const track = db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
+      const track = await db.prepare('SELECT id FROM tracks WHERE slug = ?').get(trackSlug)
 
       if (!track) {
         console.warn(`[Scanner] Track not found in DB: ${trackSlug}`)
@@ -60,7 +60,7 @@ export function scanContent() {
         if (courseFolder === 'datasets') continue // Not a course folder
 
         const courseSlug = courseFolder
-        const courseExists = db.prepare('SELECT 1 FROM courses WHERE slug = ?').get(courseSlug)
+        const courseExists = await db.prepare('SELECT 1 FROM courses WHERE slug = ?').get(courseSlug)
 
         if (!courseExists) continue
 
@@ -100,14 +100,14 @@ export function scanContent() {
   // Final Update Pass - process each unique slug once
   for (const slug of allSeenSlugs) {
     summary.scanned_courses++
-    const hasSlides = slugsWithPdf.has(slug) ? 1 : 0
-    const hasGlossary = slugsWithGlossary.has(slug) ? 1 : 0
+    const hasSlides = slugsWithPdf.has(slug)
+    const hasGlossary = slugsWithGlossary.has(slug)
     
-    const course = db.prepare('SELECT has_pdf, has_glossary FROM courses WHERE slug = ?').get(slug)
+    const course = await db.prepare('SELECT has_pdf, has_glossary FROM courses WHERE slug = ?').get(slug)
     
     // Update DB if anything changed for this unique slug
     if (hasSlides !== course.has_pdf || hasGlossary !== course.has_glossary) {
-      db.prepare('UPDATE courses SET has_pdf = ?, has_glossary = ? WHERE slug = ?')
+      await db.prepare('UPDATE courses SET has_pdf = ?, has_glossary = ? WHERE slug = ?')
         .run(hasSlides, hasGlossary, slug)
       summary.updates_made++
       console.log(`[Scanner] Finalized course ${slug}: slides=${hasSlides}, glossary=${hasGlossary}`)

@@ -1,68 +1,41 @@
-# Deployment Checklist
+# Deployment
 
-Follow this guide to deploy DC Mastery Hub to a production server.
+This branch represents the migration of the DC Mastery Hub backend from better-sqlite3 to pg (PostgreSQL).
+The deployment and setup instructions below outline the necessary steps to set up this environment properly.
 
-## 🖥️ Server Requirements
+## Prerequisites
+- Node.js v20+
+- PostgreSQL v14+ (local or remote)
+- A `.env` file at the root of `backend/` containing:
+  - `DATABASE_URL` (e.g. `postgres://user:pass@localhost:5432/dc_mastery_hub`)
 
-- **Node.js:** v18 or later.
-- **Python:** v3.8 or later.
-- **Python Dependencies:** `pandas`, `numpy` installed in the global environment or accessible via `PYTHON_PATH`.
-- **Memory:** At least 512MB RAM available for spawning Python subprocesses.
-- **Disk:** Write access to `/tmp` (or the system temp directory) for challenge script generation.
+## Setting Up
 
-## 🚀 Steps to Deploy
+1. **Install Dependencies**
+   ```bash
+   cd backend
+   npm install pg pg-pool dotenv --save
+   ```
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/yourusername/dc-mastery-hub.git
-    cd dc-mastery-hub
-    ```
+2. **Configure Database**
+   Make sure you have a running PostgreSQL database. Update the `DATABASE_URL` inside `backend/.env` to reflect your connection string.
 
-2.  **Install Production Dependencies:**
-    ```bash
-    # Install root dependencies
-    npm install --omit=dev
-    
-    # Install backend dependencies
-    cd backend && npm install --omit=dev
-    
-    # Install frontend dependencies (needed for build)
-    cd ../frontend && npm install
-    ```
+3. **Initialize Schema & Seed**
+   You can manually run the seed script to initialize schemas and default datasets.
+   ```bash
+   cd backend
+   node db/seed.js
+   ```
 
-3.  **Setup Environment Variables:**
-    Copy `backend/.env.example` to `backend/.env` and configure:
-    - Set `NODE_ENV=production`.
-    - Generate a long, random `SESSION_SECRET`.
-    - Ensure `PYTHON_PATH` points to the correct Python 3 executable.
-    - Set `DB_PATH` to a location outside the `frontend/dist` directory.
+4. **Running the Application**
+   ```bash
+   npm run dev
+   ```
 
-4.  **Build the Frontend:**
-    ```bash
-    cd ../frontend
-    npm run build
-    ```
-
-5.  **Initialize the Database:**
-    The database will be automatically created and seeded on the first startup.
-
-6.  **Start the Application:**
-    It is recommended to use a process manager like **PM2**.
-    ```bash
-    cd ..
-    pm2 start npm --name "dc-mastery-hub" -- start
-    ```
-
-7.  **Final Verification:**
-    Confirm the backend is running and all challenges are passing:
-    ```bash
-    npm run verify-challenges
-    ```
-
-## 🛡️ Security Checklist
-
-- [ ] **`SESSION_SECRET`**: Ensure this is a random 64+ character string.
-- [ ] **`NODE_ENV`**: Set to `production` to enable static file serving and disable dev logs.
-- [ ] **`.env` File**: Never commit your `.env` file to version control.
-- [ ] **Database Access**: Ensure the SQLite `.db` file is NOT served by a static web server (nginx/apache). The application serves files from `frontend/dist` only.
-- [ ] **Subprocess Safety:** The Python sandbox has built-in term blocking, but ensure the server user has limited filesystem permissions.
+## Development
+- The core PostgreSQL driver exists in `db/database.pg.js`. It exposes a pseudo-synchronous `db.prepare(...).all()` API that returns Promises (unlike SQLite).
+- Ensure that any `db.prepare().get()`, `db.prepare().all()`, and `db.prepare().run()` calls inside your Express controllers are `await`ed.
+- For running the test suite:
+  ```bash
+  npm test
+  ```

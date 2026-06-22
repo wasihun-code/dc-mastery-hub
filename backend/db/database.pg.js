@@ -13,7 +13,15 @@ const pool = new Pool({
 })
 
 // Utility: convert SQLite `?` positional parameters to Postgres `$1`, `$2`, etc.
-export function convertQuery(sql) {
+export 
+function normalizeParams(params) {
+  if (params.length === 1 && Array.isArray(params[0])) {
+    return params[0]
+  }
+  return params
+}
+
+function convertQuery(sql) {
   let pgSql = ''
   let paramIndex = 1
   let inString = false
@@ -55,15 +63,20 @@ const db = {
     const pgSql = convertQuery(sql)
     return {
       get: async (...params) => {
-        const { rows } = await pool.query(pgSql, params)
-        return rows[0] || undefined
+        try {
+          const { rows } = await pool.query(pgSql, normalizeParams(params))
+          return rows[0] || undefined
+        } catch (e) {
+          console.error("FAILED QUERY:", pgSql)
+          throw e
+        }
       },
       all: async (...params) => {
-        const { rows } = await pool.query(pgSql, params)
+        const { rows } = await pool.query(pgSql, normalizeParams(params))
         return rows
       },
       run: async (...params) => {
-        const result = await pool.query(pgSql, params)
+        const result = await pool.query(pgSql, normalizeParams(params))
         if (result.rows && result.rows.length > 1) {
           throw new Error('Multi-row INSERT detected with .run() — use .all() instead or handle rows explicitly')
         }
@@ -77,6 +90,15 @@ const db = {
   exec: async (sql) => {
     // Basic exec mimicking SQLite's multi-statement support
     await pool.query(sql)
+  },
+  end: async () => {
+    try {
+      if (!pool.ended) {
+        await pool.end();
+      }
+    } catch (e) {
+      // ignore if already ended
+    }
   },
   transaction: (fn) => {
     return async (...args) => {

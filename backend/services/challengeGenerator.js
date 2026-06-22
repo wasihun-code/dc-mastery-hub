@@ -1,5 +1,5 @@
 import config from '../config.js'
-import db from '../db/database.js'
+import db from '../db/database.pg.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -7,12 +7,19 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DEFAULT_CONTENT_FOLDER = path.resolve(__dirname, '../../content')
 
-export function getChallenges(courseSlug) {
-  const course = db.prepare('SELECT id, track_id FROM courses WHERE slug = ?').get(courseSlug)
-  if (!course) return []
-
-  const track = db.prepare('SELECT slug FROM tracks WHERE id = ?').get(course.track_id)
-  if (!track) return []
+export async function getChallenges(courseSlug) {
+  const row = await db.prepare(`
+    SELECT c.id, t.slug as track_slug
+    FROM courses c
+    JOIN track_courses tc ON c.id = tc.course_id
+    JOIN tracks t ON tc.track_id = t.id
+    WHERE c.slug = ?
+    LIMIT 1
+  `).get(courseSlug)
+  
+  if (!row) return []
+  
+  const track = { slug: row.track_slug }
 
   const contentFolder = config.CONTENT_PATH
 
@@ -27,7 +34,7 @@ export function getChallenges(courseSlug) {
   
   if (validDatasets.length === 0) return []
 
-  const concepts = db.prepare('SELECT * FROM concepts WHERE course_id = ?').all(course.id)
+  const concepts = await db.prepare('SELECT * FROM concepts WHERE course_id = ?').all(row.id)
   const conceptNames = concepts.map(c => c.name)
 
   const challenges = []

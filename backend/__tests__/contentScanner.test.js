@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
 
 let env, db, scanContent, contentDir
 
@@ -19,42 +19,42 @@ function createCourseFolder(trackDir, courseSlug) {
 }
 
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   contentDir = path.join(env.tmpDir, 'content')
   process.env.CONTENT_PATH = contentDir
 
   jest.resetModules()
 
   const { initSchema } = await import('../db/schema.js')
-  initSchema()
+  await initSchema()
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
+  const pgDb = (await import('../db/database.pg.js')).default
+  db = pgDb
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
+  await db.prepare('DELETE FROM user_stats').run()
+  await db.prepare('DELETE FROM sessions').run()
+  await db.prepare('DELETE FROM users').run()
 
-  seedTestData(db)
+  await seedTestData(db)
 
   const mod = await import('../services/contentScanner.js')
   scanContent = mod.scanContent
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
-afterEach(() => {
+afterEach(async () => {
   if (fs.existsSync(contentDir)) {
     fs.rmSync(contentDir, { recursive: true, force: true })
   }
-  db.prepare('UPDATE courses SET has_pdf = 0, has_glossary = 0').run()
+  await db.prepare('UPDATE courses SET has_pdf = 0, has_glossary = 0').run()
 })
 
 describe('scanContent', () => {
-  test('returns empty summary when tracks path does not exist', () => {
+  test('returns empty summary when tracks path does not exist', async () => {
     fs.mkdirSync(contentDir, { recursive: true })
 
     const result = scanContent()
@@ -69,7 +69,7 @@ describe('scanContent', () => {
     })
   })
 
-  test('returns summary with scanned_tracks and scanned_courses when content exists', () => {
+  test('returns summary with scanned_tracks and scanned_courses when content exists', async () => {
     const trackDir = createTrackJson('data-science')
     createCourseFolder(trackDir, 'python-basics')
 
@@ -83,7 +83,7 @@ describe('scanContent', () => {
     expect(result.updates_made).toBe(0)
   })
 
-  test('detects PDF and glossary files and updates has_pdf and has_glossary', () => {
+  test('detects PDF and glossary files and updates has_pdf and has_glossary', async () => {
     const trackDir = createTrackJson('data-science')
     const courseDir = createCourseFolder(trackDir, 'python-basics')
 
@@ -98,12 +98,12 @@ describe('scanContent', () => {
     expect(result.scanned_courses).toBe(1)
     expect(result.updates_made).toBe(1)
 
-    const course = db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
+    const course = await db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
     expect(course.has_pdf).toBe(1)
     expect(course.has_glossary).toBe(1)
   })
 
-  test('sets has_pdf to 1 when a slides PDF exists', () => {
+  test('sets has_pdf to 1 when a slides PDF exists', async () => {
     const trackDir = createTrackJson('data-science')
     const courseDir = createCourseFolder(trackDir, 'python-basics')
 
@@ -114,12 +114,12 @@ describe('scanContent', () => {
     expect(result.pdfs_found).toBe(1)
     expect(result.updates_made).toBe(1)
 
-    const course = db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
+    const course = await db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
     expect(course.has_pdf).toBe(1)
     expect(course.has_glossary).toBe(0)
   })
 
-  test('sets has_glossary to 1 when a glossary PDF exists', () => {
+  test('sets has_glossary to 1 when a glossary PDF exists', async () => {
     const trackDir = createTrackJson('data-science')
     const courseDir = createCourseFolder(trackDir, 'python-basics')
 
@@ -130,7 +130,7 @@ describe('scanContent', () => {
     expect(result.glossaries_found).toBe(1)
     expect(result.updates_made).toBe(1)
 
-    const course = db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
+    const course = await db.prepare("SELECT has_pdf, has_glossary FROM courses WHERE slug = 'python-basics'").get()
     expect(course.has_pdf).toBe(0)
     expect(course.has_glossary).toBe(1)
   })

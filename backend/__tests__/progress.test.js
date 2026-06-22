@@ -3,45 +3,38 @@ import request from 'supertest'
 import express from 'express'
 import path from 'path'
 import crypto from 'crypto'
-import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.js'
+import { setupTestEnvironment, seedTestData, cleanupTestEnvironment } from './helpers/testEnv.pg.js'
+import db from '../db/database.pg.js'
 
-let db, testData, env, app
+let testData, env, app
 
-function getSessionUser(req) {
+async function getSessionUser(req) {
   const header = req.headers.cookie || ''
   const m = header.match(/session_id=([^;]+)/)
   if (!m) return null
-  const s = db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
+  const s = await db.prepare('SELECT * FROM sessions WHERE id = ?').get(m[1])
   if (!s) return null
   if (s.expires_at < new Date().toISOString()) {
-    db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
+    await db.prepare('DELETE FROM sessions WHERE id = ?').run(m[1])
     return null
   }
-  return db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
+  return await db.prepare('SELECT id, username, is_admin FROM users WHERE id = ?').get(s.user_id)
 }
 
+jest.setTimeout(60000);
 beforeAll(async () => {
-  env = setupTestEnvironment()
+  env = await setupTestEnvironment()
   process.env.CONTENT_PATH = path.join(env.tmpDir, 'no-content')
   jest.resetModules()
 
-  const { initSchema } = await import('../db/schema.js')
-  initSchema()
 
-  const Database = (await import('better-sqlite3')).default
-  db = new Database(env.dbPath)
-  db.pragma('journal_mode = WAL')
 
-  db.prepare('DELETE FROM user_stats').run()
-  db.prepare('DELETE FROM sessions').run()
-  db.prepare('DELETE FROM users').run()
-
-  testData = seedTestData(db)
+  testData = await seedTestData()
 
   // Add a course with no exercises for testing zero stats
-  db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('no-exercises', 'No Exercises', 'Easy', 'Not Started')
-  const noExCourse = db.prepare('SELECT id FROM courses WHERE slug = ?').get('no-exercises')
-  db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, noExCourse.id, 99)
+  await db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('no-exercises', 'No Exercises', 'Easy', 'Not Started')
+  const noExCourse = await db.prepare('SELECT id FROM courses WHERE slug = ?').get('no-exercises')
+  await db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, noExCourse.id, 99)
   testData.courses.noExCourse = noExCourse
 
   const progressRouter = (await import('../routes/progress.js')).default
@@ -49,8 +42,8 @@ beforeAll(async () => {
   app = express()
   app.use(express.json())
 
-  app.use((req, res, next) => {
-    const user = getSessionUser(req)
+  app.use(async (req, res, next) => {
+    const user = await getSessionUser(req)
     if (!user) return res.status(401).json({ error: 'Unauthorized' })
     req.user = user
     next()
@@ -59,12 +52,14 @@ beforeAll(async () => {
   app.use('/api', progressRouter)
 
   app.use((err, req, res, next) => {
+    console.error("500 ERROR CAUSE:", err.stack || err)
     res.status(500).json({ error: err.message })
   })
 })
 
-afterAll(() => {
-  cleanupTestEnvironment(env.tmpDir)
+afterAll(async () => {
+  await cleanupTestEnvironment(env.tmpDir)
+  if (typeof db !== 'undefined' && db && db.end) await db.end();
 })
 
 describe('Progress Routes', () => {
@@ -90,10 +85,10 @@ describe('Progress Routes', () => {
     test('returns empty stats for user without user_stats row', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('nostats@test.com', hash, salt)
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('nostats@test.com', hash, salt)
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result.lastInsertRowid, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result[0].id, expiresAt)
 
       const res = await request(app)
         .get('/api/progress/stats')
@@ -139,13 +134,13 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 30,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
       expect(res.body.attempt).toBeDefined()
       expect(res.body.attempt.exercise_type).toBe('quiz')
-      expect(res.body.attempt.was_correct).toBe(1)
+      expect(res.body.attempt.was_correct).toBe(true)
       expect(res.body.mastery).toBeDefined()
     })
 
@@ -161,11 +156,11 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 0,
           time_taken_secs: 10,
-          was_correct: false
+          was_correct: 0
         })
 
       expect(res.status).toBe(200)
-      expect(res.body.attempt.was_correct).toBe(0)
+      expect(res.body.attempt.was_correct).toBe(false)
     })
 
     test('records a flashcard attempt with SM-2 quality 5', async () => {
@@ -180,12 +175,12 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 5,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
 
-      const fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      const fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
 
       expect(fp).toBeDefined()
@@ -196,7 +191,7 @@ describe('Progress Routes', () => {
 
     test('updates streak after attempt', async () => {
       const courseId = testData.courses.course1.id
-      const before = db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
+      const before = await db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
 
       await request(app)
         .post('/api/progress/attempt')
@@ -207,10 +202,10 @@ describe('Progress Routes', () => {
           question_id: 2,
           concept_id: 2,
           score: 1.0,
-          was_correct: true
+          was_correct: 1
         })
 
-      const after = db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
+      const after = await db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
 
       expect(after.last_active_date).toBeTruthy()
     })
@@ -227,7 +222,7 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 0,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
@@ -246,7 +241,7 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 30,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
@@ -261,7 +256,7 @@ describe('Progress Routes', () => {
           exercise_type: 'quiz',
           concept_id: 1,
           score: 1.0,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(400)
@@ -278,7 +273,7 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 30,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(400)
@@ -305,10 +300,10 @@ describe('Progress Routes', () => {
     test('handles missing user_stats gracefully', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('dashnostats@test.com', hash, salt)
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('dashnostats@test.com', hash, salt)
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result.lastInsertRowid, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result[0].id, expiresAt)
 
       const res = await request(app)
         .get('/api/progress/dashboard')
@@ -361,7 +356,7 @@ describe('Progress Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      const stats = db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
+      const stats = await db.prepare('SELECT * FROM user_stats WHERE user_id = ?').get(testData.studentUser.id)
       expect(stats.total_xp).toBe(0)
       expect(stats.level).toBe('Beginner')
     })
@@ -389,10 +384,10 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 5,
-          was_correct: true
+          was_correct: 1
         })
 
-      let fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      let fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(fp).toBeDefined()
 
@@ -404,7 +399,7 @@ describe('Progress Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(fp).toBeUndefined()
     })
@@ -422,11 +417,10 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 30,
-          was_correct: true
+          was_correct: 1
         })
 
-      let count = db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?')
-        .get(testData.studentUser.id).count
+      let count = parseInt((await db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?').get(testData.studentUser.id)).count)
       expect(count).toBeGreaterThan(0)
 
       const res = await request(app)
@@ -437,8 +431,7 @@ describe('Progress Routes', () => {
       expect(res.status).toBe(200)
       expect(res.body.success).toBe(true)
 
-      count = db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?')
-        .get(testData.studentUser.id).count
+      count = parseInt((await db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?').get(testData.studentUser.id)).count)
       expect(count).toBe(0)
     })
   })
@@ -511,14 +504,14 @@ describe('Progress Routes', () => {
     test('returns empty list for user with no flashcard progress', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('noflashcards@test.com', hash, salt)
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('noflashcards@test.com', hash, salt)
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result.lastInsertRowid, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, result[0].id, expiresAt)
 
-      const allFlashcards = db.prepare('SELECT id FROM flashcards').all()
+      const allFlashcards = await db.prepare('SELECT id FROM flashcards').all()
       for (const fc of allFlashcards) {
-        db.prepare("INSERT INTO user_flashcard_progress (user_id, flashcard_id, next_review_date, interval_days, ease_factor, repetitions) VALUES (?, ?, date('now', '+1 year'), 365, 2.5, 999)").run(result.lastInsertRowid, fc.id)
+        await db.prepare("INSERT INTO user_flashcard_progress (user_id, flashcard_id, next_review_date, interval_days, ease_factor, repetitions) VALUES (?, ?, CURRENT_DATE + INTERVAL '1 year', 365, 2.5, 999)").run(result[0].id, fc.id)
       }
 
       const dueRes = await request(app)
@@ -554,28 +547,28 @@ describe('Progress Routes', () => {
     test('returns exercise_breakdown, daily_activity, overall_stats with correct values', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('dashboard-detail@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('dashboard-detail@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
 
       const courseId = testData.courses.course1.id
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 1, score: 1.0, time_taken_secs: 30, was_correct: true })
+        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 1, score: 1.0, time_taken_secs: 30, was_correct: 1 })
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 2, score: 0.0, time_taken_secs: 15, was_correct: false })
+        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 2, score: 0.0, time_taken_secs: 15, was_correct: 0 })
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 0.5, time_taken_secs: 10, was_correct: true })
+        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 0.5, time_taken_secs: 10, was_correct: 1 })
 
       const res = await request(app)
         .get('/api/progress/dashboard')
@@ -617,13 +610,13 @@ describe('Progress Routes', () => {
     test('returns user_stats with all default zero values', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('zerostats@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('zerostats@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
 
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)')
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)')
         .run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       const res = await request(app)
@@ -675,12 +668,12 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 20,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
       expect(res.body.attempt.exercise_type).toBe('ftb')
-      expect(res.body.attempt.was_correct).toBe(1)
+      expect(res.body.attempt.was_correct).toBe(true)
     })
 
     test('records a matching attempt', async () => {
@@ -695,12 +688,12 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 0.8,
           time_taken_secs: 60,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
       expect(res.body.attempt.exercise_type).toBe('matching')
-      expect(res.body.attempt.was_correct).toBe(1)
+      expect(res.body.attempt.was_correct).toBe(true)
     })
   })
 
@@ -717,7 +710,7 @@ describe('Progress Routes', () => {
           concept_id: 1,
           score: 1.0,
           time_taken_secs: 999999,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(200)
@@ -754,15 +747,15 @@ describe('Progress Routes', () => {
     test('returns flashcards that are due (today or before)', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('duecards-due@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('duecards-due@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
 
-      const allFlashcards = db.prepare('SELECT id FROM flashcards').all()
+      const allFlashcards = await db.prepare('SELECT id FROM flashcards').all()
       for (const fc of allFlashcards) {
-        db.prepare("INSERT INTO user_flashcard_progress (user_id, flashcard_id, next_review_date, interval_days, ease_factor, repetitions) VALUES (?, ?, date('now', '-1 day'), 1, 2.5, 1)").run(userId, fc.id)
+        await db.prepare("INSERT INTO user_flashcard_progress (user_id, flashcard_id, next_review_date, interval_days, ease_factor, repetitions) VALUES (?, ?, CURRENT_DATE - INTERVAL '1 day', 1, 2.5, 1)").run(userId, fc.id)
       }
 
       const res = await request(app)
@@ -846,7 +839,7 @@ describe('Progress Routes', () => {
           exercise_type: 'quiz',
           course_id: 99999,
           question_id: 1,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(404)
@@ -861,7 +854,7 @@ describe('Progress Routes', () => {
           exercise_type: 'badtype',
           course_id: testData.courses.course1.id,
           question_id: 1,
-          was_correct: true
+          was_correct: 1
         })
 
       expect(res.status).toBe(400)
@@ -898,17 +891,17 @@ describe('Progress Routes', () => {
           question_id: 1,
           concept_id: 1,
           score: 1.0,
-          was_correct: true
+          was_correct: 1
         })
 
-      db.prepare("INSERT OR IGNORE INTO spaced_repetition_queue (user_id, flashcard_id, due_date) VALUES (?, ?, date('now'))")
+      await db.prepare("INSERT INTO spaced_repetition_queue (user_id, flashcard_id, due_date) VALUES (?, ?, CURRENT_DATE) ON CONFLICT (user_id, flashcard_id) DO NOTHING")
         .run(testData.studentUser.id, 1)
 
-      let progress = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      let progress = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(progress).toBeDefined()
 
-      let queue = db.prepare('SELECT * FROM spaced_repetition_queue WHERE user_id = ? AND flashcard_id = ?')
+      let queue = await db.prepare('SELECT * FROM spaced_repetition_queue WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(queue).toBeDefined()
 
@@ -919,11 +912,11 @@ describe('Progress Routes', () => {
 
       expect(res.status).toBe(200)
 
-      progress = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      progress = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(progress).toBeUndefined()
 
-      queue = db.prepare('SELECT * FROM spaced_repetition_queue WHERE user_id = ? AND flashcard_id = ?')
+      queue = await db.prepare('SELECT * FROM spaced_repetition_queue WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(queue).toBeUndefined()
     })
@@ -940,14 +933,13 @@ describe('Progress Routes', () => {
           question_id: 1,
           concept_id: 1,
           score: 1.0,
-          was_correct: true
+          was_correct: 1
         })
 
-      let attemptsCount = db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?')
-        .get(testData.studentUser.id).count
+      let attemptsCount = parseInt((await db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?').get(testData.studentUser.id)).count)
       expect(attemptsCount).toBeGreaterThan(0)
 
-      const fpBefore = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      const fpBefore = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(fpBefore).toBeDefined()
 
@@ -958,11 +950,10 @@ describe('Progress Routes', () => {
 
       expect(res.status).toBe(200)
 
-      attemptsCount = db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?')
-        .get(testData.studentUser.id).count
+      attemptsCount = parseInt((await db.prepare('SELECT COUNT(*) AS count FROM exercise_attempts WHERE user_id = ?').get(testData.studentUser.id)).count)
       expect(attemptsCount).toBe(0)
 
-      const fpAfter = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
+      const fpAfter = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?')
         .get(testData.studentUser.id, 1)
       expect(fpAfter).toBeDefined()
     })
@@ -972,24 +963,24 @@ describe('Progress Routes', () => {
     test('returns empty weak_spots when all concepts have 100% mastery', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('noweak@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('noweak@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       const courseId = testData.courses.course1.id
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 1, score: 1.0, was_correct: true })
+        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 1, score: 1.0, was_correct: 1 })
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 2, score: 1.0, was_correct: true })
+        .send({ exercise_type: 'quiz', course_id: courseId, question_id: 2, score: 1.0, was_correct: 1 })
 
       const res = await request(app)
         .get('/api/progress/dashboard')
@@ -1007,12 +998,12 @@ describe('Progress Routes', () => {
     test('returns empty recent_activity and exercise_breakdown for user with no attempts', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('noactivity@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('noactivity@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       const res = await request(app)
         .get('/api/progress/dashboard')
@@ -1030,15 +1021,15 @@ describe('Progress Routes', () => {
     test('returns correct tracks_summary when user has completed all courses', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('allcomplete@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('allcomplete@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       for (const course of [testData.courses.course1, testData.courses.course2, testData.courses.course3, testData.courses.noExCourse]) {
-        db.prepare("INSERT INTO user_courses (user_id, course_id, status, reviewed) VALUES (?, ?, 'Completed', 'Yes')").run(userId, course.id)
+        await db.prepare("INSERT INTO user_courses (user_id, course_id, status, reviewed) VALUES (?, ?, 'Completed', 'Yes')").run(userId, course.id)
       }
 
       const res = await request(app)
@@ -1057,30 +1048,30 @@ describe('Progress Routes', () => {
     test('applies SM-2 interval=6 on second review with quality=5', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('sm2second@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('sm2second@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       const courseId = testData.courses.course1.id
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: true })
+        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: 1 })
 
-      let fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
+      let fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
       expect(fp.repetitions).toBe(1)
       expect(fp.interval_days).toBe(1)
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: true })
+        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: 1 })
 
-      fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
+      fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
       expect(fp.repetitions).toBe(2)
       expect(fp.interval_days).toBe(6)
     })
@@ -1088,29 +1079,29 @@ describe('Progress Routes', () => {
     test('resets SM-2 repetitions when quality is low (score=0)', async () => {
       const salt = crypto.randomBytes(16).toString('hex')
       const hash = crypto.pbkdf2Sync('pwd', salt, 1000, 64, 'sha512').toString('hex')
-      const result = db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, 0)').run('sm2reset@test.com', hash, salt)
-      const userId = result.lastInsertRowid
+      const result = await db.prepare('INSERT INTO users (username, password_hash, salt, is_admin) VALUES (?, ?, ?, FALSE) RETURNING id').all('sm2reset@test.com', hash, salt)
+      const userId = result[0].id
       const token = crypto.randomBytes(32).toString('hex')
       const expiresAt = new Date(Date.now() + 86400000).toISOString()
-      db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
-      db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
+      await db.prepare('INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(token, userId, expiresAt)
+      await db.prepare('INSERT INTO user_stats (user_id, total_xp, level, current_streak, longest_streak, last_active_date, badges_json) VALUES (?, ?, ?, ?, ?, ?, ?)').run(userId, 0, 'Beginner', 0, 0, null, '[]')
 
       const courseId = testData.courses.course1.id
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: true })
+        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 1.0, was_correct: 1 })
 
-      let fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
+      let fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
       expect(fp.repetitions).toBe(1)
 
       await request(app)
         .post('/api/progress/attempt')
         .set('Cookie', `session_id=${token}`)
-        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 0, was_correct: false })
+        .send({ exercise_type: 'flashcard', course_id: courseId, question_id: 1, score: 0, was_correct: 0 })
 
-      fp = db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
+      fp = await db.prepare('SELECT * FROM user_flashcard_progress WHERE user_id = ? AND flashcard_id = ?').get(userId, 1)
       expect(fp.repetitions).toBe(0)
       expect(fp.interval_days).toBe(1)
     })
@@ -1118,10 +1109,10 @@ describe('Progress Routes', () => {
 
   describe('GET /api/progress/exercise-stats/:courseSlug - single type', () => {
     test('returns stats when course has only flashcards', async () => {
-      db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('only-flashcards', 'Only Flashcards', 'Easy', 'Not Started')
-      const course = db.prepare('SELECT id FROM courses WHERE slug = ?').get('only-flashcards')
-      db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, course.id, 100)
-      db.prepare('INSERT INTO flashcards (course_id, concept_id, front, back) VALUES (?, ?, ?, ?)').run(course.id, 1, 'Only card front', 'Only card back')
+      await db.prepare('INSERT INTO courses (slug, name, difficulty, status) VALUES (?, ?, ?, ?)').run('only-flashcards', 'Only Flashcards', 'Easy', 'Not Started')
+      const course = await db.prepare('SELECT id FROM courses WHERE slug = ?').get('only-flashcards')
+      await db.prepare('INSERT INTO track_courses (track_id, course_id, order_in_track) VALUES (?, ?, ?)').run(testData.tracks.track1.id, course.id, 100)
+      await db.prepare('INSERT INTO flashcards (course_id, concept_id, front, back) VALUES (?, ?, ?, ?)').run(course.id, 1, 'Only card front', 'Only card back')
 
       const res = await request(app)
         .get('/api/progress/exercise-stats/only-flashcards')
