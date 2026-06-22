@@ -110,6 +110,10 @@ export default function FillBlank() {
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  const maxChoicesAllowed = exercises.length >= 15 ? 5 : 3;
+  const choicesUsedCount = questionsWithChoicesUsed.size;
+  const choicesLeft = maxChoicesAllowed - choicesUsedCount;
+
   const [showShortcuts, setShowShortcuts] = useState(() => {
     return localStorage.getItem('showKeyboardShortcuts') !== 'false';
   });
@@ -341,10 +345,6 @@ export default function FillBlank() {
     setActiveSlot(0);
     setChoicesEnabled(false);
   };
-
-  const maxChoicesAllowed = exercises.length >= 15 ? 5 : 3;
-  const choicesUsedCount = questionsWithChoicesUsed.size;
-  const choicesLeft = maxChoicesAllowed - choicesUsedCount;
 
   const handleToggleChoices = () => {
     if (isChecked) return;
@@ -701,11 +701,11 @@ export default function FillBlank() {
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-3 sm:gap-4">
+                <div className="flex flex-wrap gap-6 sm:gap-8">
                   <button
                     onClick={() => setUserAnswers({})}
                     disabled={isChecked || Object.keys(userAnswers).length === 0}
-                    className="flex-1 py-3 sm:py-4 rounded-xl border border-[var(--border)] font-bold text-xs sm:text-sm text-[var(--text-muted)] hover:bg-[var(--bg-card)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="px-5 py-3 sm:py-4 rounded-xl border border-[var(--border)] font-bold text-xs sm:text-sm text-[var(--text-muted)] hover:bg-[var(--bg-card)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   >
                     Clear
                   </button>
@@ -714,14 +714,14 @@ export default function FillBlank() {
                     <button
                       onClick={checkAnswer}
                       disabled={!allFilled}
-                      className="flex-[2] py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md shadow-[rgba(3,239,98,0.15)]"
+                      className="px-6 py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md shadow-[rgba(3,239,98,0.15)]"
                     >
                       Check Answer
                     </button>
                   ) : (
                     <button
                       onClick={handleNext}
-                      className="flex-[2] py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] flex items-center justify-center gap-2 transition-all"
+                      className="px-6 py-3 sm:py-4 rounded-xl bg-[var(--accent-green)] text-black font-bold text-xs sm:text-sm hover:bg-[var(--accent-green-bright)] flex items-center justify-center gap-2 transition-all"
                     >
                       {currentIndex < exercises.length - 1 ? 'Next Exercise' : 'Finish Exercise'}
                       <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
@@ -747,15 +747,16 @@ export default function FillBlank() {
           shortcutItems={
             choicesEnabled
               ? [
+                  { label: 'Toggle Choices', keys: ['Ctrl+S'] },
                   { label: 'Select Word', keys: ['1', '-', '9'] },
                   { label: 'Delete Question', keys: ['Ctrl+D'] },
                   { label: 'Clear Answers', keys: ['Esc'] },
                   { label: 'Next Question', keys: ['Enter'] },
                 ]
               : [
+                  { label: 'Toggle Choices', keys: ['Ctrl+S'] },
                   { label: 'Submit Answer', keys: ['Ctrl+Shift+Enter'] },
                   { label: 'Delete Question', keys: ['Ctrl+D'] },
-                  { label: 'Toggle Choices', keys: ['Ctrl+S'] },
                   { label: 'Clear Input', keys: ['Esc'] },
                   { label: 'Next Question', keys: ['Enter'] },
                 ]
@@ -764,13 +765,18 @@ export default function FillBlank() {
           showShortcuts={showShortcuts}
           onToggleShortcuts={handleToggleShortcuts}
           rightContent={
-            <div className="flex items-center gap-2.5">
-              <span className="text-xs text-[var(--text-muted)]">
+            <button
+              onClick={handleToggleChoices}
+              className="flex items-center gap-2.5 bg-transparent border-none cursor-pointer hover:opacity-80 transition-opacity group"
+            >
+              <div className={`relative w-9 h-5 rounded-full transition-colors ${choicesEnabled ? 'bg-[var(--accent-blue)]' : 'bg-[var(--border)]'}`}>
+                <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${choicesEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
+              </div>
+              <span className="text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">
                 {choicesEnabled ? 'Choices' : 'Self-Type'}
               </span>
               <span className="text-xs font-bold text-[var(--accent-blue)]">{choicesLeft}/{maxChoicesAllowed}</span>
-              <span className="text-[10px] text-[var(--text-muted)]">Ctrl+S</span>
-            </div>
+            </button>
           }
         />
         <AnswerFeedbackModal

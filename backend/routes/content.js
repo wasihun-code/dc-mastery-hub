@@ -768,6 +768,38 @@ router.post('/submit-challenge', (req, res, next) => {
       })
     }
 
+    // When there are no validation rules, fall back to output comparison
+    if (!challengeData.validation_rules || challengeData.validation_rules.length === 0) {
+      const expectedCode = challengeData.solution_code || challengeData.expected_output_code || ''
+
+      const userResult = runDatasetChallenge(
+        code, challengeData.pre_loaded_data, null, datasetsAbsolutePath,
+        req.user ? req.user.id : 'anon', challengeId, { runOnly: true }
+      )
+      const expectedResult = runDatasetChallenge(
+        expectedCode, challengeData.pre_loaded_data, null, datasetsAbsolutePath,
+        req.user ? req.user.id : 'anon', challengeId, { runOnly: true }
+      )
+
+      const userOutput = (userResult.stdout || '').trim()
+      const expectedOutput = (expectedResult.stdout || '').trim()
+      const passed = userOutput === expectedOutput
+
+      return res.json({
+        success: true,
+        passed: passed ? 1 : 0,
+        total: 1,
+        results: [{ rule: 'Outputs match', passed, message: passed ? 'Outputs match' : 'Outputs differ' }],
+        stdout: userOutput,
+        stderr: userResult.stderr,
+        executionTime: Math.max(userResult.executionTime || 0, expectedResult.executionTime || 0),
+        score: passed ? 100 : 0,
+        feedback: passed
+          ? 'Correct! Your output matches perfectly.'
+          : 'Not quite. Compare your output with the expected output below.'
+      })
+    }
+
     console.log(`[submit-challenge] Running user code through sandbox...`)
     const result = runDatasetChallenge(
       code, 
@@ -782,6 +814,8 @@ router.post('/submit-challenge', (req, res, next) => {
       return res.status(400).json({ error: result.error })
     }
 
+    const allPassed = result.results && result.results.length > 0 ? result.results.every(r => r.passed) : false
+
     res.json({
       success: true,
       passed: result.passed,
@@ -790,8 +824,8 @@ router.post('/submit-challenge', (req, res, next) => {
       stdout: result.stdout,
       stderr: result.stderr,
       executionTime: result.executionTime,
-      score: result.success ? 100 : 0,
-      feedback: result.success ? 'Correct! Your output matches perfectly.' : 'Not quite. Check the validation rules below.'
+      score: allPassed ? 100 : 0,
+      feedback: allPassed ? 'Correct! Your output matches perfectly.' : 'Not quite. Check the validation rules below.'
     })
   } catch (err) {
     next(err)

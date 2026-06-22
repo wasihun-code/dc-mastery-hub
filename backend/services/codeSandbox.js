@@ -159,17 +159,18 @@ ${solutionCode}
 ${variableInspectionCode}
 `
   } else {
+    if (!validationRules || !Array.isArray(validationRules) || validationRules.length === 0) {
+      return { success: false, passed: 0, total: 0, results: [], stdout: '', stderr: 'No validation rules defined for this challenge.', executionTime: 0 }
+    }
     let validationCode = ''
-    if (validationRules && Array.isArray(validationRules)) {
-      for (const rule of validationRules) {
-        validationCode += `
+    for (const rule of validationRules) {
+      validationCode += `
 try:
     _check = bool(${rule.check})
     _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": _check, "message": ${JSON.stringify(rule.message)}})
 except Exception as e:
     _results.append({"rule": ${JSON.stringify(rule.message)}, "passed": False, "message": f"Error: {str(e)}"})
 `
-      }
     }
     scriptContent += `
 # --- VALIDATION ---

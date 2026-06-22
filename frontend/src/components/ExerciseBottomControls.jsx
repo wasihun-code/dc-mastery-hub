@@ -105,8 +105,8 @@ export default function ExerciseBottomControls({
 }) {
   return (
     <div
-      className="flex flex-wrap items-center justify-between gap-3 pt-3 pb-0 sm:gap-4 sm:pt-4"
-      style={{ borderTop: '1px solid var(--border)', marginTop: '32px', paddingBottom: '24px', marginBottom: '16px' }}
+      className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6"
+      style={{ borderTop: '1px solid var(--border)', paddingTop: '10px', paddingBottom: '10px' }}
     >
       <div className="flex items-center gap-2">
         <button

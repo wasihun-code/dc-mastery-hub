@@ -790,11 +790,9 @@
     "code_template": "dogs.iloc[_____]",
     "blanks": [
       {
-        "position": 1,
+        "position": 0,
         "answer": "2:5, 1:4",
-        "answer_alternatives": [
-          "2:5,1:4"
-        ]
+        "distractors": []
       }
     ],
     "word_bank": [
@@ -815,7 +813,13 @@
     ],
     "answer_reveal_after": 5,
     "explanation": "`.iloc` uses Python slice semantics: `2:5` gives indices 2,3,4; `1:4` gives 1,2,3.",
-    "common_mistake_warning": "⚠️ Confusing `.iloc` exclusive end with `.loc` inclusive end is common."
+    "common_mistake_warning": "⚠️ Confusing `.iloc` exclusive end with `.loc` inclusive end is common.",
+    "_exerciseType": "ftb",
+    "description": "Select the third, fourth, and fifth rows (positions 2,3,4) and the second, third, and fourth columns (positions 1,2,3) from dogs. Use slicing.",
+    "code": "dogs.iloc[[[0]]]",
+    "answers": [
+      "2:5, 1:4"
+    ]
   },
   {
     "id": "fitb_023",
